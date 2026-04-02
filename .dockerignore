@@ -1,0 +1,85 @@
+# ============================================
+# Sora Cloud — Docker 빌드 제외 목록
+# 목표: 전체 5GB+ → 200MB 이하
+# ============================================
+
+# Git
+.git
+.gitignore
+
+# Python
+**/__pycache__
+**/*.pyc
+**/*.pyo
+.mypy_cache
+.pytest_cache
+.venv
+venv
+
+# Node (모든 하위 디렉토리 포함)
+**/node_modules
+**/.next
+**/dist
+**/build
+**/.turbo
+
+# ━━━ SBU 전체 제외 (Vercel에서 독립 배포) ━━━
+src/sbu
+
+# ━━━ 불필요 대형 디렉토리 ━━━
+src/core/decision_engine
+src/core/data/rag/chroma_db
+src/core/data/assistant_memory
+.agent
+_archive
+auto-trading
+infra
+docs
+tests
+scripts/deploy-gcp.sh
+scripts/install_pc_agent.ps1
+scripts/install_pc_agent.sh
+
+# Data (persistent disk에서 마운트)
+data/sora_logs
+data/chroma_db
+logs
+
+# IDE
+.vscode
+.idea
+*.code-workspace
+
+# OS / Binary
+*.exe
+*.dll
+*.so
+*.whl
+*.tar.gz
+*.zip
+*.7z
+Thumbs.db
+.DS_Store
+$RECYCLE.BIN
+
+# Media (불필요)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.mp4
+*.mp3
+*.wav
+
+# Sensitive
+.env
+.env.local
+.env.production
+.env.production.local
+*.json.key
+secrets/
+
+# Misc
+*.log
+*.pid
