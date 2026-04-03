@@ -548,11 +548,15 @@ class PCAgent:
         command = payload.get("command", "")
         if not name or not command:
             return {"error": "name, command 필수"}
+        # 컨테이너 이름 검증 (영숫자, -, _ 만 허용)
+        import re
+        if not re.match(r'^[a-zA-Z0-9_-]+$', name):
+            return {"error": f"잘못된 컨테이너 이름: {name}"}
         try:
-            docker = "sudo docker" if not IS_WINDOWS else "docker"
+            docker_cmd = ["sudo", "docker", "exec", name] if not IS_WINDOWS else ["docker", "exec", name]
+            docker_cmd.extend(["sh", "-c", command])
             result = subprocess.run(
-                f'{docker} exec {name} {command}',
-                shell=True, capture_output=True, text=True, timeout=30,
+                docker_cmd, capture_output=True, text=True, timeout=30,
             )
             return {"stdout": result.stdout[-MAX_OUTPUT_SIZE:], "stderr": result.stderr[-2000:]}
         except Exception as e:
