@@ -148,7 +148,7 @@ class RedisBus:
         """
         # 1. Future 기반 (pubsub 리스너 활성 시)
         if self._listener_task and not self._listener_task.done():
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
             future = loop.create_future()
             self._pending[request_id] = future
             try:

@@ -749,13 +749,15 @@ _sora_engine = None
 
 
 def _get_sora_engine():
-    """SoraEngine 싱글턴 — 최초 호출 시 초기화."""
+    """SoraEngine 싱글턴 — 클라우드 모드에서는 비활성화 (Gateway 블로킹 방지)."""
+    if os.environ.get("SORA_CLOUD_MODE"):
+        return None
     global _sora_engine
     if _sora_engine is None:
         try:
             from src.core.sora_engine import get_sora_engine
             _sora_engine = get_sora_engine()
-            logger.info("[Dashboard] SoraEngine 연결 성공 — JARVIS 모드 활성화 🚀")
+            logger.info("[Dashboard] SoraEngine 연결 성공")
         except Exception as e:
             logger.error(f"[Dashboard] SoraEngine 초기화 실패: {e}")
             return None

@@ -616,6 +616,135 @@ def remote_pc_process_list(pc_id: str, filter_name: str = "") -> str:
     return json.dumps(result, ensure_ascii=False, default=str)
 
 
+def remote_claude_run(pc_id: str, prompt: str, cwd: str = ".") -> str:
+    """원격 PC에서 Claude CLI를 실행합니다.
+
+    Args:
+        pc_id: PC 식별자 (예: "home-pc", "linux-server")
+        prompt: Claude에게 보낼 프롬프트
+        cwd: 작업 디렉토리 (기본: 현재)
+    """
+    result = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "claude_run", "payload": {"prompt": prompt, "cwd": cwd}, "timeout": 180})
+    return json.dumps(result, ensure_ascii=False, default=str)
+
+
+def remote_claude_chat(pc_id: str, message: str, session_id: str = "", cwd: str = ".") -> str:
+    """원격 PC에서 Claude CLI 대화 세션에 메시지를 보냅니다.
+
+    Args:
+        pc_id: PC 식별자
+        message: 메시지
+        session_id: 세션 ID (빈 문자열이면 새 세션)
+        cwd: 작업 디렉토리
+    """
+    result = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "claude_chat", "payload": {"message": message, "session_id": session_id, "cwd": cwd}, "timeout": 180})
+    return json.dumps(result, ensure_ascii=False, default=str)
+
+
+def remote_docker_ps(pc_id: str) -> str:
+    """원격 PC/서버의 Docker 컨테이너 목록을 조회합니다.
+
+    Args:
+        pc_id: PC 식별자 (주로 "linux-server")
+    """
+    result = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "docker_ps", "payload": {}})
+    return json.dumps(result, ensure_ascii=False, default=str)
+
+
+def remote_docker_logs(pc_id: str, container_name: str, tail: int = 30) -> str:
+    """원격 Docker 컨테이너 로그를 조회합니다.
+
+    Args:
+        pc_id: PC 식별자
+        container_name: 컨테이너 이름
+        tail: 마지막 N줄
+    """
+    result = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "docker_logs", "payload": {"name": container_name, "tail": tail}})
+    return json.dumps(result, ensure_ascii=False, default=str)
+
+
+def remote_git_status(pc_id: str, cwd: str = ".") -> str:
+    """원격 PC의 Git 저장소 상태를 확인합니다.
+
+    Args:
+        pc_id: PC 식별자
+        cwd: Git 저장소 경로
+    """
+    result = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "git_status", "payload": {"cwd": cwd}})
+    return json.dumps(result, ensure_ascii=False, default=str)
+
+
+def remote_web_search(pc_id: str, query: str) -> str:
+    """원격 PC/서버에서 웹 검색합니다 (SearXNG).
+
+    Args:
+        pc_id: PC 식별자 (주로 "linux-server")
+        query: 검색어
+    """
+    result = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "web_search", "payload": {"query": query}})
+    return json.dumps(result, ensure_ascii=False, default=str)
+
+
+def remote_web_crawl(pc_id: str, url: str) -> str:
+    """원격 PC/서버에서 웹페이지를 크롤링합니다 (Crawl4AI).
+
+    Args:
+        pc_id: PC 식별자 (주로 "linux-server")
+        url: 크롤링할 URL
+    """
+    result = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "web_crawl", "payload": {"url": url}})
+    return json.dumps(result, ensure_ascii=False, default=str)
+
+
+def remote_vercel_deploy(pc_id: str, cwd: str) -> str:
+    """원격 PC에서 Vercel 프로덕션 배포합니다.
+
+    Args:
+        pc_id: PC 식별자
+        cwd: 프로젝트 경로
+    """
+    result = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "vercel_deploy", "payload": {"cwd": cwd}, "timeout": 180})
+    return json.dumps(result, ensure_ascii=False, default=str)
+
+
+def remote_git_commit_push(pc_id: str, cwd: str, message: str) -> str:
+    """원격 PC에서 Git commit + push합니다.
+
+    Args:
+        pc_id: PC 식별자
+        cwd: Git 저장소 경로
+        message: 커밋 메시지
+    """
+    commit = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "git_commit", "payload": {"cwd": cwd, "message": message}})
+    push = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "git_push", "payload": {"cwd": cwd}})
+    return json.dumps({"commit": commit, "push": push}, ensure_ascii=False, default=str)
+
+
+def remote_batch_exec(pc_id: str, commands: list[str]) -> str:
+    """원격 PC에서 여러 명령을 순차 실행합니다.
+
+    Args:
+        pc_id: PC 식별자
+        commands: 명령 목록 (최대 10개)
+    """
+    result = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "batch_exec", "payload": {"commands": commands}})
+    return json.dumps(result, ensure_ascii=False, default=str)
+
+
+def remote_npm_build_deploy(pc_id: str, cwd: str) -> str:
+    """원격 PC에서 npm build + Vercel 배포를 실행합니다.
+
+    Args:
+        pc_id: PC 식별자
+        cwd: 프로젝트 경로
+    """
+    build = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "npm_build", "payload": {"cwd": cwd}})
+    if isinstance(build, dict) and build.get("status") == "success":
+        deploy = _pc_api_post(f"/api/pc-agents/{pc_id}/command", {"command": "vercel_deploy", "payload": {"cwd": cwd}, "timeout": 180})
+        return json.dumps({"build": build, "deploy": deploy}, ensure_ascii=False, default=str)
+    return json.dumps({"build": build, "deploy": "빌드 실패로 배포 건너뜀"}, ensure_ascii=False, default=str)
+
+
 TOOLS = [
     # ── 로컬/클라우드 서버 도구 ──
     run_daemon_job,
@@ -638,4 +767,20 @@ TOOLS = [
     remote_pc_file_read,
     remote_pc_file_write,
     remote_pc_process_list,
+    # ── Claude CLI 제어 ──
+    remote_claude_run,
+    remote_claude_chat,
+    # ── Docker/Git 관리 ──
+    remote_docker_ps,
+    remote_docker_logs,
+    remote_git_status,
+    remote_git_commit_push,
+    # ── 웹 (검색 + 크롤링) ──
+    remote_web_search,
+    remote_web_crawl,
+    # ── CI/CD (빌드 + 배포) ──
+    remote_vercel_deploy,
+    remote_npm_build_deploy,
+    # ── 다중 명령 ──
+    remote_batch_exec,
 ]

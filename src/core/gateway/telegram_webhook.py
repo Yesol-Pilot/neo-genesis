@@ -16,6 +16,7 @@ logger = logging.getLogger("neo.gateway.telegram")
 
 BOT_TOKEN = os.getenv("NEO_ALERT_BOT_TOKEN", "")
 ALLOWED_CHAT_ID = os.getenv("NEO_ALERT_CHAT_ID", "")
+WEBHOOK_SECRET = os.getenv("TG_WEBHOOK_SECRET", "sora-tg-webhook-2026")
 
 router = APIRouter()
 
@@ -24,6 +25,12 @@ router = APIRouter()
 async def telegram_webhook(request: Request):
     """텔레그램 webhook 수신 → Redis 큐 적재."""
     try:
+        # 서명 검증 (설정된 경우)
+        secret_header = request.headers.get("X-Telegram-Bot-Api-Secret-Token", "")
+        if WEBHOOK_SECRET and secret_header != WEBHOOK_SECRET:
+            logger.warning(f"[TG] 서명 불일치: {secret_header[:10]}...")
+            return Response(status_code=403)
+
         from src.core.queue.redis_bus import get_redis_bus
 
         body = await request.json()

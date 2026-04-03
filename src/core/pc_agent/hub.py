@@ -74,7 +74,7 @@ async def send_command(agent_id: str, command_type: str, payload: dict, timeout:
     cmd_id = f"cmd-{agent_id}-{int(time.time()*1000)}"
 
     # Future 생성 (응답 대기용)
-    loop = asyncio.get_event_loop()
+    loop = asyncio.get_running_loop()
     future = loop.create_future()
     _pending_commands[cmd_id] = future
 

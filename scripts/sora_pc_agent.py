@@ -131,6 +131,7 @@ class PCAgent:
     async def _execute_command(self, command: str, payload: dict) -> dict:
         """명령 실행 라우터."""
         handlers = {
+            # 기본
             "exec": self._cmd_exec,
             "read_file": self._cmd_read_file,
             "write_file": self._cmd_write_file,
@@ -143,6 +144,36 @@ class PCAgent:
             "kill_process": self._cmd_kill_process,
             "open_app": self._cmd_open_app,
             "find_files": self._cmd_find_files,
+            # Claude CLI 제어
+            "claude_run": self._cmd_claude_run,
+            "claude_chat": self._cmd_claude_chat,
+            # Docker 관리
+            "docker_ps": self._cmd_docker_ps,
+            "docker_logs": self._cmd_docker_logs,
+            "docker_exec": self._cmd_docker_exec,
+            "docker_restart": self._cmd_docker_restart,
+            # Git 작업
+            "git_status": self._cmd_git_status,
+            "git_pull": self._cmd_git_pull,
+            "git_log": self._cmd_git_log,
+            # 패키지 관리
+            "pip_install": self._cmd_pip_install,
+            "npm_install": self._cmd_npm_install,
+            # 파일 전송
+            "download_url": self._cmd_download_url,
+            "upload_file": self._cmd_upload_file,
+            # 웹 (SearXNG + Crawl4AI)
+            "web_search": self._cmd_web_search,
+            "web_crawl": self._cmd_web_crawl,
+            # CI/CD
+            "vercel_deploy": self._cmd_vercel_deploy,
+            "npm_build": self._cmd_npm_build,
+            # Git 확장
+            "git_commit": self._cmd_git_commit,
+            "git_push": self._cmd_git_push,
+            "git_clone": self._cmd_git_clone,
+            # 다중 명령
+            "batch_exec": self._cmd_batch_exec,
         }
 
         handler = handlers.get(command)
@@ -427,6 +458,340 @@ class PCAgent:
                 break
 
         return {"directory": directory, "pattern": pattern, "found": len(results), "results": results}
+
+    # ── Claude CLI 제어 ──
+
+    def _cmd_claude_run(self, payload: dict) -> dict:
+        """Claude CLI로 단일 프롬프트 실행 (비대화형)."""
+        prompt = payload.get("prompt", "")
+        cwd = payload.get("cwd", ".")
+        timeout = min(payload.get("timeout", 120), 300)
+        if not prompt:
+            return {"error": "prompt 필수"}
+        try:
+            result = subprocess.run(
+                ["claude", "-p", prompt, "--no-input"],
+                capture_output=True, text=True, timeout=timeout,
+                cwd=cwd, encoding="utf-8", errors="replace",
+            )
+            return {
+                "exit_code": result.returncode,
+                "stdout": result.stdout[-MAX_OUTPUT_SIZE:],
+                "stderr": result.stderr[-2000:],
+            }
+        except FileNotFoundError:
+            return {"error": "claude CLI 미설치. npm install -g @anthropic-ai/claude-code"}
+        except subprocess.TimeoutExpired:
+            return {"error": f"타임아웃 ({timeout}초)"}
+
+    def _cmd_claude_chat(self, payload: dict) -> dict:
+        """Claude CLI 대화 세션에 메시지 전송."""
+        message = payload.get("message", "")
+        session_id = payload.get("session_id", "")
+        cwd = payload.get("cwd", ".")
+        timeout = min(payload.get("timeout", 120), 300)
+        if not message:
+            return {"error": "message 필수"}
+        cmd = ["claude"]
+        if session_id:
+            cmd.extend(["--resume", session_id])
+        cmd.extend(["-p", message, "--no-input"])
+        try:
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=timeout,
+                cwd=cwd, encoding="utf-8", errors="replace",
+            )
+            return {
+                "exit_code": result.returncode,
+                "stdout": result.stdout[-MAX_OUTPUT_SIZE:],
+                "stderr": result.stderr[-2000:],
+            }
+        except FileNotFoundError:
+            return {"error": "claude CLI 미설치"}
+        except subprocess.TimeoutExpired:
+            return {"error": f"타임아웃 ({timeout}초)"}
+
+    # ── Docker 관리 ──
+
+    def _cmd_docker_ps(self, payload: dict) -> dict:
+        """Docker 컨테이너 목록."""
+        try:
+            docker = "sudo docker" if not IS_WINDOWS else "docker"
+            result = subprocess.run(
+                f"{docker} ps -a --format '{{{{.Names}}}} {{{{.Status}}}} {{{{.Image}}}} {{{{.Ports}}}}'",
+                shell=True, capture_output=True, text=True, timeout=10,
+            )
+            lines = result.stdout.strip().split("\n") if result.stdout.strip() else []
+            return {"containers": lines, "count": len(lines)}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _cmd_docker_logs(self, payload: dict) -> dict:
+        """Docker 컨테이너 로그."""
+        name = payload.get("name", "")
+        tail = min(payload.get("tail", 30), 100)
+        if not name:
+            return {"error": "name 필수"}
+        try:
+            docker = "sudo docker" if not IS_WINDOWS else "docker"
+            result = subprocess.run(
+                f"{docker} logs {name} --tail {tail}",
+                shell=True, capture_output=True, text=True, timeout=10,
+            )
+            return {"logs": (result.stdout + result.stderr)[-MAX_OUTPUT_SIZE:]}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _cmd_docker_exec(self, payload: dict) -> dict:
+        """Docker 컨테이너 내부 명령 실행."""
+        name = payload.get("name", "")
+        command = payload.get("command", "")
+        if not name or not command:
+            return {"error": "name, command 필수"}
+        try:
+            docker = "sudo docker" if not IS_WINDOWS else "docker"
+            result = subprocess.run(
+                f'{docker} exec {name} {command}',
+                shell=True, capture_output=True, text=True, timeout=30,
+            )
+            return {"stdout": result.stdout[-MAX_OUTPUT_SIZE:], "stderr": result.stderr[-2000:]}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _cmd_docker_restart(self, payload: dict) -> dict:
+        """Docker 컨테이너 재시작."""
+        name = payload.get("name", "")
+        if not name:
+            return {"error": "name 필수"}
+        try:
+            docker = "sudo docker" if not IS_WINDOWS else "docker"
+            result = subprocess.run(f"{docker} restart {name}", shell=True, capture_output=True, text=True, timeout=30)
+            return {"status": "restarted" if result.returncode == 0 else "failed", "output": result.stdout.strip()}
+        except Exception as e:
+            return {"error": str(e)}
+
+    # ── Git 작업 ──
+
+    def _cmd_git_status(self, payload: dict) -> dict:
+        """Git 상태 확인."""
+        cwd = payload.get("cwd", ".")
+        try:
+            result = subprocess.run(["git", "status", "--short"], capture_output=True, text=True, timeout=10, cwd=cwd)
+            branch = subprocess.run(["git", "branch", "--show-current"], capture_output=True, text=True, timeout=5, cwd=cwd)
+            return {"branch": branch.stdout.strip(), "changes": result.stdout.strip(), "clean": not result.stdout.strip()}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _cmd_git_pull(self, payload: dict) -> dict:
+        """Git pull."""
+        cwd = payload.get("cwd", ".")
+        try:
+            result = subprocess.run(["git", "pull"], capture_output=True, text=True, timeout=30, cwd=cwd)
+            return {"output": result.stdout.strip(), "error": result.stderr.strip() if result.returncode != 0 else None}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _cmd_git_log(self, payload: dict) -> dict:
+        """Git 최근 커밋 로그."""
+        cwd = payload.get("cwd", ".")
+        n = min(payload.get("n", 5), 20)
+        try:
+            result = subprocess.run(
+                ["git", "log", f"-{n}", "--oneline", "--no-decorate"],
+                capture_output=True, text=True, timeout=10, cwd=cwd,
+            )
+            return {"commits": result.stdout.strip().split("\n")}
+        except Exception as e:
+            return {"error": str(e)}
+
+    # ── 패키지 관리 ──
+
+    def _cmd_pip_install(self, payload: dict) -> dict:
+        """pip 패키지 설치."""
+        package = payload.get("package", "")
+        if not package:
+            return {"error": "package 필수"}
+        try:
+            result = subprocess.run(
+                [sys.executable, "-m", "pip", "install", package],
+                capture_output=True, text=True, timeout=120,
+            )
+            return {"status": "installed" if result.returncode == 0 else "failed", "output": result.stdout[-1000:]}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _cmd_npm_install(self, payload: dict) -> dict:
+        """npm 패키지 설치."""
+        package = payload.get("package", "")
+        cwd = payload.get("cwd", ".")
+        global_flag = payload.get("global", False)
+        cmd = ["npm", "install"]
+        if global_flag:
+            cmd.append("-g")
+        if package:
+            cmd.append(package)
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=120, cwd=cwd)
+            return {"status": "installed" if result.returncode == 0 else "failed", "output": result.stdout[-1000:]}
+        except Exception as e:
+            return {"error": str(e)}
+
+    # ── 파일 다운로드 ──
+
+    def _cmd_download_url(self, payload: dict) -> dict:
+        """URL에서 파일 다운로드."""
+        url = payload.get("url", "")
+        dest = payload.get("dest", "")
+        if not url or not dest:
+            return {"error": "url, dest 필수"}
+        try:
+            import urllib.request
+            urllib.request.urlretrieve(url, dest)
+            return {"status": "downloaded", "path": dest, "size": os.path.getsize(dest)}
+        except Exception as e:
+            return {"error": str(e)}
+
+    # ── 파일 업로드 (Base64 경유) ──
+
+    def _cmd_upload_file(self, payload: dict) -> dict:
+        """Base64 인코딩된 파일을 저장."""
+        import base64
+        path = payload.get("path", "")
+        data_b64 = payload.get("data", "")
+        if not path or not data_b64:
+            return {"error": "path, data 필수"}
+        try:
+            Path(path).parent.mkdir(parents=True, exist_ok=True)
+            Path(path).write_bytes(base64.b64decode(data_b64))
+            return {"status": "saved", "path": path, "size": os.path.getsize(path)}
+        except Exception as e:
+            return {"error": str(e)}
+
+    # ── 웹 검색 (SearXNG) ──
+
+    def _cmd_web_search(self, payload: dict) -> dict:
+        """SearXNG로 웹 검색."""
+        query = payload.get("query", "")
+        if not query:
+            return {"error": "query 필수"}
+        try:
+            import urllib.request, json as _json
+            # 로컬 SearXNG 또는 서버의 SearXNG
+            for port in [8888, 8889, 8890]:
+                try:
+                    url = f"http://127.0.0.1:{port}/search?q={urllib.parse.quote(query)}&format=json&categories=general&language=ko"
+                    req = urllib.request.Request(url, headers={"User-Agent": "Sora/3.0"})
+                    resp = urllib.request.urlopen(req, timeout=10)
+                    data = _json.loads(resp.read())
+                    results = [{"title": r.get("title", ""), "url": r.get("url", ""), "content": r.get("content", "")[:200]} for r in data.get("results", [])[:10]]
+                    return {"query": query, "results": results, "count": len(results)}
+                except Exception:
+                    continue
+            return {"error": "SearXNG 서버 연결 실패"}
+        except Exception as e:
+            return {"error": str(e)}
+
+    # ── 웹 크롤링 (Crawl4AI) ──
+
+    def _cmd_web_crawl(self, payload: dict) -> dict:
+        """Crawl4AI로 웹페이지 크롤링."""
+        url = payload.get("url", "")
+        if not url:
+            return {"error": "url 필수"}
+        try:
+            import urllib.request, json as _json
+            req_data = _json.dumps({"urls": url, "priority": 5}).encode()
+            req = urllib.request.Request(
+                "http://127.0.0.1:11235/crawl",
+                data=req_data,
+                headers={"Content-Type": "application/json"},
+            )
+            resp = urllib.request.urlopen(req, timeout=30)
+            data = _json.loads(resp.read())
+            result = data.get("result", data)
+            if isinstance(result, dict):
+                return {"url": url, "markdown": str(result.get("markdown", result.get("text", "")))[:MAX_OUTPUT_SIZE]}
+            return {"url": url, "content": str(result)[:MAX_OUTPUT_SIZE]}
+        except Exception as e:
+            return {"error": str(e)}
+
+    # ── CI/CD ──
+
+    def _cmd_vercel_deploy(self, payload: dict) -> dict:
+        """Vercel 프로덕션 배포."""
+        cwd = payload.get("cwd", ".")
+        try:
+            result = subprocess.run(
+                ["npx", "vercel", "--prod", "--yes"],
+                capture_output=True, text=True, timeout=180, cwd=cwd,
+            )
+            return {"status": "deployed" if result.returncode == 0 else "failed", "output": result.stdout[-2000:], "error": result.stderr[-500:] if result.returncode != 0 else None}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _cmd_npm_build(self, payload: dict) -> dict:
+        """npm run build."""
+        cwd = payload.get("cwd", ".")
+        try:
+            result = subprocess.run(["npm", "run", "build"], capture_output=True, text=True, timeout=120, cwd=cwd)
+            return {"status": "success" if result.returncode == 0 else "failed", "output": result.stdout[-2000:], "error": result.stderr[-500:] if result.returncode != 0 else None}
+        except Exception as e:
+            return {"error": str(e)}
+
+    # ── Git 확장 ──
+
+    def _cmd_git_commit(self, payload: dict) -> dict:
+        """Git commit."""
+        cwd = payload.get("cwd", ".")
+        message = payload.get("message", "auto commit by Sora")
+        try:
+            subprocess.run(["git", "add", "-A"], capture_output=True, timeout=10, cwd=cwd)
+            result = subprocess.run(["git", "commit", "-m", message], capture_output=True, text=True, timeout=10, cwd=cwd)
+            return {"status": "committed" if result.returncode == 0 else "nothing to commit", "output": result.stdout.strip()}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _cmd_git_push(self, payload: dict) -> dict:
+        """Git push."""
+        cwd = payload.get("cwd", ".")
+        try:
+            result = subprocess.run(["git", "push"], capture_output=True, text=True, timeout=30, cwd=cwd)
+            return {"status": "pushed" if result.returncode == 0 else "failed", "output": (result.stdout + result.stderr).strip()[-1000:]}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _cmd_git_clone(self, payload: dict) -> dict:
+        """Git clone."""
+        repo = payload.get("repo", "")
+        dest = payload.get("dest", "")
+        if not repo:
+            return {"error": "repo 필수"}
+        cmd = ["git", "clone", "--depth", "1", repo]
+        if dest:
+            cmd.append(dest)
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+            return {"status": "cloned" if result.returncode == 0 else "failed", "output": (result.stdout + result.stderr).strip()[-500:]}
+        except Exception as e:
+            return {"error": str(e)}
+
+    # ── 다중 명령 (병렬 아님, 순차 배치) ──
+
+    def _cmd_batch_exec(self, payload: dict) -> dict:
+        """여러 셸 명령을 순차 실행."""
+        commands = payload.get("commands", [])
+        if not commands:
+            return {"error": "commands 배열 필수"}
+        results = []
+        shell = ["powershell", "-NoProfile", "-Command"] if IS_WINDOWS else ["bash", "-c"]
+        for cmd in commands[:10]:  # 최대 10개
+            try:
+                r = subprocess.run(shell + [cmd] if IS_WINDOWS else ["bash", "-c", cmd],
+                    capture_output=True, text=True, timeout=30, encoding="utf-8", errors="replace")
+                results.append({"cmd": cmd, "exit": r.returncode, "out": r.stdout.strip()[-500:]})
+            except Exception as e:
+                results.append({"cmd": cmd, "error": str(e)[:100]})
+        return {"executed": len(results), "results": results}
 
     # ── 시스템 정보 수집 (하트비트용) ──
 

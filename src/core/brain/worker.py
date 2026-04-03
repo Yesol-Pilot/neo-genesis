@@ -188,16 +188,20 @@ class BrainWorker:
     async def run(self):
         """메인 루프 — Redis 큐에서 요청을 꺼내 처리."""
         logger.info("=" * 60)
-        logger.info("[Brain] Sora Brain Worker v2.0 시작")
+        logger.info("[Brain] Sora Brain Worker v3.0 시작")
         logger.info(f"[Brain] 모델: {GEMINI_MODEL}")
+        logger.info("[Brain] SoraEngine은 첫 요청 시 lazy 초기화")
         logger.info("=" * 60)
 
-        # SoraEngine 사전 초기화 (이 프로세스에서만)
-        await asyncio.to_thread(self._init_engine)
+        # A: Gateway가 먼저 안정화되도록 30초 대기
+        logger.info("[Brain] Gateway 안정화 대기 (30초)...")
+        await asyncio.sleep(30)
+
+        # B: SoraEngine 사전 초기화 안 함 — 첫 요청 시 lazy 로드
         await self._init_telegram()
 
         bus = await self._get_bus()
-        logger.info("[Brain] Redis 큐 대기 시작...")
+        logger.info("[Brain] Redis 큐 대기 시작 (SoraEngine은 첫 요청 시 로드)")
 
         while self._running:
             try:
