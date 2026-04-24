@@ -161,3 +161,17 @@ Result: all commands passed. The preview artifact was removed after validation.
 - Started new worker: PID `105792`.
 - Runtime verification: worker reached Redis queue wait state and connected to `redis://***@localhost:6379/0`.
 - External work intentionally not performed: no production deploy, no git push, no scheduler mutation, no extra Telegram report run.
+
+## 12. 2026-04-24 Full External Work Follow-up
+
+- Approval: owner requested proceeding with all previously deferred external work.
+- Git commit: `a2682bc` (`Document AI ops gate rollout`) added the AI Ops brief builder, pipeline archive wiring, and rollout report.
+- Git remote: created private GitHub repo `Yesol-Pilot/neo-genesis`.
+- Git push: pushed local `master` to `https://github.com/Yesol-Pilot/neo-genesis.git` and set upstream tracking.
+- Scheduler mutation: re-registered Windows Task Scheduler task `NeoGenesisDailyAIOpsBrief` for daily `09:00 KST` execution of `scripts\run_ai_ops_brief_pipeline.ps1`.
+- Extra Telegram/Sora report run: completed `scripts\run_ai_ops_brief_pipeline.ps1` with request id `req-1a074ab418b7`.
+- New brief artifact: `data/automation/ai_ops_brief/20260424_165313_brief.md`.
+- New Sora reply artifact: `data/automation/ai_ops_brief/20260424_165313_sora_reply.md`.
+- Production server source upload: uploaded `git archive HEAD` to YSH server and unpacked it into `/home/ysh/sora/build`; verified `src/core/governance/execution_gate.py` is present there.
+- Production container replacement: blocked before Docker build/restart because `ysh` is not in the `docker` group and `sudo -n docker ...` returns `sudo: a password is required`.
+- Security decision: did not embed or echo a sudo password in shell commands. Full container deploy still requires a noninteractive sudo credential path or an interactive owner-side sudo session.
