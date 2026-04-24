@@ -89,9 +89,10 @@ catch {
 
 $Stamp = Get-Date -Format "yyyyMMdd_HHmmss"
 $BriefPath = Join-Path $BriefDir "$Stamp`_brief.md"
+$ArchiveDir = Join-Path $BriefDir "archive"
 
 try {
-    & $Python "scripts\build_ai_ops_brief.py" --output-file $BriefPath
+    & $Python "scripts\build_ai_ops_brief.py" --output-file $BriefPath --archive-dir $ArchiveDir
     $pushArgs = @("scripts\push_ai_ops_brief_to_sora.py", "--input-file", $BriefPath, "--timeout-sec", "45")
     if ($SkipTelegram) {
         $pushArgs += "--skip-telegram"
