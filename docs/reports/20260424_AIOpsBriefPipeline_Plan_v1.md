@@ -185,3 +185,14 @@ Result: all commands passed. The preview artifact was removed after validation.
 - Production replacement: `sora-live` now runs image `sora:v6.4-healthfix-execgate`.
 - Runtime verification: Docker health is `healthy`, `/api/status` returns HTTP 200, and the container verifies `deploy_project` as `allowed=True`, `authority_tier=G5`, controls `SEC-002,SEC-004,SEC-008` when owner-approved.
 - Rollback retained: previous healthy container is preserved as `sora-live-prev-20260424174235`.
+
+## 14. 2026-04-24 Full-Source Image Recovery
+
+- Follow-up objective: replace the temporary hotfix image with a reproducible full-source image.
+- Root cause fixed in source: Git `HEAD` still imported legacy `DASHBOARD_TOKEN` and `TOKEN_HASH` from `auth_router`; the working source now uses `dashboard_auth.py`, scoped session/action-token helpers, explicit CORS origins, and persistent session secret handling.
+- Dockerfile hardening: added CRLF normalization for `/entrypoint.sh` and `supervisord.conf`, added `CACHE_BUST`, and aligned the healthcheck with `/api/status`.
+- Local validation: `python` syntax compilation for dashboard/auth/gate modules passed and `pytest tests\core\test_auth_router.py tests\core\test_execution_gate.py -q` returned `13 passed`.
+- Remote validation: built `sora:v6.5-execgate-r3`, imported `src.core.sora_dashboard`, and verified `evaluate_tool_execution_gate("deploy_project", owner_approved=True)`.
+- Production replacement: `sora-live` now runs full-source image `sora:v6.5-execgate-r3`.
+- Runtime verification: Docker health is `healthy`, `/api/status` returns HTTP 200, and gate verification returns `True G5 SEC-002,SEC-004,SEC-008`.
+- Rollback retained: previous hotfix container is preserved as `sora-live-prev-20260424222226`.

@@ -90,8 +90,67 @@ async def _fallback_gemini(prompt: str) -> str:
         return f"⚠️ AI 응답 오류: {str(e)[:200]}"
 
 # -- 인증 설정 (auth_router에서 관리) --
-from src.core.dashboard.auth.auth_router import check_auth as _check_auth, DASHBOARD_TOKEN, TOKEN_HASH
-SESSION_SECRET = os.environ.get("SESSION_SECRET", secrets.token_hex(32))
+from src.core.dashboard.auth.auth_router import check_auth as _check_auth
+from src.core.dashboard.auth.auth_router import get_allowed_dashboard_origins
+from src.core.security.dashboard_auth import (
+    authenticate_websocket_token,
+    private_bypass_allowed,
+    set_dashboard_session,
+    verify_manual_login_secret,
+)
+
+
+_WEAK_SECRET_PATTERNS = (
+    "secret", "password", "changeme", "default", "admin",
+    "sora", "neo", "genesis", "1234", "test", "dev",
+)
+
+
+def _warn_if_weak_secret(secret: str, source: str) -> None:
+    """시크릿이 너무 짧거나 알려진 기본값 패턴이면 경고를 출력한다."""
+    if len(secret) < 32:
+        logger.warning(
+            "[Dashboard] SECURITY WARNING: %s is shorter than 32 chars (%d). "
+            "Set a strong SORA_DASHBOARD_SECRET or SESSION_SECRET in .env.",
+            source, len(secret),
+        )
+        return
+    lower = secret.lower()
+    for pattern in _WEAK_SECRET_PATTERNS:
+        if pattern in lower:
+            logger.warning(
+                "[Dashboard] SECURITY WARNING: %s looks like a default/weak value (contains '%s'). "
+                "Set a strong random secret in .env.",
+                source, pattern,
+            )
+            return
+
+
+def _resolve_session_secret() -> str:
+    configured = os.environ.get("SESSION_SECRET", "").strip()
+    if configured:
+        _warn_if_weak_secret(configured, "SESSION_SECRET")
+        return configured
+
+    secret_dir = PROJECT_ROOT / "secrets"
+    secret_dir.mkdir(parents=True, exist_ok=True)
+    secret_path = secret_dir / "session_secret.txt"
+    if secret_path.exists():
+        persisted = secret_path.read_text(encoding="utf-8").strip()
+        if persisted:
+            logger.warning("[Dashboard] SESSION_SECRET missing; reusing persisted secret file")
+            return persisted
+
+    generated = secrets.token_hex(32)
+    secret_path.write_text(generated, encoding="utf-8")
+    logger.warning("[Dashboard] SESSION_SECRET missing; generated persistent fallback secret at %s", secret_path)
+    return generated
+
+
+SESSION_SECRET = _resolve_session_secret()
+_SESSION_HTTPS_DEFAULT = "1" if os.environ.get("SORA_CLOUD_MODE") else "0"
+SESSION_HTTPS_ONLY = os.environ.get("SESSION_HTTPS_ONLY", _SESSION_HTTPS_DEFAULT).strip().lower() in ("1", "true", "yes", "on")
+CORS_ALLOWED_ORIGINS = get_allowed_dashboard_origins()
 
 # -- GA4 캐시 --
 _ga4_cache: dict[str, dict] = {}
@@ -135,11 +194,13 @@ app.add_middleware(
     SessionMiddleware,
     secret_key=SESSION_SECRET,
     same_site="lax",
+    https_only=SESSION_HTTPS_ONLY,
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=CORS_ALLOWED_ORIGINS,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -225,6 +286,14 @@ try:
 except ImportError as e:
     logger.warning(f"[Init] v2 Dashboard API 라우터 로드 실패 (무시): {e}")
 
+# Streaming Chat API (SORA_DASHBOARD_V4_SPEC §5)
+try:
+    from src.core.dashboard.routes.chat_stream import router as stream_router
+    app.include_router(stream_router, tags=["v4-stream"])
+    logger.info("[Init] v4 Streaming Chat 라우터 통합 완료")
+except ImportError as e:
+    logger.warning(f"[Init] v4 Streaming Chat 라우터 로드 실패 (무시): {e}")
+
 # Board/Governance API 라우터 (dashboard/routes/api_board.py에서 분리)
 try:
     from src.core.dashboard.routes.api_board import router as board_router
@@ -232,6 +301,54 @@ try:
     logger.info("[Init] Board/Governance API 라우터 통합 완료")
 except ImportError as e:
     logger.warning(f"[Init] Board/Governance API 라우터 로드 실패 (무시): {e}")
+
+# Agent Control Plane API (timeline / approval / eval / MCP policy)
+try:
+    from src.core.dashboard.routes.api_agent_control import router as agent_control_router
+    app.include_router(agent_control_router, prefix="/api", tags=["v2-agent-control"])
+    logger.info("[Init] Agent Control Plane API 라우터 통합 완료")
+except ImportError as e:
+    logger.warning(f"[Init] Agent Control Plane API 라우터 로드 실패 (무시): {e}")
+
+# Fleet Dashboard API 라우터 (dashboard/routes/api_fleet.py)
+try:
+    from src.core.dashboard.routes.api_fleet import router as fleet_router
+    app.include_router(fleet_router, tags=["v2-fleet"])
+    logger.info("[Init] Fleet Dashboard API 라우터 통합 완료")
+except ImportError as e:
+    logger.warning(f"[Init] Fleet Dashboard API 라우터 로드 실패 (무시): {e}")
+
+# Terminal WebSocket (xterm.js ↔ asyncssh 브리지)
+try:
+    from src.core.dashboard.terminal import router as terminal_router
+    app.include_router(terminal_router, tags=["terminal"])
+    logger.info("[Init] Terminal WebSocket 라우터 통합 완료")
+except ImportError as e:
+    logger.warning(f"[Init] Terminal 라우터 로드 실패 (무시): {e}")
+
+# Remote File System API (dashboard/routes/api_files.py)
+try:
+    from src.core.dashboard.routes.api_files import router as files_router
+    app.include_router(files_router, tags=["v2-files"])
+    logger.info("[Init] File System API 라우터 통합 완료")
+except ImportError as e:
+    logger.warning(f"[Init] Files router not available: {e}")
+
+# Remote Git Operations API (dashboard/routes/api_git.py)
+try:
+    from src.core.dashboard.routes.api_git import router as git_router
+    app.include_router(git_router, tags=["v2-git"])
+    logger.info("[Init] Git Operations API 라우터 통합 완료")
+except ImportError as e:
+    logger.warning(f"[Init] Git router not available: {e}")
+
+# Unified Search API (search/unified_search.py)
+try:
+    from src.core.search.unified_search import router as search_router
+    app.include_router(search_router, tags=["v2-search"])
+    logger.info("[Init] Unified Search API 라우터 통합 완료")
+except ImportError as e:
+    logger.warning(f"[Init] Search router not available: {e}")
 
 # ── Sora Chat & WebSocket → dashboard/ws/ws_manager.py로 이관 완료 ──
 # get_ws_client_count()는 위에서 import됨
@@ -247,7 +364,7 @@ except ImportError as e:
 # 전역 인증 미들웨어 -- 모든 /api/* 경로 보호
 # ======================================================
 
-_PUBLIC_PATHS = ["/auth/", "/api/status", "/api/health", "/static/", "/app/sw.js", "/favicon"]
+_PUBLIC_PATHS = ["/auth/", "/api/status", "/api/health", "/static/", "/app/sw.js", "/favicon", "/api/telegram/webhook"]
 
 # 로컬 네트워크 채팅 허용 경로 (OAuth 완성 전까지)
 _LOCAL_CHAT_PATHS = [
@@ -264,6 +381,7 @@ _LOCAL_CHAT_PATHS = [
 async def auth_middleware(request: Request, call_next):
     """인증되지 않은 요청 차단. /auth/*, /api/status 허용."""
     path = request.url.path
+    method = request.method
 
     # 공개 경로 허용
     if any(path.startswith(p) for p in _PUBLIC_PATHS):
@@ -273,14 +391,18 @@ async def auth_middleware(request: Request, call_next):
     if path in ("/app", "/app/"):
         return await call_next(request)
 
-    # 로컬 네트워크 → 모든 API 허용 (개발 편의 + OAuth 미설정 상태 대응)
+    # 명시적으로 켠 경우에만 private network bypass 허용
     client_ip = request.client.host if request.client else ""
-    if client_ip in ("127.0.0.1", "::1", "localhost") or client_ip.startswith(("192.168.", "10.")):
+    if private_bypass_allowed(client_ip):
         return await call_next(request)
 
     # 외부 접속 -- API 경로 인증 필수
     if path.startswith("/api/"):
-        authed = _check_auth(request)
+        required_scope = "dashboard:read"
+        if path.startswith("/api/pc-agents") and method != "GET":
+            required_scope = "dashboard:execute"
+
+        authed = _check_auth(request, required_scope=required_scope)
         if not authed:
             return JSONResponse({"error": "Unauthorized"}, status_code=401)
 
@@ -1389,6 +1511,30 @@ async def sora_system_status():
         return {"error": str(e)[:200]}
 
 
+
+# ── Audit Log API ──────────────────────────
+
+@app.get("/api/v2/audit")
+async def api_audit_log(limit: int = 50, hours: int = 24):
+    """소라 도구 실행 감사 로그 조회.
+
+    Query params:
+        limit: 반환할 최대 항목 수 (기본 50)
+        hours: 통계 기간 (기본 24시간)
+    """
+    try:
+        from src.core.audit import get_audit_logger
+        from src.core.tools import BROKEN_TOOLS
+        auditor = get_audit_logger()
+        return {
+            "logs": auditor.read_recent(limit=min(limit, 200)),
+            "stats": auditor.get_stats(hours=hours),
+            "broken_tools": BROKEN_TOOLS,
+        }
+    except Exception as e:
+        return {"error": str(e)[:200]}
+
+
 # ── Sora PC 제어 API ───────────────────────
 
 @app.get("/api/v2/sora/screen")
@@ -1509,64 +1655,6 @@ async def sora_chat_clear(session_id: str = Query(default="default")):
     if session_id in _chat_sessions:
         del _chat_sessions[session_id]
     return {"success": True}
-
-
-# ── Sora 인증 API ──────────────────────────
-
-@app.post("/api/v2/sora/auth/login")
-async def sora_auth_login(request: Request):
-    """대시보드 로그인 — 시크릿 검증 후 토큰 반환."""
-    try:
-        body = await request.json()
-        password = body.get("password", "")
-        from src.core.auth_middleware import verify_token, DASHBOARD_SECRET
-        if verify_token(password):
-            return {"success": True, "token": DASHBOARD_SECRET}
-        return JSONResponse(status_code=401, content={"error": "Invalid password"})
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"error": str(e)[:200]})
-
-
-# ── WebSocket 실시간 알림 ──────────────────
-
-@app.websocket("/ws/sora")
-async def sora_websocket(websocket: WebSocket):
-    """Sora 실시간 알림 채널 (토큰 인증)."""
-    # WebSocket 토큰 검증
-    try:
-        from src.core.auth_middleware import verify_token
-        token = websocket.query_params.get("token", "")
-        if not token or not verify_token(token):
-            await websocket.close(code=4001, reason="Unauthorized")
-            logger.warning(f"🔒 WS auth failed (IP: {websocket.client.host})")
-            return
-    except ImportError:
-        pass  # 미들웨어 없으면 통과 (하위 호환)
-
-    await websocket.accept()
-    _ws_clients.add(websocket)
-    logger.info(f"🔌 WebSocket connected (total: {len(_ws_clients)})")
-    try:
-        # 연결 즉시 시스템 상태 전송
-        try:
-            from src.core.agents.system_monitor import SystemMonitor
-            sm = SystemMonitor()
-            await websocket.send_json({"type": "system_status", "data": sm.collect()})
-        except Exception:
-            pass
-
-        while True:
-            # 클라이언트 ping 대기 (연결 유지)
-            data = await websocket.receive_text()
-            if data == "ping":
-                await websocket.send_json({"type": "pong", "ts": int(time.time())})
-    except WebSocketDisconnect:
-        pass
-    except Exception:
-        pass
-    finally:
-        _ws_clients.discard(websocket)
-        logger.info(f"🔌 WebSocket disconnected (total: {len(_ws_clients)})")
 
 
 # ── 클립보드 API ──────────────────────────
@@ -2397,13 +2485,18 @@ async def sora_chat_clear(session_id: str = Query(default="default")):
 
 @app.post("/api/v2/sora/auth/login")
 async def sora_auth_login(request: Request):
-    """대시보드 로그인 — 시크릿 검증 후 토큰 반환."""
+    """수동 시크릿 검증 후 세션 생성."""
     try:
         body = await request.json()
-        password = body.get("password", "")
-        from src.core.auth_middleware import verify_token, DASHBOARD_SECRET
-        if verify_token(password):
-            return {"success": True, "token": DASHBOARD_SECRET}
+        password = (body.get("password") or body.get("token") or "").strip()
+        if verify_manual_login_secret(password):
+            user = set_dashboard_session(
+                request,
+                email=os.environ.get("ALLOWED_EMAIL", "dpthf1537@gmail.com"),
+                name="CEO",
+                auth_type="manual_secret",
+            )
+            return {"success": True, "user": user}
         return JSONResponse(status_code=401, content={"error": "Invalid password"})
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)[:200]})
@@ -2413,17 +2506,13 @@ async def sora_auth_login(request: Request):
 
 @app.websocket("/ws/sora")
 async def sora_websocket(websocket: WebSocket):
-    """Sora 실시간 알림 채널 (토큰 인증)."""
-    # WebSocket 토큰 검증
-    try:
-        from src.core.auth_middleware import verify_token
-        token = websocket.query_params.get("token", "")
-        if not token or not verify_token(token):
-            await websocket.close(code=4001, reason="Unauthorized")
-            logger.warning(f"🔒 WS auth failed (IP: {websocket.client.host})")
-            return
-    except ImportError:
-        pass  # 미들웨어 없으면 통과 (하위 호환)
+    """Sora 실시간 알림 채널 (짧은 수명의 액션 토큰 인증)."""
+    token = websocket.query_params.get("token", "")
+    context = authenticate_websocket_token(token, required_scope="ws:sora")
+    if not context["authenticated"]:
+        await websocket.close(code=4001, reason="Unauthorized")
+        logger.warning(f"🔒 WS auth failed (IP: {websocket.client.host})")
+        return
 
     await websocket.accept()
     _ws_clients.add(websocket)
