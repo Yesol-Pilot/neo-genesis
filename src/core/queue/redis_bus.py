@@ -14,27 +14,131 @@ import asyncio
 import json
 import logging
 import os
+from pathlib import Path
+import subprocess
+import sys
 import time
 import uuid
 from typing import Any, Callable, Optional
+from urllib.parse import SplitResult, urlsplit, urlunsplit
 
 import redis.asyncio as aioredis
+from redis.exceptions import ConnectionError as RedisConnectionError
 
 logger = logging.getLogger("neo.queue.redis")
 
 # ── 설정 ──
-REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_REDIS_URL = "redis://localhost:6379/0"
+
+
+def _load_local_redis_password() -> Optional[str]:
+    password_file = PROJECT_ROOT / "data" / "automation" / "redis_password.txt"
+    try:
+        password = password_file.read_text(encoding="ascii").strip()
+    except OSError:
+        return None
+    return password or None
+
+
+def _default_redis_url() -> str:
+    password = os.getenv("SORA_REDIS_PASSWORD") or _load_local_redis_password()
+    if password:
+        return f"redis://:{password}@localhost:6379/0"
+    return DEFAULT_REDIS_URL
+
+
+def _redact_redis_url(redis_url: str) -> str:
+    parsed = urlsplit(redis_url)
+    if "@" not in parsed.netloc:
+        return redis_url
+    host_part = parsed.netloc.rsplit("@", 1)[1]
+    return urlunsplit(
+        SplitResult(
+            scheme=parsed.scheme,
+            netloc=f"***@{host_part}",
+            path=parsed.path,
+            query=parsed.query,
+            fragment=parsed.fragment,
+        )
+    )
+
+
+REDIS_URL = os.getenv("REDIS_URL", _default_redis_url())
+REDIS_WSL_DISTRO = os.getenv("SORA_WSL_DISTRO", "Ubuntu-24.04")
 REQUEST_QUEUE = "sora:requests"          # Brain Worker가 소비하는 큐
 RESULT_CHANNEL = "sora:results"          # 결과 pubsub 채널
 DEVICE_CHANNEL = "sora:devices"          # 디바이스 이벤트 채널
+PROGRESS_PREFIX = "sora:progress:"       # 진행 이벤트 채널 prefix (+ request_id)
+CONFIRM_PREFIX = "sora:confirm:"         # 확인 응답 키 prefix (+ request_id)
 DEFAULT_TIMEOUT = 120                     # 응답 대기 최대 시간 (초)
+
+
+def _is_windows_localhost_url(redis_url: str) -> bool:
+    parsed = urlsplit(redis_url)
+    return sys.platform.startswith("win") and (parsed.hostname or "").lower() in {"localhost", "127.0.0.1"}
+
+
+def _resolve_wsl_primary_ip(distro: str) -> Optional[str]:
+    try:
+        completed = subprocess.run(
+            ["wsl.exe", "-d", distro, "--", "bash", "-lc", "hostname -I 2>/dev/null"],
+            capture_output=True,
+            text=False,
+            timeout=5,
+            check=False,
+        )
+    except Exception:
+        return None
+
+    if completed.returncode != 0:
+        return None
+
+    try:
+        stdout = completed.stdout.decode("utf-8", errors="ignore")
+    except Exception:
+        stdout = ""
+
+    for token in stdout.strip().split():
+        if token.count(".") == 3:
+            return token
+    return None
+
+
+def _replace_redis_host(redis_url: str, host: str) -> str:
+    parsed = urlsplit(redis_url)
+    auth = ""
+    if parsed.username:
+        auth = parsed.username
+        if parsed.password:
+            auth += f":{parsed.password}"
+        auth += "@"
+
+    port = parsed.port or 6379
+    replaced = SplitResult(
+        scheme=parsed.scheme or "redis",
+        netloc=f"{auth}{host}:{port}",
+        path=parsed.path or "/0",
+        query=parsed.query,
+        fragment=parsed.fragment,
+    )
+    return urlunsplit(replaced)
+
+
+def _build_redis_url_candidates(redis_url: str) -> list[str]:
+    candidates = [redis_url]
+    if _is_windows_localhost_url(redis_url):
+        wsl_ip = _resolve_wsl_primary_ip(REDIS_WSL_DISTRO)
+        if wsl_ip:
+            candidates.append(_replace_redis_host(redis_url, wsl_ip))
+    return list(dict.fromkeys(candidates))
 
 
 class RedisBus:
     """Redis 기반 메시지 버스 — Gateway와 Brain Worker 간 통신."""
 
-    def __init__(self, redis_url: str = REDIS_URL):
-        self._redis_url = redis_url
+    def __init__(self, redis_url: Optional[str] = None):
+        self._redis_url = redis_url or os.getenv("REDIS_URL", _default_redis_url())
         self._redis: Optional[aioredis.Redis] = None
         self._pubsub: Optional[aioredis.client.PubSub] = None
         self._pending: dict[str, asyncio.Future] = {}  # request_id → Future
@@ -43,15 +147,44 @@ class RedisBus:
 
     async def connect(self):
         """Redis 연결."""
-        if self._redis is None:
-            self._redis = aioredis.from_url(
-                self._redis_url,
+        if self._redis is not None:
+            try:
+                await self._redis.ping()
+                return self._redis
+            except Exception as exc:
+                logger.warning(f"[RedisBus] stale connection detected, reconnecting: {exc}")
+                try:
+                    await self._redis.aclose()
+                except Exception:
+                    pass
+                self._redis = None
+
+        last_error = None
+        for candidate in _build_redis_url_candidates(self._redis_url):
+            redis_client = aioredis.from_url(
+                candidate,
                 decode_responses=True,
                 socket_connect_timeout=5,
+                socket_timeout=5,
+                socket_keepalive=True,
+                health_check_interval=30,
+                retry_on_timeout=True,
             )
-            await self._redis.ping()
-            logger.info(f"[RedisBus] 연결 완료: {self._redis_url}")
-        return self._redis
+            try:
+                await redis_client.ping()
+                self._redis = redis_client
+                self._redis_url = candidate
+                logger.info(f"[RedisBus] connected: {_redact_redis_url(candidate)}")
+                return self._redis
+            except Exception as exc:
+                last_error = exc
+                logger.warning(f"[RedisBus] connect failed: {_redact_redis_url(candidate)} ({exc})")
+                try:
+                    await redis_client.aclose()
+                except Exception:
+                    pass
+
+        raise last_error or RuntimeError("Redis connection failed")
 
     async def close(self):
         """연결 종료."""
@@ -71,6 +204,7 @@ class RedisBus:
         text: str,
         channel: str = "telegram",
         device_id: str = "cloud",
+        session_id: str = "",
         chat_id: str = "",
         file_path: str = "",
         metadata: dict = None,
@@ -93,6 +227,7 @@ class RedisBus:
             "text": text,
             "channel": channel,
             "device_id": device_id,
+            "session_id": session_id or channel,
             "chat_id": chat_id,
             "file_path": file_path,
             "metadata": metadata or {},
@@ -109,12 +244,20 @@ class RedisBus:
         Args:
             timeout: 대기 시간 (초, 0=무한)
         """
-        redis = await self.connect()
-        result = await redis.brpop(REQUEST_QUEUE, timeout=timeout)
-        if result:
-            _, message = result
-            return json.loads(message)
-        return None
+        reconnect_delay = 1.0
+        while True:
+            redis = await self.connect()
+            try:
+                result = await redis.brpop(REQUEST_QUEUE, timeout=timeout)
+                if result:
+                    _, message = result
+                    return json.loads(message)
+                return None
+            except RedisConnectionError as exc:
+                logger.info(f"[RedisBus] dequeue reconnecting: {exc}")
+                self._redis = None
+                await asyncio.sleep(reconnect_delay)
+                reconnect_delay = min(reconnect_delay * 2, 5.0)
 
     # ── 결과 발행 (Brain → Gateway) ──
 
@@ -132,10 +275,22 @@ class RedisBus:
             "completed_at": time.time(),
         }, ensure_ascii=False)
 
-        await redis.publish(RESULT_CHANNEL, message)
+        try:
+            await redis.publish(RESULT_CHANNEL, message)
+        except RedisConnectionError as exc:
+            logger.warning(f"[RedisBus] publish reconnecting: {exc}")
+            self._redis = None
+            redis = await self.connect()
+            await redis.publish(RESULT_CHANNEL, message)
 
         # 결과를 짧은 TTL로 저장 (late subscriber가 폴링으로 확인 가능)
-        await redis.set(f"sora:result:{request_id}", message, ex=300)
+        try:
+            await redis.set(f"sora:result:{request_id}", message, ex=300)
+        except RedisConnectionError as exc:
+            logger.warning(f"[RedisBus] result cache reconnecting: {exc}")
+            self._redis = None
+            redis = await self.connect()
+            await redis.set(f"sora:result:{request_id}", message, ex=300)
         logger.debug(f"[RedisBus] 결과 발행: {request_id}")
 
     # ── 결과 대기 (Gateway용) ──
@@ -163,9 +318,15 @@ class RedisBus:
         redis = await self.connect()
         deadline = time.time() + timeout
         while time.time() < deadline:
-            cached = await redis.get(f"sora:result:{request_id}")
-            if cached:
-                return json.loads(cached)
+            try:
+                cached = await redis.get(f"sora:result:{request_id}")
+                if cached:
+                    return json.loads(cached)
+            except RedisConnectionError as exc:
+                logger.warning(f"[RedisBus] result poll reconnecting: {exc}")
+                self._redis = None
+                redis = await self.connect()
+                continue
             await asyncio.sleep(0.5)
 
         return {"reply": "⏰ 응답 시간이 초과되었습니다.", "error": "timeout"}
@@ -218,12 +379,128 @@ class RedisBus:
     async def get_queue_length(self) -> int:
         """대기 중인 요청 수."""
         redis = await self.connect()
-        return await redis.llen(REQUEST_QUEUE)
+        try:
+            return await redis.llen(REQUEST_QUEUE)
+        except RedisConnectionError as exc:
+            logger.warning(f"[RedisBus] queue length reconnecting: {exc}")
+            self._redis = None
+            redis = await self.connect()
+            return await redis.llen(REQUEST_QUEUE)
 
     async def publish_event(self, channel: str, data: dict):
         """임의 채널에 이벤트 발행."""
         redis = await self.connect()
-        await redis.publish(channel, json.dumps(data, ensure_ascii=False))
+        payload = json.dumps(data, ensure_ascii=False)
+        try:
+            await redis.publish(channel, payload)
+        except RedisConnectionError as exc:
+            logger.warning(f"[RedisBus] event publish reconnecting: {exc}")
+            self._redis = None
+            redis = await self.connect()
+            await redis.publish(channel, payload)
+
+    # ── 진행 이벤트 (Brain Worker → Gateway) ──
+
+    async def publish_progress(self, request_id: str, data: dict) -> None:
+        """실행 진행 상태를 request_id별 채널로 발행.
+
+        Args:
+            request_id: 요청 ID (sora:progress:{request_id} 채널에 발행)
+            data: {"chat_id", "step", "message", "tool_name", "status", "ts"}
+        """
+        redis = await self.connect()
+        channel = f"{PROGRESS_PREFIX}{request_id}"
+        payload = json.dumps(data, ensure_ascii=False)
+        try:
+            await redis.publish(channel, payload)
+        except RedisConnectionError as exc:
+            logger.warning(f"[RedisBus] progress reconnecting: {exc}")
+            self._redis = None
+            redis = await self.connect()
+            await redis.publish(channel, payload)
+        logger.debug(f"[RedisBus] progress 발행: {request_id} — {data.get('message', '')[:40]}")
+
+    async def subscribe_progress(self, request_id: str):
+        """request_id의 진행 이벤트를 구독하는 async generator.
+
+        사용 예:
+            async for event in bus.subscribe_progress(request_id):
+                print(event["message"])
+
+        Note: asyncio.Task로 실행하고 취소 시 CancelledError가 전파됨.
+        """
+        redis = await self.connect()
+        pubsub = redis.pubsub()
+        channel = f"{PROGRESS_PREFIX}{request_id}"
+        await pubsub.subscribe(channel)
+        logger.debug(f"[RedisBus] progress 구독: {channel}")
+        try:
+            async for raw in pubsub.listen():
+                if raw["type"] == "message":
+                    yield json.loads(raw["data"])
+        except asyncio.CancelledError:
+            pass
+        finally:
+            try:
+                await pubsub.unsubscribe(channel)
+                await pubsub.aclose()
+            except Exception:
+                pass
+
+    # ── 확인 응답 (neo_assistant_bot → Brain Worker) ──
+
+    async def set_confirm_decision(self, request_id: str, decision: str, ttl: int = 60) -> None:
+        """사용자 확인 응답 상태를 Redis에 저장."""
+        normalized = decision.strip().lower()
+        if normalized not in {"approved", "rejected"}:
+            raise ValueError(f"Unsupported confirm decision: {decision}")
+
+        redis = await self.connect()
+        key = f"{CONFIRM_PREFIX}{request_id}"
+        try:
+            await redis.set(key, normalized, ex=ttl)
+        except RedisConnectionError as exc:
+            logger.warning(f"[RedisBus] confirm decision reconnecting: {exc}")
+            self._redis = None
+            redis = await self.connect()
+            await redis.set(key, normalized, ex=ttl)
+
+    async def set_confirm(self, request_id: str, approved: bool, ttl: int = 60) -> None:
+        """사용자 확인 응답을 Redis에 저장."""
+        await self.set_confirm_decision(
+            request_id,
+            "approved" if approved else "rejected",
+            ttl=ttl,
+        )
+
+    async def wait_for_confirm_decision(self, request_id: str, timeout: float = 30.0) -> str:
+        """사용자 확인 응답 상태를 대기.
+
+        Returns:
+            approved | rejected | timeout
+        """
+        redis = await self.connect()
+        key = f"{CONFIRM_PREFIX}{request_id}"
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            try:
+                value = await redis.get(key)
+                if value in {"approved", "rejected"}:
+                    await redis.delete(key)
+                    return value
+            except RedisConnectionError as exc:
+                logger.warning(f"[RedisBus] confirm poll reconnecting: {exc}")
+                self._redis = None
+                redis = await self.connect()
+                continue
+            await asyncio.sleep(0.5)
+        logger.info(f"[RedisBus] 확인 타임아웃: {request_id}")
+        return "timeout"
+
+    async def wait_for_confirm(self, request_id: str, timeout: float = 30.0) -> bool:
+        """사용자 확인 응답을 대기."""
+        decision = await self.wait_for_confirm_decision(request_id, timeout=timeout)
+        return decision == "approved"
 
     async def health_check(self) -> bool:
         """Redis 연결 상태 확인."""
