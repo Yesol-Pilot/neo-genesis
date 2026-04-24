@@ -41,6 +41,7 @@ out/
 *.pem
 *.key
 **/secrets/
+infra/agent-runtime/credential_inventory.generated.json
 
 # 임시 파일
 _tmp_*
