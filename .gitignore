@@ -69,3 +69,11 @@ data/automation/redis_password.txt
 
 # .agent/ 내부 개인정보 (소유자 프로필, 전화번호 포함)
 .agent/knowledge/OWNER_PROFILE.md
+
+# Runtime artifacts — reproduced on boot (FOLDER_BIBLE v2.3 rule 2)
+*.pid
+dump.rdb
+boot_*.log
+tmp_*.txt
+tools_out*.txt
+ga4_traffic_out.txt

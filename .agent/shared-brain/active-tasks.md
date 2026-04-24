@@ -31,6 +31,9 @@
 - [x] Workflow dry-run execution layer added: `scripts/agent_workflow_runner.py`
 - [x] Workflow runner pytest coverage added: `tests/test_agent_workflow_runner.py`
 - [x] Sora control-plane eval inventory updated to surface workflow dry-run manifests.
+- [x] Approved Codex app cron binding created: `neo-genesis-agent-environment-weekly-check`
+- [x] Schedule binding registry added: `.agent/registries/agent_schedule_bindings.json`
+- [x] Schedule binding validation and pytest coverage added: `scripts/agent_schedule_check.py`, `tests/test_agent_schedule_bindings.py`
 
 ---
 
