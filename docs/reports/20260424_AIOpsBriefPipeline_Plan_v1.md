@@ -175,3 +175,13 @@ Result: all commands passed. The preview artifact was removed after validation.
 - Production server source upload: uploaded `git archive HEAD` to YSH server and unpacked it into `/home/ysh/sora/build`; verified `src/core/governance/execution_gate.py` is present there.
 - Production container replacement: blocked before Docker build/restart because `ysh` is not in the `docker` group and `sudo -n docker ...` returns `sudo: a password is required`.
 - Security decision: did not embed or echo a sudo password in shell commands. Full container deploy still requires a noninteractive sudo credential path or an interactive owner-side sudo session.
+
+## 13. 2026-04-24 Sudo/Docker Resolution and Production Hotfix
+
+- Owner request: resolve the sudo/Docker blocker and complete the production runtime application.
+- Permission fix: added `ysh` to the server `docker` group via root SSH; a fresh `ysh` SSH session now reports `groups=1001(ysh),990(docker)` and can run `docker ps`.
+- Failed full-source image attempt: `sora:v6.5-execgate` failed because `/entrypoint.sh` had CRLF line endings; `sora:v6.5-execgate-r2` fixed the entrypoint but exposed a dashboard auth API drift between `sora_dashboard.py` and `auth_router.py`.
+- Safe deployment choice: built `sora:v6.4-healthfix-execgate` from the currently healthy production base image and copied only `execution_gate.py`, `worker.py`, `agent_router.py`, and `task_planner.py`.
+- Production replacement: `sora-live` now runs image `sora:v6.4-healthfix-execgate`.
+- Runtime verification: Docker health is `healthy`, `/api/status` returns HTTP 200, and the container verifies `deploy_project` as `allowed=True`, `authority_tier=G5`, controls `SEC-002,SEC-004,SEC-008` when owner-approved.
+- Rollback retained: previous healthy container is preserved as `sora-live-prev-20260424174235`.
