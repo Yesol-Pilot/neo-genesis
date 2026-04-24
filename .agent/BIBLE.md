@@ -45,7 +45,7 @@
 | **멀티테넌트** | `tenant_config.py`에서 SBU 설정 로드. 하드코딩된 SBU 참조 금지 → `get_tenant(tenant_id)` 사용. |
 | **코딩** | API Key → `.env` 로드. Type Hint 필수. I/O → `async/await`. Next.js App Router 컨벤션. Supabase 테이블은 `{sbu}_` 접두사. |
 | **콘텐츠** | 영문 SaaS 블로그만 HIVE MIND 자동 생성. MDX 프론트매터 필수(title, date, description, category, tags, ai_generated). 기만적 E-E-A-T 표현 금지. |
-| **운영** | 주요 작업 전 상세 사전 보고서 작성 + 승인. 단, SBU 코드/문서의 git commit·push·Vercel 배포는 대표님 포괄 승인 범위로 자율 진행. 자금/계약/계정권한/환경변수 변경은 HITL 승인 유지. 외부 API → retry + `logs/error.log`. |
+| **운영** | 주요 작업 전 상세 사전 보고서 작성 + 승인. 단, SBU 코드/문서의 git commit·push·Vercel 배포·DB 스키마 변경/마이그레이션은 대표님 포괄 승인 범위로 자율 진행. 자금/계약/계정권한/환경변수 변경은 HITL 승인 유지. 외부 API → retry + `logs/error.log`. |
 | **비판적 분석** | 모든 지시·피드백 수신 시 4-Step 분석(사실 검증→ROI→설계 타당성→대안 비교) 필수. 무비판적 수용·과잉 자축·Mock 성공 포장 금지. 반론 시 대안 필수. |
 | **배포** | `git config user.email` → `dpthf1537@gmail.com`. `npm run build` 성공 → `npx -y vercel --prod --yes`. `master` 브랜치 사용. |
 
@@ -91,7 +91,7 @@
 2. `npm run build` → 에러 없이 성공
 3. `npx -y vercel --prod --yes`
 
-### 2.2-A. 상시 승인된 Git/Vercel 운영
+### 2.2-A. 상시 승인된 Git/Vercel/DB Schema 운영
 
 대표님은 SBU 개발 속도를 위해 아래 작업을 반복 확인 없이 진행하도록 포괄 승인했다.
 
@@ -99,10 +99,11 @@
 2. `Yesol-Pilot` 원격 저장소로의 `git push`
 3. SBU Vercel 프로덕션 배포
 4. 배포 후 공개 URL/API/브라우저 smoke 검증
+5. SBU DB 스키마 변경 및 마이그레이션 적용
 
-필수 게이트는 유지한다: `git config user.email`, `git remote -v`, 민감정보 미커밋, 빌드/핵심 테스트, `.vercel/project.json`, 배포 후 검증 결과 보고.
+필수 게이트는 유지한다: `git config user.email`, `git remote -v`, 민감정보 미커밋, 빌드/핵심 테스트, `.vercel/project.json`, DB 대상 프로젝트/URL 확인, migration 파일 경로/side effect 기록, additive가 아닌 변경의 rollback 또는 복구 경로 준비, 배포·마이그레이션 후 검증 결과 보고.
 
-예외: 환경변수 변경, 계정/결제/자금/계약, 파괴적 DB·파일 작업, 대량 외부 발송, 민감정보 이동은 여전히 HITL 승인 대상이다.
+예외: 환경변수 변경, 계정/결제/자금/계약, DB 데이터 삭제/초기화/truncate, 되돌리기 어려운 파일/브랜치/데이터 삭제, 대량 외부 발송, 민감정보 이동은 여전히 HITL 승인 대상이다. DB 스키마 변경/마이그레이션은 위 게이트를 만족하면 상시 승인 범위에 포함한다.
 
 ### 2.3. 리스크 스코어링 (마스터 아키텍처 v2 §5)
 

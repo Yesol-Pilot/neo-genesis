@@ -1,6 +1,6 @@
 # NEO GENESIS — 마스터 AI 규칙 문서
 
-> **버전:** 1.8
+> **버전:** 1.9
 > **최종 갱신:** 2026-04-24
 > **위치:** `D:/00.test/neo-genesis/.agent/NEO_MASTER_RULES.md`
 > **역할:** Neo-Genesis 환경의 AI 운영 SSOT
@@ -171,7 +171,7 @@
 - 비용 발생 가능성이 있는 외부 자원 생성
 - 자금, 법률, 계약, 계정 권한 변경
 
-단, §2.5-A의 `Owner Standing Approval` 범위에 들어가는 SBU 코드/문서의 `git commit`, `git push`, Vercel 프로덕션 배포는 대표님의 포괄 승인으로 간주하고 반복 확인 없이 진행한다.
+단, §2.5-A의 `Owner Standing Approval` 범위에 들어가는 SBU 코드/문서의 `git commit`, `git push`, Vercel 프로덕션 배포, DB 스키마 변경/마이그레이션은 대표님의 포괄 승인으로 간주하고 반복 확인 없이 진행한다.
 
 ### 2.2 고위험 작업 원칙
 
@@ -209,7 +209,7 @@ Codex는 아래 작업을 기본 허용 범위로 간주한다.
 - 로컬 파일 읽기, 검색, 비교, 상태 점검
 - 작업 디렉터리 내 코드/문서 수정
 - 비파괴적 테스트, 빌드, 린트, 타입체크
-- 검증 가능한 `git commit`, `git push`, Vercel SBU 배포
+- 검증 가능한 `git commit`, `git push`, Vercel SBU 배포, DB 스키마 변경/마이그레이션
 - Shared Brain 및 운영 문서 동기화
 - 검증 가능한 범위의 자동 수정과 후속 보고
 
@@ -223,13 +223,14 @@ Codex는 아래 작업을 기본 허용 범위로 간주한다.
 - 대량 메시지 발송, 외부 공유, 민감정보 이동
 - 샌드박스 밖 권한 상승이 필요한 실행
 
-### 2.5-A Owner Standing Approval — Git/Vercel 운영
+### 2.5-A Owner Standing Approval — Git/Vercel/DB Schema 운영
 
 대표님은 Neo Genesis 프로젝트의 반복 개발 속도를 위해 아래 작업을 상시 승인한다.
 
 - 프로젝트 코드, 테스트, 문서, SBU 운영 파일의 `git commit`
 - `Yesol-Pilot` 원격 저장소로의 `git push`
 - SBU별 Vercel 프로덕션 배포 (`npx -y vercel --prod --yes` 또는 동등한 Vercel CLI 배포)
+- SBU별 DB 스키마 변경 및 마이그레이션 적용 (`supabase/migrations/*.sql`, Supabase SQL Editor/CLI, 동등한 DB migration runner)
 - 배포 후 공개 URL, API smoke, share preview, 브라우저 확인 등 비파괴 검증
 
 이 상시 승인은 아래 조건을 모두 만족할 때만 적용한다.
@@ -239,9 +240,12 @@ Codex는 아래 작업을 기본 허용 범위로 간주한다.
 - `.env*`, 서비스 계정 키, 토큰, 비밀번호 등 자격증명 파일을 커밋하지 않는다.
 - 배포 전 가능한 범위에서 빌드/테스트/린트 중 해당 프로젝트의 핵심 검증을 통과시킨다.
 - Vercel 배포 전 `.vercel/project.json`의 projectId/orgId/projectName을 확인한다.
+- DB 마이그레이션 전 대상 프로젝트/DB URL을 확인하고, 실행 SQL 파일 경로, 적용 목적, 예상 side effect를 기록한다.
+- additive가 아닌 스키마 변경(`DROP`, `ALTER TYPE`, 컬럼 타입 변경, 제약 추가 등)은 가능한 범위에서 백업/rollback SQL 또는 복구 경로를 먼저 준비한다.
+- DB 마이그레이션 후 관련 API smoke, schema check, 주요 사용자 플로우를 검증한다.
 - 실행 후 커밋 해시, 푸시 대상, 배포 URL/ID, 검증 결과, 잔여 리스크를 보고한다.
 
-이 상시 승인은 환경변수 변경, 결제/계정 권한 변경, 파괴적 DB 마이그레이션, 대량 메시지 발송, 민감정보 이동, 되돌리기 어려운 삭제에는 적용하지 않는다.
+이 상시 승인은 환경변수 변경, 결제/계정 권한 변경, 대량 메시지 발송, 민감정보 이동, DB 데이터 삭제/초기화/truncate, 되돌리기 어려운 파일/브랜치/데이터 삭제에는 적용하지 않는다. 단, DB 스키마 변경/마이그레이션은 위 게이트를 만족하면 상시 승인 범위에 포함한다.
 
 ### 2.6 명령 권한 운영 원칙
 
@@ -424,6 +428,7 @@ D:/00.test/neo-genesis/.agent/
 | 2026-04-24 | 1.6 | runtime 어댑터의 v1.5 Opus 4.7 서브에이전트 매핑을 D 캐노니컬 SSOT로 역병합, `settings.json` 모델 락 명문화 | Claude Code |
 | 2026-04-24 | 1.7 | AI agent 환경 최적화 프로토콜 추가: OSS 프레임워크, 연구 패턴, UX, 평가, 보안, 거버넌스 기준 내재화 | Codex |
 | 2026-04-24 | 1.8 | 대표님 포괄 승인에 따라 Git commit/push 및 SBU Vercel 프로덕션 배포를 Codex 자율 실행 범위로 편입 | Codex |
+| 2026-04-24 | 1.9 | 대표님 포괄 승인 범위에 DB 스키마 변경 및 마이그레이션 적용을 추가하고 DB 적용 게이트를 명문화 | Codex |
 
 ---
 
