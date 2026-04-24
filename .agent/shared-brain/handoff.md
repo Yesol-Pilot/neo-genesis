@@ -275,3 +275,68 @@ Claude 4병렬 리서치(R1-R4) → Codex 기존 v2 팩(P0~P6 구현 완료)과 
 - Incident 기록: `auto-trading/docs/v11-ensemble/incidents/2026-04-24-01-launch-live-paper-safeguard.md`
 - Weekly review: `auto-trading/docs/v11-ensemble/weekly-review-2026-W17.md`
 - v11 설계 진입점: `auto-trading/docs/v11-ensemble/INDEX.md`
+
+---
+
+## 2026-04-24 오후 Claude Opus 4.7: 외부 교차검증 + 디렉토리 대청소 (세션 종료)
+
+### 추가 수행 내역
+1. **v11 외부 교차검증 리서치** (5축 병렬): A1 liquidation / backtest v2 / A3+A5 funding / A2 OU + meta-veto / kill switch 사고 연구
+   - 신규 `auto-trading/docs/v11-ensemble/research/2026-04-24-external-validation.md`
+   - 신규 `backtest-v2-engine-decision.md` (nautilus_trader primary + hftbacktest A1/A6 + vectorbt)
+   - `RISK_KILLSWITCH.md` **7-Layer → 9-Layer** (L8 Stablecoin Depeg + L9 Funding Spike 신규 + L1-L6 보강)
+   - `MASTER_DESIGN.md` A1/A2/A3/A5 인라인 경고 (외부 벤치마크 부재 공식화)
+   - `ROADMAP.md` Phase 0 Task 0.3-0.5 재작성
+   - **Commit `81c82a7` on `v11/phase-minus-1`** (13 files, +1331/-94)
+
+2. **D:\ 드라이브 대청소**
+   - D:\00.test\ 루트 156 → 34 entries (파일 114 → 4 SSOT)
+   - D:\ 루트 30 → 19 entries (파일 0건)
+   - 디스크 **628MB 회수**
+   - FOLDER_BIBLE v2.3 → **v2.4** (6대 housekeeping 규칙)
+   - `.tmp.driveupload` 10GB 오판 incident 1건 발생 → 즉시 복구 + 규칙 5 긴급 신설
+   - 신규 `neo-genesis/.agent/knowledge/20260424_Directory_Cleanup_Audit_v1.md` (전체 감사 리포트)
+   - **Commit `247594c`** (v2.3 실행), **`867f2fa`** (v2.4 추가) on `master`
+
+### 현 상태 (2026-04-24 17:00 KST 추정)
+- VM `quant-bot-live` PID 349737, uptime 3h+, restarts=0, **Heap 90%** 주시 필요
+- Supabase lease `trading_mode=PAPER` 유지 중
+- 첫 PAPER 거래 **미발생** (시장 BEAR + ADX 소멸 조건)
+- Phase -1 관측 창 ~4h / 24h 진행, 20h 남음
+
+### 내일 오전 11:00 KST 첫 action (관측 창 24h 경과 후)
+1. **VM 실측 재수행**:
+   ```
+   gcloud compute ssh quant-bot --zone=asia-northeast3-a --quiet \
+     --command "pm2 describe quant-bot-live | grep -E 'status|uptime|restarts|unstable'; pm2 logs quant-bot-live --lines 50 --nostream"
+   ```
+2. **Supabase 확인** (MCP):
+   ```sql
+   SELECT agent, side, mae, mfe, net_pnl, closed_at AT TIME ZONE 'Asia/Seoul'
+   FROM quant_trade_ledger
+   WHERE closed_at > NOW() - INTERVAL '24 hours'
+   ORDER BY closed_at DESC;
+   ```
+3. **결과 분기**:
+   - 녹색 (unstable_restarts < 5 + 거래 1건 + mae/mfe 비-0): `phase-gate--1.md` 게이트 #2/#5 ✅ → 최종 closure commit → **auto-trading push + PR** (owner 승인 후) → Phase 0 Task 0.5 Kill Switch 9-Layer 구현 착수
+   - 페이퍼 거래 0건 유지 (시장 조건): 관측 창 연장 결정. Phase 0 병행 착수 가능
+   - Heap 100% / crash / unstable_restarts ≥ 5: 메모리 diagnosis 우선, Phase 0 지연
+
+### Owner 결정 대기 항목 (다음 세션 입장 시 반드시 확인)
+1. **push + PR 타이밍** — 관측 창 종료 + 게이트 녹색 시 즉시 vs 추가 관측
+2. **Phase 0 backtest v2 데이터 소스 구매** — Tardis.dev vs CoinAPI (월 $50~200)
+3. **`D:\agenttest/`** 판정 (195MB, Jan 2026 게임 에이전트 실험 git repo) — 폐기/등록/`00.test/` 이동 중 택일
+4. **neo-genesis master 의 unrelated 16건 변경** — 이번 세션 관련 없음, owner 가 별도 정리 후 push 권장
+
+### 이번 세션 누적 commit 3건
+| repo | branch | commit | 요약 |
+| --- | --- | --- | --- |
+| `auto-trading` | `v11/phase-minus-1` | `81c82a7` | Phase -1 closure + 외부 교차검증 (13 files, +1331) |
+| `neo-genesis` | `master` | `247594c` | 디렉토리 정리 v2.3 + Phase 0 태스크 (3 files, +278) |
+| `neo-genesis` | `master` | `867f2fa` | v2.4 규칙 정정/강화 + D:\ 범위 확장 (1 file, +65) |
+
+### 이번 세션 신규 문서 4건
+- `auto-trading/docs/v11-ensemble/research/2026-04-24-external-validation.md`
+- `auto-trading/docs/v11-ensemble/backtest-v2-engine-decision.md`
+- `auto-trading/docs/v11-ensemble/incidents/2026-04-24-01-launch-live-paper-safeguard.md`
+- `neo-genesis/.agent/knowledge/20260424_Directory_Cleanup_Audit_v1.md` (§11 + §12 실행 기록 포함)

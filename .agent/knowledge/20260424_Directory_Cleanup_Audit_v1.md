@@ -326,7 +326,18 @@ v2.3 적용 후 첫 audit 수행 — 5대 규칙 대비:
 | v2.4 추가 (00.test 하위 + D:\ 루트) | ~234MB |
 | **총계** | **~628MB** |
 
-### 12.5 남은 미결 (owner 검토 권고)
-- **`D:\c/`, `D:\agenttest/`, `D:\daou/`** — 용도 불명 디렉토리. 삭제/이동/유지 판정 필요
+### 12.5 미결 해소 + 남은 미결
+
+#### 해소 (2026-04-24 오후)
+| 대상 | 판정 | 실행 |
+| --- | --- | --- |
+| `D:\c/` | 경로 오염 잔해 (0 bytes, `Users/` 빈 하위만) | ✅ 삭제 |
+| `D:\daou/` | 빈 디렉토리 (4KB, 파일 0) | ✅ 삭제 |
+| `D:\agenttest/` | 195MB 독립 git repo (Jan 2026 생성, `cli.py` + `Dockerfile` + `MASTER_RULES.md` + `create_first_game.py`). Apr 11 최근 수정. 내부에 `.tmp.driveupload/` 존재 | 🟡 **유지** (owner 가치 판정 필요) |
+
+**D:\\ 루트 최종: 21 → 19 entries** (삭제 2건)
+
+#### 남은 미결
+- **`D:\agenttest/`** — 195MB, 1월 "게임 에이전트 실험" 프로젝트로 추정 (create_first_game.py). owner 가 폐기 / FOLDER_BIBLE 정식 등록 / `00.test` 로 이동 중 택일
 - **`_extracted/`** 재편 (`personal/` 과 역할 분리)
 - **`_archive/`** 6개월+ 경과분 외부 백업 이전
