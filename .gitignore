@@ -1,0 +1,71 @@
+# ============================================
+# NEO GENESIS - Git 제외 목록
+# ============================================
+
+# 환경 변수 (민감 정보)
+.env
+.env.local
+.env.*.local
+
+# 의존성
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 로그
+*.log
+logs/
+
+# 빌드
+dist/
+build/
+*.egg-info/
+.next/
+out/
+.vercel/
+
+# 시크릿
+*.pem
+*.key
+**/secrets/
+
+# 임시 파일
+_tmp_*
+*.tmp
+*.bak
+_archive/
+*_result.txt
+*_output.txt
+_*.py
+_*.txt
+_*.json
+temp*.py
+
+# Gemini / Antigravity 로컬 설정
+.gemini/
+
+# 헬스 모니터 상태 (재생성 가능)
+data/health_state.json
+.vercel
+data/automation/redis_password.txt
+
+# .agent/ 내부 재생성물 / 백업 (재생성 가능, 커밋 제외)
+.agent/backups-ssot-merge-*/
+.agent/eval-runs/
+.agent/.bible_hash
+
+# .agent/ 내부 개인정보 (소유자 프로필, 전화번호 포함)
+.agent/knowledge/OWNER_PROFILE.md

@@ -1,7 +1,36 @@
 # Active Tasks — 에이전트 공유 작업 목록
 
 > **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.  
-> **최종 갱신:** 2026-04-09 by Claude (Sora Unified Bible v1 통합)
+> **최종 갱신:** 2026-04-24 by Codex (원프롬프트 멀티모달 시스템 설계 기준일 갱신)
+
+---
+
+## ✅ 완료 — AI Agent Environment Optimization 내재화 (2026-04-24, Codex)
+
+- [x] OSS 프레임워크, 핵심 연구, UX/제품 패턴, 평가, 보안, 거버넌스 기준을 `.agent/knowledge/20260424_AI_AGENT_ENVIRONMENT_OPTIMIZATION_BLUEPRINT.md`로 정리
+- [x] `.agent/NEO_MASTER_RULES.md`, `.agent/BIBLE.md`, `.agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`에 참조 반영
+- [x] `D:/00.test/AGENTS.md`, `D:/00.test/CLAUDE.md`에 PC 전체 기본값 반영
+- [x] `python scripts/sync_agent_context.py --updated-by codex` 실행으로 runtime adapter 재생성
+- [x] v2 심층팩 추가: `research-patterns`, `framework-scorecard`, `benchmark-eval-registry`, `security-governance-threat-model`, `ux-product-pattern-library`, `local-adoption-roadmap`
+- [x] local golden task 30개 정의: `tests/agent_golden/tasks/core_v1.json`
+- [x] initial eval runner 구현: `scripts/agent_eval_runner.py`
+- [x] machine-readable framework registry added: `.agent/registries/agent_frameworks.json`
+- [x] machine-readable benchmark registry added: `.agent/registries/agent_benchmarks.json`
+- [x] machine-readable security controls registry added: `.agent/registries/agent_security_controls.json`
+- [x] registry validation runner and pytest coverage added: `scripts/agent_registry_check.py`, `tests/test_agent_registries.py`
+- [x] MCP/tool allowlist policy added: `.agent/policies/mcp_tool_policy.yaml`
+- [x] MCP/tool policy validation runner and pytest coverage added: `scripts/agent_mcp_policy_check.py`, `tests/test_agent_mcp_policy.py`
+- [x] Agent control-plane snapshot added: `src/core/governance/agent_control_plane.py`
+- [x] Sora dashboard API and UI panels added: `/api/v2/agent-control`, Agent Timeline, Approval Queue, Eval Runs, MCP Policy
+- [x] Dashboard control-plane pytest coverage added: `tests/test_agent_control_plane.py`
+- [x] Continuous research refresh checker added: `scripts/agent_research_refresh.py`
+- [x] Research refresh pytest coverage added: `tests/test_agent_research_refresh.py`
+- [x] Workflow internalization pack added: `.agent/knowledge/agent-environment/workflow-patterns-v1.md`
+- [x] Workflow/orchestration registry added: `.agent/registries/agent_workflows.json`
+- [x] Workflow registry validation and pytest coverage added: `scripts/agent_workflow_check.py`, `tests/test_agent_workflows.py`
+- [x] Workflow dry-run execution layer added: `scripts/agent_workflow_runner.py`
+- [x] Workflow runner pytest coverage added: `tests/test_agent_workflow_runner.py`
+- [x] Sora control-plane eval inventory updated to surface workflow dry-run manifests.
 
 ---
 
@@ -69,6 +98,68 @@
 
 ---
 
+## 🟣 3-Checkpoint 이행 완료 (2026-04-10, Claude Code)
+
+기반: `ccr-20260408-122805`, `ccr-20260408-145435`, `ccr-20260408-152816`
+
+- [x] **P0: 텔레그램 봇 SoraEngine.process() 직접 호출 기본 경로화** — Redis brain worker 의존 제거, direct engine을 기본으로 전환, Redis는 선택적 성능 강화로 변경
+  📍 `src/core/neo_assistant_bot.py`
+  👤 Claude Code
+
+- [x] **Phase 2: 복합 요청 결과 재조립 + 체크리스트 응답** — `reconciliation.py` 신규 생성, `sora_engine.py` 통합. 다건 도구 호출 시 ✅/❌ 체크리스트 자동 생성
+  📍 `src/core/reconciliation.py`, `src/core/sora_engine.py`
+  👤 Claude Code
+
+- [x] **C1: polyglot_executor sandbox 보안 강화** — `os`, `subprocess` 제거, `__builtins__` 제한 (exec/eval/compile/open/__import__ 차단)
+  📍 `src/core/agents/polyglot_executor.py`
+  👤 Claude Code
+
+- [x] **C2: gmail_send confirm gate** — 즉시 발송 → `confirmation_required` 반환으로 변경, `gmail_send_confirmed()` 분리
+  📍 `src/core/tools/gmail_tools.py`
+  👤 Claude Code
+
+- [x] **C3: auth middleware PC Agent 인증 추가** — `/api/pc-agents` 경로에 EXECUTE 인증 레벨 적용
+  📍 `src/core/auth_middleware.py`
+  👤 Claude Code
+
+- [x] **C4: 약한 대시보드 시크릿 경고** — 시작 시 32자 미만/패턴 매칭으로 보안 경고 출력
+  📍 `src/core/sora_dashboard.py`
+  👤 Claude Code
+
+- [x] **H1: mission_controller 환경변수 수정** — `TELEGRAM_BOT_TOKEN` → `NEO_ALERT_BOT_TOKEN`
+  📍 `src/core/mission_controller.py`
+  👤 Claude Code
+
+- [x] **H2: mission_controller dead code 제거** — `_notify_telegram()` 내 unreachable try/except 삭제
+  📍 `src/core/mission_controller.py`
+  👤 Claude Code
+
+- [x] **H3: agent_router knowledge 키 중복 해소** — 두 정의 병합, 전체 키워드 통합
+  📍 `src/core/brain/agent_router.py`
+  👤 Claude Code
+
+- [x] **H4: LLM 의도 분류기에 누락 에이전트 추가** — calendar, image, knowledge, governance 포함 전체 에이전트 목록으로 분류 프롬프트 갱신
+  📍 `src/core/brain/agent_router.py`
+  👤 Claude Code
+
+- [x] **H7: Ollama 하드코딩 IP 제거** — `os.getenv("OLLAMA_HOST")` 패턴으로 교체
+  📍 `src/core/brain/agent_router.py`
+  👤 Claude Code
+
+- [x] **M2: AssistantMemory._save() 예외 로깅** — bare `pass` → `logger.warning` 추가
+  📍 `src/core/sora_engine.py`
+  👤 Claude Code
+
+- [x] **M4: telemetry.py DB 비밀번호 하드코딩 제거** — `os.getenv("TELEMETRY_DB_PASSWORD", "")` 패턴으로 교체 + 경고 로깅
+  📍 `src/core/telemetry.py`
+  👤 Claude Code
+
+- [x] **SSOT: sora_context.json 드리프트 수정** — 하드웨어 스펙, 모델명, Windows 절대경로 정리
+  📍 `src/core/data/sora_context.json`
+  👤 Claude Code
+
+- [x] **전체 syntax check 12/12 통과**
+
 ---
 
 ## 🔴 Critical (즉시 처리)
@@ -84,6 +175,15 @@
 ---
 
 ## 🟡 High (이번 주 내)
+
+- [ ] **원프롬프트 멀티모달 에이전트 시스템 P0 설계/실행** — `내 PC 전체`를 하나의 실행면으로 묶기 위한 P0 범위를 `Session Manager`, `NormalizedInput/SoraResponse`, `live state 분리`, `routing chain 단일화`로 고정하고 구현 계획까지 세분화해야 한다.  
+  📍 `.agent/knowledge/20260414_원프롬프트_멀티모달_에이전트_시스템_설계_v1.md`, `src/core/sora_engine.py`, `neo_genesis_daemon.py`, `.agent/knowledge/SORA_UNIFIED_BIBLE.md`, `.agent/knowledge/SORA_MASTER_BLUEPRINT_V2.md`  
+  👤 Codex / Claude Code / Antigravity / Sora
+  🗓️ 기준일 재확인: `2026-04-24 KST` — 여전히 P0 착수 전이며, 다음 실제 구현 시작점은 `Session Manager`와 `NormalizedInput/SoraResponse`다.
+
+- [x] **설계 명령 멀티에이전트 프로토콜 내재화** — 앞으로 모든 설계/기획/전략/로드맵 명령을 `의도 해석 -> 페르소나 배정 -> 태스크 보드 -> 협업 실행 -> 검증/QA -> 최종 보고` 순서로 처리하는 규칙을 SSOT와 장기 메모리에 반영 완료 (`2026-04-14, Codex`)  
+  📍 `.agent/knowledge/20260414_멀티에이전트_설계_실행_프로토콜_v1.md`, `.agent/NEO_MASTER_RULES.md`, `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`  
+  👤 Codex
 
 - [x] **소라 Watchdog 오탐지 수정 및 라이브 반영 완료** — `2026-04-08 10:06 KST` maintenance cleanup 이후 stale daemon/dashboard/tunnel을 정리하고 clean rotation을 완료했다. 현재 기준 watchdog 재경고는 보이지 않는다.  
   📍 `neo-genesis/src/core/healer/watchdog.py`, `scripts/start_daemon.ps1`, `logs/daemon_wrapper.log`  
@@ -125,16 +225,44 @@
   📍 `neo-genesis/auto-trading/logs/error.log`, `neo-genesis/auto-trading/src/scripts/launch-live.js`, `neo-genesis/auto-trading/src/v6-live-runner.js`  
   👤 Codex / Claude Code
 
+- [ ] **Returning Users 중심 일일/주간 보고 전환** — 수익 전 단계의 방문자 보고 North Star를 `7일/28일 Returning Users`와 `Returning User Rate`로 전환하고, 텔레그램 요약/보고서 생성 로직도 같은 기준으로 맞춘다.  
+  📍 `.agent/knowledge/20260414_재방문_사용자_중심_성장전략_v1.md`, `.agent/knowledge/20260414_PM_DA_방문자_통계_보고_워크플로우.md`, `src/core/notifications/traffic_pmda_report.py`, `src/core/proactive_agent.py`  
+  👤 Codex / Sora
+
+- [ ] **재방문 KPI 매핑표 작성** — `GA4`, `PostHog`, `Search Console` 기준으로 `Returning Users`, `Returning User Rate`, `2페이지 이동`, `허브 재진입`, `CTA click`의 출처와 계산식을 고정한다.  
+  📍 `.agent/knowledge/20260414_재방문_사용자_중심_성장전략_v1.md`  
+  👤 Codex / Antigravity
+
+- [ ] **재방문 관점 계측 신뢰도 복구 대상 정리** — `CraftDesk`, `DeployStack`, `ReviewLab`의 공식 property, 라이브 태그, 중복 삽입 여부, GA4/PostHog 정합성을 표로 정리해 성장 판단 전 계측 복구 범위를 확정한다.  
+  📍 `scripts/ga4_traffic_report.py`, `scripts/posthog_traffic.py`, `.agent/knowledge/20260408_GA4_SHARED_PROPERTY_LEARNING.md`  
+  👤 Codex
+
+- [ ] **ToolPick 상위 랜딩 5개 재방문 구조 개편** — `/alternatives/*`, `/comparisons/*`, `/pricing/*`, `/reviews/*`, `/calculator`에 `관련 글 2개 + 허브 1개 + 다음 읽을 글 1개` 구조를 공통 적용한다.  
+  📍 `src/sbu/toolpick`  
+  👤 Codex / Claude Code
+
+- [ ] **ToolPick `이번 주 업데이트` 허브 페이지 신설** — 반복 방문 이유를 제공하는 고정 URL을 만들고 홈/상위 랜딩에서 연결한다.  
+  📍 `src/sbu/toolpick`  
+  👤 Codex / Claude Code
+
+- [ ] **재방문 이벤트 4종 추가** — `hub_click`, `series_continue_click`, `weekly_update_visit`, `return_visit`를 PostHog 스키마와 런타임에 반영한다.  
+  📍 `src/sbu/toolpick`, `scripts/posthog_traffic.py`  
+  👤 Codex / Claude Code
+
+- [ ] **시리즈형 콘텐츠 템플릿 확정** — 신규 콘텐츠가 단발성으로 끝나지 않도록 전편/후속편/허브 링크를 포함한 템플릿을 정의하고 실제 게시물에 1건 이상 적용한다.  
+  📍 `src/sbu/toolpick/content`, `.agent/knowledge/20260414_재방문_사용자_중심_성장전략_v1.md`  
+  👤 Antigravity / Codex
+
 ---
 
-- [ ] **EthicaAI Melting Pot shard merge + final SSOT 정리**  
-   📌 Mac Studio head run과 Linux server tail shard(`12-24`) 완료 후 JSON 병합, 통계 재계산, 최종 SSOT 파일 생성 필요  
-   📁 `PAPER/EthicaAI/NeurIPS2026_final_submission/code/scripts/merge_meltingpot_results.py`, remote outputs on Mac Studio / YSH-Server  
+- [x] **EthicaAI Melting Pot shard merge + final SSOT 정리**  
+   📌 `2026-04-10 10:00 KST` 기준 Mac Studio `24/24`, Linux server `26/26` 완료를 확인한 뒤 `finalize_meltingpot_results.py`로 remote snapshot fetch, JSON 병합, 통계 재계산까지 완료  
+   📁 `PAPER/EthicaAI/NeurIPS2026_final_submission/code/scripts/finalize_meltingpot_results.py`, `PAPER/EthicaAI/NeurIPS2026_final_submission/code/outputs/meltingpot/meltingpot_final_results_merged.json`  
    🤖 Codex
 
-- [ ] **EthicaAI Melting Pot 최종 원고 반영**  
-  📌 merged JSON 생성 후 `integrate_meltingpot_results.py` 산출물을 기준으로 본문 Melting Pot 문단과 appendix `clean_up` 행을 교체해야 함  
-  📁 `PAPER/EthicaAI/NeurIPS2026_final_submission/code/scripts/integrate_meltingpot_results.py`, `PAPER/EthicaAI/NeurIPS2026_final_submission/paper/unified_paper.tex`  
+- [x] **EthicaAI Melting Pot 최종 원고 반영**  
+  📌 merged JSON 기준 `mixed` branch를 확정하고 `unified_paper.tex`의 Melting Pot 문단과 appendix `clean_up` 25-seed 행을 교체했으며 `pdflatex -interaction=nonstopmode -halt-on-error unified_paper.tex` 컴파일도 통과  
+  📁 `PAPER/EthicaAI/NeurIPS2026_final_submission/code/outputs/meltingpot/meltingpot_paper_update.json`, `PAPER/EthicaAI/NeurIPS2026_final_submission/paper/unified_paper.tex`, `PAPER/EthicaAI/NeurIPS2026_final_submission/paper/unified_paper.pdf`  
   🤖 Codex
 
 - [ ] **PAPER server 모니터링 채널 근본 복구 적용**  
@@ -170,6 +298,9 @@
 
 ## ✅ Recently Completed
 
+- [x] **Sora 텔레그램 방문자 보고를 PM/DA 형식으로 교체** — 일일 `evening_report()`와 주간 `weekly_digest()`가 이제 `Executive Summary → Business Signal → Intent Analysis → Quality Diagnosis → Measurement Integrity → Action Queue` 구조의 방문자 보고를 보낸다. `traffic_pmda_report`는 `report_gate`에서 HTML 본문을 그대로 전달하도록 분기 추가.  
+  📍 `src/core/proactive_agent.py`, `src/core/notifications/traffic_pmda_report.py`, `src/core/governance/report_gate.py`, `scripts/traffic_alert.py`, `.agent/shared-brain/handoff.md`  
+  👤 Codex
 - [x] GA4 shared-property reporting 기준 내재화 + 자동 보고 스크립트 일괄 정리 (`NeoGenesis - Production`, `hostName` 필터, Windows 콘솔 ASCII alert 출력) — 4/9, Codex
 - [x] EthicaAI Melting Pot sharding support 추가 + Linux server tail shard launch + Mac overlap guard 설정 — 4/6, Codex
 - [x] EthicaAI 모니터 false stall 판정 수정 + paper-update scaffold 구축 — 4/6, Codex
@@ -600,6 +731,19 @@
   - Tuning should happen only after live skip data accumulates
   - Owner: Codex
 
+- [x] **EthicaAI final mirror sync across all three GitHub targets**
+  - Final submission branch: `codex/ethicaai-final-submission` at `b4d5a90`
+  - Reflected targets:
+    - `Yesol-Pilot/EthicaAI`
+    - `neogenesislab/EthicaAI-NeurIPS2026`
+    - `openreview-neurlps/EthicaAI`
+  - Credential resolution:
+    - `GITHUB_TOKEN`, `GITHUB_PAT` in `neo-genesis/.env` authenticate as `neogenesislab`
+    - `OPENREVIEW_GITHUB_PAT` in `neo-genesis/.env` authenticates as `openreview-neurlps`
+  - Local prep:
+    - `PAPER/EthicaAI_anon2` is synced to `codex/ethicaai-final-submission` (`b4d5a90`)
+  - Owner: Codex
+
 - [ ] **Quant live news updater hardening**
   - `market-news-updater` is now online under PM2 and persisted with `pm2 save`
   - Current live path:
@@ -609,3 +753,397 @@
     - determine whether `bls_cpi` is a transient TLS/network issue or a persistent source incompatibility on the VM
     - if persistent, either adjust the fetch path or demote/remove that source from the default live set
   - Owner: Codex
+
+- [x] **Quant runtime governor P0: Claude-gated design + implementation + review closure**
+  - Scope delivered:
+    - live-order-time enforcement for `runtimeProfile.liveUniverse` / `liveStrategies`
+    - grid/funding teardown with tracked-symbol cleanup when tier or guardrails disallow them
+    - fee-budget gate that freezes new entries when fee drag dominates realized pnl
+  - Claude checkpoints:
+    - design: `ccr-20260410-113847`
+    - review fixes: `ccr-20260410-115442`, `ccr-20260410-120255`
+    - final closure: `ccr-20260410-120847 = NO_NEW_SIGNAL`
+  - Validation:
+    - `npm test -- --runInBand` passed (`30 suites / 242 tests`)
+  - Owner: Codex
+
+- [x] **Quant runtime governor P1: profile drift audit**
+  - Scope delivered:
+    - live-signal drift is derived from existing `skipAudit.runtime_profile` events instead of double-recorded
+    - manager drift is recorded immediately before runtime teardown
+    - active and recovered position drift are recorded from `positionRegistry.dump()`
+    - merged drift telemetry is exposed through `runtime.meta.profileDrift` and static dashboard mirror JSON
+  - Claude checkpoints:
+    - design: `ccr-20260410-124835`
+    - review: `ccr-20260410-125631`
+    - final closure: `ccr-20260410-125939 = NO_NEW_SIGNAL`
+  - Validation:
+    - `npm test -- --runInBand` passed (`31 suites / 247 tests`)
+  - Owner: Codex
+
+- [x] **Quant runtime governor P2: live rollout and dashboard UI exposure**
+  - Runtime-governor + profile-drift patch set is now live on the `quant-bot` VM.
+  - Validation:
+    - live lease recovered as `quant-bot:79149:fecdd911`
+    - Supabase `runtime.meta.profileDrift` is populated
+    - fallback JSON mirror refreshed
+    - public `quant.html` renders `Profile Drift (24h)`
+    - `heoyesol.kr/quant/data.json` exposes the live runtime and drift summary
+    - portfolio telemetry exposure committed as `f34f972` on `Yesol-Pilot/portfolio` `main`
+  - Residual note:
+    - current `profileDrift` rows are `exchange_bootstrap` recovery noise for the recovered ETH/SOL positions, not a live policy-violation drift
+  - Claude checkpoint:
+    - `ccr-20260410-132616`
+  - Owner: Codex
+
+- [x] **EthicaAI 8.5 reopen: external evidence package**
+  - Goal:
+    - test whether stronger non-PGG / externally grounded evidence can honestly reopen the score ceiling above the current `7.5~8.0` range
+  - Completed package:
+    - local `desktop-sol01` GPU:
+      - completed `run_coin_game_deep.py --seeds 40 --seed-start 0 --episodes 200`
+      - output saved successfully despite a trailing `cp949` console-print error after JSON write
+    - `mx-macbuild-mac-studio`:
+      - completed `seed 40..79`, `80..119`, and `120..159` shards
+    - `ysh-server`:
+      - completed `fishery_nash_trap.py --seeds 300 --seed-start 0 --episodes 300`
+      - fixed missing dependency by installing `gymnasium` into `/home/ysh/neurips2026/EthicaAI/.venv`
+    - `desktop-yesol`:
+      - staged a minimal fishery execution tree and verified smoke execution, but this lane was not used as a trusted background worker
+  - Final evidence summary:
+    - merged adapted Coin Game result (`160` seeds total): selfish survival `22.08%` vs `MACCL 78.10%`, delta `+56.02` points, bootstrap CI95 `[54.31, 57.73]`, Cohen's `d=7.15`
+    - fishery rerun (`300` seeds): `phi1=0.7` reaches `87.7%` survival with positive harvest welfare, while `phi1=1.0` reaches `100.0%` survival only at the zero-harvest limit
+  - Paper integration:
+    - updated `PAPER/EthicaAI/NeurIPS2026_final_submission/paper/unified_paper.tex`
+    - updated `PAPER/EthicaAI/NeurIPS2026_final_submission/paper/tables/tab_coin_game_deep.tex`
+    - rebuilt `paper/unified_paper.pdf` successfully
+  - Cold reassessment:
+    - fresh Claude review now judges `8.0 stable` as defensible
+    - `8.5` remains blocked because positive results still rely on author-imposed or author-specified tipping-point environments; native third-party TPSD replication is still missing
+  - Owner: Codex
+
+- [ ] **Paper 1-month recovery execution**
+  - Scope:
+    - `PAPER/PAPER_1MONTH_RECOVERY_PLAN.md`
+    - `EthicaAI` + `WhyLab`
+  - Operating rules:
+    - maintain separate `submission-freeze` and `research-next` states for each paper
+    - do not accept paper score claims unless manuscript state, result files, and shared-brain are aligned
+    - prohibit repeated micro-reruns without preregistered stop/go criteria
+  - Current priority split:
+    - `EthicaAI`: primary score-upside track, centered on decisive external/native validation and strict claim calibration
+    - `WhyLab`: stabilization track, centered on honest significance framing and stable-accept readiness
+  - Progress update (`2026-04-14 15:02`):
+    - `EthicaAI`: unsupported appendix evidence (`extended escape`, `power analysis`, `Allee validation`) removed from live manuscript; PDF rebuild passed
+    - `WhyLab`: unsupported `GPT-4o Docker` claims removed; Gemini 2.5 Docker / A1 / Pareto-backed changes retained; PDF rebuild passed
+  - Progress update (`2026-04-14 15:08`):
+    - freeze anchors re-verified unchanged (`EthicaAI=b4d5a90`, `WhyLab=88fa509`)
+    - `EthicaAI` live run gate re-verified: keep only server-side `Melting Pot n80` expansion open
+    - both per-paper `SUBMISSION_FREEZE_STATE.md` files refreshed with latest build times and current keep/drop decisions
+    - added explicit live-delta guardrail doc: `PAPER/PAPER_DELTA_KEEP_DROP_20260414.md`
+  - Progress update (`2026-04-14 15:31`):
+    - corrected the live `EthicaAI` n80 progress source from stale head artifacts to the actual active output `meltingpot_n80_newseeds.json`
+    - current checked state is `1 / 54`, not `26 / 56`
+    - patched `finalize_when_ready.py` and `poll_and_finalize.ps1` to derive completion from the active file's `config` instead of hardcoding `56`
+    - switched default finalization transport to `ysh@ysh-server` because this node does not currently have a working `ssh ysh-server` alias
+  - Progress update (`2026-04-14 16:08`):
+    - patched `meltingpot_final.py` for explicit device auto-selection (`cuda > mps > cpu`) plus env-driven smoke overrides
+    - brought up local WSL GPU runtime at `/root/mp311_env` with `torch 2.6.0+cu124`, `meltingpot`, and `dm_env`
+    - direct local smoke/mini-benchmarks show no current GPU advantage for this script:
+      - tiny smoke: `cuda ~19s` vs `cpu ~16s`
+      - medium smoke: `cuda ~29s` vs `cpu ~27s`
+    - current conclusion: the live `Melting Pot` implementation is environment-step bound, so GPU is not yet a proven acceleration path
+  - Progress update (`2026-04-14 17:05`):
+    - replaced the slow monolithic `ysh-server` `n80` container with two shard containers:
+      - `meltingpot_n80_left` -> `seed-indices 53-65`, output `meltingpot_n80_newseeds.json`
+      - `meltingpot_n80_right` -> `seed-indices 66-79`, output `meltingpot_n80_right.json`
+    - server allocation: `6 CPU / 6 GB / 6 threads` per shard on the `16c / 16 GB` host
+    - backed up the active `meltingpot_n80_newseeds.json` before restart
+    - verified both shard logs are live:
+      - left shard resumed from the saved checkpoint and is running `seed_idx=53, floor=0.2`
+      - right shard started at `seed_idx=66, floor=0.0`
+    - patched finalization scripts for multi-shard completion/merge tracking so the next close event will not miscount stale n80 artifacts
+  - Immediate next actions:
+    - keep both `EthicaAI` `n80` shards running and wait for the first write into `meltingpot_n80_right.json`
+    - revise ETA after the first right-shard save confirms the new per-pair runtime
+    - finish classifying the remaining `EthicaAI` live delta after the server-side `Melting Pot n80` shards close
+    - decide by end of Week 2 whether WhyLab gets one materially different decisive experiment or exits the 8.0 chase completely
+  - Owner: Codex
+
+- [ ] **Paper multi-agent command execution**
+  - Scope:
+    - `PAPER/PAPER_MULTI_AGENT_COMMAND_SYSTEM_20260415.md`
+    - `EthicaAI` + `WhyLab`
+  - Command structure:
+    - `Codex`: single orchestrator and final integrator
+    - `Galileo`: EthicaAI finalization worker
+    - `Singer`: EthicaAI manuscript reviewer
+    - `Beauvoir`: WhyLab snapshot hardener
+    - `Bacon`: paper strategy meta reviewer
+  - Guardrails:
+    - specialists only edit declared write scopes
+    - no paper-state conclusion is accepted until result files, manuscript impact, freeze/research state, and shared-brain are aligned
+    - WhyLab remains in manuscript-hardening mode unless Codex explicitly opens one materially different preregistered experiment
+  - Progress update (`2026-04-15`):
+    - multi-agent paper command system document created
+    - `Bacon` returned first-pass score-lever guidance:
+      - `EthicaAI`: decisive native validation + theory/claim calibration remain the main score levers
+      - `WhyLab`: strongest honest snapshot freeze and appendix-to-main evidence promotion remain the main score levers
+    - `Singer` returned EthicaAI findings-first manuscript risk memo:
+      - main risk remains overstating Melting Pot as validation rather than boundary-consistent evidence
+      - manuscript should separate `author-designed`, `adapted external`, `ecological model`, and `native third-party boundary` evidence classes more explicitly
+    - `Beauvoir` hardened WhyLab snapshot:
+      - `paper/main.tex` wording lowered toward null-consistent, inactive-as-predicted framing
+      - `WhyLab/SUBMISSION_FREEZE_STATE.md` refreshed
+      - `paper/main.pdf` rebuilt successfully
+    - `Galileo` completed first-pass EthicaAI finalize work:
+      - shard-aware local merge/stat generation succeeded
+      - current blocker is remote reconciliation showing `114/130`, i.e. `16` missing pairs
+      - next subtask is deciding whether the missing `16` pairs are true unfinished remote results or stale-target contamination
+    - independent reconciliation audit concluded `stale contamination`:
+      - active target set is `meltingpot_n80_newseeds.json + meltingpot_n80_right.json`
+      - stale `server_head*` / `expansion` files are inflating the count to `114/130`
+      - active-run reality is `54/54`; finalize counting must now be restricted to the active shard files
+    - EthicaAI finalize path is now aligned with the active target set:
+      - `finalize_n80.py` reads only the active shard files for n80 merge inputs
+      - `finalize_when_ready.py` and `poll_and_finalize.ps1` count only the active shard pair set
+      - next step is freeze integration, not more target reconciliation
+    - anon submission gate is now aligned:
+      - `EthicaAI_anon` and `EthicaAI_anon2` are both clean and aligned to the `b4d5a90` freeze anchor
+      - `WhyLab_anon` is clean on `codex/whylab-anon-clean` at `cac4ef8`
+      - anonymous metadata and packaging paths were scrubbed from `WhyLab_anon`
+    - next subtask:
+      - completed specialist re-review on anon-ready snapshots
+      - completed Claude review on the same snapshots
+      - final current judgment:
+        - `EthicaAI_anon2` -> `borderline accept`, submit-capable
+        - `WhyLab_anon` -> `reject-side borderline`, honest but not stable-accept
+      - remaining decision:
+        - whether to submit `WhyLab_anon` as-is or spend more time on an additional strategic improvement path
+  - Owner: Codex
+
+- [ ] **Paper stable-accept blueprint execution**
+  - Scope:
+    - `PAPER/PAPER_STABLE_ACCEPT_BLUEPRINT_20260415.md`
+    - `EthicaAI_anon2`
+    - `WhyLab_anon`
+  - Goal:
+    - maximize acceptance probability over the next month with explicit stop/go rules
+    - `EthicaAI`: attack track toward stable `8.0`
+    - `WhyLab`: honest rescue track with one decisive experiment gate
+  - Week 1 required deliverables:
+    - `EthicaAI`: native third-party shortlist, pilot triage prereg, claim/provenance patch list
+    - `WhyLab`: baseline-only screening rule, decisive experiment prereg, comparator audit
+  - Hard rules:
+    - `EthicaAI`: no more `clean_up` extension, no more adapted Coin Game/fishery seed inflation, no new custom env
+    - `WhyLab`: no more stable-regime Docker, no same-family adaptive reruns, no wording-only score chase
+    - if `EthicaAI` fails to find a positive native substrate within 7 days, end the stable `8.0` chase
+    - if `WhyLab` cannot beat `simple_retry` in the decisive route, end the `8.0` chase
+  - Owner: Codex
+
+- [x] **Responsibility-agent Week 1 artifact lock**
+  - Scope:
+    - `PAPER/ops/ethicaai_validation/ETHICAAI_VALIDATION_LEAD_CHARTER_20260415.md`
+    - `PAPER/ops/ethicaai_claims/ETHICAAI_CLAIM_CALIBRATOR_CHARTER_20260415.md`
+    - `PAPER/ops/whylab_realtask/WHYLAB_REALTASK_LEAD_CHARTER_20260415.md`
+    - `PAPER/ops/whylab_audit/WHYLAB_BASELINE_AUDITOR_CHARTER_20260415.md`
+    - `PAPER/ops/portfolio_pm/PORTFOLIO_PM_CHARTER_20260415.md`
+    - `PAPER/ops/infra_scheduler/INFRA_SCHEDULER_CHARTER_20260415.md`
+    - `PAPER/ops/submission_gatekeeper/SUBMISSION_GATEKEEPER_CHARTER_20260415.md`
+  - Current status:
+    - all responsibility leads created charters and named sub-researchers
+    - all Week-1 artifact files are now created
+    - no paper text was edited and no new experiments were launched in this artifact-lock phase
+  - Owner: Codex
+
+- [ ] **Week 1 artifact integration and Week 2 authorization**
+  - Scope:
+    - `PAPER/PAPER_MULTI_AGENT_COMMAND_SYSTEM_20260415.md`
+    - `PAPER/PAPER_STABLE_ACCEPT_BLUEPRINT_20260415.md`
+    - `PAPER/ops/`
+  - Required decisions:
+    - `EthicaAI`
+      - verify installed untouched native substrates against shortlist
+      - approve or reject triage launch
+      - approve claim/provenance patch order
+    - `WhyLab`
+      - approve baseline-only screening rule
+      - approve decisive experiment prereg
+      - lock forbidden claims into manuscript-integration constraints
+    - `Global`
+      - confirm host assignment and watchdog readiness
+      - confirm final review gate order
+  - Hard rule:
+    - no Week-2 launch until Codex signs off on the integrated artifact set
+  - Owner: Codex
+
+- [x] **Paper freeze/ref separation**
+  - `EthicaAI`
+    - freeze ref: `submission-freeze/ethicaai-20260414` -> `b4d5a90`
+    - research ref: `research-next/ethicaai-20260414`
+  - `WhyLab`
+    - freeze ref: `submission-freeze/whylab-20260414` -> `88fa509`
+    - research ref: `research-next/whylab-20260414`
+  - State docs added:
+    - `PAPER/EthicaAI/SUBMISSION_FREEZE_STATE.md`
+    - `PAPER/WhyLab/SUBMISSION_FREEZE_STATE.md`
+  - Owner: Codex
+
+## Quant Bot v11 Ensemble Design (2026-04-22, Claude Code Opus 4.7 1M)
+
+- [x] **v11 마스터 설계 문서화 완료** — 6 병렬 전문가 교차검증 (수학·HFT/MM·Stat Arb·리스크·ML/RL·이벤트알파) 수렴된 6-알파 앙상블 아키텍처
+  📍 `D:/00.test/neo-genesis/auto-trading/docs/v11-ensemble/`
+    - `INDEX.md` (진입점)
+    - `MASTER_DESIGN.md`
+    - `ROADMAP.md`
+    - `RISK_KILLSWITCH.md` (7 Layer 방어)
+    - `CURRENT_CODE_AUDIT.md` (유지/삭제/신규)
+    - `alpha-specs/` (A1~A6 6개 알파 스펙)
+    - `expert-reports/` (6명 전문가 보고서 원본)
+  👤 Claude Code
+
+- [x] **레거시 산출물 archive 격리 완료** — 판타지 백테스트 12개 + 구 설계문서 5개
+  📍 `archive/backtest-fantasy/`, `archive/design-docs-legacy/`, `archive/README-legacy/`
+  📍 `archive/README.md` (설명서)
+  👤 Claude Code
+
+- [x] **v11 Phase -1 실행 완료 (지혈 + 관측복구 + VM PAPER 전환)** — 2026-04-24, Claude Opus 4.7
+  📍 `auto-trading/docs/v11-ensemble/phase-gate--1.md`, `incidents/2026-04-24-01-*.md`, `weekly-review-2026-W17.md`
+  완료:
+    - Task -1.2 Supabase 마이그레이션 apply (프로젝트 `zdfvfisfcocttrfsznwd`, lease 5/5·ledger 6/6·인덱스 6/6·신규 2종 live)
+    - Task -1.3 Critical 버그 7건 ✅ + Task -1.4 MAE/MFE 경로 복구 ✅ + Task -1.5 레거시 agent/engine gating ✅
+    - Task -1.6 VM PAPER 전환 ✅ — ecosystem.config.js `launch-testnet.js` 전환, PM2 env 캐시 purge, Supabase lease PAPER 고정, Binance wallet=$0, positions=0, PID 349737 uptime 안정
+    - Task -1.8 단위 테스트 3종 46개 신규 + 기존 35 suites / 304 tests 전체 녹색
+    - Task -1.9 문서화 (phase-gate--1.md 갱신, incidents/ 디렉토리 + 첫 기록, weekly-review 작성)
+  발견/해소한 Critical Incident:
+    - `launch-live.js` land mine (hardcoded `config.tradingMode='LIVE'` + `testnet=false` + PM2 env 캐시 `CONFIRM_LIVE/SKIP_GATE`)
+    - 2층 구조 해소: 진입점 교체 + PM2 delete/start/save + fail-closed PAPER safeguard + 중복 라인 제거 + VM 배포 `exit 2` 검증 완료
+  관측 창 (passive, 다음 세션 확인):
+    - Phase -1 통과 게이트 #2 MAE/MFE 비-0 — 첫 페이퍼 거래 발생 대기
+    - Phase -1 통과 게이트 #5 24h 연속 운영 에러 없음 — 관측 창 진행 중
+  👤 Claude Code Opus 4.7
+
+- [ ] **v11 Phase -1 closure + 외부 교차검증 반영 단일 commit + PR** — 사용자 승인 시 일괄 묶음
+  📍 브랜치 `v11/phase-minus-1`
+  범위:
+    - `auto-trading/ecosystem.config.js` (launch-testnet.js 전환)
+    - `auto-trading/src/scripts/launch-live.js` (fail-closed PAPER safeguard)
+    - `auto-trading/docs/v11-ensemble/phase-gate--1.md`
+    - `auto-trading/docs/v11-ensemble/incidents/2026-04-24-01-*.md`
+    - `auto-trading/docs/v11-ensemble/weekly-review-2026-W17.md`
+    - `auto-trading/docs/v11-ensemble/research/2026-04-24-external-validation.md` (신규)
+    - `auto-trading/docs/v11-ensemble/backtest-v2-engine-decision.md` (신규)
+    - `auto-trading/docs/v11-ensemble/RISK_KILLSWITCH.md` (9-Layer 확장)
+    - `auto-trading/docs/v11-ensemble/MASTER_DESIGN.md` (알파별 외부 경고 인라인)
+    - `auto-trading/docs/v11-ensemble/ROADMAP.md` (Phase 0 Task 0.3-0.5 재작성)
+    - `auto-trading/docs/v11-ensemble/INDEX.md` (research/ + backtest-v2-engine-decision 링크)
+  👤 사용자 승인 후 Claude Code
+
+- [x] **v11 Phase 0 외부 교차검증 리서치 완료 (2026-04-24)** — 5축 병렬 리서치 + 설계 수정 반영
+  📍 `auto-trading/docs/v11-ensemble/research/2026-04-24-external-validation.md`
+  결과:
+    - A1/A2/A5 공개 벤치마크 부재 공식화 (팀 과소평가 항목)
+    - Kill Switch 3대 공백 발견 (Order Rate Cap / Stablecoin Depeg / ADL Queue Rank)
+    - Backtest v2 엔진 = nautilus_trader primary + hftbacktest (A1/A6) + vectorbt pro (검증) 결정
+    - A3 임계 상향 (`|F| > 0.08%`) / A5 capacity guard (`30일 median funding < 0.007% → zero-alloc`)
+    - 순수 OU mean reversion post-2022 사멸 증거 → A2 A1-동조 게이트 필수
+  반영 문서:
+    - RISK_KILLSWITCH.md 7-Layer → 9-Layer (L8 Stablecoin Depeg, L9 Funding Spike 추가)
+    - backtest-v2-engine-decision.md 신규 (Phase 0 스캐폴드 구체화 + 127k/0 버그 8대 안티패턴 CI guard)
+    - MASTER_DESIGN.md 알파별 외부 경고 인라인
+    - ROADMAP.md Phase 0 Task 0.3-0.5 재작성
+  👤 Claude Code Opus 4.7
+
+- [ ] **v11 Phase 0 Task 0.5 Kill Switch 9-Layer 구현 (P0, Phase 0 첫 주)**
+  📍 `auto-trading/src/core/` + `auto-trading/test/killswitch/`
+  대상:
+    - `order-rate-governor.js` 신규 (L1 보강, Knight 교훈)
+    - `correlation-killer.js` 신규 (L3, 임계값 `-2%/1min OR -5%/5min OR -10%/15min`)
+    - `stablecoin-depeg-guard.js` 신규 (L8, USDT/USDC/USDe 3-tier)
+    - HALT 실행 순서 강제 (cancel-all → verify → close → persist → block)
+    - 다주기 MaxDD (일 -5% / 주 -12% / 월 -20%)
+    - 4개 과거 crash tick (2020-03-13 / 2022-05-12 LUNA / 2022-11-08 FTX / 2025-10-10 Hyperliquid) stress test asset 확보
+  🎯 완료 기준:
+    - 단위 테스트 + 4개 tick 재생 최소 1개 이상 탐지
+    - False positive HALT < 1% (페이퍼 7일 관측)
+  👤 Claude Code
+
+- [ ] **v11 Phase 0 Task 0.3 Backtest v2 스캐폴드 (P0, Phase 0 둘째 주)**
+  📍 `auto-trading/src/backtest/v2/`
+  대상:
+    - `engine/nautilus_adapter.py` — Primary engine (nautilus_trader 기반)
+    - `data/tardis_loader.py` — tick + L2 + funding + forceOrder 로더
+    - `fill_models/conservative.py` — bar-crossing 완전 삭제, tick-touch 기반
+    - `universe/as_of.py` — survivorship-safe universe
+    - `validation/deflated_sharpe.py` + `validation/pbo.py`
+    - `test/backtest/antipattern-guard.test.js` — 8대 안티패턴 CI 차단
+  🎯 완료 기준:
+    - 현 v6 SmartTrend "127k 승 / 0 패" 가 v2 에서 40-60% 승률로 붕괴 (공식 비교 리포트)
+    - DSR < 0 시 CI 실패
+  🚫 보류 (Phase 1):
+    - `hftbacktest` 통합 (A1/A6 구현 시점)
+    - `queue_aware` fill model
+    - `forceorder_replay.py` (A1 전용)
+  👤 Claude Code
+
+- [ ] **v11 Phase 0 Task 0.1 Liquidation Stream 이중 구독 + dedup**
+  📍 `auto-trading/src/core/liquidation-stream.js`
+  외부 근거: [research/2026-04-24-external-validation.md](../../auto-trading/docs/v11-ensemble/research/2026-04-24-external-validation.md) §1
+  대상:
+    - `!forceOrder@arr` (전체) + 심볼별 stream 이중 구독 + dedup
+    - cryptofeed `_check_update_id` 패턴 차용 (시퀀스 갭 감지 + 자동 resubscribe)
+    - Supabase `quant_liquidation_events` 테이블 누적
+    - Curupira 2단 필터: 5-bar displacement + 3x volume
+    - "forceOrder completeness multiplier" (1.3~1.6x 헤어컷) 기록
+  👤 Claude Code
+
+- [ ] **v11 Phase 0 페이퍼 데이터 스키마에 "A1 firing 여부" 컬럼 추가**
+  📍 Supabase `quant_trade_ledger`
+  목적: A2/A5 가중치 재정의 게이트의 공식 근거 생성
+    - `a1_firing_at_entry BOOLEAN` — 진입 시점 A1 이 active 였는지
+    - `a1_firing_recent_24h BOOLEAN` — 최근 24h 내 A1 이벤트 발생했는지
+    - `primary_alpha TEXT` — 어떤 알파가 이 trade 의 primary 신호였는지
+  🎯 활용: A2 를 A1-동조 vs A1-독립으로 분리해 Sharpe 계측 (재정의 게이트)
+  👤 Claude Code
+
+- [ ] **v11 Oct 10-11 2025 Hyperliquid $19B 캐스케이드 tick 데이터 확보**
+  📍 `auto-trading/data/stress/2025-10-10-hyperliquid/`
+  목적: backtest v2 stress scenario 기본 자산 박제
+    - Binance Futures BTC/ETH 2025-10-10 ~ 2025-10-11 48h tick
+    - 소스: Tardis.dev flat file 또는 Amberdata
+    - Correlation killer 재보정 (`-2%/1min OR -5%/5min OR -10%/15min`) 의 검증 데이터
+  🎯 활용: Phase 0 phase-gate-0 체크리스트 "4개 crash tick stress test" 의 1개
+  👤 Claude Code + 사용자 (데이터 구매 승인)
+
+- [ ] **v11 Phase 0 페이퍼 후 A2/A5 가중치 공식 재정의 (재정의 게이트)**
+  📍 `MASTER_DESIGN.md` §3 자본 배분 + alpha-specs/A2_*.md + alpha-specs/A5_*.md
+  트리거: Phase 0 페이퍼 모드 2-4주 데이터 수집 완료
+  재정의 대상:
+    - A2 25% → "A1-동조 비율 × α + A1-독립 비율 × β" 조건부 구조. A1-독립 Sharpe < 0.3 이면 β = 0
+    - A5 15% → "aggregated 30일 median funding > 0.007%/8h 일 때만 활성, 그 외 0" capacity 게이트
+    - A3 진입 임계 `|F| > 0.08%` 로 상향
+  근거: [research/2026-04-24-external-validation.md](../../auto-trading/docs/v11-ensemble/research/2026-04-24-external-validation.md) §3 §4
+  👤 Claude Code (페이퍼 데이터 확보 후)
+
+- [ ] **v11 Phase 0 인프라 대수술 (통합)** — Phase -1 완료 후, 위 개별 subtask 로 분해됨
+  상위 체크리스트 역할만. 개별 실행은 위 Task 0.1 / 0.3 / 0.5 / 페이퍼 스키마 / tick 데이터 / 가중치 재정의 태스크를 참조
+  🎯 전체 완료 기준:
+    - Backtest v2로 BTC 2년 재실행시 현실 샤프 (0.5~1.5)
+    - Liquidation stream 일 100+ 이벤트 수집
+    - 9 Kill Switch 단위테스트 통과 (L8/L9 포함)
+  👤 Claude Code
+
+- [ ] **v11 핵심 합의사항 (6전문가 공통)**
+  - 일 1% 지속 기관 0건 (Medallion의 58배 속도)
+  - 현실 목표: 일 0.6~1.0% (6-알파 앙상블)
+  - 레버리지 상한 5x (Kelly/3, 무제한 요청에도)
+  - 365일 파산확률 5x=32%, 20x=98%, 50x=100%
+  - 백테스트 tick-level 재작성 필수
+  - 페이퍼 2주 알파별 + 30일 통합 전 라이브 금지
+
+- [x] **실거래 근본 원인 확정 (5일 -$9.48 drain)**
+  - Grid ping-pong 인벤토리 장부 누락 (주범)
+  - MAE/MFE 전 거래 0 기록 (진단 불능)
+  - SmartTrend 76건 40.8% WR = 통계적 무의미
+  - 백테스트 127k승 0패 = fill 로직 버그
+  - 리스크 거버너 1x 전제에 가변 레버리지 모순
