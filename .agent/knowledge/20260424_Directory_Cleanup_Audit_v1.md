@@ -265,3 +265,68 @@
 승인 시 **Stage 3 Batch 1 즉시 실행** (~10분). 그 후 Batch 2/3/4 순차.
 
 모든 batch 는 **별도 git commit + push 전 owner 승인** 원칙 유지.
+
+---
+
+## 11. 실행 기록 (2026-04-24, owner 승인 → 완료)
+
+### Batch 1 완료 (Tier 0 archive + 런타임 artifact 삭제)
+- 79건 archive → `_archive/root-cleanup-20260424/group-{a,b,c,d}/`
+- 16건 런타임 artifact 삭제 (neo-genesis 재생성됨)
+- 루트 `.tmp.driveupload/` 이동 사고 즉시 복구 (규칙 5 긴급 신설 계기)
+
+### Batch 2 완료 (Tier 2 대용량 회수)
+- 루트 `node_modules/` 214MB / `source/` 15MB / `C:Usersyesol/` 157MB 삭제
+- `package.json` + `package-lock.json` archive
+- **Batch 1+2 합계 회수: ~394MB**
+
+### Batch 3 완료 (SSOT 4건 업데이트)
+- `D:\00.test\FOLDER_BIBLE.md` v2.3 (5대 규칙 신설, 규칙 5 는 incident 후 추가)
+- `D:\00.test\CLAUDE.md` §2.3 포인터
+- `neo-genesis/.agent/BIBLE.md` §2.X 보강
+- `neo-genesis/.gitignore` 런타임 6패턴 + 사용자 linter 2패턴
+
+### Git 반영 (commit 247594c · master)
+- `.gitignore`, `.agent/shared-brain/active-tasks.md`, 이 audit 문서 신규 생성
+
+---
+
+## 12. v2.4 추가 감사 + 실행 (2026-04-24, owner "전부" 승인)
+
+### 12.1 규칙 준수도 재검증 결과
+v2.3 적용 후 첫 audit 수행 — 5대 규칙 대비:
+
+| 규칙 | 상태 | 조치 |
+| --- | --- | --- |
+| 규칙 1 (루트 파일 생성 금지) | ✅ 완벽 (루트 파일 0건) | — |
+| 규칙 2 (임시 파일 생명주기) | ✅ 준수 | — |
+| 규칙 3 (이력서 경로) | 🟡 경로 지정 부정확 | **정정** (아래) |
+| 규칙 4 (venv/conda) | 🟡 예외 1건 | **`.tmp_vercel_env` 삭제** |
+| 규칙 5 (Google Drive 임시) | ✅ 완벽 | — |
+
+### 12.2 추가 cleanup 실행
+- **`jobsearch/.tmp_vercel_env/` 217MB 삭제** (9일 방치 + `.venv` 와 중복, 규칙 4 위반)
+- **D:\\ 루트 VC++ 2008 installer 잔해 8건 삭제** (2.4MB): `VC_RED.MSI`, `VC_RED.cab`, `eula.1042.txt`, `globdata.ini`, `install.exe`, `install.ini`, `install.res.1042.dll`, `vcredist.bmp`
+- **D:\\temp/cts_mastery_extract/ → D:\\tmp/ 병합** (14MB) + `D:\\temp/` 디렉토리 제거
+- **v2.4 추가 회수: ~234MB**
+
+### 12.3 FOLDER_BIBLE v2.4 업데이트
+- **규칙 3 정정**: `project_yesol/career/` (존재 안 함) → `portfolio/` + `project_yesol/<target>-portfolio/` (실제 구조) + `jobsearch/data/resume/`
+- **규칙 4 강화**: venv 이름 엄격 표준 (`.venv` 만 허용, `.tmp_venv`·`env`·`my_env` 등 금지)
+- **규칙 6 신설 (v2.4)**: D:\ 루트 정책
+  - 허용 카테고리 (통합 컨테이너 `00.test/`, 독립 프로젝트, 시스템/OS, 사용자 앱, 임시 `D:\tmp/` 단일)
+  - 금지 (installer 잔해, 중복 tmp, 개별 루트 파일)
+  - owner 검토 후보: `D:\c/`, `D:\agenttest/`, `D:\daou/`
+- `D:\\00.test\\CLAUDE.md §2.3` 포인터 업데이트 (4 → 6 규칙)
+
+### 12.4 총 회수량 (2026-04-24 전체)
+| 단계 | 회수 용량 |
+| --- | --- |
+| v2.3 Batch 1+2 (00.test 루트) | ~394MB |
+| v2.4 추가 (00.test 하위 + D:\ 루트) | ~234MB |
+| **총계** | **~628MB** |
+
+### 12.5 남은 미결 (owner 검토 권고)
+- **`D:\c/`, `D:\agenttest/`, `D:\daou/`** — 용도 불명 디렉토리. 삭제/이동/유지 판정 필요
+- **`_extracted/`** 재편 (`personal/` 과 역할 분리)
+- **`_archive/`** 6개월+ 경과분 외부 백업 이전
