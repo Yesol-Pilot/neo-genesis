@@ -1537,3 +1537,14 @@
 - Updated production Vercel env for AIForge, CraftDesk, DeployStack, FinStack, and SellKit with SBU-scoped GitHub/Vercel/HIVE context values without exposing secret values.
 - Redeployed all five SBU blogs and verified latest `2026-04-26` posts on live blog listing, detail page, and sitemap.
 - Verified CraftDesk serverless `/api/hive-mind/orchestrate` no longer returns GitHub `Bad credentials`; today's safety publish correctly skipped as `daily_post_already_exists`.
+
+## 2026-04-26 - Codex SBU 100K MAU Control Tower
+
+- Added `scripts/sbu_growth_control_tower.mjs`, `scripts/sbu_gap_expansion_generator.mjs`, `scripts/sbu_growth_regression_gate.mjs`, and `scripts/sbu_growth_loop.mjs`.
+- Generated `data/sbu-growth/control-tower-latest.*` and `data/sbu-growth/growth-loop-latest.*` as the SBU growth audit artifacts.
+- Expanded FinStack with 147 promotion-ready fintech cluster posts and deployed commit `af9fcf0` to `https://finstack.neogenesis.app`.
+- Expanded SellKit with 218 promotion-ready ecommerce growth cluster posts and deployed commit `aaa3a46` to `https://sellkit.neogenesis.app`.
+- Re-ran the control tower after production deploys: all six tracked SBU sites have live blog/detail/sitemap verification passing and modeled MAU capacity at or above 100k.
+- Ran PostHog 7d and GA4 live analytics checks; current traffic still heavily favors ToolPick, while CraftDesk/DeployStack show early new traffic and FinStack/SellKit are now freshly indexed-ready after deployment.
+- Updated Codex app automation `sbu-autonomous-daily-growth` so daily runs include the control tower, gap expansion, regression gate, and integrated growth loop.
+- Residual improvement queue: CTA/internal-link coverage remains low on ToolPick, AIForge, DeployStack, and FinStack; ToolPick subrepo has unrelated dirty growth-ops changes that should be reviewed before any automated ToolPick deploy.

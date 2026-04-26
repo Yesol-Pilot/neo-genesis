@@ -1,0 +1,210 @@
+# SBU Growth Loop
+
+- generatedAt: 2026-04-26T23:27:14+09:00
+- passed: true
+
+## Steps
+
+| Step | OK | Status |
+|---|---:|---:|
+| publisher-verify | true | 0 |
+| control-tower | true | 0 |
+| regression-gate | true | 0 |
+
+## Tails
+
+### publisher-verify
+
+```text
+{
+  "date": "2026-04-26",
+  "results": [
+    {
+      "site": "aiforge",
+      "action": "verify-only",
+      "slug": "2026-04-26-ai-agent-platforms-for-product-teams",
+      "latest": "2026-04-26",
+      "live": {
+        "blog": true,
+        "detail": true,
+        "sitemap": true
+      }
+    },
+    {
+      "site": "craftdesk",
+      "action": "verify-only",
+      "slug": "2026-04-26-figma-plugins-for-product-design-workflows",
+      "latest": "2026-04-26",
+      "live": {
+        "blog": true,
+        "detail": true,
+        "sitemap": true
+      }
+    },
+    {
+      "site": "deploystack",
+      "action": "verify-only",
+      "slug": "2026-04-26-serverless-observability-tools-for-startups",
+      "latest": "2026-04-26",
+      "live": {
+        "blog": true,
+        "detail": true,
+        "sitemap": true
+      }
+    },
+    {
+      "site": "finstack",
+      "action": "verify-only",
+      "slug": "2026-04-26-accounts-payable-workflow-buyer-checklist-for-b2b-platform-teams-2026",
+      "latest": "2026-04-26",
+      "live": {
+        "blog": true,
+        "detail": true,
+        "sitemap": true
+      }
+    },
+    {
+      "site": "sellkit",
+      "action": "verify-only",
+      "slug": "2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-brand-managers-2026",
+      "latest": "2026-04-26",
+      "live": {
+        "blog": true,
+        "detail": true,
+        "sitemap": true
+      }
+    }
+  ]
+}
+```
+
+### control-tower
+
+```text
+          "weakSamples": [
+            {
+              "slug": "2026-04-26-ai-sales-enablement-tools-for-ecommerce",
+              "date": "2026-04-26",
+              "words": 423,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "e-commerce-analytics-tools",
+              "date": "2026-03-22",
+              "words": 511,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ecommerce-inventory-management-software-comparison",
+              "date": "2026-02-24",
+              "words": 432,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "best-ecommerce-platform-for-dropshipping-2026",
+              "date": "2026-02-23",
+              "words": 0,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
+        }
+      },
+      "live": {
+        "blog": {
+          "ok": true,
+          "status": 200,
+          "hasSlug": true,
+          "hasTitle": true
+        },
+        "detail": {
+          "ok": true,
+          "status": 200,
+          "hasTitle": true,
+          "hasDate": true
+        },
+        "sitemap": {
+          "ok": true,
+          "status": 200,
+          "hasLatestSlug": true
+        },
+        "robots": {
+          "ok": true,
+          "status": 200,
+          "hasSitemap": true
+        }
+      },
+      "actions": []
+    }
+  ]
+}
+```
+
+### regression-gate
+
+```text
+{
+  "report": "data\\sbu-growth\\control-tower-latest.json",
+  "generatedAt": "2026-04-26T23:27:09+09:00",
+  "passed": true,
+  "criticalIssueCount": 0,
+  "warningCount": 10,
+  "issues": [],
+  "warnings": [
+    {
+      "site": "toolpick",
+      "code": "dirty_worktree",
+      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
+    },
+    {
+      "site": "toolpick",
+      "code": "cta_coverage_low",
+      "message": "CTA coverage 0.319."
+    },
+    {
+      "site": "toolpick",
+      "code": "internal_link_coverage_low",
+      "message": "Internal link coverage 0.066."
+    },
+    {
+      "site": "aiforge",
+      "code": "cta_coverage_low",
+      "message": "CTA coverage 0.197."
+    },
+    {
+      "site": "aiforge",
+      "code": "internal_link_coverage_low",
+      "message": "Internal link coverage 0."
+    },
+    {
+      "site": "craftdesk",
+      "code": "internal_link_coverage_low",
+      "message": "Internal link coverage 0."
+    },
+    {
+      "site": "deploystack",
+      "code": "cta_coverage_low",
+      "message": "CTA coverage 0.698."
+    },
+    {
+      "site": "deploystack",
+      "code": "internal_link_coverage_low",
+      "message": "Internal link coverage 0."
+    },
+    {
+      "site": "finstack",
+      "code": "cta_coverage_low",
+      "message": "CTA coverage 0.637."
+    },
+    {
+      "site": "finstack",
+      "code": "internal_link_coverage_low",
+      "message": "Internal link coverage 0.48."
+    }
+  ]
+}
+```
+

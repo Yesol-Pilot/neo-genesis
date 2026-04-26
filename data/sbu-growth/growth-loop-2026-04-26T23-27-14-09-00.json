@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2026-04-26T23:27:14+09:00",
+  "passed": true,
+  "steps": [
+    {
+      "name": "publisher-verify",
+      "cmd": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_autonomous_growth_runner.mjs --verify-only",
+      "status": 0,
+      "ok": true,
+      "allowedFailure": false,
+      "startedAt": "2026-04-26T23:27:08+09:00",
+      "endedAt": "2026-04-26T23:27:09+09:00",
+      "stdoutTail": "{\n  \"date\": \"2026-04-26\",\n  \"results\": [\n    {\n      \"site\": \"aiforge\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-04-26-ai-agent-platforms-for-product-teams\",\n      \"latest\": \"2026-04-26\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"craftdesk\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-04-26-figma-plugins-for-product-design-workflows\",\n      \"latest\": \"2026-04-26\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"deploystack\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-04-26-serverless-observability-tools-for-startups\",\n      \"latest\": \"2026-04-26\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"finstack\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-04-26-accounts-payable-workflow-buyer-checklist-for-b2b-platform-teams-2026\",\n      \"latest\": \"2026-04-26\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"sellkit\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-brand-managers-2026\",\n      \"latest\": \"2026-04-26\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    }\n  ]\n}",
+      "stderrTail": "",
+      "gateOk": true
+    },
+    {
+      "name": "control-tower",
+      "cmd": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_growth_control_tower.mjs --json",
+      "status": 0,
+      "ok": true,
+      "allowedFailure": false,
+      "startedAt": "2026-04-26T23:27:09+09:00",
+      "endedAt": "2026-04-26T23:27:14+09:00",
+      "stdoutTail": "          \"weakSamples\": [\n            {\n              \"slug\": \"2026-04-26-ai-sales-enablement-tools-for-ecommerce\",\n              \"date\": \"2026-04-26\",\n              \"words\": 423,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"e-commerce-analytics-tools\",\n              \"date\": \"2026-03-22\",\n              \"words\": 511,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"ecommerce-inventory-management-software-comparison\",\n              \"date\": \"2026-02-24\",\n              \"words\": 432,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"best-ecommerce-platform-for-dropshipping-2026\",\n              \"date\": \"2026-02-23\",\n              \"words\": 0,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            }\n          ]\n        }\n      },\n      \"live\": {\n        \"blog\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasSlug\": true,\n          \"hasTitle\": true\n        },\n        \"detail\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasTitle\": true,\n          \"hasDate\": true\n        },\n        \"sitemap\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasLatestSlug\": true\n        },\n        \"robots\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasSitemap\": true\n        }\n      },\n      \"actions\": []\n    }\n  ]\n}",
+      "stderrTail": "",
+      "gateOk": true
+    },
+    {
+      "name": "regression-gate",
+      "cmd": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_growth_regression_gate.mjs --json",
+      "status": 0,
+      "ok": true,
+      "allowedFailure": false,
+      "startedAt": "2026-04-26T23:27:14+09:00",
+      "endedAt": "2026-04-26T23:27:14+09:00",
+      "stdoutTail": "{\n  \"report\": \"data\\\\sbu-growth\\\\control-tower-latest.json\",\n  \"generatedAt\": \"2026-04-26T23:27:09+09:00\",\n  \"passed\": true,\n  \"criticalIssueCount\": 0,\n  \"warningCount\": 10,\n  \"issues\": [],\n  \"warnings\": [\n    {\n      \"site\": \"toolpick\",\n      \"code\": \"dirty_worktree\",\n      \"message\": \"SBU working tree has uncommitted changes; skip automated deploy until reviewed.\"\n    },\n    {\n      \"site\": \"toolpick\",\n      \"code\": \"cta_coverage_low\",\n      \"message\": \"CTA coverage 0.319.\"\n    },\n    {\n      \"site\": \"toolpick\",\n      \"code\": \"internal_link_coverage_low\",\n      \"message\": \"Internal link coverage 0.066.\"\n    },\n    {\n      \"site\": \"aiforge\",\n      \"code\": \"cta_coverage_low\",\n      \"message\": \"CTA coverage 0.197.\"\n    },\n    {\n      \"site\": \"aiforge\",\n      \"code\": \"internal_link_coverage_low\",\n      \"message\": \"Internal link coverage 0.\"\n    },\n    {\n      \"site\": \"craftdesk\",\n      \"code\": \"internal_link_coverage_low\",\n      \"message\": \"Internal link coverage 0.\"\n    },\n    {\n      \"site\": \"deploystack\",\n      \"code\": \"cta_coverage_low\",\n      \"message\": \"CTA coverage 0.698.\"\n    },\n    {\n      \"site\": \"deploystack\",\n      \"code\": \"internal_link_coverage_low\",\n      \"message\": \"Internal link coverage 0.\"\n    },\n    {\n      \"site\": \"finstack\",\n      \"code\": \"cta_coverage_low\",\n      \"message\": \"CTA coverage 0.637.\"\n    },\n    {\n      \"site\": \"finstack\",\n      \"code\": \"internal_link_coverage_low\",\n      \"message\": \"Internal link coverage 0.48.\"\n    }\n  ]\n}",
+      "stderrTail": "",
+      "gateOk": true
+    }
+  ]
+}

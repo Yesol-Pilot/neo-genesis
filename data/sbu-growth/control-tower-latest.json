@@ -1,0 +1,762 @@
+{
+  "generatedAt": "2026-04-26T23:27:09+09:00",
+  "today": "2026-04-26",
+  "targetMau": 100000,
+  "monthlyVisitsPerReadyPost": 350,
+  "requiredReadyPosts": 286,
+  "liveChecked": true,
+  "sites": [
+    {
+      "id": "toolpick",
+      "name": "ToolPick",
+      "domain": "https://toolpick.dev",
+      "benchmark": true,
+      "targetMau": 100000,
+      "monthlyVisitsPerReadyPost": 350,
+      "score": 82,
+      "status": "yellow",
+      "local": {
+        "siteDir": "src\\sbu\\toolpick",
+        "exists": true,
+        "package": {
+          "hasBuild": true,
+          "hasPostbuild": true,
+          "name": "blog"
+        },
+        "vercel": {
+          "hasProject": true,
+          "projectId": "prj_rpONFbbcg3ZSoy1A0h94S8FeqBrq",
+          "orgId": "team_YQwNNAv4XjpyZALb2O8A67tL"
+        },
+        "git": {
+          "remoteOk": true,
+          "emailOk": true,
+          "dirty": true,
+          "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/https-www.toolpick.dev-.git (push)",
+          "email": "dpthf1537@gmail.com",
+          "statusLineCount": 18
+        },
+        "posts": {
+          "total": 379,
+          "ready": 368,
+          "requiredFor100k": 286,
+          "additionalReadyNeeded": 0,
+          "modeledMau": 128800,
+          "mauGap": 0,
+          "latest": {
+            "slug": "ai-agent-development-tools-2026",
+            "file": "src\\sbu\\toolpick\\content\\blog\\ai-agent-development-tools-2026.mdx",
+            "title": "AI Agent Development Tools in 2026: LangGraph, OpenAI Agents SDK, Mastra, and CrewAI",
+            "date": "2026-04-25",
+            "description": "Compare AI agent development tools for builders choosing orchestration, memory, tools, observability, deployment model, and production risk.",
+            "category": "AI Coding",
+            "draft": false,
+            "words": 1024,
+            "completeFrontmatter": true,
+            "hasCta": true,
+            "hasInternalLink": false,
+            "hasExternalLink": true,
+            "ready": true
+          },
+          "daysSinceLatest": 1,
+          "fresh": true,
+          "categoryCount": 59,
+          "avgWords": 1303,
+          "frontmatterCoverage": 1,
+          "ctaCoverage": 0.319,
+          "internalLinkCoverage": 0.066,
+          "weakSamples": [
+            {
+              "slug": "lifesync-smartwatch-review-fitness-tracking-on-a-budget",
+              "date": "2026-04-05",
+              "words": 634,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "my-dear-mdwmt0601a-ae-kr-dishwasher-review-auto-open-convenience",
+              "date": "2026-04-03",
+              "words": 583,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "philips-baristina-compact-espresso-machine-review",
+              "date": "2026-03-30",
+              "words": 634,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "my-dear-mdwmt0601w-wine-kr-dishwasher-review-is-it-worth-it",
+              "date": "2026-03-29",
+              "words": 625,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ato-gaming-ag0302-mechanical-keyboard-review-value-redefined",
+              "date": "2026-03-28",
+              "words": 644,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
+        }
+      },
+      "live": {
+        "blog": {
+          "ok": true,
+          "status": 200,
+          "hasSlug": true,
+          "hasTitle": true
+        },
+        "detail": {
+          "ok": true,
+          "status": 200,
+          "hasTitle": true,
+          "hasDate": true
+        },
+        "sitemap": {
+          "ok": true,
+          "status": 200,
+          "hasLatestSlug": true
+        },
+        "robots": {
+          "ok": true,
+          "status": 200,
+          "hasSitemap": true
+        }
+      },
+      "actions": [
+        "Upgrade CTA coverage across existing posts.",
+        "Add internal links and hub routes to improve crawl depth.",
+        "Review dirty working tree before automated publish/deploy."
+      ]
+    },
+    {
+      "id": "aiforge",
+      "name": "AIForge",
+      "domain": "https://aiforge.neogenesis.app",
+      "benchmark": false,
+      "targetMau": 100000,
+      "monthlyVisitsPerReadyPost": 350,
+      "score": 81,
+      "status": "yellow",
+      "local": {
+        "siteDir": "src\\sbu\\aiforge",
+        "exists": true,
+        "package": {
+          "hasBuild": true,
+          "hasPostbuild": true,
+          "name": "aiforge"
+        },
+        "vercel": {
+          "hasProject": true,
+          "projectId": "prj_iOIxUZSaxGeTfDB52JJ0Few4Ejzi",
+          "orgId": "team_YQwNNAv4XjpyZALb2O8A67tL"
+        },
+        "git": {
+          "remoteOk": true,
+          "emailOk": true,
+          "dirty": false,
+          "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/aiforge.git (push)",
+          "email": "dpthf1537@gmail.com",
+          "statusLineCount": 0
+        },
+        "posts": {
+          "total": 431,
+          "ready": 417,
+          "requiredFor100k": 286,
+          "additionalReadyNeeded": 0,
+          "modeledMau": 145950,
+          "mauGap": 0,
+          "latest": {
+            "slug": "2026-04-26-ai-agent-platforms-for-product-teams",
+            "file": "src\\sbu\\aiforge\\content\\blog\\2026-04-26-ai-agent-platforms-for-product-teams.mdx",
+            "title": "AI Agent Platforms for Product Teams in 2026",
+            "date": "2026-04-26",
+            "description": "AI agent platforms - A practical evaluation guide for product, operations, and growth teams.",
+            "category": "AI Tools",
+            "draft": false,
+            "words": 483,
+            "completeFrontmatter": true,
+            "hasCta": false,
+            "hasInternalLink": false,
+            "hasExternalLink": false,
+            "ready": false
+          },
+          "daysSinceLatest": 0,
+          "fresh": true,
+          "categoryCount": 14,
+          "avgWords": 1617,
+          "frontmatterCoverage": 1,
+          "ctaCoverage": 0.197,
+          "internalLinkCoverage": 0,
+          "weakSamples": [
+            {
+              "slug": "2026-04-26-ai-agent-platforms-for-product-teams",
+              "date": "2026-04-26",
+              "words": 483,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-model-deployment-platforms-comparison-2026",
+              "date": "2026-03-31",
+              "words": 471,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-observability-tools-comparison",
+              "date": "2026-03-30",
+              "words": 478,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-powered-observability-platforms",
+              "date": "2026-03-29",
+              "words": 332,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "api-observability-microservices",
+              "date": "2026-03-29",
+              "words": 642,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
+        }
+      },
+      "live": {
+        "blog": {
+          "ok": true,
+          "status": 200,
+          "hasSlug": true,
+          "hasTitle": true
+        },
+        "detail": {
+          "ok": true,
+          "status": 200,
+          "hasTitle": true,
+          "hasDate": true
+        },
+        "sitemap": {
+          "ok": true,
+          "status": 200,
+          "hasLatestSlug": true
+        },
+        "robots": {
+          "ok": true,
+          "status": 200,
+          "hasSitemap": true
+        }
+      },
+      "actions": [
+        "Upgrade CTA coverage across existing posts.",
+        "Add internal links and hub routes to improve crawl depth."
+      ]
+    },
+    {
+      "id": "craftdesk",
+      "name": "CraftDesk",
+      "domain": "https://craftdesk.neogenesis.app",
+      "benchmark": false,
+      "targetMau": 100000,
+      "monthlyVisitsPerReadyPost": 350,
+      "score": 85,
+      "status": "yellow",
+      "local": {
+        "siteDir": "src\\sbu\\craftdesk",
+        "exists": true,
+        "package": {
+          "hasBuild": true,
+          "hasPostbuild": true,
+          "name": "craftdesk"
+        },
+        "vercel": {
+          "hasProject": true,
+          "projectId": "prj_XotjlNkFHFj5aPFnp8O9rGEpVTVq",
+          "orgId": "team_YQwNNAv4XjpyZALb2O8A67tL"
+        },
+        "git": {
+          "remoteOk": true,
+          "emailOk": true,
+          "dirty": false,
+          "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/craftdesk.git (push)",
+          "email": "dpthf1537@gmail.com",
+          "statusLineCount": 0
+        },
+        "posts": {
+          "total": 368,
+          "ready": 344,
+          "requiredFor100k": 286,
+          "additionalReadyNeeded": 0,
+          "modeledMau": 120400,
+          "mauGap": 0,
+          "latest": {
+            "slug": "2026-04-26-figma-plugins-for-product-design-workflows",
+            "file": "src\\sbu\\craftdesk\\content\\blog\\2026-04-26-figma-plugins-for-product-design-workflows.mdx",
+            "title": "Best Figma Plugins for Product Design Workflows in 2026",
+            "date": "2026-04-26",
+            "description": "Figma plugins for product design - A practical evaluation guide for design, product, and creative teams.",
+            "category": "UI/UX",
+            "draft": false,
+            "words": 709,
+            "completeFrontmatter": true,
+            "hasCta": true,
+            "hasInternalLink": false,
+            "hasExternalLink": false,
+            "ready": true
+          },
+          "daysSinceLatest": 0,
+          "fresh": true,
+          "categoryCount": 10,
+          "avgWords": 1553,
+          "frontmatterCoverage": 1,
+          "ctaCoverage": 0.821,
+          "internalLinkCoverage": 0,
+          "weakSamples": [
+            {
+              "slug": "ai-ui-design-software-comparison-for-enterprise-2026",
+              "date": "2026-03-26",
+              "words": 28,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-ui-ux-design-tools-comparison",
+              "date": "2026-03-20",
+              "words": 305,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-ui-design-software-for-web-apps-2026-comparison",
+              "date": "2026-03-19",
+              "words": 378,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-ui-design-software-enterprise-comparison-2026",
+              "date": "2026-03-18",
+              "words": 437,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-powered-collaboration-tools-uiux",
+              "date": "2026-03-17",
+              "words": 479,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
+        }
+      },
+      "live": {
+        "blog": {
+          "ok": true,
+          "status": 200,
+          "hasSlug": true,
+          "hasTitle": true
+        },
+        "detail": {
+          "ok": true,
+          "status": 200,
+          "hasTitle": true,
+          "hasDate": true
+        },
+        "sitemap": {
+          "ok": true,
+          "status": 200,
+          "hasLatestSlug": true
+        },
+        "robots": {
+          "ok": true,
+          "status": 200,
+          "hasSitemap": true
+        }
+      },
+      "actions": [
+        "Add internal links and hub routes to improve crawl depth."
+      ]
+    },
+    {
+      "id": "deploystack",
+      "name": "DeployStack",
+      "domain": "https://deploystack.neogenesis.app",
+      "benchmark": false,
+      "targetMau": 100000,
+      "monthlyVisitsPerReadyPost": 350,
+      "score": 84,
+      "status": "yellow",
+      "local": {
+        "siteDir": "src\\sbu\\deploystack",
+        "exists": true,
+        "package": {
+          "hasBuild": true,
+          "hasPostbuild": true,
+          "name": "deploystack"
+        },
+        "vercel": {
+          "hasProject": true,
+          "projectId": "prj_Bs7fbO6VdK6JMuJEOEwfzaWK1k1x",
+          "orgId": "team_YQwNNAv4XjpyZALb2O8A67tL"
+        },
+        "git": {
+          "remoteOk": true,
+          "emailOk": true,
+          "dirty": false,
+          "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/deploystack.git (push)",
+          "email": "dpthf1537@gmail.com",
+          "statusLineCount": 0
+        },
+        "posts": {
+          "total": 311,
+          "ready": 291,
+          "requiredFor100k": 286,
+          "additionalReadyNeeded": 0,
+          "modeledMau": 101850,
+          "mauGap": 0,
+          "latest": {
+            "slug": "2026-04-26-serverless-observability-tools-for-startups",
+            "file": "src\\sbu\\deploystack\\content\\blog\\2026-04-26-serverless-observability-tools-for-startups.mdx",
+            "title": "Serverless Observability Tools for Startups in 2026",
+            "date": "2026-04-26",
+            "description": "Serverless observability tools - A practical guide for startup teams running Vercel, Workers, Lambda, and managed databases.",
+            "category": "Observability",
+            "draft": false,
+            "words": 442,
+            "completeFrontmatter": true,
+            "hasCta": false,
+            "hasInternalLink": false,
+            "hasExternalLink": false,
+            "ready": false
+          },
+          "daysSinceLatest": 0,
+          "fresh": true,
+          "categoryCount": 10,
+          "avgWords": 1571,
+          "frontmatterCoverage": 1,
+          "ctaCoverage": 0.698,
+          "internalLinkCoverage": 0,
+          "weakSamples": [
+            {
+              "slug": "2026-04-26-serverless-observability-tools-for-startups",
+              "date": "2026-04-26",
+              "words": 442,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-powered-observability-serverless",
+              "date": "2026-03-31",
+              "words": 630,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "kubernetes-monitoring-tools",
+              "date": "2026-03-31",
+              "words": 59,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "automated-cicd",
+              "date": "2026-03-29",
+              "words": 47,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-devops-platforms",
+              "date": "2026-03-25",
+              "words": 11,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
+        }
+      },
+      "live": {
+        "blog": {
+          "ok": true,
+          "status": 200,
+          "hasSlug": true,
+          "hasTitle": true
+        },
+        "detail": {
+          "ok": true,
+          "status": 200,
+          "hasTitle": true,
+          "hasDate": true
+        },
+        "sitemap": {
+          "ok": true,
+          "status": 200,
+          "hasLatestSlug": true
+        },
+        "robots": {
+          "ok": true,
+          "status": 200,
+          "hasSitemap": true
+        }
+      },
+      "actions": [
+        "Upgrade CTA coverage across existing posts.",
+        "Add internal links and hub routes to improve crawl depth."
+      ]
+    },
+    {
+      "id": "finstack",
+      "name": "FinStack",
+      "domain": "https://finstack.neogenesis.app",
+      "benchmark": false,
+      "targetMau": 100000,
+      "monthlyVisitsPerReadyPost": 350,
+      "score": 86,
+      "status": "yellow",
+      "local": {
+        "siteDir": "src\\sbu\\finstack",
+        "exists": true,
+        "package": {
+          "hasBuild": true,
+          "hasPostbuild": true,
+          "name": "finstack"
+        },
+        "vercel": {
+          "hasProject": true,
+          "projectId": "prj_JlMtT8Ai9amIz5od9NfzwCC7nHBp",
+          "orgId": "team_YQwNNAv4XjpyZALb2O8A67tL"
+        },
+        "git": {
+          "remoteOk": true,
+          "emailOk": true,
+          "dirty": false,
+          "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/finstack.git (push)",
+          "email": "dpthf1537@gmail.com",
+          "statusLineCount": 0
+        },
+        "posts": {
+          "total": 306,
+          "ready": 286,
+          "requiredFor100k": 286,
+          "additionalReadyNeeded": 0,
+          "modeledMau": 100100,
+          "mauGap": 0,
+          "latest": {
+            "slug": "2026-04-26-accounts-payable-workflow-buyer-checklist-for-b2b-platform-teams-2026",
+            "file": "src\\sbu\\finstack\\content\\blog\\2026-04-26-accounts-payable-workflow-buyer-checklist-for-b2b-platform-teams-2026.mdx",
+            "title": "Accounts Payable Workflow Buyer Checklist for B2B Platform Teams in 2026",
+            "date": "2026-04-26",
+            "description": "accounts payable workflow buyer checklist - A practical growth and operations guide for B2B platform teams.",
+            "category": "Fintech",
+            "draft": false,
+            "words": 831,
+            "completeFrontmatter": true,
+            "hasCta": true,
+            "hasInternalLink": true,
+            "hasExternalLink": false,
+            "ready": true
+          },
+          "daysSinceLatest": 0,
+          "fresh": true,
+          "categoryCount": 13,
+          "avgWords": 1153,
+          "frontmatterCoverage": 1,
+          "ctaCoverage": 0.637,
+          "internalLinkCoverage": 0.48,
+          "weakSamples": [
+            {
+              "slug": "2026-04-26-embedded-finance-platforms-for-saas",
+              "date": "2026-04-26",
+              "words": 404,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "financial-data-api-for-real-estate-platforms-comparison",
+              "date": "2026-03-30",
+              "words": 526,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "financial-data-api-for-smbs-pricing-and-feature-comparison",
+              "date": "2026-03-30",
+              "words": 424,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "financial-data-api-comparison-for-saas-platforms",
+              "date": "2026-03-29",
+              "words": 233,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "financial-reporting-api-for-fintech",
+              "date": "2026-03-29",
+              "words": 579,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
+        }
+      },
+      "live": {
+        "blog": {
+          "ok": true,
+          "status": 200,
+          "hasSlug": true,
+          "hasTitle": true
+        },
+        "detail": {
+          "ok": true,
+          "status": 200,
+          "hasTitle": true,
+          "hasDate": true
+        },
+        "sitemap": {
+          "ok": true,
+          "status": 200,
+          "hasLatestSlug": true
+        },
+        "robots": {
+          "ok": true,
+          "status": 200,
+          "hasSitemap": true
+        }
+      },
+      "actions": [
+        "Upgrade CTA coverage across existing posts.",
+        "Add internal links and hub routes to improve crawl depth."
+      ]
+    },
+    {
+      "id": "sellkit",
+      "name": "SellKit",
+      "domain": "https://sellkit.neogenesis.app",
+      "benchmark": false,
+      "targetMau": 100000,
+      "monthlyVisitsPerReadyPost": 350,
+      "score": 88,
+      "status": "green",
+      "local": {
+        "siteDir": "src\\sbu\\sellkit",
+        "exists": true,
+        "package": {
+          "hasBuild": true,
+          "hasPostbuild": true,
+          "name": "sellkit"
+        },
+        "vercel": {
+          "hasProject": true,
+          "projectId": "prj_wgGM7rhpSOMbJ8jKLmUB8B4u68Jt",
+          "orgId": "team_YQwNNAv4XjpyZALb2O8A67tL"
+        },
+        "git": {
+          "remoteOk": true,
+          "emailOk": true,
+          "dirty": false,
+          "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/sellkit.git (push)",
+          "email": "dpthf1537@gmail.com",
+          "statusLineCount": 0
+        },
+        "posts": {
+          "total": 290,
+          "ready": 286,
+          "requiredFor100k": 286,
+          "additionalReadyNeeded": 0,
+          "modeledMau": 100100,
+          "mauGap": 0,
+          "latest": {
+            "slug": "2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-brand-managers-2026",
+            "file": "src\\sbu\\sellkit\\content\\blog\\2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-brand-managers-2026.mdx",
+            "title": "Affiliate Campaign Management Tool Buyer Checklist for Brand Managers in 2026",
+            "date": "2026-04-26",
+            "description": "affiliate campaign management tool buyer checklist - A practical growth and operations guide for brand managers.",
+            "category": "Sales Tools",
+            "draft": false,
+            "words": 831,
+            "completeFrontmatter": true,
+            "hasCta": true,
+            "hasInternalLink": true,
+            "hasExternalLink": false,
+            "ready": true
+          },
+          "daysSinceLatest": 0,
+          "fresh": true,
+          "categoryCount": 10,
+          "avgWords": 1026,
+          "frontmatterCoverage": 1,
+          "ctaCoverage": 0.866,
+          "internalLinkCoverage": 0.752,
+          "weakSamples": [
+            {
+              "slug": "2026-04-26-ai-sales-enablement-tools-for-ecommerce",
+              "date": "2026-04-26",
+              "words": 423,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "e-commerce-analytics-tools",
+              "date": "2026-03-22",
+              "words": 511,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ecommerce-inventory-management-software-comparison",
+              "date": "2026-02-24",
+              "words": 432,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "best-ecommerce-platform-for-dropshipping-2026",
+              "date": "2026-02-23",
+              "words": 0,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
+        }
+      },
+      "live": {
+        "blog": {
+          "ok": true,
+          "status": 200,
+          "hasSlug": true,
+          "hasTitle": true
+        },
+        "detail": {
+          "ok": true,
+          "status": 200,
+          "hasTitle": true,
+          "hasDate": true
+        },
+        "sitemap": {
+          "ok": true,
+          "status": 200,
+          "hasLatestSlug": true
+        },
+        "robots": {
+          "ok": true,
+          "status": 200,
+          "hasSitemap": true
+        }
+      },
+      "actions": []
+    }
+  ]
+}
