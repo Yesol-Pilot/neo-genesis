@@ -340,3 +340,72 @@ Claude 4병렬 리서치(R1-R4) → Codex 기존 v2 팩(P0~P6 구현 완료)과 
 - `auto-trading/docs/v11-ensemble/backtest-v2-engine-decision.md`
 - `auto-trading/docs/v11-ensemble/incidents/2026-04-24-01-launch-live-paper-safeguard.md`
 - `neo-genesis/.agent/knowledge/20260424_Directory_Cleanup_Audit_v1.md` (§11 + §12 실행 기록 포함)
+
+---
+
+## 2026-04-26 Claude Opus 4.7 (Strategy Lead): Financial Advisor System v1 박제
+
+### owner 시그널 (3건 누적)
+1. "어드바이저 + 부하 에이전트 시스템, 어떤 방식으로든 일 1%+, 자본 검증되면 무제한 맡김, 자율 판단으로 owner 이익 최대화"
+2. "크립토에 한정지을 필요 없어"
+3. "최소 1000만원 ~ 최대 8000만원 자본 할당 예정"
+
+### Strategy Lead (어드바이저) 자율 판단 결정
+- **목표 재설정**: 일 1% (수학적/통계적 위험) → **상위분위 0.6~1.0% 메인 트랙 + 5% 한도 공격형 sleeve 별도** (Phase 3 후)
+- **레버리지 5x 하드캡 양보 불가** (파산확률: 5x=32% / 20x=98% / 50x=100%)
+- **자본 입금**: 한 번에 8000만원 절대 금지. **단계적 schedule 권고**:
+  - Phase 1 통과 → 1000만원 (소액 라이브 $1K~2K, 나머지 stable 보관)
+  - Phase 2 통과 → +2000만원 (총 3000만원)
+  - Phase 3 통과 → +5000만원 (총 8000만원, full deployment)
+- **자산군**: 크립토 → Phase 3.5 cross-exchange → Phase 4 미국 주식 / Phase 4.5 한국 주식 / Phase 5 FX → Phase 6 옵션·DeFi
+- **자본 보호 인프라**: cold storage 분리, 거래소 분산 (단일 50% 한도), 세금 적립 25%
+
+### 7-에이전트 시스템 (이번 세션 1건 가동)
+1. ✅ Strategy Lead (Claude Opus 4.7, 활성)
+2. ✅ **Risk Officer 일일 리포트 자동화** (`auto-trading/scripts/daily-risk-officer-report.js`, VM cron `0 0 * * *`)
+3. ⏳ Alpha Researcher (Claude general-purpose + WebSearch, 주 1회 cron 미설정)
+4. ⏳ Execution Operator (Sora + gcloud + pm2, 현 수동)
+5. ⏳ Backtest Validator (nautilus_trader 통합 미완)
+6. ⏳ Compliance Checker (4-Step hook 미구현)
+7. ⏳ Reporting Analyst (주간/월간 리포트 미설정)
+
+### Risk Officer 첫 리포트 결과 (2026-04-26 13:13 KST)
+- 봇 정상 (online, uptime 21h, restarts 13 정상화 후 stable)
+- **Heap 88.32% (어제 95.75% → 88.32% 정상화)** 메모리 누수 가설 부정
+- mode=PAPER, killswitch 0건, halt NULL
+- Trades 0건 (시장 BEAR 지속)
+- **Liquidation Stream alive: NO (scaffold)** ← Phase 0 Task 0.1 미완 정확히 진단
+- ⚠️ **텔레그램 전송 실패** — 봇 토큰 dead 추정 (별도 fix task)
+
+### 신규 SSOT 문서
+- `neo-genesis/.agent/knowledge/20260426_FINANCIAL_ADVISOR_SYSTEM_v1.md` (v1 → v1.1 → v1.2)
+  - §0 어드바이저 헌장
+  - §1~2 7-에이전트 구조 + 명세
+  - §3 Capital Allocation Framework (1000만원~8000만원 단계적 입금)
+  - §4 통신 프로토콜 (Magentic-One Dual-Ledger)
+  - §5 Phase 진화 로드맵
+  - §6 owner 일 1%+ 욕구 자율 처리
+  - §7 즉시 가동 우선순위
+  - §8 메트릭 정의
+  - §9 owner 보고 표준
+  - §11 Multi-Asset Expansion Roadmap
+
+### 다음 세션 우선순위 (어드바이저 자율 결정)
+1. **텔레그램 봇 토큰 fix** — 일일 리포트 채널 복구
+2. **Liquidation Stream 실제 구현** + v6-live-runner wiring (Phase 0 Task 0.1)
+3. **Alpha Researcher 주간 cron** (월요일 09:00 KST)
+4. **Reporting Analyst 주간 리포트** (월요일 10:00 KST)
+5. **Compliance Checker hook** (Strategy Lead 4-Step 자동화)
+6. **nautilus_trader + DSR/PBO/CPCV 통합** (Backtest Validator)
+7. **Phase 1 진입 준비** (6 알파 페이퍼 모드 14일 검증)
+
+### Owner 결정 게이트 (다음 세션 입장 시 확인)
+1. **자본 입금 schedule 승인?** Phase 1 통과 후 1000만원 입금 OK?
+2. **공격형 sleeve 활성 시점**: Phase 3 진입 후 (3000만원 활성 시점) 사슴어드바이저 자율 활성?
+3. **자산군 확장 진입 시점**: Phase 4 = 6~9개월 후 미국 주식 진입 OK?
+4. **텔레그램 봇 fix**: 새 봇 토큰 발급 (owner) vs 다른 채널 (Discord webhook 등)?
+
+### Risk Officer cron 가동 중
+- VM `quant-bot` crontab: `0 0 * * * cd /home/yesol/quant-bot && /usr/bin/node scripts/daily-risk-officer-report.js >> logs/risk-officer/$(date +%Y-%m-%d).log 2>&1`
+- 매일 09:00 KST 자동 실행
+- 텔레그램 fix 후 owner 가 매일 받음

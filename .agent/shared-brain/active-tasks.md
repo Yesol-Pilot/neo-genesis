@@ -1,7 +1,50 @@
 # Active Tasks — 에이전트 공유 작업 목록
 
 > **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.  
-> **최종 갱신:** 2026-04-24 by Codex (원프롬프트 멀티모달 시스템 설계 기준일 갱신)
+> **최종 갱신:** 2026-04-26 by Claude Opus 4.7 (Strategy Lead — Financial Advisor System v1 박제)
+
+---
+
+## 🟣 Financial Advisor System v1 — 7-에이전트 자율 운영 (2026-04-26 신설)
+
+기반: `.agent/knowledge/20260426_FINANCIAL_ADVISOR_SYSTEM_v1.md`
+owner 지시: "어드바이저 + 부하 에이전트 + 자본 검증 시 무제한 입금 + 자율 판단으로 owner 이익 최대화"
+
+### 어드바이저 핵심 결정 (자율, owner 위임)
+- **목표 재설정**: 일 1% (owner 명시) → **상위분위 0.6~1.0% 메인 트랙 + 5% 한도 공격형 sleeve 별도** (Phase 3 진입 후)
+- **레버리지 5x 하드캡 양보 불가** (파산확률 매트릭스 근거)
+- **검증 → 자본 → 확장 단계 게이트** 의무 (Phase 0/1/2/3/4)
+- **자산군 확장**: 크립토 → Phase 3.5 부터 cross-exchange / Phase 4 부터 미국 주식·FX·한국 주식 (SSOT §11)
+- **자본 입금 (1000만원~8000만원 할당 예정)**:
+  - 한꺼번에 풀 입금 절대 비추 (통계적 자살)
+  - 권고 입금 schedule: Phase 1 통과 → 1000만원 / Phase 2 통과 → +2000만원 / Phase 3 통과 → +5000만원
+  - 활성 자본 vs 보유 자본 분리 (cold storage, 거래소 분산, 세금 적립 25%)
+
+### 7-에이전트 구현 진행 상태
+
+- [x] **Strategy Lead (Claude Opus 4.7)** ✅ 활성 (이 세션)
+- [x] **Risk Officer 일일 리포트 자동화** ✅ (2026-04-26 13:13 KST)
+  - 📍 `auto-trading/scripts/daily-risk-officer-report.js`
+  - 📍 VM cron: `0 0 * * * /usr/bin/node /home/yesol/quant-bot/scripts/daily-risk-officer-report.js` (매일 09:00 KST)
+  - 📍 로그: `/home/yesol/quant-bot/logs/risk-officer/YYYY-MM-DD.log`
+  - 첫 실행 결과: 봇 정상, Heap 88.32%, mode=PAPER, killswitch 0건, liquidation 0건 (scaffold)
+  - ⚠️ 텔레그램 전송 실패 — 봇 토큰 dead 추정. **별도 fix task 필요**
+- [ ] **Alpha Researcher** — Claude general-purpose subagent + WebSearch, 주 1회 cron 미설정
+- [ ] **Execution Operator** — Sora + gcloud + pm2 (현 수동 운영)
+- [ ] **Backtest Validator** — nautilus_trader 통합 미완 (Phase 0 Task 0.3)
+- [ ] **Compliance Checker** — Strategy Lead 의 4-Step 자동 hook 미구현
+- [ ] **Reporting Analyst** — 주간/월간 리포트 cron 미설정 (일일은 Risk Officer 가 일부 커버)
+
+### 후속 (오늘 세션 외)
+- [ ] **텔레그램 봇 토큰 fix** (어드바이저 알림 채널 복구) — Phase 0 후속
+- [ ] **Liquidation Stream 실제 구현** + v6-live-runner wiring (Phase 0 Task 0.1)
+- [ ] **9-Layer Kill Switch wiring 검증** (orchestrator/runner 통합)
+- [ ] **nautilus_trader + DSR/PBO/CPCV 통합** (Backtest Validator)
+- [ ] **Alpha Researcher 주간 cron 설정** (월요일 09:00)
+- [ ] **Reporting Analyst 주간 리포트** (월요일 10:00)
+- [ ] **Compliance Checker hook 자동화** (Strategy Lead 의 4-Step 게이트)
+
+---
 
 ---
 
@@ -34,6 +77,10 @@
 - [x] Approved Codex app cron binding created: `neo-genesis-agent-environment-weekly-check`
 - [x] Schedule binding registry added: `.agent/registries/agent_schedule_bindings.json`
 - [x] Schedule binding validation and pytest coverage added: `scripts/agent_schedule_check.py`, `tests/test_agent_schedule_bindings.py`
+- [x] Alert route registry added: `.agent/registries/agent_alert_routes.json`
+- [x] Alert route validation and pytest coverage added: `scripts/agent_alert_route_check.py`, `tests/test_agent_alert_routes.py`
+- [x] Eval-run collector added: `scripts/agent_run_collector.py`, `tests/test_agent_run_collector.py`
+- [x] External alert sends remain paused; local dashboard/file candidates only until separate owner approval.
 
 ---
 
@@ -240,19 +287,19 @@
   📍 `scripts/ga4_traffic_report.py`, `scripts/posthog_traffic.py`, `.agent/knowledge/20260408_GA4_SHARED_PROPERTY_LEARNING.md`  
   👤 Codex
 
-- [ ] **ToolPick 상위 랜딩 5개 재방문 구조 개편** — `/alternatives/*`, `/comparisons/*`, `/pricing/*`, `/reviews/*`, `/calculator`에 `관련 글 2개 + 허브 1개 + 다음 읽을 글 1개` 구조를 공통 적용한다.  
+- [x] **ToolPick 상위 랜딩 5개 재방문 구조 개편** — `/alternatives/*`, `/comparisons/*`, `/pricing/*`, `/reviews/*`, `/calculator`에 `관련 글 2개 + 허브 1개 + 다음 읽을 글 1개` 구조를 공통 적용한다.  
   📍 `src/sbu/toolpick`  
   👤 Codex / Claude Code
 
-- [ ] **ToolPick `이번 주 업데이트` 허브 페이지 신설** — 반복 방문 이유를 제공하는 고정 URL을 만들고 홈/상위 랜딩에서 연결한다.  
+- [x] **ToolPick `이번 주 업데이트` 허브 페이지 신설** — 반복 방문 이유를 제공하는 고정 URL을 만들고 홈/상위 랜딩에서 연결한다.  
   📍 `src/sbu/toolpick`  
   👤 Codex / Claude Code
 
-- [ ] **재방문 이벤트 4종 추가** — `hub_click`, `series_continue_click`, `weekly_update_visit`, `return_visit`를 PostHog 스키마와 런타임에 반영한다.  
+- [x] **재방문 이벤트 4종 추가** — `hub_click`, `series_continue_click`, `weekly_update_visit`, `return_visit`를 PostHog 스키마와 런타임에 반영한다.  
   📍 `src/sbu/toolpick`, `scripts/posthog_traffic.py`  
   👤 Codex / Claude Code
 
-- [ ] **시리즈형 콘텐츠 템플릿 확정** — 신규 콘텐츠가 단발성으로 끝나지 않도록 전편/후속편/허브 링크를 포함한 템플릿을 정의하고 실제 게시물에 1건 이상 적용한다.  
+- [x] **시리즈형 콘텐츠 템플릿 확정** — 신규 콘텐츠가 단발성으로 끝나지 않도록 전편/후속편/허브 링크를 포함한 템플릿을 정의하고 실제 게시물에 1건 이상 적용한다.  
   📍 `src/sbu/toolpick/content`, `.agent/knowledge/20260414_재방문_사용자_중심_성장전략_v1.md`  
   👤 Antigravity / Codex
 
