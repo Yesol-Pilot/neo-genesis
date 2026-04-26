@@ -1,0 +1,186 @@
+{
+  "generatedAt": "2026-04-27T01:21:40+09:00",
+  "since": "2026-04-26",
+  "minWords": 650,
+  "sites": [
+    {
+      "site": "finstack",
+      "name": "FinStack",
+      "domain": "https://finstack.neogenesis.app",
+      "since": "2026-04-26",
+      "totalRecentPosts": 148,
+      "qualityReady": 147,
+      "qualityReadyCoverage": 0.993,
+      "avgWords": 822,
+      "coverage": {
+        "frontmatter": 1,
+        "cta": 1,
+        "internalLink": 1,
+        "externalLink": 0
+      },
+      "live": {
+        "sitemap": {
+          "ok": true,
+          "status": 200
+        },
+        "robots": {
+          "ok": true,
+          "status": 200,
+          "hasSitemap": true
+        },
+        "samples": [
+          {
+            "slug": "2026-04-26-accounts-payable-workflow-buyer-checklist-for-b2b-platform-teams-2026",
+            "url": "https://finstack.neogenesis.app/blog/2026-04-26-accounts-payable-workflow-buyer-checklist-for-b2b-platform-teams-2026",
+            "status": 200,
+            "ok": true,
+            "hasTitle": true,
+            "sitemapIncluded": true,
+            "hasCanonicalHint": true
+          },
+          {
+            "slug": "2026-04-26-accounts-payable-workflow-buyer-checklist-for-compliance-teams-2026",
+            "url": "https://finstack.neogenesis.app/blog/2026-04-26-accounts-payable-workflow-buyer-checklist-for-compliance-teams-2026",
+            "status": 200,
+            "ok": true,
+            "hasTitle": true,
+            "sitemapIncluded": true,
+            "hasCanonicalHint": true
+          },
+          {
+            "slug": "2026-04-26-accounts-payable-workflow-buyer-checklist-for-fintech-founders-2026",
+            "url": "https://finstack.neogenesis.app/blog/2026-04-26-accounts-payable-workflow-buyer-checklist-for-fintech-founders-2026",
+            "status": 200,
+            "ok": true,
+            "hasTitle": true,
+            "sitemapIncluded": true,
+            "hasCanonicalHint": true
+          },
+          {
+            "slug": "2026-04-26-accounts-payable-workflow-buyer-checklist-for-marketplace-operators-2026",
+            "url": "https://finstack.neogenesis.app/blog/2026-04-26-accounts-payable-workflow-buyer-checklist-for-marketplace-operators-2026",
+            "status": 200,
+            "ok": true,
+            "hasTitle": true,
+            "sitemapIncluded": true,
+            "hasCanonicalHint": true
+          },
+          {
+            "slug": "2026-04-26-accounts-payable-workflow-buyer-checklist-for-operations-leaders-2026",
+            "url": "https://finstack.neogenesis.app/blog/2026-04-26-accounts-payable-workflow-buyer-checklist-for-operations-leaders-2026",
+            "status": 200,
+            "ok": true,
+            "hasTitle": true,
+            "sitemapIncluded": true,
+            "hasCanonicalHint": true
+          }
+        ]
+      },
+      "weakSamples": {
+        "missingFrontmatter": [],
+        "tooShort": [
+          {
+            "slug": "2026-04-26-embedded-finance-platforms-for-saas",
+            "words": 441
+          }
+        ],
+        "missingCta": [],
+        "missingInternalLink": []
+      },
+      "status": "green",
+      "issues": []
+    },
+    {
+      "site": "sellkit",
+      "name": "SellKit",
+      "domain": "https://sellkit.neogenesis.app",
+      "since": "2026-04-26",
+      "totalRecentPosts": 219,
+      "qualityReady": 218,
+      "qualityReadyCoverage": 0.995,
+      "avgWords": 824,
+      "coverage": {
+        "frontmatter": 1,
+        "cta": 0.995,
+        "internalLink": 0.995,
+        "externalLink": 0
+      },
+      "live": {
+        "sitemap": {
+          "ok": true,
+          "status": 200
+        },
+        "robots": {
+          "ok": true,
+          "status": 200,
+          "hasSitemap": true
+        },
+        "samples": [
+          {
+            "slug": "2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-brand-managers-2026",
+            "url": "https://sellkit.neogenesis.app/blog/2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-brand-managers-2026",
+            "status": 200,
+            "ok": true,
+            "hasTitle": true,
+            "sitemapIncluded": true,
+            "hasCanonicalHint": true
+          },
+          {
+            "slug": "2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-catalog-managers-2026",
+            "url": "https://sellkit.neogenesis.app/blog/2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-catalog-managers-2026",
+            "status": 200,
+            "ok": true,
+            "hasTitle": true,
+            "sitemapIncluded": true,
+            "hasCanonicalHint": true
+          },
+          {
+            "slug": "2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-customer-support-leaders-2026",
+            "url": "https://sellkit.neogenesis.app/blog/2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-customer-support-leaders-2026",
+            "status": 200,
+            "ok": true,
+            "hasTitle": true,
+            "sitemapIncluded": true,
+            "hasCanonicalHint": true
+          },
+          {
+            "slug": "2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-dtc-operators-2026",
+            "url": "https://sellkit.neogenesis.app/blog/2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-dtc-operators-2026",
+            "status": 200,
+            "ok": true,
+            "hasTitle": true,
+            "sitemapIncluded": true,
+            "hasCanonicalHint": true
+          },
+          {
+            "slug": "2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-ecommerce-founders-2026",
+            "url": "https://sellkit.neogenesis.app/blog/2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-ecommerce-founders-2026",
+            "status": 200,
+            "ok": true,
+            "hasTitle": true,
+            "sitemapIncluded": true,
+            "hasCanonicalHint": true
+          }
+        ]
+      },
+      "weakSamples": {
+        "missingFrontmatter": [],
+        "tooShort": [
+          {
+            "slug": "2026-04-26-ai-sales-enablement-tools-for-ecommerce",
+            "words": 431
+          }
+        ],
+        "missingCta": [
+          "2026-04-26-ai-sales-enablement-tools-for-ecommerce"
+        ],
+        "missingInternalLink": [
+          "2026-04-26-ai-sales-enablement-tools-for-ecommerce"
+        ]
+      },
+      "status": "green",
+      "issues": []
+    }
+  ],
+  "passed": true
+}

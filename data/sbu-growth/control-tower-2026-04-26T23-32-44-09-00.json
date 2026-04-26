@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-04-27T02:32:25+09:00",
-  "today": "2026-04-27",
+  "generatedAt": "2026-04-26T23:32:44+09:00",
+  "today": "2026-04-26",
   "targetMau": 100000,
   "monthlyVisitsPerReadyPost": 350,
   "requiredReadyPosts": 286,
-  "liveChecked": true,
+  "liveChecked": false,
   "sites": [
     {
       "id": "toolpick",
@@ -13,8 +13,8 @@
       "benchmark": true,
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
-      "score": 87,
-      "status": "green",
+      "score": 82,
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\toolpick",
         "exists": true,
@@ -31,23 +31,23 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/https-www.toolpick.dev-.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 30
         },
         "posts": {
           "total": 379,
-          "ready": 373,
+          "ready": 368,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 130550,
+          "modeledMau": 128800,
           "mauGap": 0,
           "latest": {
             "slug": "ai-agent-development-tools-2026",
             "file": "src\\sbu\\toolpick\\content\\blog\\ai-agent-development-tools-2026.mdx",
             "title": "AI Agent Development Tools in 2026: LangGraph, OpenAI Agents SDK, Mastra, and CrewAI",
-            "date": "2026-04-27",
+            "date": "2026-04-25",
             "description": "Compare AI agent development tools for builders choosing orchestration, memory, tools, observability, deployment model, and production risk.",
             "category": "AI Coding",
             "draft": false,
@@ -58,77 +58,58 @@
             "hasExternalLink": true,
             "ready": true
           },
-          "daysSinceLatest": 0,
+          "daysSinceLatest": 1,
           "fresh": true,
           "categoryCount": 59,
-          "avgWords": 1318,
+          "avgWords": 1303,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.72,
-          "internalLinkCoverage": 0.652,
+          "ctaCoverage": 0.319,
+          "internalLinkCoverage": 0.066,
           "weakSamples": [
+            {
+              "slug": "lifesync-smartwatch-review-fitness-tracking-on-a-budget",
+              "date": "2026-04-05",
+              "words": 634,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "my-dear-mdwmt0601a-ae-kr-dishwasher-review-auto-open-convenience",
               "date": "2026-04-03",
-              "words": 609,
+              "words": 583,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "imuz-mupad-k10-plus-tablet-review-budget-friendly-option",
-              "date": "2026-03-26",
-              "words": 643,
+              "slug": "philips-baristina-compact-espresso-machine-review",
+              "date": "2026-03-30",
+              "words": 634,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "lenovo-v15-g5-irl-13th-gen-intel-i5-laptop-review",
-              "date": "2026-03-22",
-              "words": 643,
+              "slug": "my-dear-mdwmt0601w-wine-kr-dishwasher-review-is-it-worth-it",
+              "date": "2026-03-29",
+              "words": 625,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "miraclem-10-port-120w-charger-power-all-your-devices",
-              "date": "2026-03-22",
-              "words": 603,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "shinil-sdh-pm1000-ai-dehumidifier-a-comprehensive-review",
-              "date": "2026-03-19",
-              "words": 595,
+              "slug": "ato-gaming-ag0302-mechanical-keyboard-review-value-redefined",
+              "date": "2026-03-28",
+              "words": 644,
               "completeFrontmatter": true,
               "draft": false
             }
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
-      "actions": []
+      "live": null,
+      "actions": [
+        "Upgrade CTA coverage across existing posts.",
+        "Add internal links and hub routes to improve crawl depth.",
+        "Review dirty working tree before automated publish/deploy."
+      ]
     },
     {
       "id": "aiforge",
@@ -138,7 +119,7 @@
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
       "score": 87,
-      "status": "green",
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\aiforge",
         "exists": true,
@@ -155,10 +136,10 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/aiforge.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 281
         },
         "posts": {
           "total": 431,
@@ -175,17 +156,17 @@
             "description": "AI agent platforms - A practical evaluation guide for product, operations, and growth teams.",
             "category": "AI Tools",
             "draft": false,
-            "words": 509,
+            "words": 508,
             "completeFrontmatter": true,
             "hasCta": true,
             "hasInternalLink": true,
             "hasExternalLink": false,
             "ready": false
           },
-          "daysSinceLatest": 1,
+          "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 14,
-          "avgWords": 1634,
+          "avgWords": 1633,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.722,
           "internalLinkCoverage": 0.652,
@@ -193,66 +174,45 @@
             {
               "slug": "2026-04-26-ai-agent-platforms-for-product-teams",
               "date": "2026-04-26",
-              "words": 509,
+              "words": 508,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "ai-model-deployment-platforms-comparison-2026",
               "date": "2026-03-31",
-              "words": 497,
+              "words": 496,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "ai-observability-tools-comparison",
               "date": "2026-03-30",
-              "words": 504,
+              "words": 503,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "ai-powered-observability-platforms",
               "date": "2026-03-29",
-              "words": 391,
+              "words": 357,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "ai-testing-tools-ml-model-testing-automated-ml-testing",
               "date": "2026-03-07",
-              "words": 91,
+              "words": 90,
               "completeFrontmatter": true,
               "draft": false
             }
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
-      "actions": []
+      "live": null,
+      "actions": [
+        "Review dirty working tree before automated publish/deploy."
+      ]
     },
     {
       "id": "craftdesk",
@@ -262,7 +222,7 @@
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
       "score": 88,
-      "status": "green",
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\craftdesk",
         "exists": true,
@@ -279,10 +239,10 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/craftdesk.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 240
         },
         "posts": {
           "total": 368,
@@ -299,17 +259,17 @@
             "description": "Figma plugins for product design - A practical evaluation guide for design, product, and creative teams.",
             "category": "UI/UX",
             "draft": false,
-            "words": 735,
+            "words": 734,
             "completeFrontmatter": true,
             "hasCta": true,
             "hasInternalLink": true,
             "hasExternalLink": false,
             "ready": true
           },
-          "daysSinceLatest": 1,
+          "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1570,
+          "avgWords": 1569,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.821,
           "internalLinkCoverage": 0.652,
@@ -317,66 +277,45 @@
             {
               "slug": "ai-ui-design-software-comparison-for-enterprise-2026",
               "date": "2026-03-26",
-              "words": 54,
+              "words": 53,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "ai-ui-ux-design-tools-comparison",
               "date": "2026-03-20",
-              "words": 331,
+              "words": 330,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "ai-ui-design-software-for-web-apps-2026-comparison",
               "date": "2026-03-19",
-              "words": 404,
+              "words": 403,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "ai-ui-design-software-enterprise-comparison-2026",
               "date": "2026-03-18",
-              "words": 463,
+              "words": 462,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "ai-powered-collaboration-tools-uiux",
               "date": "2026-03-17",
-              "words": 505,
+              "words": 504,
               "completeFrontmatter": true,
               "draft": false
             }
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
-      "actions": []
+      "live": null,
+      "actions": [
+        "Review dirty working tree before automated publish/deploy."
+      ]
     },
     {
       "id": "deploystack",
@@ -386,7 +325,7 @@
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
       "score": 87,
-      "status": "green",
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\deploystack",
         "exists": true,
@@ -403,10 +342,10 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/deploystack.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 203
         },
         "posts": {
           "total": 311,
@@ -423,17 +362,17 @@
             "description": "Serverless observability tools - A practical guide for startup teams running Vercel, Workers, Lambda, and managed databases.",
             "category": "Observability",
             "draft": false,
-            "words": 468,
+            "words": 467,
             "completeFrontmatter": true,
             "hasCta": true,
             "hasInternalLink": true,
             "hasExternalLink": false,
             "ready": false
           },
-          "daysSinceLatest": 1,
+          "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1589,
+          "avgWords": 1588,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.72,
           "internalLinkCoverage": 0.653,
@@ -441,66 +380,45 @@
             {
               "slug": "2026-04-26-serverless-observability-tools-for-startups",
               "date": "2026-04-26",
-              "words": 468,
+              "words": 467,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "kubernetes-monitoring-tools",
               "date": "2026-03-31",
-              "words": 85,
+              "words": 84,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "automated-cicd",
               "date": "2026-03-29",
-              "words": 73,
+              "words": 72,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "ai-devops-platforms",
               "date": "2026-03-25",
-              "words": 41,
+              "words": 36,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "cloud-infrastructure-automation-tools-comparison",
               "date": "2026-03-16",
-              "words": 26,
+              "words": 25,
               "completeFrontmatter": true,
               "draft": false
             }
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
-      "actions": []
+      "live": null,
+      "actions": [
+        "Review dirty working tree before automated publish/deploy."
+      ]
     },
     {
       "id": "finstack",
@@ -510,7 +428,7 @@
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
       "score": 87,
-      "status": "green",
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\finstack",
         "exists": true,
@@ -527,10 +445,10 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/finstack.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 52
         },
         "posts": {
           "total": 306,
@@ -554,7 +472,7 @@
             "hasExternalLink": false,
             "ready": true
           },
-          "daysSinceLatest": 1,
+          "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 13,
           "avgWords": 1158,
@@ -565,66 +483,45 @@
             {
               "slug": "2026-04-26-embedded-finance-platforms-for-saas",
               "date": "2026-04-26",
-              "words": 430,
+              "words": 429,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "financial-data-api-for-real-estate-platforms-comparison",
               "date": "2026-03-30",
-              "words": 552,
+              "words": 551,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "financial-data-api-for-smbs-pricing-and-feature-comparison",
               "date": "2026-03-30",
-              "words": 450,
+              "words": 449,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "financial-data-api-comparison-for-saas-platforms",
               "date": "2026-03-29",
-              "words": 289,
+              "words": 258,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "financial-reporting-api-for-fintech",
               "date": "2026-03-29",
-              "words": 605,
+              "words": 604,
               "completeFrontmatter": true,
               "draft": false
             }
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
-      "actions": []
+      "live": null,
+      "actions": [
+        "Review dirty working tree before automated publish/deploy."
+      ]
     },
     {
       "id": "sellkit",
@@ -678,7 +575,7 @@
             "hasExternalLink": false,
             "ready": true
           },
-          "daysSinceLatest": 1,
+          "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
           "avgWords": 1026,
@@ -717,30 +614,7 @@
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
+      "live": null,
       "actions": []
     }
   ]

@@ -1,0 +1,156 @@
+{
+  "generatedAt": "2026-04-27T02:28:24+09:00",
+  "sites": [
+    {
+      "site": "toolpick",
+      "name": "ToolPick",
+      "domain": "https://toolpick.dev",
+      "topics": {
+        "url": "https://toolpick.dev/blog/topics",
+        "status": 200,
+        "ok": true,
+        "hasHubCopy": true
+      },
+      "sitemap": {
+        "url": "https://toolpick.dev/sitemap.xml",
+        "status": 200,
+        "ok": true,
+        "hasTopics": true
+      },
+      "firstCluster": {
+        "path": "/blog/topics/ai-coding",
+        "status": 200,
+        "ok": true,
+        "hasCanonicalHint": true
+      },
+      "status": "green",
+      "issues": []
+    },
+    {
+      "site": "aiforge",
+      "name": "AIForge",
+      "domain": "https://aiforge.neogenesis.app",
+      "topics": {
+        "url": "https://aiforge.neogenesis.app/blog/topics",
+        "status": 200,
+        "ok": true,
+        "hasHubCopy": true
+      },
+      "sitemap": {
+        "url": "https://aiforge.neogenesis.app/sitemap.xml",
+        "status": 200,
+        "ok": true,
+        "hasTopics": true
+      },
+      "firstCluster": {
+        "path": "/blog/topics/ai-tools",
+        "status": 200,
+        "ok": true,
+        "hasCanonicalHint": true
+      },
+      "status": "green",
+      "issues": []
+    },
+    {
+      "site": "craftdesk",
+      "name": "CraftDesk",
+      "domain": "https://craftdesk.neogenesis.app",
+      "topics": {
+        "url": "https://craftdesk.neogenesis.app/blog/topics",
+        "status": 200,
+        "ok": true,
+        "hasHubCopy": true
+      },
+      "sitemap": {
+        "url": "https://craftdesk.neogenesis.app/sitemap.xml",
+        "status": 200,
+        "ok": true,
+        "hasTopics": true
+      },
+      "firstCluster": {
+        "path": "/blog/topics/ui-ux",
+        "status": 200,
+        "ok": true,
+        "hasCanonicalHint": true
+      },
+      "status": "green",
+      "issues": []
+    },
+    {
+      "site": "deploystack",
+      "name": "DeployStack",
+      "domain": "https://deploystack.neogenesis.app",
+      "topics": {
+        "url": "https://deploystack.neogenesis.app/blog/topics",
+        "status": 200,
+        "ok": true,
+        "hasHubCopy": true
+      },
+      "sitemap": {
+        "url": "https://deploystack.neogenesis.app/sitemap.xml",
+        "status": 200,
+        "ok": true,
+        "hasTopics": true
+      },
+      "firstCluster": {
+        "path": "/blog/topics/observability",
+        "status": 200,
+        "ok": true,
+        "hasCanonicalHint": true
+      },
+      "status": "green",
+      "issues": []
+    },
+    {
+      "site": "finstack",
+      "name": "FinStack",
+      "domain": "https://finstack.neogenesis.app",
+      "topics": {
+        "url": "https://finstack.neogenesis.app/blog/topics",
+        "status": 200,
+        "ok": true,
+        "hasHubCopy": true
+      },
+      "sitemap": {
+        "url": "https://finstack.neogenesis.app/sitemap.xml",
+        "status": 200,
+        "ok": true,
+        "hasTopics": true
+      },
+      "firstCluster": {
+        "path": "/blog/topics/fintech",
+        "status": 200,
+        "ok": true,
+        "hasCanonicalHint": true
+      },
+      "status": "green",
+      "issues": []
+    },
+    {
+      "site": "sellkit",
+      "name": "SellKit",
+      "domain": "https://sellkit.neogenesis.app",
+      "topics": {
+        "url": "https://sellkit.neogenesis.app/blog/topics",
+        "status": 200,
+        "ok": true,
+        "hasHubCopy": true
+      },
+      "sitemap": {
+        "url": "https://sellkit.neogenesis.app/sitemap.xml",
+        "status": 200,
+        "ok": true,
+        "hasTopics": true
+      },
+      "firstCluster": {
+        "path": "/blog/topics/sales-tools",
+        "status": 200,
+        "ok": true,
+        "hasCanonicalHint": true
+      },
+      "status": "green",
+      "issues": []
+    }
+  ],
+  "passed": true
+}

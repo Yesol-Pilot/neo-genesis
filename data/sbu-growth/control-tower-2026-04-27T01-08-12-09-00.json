@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-04-27T02:32:25+09:00",
+  "generatedAt": "2026-04-27T01:08:12+09:00",
   "today": "2026-04-27",
   "targetMau": 100000,
   "monthlyVisitsPerReadyPost": 350,
   "requiredReadyPosts": 286,
-  "liveChecked": true,
+  "liveChecked": false,
   "sites": [
     {
       "id": "toolpick",
@@ -14,7 +14,7 @@
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
       "score": 87,
-      "status": "green",
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\toolpick",
         "exists": true,
@@ -31,10 +31,10 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/https-www.toolpick.dev-.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 314
         },
         "posts": {
           "total": 379,
@@ -104,31 +104,10 @@
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
-      "actions": []
+      "live": null,
+      "actions": [
+        "Review dirty working tree before automated publish/deploy."
+      ]
     },
     {
       "id": "aiforge",
@@ -228,30 +207,7 @@
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
+      "live": null,
       "actions": []
     },
     {
@@ -352,30 +308,7 @@
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
+      "live": null,
       "actions": []
     },
     {
@@ -476,30 +409,7 @@
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
+      "live": null,
       "actions": []
     },
     {
@@ -600,30 +510,7 @@
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
+      "live": null,
       "actions": []
     },
     {
@@ -717,30 +604,7 @@
           ]
         }
       },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
+      "live": null,
       "actions": []
     }
   ]

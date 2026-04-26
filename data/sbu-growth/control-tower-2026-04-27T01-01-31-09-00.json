@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-27T02:32:25+09:00",
+  "generatedAt": "2026-04-27T01:01:31+09:00",
   "today": "2026-04-27",
   "targetMau": 100000,
   "monthlyVisitsPerReadyPost": 350,
@@ -13,8 +13,8 @@
       "benchmark": true,
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
-      "score": 87,
-      "status": "green",
+      "score": 67,
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\toolpick",
         "exists": true,
@@ -38,16 +38,16 @@
         },
         "posts": {
           "total": 379,
-          "ready": 373,
+          "ready": 368,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 130550,
+          "modeledMau": 128800,
           "mauGap": 0,
           "latest": {
             "slug": "ai-agent-development-tools-2026",
             "file": "src\\sbu\\toolpick\\content\\blog\\ai-agent-development-tools-2026.mdx",
             "title": "AI Agent Development Tools in 2026: LangGraph, OpenAI Agents SDK, Mastra, and CrewAI",
-            "date": "2026-04-27",
+            "date": "2026-04-25",
             "description": "Compare AI agent development tools for builders choosing orchestration, memory, tools, observability, deployment model, and production risk.",
             "category": "AI Coding",
             "draft": false,
@@ -58,46 +58,46 @@
             "hasExternalLink": true,
             "ready": true
           },
-          "daysSinceLatest": 0,
-          "fresh": true,
+          "daysSinceLatest": 2,
+          "fresh": false,
           "categoryCount": 59,
-          "avgWords": 1318,
+          "avgWords": 1303,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.72,
-          "internalLinkCoverage": 0.652,
+          "ctaCoverage": 0.319,
+          "internalLinkCoverage": 0.066,
           "weakSamples": [
+            {
+              "slug": "lifesync-smartwatch-review-fitness-tracking-on-a-budget",
+              "date": "2026-04-05",
+              "words": 634,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "my-dear-mdwmt0601a-ae-kr-dishwasher-review-auto-open-convenience",
               "date": "2026-04-03",
-              "words": 609,
+              "words": 583,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "imuz-mupad-k10-plus-tablet-review-budget-friendly-option",
-              "date": "2026-03-26",
-              "words": 643,
+              "slug": "philips-baristina-compact-espresso-machine-review",
+              "date": "2026-03-30",
+              "words": 634,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "lenovo-v15-g5-irl-13th-gen-intel-i5-laptop-review",
-              "date": "2026-03-22",
-              "words": 643,
+              "slug": "my-dear-mdwmt0601w-wine-kr-dishwasher-review-is-it-worth-it",
+              "date": "2026-03-29",
+              "words": 625,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "miraclem-10-port-120w-charger-power-all-your-devices",
-              "date": "2026-03-22",
-              "words": 603,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "shinil-sdh-pm1000-ai-dehumidifier-a-comprehensive-review",
-              "date": "2026-03-19",
-              "words": 595,
+              "slug": "ato-gaming-ag0302-mechanical-keyboard-review-value-redefined",
+              "date": "2026-03-28",
+              "words": 644,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -128,7 +128,11 @@
           "hasSitemap": true
         }
       },
-      "actions": []
+      "actions": [
+        "Run autonomous publisher: latest MDX is older than daily freshness gate.",
+        "Upgrade CTA coverage across existing posts.",
+        "Add internal links and hub routes to improve crawl depth."
+      ]
     },
     {
       "id": "aiforge",

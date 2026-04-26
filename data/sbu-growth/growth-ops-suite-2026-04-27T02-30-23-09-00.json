@@ -1,0 +1,1270 @@
+{
+  "generatedAt": "2026-04-27T02:30:23+09:00",
+  "sites": [
+    "toolpick",
+    "aiforge",
+    "craftdesk",
+    "deploystack",
+    "finstack",
+    "sellkit"
+  ],
+  "measurement": {
+    "passed": true,
+    "sites": [
+      {
+        "site": "toolpick",
+        "name": "ToolPick",
+        "homeStatus": 200,
+        "code": {
+          "posthog": true,
+          "ga": true
+        },
+        "live": {
+          "posthog": false,
+          "ga": true
+        },
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "aiforge",
+        "name": "AIForge",
+        "homeStatus": 200,
+        "code": {
+          "posthog": true,
+          "ga": true
+        },
+        "live": {
+          "posthog": false,
+          "ga": true
+        },
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "craftdesk",
+        "name": "CraftDesk",
+        "homeStatus": 200,
+        "code": {
+          "posthog": true,
+          "ga": true
+        },
+        "live": {
+          "posthog": false,
+          "ga": true
+        },
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "deploystack",
+        "name": "DeployStack",
+        "homeStatus": 200,
+        "code": {
+          "posthog": true,
+          "ga": true
+        },
+        "live": {
+          "posthog": false,
+          "ga": true
+        },
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "finstack",
+        "name": "FinStack",
+        "homeStatus": 200,
+        "code": {
+          "posthog": true,
+          "ga": true
+        },
+        "live": {
+          "posthog": false,
+          "ga": true
+        },
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "sellkit",
+        "name": "SellKit",
+        "homeStatus": 200,
+        "code": {
+          "posthog": true,
+          "ga": true
+        },
+        "live": {
+          "posthog": false,
+          "ga": true
+        },
+        "status": "green",
+        "issues": []
+      }
+    ]
+  },
+  "searchIndexing": {
+    "passed": true,
+    "hasSearchConsoleCredentials": false,
+    "sites": [
+      {
+        "site": "toolpick",
+        "name": "ToolPick",
+        "sitemap": {
+          "status": 200,
+          "ok": true,
+          "blogUrls": 297
+        },
+        "robots": {
+          "status": 200,
+          "ok": true,
+          "hasSitemap": true
+        },
+        "submission": "dry_run_missing_gsc_credentials",
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "aiforge",
+        "name": "AIForge",
+        "sitemap": {
+          "status": 200,
+          "ok": true,
+          "blogUrls": 446
+        },
+        "robots": {
+          "status": 200,
+          "ok": true,
+          "hasSitemap": true
+        },
+        "submission": "dry_run_missing_gsc_credentials",
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "craftdesk",
+        "name": "CraftDesk",
+        "sitemap": {
+          "status": 200,
+          "ok": true,
+          "blogUrls": 379
+        },
+        "robots": {
+          "status": 200,
+          "ok": true,
+          "hasSitemap": true
+        },
+        "submission": "dry_run_missing_gsc_credentials",
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "deploystack",
+        "name": "DeployStack",
+        "sitemap": {
+          "status": 200,
+          "ok": true,
+          "blogUrls": 322
+        },
+        "robots": {
+          "status": 200,
+          "ok": true,
+          "hasSitemap": true
+        },
+        "submission": "dry_run_missing_gsc_credentials",
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "finstack",
+        "name": "FinStack",
+        "sitemap": {
+          "status": 200,
+          "ok": true,
+          "blogUrls": 320
+        },
+        "robots": {
+          "status": 200,
+          "ok": true,
+          "hasSitemap": true
+        },
+        "submission": "dry_run_missing_gsc_credentials",
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "sellkit",
+        "name": "SellKit",
+        "sitemap": {
+          "status": 200,
+          "ok": true,
+          "blogUrls": 301
+        },
+        "robots": {
+          "status": 200,
+          "ok": true,
+          "hasSitemap": true
+        },
+        "submission": "dry_run_missing_gsc_credentials",
+        "status": "green",
+        "issues": []
+      }
+    ]
+  },
+  "cannibalization": {
+    "passed": true,
+    "totalPosts": 2085,
+    "exactClusterCount": 25,
+    "topClusters": [
+      {
+        "key": "ai model deployment cost optimization",
+        "count": 7,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-optimization-platforms-2026",
+            "title": "AI Model Deployment Cost Optimization Platforms 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-optimization-platforms-comparison",
+            "title": "AI Model Deployment Cost Optimization Platforms Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-optimization-platforms",
+            "title": "AI Model Deployment Cost Optimization Platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-optimization-tools-comparison-for-2026",
+            "title": "AI Model Deployment Cost Optimization Tools Comparison for 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-optimization-tools-comparison",
+            "title": "AI Model Deployment Cost Optimization Tools Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-optimization-tools",
+            "title": "AI Model Deployment Cost Optimization Tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-optimization",
+            "title": "AI Model Deployment Cost Optimization"
+          }
+        ]
+      },
+      {
+        "key": "llm api security",
+        "count": 7,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "llm-api-security-platforms-2026",
+            "title": "LLM API Security Platforms 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-api-security-platforms-comparison-2026",
+            "title": "LLM API Security Platforms Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-api-security-platforms-comparison-for-2026",
+            "title": "LLM API Security Platforms Comparison for 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-api-security-platforms-comparison",
+            "title": "LLM API Security Platforms Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-api-security-platforms",
+            "title": "LLM API Security Platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-api-security-tools-comparison",
+            "title": "LLM API Security Tools Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-api-security",
+            "title": "LLM API security"
+          }
+        ]
+      },
+      {
+        "key": "ai devops",
+        "count": 6,
+        "sites": [
+          "toolpick",
+          "aiforge",
+          "deploystack"
+        ],
+        "samples": [
+          {
+            "site": "toolpick",
+            "slug": "ai-devops-tools",
+            "title": "AI DevOps tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-devops-tools",
+            "title": "AI DevOps tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-devops",
+            "title": "AI DevOps"
+          },
+          {
+            "site": "deploystack",
+            "slug": "ai-devops-platforms",
+            "title": "AI DevOps platforms"
+          },
+          {
+            "site": "deploystack",
+            "slug": "ai-devops-tools",
+            "title": "AI DevOps tools"
+          },
+          {
+            "site": "deploystack",
+            "slug": "ai-devops",
+            "title": "AI DevOps"
+          }
+        ]
+      },
+      {
+        "key": "ai model deployment security",
+        "count": 6,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-security-platforms-comparison-2026",
+            "title": "AI Model Deployment Security Platforms Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-security-platforms-comparison",
+            "title": "AI Model Deployment Security Platforms Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-security-platforms",
+            "title": "AI Model Deployment Security Platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-security-tools-2026",
+            "title": "AI Model Deployment Security Tools 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-security-tools-comparison-2026",
+            "title": "AI Model Deployment Security Tools Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-security-tools",
+            "title": "AI Model Deployment Security Tools"
+          }
+        ]
+      },
+      {
+        "key": "ai devops automation",
+        "count": 5,
+        "sites": [
+          "toolpick",
+          "aiforge",
+          "deploystack"
+        ],
+        "samples": [
+          {
+            "site": "toolpick",
+            "slug": "ai-devops-automation",
+            "title": "AI DevOps Automation"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-devops-automation-tools",
+            "title": "AI DevOps Automation Tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-devops-automation",
+            "title": "AI DevOps Automation"
+          },
+          {
+            "site": "deploystack",
+            "slug": "ai-devops-automation-platforms",
+            "title": "AI DevOps Automation Platforms"
+          },
+          {
+            "site": "deploystack",
+            "slug": "ai-devops-automation",
+            "title": "AI DevOps Automation"
+          }
+        ]
+      },
+      {
+        "key": "ai model deployment",
+        "count": 5,
+        "sites": [
+          "toolpick",
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "toolpick",
+            "slug": "ai-model-deployment",
+            "title": "AI Model Deployment"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-platforms-comparison-2026",
+            "title": "AI Model Deployment Platforms Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-platforms-comparison",
+            "title": "AI Model Deployment Platforms Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-platforms",
+            "title": "AI model deployment platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-tools",
+            "title": "AI Model Deployment Tools"
+          }
+        ]
+      },
+      {
+        "key": "ai api observability",
+        "count": 5,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-api-observability-platforms-2026",
+            "title": "AI API Observability Platforms 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-api-observability-platforms-comparison-2026",
+            "title": "AI API Observability Platforms Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-api-observability-platforms",
+            "title": "AI API Observability Platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-api-observability-tools-comparison",
+            "title": "AI API Observability Tools Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-api-observability",
+            "title": "AI API observability"
+          }
+        ]
+      },
+      {
+        "key": "ai model deployment cost benchmarking",
+        "count": 5,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-benchmarking-platforms-2026",
+            "title": "AI Model Deployment Cost Benchmarking Platforms 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-benchmarking-platforms",
+            "title": "AI Model Deployment Cost Benchmarking Platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-benchmarking-tools-2026",
+            "title": "AI Model Deployment Cost Benchmarking Tools 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-benchmarking-tools",
+            "title": "AI Model Deployment Cost Benchmarking Tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-benchmarking",
+            "title": "AI Model Deployment Cost Benchmarking"
+          }
+        ]
+      },
+      {
+        "key": "ai model deployment cost",
+        "count": 5,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-comparison-2026",
+            "title": "AI Model Deployment Cost Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-comparison-platforms-2026",
+            "title": "AI Model Deployment Cost Comparison Platforms 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-comparison-platforms",
+            "title": "AI Model Deployment Cost Comparison Platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-comparison",
+            "title": "AI Model Deployment Cost Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost",
+            "title": "AI model deployment cost"
+          }
+        ]
+      },
+      {
+        "key": "ai model deployment governance",
+        "count": 5,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-governance-platforms-comparison-2026",
+            "title": "AI Model Deployment Governance Platforms Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-governance-platforms",
+            "title": "AI Model Deployment Governance Platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-governance-tools-2026",
+            "title": "AI Model Deployment Governance Tools 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-governance-tools-comparison-2026",
+            "title": "AI Model Deployment Governance Tools Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-governance-tools",
+            "title": "AI Model Deployment Governance Tools"
+          }
+        ]
+      },
+      {
+        "key": "ai model retraining",
+        "count": 5,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-model-retraining-platforms-2026",
+            "title": "AI Model Retraining Platforms 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-retraining-platforms-comparison-2026",
+            "title": "AI Model Retraining Platforms Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-retraining-platforms-comparison",
+            "title": "AI Model Retraining Platforms Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-retraining-platforms",
+            "title": "AI Model Retraining Platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-retraining-tools",
+            "title": "AI Model Retraining Tools"
+          }
+        ]
+      },
+      {
+        "key": "ai powered api observability",
+        "count": 5,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-observability-platforms-2026-comparison",
+            "title": "AI-Powered API Observability Platforms 2026 Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-observability-platforms-comparison-2026",
+            "title": "AI-Powered API Observability Platforms Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-observability-tools-2026",
+            "title": "AI-Powered API Observability Tools 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-observability-tools-comparison-2026",
+            "title": "AI-Powered API Observability Tools Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-observability-tools",
+            "title": "AI-Powered API Observability Tools"
+          }
+        ]
+      },
+      {
+        "key": "llm observability",
+        "count": 5,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "llm-observability-platforms-2026",
+            "title": "LLM Observability Platforms 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-observability-platforms-comparison-2026",
+            "title": "LLM Observability Platforms Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-observability-platforms",
+            "title": "LLM Observability Platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-observability-tools-comparison",
+            "title": "LLM Observability Tools Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-observability-tools",
+            "title": "LLM Observability Tools"
+          }
+        ]
+      },
+      {
+        "key": "ai design collaboration",
+        "count": 5,
+        "sites": [
+          "craftdesk"
+        ],
+        "samples": [
+          {
+            "site": "craftdesk",
+            "slug": "ai-design-collaboration-platforms-2026",
+            "title": "AI design collaboration platforms 2026"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-design-collaboration-platforms",
+            "title": "AI design collaboration platforms"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-design-collaboration-tools-2026",
+            "title": "AI Design Collaboration Tools 2026"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-design-collaboration-tools",
+            "title": "AI design collaboration tools"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-design-collaboration",
+            "title": "AI design collaboration"
+          }
+        ]
+      },
+      {
+        "key": "ai design",
+        "count": 5,
+        "sites": [
+          "craftdesk"
+        ],
+        "samples": [
+          {
+            "site": "craftdesk",
+            "slug": "ai-design-software-comparison-2026",
+            "title": "AI Design Software Comparison 2026"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-design-software",
+            "title": "AI design software"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-design-tools-comparison-2026",
+            "title": "AI Design Tools Comparison 2026"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-design-tools-comparison",
+            "title": "AI design tools comparison"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-design-tools",
+            "title": "AI design tools"
+          }
+        ]
+      },
+      {
+        "key": "ai ui design",
+        "count": 5,
+        "sites": [
+          "craftdesk"
+        ],
+        "samples": [
+          {
+            "site": "craftdesk",
+            "slug": "ai-ui-design-software-2026",
+            "title": "AI UI Design Software 2026"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-ui-design-software-comparison-2026",
+            "title": "AI UI Design Software Comparison 2026"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-ui-design-software",
+            "title": "AI UI design software"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-ui-design-tools-comparison-2026",
+            "title": "AI UI Design Tools Comparison 2026"
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-ui-design-tools-comparison",
+            "title": "AI UI Design Tools Comparison"
+          }
+        ]
+      },
+      {
+        "key": "serverless observability",
+        "count": 5,
+        "sites": [
+          "deploystack"
+        ],
+        "samples": [
+          {
+            "site": "deploystack",
+            "slug": "serverless-observability-platforms-comparison-2026",
+            "title": "Serverless Observability Platforms Comparison 2026"
+          },
+          {
+            "site": "deploystack",
+            "slug": "serverless-observability-platforms",
+            "title": "Serverless Observability Platforms"
+          },
+          {
+            "site": "deploystack",
+            "slug": "serverless-observability-tools-comparison-2026",
+            "title": "Serverless Observability Tools Comparison 2026"
+          },
+          {
+            "site": "deploystack",
+            "slug": "serverless-observability-tools",
+            "title": "Serverless Observability Tools"
+          },
+          {
+            "site": "deploystack",
+            "slug": "serverless-observability",
+            "title": "serverless observability"
+          }
+        ]
+      },
+      {
+        "key": "ai code analysis",
+        "count": 4,
+        "sites": [
+          "toolpick",
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "toolpick",
+            "slug": "ai-code-analysis-tools",
+            "title": "AI code analysis tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-code-analysis-platforms",
+            "title": "AI code analysis platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-code-analysis-tools",
+            "title": "AI code analysis tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-code-analysis",
+            "title": "AI code analysis"
+          }
+        ]
+      },
+      {
+        "key": "ai cybersecurity saas",
+        "count": 4,
+        "sites": [
+          "toolpick",
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "toolpick",
+            "slug": "ai-cybersecurity-saas",
+            "title": "AI cybersecurity SaaS"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-cybersecurity-for-saas",
+            "title": "AI Cybersecurity for SaaS"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-cybersecurity-saas",
+            "title": "AI cybersecurity SaaS"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-cybersecurity-tools-for-saas",
+            "title": "AI cybersecurity tools for SaaS"
+          }
+        ]
+      },
+      {
+        "key": "ai observability",
+        "count": 4,
+        "sites": [
+          "toolpick",
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "toolpick",
+            "slug": "ai-observability-tools",
+            "title": "AI observability tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-observability-platforms",
+            "title": "AI observability platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-observability-tools-comparison",
+            "title": "AI Observability Tools Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-observability-tools",
+            "title": "AI observability tools"
+          }
+        ]
+      },
+      {
+        "key": "ai powered api testing",
+        "count": 4,
+        "sites": [
+          "toolpick",
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "toolpick",
+            "slug": "ai-powered-api-testing-tools",
+            "title": "AI-Powered API Testing Tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-testing-platforms-2026",
+            "title": "AI-Powered API Testing Platforms 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-testing-tools-2026",
+            "title": "AI-Powered API Testing Tools 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-testing-tools",
+            "title": "AI-Powered API Testing Tools"
+          }
+        ]
+      },
+      {
+        "key": "serverless security",
+        "count": 4,
+        "sites": [
+          "toolpick",
+          "deploystack"
+        ],
+        "samples": [
+          {
+            "site": "toolpick",
+            "slug": "serverless-security-tools",
+            "title": "Serverless Security Tools"
+          },
+          {
+            "site": "toolpick",
+            "slug": "serverless-security",
+            "title": "Serverless Security"
+          },
+          {
+            "site": "deploystack",
+            "slug": "serverless-security-2026",
+            "title": "Serverless Security 2026"
+          },
+          {
+            "site": "deploystack",
+            "slug": "serverless-security",
+            "title": "Serverless Security"
+          }
+        ]
+      },
+      {
+        "key": "ai code generation security",
+        "count": 4,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-code-generation-security-platforms-2026",
+            "title": "AI Code Generation Security Platforms 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-code-generation-security-tools-2026",
+            "title": "AI Code Generation Security Tools 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-code-generation-security-tools",
+            "title": "AI Code Generation Security Tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-code-generation-security",
+            "title": "AI Code Generation Security"
+          }
+        ]
+      },
+      {
+        "key": "ai code generation",
+        "count": 4,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-code-generation-tools-comparison-2026",
+            "title": "AI Code Generation Tools Comparison 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-code-generation-tools-comparison",
+            "title": "AI Code Generation Tools Comparison"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-code-generation-tools",
+            "title": "AI Code Generation Tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-code-generation",
+            "title": "AI Code Generation"
+          }
+        ]
+      },
+      {
+        "key": "ai model deployment cost monitoring",
+        "count": 4,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-monitoring-platforms-2026",
+            "title": "AI Model Deployment Cost Monitoring Platforms 2026"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-monitoring-platforms",
+            "title": "AI Model Deployment Cost Monitoring Platforms"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-monitoring-tools",
+            "title": "AI Model Deployment Cost Monitoring Tools"
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-monitoring",
+            "title": "AI Model Deployment Cost Monitoring"
+          }
+        ]
+      }
+    ]
+  },
+  "cronSmoke": {
+    "passed": true,
+    "sites": [
+      {
+        "site": "toolpick",
+        "name": "ToolPick",
+        "statusCode": 401,
+        "protectedRoute": true,
+        "safeSmokePassed": true,
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "aiforge",
+        "name": "AIForge",
+        "statusCode": 401,
+        "protectedRoute": true,
+        "safeSmokePassed": true,
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "craftdesk",
+        "name": "CraftDesk",
+        "statusCode": 401,
+        "protectedRoute": true,
+        "safeSmokePassed": true,
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "deploystack",
+        "name": "DeployStack",
+        "statusCode": 401,
+        "protectedRoute": true,
+        "safeSmokePassed": true,
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "finstack",
+        "name": "FinStack",
+        "statusCode": 401,
+        "protectedRoute": true,
+        "safeSmokePassed": true,
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "sellkit",
+        "name": "SellKit",
+        "statusCode": 401,
+        "protectedRoute": true,
+        "safeSmokePassed": true,
+        "status": "green",
+        "issues": []
+      }
+    ]
+  },
+  "eventTaxonomy": {
+    "passed": true,
+    "sites": [
+      {
+        "site": "toolpick",
+        "name": "ToolPick",
+        "ctaCoverage": 0.72,
+        "hasTrackedLink": true,
+        "hasPosthogEvents": true,
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "aiforge",
+        "name": "AIForge",
+        "ctaCoverage": 0.722,
+        "hasTrackedLink": true,
+        "hasPosthogEvents": true,
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "craftdesk",
+        "name": "CraftDesk",
+        "ctaCoverage": 0.821,
+        "hasTrackedLink": true,
+        "hasPosthogEvents": true,
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "deploystack",
+        "name": "DeployStack",
+        "ctaCoverage": 0.72,
+        "hasTrackedLink": true,
+        "hasPosthogEvents": true,
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "finstack",
+        "name": "FinStack",
+        "ctaCoverage": 0.722,
+        "hasTrackedLink": true,
+        "hasPosthogEvents": true,
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "sellkit",
+        "name": "SellKit",
+        "ctaCoverage": 0.866,
+        "hasTrackedLink": true,
+        "hasPosthogEvents": true,
+        "status": "green",
+        "issues": []
+      }
+    ]
+  },
+  "weeklyReport": {
+    "passed": true,
+    "summary": {
+      "greenSites": 6,
+      "totalModeledMau": 700700,
+      "liveOkSites": 6
+    },
+    "siteRows": [
+      {
+        "site": "toolpick",
+        "status": "green",
+        "modeledMau": 130550,
+        "readyPosts": 373,
+        "ctaCoverage": 0.72,
+        "internalLinkCoverage": 0.652,
+        "liveOk": true
+      },
+      {
+        "site": "aiforge",
+        "status": "green",
+        "modeledMau": 146650,
+        "readyPosts": 419,
+        "ctaCoverage": 0.722,
+        "internalLinkCoverage": 0.652,
+        "liveOk": true
+      },
+      {
+        "site": "craftdesk",
+        "status": "green",
+        "modeledMau": 120750,
+        "readyPosts": 345,
+        "ctaCoverage": 0.821,
+        "internalLinkCoverage": 0.652,
+        "liveOk": true
+      },
+      {
+        "site": "deploystack",
+        "status": "green",
+        "modeledMau": 102200,
+        "readyPosts": 292,
+        "ctaCoverage": 0.72,
+        "internalLinkCoverage": 0.653,
+        "liveOk": true
+      },
+      {
+        "site": "finstack",
+        "status": "green",
+        "modeledMau": 100450,
+        "readyPosts": 287,
+        "ctaCoverage": 0.722,
+        "internalLinkCoverage": 0.65,
+        "liveOk": true
+      },
+      {
+        "site": "sellkit",
+        "status": "green",
+        "modeledMau": 100100,
+        "readyPosts": 286,
+        "ctaCoverage": 0.866,
+        "internalLinkCoverage": 0.752,
+        "liveOk": true
+      }
+    ],
+    "nextExperiments": [
+      "Raise weak short-post samples above 650 words on each SBU.",
+      "Add query-level Search Console opportunity ingestion once credentials are wired.",
+      "Standardize PostHog event names across CTA, affiliate, and topic hub clicks.",
+      "Use topic hub click-through data to pick the next 20 cluster expansion posts."
+    ],
+    "sourceReports": {
+      "controlTower": "data/sbu-growth/control-tower-latest.json",
+      "topicHub": "data/sbu-growth/topic-hub-live-latest.json",
+      "indexingQuality": "data/sbu-growth/indexing-quality-latest.json"
+    },
+    "warnings": {
+      "measurementYellow": 0,
+      "eventTaxonomyYellow": 0,
+      "cannibalizationClusters": 25
+    }
+  },
+  "passed": true
+}

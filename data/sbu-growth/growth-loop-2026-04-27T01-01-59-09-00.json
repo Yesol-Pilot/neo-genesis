@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-04-27T02:32:29+09:00",
-  "passed": true,
+  "generatedAt": "2026-04-27T01:01:59+09:00",
+  "passed": false,
   "steps": [
     {
       "name": "publisher-verify",
@@ -8,8 +8,8 @@
       "status": 0,
       "ok": true,
       "allowedFailure": false,
-      "startedAt": "2026-04-27T02:32:23+09:00",
-      "endedAt": "2026-04-27T02:32:25+09:00",
+      "startedAt": "2026-04-27T01:01:53+09:00",
+      "endedAt": "2026-04-27T01:01:55+09:00",
       "stdoutTail": "{\n  \"date\": \"2026-04-27\",\n  \"results\": [\n    {\n      \"site\": \"aiforge\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-04-26-ai-agent-platforms-for-product-teams\",\n      \"latest\": \"2026-04-26\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"craftdesk\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-04-26-figma-plugins-for-product-design-workflows\",\n      \"latest\": \"2026-04-26\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"deploystack\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-04-26-serverless-observability-tools-for-startups\",\n      \"latest\": \"2026-04-26\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"finstack\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-04-26-accounts-payable-workflow-buyer-checklist-for-b2b-platform-teams-2026\",\n      \"latest\": \"2026-04-26\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"sellkit\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-brand-managers-2026\",\n      \"latest\": \"2026-04-26\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    }\n  ]\n}",
       "stderrTail": "",
       "gateOk": true
@@ -20,8 +20,8 @@
       "status": 0,
       "ok": true,
       "allowedFailure": false,
-      "startedAt": "2026-04-27T02:32:25+09:00",
-      "endedAt": "2026-04-27T02:32:29+09:00",
+      "startedAt": "2026-04-27T01:01:55+09:00",
+      "endedAt": "2026-04-27T01:01:59+09:00",
       "stdoutTail": "          \"weakSamples\": [\n            {\n              \"slug\": \"2026-04-26-ai-sales-enablement-tools-for-ecommerce\",\n              \"date\": \"2026-04-26\",\n              \"words\": 423,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"e-commerce-analytics-tools\",\n              \"date\": \"2026-03-22\",\n              \"words\": 511,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"ecommerce-inventory-management-software-comparison\",\n              \"date\": \"2026-02-24\",\n              \"words\": 432,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"best-ecommerce-platform-for-dropshipping-2026\",\n              \"date\": \"2026-02-23\",\n              \"words\": 0,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            }\n          ]\n        }\n      },\n      \"live\": {\n        \"blog\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasSlug\": true,\n          \"hasTitle\": true\n        },\n        \"detail\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasTitle\": true,\n          \"hasDate\": true\n        },\n        \"sitemap\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasLatestSlug\": true\n        },\n        \"robots\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasSitemap\": true\n        }\n      },\n      \"actions\": []\n    }\n  ]\n}",
       "stderrTail": "",
       "gateOk": true
@@ -29,14 +29,14 @@
     {
       "name": "regression-gate",
       "cmd": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_growth_regression_gate.mjs --json",
-      "status": 0,
-      "ok": true,
+      "status": 1,
+      "ok": false,
       "allowedFailure": false,
-      "startedAt": "2026-04-27T02:32:29+09:00",
-      "endedAt": "2026-04-27T02:32:29+09:00",
-      "stdoutTail": "{\n  \"report\": \"data\\\\sbu-growth\\\\control-tower-latest.json\",\n  \"generatedAt\": \"2026-04-27T02:32:25+09:00\",\n  \"passed\": true,\n  \"criticalIssueCount\": 0,\n  \"warningCount\": 0,\n  \"issues\": [],\n  \"warnings\": []\n}",
+      "startedAt": "2026-04-27T01:01:59+09:00",
+      "endedAt": "2026-04-27T01:01:59+09:00",
+      "stdoutTail": "{\n  \"report\": \"data\\\\sbu-growth\\\\control-tower-latest.json\",\n  \"generatedAt\": \"2026-04-27T01:01:55+09:00\",\n  \"passed\": false,\n  \"criticalIssueCount\": 1,\n  \"warningCount\": 2,\n  \"issues\": [\n    {\n      \"site\": \"toolpick\",\n      \"code\": \"stale_content\",\n      \"message\": \"Latest post is outside the freshness gate.\"\n    }\n  ],\n  \"warnings\": [\n    {\n      \"site\": \"toolpick\",\n      \"code\": \"cta_coverage_low\",\n      \"message\": \"CTA coverage 0.319.\"\n    },\n    {\n      \"site\": \"toolpick\",\n      \"code\": \"internal_link_coverage_low\",\n      \"message\": \"Internal link coverage 0.066.\"\n    }\n  ]\n}",
       "stderrTail": "",
-      "gateOk": true
+      "gateOk": false
     }
   ]
 }
