@@ -195,3 +195,11 @@ SSOT: D:/00.test/neo-genesis/.agent/
 - `chat_review_loop`가 최근 24시간 채팅에서 상대 날짜 혼동이 섞인 불만 재진입을 잡아내고 `절대 날짜 우선` 개선안을 제안한다.
 - `report_gate`는 `reply_markup`을 유지할 수 있으며, `neo_scheduler`, `proactive_agent`, `sora_notify`, `mission_controller_v2`의 자동 보고를 먼저 심사한다.
 - 24시간 실로그 재검토 결과: 품질 점수 `64`, 오류형 응답 `2`, 불만 재진입 `4`.
+## 2026-04-26 Codex: SBU Autonomous Growth Standing Approval
+
+- Owner instruction: "모두 자율주행되도록 규칙 변경 하고 진행해".
+- Canonical rule: `.agent/knowledge/20260426_SBU_AUTONOMOUS_GROWTH_RULE.md`.
+- SBU growth operations are autonomous by default: content, SEO, analytics, sitemap/llms, GitHub, Vercel, indexing, revalidation, cron, publishing pipeline repair, and live smoke verification.
+- Standing approval now includes SBU-scoped Vercel environment-variable updates and broken automation credential rotation when the credential source is owner-controlled and target scope is limited to the intended SBU or `Yesol-Pilot`.
+- Secret handling remains strict: never print, log, commit, or paste secret values. Report only sanitized status.
+- File-based SBU blogs require MDX commit/push, Vercel production deploy, live blog listing, detail 200, expected title/date, and sitemap inclusion. DB-only publish is not success.

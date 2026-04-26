@@ -513,3 +513,16 @@ Deep research pack v2 is mandatory context for major agent architecture decision
 | Security/governance | `.agent/knowledge/agent-environment/security-governance-threat-model-v2.md` |
 | Agent UX/product design | `.agent/knowledge/agent-environment/ux-product-pattern-library-v2.md` |
 | Local rollout | `.agent/knowledge/agent-environment/local-adoption-roadmap-v2.md` |
+## 2026-04-26 SBU Autonomous Growth Standing Approval
+
+Canonical detail: `.agent/knowledge/20260426_SBU_AUTONOMOUS_GROWTH_RULE.md`.
+
+Owner instruction: "모두 자율주행되도록 규칙 변경 하고 진행해".
+
+SBU content, SEO, analytics, GitHub, Vercel, sitemap, indexing, publishing, and live-verification operations run in autonomous mode by default. This extends the existing Owner Standing Approval to include SBU-scoped Vercel environment-variable updates and broken automation credential rotation when the credential source is owner-controlled and the target scope is limited to the intended SBU or `Yesol-Pilot` repository.
+
+Required gates remain active: verify `Yesol-Pilot` remote, `dpthf1537@gmail.com` git email, `.vercel/project.json` projectId/orgId/projectName, no secret printing, no secret commits, build/test where practical, production deploy verification, live blog/detail/sitemap smoke, and residual-risk reporting.
+
+This approval does not authorize billing changes, legal/contract changes, organization ownership changes, production data deletion/truncate, repository/branch deletion, bulk external messaging, or movement of personal/legal/financial documents.
+
+For file-based SBU blogs, DB-only publish is not success. Success requires MDX in the live content source, commit/push, Vercel production deploy, live blog listing, live detail HTTP 200 with expected title/date, and sitemap inclusion.
