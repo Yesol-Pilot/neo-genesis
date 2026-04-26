@@ -1,7 +1,48 @@
 # Active Tasks — 에이전트 공유 작업 목록
 
 > **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.  
-> **최종 갱신:** 2026-04-26 by Claude Opus 4.7 (Strategy Lead — Financial Advisor System v1 박제)
+> **최종 갱신:** 2026-04-26 by Claude Opus 4.7 (Strategy Lead — Weekly Progress Review #1)
+
+---
+
+## 📅 Weekly Progress Review #1 (2026-04-26, Strategy Lead)
+
+**기준 기간**: 지난 7일 (2026-04-19 ~ 2026-04-26)
+
+### 진척 카운트
+- **Commits**: 14건 (PR #3 Phase -1 closure / PR #4 Liquidation Stream 실제 구현 / PR #5 Phase Gate Monitor + 텔레그램 fix / Phase 0 dispatcher + backtest v2 scaffold + 9-Layer Kill Switch unit tests)
+- **Phase 0 게이트 통과**: 2/8 (#4 9-Layer Kill Switch tests ✅, #6 PAPER 회귀 없음 ✅) + 진행 중 4건
+- **Liquidation Stream**: PM2 id 4 online (uptime 3.7h), **received=0** (7일 합계 0건, 시장 조용 또는 URL 검증 필요)
+- **거래 (7일)**: open=0 / close=0 / pnl=$0 (PAPER mode, 알파 코드 0개)
+- **Killswitch (7일)**: 0건 발동
+- **VM 메모리**: quant-bot-live 215MB / liquidation-stream 77MB / market-news-updater 75MB — 안정
+
+### 알파 진행 (v11 6 알파)
+- **A1 Liquidation Cascade**: 인프라 ✅ (`liquidation-stream.js` PM2 가동 중) / 알파 로직 ❌
+- **A2 Mean Reversion OU**: 코드 ❌ (legacy `mean-revert-agent.js` 별개)
+- **A3 Extreme Funding**: 인프라 ✅ (`funding-rate.js` / `funding-spike-guard.js` L9) / 알파 ❌
+- **A4 Macro Event**: 코드 ❌
+- **A5 Funding/Basis Harvest**: 인프라 ✅ (`funding-harvester.js` / `funding-harvest-manager.js`) / v11 알파 wiring ❌
+- **A6 Alt MM**: 코드 ❌
+- **결론**: **0/6 페이퍼 모드 14일 검증 가능**
+
+### 자본 입금 권고
+- **트리거**: 1+ 알파 페이퍼 14일 Sharpe ≥ 1.2 + DSR ≥ 0.5 → Phase 1 통과 → 1000만원
+- **현재 상태**: ❌ 알파 코드 0개, 14일 페이퍼 검증 시작 불가
+- **권고**: **🚫 아직 입금 미권고** (이유: Phase 0 미완 + v11 알파 코드 미구현)
+
+### 다음 주 우선순위 (Strategy Lead 자율 결정)
+1. **A1 Liquidation Cascade 알파 로직 구현** — 가장 진척 가까움 (인프라 가동 중)
+2. **Liquidation Stream live URL 검증** — received=0 원인 진단 (시장 조용 vs URL 오작동)
+3. **A3 Extreme Funding 알파 wiring** — 인프라 ✅ 활용
+4. **nautilus_trader Python 통합** — Backtest Validator
+5. **Heap 추세 24h 관측** (88.32% 박스권 유지 여부)
+
+### owner 결정 대기
+- **4 crash tick 데이터 구매** (Tardis.dev $99/월 또는 CoinAPI) — Phase 0 backtest v2 검증 필수
+- **A1 알파 PAPER 진입 시점** — 코드 완성 후 즉시 vs 추가 검증
+
+(다음 주간 리뷰: 2026-05-04 Mon 10:05 KST — cron `5 10 * * 1`)
 
 ---
 
