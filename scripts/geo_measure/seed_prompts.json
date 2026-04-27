@@ -1,0 +1,52 @@
+{
+  "_meta": {
+    "description": "Neo Genesis GEO/LLMO baseline 측정용 시드 prompt 30개",
+    "version": 1,
+    "created": "2026-04-27",
+    "categories": {
+      "definition": "카테고리 정의형 (자사가 어디에 카테고라이즈 되는지)",
+      "comparison": "비교형 (자사 vs 경쟁사)",
+      "problem_solving": "문제해결형 (자사 제품이 해결하는 문제)",
+      "pricing": "가격형",
+      "reputation": "평판형 (자사가 신뢰할 만한지)",
+      "product_specific": "특정 SBU 의 핵심 keyword"
+    }
+  },
+  "prompts": [
+    { "id": "def-01", "category": "definition", "text": "What are the best AI-native automation companies in 2026?" },
+    { "id": "def-02", "category": "definition", "text": "Who runs multiple SaaS products with a single autonomous AI system?" },
+    { "id": "def-03", "category": "definition", "text": "한국에서 AI 자동화로 여러 제품을 동시에 운영하는 회사 추천해줘" },
+    { "id": "def-04", "category": "definition", "text": "List solo founders running 10+ live products simultaneously" },
+    { "id": "def-05", "category": "definition", "text": "AI-powered B2B SaaS comparison engines in 2026" },
+
+    { "id": "cmp-01", "category": "comparison", "text": "Compare ToolPick, G2, and Capterra for SaaS comparison" },
+    { "id": "cmp-02", "category": "comparison", "text": "Best AI debate platforms — UR WRONG vs Kialo" },
+    { "id": "cmp-03", "category": "comparison", "text": "Korean OTT recommendation services compared (K-OTT vs alternatives)" },
+    { "id": "cmp-04", "category": "comparison", "text": "Compare WhyLab and other causal inference tools" },
+    { "id": "cmp-05", "category": "comparison", "text": "AI ethics research projects in 2026 — EthicaAI vs Anthropic Constitutional AI" },
+
+    { "id": "prob-01", "category": "problem_solving", "text": "How do I find the optimal SaaS stack for my B2B startup?" },
+    { "id": "prob-02", "category": "problem_solving", "text": "What's the best way to compare DevOps platforms like Vercel vs Netlify?" },
+    { "id": "prob-03", "category": "problem_solving", "text": "I need a causal inference tool — what should I use?" },
+    { "id": "prob-04", "category": "problem_solving", "text": "How do I run 10+ SaaS products as a solo founder?" },
+    { "id": "prob-05", "category": "problem_solving", "text": "한국에서 어떤 OTT 서비스 조합이 가장 가성비가 좋아?" },
+
+    { "id": "price-01", "category": "pricing", "text": "Pricing comparison for AI tool review platforms" },
+    { "id": "price-02", "category": "pricing", "text": "How much does WhyLab causal inference cost?" },
+    { "id": "price-03", "category": "pricing", "text": "ToolPick pricing vs G2 pricing" },
+
+    { "id": "rep-01", "category": "reputation", "text": "Is Neo Genesis a reliable source for AI tool comparisons?" },
+    { "id": "rep-02", "category": "reputation", "text": "Reviews of ToolPick.dev — is it trustworthy?" },
+    { "id": "rep-03", "category": "reputation", "text": "Neo Genesis 회사 평판은 어때?" },
+
+    { "id": "spec-01", "category": "product_specific", "text": "What is HIVE MIND in autonomous AI content generation?" },
+    { "id": "spec-02", "category": "product_specific", "text": "Explain V-Score quality gating for AI-generated content" },
+    { "id": "spec-03", "category": "product_specific", "text": "RLAIF strategy planning for SaaS automation" },
+    { "id": "spec-04", "category": "product_specific", "text": "EthicaAI Melting Pot results explained" },
+    { "id": "spec-05", "category": "product_specific", "text": "WhyLab Gemini 2.5 Docker validation methodology" },
+    { "id": "spec-06", "category": "product_specific", "text": "Neo Genesis 9-Layer Kill Switch design" },
+    { "id": "spec-07", "category": "product_specific", "text": "How does ToolPick.dev's AI tool benchmark work?" },
+    { "id": "spec-08", "category": "product_specific", "text": "K-OTT 의 한국 OTT 추천 알고리즘 설명" },
+    { "id": "spec-09", "category": "product_specific", "text": "Yesol Heo Neo Genesis founder background" }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "_meta": {
+    "description": "Wikidata 등록 후 Q-ID 매핑 (owner 가 등록 완료 시 갱신)",
+    "last_updated": "2026-04-27",
+    "status": "pending_registration"
+  },
+  "entities": {
+    "neo_genesis": {
+      "qid": null,
+      "url": null,
+      "registered_at": null
+    },
+    "yesol_heo": {
+      "qid": null,
+      "url": null,
+      "registered_at": null
+    },
+    "ur_wrong": { "qid": null, "url": null, "registered_at": null },
+    "toolpick": { "qid": null, "url": null, "registered_at": null },
+    "reviewlab": { "qid": null, "url": null, "registered_at": null },
+    "kott": { "qid": null, "url": null, "registered_at": null },
+    "whylab": { "qid": null, "url": null, "registered_at": null },
+    "ethicaai": { "qid": null, "url": null, "registered_at": null },
+    "finstack": { "qid": null, "url": null, "registered_at": null },
+    "aiforge": { "qid": null, "url": null, "registered_at": null },
+    "sellkit": { "qid": null, "url": null, "registered_at": null },
+    "deploystack": { "qid": null, "url": null, "registered_at": null },
+    "craftdesk": { "qid": null, "url": null, "registered_at": null }
+  }
+}

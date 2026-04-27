@@ -1,0 +1,92 @@
+{
+  "_meta": {
+    "description": "11 SBU 의 Wikidata Q-item 데이터. 각 항목을 개별 Q-item 으로 등록 후 Q-ID 매핑을 registered.json 에 반영",
+    "common_statements": [
+      { "property": "P127", "label": "owned by", "value": "Q-NeoGenesis (등록 후 갱신)" },
+      { "property": "P17", "label": "country", "value": "Q884", "valueLabel": "South Korea" },
+      { "property": "P31", "label": "instance of", "value": "Q1668024", "valueLabel": "service on internet" }
+    ]
+  },
+  "sbus": [
+    {
+      "internal_id": "ur-wrong",
+      "label": { "en": "UR WRONG", "ko": "UR WRONG" },
+      "description": { "en": "AI debate platform that generates arguments for both sides on any topic, with community voting", "ko": "주제 양측 논거를 AI 가 생성하고 커뮤니티 투표로 토론을 진화시키는 AI 토론 플랫폼" },
+      "official_website": "https://ur-wrong.com",
+      "additional_statements": [
+        { "property": "P31", "label": "instance of", "value": "Q188860", "valueLabel": "online community" },
+        { "property": "P306", "label": "operating system", "value": "(web)" }
+      ]
+    },
+    {
+      "internal_id": "toolpick",
+      "label": { "en": "ToolPick", "ko": "툴픽" },
+      "description": { "en": "B2B SaaS comparison engine that uses AI to analyze hundreds of tools and surface the optimal stack", "ko": "AI 가 수백 개 도구를 분석해 최적 스택을 찾아주는 B2B SaaS 비교 엔진" },
+      "official_website": "https://toolpick.dev"
+    },
+    {
+      "internal_id": "reviewlab",
+      "label": { "en": "ReviewLab", "ko": "리뷰랩" },
+      "description": { "en": "AI-powered product review magazine producing data-driven reviews from automated analysis", "ko": "자동 분석으로 데이터 기반 리뷰를 생성하는 AI 제품 리뷰 매거진" },
+      "official_website": "https://review.neogenesis.app"
+    },
+    {
+      "internal_id": "kott",
+      "label": { "en": "K-OTT", "ko": "K-OTT" },
+      "description": { "en": "AI-powered OTT recommendation platform for Korean streaming services including Netflix, Disney+, Wavve, Tving", "ko": "넷플릭스, 디즈니+, 웨이브, 티빙 등 한국 OTT 서비스 추천 AI 플랫폼" },
+      "official_website": "https://kott.kr",
+      "additional_statements": [
+        { "property": "P31", "label": "instance of", "value": "Q1639024", "valueLabel": "recommender system" }
+      ]
+    },
+    {
+      "internal_id": "whylab",
+      "label": { "en": "WhyLab", "ko": "와이랩" },
+      "description": { "en": "Causal inference SaaS that answers Why questions with rigorous data-driven causal analysis", "ko": "엄격한 데이터 기반 인과 분석으로 Why 질문에 답하는 인과추론 SaaS" },
+      "official_website": "https://whylab.neogenesis.app",
+      "additional_statements": [
+        { "property": "P31", "label": "instance of", "value": "Q188860", "valueLabel": "research project" }
+      ]
+    },
+    {
+      "internal_id": "ethicaai",
+      "label": { "en": "EthicaAI", "ko": "에티카AI" },
+      "description": { "en": "AI ethics research project verifying Amartya Sen rationality theory via multi-agent reinforcement learning", "ko": "멀티 에이전트 강화학습으로 아마르티아 센의 합리성 이론을 검증하는 AI 윤리 연구 프로젝트" },
+      "official_website": "https://ethica.neogenesis.app",
+      "additional_statements": [
+        { "property": "P31", "label": "instance of", "value": "Q1298668", "valueLabel": "research" },
+        { "property": "P921", "label": "main subject", "value": "Q1196", "valueLabel": "rationality" }
+      ]
+    },
+    {
+      "internal_id": "finstack",
+      "label": { "en": "FinStack", "ko": "핀스택" },
+      "description": { "en": "Fintech tool reviews covering banking APIs, payment gateways, and financial infrastructure", "ko": "뱅킹 API, 결제 게이트웨이, 금융 인프라를 다루는 핀테크 도구 리뷰" },
+      "official_website": "https://finstack.neogenesis.app"
+    },
+    {
+      "internal_id": "aiforge",
+      "label": { "en": "AIForge", "ko": "AI포지" },
+      "description": { "en": "AI tool deep analysis with comprehensive benchmarks and ROI calculations for enterprise AI solutions", "ko": "엔터프라이즈 AI 솔루션의 종합 벤치마크와 ROI 계산을 제공하는 AI 도구 심층 분석" },
+      "official_website": "https://aiforge.neogenesis.app"
+    },
+    {
+      "internal_id": "sellkit",
+      "label": { "en": "SellKit", "ko": "셀킷" },
+      "description": { "en": "E-commerce tool reviews including Shopify apps, marketing automation, and conversion optimization", "ko": "쇼피파이 앱, 마케팅 자동화, 전환 최적화를 포함한 이커머스 도구 리뷰" },
+      "official_website": "https://sellkit.neogenesis.app"
+    },
+    {
+      "internal_id": "deploystack",
+      "label": { "en": "DeployStack", "ko": "디플로이스택" },
+      "description": { "en": "DevOps tool reviews covering CI/CD pipelines, cloud platforms, and infrastructure-as-code", "ko": "CI/CD 파이프라인, 클라우드 플랫폼, IaC 를 다루는 DevOps 도구 리뷰" },
+      "official_website": "https://deploystack.neogenesis.app"
+    },
+    {
+      "internal_id": "craftdesk",
+      "label": { "en": "CraftDesk", "ko": "크래프트데스크" },
+      "description": { "en": "Design tool reviews including UI kits, prototyping tools, and creative workflow optimization", "ko": "UI 키트, 프로토타이핑 도구, 창작 워크플로 최적화를 포함한 디자인 도구 리뷰" },
+      "official_website": "https://craftdesk.neogenesis.app"
+    }
+  ]
+}

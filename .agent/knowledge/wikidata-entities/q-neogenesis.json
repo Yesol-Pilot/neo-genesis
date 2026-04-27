@@ -1,0 +1,37 @@
+{
+  "label": {
+    "en": "Neo Genesis",
+    "ko": "네오제네시스"
+  },
+  "description": {
+    "en": "AI-native automation company running 11 live business units with a single autonomous AI system",
+    "ko": "단일 자율 AI 시스템으로 11개의 라이브 비즈니스 유닛을 운영하는 AI 네이티브 자동화 회사"
+  },
+  "aliases": {
+    "en": ["NeoGenesis", "Neo-Genesis"],
+    "ko": ["네오제네시스", "Neo Genesis"]
+  },
+  "statements": [
+    { "property": "P31", "label": "instance of", "value": "Q4830453", "valueLabel": "business" },
+    { "property": "P31", "label": "instance of", "value": "Q1773061", "valueLabel": "internet startup" },
+    { "property": "P17", "label": "country", "value": "Q884", "valueLabel": "South Korea" },
+    { "property": "P159", "label": "headquarters location", "value": "Q8684", "valueLabel": "Seoul" },
+    { "property": "P856", "label": "official website", "value": "https://neogenesis.app" },
+    { "property": "P571", "label": "inception", "value": "2024" },
+    { "property": "P1448", "label": "official name", "value": "Neo Genesis" },
+    { "property": "P112", "label": "founder", "value": "Q-YesolHeo (등록 후 갱신)" },
+    { "property": "P2037", "label": "GitHub username", "value": "Yesol-Pilot" },
+    { "property": "P968", "label": "email", "value": "neogenesis.research@gmail.com" },
+    { "property": "P452", "label": "industry", "value": "Q11661", "valueLabel": "information technology" },
+    { "property": "P452", "label": "industry", "value": "Q11660", "valueLabel": "artificial intelligence" }
+  ],
+  "sitelinks": {
+    "enwiki": "(아직 미등록)",
+    "kowiki": "(아직 미등록)"
+  },
+  "sources": [
+    "https://neogenesis.app",
+    "https://neogenesis.app/llms-full.txt",
+    "https://github.com/Yesol-Pilot"
+  ]
+}

@@ -1,7 +1,136 @@
 # Active Tasks — 에이전트 공유 작업 목록
 
 > **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.  
-> **최종 갱신:** 2026-04-27 by Claude Opus 4.7 (Strategy Lead — Weekly Progress Review #2)
+> **최종 갱신:** 2026-04-27 by Claude Opus 4.7 (Strategy Lead — neogenesis.app GEO Master 박제)
+
+---
+
+## 🟣 neogenesis.app — 전세계 AI 트래픽 극대화 (2026-04-27 신설)
+
+기반: [`.agent/knowledge/20260427_AI_TRAFFIC_MAXIMIZATION_MASTER_v1.md`](../knowledge/20260427_AI_TRAFFIC_MAXIMIZATION_MASTER_v1.md)
+근거 리서치: 8 트랙 병렬 web research (Claude Opus 4.7, 2026-04-27)
+owner 의도: "겉으로는 기업 소개, 실체는 전세계 모든 AI 들의 트래픽 확보 플랫폼. 어떤 방법으로든. 도메인 무관."
+Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임 ("너가 총책임자이자 내 대리인")
+
+### 채택된 결정 (자율, Strategy Lead 권한 행사)
+- **옵션 B 채택**: "기업 소개 표면 + Data Hub 실체" 듀얼 구조
+- 비용: P0~P2 (M1~M6) 사실상 $0 — 코드 변경 + 기존 인프라 활용
+- 유료 측정 SaaS (Profound/Otterly) default 안 씀 — DIY 6개월 데이터로 ROI 입증 후만 검토
+- 외부 commitment (PR / 보도자료) 만 G2 게이트
+
+### 대상 도메인 + 코드 위치
+- 도메인: `neogenesis.app` (Cloudflare Zone `85380cbe940510fc1cf2620b1f24c707`)
+- 코드: `D:/00.test/neo-genesis/src/landing/` (Next.js + TypeScript + Vercel)
+- 백업: `D:/00.test/neo-genesis/src/_landing_backup/` (이전 HTML 정적 버전)
+
+### 보유 unique citable asset 8개
+| 자산 | 1차 자료성 | publish 가능? |
+|---|---|---|
+| quant-bot v11 라이브 PAPER telemetry | ★★★★★ | Phase 0 통과 후 |
+| EthicaAI Melting Pot mixed-safe | ★★★★★ | 이미 publish |
+| WhyLab Gemini 2.5 Docker | ★★★★★ | 이미 publish |
+| RAG Master Design v1 | ★★★★★ | 즉시 |
+| 6 SBU 운영 메트릭 | ★★★★ | 익명화 후 |
+| 9-Layer Kill Switch 데이터 | ★★★★★ | Phase 0 후 |
+| Sora fleet 운영 패턴 (6대 디바이스) | ★★★★ | 즉시 |
+| Agent Environment v2 pack | ★★★ | 즉시 |
+
+### Phase 0 — Foundation (2026-04-27 완료, 비용 $0)
+
+#### 인프라 (Task 1-6) ✅
+- [x] **robots.txt** — 25개 AI bot 명시적 Allow + 2 sitemap 등록 (`src/landing/public/robots.txt`)
+- [x] **llms.txt + llms-full.txt** — 동적 route (`src/landing/src/app/llms.txt/route.ts`, `llms-full.txt/route.ts`) — SBU/블로그 단일 소스 자동 반영
+- [x] **Schema.org JSON-LD** — Organization + WebSite + Person + 11 SBU OfferCatalog (`layout.tsx`), BlogPosting + BreadcrumbList 자동 (`blog/[slug]/page.tsx`)
+- [x] **Wikidata Q-item 데이터** — 13 엔티티 (Neo Genesis + 창업자 + 11 SBU) JSON 준비 (`.agent/knowledge/wikidata-entities/`) — owner web UI 등록 대기
+- [x] **sitemap.xml + RSS feed + IndexNow** — 동적 sitemap (`sitemap.ts`), RSS (`rss.xml/route.ts`), IndexNow API key 발급 (`68833447363a462a612e658317313cbc.txt`), 수동 ping (`api/indexnow/route.ts`), Vercel Cron `0 0 * * *` (`api/cron/indexnow-all/route.ts`)
+- [x] **DIY 측정 protocol** — 30 시드 prompt × 4 LLM (Anthropic / OpenAI / Perplexity / Gemini) cron + sqlite + 일/주/월 리포트 (`scripts/geo_measure/`)
+
+#### 콘텐츠 자동화 + 1차 자료 publish (2026-04-27 추가) ✅
+- [x] **postbuild IndexNow auto-ping** — `package.json` postbuild hook → `scripts/notify-indexnow.mjs` 자동 실행. Vercel production deploy 시점에 자동
+- [x] **/blog/[slug]/markdown route** — Markdown alternate, AI agent 토큰 효율 80% 절감
+- [x] **단일 데이터 소스 통합** — `src/lib/data/sbus.ts` (11 SBU + 10 블로그 + SITE_META + TECH_STACK + PIPELINE) 단일 export, sitemap/RSS/llms.txt/llms-full.txt/notify-indexnow 모두 자동 동기화
+- [x] **/data/ Data Hub 인덱스** — `app/data/page.tsx` + nav 링크 추가 (Portfolio · System · Governance · **Data** · Blog · Contact)
+- [x] **/data/research/ 1차 자료 4건 publish** — `app/data/research/page.tsx` 인덱스 + `[slug]/page.tsx` 동적 페이지 + `[slug]/markdown/route.ts` Markdown alt
+  - **EthicaAI Melting Pot mixed-safe** (160-seed Coin Game + 300-seed Fishery Nash Trap)
+  - **WhyLab Gemini 2.5 Docker validation** (67 problems × 402 episodes)
+  - **RAG Master Design v1** (24-week rollout, 6 collections, 3-tier device topology)
+  - **Agent Environment v2** (LangGraph + Pydantic AI + Mastra default stack)
+  - 각 페이지 ScholarlyArticle Schema + BreadcrumbList + 외부 citation 5+ + Statistics 3+/500단어 + Markdown alt
+- [x] **/data/quant/ telemetry placeholder** — Dataset Schema 부착, Phase 0 게이트 통과 후 라이브 데이터 publish 예정
+- [x] **GEO Validator + Publish Hook** — `src/pipelines/geo_validator.py` (Statistics density / 외부 출처 / Schema / heading 위계 / freshness 자동 검증), `src/pipelines/geo_publish_hook.py` (IndexNow ping + Vercel revalidate)
+- [x] **HIVE MIND × GEO Integration Guide** — `.agent/knowledge/HIVE_MIND_GEO_INTEGRATION.md` (blog_pipeline / SBU autonomous growth runner 통합 패턴)
+
+#### Phase 0 잔여 (다음 세션) — robots.txt 옵션은 이미 정해 자동 진행되었으므로 삭제됨
+  - 위치: `src/landing/public/robots.txt` (Next.js)
+  - 후보 정책: "모두 허용" (학습 진입 노림) vs "검색 허용 + 학습 차단" — Strategy Lead 결정 보류, owner 의도 = "어떤 방법으로든" 이라 **모두 허용** default
+- [ ] **Schema.org JSON-LD 부착** — `Organization` + `Article` + `Person(author)` 3종, `sameAs` 에 LinkedIn/GitHub/Crunchbase/Wikidata 연결
+  - 위치: Next.js `_app.tsx` 또는 layout 에 inline JSON-LD
+- [ ] **Wikidata Q-item 6개 생성** — Neo Genesis 본체 + 6 SBU (toolpick / aiforge / craftdesk / deploystack / finstack / sellkit). 1주, 무료
+- [ ] **sitemap.xml + lastmod ISO 8601 + RSS feed** — Next.js dynamic sitemap
+- [ ] **IndexNow API key 발급 + Vercel revalidate hook** — Bing → ChatGPT Search 진입 가속의 단일 표준
+- [ ] **llms.txt + llms-full.txt 생성** — `src/landing/public/llms.txt`. downside 0
+- [ ] **Cloudflare AI Crawl Control 활성화** — neogenesis.app Zone, "AI Search 허용 + AI Training 결정에 따라" 프리셋
+- [ ] **Bing Webmaster Tools + Google Search Console 등록** — AI Performance Dashboard (2026-2 출시) 활용
+- [ ] **DIY 측정 protocol 구축** — 시드 prompt 30개 × 4 LLM (ChatGPT / Claude / Perplexity / Gemini) cron, 기존 API key 사용 → baseline 30일
+- [ ] **GA4 / PostHog AI 채널 분리** — regex 등록 (`chatgpt\.com|gemini\.google\.com|openai\.com|perplexity\.ai|copilot\.microsoft\.com|claude\.ai|grok\.com`)
+
+**Phase 0 Stop/Go 게이트**: 30일 baseline 확보 + 4 플랫폼 인용 1건 이상
+
+### Phase 1 — Content Foundation (M2-3, 비용 $0)
+
+- [ ] toolpick alternatives/comparisons/pricing 5개 허브 fact unit 강화 (Statistics 3+/500단어)
+- [ ] `/data/research/` 에 EthicaAI/WhyLab/RAG Master Design publish
+- [ ] HuggingFace dataset 1건 publish — 후보:
+  - RAG golden 50 task set (한국어)
+  - Korean LLM Citation Benchmark (자체 측정)
+  - 6 SBU Programmatic SEO 효과 데이터 (익명화)
+- [ ] GitHub awesome-list 1개 PR — quant-bot v11 ensemble 또는 Agent Environment v2 후보
+- [ ] Korea Newswire 보도자료 1건 — **owner 게이트 G2** ($300-500/회)
+
+### Phase 2 — Authority Building (M4-6)
+
+- [ ] 첫 "State of X 2026" 분기 보고서 publish (PDF + HTML + summary blog)
+- [ ] arXiv 프리프린트 1편 (EthicaAI / WhyLab / RAG Master Design)
+- [ ] Tier 1 영문 매체 1건 진입 시도 — **owner 게이트 G2** (TechCrunch / The Verge / Forbes)
+- [ ] Podcast 출연 3-5회 + 트랜스크립트 publish
+- [ ] G2 / Capterra / TrustRadius SBU 등록
+
+### Phase 3~4 — Scaling + Compound (M7-12)
+
+- Programmatic fact pages 200+
+- MCP server publishing
+- 분기 보고서 누적
+- Living Documents 정책
+- Wikipedia 영문 페이지 시도 (third-party 출처 충분 시)
+- 유료 측정 도구 ROI 입증 후 검토 — **owner 게이트 G2**
+
+### owner 결정 게이트 (G2+ 만)
+
+자율 진행 (G1, Standing Approval): robots.txt / Schema / Wikidata / sitemap / IndexNow / llms.txt / DIY 측정 / HuggingFace / arXiv / GitHub publish / 콘텐츠 양산 / Cloudflare 정책 / G2 등록
+
+owner 게이트 (G2):
+- Korea Newswire 보도자료 ($300-500/회)
+- Tier 1 영문 매체 PR (founder 시간 + 평판)
+- 유료 측정 SaaS 결제 (Profound $399+/월)
+- Wikipedia 컨설턴트 ($2,500-5,000)
+- 자본 위험 동반 publication (quant 알파 디테일 — 절대 보류)
+
+### 절대 금지 (Black Hat / Illegal)
+- Prompt injection in published content (ToS 위반, 도메인 영구 제외)
+- Training data poisoning (학술적 위험성, 잠재 형사 처벌)
+- Wikipedia 미공개 paid editing (영구 차단)
+- PBN / 매수 backlink (Penguin 실시간 deindexing)
+- Astroturfing (FTC $51,744/회)
+- GitHub fake stars (StarScout 90.42% 자동 삭제)
+
+### Stop/Go 게이트 5개
+1. Phase 0 끝 4 플랫폼 인용 0건 → DIY protocol 재설계
+2. SoV 6개월 카테고리 평균 미달 → niche 재선정
+3. AI referral 전환율 < organic 1x → 듀얼 구조 재검토
+4. 12개월 SoV CAGR < 5% → Phase 4 보류, Phase 1-3 재실행
+5. Black Hat 발각 1회 → 즉시 도메인 자산 회수 비상 운영
+
+👤 owner 자율 위임 → Claude Opus 4.7 (Strategy Lead) 자율 실행
 
 ---
 

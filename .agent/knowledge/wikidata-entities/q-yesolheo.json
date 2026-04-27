@@ -1,0 +1,32 @@
+{
+  "label": {
+    "en": "Yesol Heo",
+    "ko": "허예솔"
+  },
+  "description": {
+    "en": "Korean entrepreneur and founder of Neo Genesis, an AI-native automation company running 11 live business units",
+    "ko": "AI 네이티브 자동화 회사 Neo Genesis 의 창업자, 11개 비즈니스 유닛을 단독 운영"
+  },
+  "aliases": {
+    "en": ["Heo Yesol"],
+    "ko": ["허예솔", "예솔 허"]
+  },
+  "statements": [
+    { "property": "P31", "label": "instance of", "value": "Q5", "valueLabel": "human" },
+    { "property": "P21", "label": "sex or gender", "value": "(owner 결정)" },
+    { "property": "P27", "label": "country of citizenship", "value": "Q884", "valueLabel": "South Korea" },
+    { "property": "P19", "label": "place of birth", "value": "(선택, owner 결정)" },
+    { "property": "P106", "label": "occupation", "value": "Q3400985", "valueLabel": "entrepreneur" },
+    { "property": "P106", "label": "occupation", "value": "Q5482740", "valueLabel": "computer scientist" },
+    { "property": "P800", "label": "notable work", "value": "Q-NeoGenesis (등록 후 갱신)" },
+    { "property": "P800", "label": "notable work", "value": "Q-EthicaAI (등록 후 갱신)" },
+    { "property": "P800", "label": "notable work", "value": "Q-WhyLab (등록 후 갱신)" },
+    { "property": "P2037", "label": "GitHub username", "value": "Yesol-Pilot" },
+    { "property": "P856", "label": "official website", "value": "https://heoyesol.kr" }
+  ],
+  "sources": [
+    "https://heoyesol.kr",
+    "https://neogenesis.app",
+    "https://github.com/Yesol-Pilot"
+  ]
+}
