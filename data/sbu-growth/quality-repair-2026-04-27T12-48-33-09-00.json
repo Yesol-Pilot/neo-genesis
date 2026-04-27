@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-04-27T12:48:33+09:00",
+  "dryRun": false,
+  "sites": [
+    {
+      "site": "toolpick",
+      "weakPostsExpanded": 0,
+      "internalLinksAdded": 89,
+      "intentRoutesAdded": 0,
+      "filesChanged": 89
+    }
+  ],
+  "filesChanged": 89,
+  "weakPostsExpanded": 0,
+  "internalLinksAdded": 89,
+  "intentRoutesAdded": 0,
+  "clustersRouted": 0,
+  "since": "2026-04-26",
+  "routedClusters": []
+}

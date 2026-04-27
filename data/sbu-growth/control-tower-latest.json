@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-27T11:01:14+09:00",
+  "generatedAt": "2026-04-27T13:01:33+09:00",
   "today": "2026-04-27",
   "targetMau": 100000,
   "monthlyVisitsPerReadyPost": 350,
@@ -13,7 +13,7 @@
       "benchmark": true,
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
-      "score": 87,
+      "score": 88,
       "status": "green",
       "local": {
         "siteDir": "src\\sbu\\toolpick",
@@ -38,10 +38,10 @@
         },
         "posts": {
           "total": 379,
-          "ready": 373,
+          "ready": 377,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 130550,
+          "modeledMau": 131950,
           "mauGap": 0,
           "latest": {
             "slug": "ai-agent-development-tools-2026",
@@ -51,54 +51,33 @@
             "description": "Compare AI agent development tools for builders choosing orchestration, memory, tools, observability, deployment model, and production risk.",
             "category": "AI Coding",
             "draft": false,
-            "words": 1024,
+            "words": 1085,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": false,
+            "hasInternalLink": true,
             "hasExternalLink": true,
             "ready": true
           },
           "daysSinceLatest": 0,
           "fresh": true,
-          "categoryCount": 59,
-          "avgWords": 1335,
-          "frontmatterCoverage": 0.984,
+          "categoryCount": 60,
+          "avgWords": 1346,
+          "frontmatterCoverage": 1,
           "ctaCoverage": 0.72,
-          "internalLinkCoverage": 0.652,
+          "internalLinkCoverage": 0.887,
           "weakSamples": [
             {
-              "slug": "imuz-mupad-k10-plus-tablet-review-budget-friendly-option",
-              "date": "",
-              "words": 1171,
-              "completeFrontmatter": false,
+              "slug": "lifesync-smartwatch-review-fitness-tracking-on-a-budget",
+              "date": "2026-04-05",
+              "words": 646,
+              "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "lenovo-v15-g5-irl-13th-gen-intel-i5-laptop-review",
-              "date": "",
-              "words": 1176,
-              "completeFrontmatter": false,
-              "draft": false
-            },
-            {
-              "slug": "miraclem-10-port-120w-charger-power-all-your-devices",
-              "date": "",
-              "words": 1127,
-              "completeFrontmatter": false,
-              "draft": false
-            },
-            {
-              "slug": "my-dear-mdwmt0601a-ae-kr-dishwasher-review-auto-open-convenience",
-              "date": "",
-              "words": 1140,
-              "completeFrontmatter": false,
-              "draft": false
-            },
-            {
-              "slug": "romantisme-14-inch-lte-tablet-review-performance-value",
-              "date": "",
-              "words": 1171,
-              "completeFrontmatter": false,
+              "slug": "my-dear-mdwmt0601w-wine-kr-dishwasher-review-is-it-worth-it",
+              "date": "2026-03-29",
+              "words": 642,
+              "completeFrontmatter": true,
               "draft": false
             }
           ]
@@ -162,10 +141,10 @@
         },
         "posts": {
           "total": 432,
-          "ready": 419,
+          "ready": 427,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 146650,
+          "modeledMau": 149450,
           "mauGap": 0,
           "latest": {
             "slug": "2026-04-27-agentic-crm-automation-tools",
@@ -175,53 +154,53 @@
             "description": "agentic CRM automation tools - A practical evaluation guide for AI tools, agent platforms, model operations, and workflow automation.",
             "category": "AI Tools",
             "draft": false,
-            "words": 580,
+            "words": 1045,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": false,
+            "hasInternalLink": true,
             "hasExternalLink": false,
-            "ready": false
+            "ready": true
           },
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 14,
-          "avgWords": 1631,
+          "avgWords": 1700,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.722,
-          "internalLinkCoverage": 0.65,
+          "ctaCoverage": 0.731,
+          "internalLinkCoverage": 0.741,
           "weakSamples": [
             {
-              "slug": "2026-04-27-agentic-crm-automation-tools",
-              "date": "2026-04-27",
-              "words": 580,
+              "slug": "ai-testing-tools-ml-model-testing-automated-ml-testing",
+              "date": "2026-03-07",
+              "words": 556,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "2026-04-26-ai-agent-platforms-for-product-teams",
-              "date": "2026-04-26",
-              "words": 509,
+              "slug": "ai-driven-data-augmentation-tools",
+              "date": "2026-03-01",
+              "words": 460,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "ai-model-deployment-platforms-comparison-2026",
-              "date": "2026-03-31",
-              "words": 497,
+              "slug": "ai-api-development-platforms",
+              "date": "2026-02-25",
+              "words": 471,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "ai-observability-tools-comparison",
-              "date": "2026-03-30",
-              "words": 504,
+              "slug": "low-code-ai-platforms",
+              "date": "2026-02-24",
+              "words": 593,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "ai-powered-observability-platforms",
-              "date": "2026-03-29",
-              "words": 391,
+              "slug": "ai-code-refactoring-tools",
+              "date": "2026-02-23",
+              "words": 350,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -286,10 +265,10 @@
         },
         "posts": {
           "total": 369,
-          "ready": 345,
+          "ready": 356,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 120750,
+          "modeledMau": 124600,
           "mauGap": 0,
           "latest": {
             "slug": "2026-04-27-brand-asset-workflow-software",
@@ -299,53 +278,53 @@
             "description": "brand asset workflow software - A practical evaluation guide for design tools, creative automation, UI systems, and product design workflows.",
             "category": "Design Tools",
             "draft": false,
-            "words": 581,
+            "words": 1046,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": false,
+            "hasInternalLink": true,
             "hasExternalLink": false,
-            "ready": false
+            "ready": true
           },
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1567,
+          "avgWords": 1601,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.821,
-          "internalLinkCoverage": 0.65,
+          "ctaCoverage": 0.832,
+          "internalLinkCoverage": 0.675,
           "weakSamples": [
-            {
-              "slug": "2026-04-27-brand-asset-workflow-software",
-              "date": "2026-04-27",
-              "words": 581,
-              "completeFrontmatter": true,
-              "draft": false
-            },
             {
               "slug": "ai-ui-design-software-comparison-for-enterprise-2026",
               "date": "2026-03-26",
-              "words": 54,
+              "words": 516,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "ai-ui-ux-design-tools-comparison",
-              "date": "2026-03-20",
-              "words": 331,
+              "slug": "no-code-prototyping-tools-for-web3",
+              "date": "2026-03-13",
+              "words": 485,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "ai-ui-design-software-for-web-apps-2026-comparison",
-              "date": "2026-03-19",
-              "words": 404,
+              "slug": "video-editing-software",
+              "date": "2026-03-11",
+              "words": 562,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "ai-ui-design-software-enterprise-comparison-2026",
-              "date": "2026-03-18",
-              "words": 463,
+              "slug": "ai-isometric-illustration-tool",
+              "date": "2026-03-08",
+              "words": 97,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-ui-design-software-for-fintech-2026",
+              "date": "2026-03-08",
+              "words": 26,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -410,10 +389,10 @@
         },
         "posts": {
           "total": 312,
-          "ready": 292,
+          "ready": 298,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 102200,
+          "modeledMau": 104300,
           "mauGap": 0,
           "latest": {
             "slug": "2026-04-27-devops-incident-review-tools",
@@ -423,53 +402,53 @@
             "description": "DevOps incident review tools - A practical evaluation guide for deployment platforms, serverless infrastructure, observability, and DevOps workflows.",
             "category": "DevOps",
             "draft": false,
-            "words": 579,
+            "words": 1042,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": false,
+            "hasInternalLink": true,
             "hasExternalLink": false,
-            "ready": false
+            "ready": true
           },
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 11,
-          "avgWords": 1586,
+          "avgWords": 1617,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.721,
-          "internalLinkCoverage": 0.651,
+          "ctaCoverage": 0.728,
+          "internalLinkCoverage": 0.673,
           "weakSamples": [
-            {
-              "slug": "2026-04-27-devops-incident-review-tools",
-              "date": "2026-04-27",
-              "words": 579,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-04-26-serverless-observability-tools-for-startups",
-              "date": "2026-04-26",
-              "words": 468,
-              "completeFrontmatter": true,
-              "draft": false
-            },
             {
               "slug": "kubernetes-monitoring-tools",
               "date": "2026-03-31",
-              "words": 85,
+              "words": 544,
               "completeFrontmatter": true,
               "draft": false
             },
             {
               "slug": "automated-cicd",
               "date": "2026-03-29",
-              "words": 73,
+              "words": 532,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "ai-devops-platforms",
-              "date": "2026-03-25",
-              "words": 41,
+              "slug": "kubernetes-orchestration-comparison",
+              "date": "2026-03-14",
+              "words": 523,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "serverless-cost-optimization-tools",
+              "date": "2026-03-11",
+              "words": 484,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "ai-powered-devops-platform-comparison-2026",
+              "date": "2026-03-10",
+              "words": 385,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -534,10 +513,10 @@
         },
         "posts": {
           "total": 307,
-          "ready": 287,
+          "ready": 300,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 100450,
+          "modeledMau": 105000,
           "mauGap": 0,
           "latest": {
             "slug": "2026-04-27-banking-api-platforms",
@@ -547,53 +526,53 @@
             "description": "banking API platforms - A practical evaluation guide for fintech infrastructure, payments, banking workflows, and financial SaaS tools.",
             "category": "Fintech",
             "draft": false,
-            "words": 577,
+            "words": 1039,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": false,
+            "hasInternalLink": true,
             "hasExternalLink": false,
-            "ready": false
+            "ready": true
           },
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 13,
-          "avgWords": 1156,
+          "avgWords": 1176,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.723,
-          "internalLinkCoverage": 0.648,
+          "ctaCoverage": 0.739,
+          "internalLinkCoverage": 0.661,
           "weakSamples": [
             {
-              "slug": "2026-04-27-banking-api-platforms",
-              "date": "2026-04-27",
-              "words": 577,
+              "slug": "financial-analytics-for-e-commerce",
+              "date": "2026-02-27",
+              "words": 209,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "2026-04-26-embedded-finance-platforms-for-saas",
-              "date": "2026-04-26",
-              "words": 430,
+              "slug": "embedded-accounting-saas",
+              "date": "2026-02-24",
+              "words": 48,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "financial-data-api-for-real-estate-platforms-comparison",
-              "date": "2026-03-30",
-              "words": 552,
+              "slug": "banking-api-for-startups",
+              "date": "2026-02-23",
+              "words": 9,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "financial-data-api-for-smbs-pricing-and-feature-comparison",
-              "date": "2026-03-30",
-              "words": 450,
+              "slug": "financial-analytics",
+              "date": "2026-02-23",
+              "words": 0,
               "completeFrontmatter": true,
               "draft": false
             },
             {
-              "slug": "financial-data-api-comparison-for-saas-platforms",
-              "date": "2026-03-29",
-              "words": 289,
+              "slug": "financial-analytics-banking-api-comparison",
+              "date": "2026-02-23",
+              "words": 362,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -658,10 +637,10 @@
         },
         "posts": {
           "total": 291,
-          "ready": 286,
+          "ready": 290,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 100100,
+          "modeledMau": 101500,
           "mauGap": 0,
           "latest": {
             "slug": "2026-04-27-lifecycle-email-automation-tools",
@@ -671,53 +650,25 @@
             "description": "lifecycle email automation tools - A practical evaluation guide for ecommerce growth, sales enablement, marketing automation, and conversion tools.",
             "category": "Sales Tools",
             "draft": false,
-            "words": 580,
+            "words": 1046,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": false,
+            "hasInternalLink": true,
             "hasExternalLink": false,
-            "ready": false
+            "ready": true
           },
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1025,
+          "avgWords": 1033,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.866,
-          "internalLinkCoverage": 0.749,
+          "ctaCoverage": 0.873,
+          "internalLinkCoverage": 0.766,
           "weakSamples": [
-            {
-              "slug": "2026-04-27-lifecycle-email-automation-tools",
-              "date": "2026-04-27",
-              "words": 580,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-04-26-ai-sales-enablement-tools-for-ecommerce",
-              "date": "2026-04-26",
-              "words": 423,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "e-commerce-analytics-tools",
-              "date": "2026-03-22",
-              "words": 511,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "ecommerce-inventory-management-software-comparison",
-              "date": "2026-02-24",
-              "words": 432,
-              "completeFrontmatter": true,
-              "draft": false
-            },
             {
               "slug": "best-ecommerce-platform-for-dropshipping-2026",
               "date": "2026-02-23",
-              "words": 0,
+              "words": 462,
               "completeFrontmatter": true,
               "draft": false
             }

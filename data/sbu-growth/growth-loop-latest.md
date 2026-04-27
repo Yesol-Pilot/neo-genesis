@@ -1,6 +1,6 @@
 # SBU Growth Loop
 
-- generatedAt: 2026-04-27T11:01:18+09:00
+- generatedAt: 2026-04-27T13:01:34+09:00
 - passed: true
 
 ## Steps
@@ -81,32 +81,32 @@
 ### control-tower
 
 ```text
-            },
-            {
-              "slug": "2026-04-26-ai-sales-enablement-tools-for-ecommerce",
-              "date": "2026-04-26",
-              "words": 423,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "e-commerce-analytics-tools",
-              "date": "2026-03-22",
-              "words": 511,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "ecommerce-inventory-management-software-comparison",
-              "date": "2026-02-24",
-              "words": 432,
-              "completeFrontmatter": true,
-              "draft": false
-            },
+            "slug": "2026-04-27-lifecycle-email-automation-tools",
+            "file": "src\\sbu\\sellkit\\content\\blog\\2026-04-27-lifecycle-email-automation-tools.mdx",
+            "title": "Lifecycle Email Automation Tools for Lean Ecommerce Teams in 2026",
+            "date": "2026-04-27",
+            "description": "lifecycle email automation tools - A practical evaluation guide for ecommerce growth, sales enablement, marketing automation, and conversion tools.",
+            "category": "Sales Tools",
+            "draft": false,
+            "words": 1046,
+            "completeFrontmatter": true,
+            "hasCta": true,
+            "hasInternalLink": true,
+            "hasExternalLink": false,
+            "ready": true
+          },
+          "daysSinceLatest": 0,
+          "fresh": true,
+          "categoryCount": 10,
+          "avgWords": 1033,
+          "frontmatterCoverage": 1,
+          "ctaCoverage": 0.873,
+          "internalLinkCoverage": 0.766,
+          "weakSamples": [
             {
               "slug": "best-ecommerce-platform-for-dropshipping-2026",
               "date": "2026-02-23",
-              "words": 0,
+              "words": 462,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -148,7 +148,7 @@
 ```text
 {
   "report": "data\\sbu-growth\\control-tower-latest.json",
-  "generatedAt": "2026-04-27T11:01:14+09:00",
+  "generatedAt": "2026-04-27T13:01:33+09:00",
   "passed": true,
   "criticalIssueCount": 0,
   "warningCount": 0,

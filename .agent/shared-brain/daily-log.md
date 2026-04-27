@@ -1563,3 +1563,43 @@
 - Ran indexing quality, measurement integrity, search indexing readiness, cannibalization, safe cron smoke, event taxonomy, weekly report, control tower, regression gate, and growth-loop verification.
 - Final status: all six SBU sites green, live blog/detail/sitemap/robots checks passing, regression gate passing with 0 critical issues and 0 warnings, modeled total MAU capacity 700,700.
 - Residual improvement queue: Search Console submission remains dry-run until credentials are wired; cannibalization audit reports 25 exact topic clusters; weak short-post samples remain on AIForge, DeployStack, FinStack, SellKit, and older ToolPick posts.
+
+## 2026-04-27 - Codex ToolPick Enterprise Blog 10/10 Growth Hardening
+
+- Ran role-based deep review for ToolPick SEO/indexing, content quality, and UX/performance risks, then implemented the high-impact fixes in `src/sbu/toolpick`.
+- Added `/blog` sitemap coverage, `/blog/page/2` crawl path, duplicate-to-canonical redirects, canonical JSON-LD alignment, and stricter live growth smoke checks.
+- Removed `/_next` robots blocking and deleted the stale service-level robots route.
+- Improved mobile pricing/article readability, reduced above-the-fold article friction, fixed lazy PostHog loading, removed visible mojibake, and cleaned consumer archive CTA text while preserving affiliate URLs.
+- Resolved money-page source gaps with competitor aliases and explicit `pricingVerdict` coverage for all 83 software profiles.
+- Closed cannibalization residuals: 29 consolidated duplicates, 0 remaining clusters, 0 high-risk clusters.
+- Verified final ToolPick loop:
+  - `npm run build` passed with 1264 generated routes.
+  - `npm run audit:growth` passed, confidenceScore 100, 291 indexable posts, average score 95.
+  - `npm run audit:money-evidence` passed, weakMoneyPages 0, recommendationGaps 0, unresolvedCompetitorRefs 0.
+  - `npm run audit:cannibalization` passed, clusters 0.
+  - `npm run audit:internal-links`, `npm run audit:topic-hubs`, `npm run audit:performance`, and `npm run lint` passed.
+  - Local production smoke at `http://localhost:4021` passed with sitemap 855 URLs, `/blog` root hub, topic hubs, canonical self-reference, duplicate redirects, and consumer noindex checks.
+  - Chrome screenshot artifacts refreshed under `src/sbu/toolpick/output/playwright/`.
+
+## 2026-04-27 - Codex SBU Quality Repair Loop R2
+
+- Added `scripts/sbu_quality_repair_loop.mjs` as the repeatable repair loop for weak-post expansion, search-intent routing, and recent-post internal-link repair.
+- Applied the repair loop across ToolPick, AIForge, CraftDesk, DeployStack, FinStack, and SellKit:
+  - Expanded 57 weak posts above the operational depth threshold.
+  - Added 176 intent-routing blocks for cannibalization clusters.
+  - Added 89 internal-link blocks to recent ToolPick posts so the 2026-04-26+ indexing gate reaches 100% quality-ready coverage.
+- Committed and pushed SBU production content:
+  - ToolPick latest `aeb4077`
+  - AIForge latest `708f9e1`
+  - CraftDesk latest `1859bef`
+  - DeployStack latest `b2f46d3`
+  - FinStack latest `34cee94`
+  - SellKit latest `5f2050a`
+- Redeployed all six SBU production sites on Vercel and verified live blog/detail/sitemap/robots smoke.
+- Final verification:
+  - `node scripts/sbu_growth_control_tower.mjs --json` passed with all 6 SBU sites green and total modeled MAU capacity `716800`.
+  - `node scripts/sbu_growth_regression_gate.mjs --json` passed with 0 critical issues and 0 warnings.
+  - `node scripts/sbu_growth_ops_suite.mjs` passed; raw cannibalization clusters remain 25 but all 25 are intent-routed and unresolved clusters are 0.
+  - `node scripts/sbu_indexing_quality_audit.mjs --sites toolpick,aiforge,craftdesk,deploystack,finstack,sellkit --since 2026-04-26` passed with all six sites green.
+  - `node scripts/sbu_growth_loop.mjs` passed end-to-end publisher verify, control tower, and regression gate.
+- Residual improvement queue: Search Console submission remains dry-run until GSC credentials are available; older weak samples remain in some pre-2026-04-26 archives and should be handled in the next repair wave.

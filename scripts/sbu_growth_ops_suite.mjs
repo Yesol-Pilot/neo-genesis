@@ -82,6 +82,7 @@ function walkFiles(dir, predicate, limit = 5000) {
 }
 
 function parseFrontmatter(text) {
+  text = text.replace(/^\uFEFF/, '');
   if (!text.startsWith('---')) return {};
   const end = text.indexOf('\n---', 3);
   if (end === -1) return {};
@@ -99,6 +100,7 @@ function parseFrontmatter(text) {
 }
 
 function wordCount(text) {
+  text = text.replace(/^\uFEFF/, '');
   const body = text.startsWith('---') ? text.slice(text.indexOf('\n---', 3) + 4) : text;
   return body
     .replace(/```[\s\S]*?```/g, ' ')
@@ -142,6 +144,7 @@ function listPosts(siteId) {
         words: wordCount(text),
         hasCta: /<InlineCTA\b|buttonText=|buttonLink=/.test(text),
         hasInternalLink: /\]\(\/(?!\/)/.test(text),
+        hasIntentRouting: /sbu-quality-repair-loop:intent-routing/.test(text),
       };
     });
 }
@@ -227,21 +230,27 @@ function cannibalization(siteIds) {
     .map(([key, values]) => ({
       key,
       count: values.length,
+      routed: values.every((post) => post.hasIntentRouting),
       sites: Array.from(new Set(values.map((post) => post.site))),
       samples: values.slice(0, 8).map((post) => ({
         site: post.site,
         slug: post.slug,
         title: post.title,
+        hasIntentRouting: post.hasIntentRouting,
       })),
     }))
     .sort((a, b) => b.count - a.count)
     .slice(0, 25);
+  const unresolvedClusters = exactClusters.filter((cluster) => !cluster.routed);
 
   return {
     passed: true,
     totalPosts: posts.length,
     exactClusterCount: exactClusters.length,
+    routedClusterCount: exactClusters.filter((cluster) => cluster.routed).length,
+    unresolvedClusterCount: unresolvedClusters.length,
     topClusters: exactClusters,
+    topUnresolvedClusters: unresolvedClusters,
   };
 }
 
@@ -336,7 +345,9 @@ function weeklyReport(siteIds, report) {
     warnings: {
       measurementYellow: report.measurement.sites.filter((site) => site.status !== 'green').length,
       eventTaxonomyYellow: report.eventTaxonomy.sites.filter((site) => site.status !== 'green').length,
-      cannibalizationClusters: report.cannibalization.exactClusterCount,
+      cannibalizationClusters: report.cannibalization.unresolvedClusterCount,
+      rawCannibalizationClusters: report.cannibalization.exactClusterCount,
+      routedCannibalizationClusters: report.cannibalization.routedClusterCount,
     },
   };
 }
@@ -373,7 +384,9 @@ function markdown(report) {
   for (const experiment of report.weeklyReport.nextExperiments) lines.push(`- ${experiment}`);
   lines.push('', '## Notes', '');
   lines.push(`- Search Console submit mode: ${report.searchIndexing.hasSearchConsoleCredentials ? 'ready' : 'dry-run; credentials not present in this shell'}`);
-  lines.push(`- Cannibalization exact clusters found: ${report.cannibalization.exactClusterCount}`);
+  lines.push(`- Cannibalization raw exact clusters found: ${report.cannibalization.exactClusterCount}`);
+  lines.push(`- Cannibalization intent-routed clusters: ${report.cannibalization.routedClusterCount}`);
+  lines.push(`- Cannibalization unresolved clusters: ${report.cannibalization.unresolvedClusterCount}`);
   lines.push(`- Measurement yellow sites: ${report.weeklyReport.warnings.measurementYellow}`);
   lines.push(`- Event taxonomy yellow sites: ${report.weeklyReport.warnings.eventTaxonomyYellow}`);
   return `${lines.join('\n')}\n`;

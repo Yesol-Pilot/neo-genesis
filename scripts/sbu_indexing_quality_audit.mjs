@@ -54,6 +54,7 @@ function nowKst() {
 }
 
 function parseFrontmatter(text) {
+  text = text.replace(/^\uFEFF/, '');
   if (!text.startsWith('---')) return {};
   const end = text.indexOf('\n---', 3);
   if (end === -1) return {};
@@ -76,6 +77,7 @@ function parseFrontmatter(text) {
 }
 
 function contentBody(text) {
+  text = text.replace(/^\uFEFF/, '');
   if (!text.startsWith('---')) return text;
   const end = text.indexOf('\n---', 3);
   return end === -1 ? text : text.slice(end + 4);

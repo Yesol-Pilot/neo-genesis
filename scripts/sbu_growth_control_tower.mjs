@@ -126,6 +126,7 @@ function stripYamlQuotes(value) {
 }
 
 function parseFrontmatter(text) {
+  text = text.replace(/^\uFEFF/, '');
   const match = text.match(/^---\s*\r?\n([\s\S]*?)\r?\n---\s*/);
   const frontmatter = {};
   let body = text;
