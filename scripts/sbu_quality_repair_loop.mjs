@@ -234,7 +234,42 @@ Run a small pilot before committing to a broad rollout. Give the pilot one owner
 
 The practical next step is to build a two-column shortlist: "adopt now" and "monitor later." Put only the options with clear ownership, measurable output, and low switching risk in the first column. Everything else can remain useful research without consuming implementation bandwidth.
 
+### Operating Scenarios
+
+Use this page differently depending on the maturity of the team. A very small team should treat the category as a way to remove one repeated manual task, not as a platform transformation. A scaling team should check whether the category improves handoffs across product, operations, engineering, finance, support, or growth. A larger organization should focus on permission boundaries, auditability, vendor risk, and whether the output can be reviewed without creating a new review queue.
+
+For a practical shortlist, write down the current workflow before comparing vendors. Capture the trigger, the person responsible, the data source, the approval point, and the reporting surface. Then ask what changes after adoption. If the answer is only "the dashboard is nicer," the tool is probably not enough. If the answer is "the owner can make a faster decision with less manual reconciliation," it deserves a pilot.
+
+### Decision Guardrails
+
+Avoid selecting a tool only because it has a broad feature list. The best fit is usually the option that matches the team's existing operating cadence. Check how the tool behaves when data is incomplete, when permissions are constrained, when exports are needed, and when the owner has to explain the result to another stakeholder. These edge cases determine whether the software becomes part of the operating system or stays as another unused account.
+
+Before rollout, define the smallest useful proof. One workflow, one owner, one reporting checkpoint, and one fallback path are enough. If the pilot cannot show a clear improvement inside that narrow boundary, keep the notes and stop. If it works, expand only after the handoff and monitoring rules are documented.
+
 <InlineCTA variant="calculator" toolName="${attr(category)} stack" categorySlug="${attr(cluster)}" />
+`;
+}
+
+function weakSupplementalBlock(post) {
+  const title = markdownText(post.title);
+  const category = markdownText(post.category);
+  const cluster = topicSlug(post.category);
+
+  return `
+
+{/* ${MARKER}:weak-depth-v2 */}
+
+## Final Selection Lens
+
+For ${title}, the final decision should come from operating fit rather than feature volume. Start with the task that creates the most repeated friction today. Then decide whether a tool in this ${category} category can reduce that friction without adding a new approval layer, data sync problem, or reporting dependency. If it cannot pass that test, it can remain useful market research without becoming an implementation priority.
+
+The strongest candidates should be easy to explain in one sentence: who uses it, what decision it improves, what input it needs, and what output it creates. If that sentence is unclear, the buying risk is still high. Revisit the [${category} topic hub](/blog/topics/${cluster}) to compare adjacent options before committing.
+
+### Rollout Check
+
+Run the first rollout as a small operating experiment. Assign one owner, one success metric, and one review date. Capture the baseline before setup, then compare the same metric after the pilot. The goal is not to prove that the software is impressive. The goal is to prove that the team's weekly operating rhythm gets simpler, faster, or more measurable.
+
+If the pilot succeeds, document the workflow, fallback, and reporting cadence before adding more users. If it fails, keep the shortlist notes and retire the category until the team has a clearer use case. That discipline keeps procurement energy focused on tools that can create visible operating leverage.
 `;
 }
 
@@ -303,17 +338,18 @@ function markdownReport(report) {
     `- dryRun: ${report.dryRun}`,
     `- filesChanged: ${report.filesChanged}`,
     `- weakPostsExpanded: ${report.weakPostsExpanded}`,
+    `- weakPostsReinforced: ${report.weakPostsReinforced}`,
     `- internalLinksAdded: ${report.internalLinksAdded}`,
     `- intentRoutesAdded: ${report.intentRoutesAdded}`,
     `- clustersRouted: ${report.clustersRouted}`,
     `- since: ${report.since}`,
     '',
-    '| Site | Weak Expanded | Internal Links | Intent Routes | Files Changed |',
-    '|---|---:|---:|---:|---:|',
+    '| Site | Weak Expanded | Weak Reinforced | Internal Links | Intent Routes | Files Changed |',
+    '|---|---:|---:|---:|---:|---:|',
   ];
 
   for (const site of report.sites) {
-    lines.push(`| ${site.site} | ${site.weakPostsExpanded} | ${site.internalLinksAdded} | ${site.intentRoutesAdded} | ${site.filesChanged} |`);
+    lines.push(`| ${site.site} | ${site.weakPostsExpanded} | ${site.weakPostsReinforced} | ${site.internalLinksAdded} | ${site.intentRoutesAdded} | ${site.filesChanged} |`);
   }
 
   lines.push('', '## Routed Clusters', '');
@@ -340,6 +376,7 @@ function main() {
   const siteStats = new Map(siteIds.map((site) => [site, {
     site,
     weakPostsExpanded: 0,
+    weakPostsReinforced: 0,
     internalLinksAdded: 0,
     intentRoutesAdded: 0,
     filesChanged: 0,
@@ -352,10 +389,14 @@ function main() {
       .slice(0, args.maxWeakPerSite);
 
     for (const post of weakPosts) {
-      const changed = appendBlock(post, weakExpansionBlock(post), `${MARKER}:weak-depth`, args.dryRun);
+      const alreadyExpanded = post.text.includes(`${MARKER}:weak-depth`);
+      const block = alreadyExpanded ? weakSupplementalBlock(post) : weakExpansionBlock(post);
+      const marker = alreadyExpanded ? `${MARKER}:weak-depth-v2` : `${MARKER}:weak-depth`;
+      const changed = appendBlock(post, block, marker, args.dryRun);
       if (!changed) continue;
       const stats = siteStats.get(siteId);
-      stats.weakPostsExpanded += 1;
+      if (alreadyExpanded) stats.weakPostsReinforced += 1;
+      else stats.weakPostsExpanded += 1;
       stats.filesChanged += 1;
       changedFiles.add(post.file);
     }
@@ -393,6 +434,7 @@ function main() {
     sites: Array.from(siteStats.values()),
     filesChanged: changedFiles.size,
     weakPostsExpanded: Array.from(siteStats.values()).reduce((sum, site) => sum + site.weakPostsExpanded, 0),
+    weakPostsReinforced: Array.from(siteStats.values()).reduce((sum, site) => sum + site.weakPostsReinforced, 0),
     internalLinksAdded: Array.from(siteStats.values()).reduce((sum, site) => sum + site.internalLinksAdded, 0),
     intentRoutesAdded: Array.from(siteStats.values()).reduce((sum, site) => sum + site.intentRoutesAdded, 0),
     clustersRouted: clusters.length,

@@ -1564,6 +1564,16 @@
 - Final status: all six SBU sites green, live blog/detail/sitemap/robots checks passing, regression gate passing with 0 critical issues and 0 warnings, modeled total MAU capacity 700,700.
 - Residual improvement queue: Search Console submission remains dry-run until credentials are wired; cannibalization audit reports 25 exact topic clusters; weak short-post samples remain on AIForge, DeployStack, FinStack, SellKit, and older ToolPick posts.
 
+## 2026-04-27 - Codex ToolPick Indexing Signal Loop
+
+- Added repeatable ToolPick indexing signal scripts in `src/sbu/toolpick`: `search:indexing-priority`, `indexnow:dry-run`, `indexnow:submit-priority`, and `indexnow:submit`.
+- Added public IndexNow key file and generated the latest Search Console priority queue plus external signal launch pack under `docs/operations/`.
+- Confirmed Google Search Console API automation is blocked locally because `GOOGLE_SEARCH_CONSOLE_ACCESS_TOKEN`, `GOOGLE_APPLICATION_CREDENTIALS`, and `GOOGLE_SERVICE_ACCOUNT_JSON` are absent.
+- Verified local quality gates: `npm run lint`, `npm run build`, `npm run audit:growth`, `npm run audit:money-evidence`, `npm run audit:cannibalization`, `npm run audit:internal-links`, and `npm run audit:topic-hubs` all passed.
+- Committed and pushed ToolPick `1f20a4c feat: add ToolPick indexing signal loop` to `Yesol-Pilot/https-www.toolpick.dev-`.
+- Deployed Vercel production and verified alias `https://www.toolpick.dev`.
+- Verified live key file, submitted 100 priority URLs and 855 sitemap URLs to IndexNow, and passed `npm run audit:live`.
+
 ## 2026-04-27 - Codex ToolPick Enterprise Blog 10/10 Growth Hardening
 
 - Ran role-based deep review for ToolPick SEO/indexing, content quality, and UX/performance risks, then implemented the high-impact fixes in `src/sbu/toolpick`.
@@ -1603,3 +1613,25 @@
   - `node scripts/sbu_indexing_quality_audit.mjs --sites toolpick,aiforge,craftdesk,deploystack,finstack,sellkit --since 2026-04-26` passed with all six sites green.
   - `node scripts/sbu_growth_loop.mjs` passed end-to-end publisher verify, control tower, and regression gate.
 - Residual improvement queue: Search Console submission remains dry-run until GSC credentials are available; older weak samples remain in some pre-2026-04-26 archives and should be handled in the next repair wave.
+
+## 2026-04-27 - Codex SBU Weak Archive Zeroing Loop
+
+- Extended `scripts/sbu_quality_repair_loop.mjs` with `weak-depth-v2` reinforcement so posts that already had a first repair block but still stayed under 650 words can be repaired automatically.
+- Re-ran the archive repair wave across all six tracked SBU sites:
+  - 32 weak posts received first-time expansion.
+  - 10 previously expanded but still-short posts received the v2 reinforcement.
+  - Final local weak-post count is 0 across ToolPick, AIForge, CraftDesk, DeployStack, FinStack, and SellKit.
+- Rebuilt all six SBU apps locally; every `npm run build` passed.
+- Committed, pushed, and redeployed production content for the changed SBU repos:
+  - AIForge `bdd6052`
+  - CraftDesk `98e5338`
+  - DeployStack `62c5cfe`
+  - FinStack `94a62a8`
+  - SellKit `0fd4a10`
+- Final verification:
+  - `node scripts/sbu_growth_control_tower.mjs --json` passed with all 6 SBU sites green and total modeled MAU capacity `731500`.
+  - `node scripts/sbu_growth_regression_gate.mjs --json` passed with 0 critical issues and 0 warnings.
+  - `node scripts/sbu_growth_ops_suite.mjs` passed; all exact cannibalization clusters remain intent-routed and unresolved clusters are 0.
+  - `node scripts/sbu_indexing_quality_audit.mjs --sites toolpick,aiforge,craftdesk,deploystack,finstack,sellkit --since 2026-04-26` passed with all six sites green.
+  - `node scripts/sbu_growth_loop.mjs` passed end-to-end.
+- Remaining external blocker: Search Console submission is still dry-run because GSC credentials are not available in the local execution environment.

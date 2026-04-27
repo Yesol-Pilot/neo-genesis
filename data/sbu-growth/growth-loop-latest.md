@@ -1,6 +1,6 @@
 # SBU Growth Loop
 
-- generatedAt: 2026-04-27T13:01:34+09:00
+- generatedAt: 2026-04-27T14:19:20+09:00
 - passed: true
 
 ## Steps
@@ -81,6 +81,14 @@
 ### control-tower
 
 ```text
+        "posts": {
+          "total": 291,
+          "ready": 291,
+          "requiredFor100k": 286,
+          "additionalReadyNeeded": 0,
+          "modeledMau": 101850,
+          "mauGap": 0,
+          "latest": {
             "slug": "2026-04-27-lifecycle-email-automation-tools",
             "file": "src\\sbu\\sellkit\\content\\blog\\2026-04-27-lifecycle-email-automation-tools.mdx",
             "title": "Lifecycle Email Automation Tools for Lean Ecommerce Teams in 2026",
@@ -102,15 +110,7 @@
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.873,
           "internalLinkCoverage": 0.766,
-          "weakSamples": [
-            {
-              "slug": "best-ecommerce-platform-for-dropshipping-2026",
-              "date": "2026-02-23",
-              "words": 462,
-              "completeFrontmatter": true,
-              "draft": false
-            }
-          ]
+          "weakSamples": []
         }
       },
       "live": {
@@ -148,7 +148,7 @@
 ```text
 {
   "report": "data\\sbu-growth\\control-tower-latest.json",
-  "generatedAt": "2026-04-27T13:01:33+09:00",
+  "generatedAt": "2026-04-27T14:19:18+09:00",
   "passed": true,
   "criticalIssueCount": 0,
   "warningCount": 0,

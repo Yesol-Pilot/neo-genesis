@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-27T13:01:33+09:00",
+  "generatedAt": "2026-04-27T14:19:18+09:00",
   "today": "2026-04-27",
   "targetMau": 100000,
   "monthlyVisitsPerReadyPost": 350,
@@ -38,10 +38,10 @@
         },
         "posts": {
           "total": 379,
-          "ready": 377,
+          "ready": 379,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 131950,
+          "modeledMau": 132650,
           "mauGap": 0,
           "latest": {
             "slug": "ai-agent-development-tools-2026",
@@ -61,26 +61,11 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 60,
-          "avgWords": 1346,
+          "avgWords": 1350,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.72,
           "internalLinkCoverage": 0.887,
-          "weakSamples": [
-            {
-              "slug": "lifesync-smartwatch-review-fitness-tracking-on-a-budget",
-              "date": "2026-04-05",
-              "words": 646,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "my-dear-mdwmt0601w-wine-kr-dishwasher-review-is-it-worth-it",
-              "date": "2026-03-29",
-              "words": 642,
-              "completeFrontmatter": true,
-              "draft": false
-            }
-          ]
+          "weakSamples": []
         }
       },
       "live": {
@@ -141,10 +126,10 @@
         },
         "posts": {
           "total": 432,
-          "ready": 427,
+          "ready": 432,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 149450,
+          "modeledMau": 151200,
           "mauGap": 0,
           "latest": {
             "slug": "2026-04-27-agentic-crm-automation-tools",
@@ -164,47 +149,11 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 14,
-          "avgWords": 1700,
+          "avgWords": 1705,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.731,
-          "internalLinkCoverage": 0.741,
-          "weakSamples": [
-            {
-              "slug": "ai-testing-tools-ml-model-testing-automated-ml-testing",
-              "date": "2026-03-07",
-              "words": 556,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "ai-driven-data-augmentation-tools",
-              "date": "2026-03-01",
-              "words": 460,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "ai-api-development-platforms",
-              "date": "2026-02-25",
-              "words": 471,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "low-code-ai-platforms",
-              "date": "2026-02-24",
-              "words": 593,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "ai-code-refactoring-tools",
-              "date": "2026-02-23",
-              "words": 350,
-              "completeFrontmatter": true,
-              "draft": false
-            }
-          ]
+          "internalLinkCoverage": 0.745,
+          "weakSamples": []
         }
       },
       "live": {
@@ -265,10 +214,10 @@
         },
         "posts": {
           "total": 369,
-          "ready": 356,
+          "ready": 369,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 124600,
+          "modeledMau": 129150,
           "mauGap": 0,
           "latest": {
             "slug": "2026-04-27-brand-asset-workflow-software",
@@ -288,47 +237,11 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1601,
+          "avgWords": 1624,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.832,
-          "internalLinkCoverage": 0.675,
-          "weakSamples": [
-            {
-              "slug": "ai-ui-design-software-comparison-for-enterprise-2026",
-              "date": "2026-03-26",
-              "words": 516,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "no-code-prototyping-tools-for-web3",
-              "date": "2026-03-13",
-              "words": 485,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "video-editing-software",
-              "date": "2026-03-11",
-              "words": 562,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "ai-isometric-illustration-tool",
-              "date": "2026-03-08",
-              "words": 97,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "ai-ui-design-software-for-fintech-2026",
-              "date": "2026-03-08",
-              "words": 26,
-              "completeFrontmatter": true,
-              "draft": false
-            }
-          ]
+          "internalLinkCoverage": 0.694,
+          "weakSamples": []
         }
       },
       "live": {
@@ -389,10 +302,10 @@
         },
         "posts": {
           "total": 312,
-          "ready": 298,
+          "ready": 312,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 104300,
+          "modeledMau": 109200,
           "mauGap": 0,
           "latest": {
             "slug": "2026-04-27-devops-incident-review-tools",
@@ -412,47 +325,11 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 11,
-          "avgWords": 1617,
+          "avgWords": 1644,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.728,
-          "internalLinkCoverage": 0.673,
-          "weakSamples": [
-            {
-              "slug": "kubernetes-monitoring-tools",
-              "date": "2026-03-31",
-              "words": 544,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "automated-cicd",
-              "date": "2026-03-29",
-              "words": 532,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "kubernetes-orchestration-comparison",
-              "date": "2026-03-14",
-              "words": 523,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "serverless-cost-optimization-tools",
-              "date": "2026-03-11",
-              "words": 484,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "ai-powered-devops-platform-comparison-2026",
-              "date": "2026-03-10",
-              "words": 385,
-              "completeFrontmatter": true,
-              "draft": false
-            }
-          ]
+          "internalLinkCoverage": 0.696,
+          "weakSamples": []
         }
       },
       "live": {
@@ -513,10 +390,10 @@
         },
         "posts": {
           "total": 307,
-          "ready": 300,
+          "ready": 307,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 105000,
+          "modeledMau": 107450,
           "mauGap": 0,
           "latest": {
             "slug": "2026-04-27-banking-api-platforms",
@@ -536,47 +413,11 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 13,
-          "avgWords": 1176,
+          "avgWords": 1192,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.739,
-          "internalLinkCoverage": 0.661,
-          "weakSamples": [
-            {
-              "slug": "financial-analytics-for-e-commerce",
-              "date": "2026-02-27",
-              "words": 209,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "embedded-accounting-saas",
-              "date": "2026-02-24",
-              "words": 48,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "banking-api-for-startups",
-              "date": "2026-02-23",
-              "words": 9,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "financial-analytics",
-              "date": "2026-02-23",
-              "words": 0,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "financial-analytics-banking-api-comparison",
-              "date": "2026-02-23",
-              "words": 362,
-              "completeFrontmatter": true,
-              "draft": false
-            }
-          ]
+          "internalLinkCoverage": 0.684,
+          "weakSamples": []
         }
       },
       "live": {
@@ -637,10 +478,10 @@
         },
         "posts": {
           "total": 291,
-          "ready": 290,
+          "ready": 291,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 101500,
+          "modeledMau": 101850,
           "mauGap": 0,
           "latest": {
             "slug": "2026-04-27-lifecycle-email-automation-tools",
@@ -664,15 +505,7 @@
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.873,
           "internalLinkCoverage": 0.766,
-          "weakSamples": [
-            {
-              "slug": "best-ecommerce-platform-for-dropshipping-2026",
-              "date": "2026-02-23",
-              "words": 462,
-              "completeFrontmatter": true,
-              "draft": false
-            }
-          ]
+          "weakSamples": []
         }
       },
       "live": {
