@@ -1,0 +1,446 @@
+{
+  "name": "ssot_korean_v2",
+  "version": 2,
+  "description": "한국어 SSOT golden task 50개 (Phase 1 진입 게이트). KorMTEB-retrieval Recall@10 > 85% 임계.",
+  "created": "2026-04-27",
+  "created_by": "Claude Opus 4.7",
+  "supersedes": "ssot_korean_v1",
+  "target_collections": ["neo_ssot", "neo_code", "neo_quant"],
+  "embedding_model": "KURE-v1",
+
+  "tasks": [
+    {
+      "id": "kor-001",
+      "query": "Phase 0 Day 1 작업 중 Qdrant 컨테이너를 어디에 띄우는가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md", ".agent/knowledge/rag-master/08_rollout_24w.md"],
+      "expected_answer_substrings": ["ysh-server", "Qdrant", "docker run", "6333"],
+      "expected_source_type": "human",
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-002",
+      "query": ".agent/policies/permissions.yaml의 deny 정책은 어떤 루프인가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/policies/permissions.yaml"],
+      "expected_answer_substrings": ["자기보호"],
+      "max_latency_ms": 600
+    },
+    {
+      "id": "kor-003",
+      "query": "Neo Genesis SSOT의 우선순위는 어떻게 되나?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/NEO_MASTER_RULES.md", "AGENTS.md"],
+      "expected_answer_substrings": ["NEO_MASTER_RULES", "BIBLE", "AGENT_SHARED_MEMORY", "shared-brain"],
+      "expected_source_type": "human",
+      "max_latency_ms": 600
+    },
+    {
+      "id": "kor-004",
+      "query": "Claude Code가 이번에 오너 주력 에이전트로 전환된 배경은?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/contracts/COLLABORATION_CONTRACT.md", ".agent/knowledge/CLAUDE_COLLABORATION.md"],
+      "expected_answer_substrings": ["Codex", "Claude", "primary", "fallback"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-005",
+      "query": "EthicaAI Melting Pot n=188 expansion은 언제 시작했고 결정 규칙은 무엇인가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/shared-brain/active-tasks.md"],
+      "expected_answer_substrings": ["Bonferroni", "Option A", "Option B"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-006",
+      "query": "퀀트 봇 v11의 6 알파는 무엇이고 어느 알파가 메인 비중을 가지나?",
+      "expected_collections": ["neo_ssot", "neo_quant"],
+      "expected_chunks": ["auto-trading/docs/v11-ensemble/MASTER_DESIGN.md", ".agent/shared-brain/active-tasks.md"],
+      "expected_answer_substrings": ["Liquidation Cascade", "40%", "Mean Reversion", "Funding"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-007",
+      "query": "company-work-pc tier (desktop-yesol)의 격리 규칙은 무엇인가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/contracts/COLLABORATION_CONTRACT.md", ".agent/policies/work_pc_rag_isolation.yaml"],
+      "expected_answer_substrings": ["read-only", "JWT", "secret", "personal"],
+      "expected_source_type": "human",
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-008",
+      "query": "RAG 마스터 설계의 7개 핵심 결정은 무엇인가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md", ".agent/knowledge/rag-master/01_decisions.md"],
+      "expected_answer_substrings": ["ChromaDB", "cutover", "LightRAG", "ColQwen2", "provenance"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-009",
+      "query": "Sora ChromaDB의 7대 갭은 무엇인가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md", "src/core/rag_engine.py"],
+      "expected_answer_substrings": ["멀티모달", "리랭커", "단일 컬렉션", "BM25"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-010",
+      "query": "방문자 통계 보고는 어떤 구조로 작성해야 하는가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/20260414_PM_DA_방문자_통계_보고_워크플로우.md", ".agent/knowledge/AGENT_SHARED_MEMORY.md"],
+      "expected_answer_substrings": ["Executive Summary", "Business Signal", "Intent Analysis", "Action Queue"],
+      "expected_source_type": "human",
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-011",
+      "query": "RAG v2 Supabase migration 001_initial.sql 은 어떤 테이블을 만드는가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/migrations/rag_v2/001_initial.sql", ".agent/knowledge/rag-master/09_appendix_schemas.md"],
+      "expected_answer_substrings": ["rag_audit_log", "rag_eval_runs", "rag_chunk_lineage", "forgotten_uris", "rag_source_allowlist", "rag_jwt_revoke_list"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-012",
+      "query": "RAG eval golden 의 Recall@10 임계값은 얼마이며 위반 시 어떤 액션이 발동되나?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/policies/rag_eval_baseline.yaml", "tests/rag_golden/ssot_korean_v1.json"],
+      "expected_answer_substrings": ["0.85", "alert_telegram_immediate", "block_phase_progression"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-013",
+      "query": "9-Layer Kill Switch 의 신규 L8/L9 는 무엇을 막는가?",
+      "expected_collections": ["neo_ssot", "neo_quant"],
+      "expected_chunks": ["auto-trading/docs/v11-ensemble/RISK_KILLSWITCH.md"],
+      "expected_answer_substrings": ["Stablecoin Depeg", "Funding Spike", "USDT", "USDC"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-014",
+      "query": "Backtest v2 엔진 결정에서 nautilus_trader 가 primary 인 이유는?",
+      "expected_collections": ["neo_ssot", "neo_quant"],
+      "expected_chunks": ["auto-trading/docs/v11-ensemble/backtest-v2-engine-decision.md"],
+      "expected_answer_substrings": ["nautilus_trader", "tick", "fill model", "DSR", "PBO"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-015",
+      "query": "허예솔 대표의 GitHub 계정 정책은 무엇인가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": ["CLAUDE.md", "FOLDER_BIBLE.md"],
+      "expected_answer_substrings": ["Yesol-Pilot", "neogenesislab", "절대 금지"],
+      "expected_source_type": "human",
+      "max_latency_ms": 600
+    },
+    {
+      "id": "kor-016",
+      "query": "Vercel 배포 시 buildCommand 에 'exit 0' 을 쓰면 안 되는 이유는?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": ["CLAUDE.md"],
+      "expected_answer_substrings": ["빌드", "무시", "장애"],
+      "max_latency_ms": 600
+    },
+    {
+      "id": "kor-017",
+      "query": "Sora 7-에이전트 구조의 Strategy Lead 는 누가 담당하고 무엇을 결정하나?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/20260426_FINANCIAL_ADVISOR_SYSTEM_v1.md"],
+      "expected_answer_substrings": ["Claude Opus 4.7", "Capital", "어드바이저", "자율"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-018",
+      "query": "1000만원 ~ 8000만원 자본 입금 schedule 은 어떻게 단계화되어 있나?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/20260426_FINANCIAL_ADVISOR_SYSTEM_v1.md", ".agent/shared-brain/active-tasks.md"],
+      "expected_answer_substrings": ["Phase 1", "Phase 2", "Phase 3", "1000만원", "3000만원", "8000만원"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-019",
+      "query": "permissions.yaml의 ask 트리거는 어떤 동작을 요구하나?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/policies/permissions.yaml"],
+      "expected_answer_substrings": ["고지", "확인"],
+      "expected_source_type": "human",
+      "max_latency_ms": 600
+    },
+    {
+      "id": "kor-020",
+      "query": "blast_radius tier 는 0~5 까지 무엇을 의미하나?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/policies/blast_radius.yaml"],
+      "expected_answer_substrings": ["tier 0", "tier 5"],
+      "max_latency_ms": 600
+    },
+    {
+      "id": "kor-021",
+      "query": "RAG 비용 시나리오 B 는 월 얼마이며 어떤 stack 조합을 권장하나?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/rag-master/03_domain_stacks.md", ".agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md"],
+      "expected_answer_substrings": ["$15", "$25", "Voyage", "self-host"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-022",
+      "query": "RAG v2 6 컬렉션의 이름과 권한 매트릭스는?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/rag-master/04_collection_topology.md"],
+      "expected_answer_substrings": ["neo_ssot", "neo_code", "neo_paper", "neo_notes", "neo_quant", "neo_secret"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-023",
+      "query": "한국어 credential 정규식 (gitleaks-korean-rules.toml) 은 어떤 패턴을 잡는가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/policies/gitleaks-korean-rules.toml", "src/core/rag_v2/credential_redactor.py"],
+      "expected_answer_substrings": ["주민번호", "사업자등록번호", "kakao", "toss", "telegram"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-024",
+      "query": "PDF prompt injection sanitizer 가 quarantine 하는 패턴 예시는?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": ["src/core/rag_v2/pdf_sanitizer.py", ".agent/knowledge/rag-master/06_governance.md"],
+      "expected_answer_substrings": ["ignore", "instructions", "role", "DAN", "jailbreak"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-025",
+      "query": "v11 A1 Liquidation Cascade 알파의 진입 4조건은 무엇인가?",
+      "expected_collections": ["neo_quant"],
+      "expected_chunks": ["auto-trading/src/agents/liquidation-hunter-agent.js", "auto-trading/docs/v11-ensemble/alpha-specs"],
+      "expected_answer_substrings": ["threshold", "longLiqRatio", "WAP", "volumeZ"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-026",
+      "query": "Binance forceOrder@arr 의 truncation 한계와 우회 방법은?",
+      "expected_collections": ["neo_quant"],
+      "expected_chunks": ["auto-trading/src/core/liquidation-stream.js", "auto-trading/docs/v11-ensemble/research/2026-04-24-external-validation.md"],
+      "expected_answer_substrings": ["1 event/sec", "이중구독", "symbol"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-027",
+      "query": "ATR 기반 동적 TP/SL 의 clamp 범위는 얼마인가?",
+      "expected_collections": ["neo_quant"],
+      "expected_chunks": ["auto-trading/src/agents/liquidation-hunter-agent.js"],
+      "expected_answer_substrings": ["0.005", "0.015", "0.0025", "0.0075"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-028",
+      "query": "Phase 0 게이트 #3 의 임계값과 측정 시점은?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/shared-brain/active-tasks.md", "auto-trading/docs/v11-ensemble/phase-gate-0.md"],
+      "expected_answer_substrings": ["100", "일", "liquidation"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-029",
+      "query": "5x 레버리지 하드캡의 근거인 파산확률 매트릭스는?",
+      "expected_collections": ["neo_quant"],
+      "expected_chunks": ["auto-trading/docs/v11-ensemble/expert-reports/04_risk_survival.md"],
+      "expected_answer_substrings": ["32%", "98%", "100%", "365"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-030",
+      "query": "FOLDER_BIBLE v2.4 의 6대 housekeeping 규칙은?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": ["FOLDER_BIBLE.md", "CLAUDE.md"],
+      "expected_answer_substrings": ["루트 파일", "임시", "venv", "Google Drive", "D:"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-031",
+      "query": "Sora 의 Telegram 봇 chat_id 와 봇 토큰 갱신 절차는?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/shared-brain/active-tasks.md", ".agent/knowledge/20260426_FINANCIAL_ADVISOR_SYSTEM_v1.md"],
+      "expected_answer_substrings": ["1566967334", "/start", "getUpdates"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-032",
+      "query": "rag_governance.yaml 의 10가지 governance 룰은 무엇을 다루는가?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/policies/rag_governance.yaml", ".agent/knowledge/rag-master/06_governance.md"],
+      "expected_answer_substrings": ["audit", "policy_version", "RLS", "retention"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-033",
+      "query": "Stop/Go 게이트 5개 중 NDCG@10 임계 미달 시 어떤 진입이 차단되나?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/rag-master/01_decisions.md", ".agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md"],
+      "expected_answer_substrings": ["NDCG", "0.65", "Phase 2", "차단"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-034",
+      "query": "Provenance decay 룰에서 LLM 출력 chunk 의 가중치는?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/policies/rag_provenance_overrides.yaml", ".agent/knowledge/rag-master/05_provenance.md", "src/core/rag_v2/provenance_classifier.py"],
+      "expected_answer_substrings": ["0.5", "human=1.0", "llm_output"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-035",
+      "query": "ColQwen2 멀티모달 임베딩의 mac-studio 우선 + sol01 fallback 결정 근거는?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/rag-master/01_decisions.md", ".agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md"],
+      "expected_answer_substrings": ["VRAM", "MLX", "INT4", "12GB"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-036",
+      "query": "Contextual Retrieval 비용 cap 과 도입 Phase 는?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md", ".agent/knowledge/rag-master/01_decisions.md"],
+      "expected_answer_substrings": ["$50", "주", "Phase 6"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-037",
+      "query": "Sora architecture v2 의 NormalizedInput Pydantic contract 는 어떤 필드를 가지는가?",
+      "expected_collections": ["neo_ssot", "neo_code"],
+      "expected_chunks": [".agent/knowledge/20260427_SORA_ARCHITECTURE_v2.md", "src/core/contracts/sora_contracts.py"],
+      "expected_answer_substrings": ["NormalizedInput", "channel", "user"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-038",
+      "query": "BGE Reranker v2-m3 가 self-host 되는 이유와 호스트 장비는?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md", "scripts/rag_v2/rerank_service.py"],
+      "expected_answer_substrings": ["sol01", "한국어", "무료", "self-host"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-039",
+      "query": "Voyage Code-3 와 Voyage-3-large 의 차이는?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/rag-master/03_domain_stacks.md", ".agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md"],
+      "expected_answer_substrings": ["Code", "3-large"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-040",
+      "query": "RRF k=60 hybrid 검색의 BM25 + dense 결합 공식은?",
+      "expected_collections": ["neo_ssot", "neo_code"],
+      "expected_chunks": [".agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md", "src/core/rag_v2/router.py"],
+      "expected_answer_substrings": ["RRF", "k=60", "BM25", "dense"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-041",
+      "query": "JWT scope 매트릭스에서 desktop-yesol 이 read 가능한 컬렉션은?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/policies/rag_jwt_scopes.yaml", ".agent/knowledge/rag-master/04_collection_topology.md"],
+      "expected_answer_substrings": ["yesol", "read", "neo_ssot", "neo_code"],
+      "expected_source_type": "human",
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-042",
+      "query": "RAG watchdog 이 Blake3 + SQLite 캐시를 쓰는 이유는?",
+      "expected_collections": ["neo_ssot", "neo_code"],
+      "expected_chunks": ["scripts/rag_v2/watchdog_indexer.py", ".agent/policies/rag_watchdog.yaml"],
+      "expected_answer_substrings": ["Blake3", "SQLite", "single-writer", "lock"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-043",
+      "query": "rag_engine.py 의 backend 파라미터는 어떤 값을 받고 default 는 무엇인가?",
+      "expected_collections": ["neo_code"],
+      "expected_chunks": ["src/core/rag_engine.py"],
+      "expected_answer_substrings": ["backend", "chroma", "qdrant", "default"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-044",
+      "query": "Sora rag_search 단절 P0 위험은 어떻게 차단되었나?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/shared-brain/active-tasks.md", ".agent/knowledge/rag-master/01_decisions.md"],
+      "expected_answer_substrings": ["P0-1", "Day 3", "backend 파라미터"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-045",
+      "query": "RAG MCP gateway 가 호스팅되는 host:port 와 인증 방식은?",
+      "expected_collections": ["neo_ssot", "neo_code"],
+      "expected_chunks": ["scripts/rag_v2/mcp_gateway.py", ".agent/policies/mcp_tool_policy.yaml"],
+      "expected_answer_substrings": ["7701", "ysh-server", "JWT"],
+      "max_latency_ms": 700
+    },
+    {
+      "id": "kor-046",
+      "query": "SBU Autonomous Growth Standing Approval 의 범위는?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/20260426_SBU_AUTONOMOUS_GROWTH_RULE.md", ".agent/knowledge/AGENT_SHARED_MEMORY.md"],
+      "expected_answer_substrings": ["content", "SEO", "sitemap", "Vercel", "GitHub"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-047",
+      "query": "v11 Phase -1 closure 시 발견된 launch-live.js land mine 의 2층 원인은?",
+      "expected_collections": ["neo_quant"],
+      "expected_chunks": ["auto-trading/docs/v11-ensemble/incidents/2026-04-24-01-launch-live-paper-safeguard.md", ".agent/shared-brain/handoff.md"],
+      "expected_answer_substrings": ["하드코딩", "PM2", "CONFIRM_LIVE", "SKIP_GATE"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-048",
+      "query": "Magentic-One Dual-Ledger 패턴이 어드바이저 시스템에서 어떻게 사용되나?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/20260426_FINANCIAL_ADVISOR_SYSTEM_v1.md", ".agent/shared-brain/progress-ledger.md"],
+      "expected_answer_substrings": ["Magentic", "dual-ledger", "task", "progress"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-049",
+      "query": "Fleet device tier 6개와 각 tier 의 권한은?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/contracts/COLLABORATION_CONTRACT.md", ".agent/shared-brain/device_inventory.json"],
+      "expected_answer_substrings": ["personal-root", "gpu-worker", "company-work-pc", "team-mac", "mobile-operator"],
+      "max_latency_ms": 800
+    },
+    {
+      "id": "kor-050",
+      "query": "Deep research v2 pack 의 6개 registry 위치와 각 목적은?",
+      "expected_collections": ["neo_ssot"],
+      "expected_chunks": [".agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md", ".agent/knowledge/agent-environment/README.md"],
+      "expected_answer_substrings": ["research-patterns", "framework-scorecard", "benchmark-eval-registry", "security-governance", "ux-product-pattern", "local-adoption-roadmap"],
+      "max_latency_ms": 800
+    }
+  ],
+
+  "metrics": {
+    "primary": "recall_at_10",
+    "secondary": ["ndcg_at_10", "p95_latency_ms", "credential_leak_rate", "injection_quarantine_recall"],
+    "thresholds": {
+      "recall_at_10": 0.85,
+      "ndcg_at_10": 0.75,
+      "p95_latency_ms": 500,
+      "credential_leak_rate": 0.0,
+      "injection_quarantine_recall": 0.95
+    }
+  },
+
+  "regression_action": {
+    "on_below_threshold": ["alert_telegram_immediate", "block_phase_progression"],
+    "on_p95_exceed": ["warn", "log_to_audit"],
+    "on_credential_leak": ["alert_telegram_immediate", "rollback_index_partition", "audit_jwt_holder"]
+  },
+
+  "category_distribution": {
+    "rag_v2_design": 18,
+    "quant_v11": 8,
+    "ssot_governance": 12,
+    "security_pii": 6,
+    "operations": 6
+  }
+}

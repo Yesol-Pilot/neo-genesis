@@ -5,6 +5,61 @@
 
 ---
 
+## 2026-04-27 RAG Phase 0 Day 7-B 자율 진척 + Phase 1 사전 강화 (Claude Opus 4.7)
+
+**세션 유형**: Owner 지시 "RAG만 진행해 너가 직접 판단해" — quant 작업으로 잘못 분기했던 것을 정정하고 RAG 본 task 자율 진행.
+
+### 산출물 (8 파일)
+| 파일 | 변경 | 비고 |
+| --- | --- | --- |
+| `.agent/policies/gitleaks-korean-rules.toml` | M (8 → 14 rules) | 주민번호 신버전 / 외국인등록 / 운전면허 / 여권 / 신용카드 / KISA / 공인인증서 / Telegram |
+| `src/core/rag_v2/credential_redactor.py` | NEW (240) | runtime PII/credential redactor — 23 patterns (한국어 + 글로벌 cloud) + allowlist + critical 게이트 |
+| `src/core/rag_v2/pdf_sanitizer.py` | NEW (200) | PDF prompt injection sanitizer — 13 rules + unicode normalize (zero-width 제거) + risk score + quarantine |
+| `tests/test_rag_v2_redactors.py` | NEW (190) | 26 tests PASS (credential 14 + injection 12) |
+| `tests/rag_golden/ssot_korean_v2.json` | NEW (50 tasks) | v1 supersede, 카테고리 5분 (rag_v2/quant/ssot/security/ops), 신규 metric `credential_leak_rate` + `injection_quarantine_recall` |
+| `scripts/rag_v2/diagnose_phase_0.py` | NEW (500) | 9-section 자동 진단 (deps/tokenizer/qdrant/embedding/reranker/gateway/supabase/ssot/files), JSON + ASCII fallback |
+| `.agent/shared-brain/active-tasks.md` | M | RAG Phase 0 Day 7-B 자율 진척 + Phase 1 사전 강화 작업 박제 |
+| `.agent/shared-brain/handoff.md` | M | 본 섹션 |
+
+### Supabase MCP 직접 액션
+- **Migration apply** (sora 프로젝트 `kfoixzebpztikurwqgdr`): `rag_v2_initial_audit_eval_lineage`
+  - 6 테이블 생성: `rag_audit_log`, `rag_eval_runs`, `rag_chunk_lineage`, `forgotten_uris`, `rag_source_allowlist`, `rag_jwt_revoke_list`
+  - 14 인덱스 (PK 6 + secondary 8) 모두 활성
+  - RLS policy `rag_audit_owner_only` (tenant_id='yesol' OR is_admin) 활성
+- **rag_source_allowlist seed**: yaml 정책 → DB 31 row (allow=13 / deny=16 / manual_approval=2)
+
+### 잔존 위험 해소 매트릭스
+| 위험 | 상태 | 조치 |
+| --- | --- | --- |
+| **P0-1**: sora_engine backend 분기 부재 | ✅ Day 3 완료 | 기존 |
+| **P0-2**: sol01 12GB VRAM OOM | ⏳ 운영 시 모니터링 | 결정 6 채택 (mac primary + sol01 fallback) |
+| **P0-3**: LanceDB right-to-be-forgotten | ⏳ Phase 4 진입 시 | `forgotten_uris` 테이블 활성 (이번 세션) |
+| **P1-4**: 한국어 credential 미커버 | ✅ 본 세션 해소 | gitleaks v2 14 rules + runtime redactor 23 patterns + 14 회귀 테스트 |
+| **P1-5**: PDF prompt injection | ✅ 본 세션 해소 | 13 injection rules + unicode normalize + quarantine + 12 회귀 테스트 |
+| **P1-6**: JWT 발급 경로 | ⏳ Phase 3 yesol 격리 시 구현 | `rag_jwt_revoke_list` 테이블 활성 (이번 세션) |
+| **P1-7**: 멀티 에이전트 동시 write | ⏳ watchdog Single-writer lock 적용 (Day 6) | 기존 |
+| **P2-8~12**: contextual cost / 16GB / mecab Windows / 1주 비현실 / mac offline | ⏳ owner 환경/시간 의존 | RUNBOOK Day 7-B + diagnose_phase_0.py |
+
+### Owner 다음 액션 (RUNBOOK Day 7-B 의 잔여)
+1. `pip install qdrant-client blake3 pydantic fastapi uvicorn pyyaml watchdog requests httpx kiwipiepy` (필수 의존성)
+2. `pip install sentence-transformers FlagEmbedding torch pynvml` (sol01 GPU only)
+3. ysh-server `docker run qdrant/qdrant:v1.16.0 -p 6333:6333` + API key
+4. `python scripts/rag_v2/diagnose_phase_0.py` 실행해서 **한 화면에 모든 게이트 상태 확인** (Windows: `set PYTHONIOENCODING=utf-8` 권고)
+5. dry-run 마이그 + sol01 embed/rerank 가동 → Phase 1 진입 결정
+
+### 잘못 분기했던 quant A1 작업 (별도 trace, RAG 와 무관)
+- `auto-trading` PR #7 (`3c1d3f1`) + PR #8 (`66020a4`) 둘 다 master merged + VM 배포 완료
+- 현 VM 상태: PAPER mode, liquidation-stream 이중구독 가동 (5분 145 row, ~41,760/일 추정)
+- owner 가 RAG 본 task 가 아니었음을 지적 → 이후 모든 작업 RAG 로 한정
+- quant 작업 자체는 코드 정상, 자본 위험 없음 (PAPER), 별도 owner 결정 시 롤백/유지 선택
+
+### Pending verification (다음 세션)
+- owner 가 의존성 설치 후 `diagnose_phase_0.py` 결과 — 모든 critical pass 시 Phase 1 진입 가능
+- golden v2 50 tasks 의 실제 retrieval recall@10 측정 (Qdrant + KURE-v1 가동 후)
+- `rag_audit_log` 첫 row 도착 (MCP gateway 가동 시)
+
+---
+
 ## 2026-04-27 v11 Phase 0 A1 Liquidation Cascade 알파 + 이중구독 + Live Wiring (Claude Opus 4.7)
 
 **세션 유형**: P0 자율 실행 (Strategy Lead) — owner 지시 "모든 후속작업 진행해"

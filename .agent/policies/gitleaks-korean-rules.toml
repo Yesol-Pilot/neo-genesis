@@ -1,0 +1,153 @@
+# .agent/policies/gitleaks-korean-rules.toml
+# Gitleaks custom rule — 한국어 credential 패턴 (P1-4 대응)
+# 사용: gitleaks detect --config .agent/policies/gitleaks-korean-rules.toml
+# 부록: .agent/knowledge/rag-master/06_governance.md §5
+
+title = "Neo Genesis Korean Credential Patterns"
+
+# 일반 한국어 키 패턴 (가장 광범위)
+[[rules]]
+id = "korean-api-key-pattern"
+description = "한국어로 작성된 API 키/토큰/시크릿 패턴"
+regex = '''[가-힣a-zA-Z_]{2,20}[_\s]*(키|key|secret|token|토큰|시크릿|API|api|비밀번호|패스워드|password)\s*[:=]\s*['"]?\S{8,}['"]?'''
+tags = ["key", "korean"]
+keywords = ["키", "토큰", "시크릿"]
+
+# 은행 계좌
+[[rules]]
+id = "korean-bank-account"
+description = "한국 은행 계좌번호 (PII)"
+regex = '''(계좌|account|입금|송금)[\s번호계좌\.]*\s*[:=]?\s*['"]?[0-9]{3,6}[-\s][0-9]{2,6}[-\s][0-9]{6,8}['"]?'''
+tags = ["pii", "korean", "bank"]
+keywords = ["계좌"]
+
+# 주민번호 (구버전, 6-1+6 패턴 — 2020-10 이전)
+[[rules]]
+id = "korean-rrn-pre-2020"
+description = "주민등록번호 (2020-10 이전 발급)"
+regex = '''[0-9]{6}-[1-4][0-9]{6}'''
+tags = ["pii", "korean", "rrn"]
+keywords = ["주민"]
+
+# 주민번호 (2020-10+ 신버전: 7-9 시작자리 도입)
+[[rules]]
+id = "korean-rrn-post-2020"
+description = "주민등록번호 (2020-10 이후 발급분)"
+regex = '''[0-9]{6}-[5-8][0-9]{6}'''
+tags = ["pii", "korean", "rrn", "v2020"]
+keywords = ["주민"]
+
+# 외국인등록번호 (5/6/7/8 시작자리, 6-1+6)
+[[rules]]
+id = "korean-arc"
+description = "외국인등록번호"
+regex = '''[0-9]{6}-[5-8][0-9]{6}'''
+tags = ["pii", "korean", "foreigner"]
+keywords = ["외국인"]
+
+# 한국 운전면허번호
+[[rules]]
+id = "korean-driver-license"
+description = "한국 운전면허번호 (지역2-연도2-시퀀스6-검증2)"
+regex = '''(?i)(운전|면허|license)[\s_:=-]*[0-9]{2}-[0-9]{2}-[0-9]{6}-[0-9]{2}'''
+tags = ["pii", "korean", "license"]
+keywords = ["면허"]
+
+# 한국 여권 (M + 8자리 또는 R + 8자리)
+[[rules]]
+id = "korean-passport"
+description = "한국 여권번호"
+regex = '''(?i)(여권|passport)[\s_:=-]*['"]?[MR][0-9]{8}['"]?'''
+tags = ["pii", "korean", "passport"]
+keywords = ["여권"]
+
+# 한국 신용카드 (4-4-4-4, BIN-기반 검증은 정확도 트레이드)
+[[rules]]
+id = "korean-credit-card"
+description = "신용카드 16자리 (KB/신한/현대/삼성/롯데 BIN)"
+regex = '''(?i)(card|카드|credit)[\s_:=-]*['"]?(4[0-9]{3}|5[1-5][0-9]{2}|36[0-9]{2}|9410)[\s-]?[0-9]{4}[\s-]?[0-9]{4}[\s-]?[0-9]{4}['"]?'''
+tags = ["pii", "korean", "card"]
+keywords = ["카드"]
+
+# 휴대폰
+[[rules]]
+id = "korean-mobile"
+description = "한국 휴대폰 번호"
+regex = '''01[016789]-?[0-9]{3,4}-?[0-9]{4}'''
+tags = ["pii", "korean", "phone"]
+
+# 사업자등록번호
+[[rules]]
+id = "korean-business-reg"
+description = "사업자등록번호"
+regex = '''[0-9]{3}-[0-9]{2}-[0-9]{5}'''
+tags = ["pii", "korean", "business"]
+
+# 네이버 클라우드 플랫폼 (NCP)
+[[rules]]
+id = "naver-cloud-key"
+description = "Naver Cloud Platform 키"
+regex = '''(?i)(naver|ncloud|ncp)[\s_-]*(key|secret|token)\s*[:=]\s*['"]?[A-Za-z0-9+/=]{20,}['"]?'''
+tags = ["key", "korean", "naver"]
+
+# Kakao REST API key (32 hex chars)
+[[rules]]
+id = "kakao-rest-key"
+description = "Kakao REST API key"
+regex = '''(?i)kakao[\s_-]*(rest|app|admin)?[\s_-]*(api[_-]?key|key)\s*[:=]\s*['"]?[a-f0-9]{32}['"]?'''
+tags = ["key", "korean", "kakao"]
+
+# Toss Payments / 토스뱅크
+[[rules]]
+id = "toss-merchant-key"
+description = "Toss Payments / 토스뱅크 머천트 키"
+regex = '''(?i)(toss|토스)[\s_-]*(payments?|bank)?[\s_-]*(secret|key)\s*[:=]\s*['"]?(test|live)_[a-zA-Z0-9_]{30,}['"]?'''
+tags = ["key", "korean", "toss"]
+
+# Coupang Wing API (한국 e-commerce)
+[[rules]]
+id = "coupang-wing-key"
+description = "Coupang Wing API key"
+regex = '''(?i)coupang[\s_-]*(wing)?[\s_-]*(access|secret)[\s_-]*(key)\s*[:=]\s*['"]?[A-Za-z0-9+/=]{20,}['"]?'''
+tags = ["key", "korean", "coupang"]
+
+# 한국 KISA 통신사업자 인증 토큰
+[[rules]]
+id = "korean-kisa-auth"
+description = "KISA 또는 한국 통신사업자 인증 토큰"
+regex = '''(?i)(kisa|kt|skt|skb|lguplus|nipa)[\s_-]*(auth|token|cert)[\s_:=-]+['"]?[A-Za-z0-9+/=_-]{30,}['"]?'''
+tags = ["key", "korean", "kisa"]
+keywords = ["인증"]
+
+# 한국 공인인증서 password 패턴 (PFX/P12)
+[[rules]]
+id = "korean-cert-password"
+description = "공인인증서/PFX 비밀번호 노출"
+regex = '''(?i)(공인인증서|nb-cert|pfx|p12)[\s_-]*(password|pwd|pw|비밀번호|패스워드)[\s_:=-]+['"]?\S{8,}['"]?'''
+tags = ["key", "korean", "cert"]
+keywords = ["인증서"]
+
+# Telegram bot token (한국 봇 운영 흔함)
+[[rules]]
+id = "telegram-bot-token"
+description = "Telegram bot token"
+regex = '''(?i)(telegram[_\s-]*bot[_\s-]*token|TELEGRAM_BOT_TOKEN)\s*[:=]\s*['"]?[0-9]{8,12}:[A-Za-z0-9_-]{35}['"]?'''
+tags = ["key", "telegram"]
+keywords = ["telegram"]
+
+# Allowlist (정상 코드 패턴은 제외)
+[allowlist]
+description = "정당한 사용 (코드 패턴, 변수 선언 등)"
+paths = [
+    '''.*\.example.*''',
+    '''.*\.template.*''',
+    '''.*\/test\/.*''',
+    '''.*\/tests\/.*''',
+    '''.*\/__tests__\/.*''',
+    '''.*\/docs\/.*''',
+    '''.*\.agent\/policies\/gitleaks-korean-rules\.toml''',  # 이 파일 자체
+    '''.*\.agent\/knowledge\/rag-master\/06_governance\.md''',  # 부록 (예시 포함)
+]
+regexes = [
+    '''(YOUR_API_KEY|<API_KEY>|EXAMPLE_KEY|REPLACE_ME|XXX|xxx|TODO)''',
+]

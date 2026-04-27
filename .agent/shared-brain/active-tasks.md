@@ -149,15 +149,33 @@ owner 지시: "PC 전체 통합 RAG + 카테고리별 최적화 RAG 구성 + 플
 - [x] **Day 5** ✅ BGE Reranker v2-m3 FastAPI (`scripts/rag_v2/rerank_service.py`, port 7704) + mecab-ko 검증 (`scripts/rag_v2/check_mecab_ko.py`, silent fallback 차단)
 - [x] **Day 6** ✅ watchdog 스캐폴드 (`scripts/rag_v2/watchdog_indexer.py`, Blake3 + SQLite 캐시 + Single-writer lock)
 - [x] **Day 7-A (로컬)** ✅ syntax check 9 Python + 7 YAML + 1 JSON + 1 TOML 모두 통과 / provenance 회귀 8/8 통과 / `python scripts/sync_agent_context.py --updated-by claude` 실행 → ssotRevision `ba30bd8fdf3b22e9` → **`d3473c2c2ae51b98`** bump
-- [ ] **Day 7-B (Owner 실행 대기)** — `.agent/knowledge/rag-master/RUNBOOK_PHASE_0.md` 참조
-  - 의존성 설치 (`qdrant-client / blake3 / pydantic / FastAPI / uvicorn / kiwipiepy`)
+- [x] **Day 7-B 일부 (2026-04-27 자율 진척)** ✅
+  - **Supabase RAG v2 migration apply** (sora 프로젝트 `kfoixzebpztikurwqgdr`, MCP) — 6 테이블 + 14 인덱스 + RLS policy `rag_audit_owner_only` 모두 활성. Migration ID `rag_v2_initial_audit_eval_lineage`
+  - **rag_source_allowlist seed** — yaml 정책 → DB row 31개 (allow=13 / deny=16 / manual_approval=2)
+  - **diagnose_phase_0.py** 자동 진단 스크립트 (9 sections: deps/tokenizer/qdrant/embedding/reranker/gateway/supabase/ssot/files) — JSON 출력 + ASCII fallback (Windows cp949 호환)
+- [ ] **Day 7-B 잔여 (Owner 실행 필요)** — `.agent/knowledge/rag-master/RUNBOOK_PHASE_0.md` 참조
+  - Python 의존성 설치 (`qdrant-client / blake3 / pydantic / FastAPI / uvicorn / kiwipiepy / sentence-transformers / FlagEmbedding`)
   - ysh-server Qdrant 1.16+ 컨테이너 + API key 설정
-  - Supabase 마이그 apply (`001_initial.sql`)
   - dry-run 마이그 검증 (`migrate_chromadb_to_qdrant.py --dry-run`)
-  - sol01 임베딩 + reranker 서비스 가동
-  - kiwipiepy 설치 (현재 한국어 토크나이저 0개 — `check_mecab_ko.py` 검증 결과)
+  - sol01 임베딩 + reranker 서비스 가동 (port 7702 / 7704)
   - fleet 동기화 (sol01 / ysh-server / mac-studio 4대 — desktop-yesol는 이미 sync됨)
-  - Phase 0 게이트 검증 → Phase 1 진입 결정
+  - **owner 검증 명령**: `python scripts/rag_v2/diagnose_phase_0.py` (한 화면에 모든 게이트 상태)
+
+### Phase 1 진입 사전 강화 작업 (2026-04-27 추가)
+- [x] **한국어 credential redaction (P1-4)** ✅
+  - `gitleaks-korean-rules.toml`: 8 → 14 rules (주민번호 신버전 / 외국인등록번호 / 운전면허 / 여권 / 신용카드 / KISA / 공인인증서 / Telegram bot token)
+  - `src/core/rag_v2/credential_redactor.py` (NEW, runtime sanitizer): 23 patterns (한국어 PII + 글로벌 클라우드 + JWT/Slack/GitHub/OpenAI/Anthropic)
+  - `tests/test_rag_v2_redactors.py` 14 tests PASS (한국어 PII + cloud key + redact + has_critical 등)
+- [x] **PDF prompt injection sanitizer (P1-5)** ✅
+  - `src/core/rag_v2/pdf_sanitizer.py` (NEW): 13 injection rules (ignore-instructions EN/KR + role-hijack + jailbreak-prefix + exfiltration + tool-call-injection + MCP tag + base64-smuggling + HTML comment)
+  - `normalize_unicode()` zero-width / RTL mark / format chars 제거
+  - `compute_injection_risk()` 가중합 score + `is_quarantined()` 게이트
+  - `tests/test_rag_v2_redactors.py` 12 tests PASS
+- [x] **golden eval v2 (50 tasks)** ✅
+  - `tests/rag_golden/ssot_korean_v2.json` (50 tasks, v1 supersede)
+  - 카테고리: rag_v2_design 18 + quant_v11 8 + ssot_governance 12 + security_pii 6 + operations 6
+  - 신규 metric: `credential_leak_rate` (target 0.0) + `injection_quarantine_recall` (target 0.95)
+  - regression_action 확장: `on_credential_leak` → audit_jwt_holder + rollback_index_partition
 
 ### Phase 1 Tasks 완료 (2026-04-27, 컨텍스트 재개 후 — Claude Opus 4.7)
 - [x] **Task 1: mcp_tool_policy.yaml RAG 항목 추가** ✅ — `.agent/policies/mcp_tool_policy.yaml`에 RAG 서버 3개 엔트리 추가 (ysh-server MCP gateway G1 / sol01 embedding service G1 / read-only blast_radius_ceiling=1)
@@ -167,12 +185,15 @@ owner 지시: "PC 전체 통합 RAG + 카테고리별 최적화 RAG 구성 + 플
 - [x] **Task 5: router.py** ✅ — `src/core/rag_v2/router.py` (LangGraph 스타일 RouterState TypedDict, 키워드 분류, RRF k=60, top-50%-of-top-score fan-out 최대 3컬렉션, httpx gateway fallback)
 - syntax: 신규 5 Python 파일 ALL_PYTHON_OK
 
-### 작성된 자산 (총 28 파일)
+### 작성된 자산 (총 36 파일, 2026-04-27 갱신)
 - 마스터 + 부록 11개 (`.agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md` + `rag-master/`)
-- 정책 8개 (`.agent/policies/rag_*.yaml` + `gitleaks-korean-rules.toml`) + mcp_tool_policy.yaml 수정 (RAG 3 엔트리)
-- 마이그레이션 1개 (`.agent/migrations/rag_v2/001_initial.sql`)
-- Python 모듈 13개 (`src/core/rag_v2/__init__.py + chunk_metadata.py + provenance_classifier.py + router.py` / `scripts/rag_v2/__init__.py + migrate + embedding + rerank + check_mecab + watchdog + run_golden_eval + bm25_indexer + mcp_gateway`)
-- 테스트 데이터 1개 (`tests/rag_golden/ssot_korean_v1.json`)
+- 정책 8개 (`.agent/policies/rag_*.yaml` + `gitleaks-korean-rules.toml` v2: 14 rules) + mcp_tool_policy.yaml 수정
+- 마이그레이션 1개 (`.agent/migrations/rag_v2/001_initial.sql`) — **sora 프로젝트 apply 완료** (2026-04-27)
+- Python 모듈 16개:
+  - `src/core/rag_v2/`: `__init__ + chunk_metadata + provenance_classifier + router + credential_redactor + pdf_sanitizer` (6)
+  - `scripts/rag_v2/`: `__init__ + migrate + embedding + rerank + check_mecab + watchdog + run_golden_eval + bm25_indexer + mcp_gateway + diagnose_phase_0` (10)
+- 테스트 데이터 2개 (`tests/rag_golden/ssot_korean_v1.json` + `ssot_korean_v2.json` 50 tasks)
+- 신규 단위 테스트 1개 (`tests/test_rag_v2_redactors.py` 26 tests PASS)
 - 코드 변경 1건 (`src/core/rag_engine.py` backend 파라미터 추가, default=chroma 유지)
 - RUNBOOK 1개 (`.agent/knowledge/rag-master/RUNBOOK_PHASE_0.md`)
 
