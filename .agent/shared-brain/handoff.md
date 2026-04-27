@@ -5,6 +5,64 @@
 
 ---
 
+## 2026-04-27 RAG Phase 1 본격 인덱싱 시작 (Claude Opus 4.7)
+
+**세션 유형**: Owner 지시 "모든 항목 자율주행" — Phase 0 인프라 가동 후 실제 데이터 RAG 화 본격 시작.
+
+### 신규 자산 (3 파일 / 약 600 line)
+| 파일 | 변경 | 비고 |
+| --- | --- | --- |
+| `scripts/rag_v2/bulk_indexer.py` | NEW | 6 컬렉션 init + 디렉토리 batch 인덱싱 + allowlist + sanitizer + KURE-v1 embed + Qdrant upsert + Blake3 cache + 503 retry + robust traversal (symlink/permission OSError 처리) |
+| `scripts/rag_v2/embedding_service.py` | M | Body(...) 명시 + dict 우회 (Pydantic v2 ForwardRef 회피) |
+| `scripts/rag_v2/rerank_service.py` | M | 동일 fix |
+| `src/core/tools/memory_tools.py` | M | rag_search 도구에 `backend` 파라미터 추가 (env RAG_BACKEND 우선순위), Sora cutover 첫 단계 |
+
+### Qdrant 6 컬렉션 가동 + 진행 중 인덱싱
+
+| 컬렉션 | 현재 points | 출처 |
+| --- | --- | --- |
+| `neo_ssot` | **2,290** ✅ | `.agent/` 215 파일 |
+| `neo_quant` | **400** ✅ | `auto-trading/docs` 23 파일 |
+| `neo_notes` | 1,300+ ⏳ | `project_yesol/master-data` + `claude memory` (background) |
+| `neo_paper` | 600+ ⏳ | `D:/00.test/PAPER` (background) + `mac-studio:ethicaai` (staged) |
+| `neo_code` | 600+ ⏳ | `neo-genesis/src` + `auto-trading/src` + `portfolio/src` + `2dlivegame/src` (4 background) |
+| `neo_secret` | 0 | (Phase 3) |
+| **TOTAL** | **5,200+ → 증가 중** | |
+
+### 디바이스 분산 인프라
+- **ysh-server**: Qdrant 1.16 (6333) + mcp_gateway (7701) + reverse tunnel localhost:7702/7704
+- **desktop-sol01 (현 PC)**: KURE-v1 embed (7702, CUDA mode, conda base) + bulk_indexer 6개 background 가동
+- **mac-studio**: BGE Reranker v2-m3 (7704, MPS True) + bulk_indexer 1개 background
+- **ysh-server**: bulk_indexer 2개 (sora 88M + neurips 1.2G) background, reverse tunnel로 sol01 KURE-v1 사용
+
+### Reverse SSH tunnel (방화벽 우회)
+`ssh -fN -R 7702:localhost:7702 -R 7704:100.81.93.118:7704 ysh-server`
+- ysh-server 의 `localhost:7702` → desktop-sol01 KURE-v1
+- ysh-server 의 `localhost:7704` → mac-studio BGE Reranker
+- desktop-sol01 의 Windows firewall 7702/7704 inbound 차단을 SSH tunnel 로 우회
+
+### Owner action (자율 진행 차단된 부분)
+1. **desktop-sol01 Windows firewall** — `New-NetFirewallRule` 관리자 권한 필요
+   ```powershell
+   # 관리자 PowerShell
+   New-NetFirewallRule -DisplayName "RAG-v2 Embedding" -Direction Inbound -LocalPort 7702 -Protocol TCP -Action Allow
+   New-NetFirewallRule -DisplayName "RAG-v2 Reranker" -Direction Inbound -LocalPort 7704 -Protocol TCP -Action Allow
+   ```
+2. **etribe-yesol** (회사 PC) host key 정리 — `ssh-keygen -R etribe-yesol` 후 SSH 가능
+3. **yesol-asus** SSH 공개키 등록 — `authorized_keys` 에 desktop-sol01 공개키 추가
+
+### 잘못된 가정 정정 (체크 후 발견)
+- **owner 의 conda base torch uninstall 실수** — `pip uninstall + pip install` 한꺼번에 붙여넣기로 install 명령이 prompt 응답으로 처리됨. 결과: torch 2.6.0+cu124 사라짐 (다른 GPU 작업 영향). 자동 복구: conda base 에 torch 재설치 + RAG deps 통합 → embedding_service 재기동 (device=cuda:0 ✅)
+- **embedding_service Python 환경 분리** — MS Store Python 3.13 (CPU-only torch) → conda base python (CUDA) 로 통합
+- **Sora 의 ChromaDB** — neo_knowledge 127,446 + sora_knowledge 66,097 docs 발견. D:/00.test 재인덱싱이 source-aware 라 더 깨끗 → ChromaDB 마이그는 보류 (sora chat history 만 의미 있음)
+
+### Pending verification
+- neo_code / notes / paper / mac-staging / ysh-sora / ysh-neurips 인덱싱 완료 시점 (1-3시간 추정)
+- 완료 후 Golden eval baseline 측정 (RAGAS — owner 승인 필요, $5/일 cap)
+- Sora `RAG_BACKEND=qdrant` 환경변수 설정 시 cutover 시작 (현재 default chroma 유지)
+
+---
+
 ## 2026-04-27 RAG Phase 0 라이브 가동 + 디바이스 분산 (Claude Opus 4.7)
 
 **세션 유형**: Owner 지시 "체크" 후 자율 진행 → 의존성 설치 + 인프라 가동 + sol01 몰빵 → 디바이스 분산 재배치
