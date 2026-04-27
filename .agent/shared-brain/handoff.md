@@ -5,6 +5,68 @@
 
 ---
 
+## 2026-04-27 RAG Phase 0 라이브 가동 + 디바이스 분산 (Claude Opus 4.7)
+
+**세션 유형**: Owner 지시 "체크" 후 자율 진행 → 의존성 설치 + 인프라 가동 + sol01 몰빵 → 디바이스 분산 재배치
+
+### Phase 0 라이브 가동 — PASS 9 / FAIL 0 / WARN 0 / SKIP 1
+
+| 디바이스 | 역할 | 가속 | endpoint |
+| --- | --- | --- | --- |
+| **ysh-server** (Linux 16C / 16GB) | Qdrant 1.16 + mcp_gateway 7701 | CPU | http://ysh-server:6333, http://ysh-server:7701 |
+| **desktop-sol01** (Win, RTX 4070 SUPER 12GB) | KURE-v1 임베딩 7702 | **CPU mode** (torch CUDA 빌드 부재) | http://localhost:7702 |
+| **mac-studio** (macOS, M2 Max 32GB) | BGE Reranker v2-m3 7704 | **MPS True** ✅ | http://100.81.93.118:7704 |
+| **Supabase** (sora 프로젝트) | RAG audit/eval/lineage/forgotten/allowlist/jwt_revoke 6 테이블 | — | RLS owner-only |
+| **etribe-yesol** (Win work PC) | (예약) BM25 / watchdog Phase 1 | — | host key 정리 필요 |
+| **yesol-asus** | (예약) 보조 Phase 1 | — | SSH key 미등록 |
+
+### 가동한 인프라 commands
+```bash
+# desktop-sol01 (현 PC)
+pip install --no-cache-dir qdrant-client blake3 watchdog kiwipiepy
+pip install --no-cache-dir sentence-transformers FlagEmbedding pynvml
+PYTHONPATH=D:/00.test/neo-genesis nohup python scripts/rag_v2/embedding_service.py --port 7702 > logs/embedding_service.log &
+
+# ysh-server (Tailscale 100.67.221.25)
+ssh ysh-server "docker run -d --name qdrant-rag-v2 --restart unless-stopped -p 6333:6333 -p 6334:6334 -v /home/ysh/qdrant_data:/qdrant/storage qdrant/qdrant:v1.16.0"
+ssh ysh-server "python3 -m venv ~/rag-v2-runtime/.venv && ~/rag-v2-runtime/.venv/bin/pip install fastapi uvicorn pydantic pyyaml qdrant-client blake3 httpx requests watchdog PyJWT supabase"
+# JWT_SECRET 32-byte hex (~/rag-v2-runtime/.env.gateway, mode 600)
+ssh ysh-server "cd ~/rag-v2-runtime && ./start-gateway.sh"  # PID 3462842, port 7701
+
+# mac-studio (Tailscale 100.81.93.118)
+ssh macstudio "python3 -m venv ~/rag-v2-runtime/.venv && ~/rag-v2-runtime/.venv/bin/pip install fastapi uvicorn pydantic pyyaml httpx PyJWT FlagEmbedding sentence-transformers torch"
+ssh macstudio "cd ~/rag-v2-runtime && ./start-rerank.sh"  # PID 49734, port 7704
+```
+
+### 분산 의도 (RAG 설계 v1 §06 GPU 충돌 결정 반영)
+- 처음에는 sol01 에 embed+rerank 둘 다 띄웠으나 owner 지적: **"인프라좀 나눠서 쓰지 디바이스도 많은데"**
+- 분산 정정: rerank 를 mac-studio MPS 로 이전 → sol01 부담 절반 감소
+- ysh-server (CPU 16C) + sol01 (12GB GPU, 현재 CPU mode) + mac-studio (M2 Max MPS) 3-way 분산
+- diagnose_phase_0.py 의 service check 가 candidate URL list 순회 (RAG_EMBED_URL / RAG_RERANK_URL env override 지원)
+
+### 운영 메모
+- **sol01 torch CPU-only 빌드** — RTX 4070 SUPER 활용 못함, 처리량 ~5x 낮음. 향상 원하면:
+  ```
+  pip uninstall torch
+  pip install torch --index-url https://download.pytorch.org/whl/cu124
+  # 후 embedding_service 재기동
+  ```
+- **mac-studio MPS True** — Apple Silicon GPU 활용 정상. BGE Reranker v2-m3 ~2GB, 32GB RAM 여유 풍부
+- mcp_gateway 는 현재 reranker URL 직접 호출 안 함 (Phase 1 통합 예정)
+
+### Phase 1 진입 시 잔여 (owner action)
+- desktop-sol01 torch CUDA 빌드 재설치 (선택적 성능 향상)
+- desktop-sol01 SSH key 등록 (현재 host name `desktop-home`, 자율 SSH 차단 상태 — 본 세션은 sol01 자체에서 작업)
+- etribe-yesol host key 정리 (`ssh-keygen -R etribe-yesol`)
+- yesol-asus authorized_keys 등록 → BM25 / watchdog 인덱서 분산 candidate
+
+### Pending verification (다음 세션 입장 시)
+- KorMTEB Recall@10 baseline 측정 (golden v2 50 tasks → embedding 7702 → BGE Reranker 7704)
+- Supabase `rag_audit_log` 첫 row (mcp_gateway 가 첫 query 받았을 때)
+- Qdrant 첫 컬렉션 `neo_ssot` dry-run migration
+
+---
+
 ## 2026-04-27 RAG Phase 0 Day 7-B 자율 진척 + Phase 1 사전 강화 (Claude Opus 4.7)
 
 **세션 유형**: Owner 지시 "RAG만 진행해 너가 직접 판단해" — quant 작업으로 잘못 분기했던 것을 정정하고 RAG 본 task 자율 진행.

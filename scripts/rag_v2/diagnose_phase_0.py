@@ -173,30 +173,69 @@ def check_qdrant() -> List[CheckResult]:
 
 
 def check_embedding_service() -> List[CheckResult]:
-    body = _http_get("http://localhost:7702/health", timeout=2.0)
-    if body is None:
-        body = _http_get("http://desktop-sol01:7702/health", timeout=2.0)
+    """KURE-v1 한국어 임베딩 — sol01 (RTX 4070 SUPER) primary."""
+    candidates = [
+        os.environ.get("RAG_EMBED_URL"),
+        "http://localhost:7702/health",
+        "http://desktop-sol01:7702/health",
+        "http://100.96.186.7:7702/health",
+    ]
+    for url in candidates:
+        if not url:
+            continue
+        body = _http_get(url, timeout=2.0)
+        if body is not None:
+            return [
+                CheckResult(
+                    section="services",
+                    name="embedding_service (KURE-v1, port 7702)",
+                    status="pass",
+                    detail=f"reachable at {url}",
+                    severity="warning",
+                    extra={"url": url},
+                )
+            ]
     return [
         CheckResult(
             section="services",
-            name="embedding_service (port 7702)",
-            status="pass" if body else "warn",
-            detail=("reachable" if body else "unreachable (sol01 GPU 미가동 가능성)"),
+            name="embedding_service (KURE-v1, port 7702)",
+            status="warn",
+            detail="unreachable (sol01 GPU 미가동 가능성)",
             severity="warning",
         )
     ]
 
 
 def check_reranker_service() -> List[CheckResult]:
-    body = _http_get("http://localhost:7704/health", timeout=2.0)
-    if body is None:
-        body = _http_get("http://desktop-sol01:7704/health", timeout=2.0)
+    """BGE Reranker v2-m3 — mac-studio (M2 Max MPS) primary, sol01 fallback."""
+    candidates = [
+        os.environ.get("RAG_RERANK_URL"),
+        "http://macstudio:7704/health",
+        "http://100.81.93.118:7704/health",
+        "http://localhost:7704/health",
+        "http://desktop-sol01:7704/health",
+    ]
+    for url in candidates:
+        if not url:
+            continue
+        body = _http_get(url, timeout=3.0)
+        if body is not None:
+            return [
+                CheckResult(
+                    section="services",
+                    name="reranker_service (BGE-v2-m3, port 7704)",
+                    status="pass",
+                    detail=f"reachable at {url}",
+                    severity="warning",
+                    extra={"url": url},
+                )
+            ]
     return [
         CheckResult(
             section="services",
-            name="reranker_service (port 7704)",
-            status="pass" if body else "warn",
-            detail=("reachable" if body else "unreachable"),
+            name="reranker_service (BGE-v2-m3, port 7704)",
+            status="warn",
+            detail="unreachable (mac-studio + sol01 모두 미가동)",
             severity="warning",
         )
     ]

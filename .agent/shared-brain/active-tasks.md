@@ -153,13 +153,16 @@ owner 지시: "PC 전체 통합 RAG + 카테고리별 최적화 RAG 구성 + 플
   - **Supabase RAG v2 migration apply** (sora 프로젝트 `kfoixzebpztikurwqgdr`, MCP) — 6 테이블 + 14 인덱스 + RLS policy `rag_audit_owner_only` 모두 활성. Migration ID `rag_v2_initial_audit_eval_lineage`
   - **rag_source_allowlist seed** — yaml 정책 → DB row 31개 (allow=13 / deny=16 / manual_approval=2)
   - **diagnose_phase_0.py** 자동 진단 스크립트 (9 sections: deps/tokenizer/qdrant/embedding/reranker/gateway/supabase/ssot/files) — JSON 출력 + ASCII fallback (Windows cp949 호환)
-- [ ] **Day 7-B 잔여 (Owner 실행 필요)** — `.agent/knowledge/rag-master/RUNBOOK_PHASE_0.md` 참조
-  - Python 의존성 설치 (`qdrant-client / blake3 / pydantic / FastAPI / uvicorn / kiwipiepy / sentence-transformers / FlagEmbedding`)
-  - ysh-server Qdrant 1.16+ 컨테이너 + API key 설정
-  - dry-run 마이그 검증 (`migrate_chromadb_to_qdrant.py --dry-run`)
-  - sol01 임베딩 + reranker 서비스 가동 (port 7702 / 7704)
-  - fleet 동기화 (sol01 / ysh-server / mac-studio 4대 — desktop-yesol는 이미 sync됨)
-  - **owner 검증 명령**: `python scripts/rag_v2/diagnose_phase_0.py` (한 화면에 모든 게이트 상태)
+- [x] **Day 7-B 라이브 가동 완료 (2026-04-27)** ✅ — **PASS 9 / FAIL 0 / WARN 0 / SKIP 1**
+  - **desktop-sol01** Python deps + KURE-v1 embedding 7702 (CPU mode, torch 비-CUDA 빌드)
+  - **mac-studio** venv + BGE Reranker v2-m3 7704 (M2 Max MPS True ✅) ← 분산 재배치
+  - **ysh-server** Qdrant 1.16 (port 6333) + venv + mcp_gateway 7701 (PID 3462842)
+  - JWT_SECRET 32-byte hex 생성 (`~/rag-v2-runtime/.env.gateway`, mode 600)
+  - diagnose_phase_0.py service check candidate URL list 순회 + RAG_EMBED_URL / RAG_RERANK_URL env override
+  - Supabase 6 테이블 + 31 allowlist seed 활성 (sora 프로젝트 `kfoixzebpztikurwqgdr`)
+- [ ] **Day 7-B 잔여 (선택, Phase 1 무관)**:
+  - desktop-sol01 torch CUDA 빌드 재설치 (`pip install torch --index-url https://download.pytorch.org/whl/cu124`) — RTX 4070 SUPER 활용
+  - etribe-yesol / yesol-asus SSH host key 정리 (Phase 1 BM25/watchdog 인덱서 분산 시)
 
 ### Phase 1 진입 사전 강화 작업 (2026-04-27 추가)
 - [x] **한국어 credential redaction (P1-4)** ✅
