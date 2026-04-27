@@ -5,6 +5,172 @@
 
 ---
 
+## 2026-04-27 v11 Phase 0 A1 Liquidation Cascade 알파 + 이중구독 + Live Wiring (Claude Opus 4.7)
+
+**세션 유형**: P0 자율 실행 (Strategy Lead) — owner 지시 "모든 후속작업 진행해"
+
+### 산출물 (auto-trading repo, 8 파일)
+| 파일 | 변경 | 비고 |
+| --- | --- | --- |
+| `src/core/liquidation-stream.js` | M (+200/-26) | Binance 이중구독 (`!forceOrder@arr` + `<symbol>@forceOrder`) + dedup + cryptofeed `_check_update_id` 갭 감지 + `getRecentClusters()` rolling window |
+| `src/core/liquidation-store.js` | NEW (165) | Supabase read-only 어댑터 (30s TTL 캐시 + in-flight dedup + graceful fallback) |
+| `src/agents/liquidation-hunter-agent.js` | NEW (320) | A1 알파, BaseAgent 호환 `evaluate(marketData)` + ATR 기반 동적 TP/SL + fallback |
+| `src/orchestrator.js` | M | A1 의존성 주입 + `_a1AsyncStore.prefetch()` + `_activateAgents` |
+| `src/v6-live-runner.js` | M | LiquidationStore 초기화 + Orchestrator 주입 |
+| `test/liquidation-stream.test.js` | M (+151) | buildStreamUrl 4 + combined stream 4 + getRecentClusters 5 + getStats 보강 |
+| `test/liquidation-hunter-agent.test.js` | NEW (380) | 32 tests — null cases + signal + scoreConfidence + adapter + ATR + volumeZ |
+| `test/liquidation-store.test.js` | NEW (240) | 14 tests — constructor + 쿼리 + cache + degradation + sync |
+
+### 채택된 설계
+- **이중구독 dedup**: 글로벌 + 심볼별 stream 동시 구독, `symbol|side|eventTimeMs|quantity` key 로 한 번만 처리
+- **데이터 흐름**: PM2 `liquidation-stream` → Supabase `quant_liquidation_events` → orchestrator 프로세스 LiquidationStore (30s 캐시) → A1 sync 조회
+- **ATR 기반 TP/SL**: `tp = clamp(0.6×ATR%, [0.005, 0.015])`, `sl = clamp(0.3×ATR%, [0.0025, 0.0075])`, 실패 시 fallback `0.008/0.004`
+- **Graceful degradation**: Supabase 미가용/쿼리 에러 → 빈 배열 → A1 자동 WAIT (시스템 다운 없음)
+
+### 검증
+- syntax: 6 src/test 파일 ALL_OK
+- jest 신규 3 suite: **75/75 PASS** (29 stream + 32 agent + 14 store)
+- 전체 jest: **440/466 PASS** (이전 408 → +32 신규, 17 실패는 모두 사전 존재한 unrelated 3 suite — `mae-mfe-tracking`/`supabase-sync`/`profile-drift-audit`)
+
+### Owner 결정 대기 (G2+ 외부 액션)
+1. **commit + push + PR** — 로컬 commit 만 자율 실행, push/PR 은 owner approval
+2. **VM 배포** — `pm2 restart quant-bot-live` + `liquidation-stream` 봇 두 PM2 모두 재기동 필요. PAPER mode 라 자본 위험 없음
+3. **Phase Gate Monitor 검증** — VM 배포 후 24h 관측 (Phase 0 게이트 #3 = 100/일 임계값)
+
+### 잔여 (Phase 0 후속, 별도 태스크)
+- `daily-strategy-briefing` cron 이 A1 신호/거래를 보고서에 포함하도록 메트릭 추가
+- Phase 0 게이트 #3 통과 시 A2 wiring 착수
+- cross-exchange completeness multiplier 정밀화 (Phase 1+)
+
+### Pending verification (다음 세션 입장 시 확인)
+- VM 배포 후 Supabase `quant_liquidation_events` row 수 (24h 누적)
+- `quant_runtime_leases.runtime.meta` 에 A1 신호 발생 빈도 reflect 되는지
+- `quant_trade_ledger` 에 첫 A1 PAPER 거래 발생 시 `agent='liquidationHunter'` 라벨 검증
+
+---
+
+## 2026-04-26 ~ 2026-04-27 RAG 마스터 설계 v1 (Claude Opus 4.7)
+
+**세션 유형**: 멀티에이전트 설계 — owner 지시 "PC 전체 + 플릿 디바이스 RAG화, 다중 병렬 에이전트로 심층 리서치 + 상세 설계서 작성, 시간 무제한"
+
+### 실행 단계
+- **Wave 1** (8 병렬 에이전트, ~1시간):
+  - Agent A (Explore): D:/ + C:/Users PC 자산 8 카테고리 인벤토리
+  - Agent B (Explore): 6대 디바이스 데이터/접근/tier 매핑
+  - Agent C (Explore): Sora ChromaDB 현 상태 + 7대 갭 분석
+  - Agent D (general-purpose): OSS RAG 프레임워크 15 + 벡터 DB 14 비교 (2026 기준)
+  - Agent E (general-purpose): 임베딩 12 + 리랭커 6 + 검색 전략 10
+  - Agent F (general-purpose): 고급 RAG 패턴 18 (Graph/Tree/Late interaction/Agentic) + 코드/논문/멀티모달 특화
+  - Agent G (general-purpose): 보안/권한/평가/MCP/거버넌스 + 위협 모델 12개
+  - Agent H (general-purpose): 분산 5 옵션 + 동기화 + 모바일 + 24주 롤아웃
+- **Wave 2** (병렬 2 에이전트, ~30분):
+  - neo-architect: 7 충돌 결정 수렴 + 통합 아키텍처 + 24주 plan 검증
+  - neo-reviewer: P0~P2 12 잔존 위험 (cold review)
+- **Wave 3**: 마스터 + 부록 9개 작성
+
+### 산출물 (10 파일, 총 ~14,000 단어)
+- `D:/00.test/neo-genesis/.agent/knowledge/20260426_RAG_MASTER_DESIGN_v1.md` — 마스터 (인덱스 + Executive Summary + 결정 + 24주 롤아웃 + 의사결정 5개)
+- `D:/00.test/neo-genesis/.agent/knowledge/rag-master/00_INDEX.md` — 부록 인덱스
+- `01_decisions.md` — 7 결정 + 잔존 위험 12개 + Stop/Go 5개
+- `02_architecture.md` — 5-plane 아키텍처 + dataflow + failure modes
+- `03_domain_stacks.md` — 4 use case stack + 비용 시나리오 A/B/C
+- `04_collection_topology.md` — 6 컬렉션 + payload schema + JWT scope 매트릭스
+- `05_provenance.md` — ChunkMetadata Pydantic + decay 룰 + 자동 분류
+- `06_governance.md` — rag_governance 10 룰 + work_pc_isolation + 위협 매트릭스 + 한국어 credential 정규식
+- `07_eval.md` — 5계층 eval + 한국어 golden 50 + 비용 cap
+- `08_rollout_24w.md` — Phase 0~6 주차별 작업 + 의존성 + 검증 게이트
+- `09_appendix_schemas.md` — 코드 스키마 + JWT YAML + MCP YAML + Supabase DDL
+
+### 채택된 7 핵심 결정 (요약)
+1. ChromaDB 마이그: 점진적 컬렉션 단위 cutover + `rag_search`에 `backend` 파라미터
+2. Contextual Retrieval: Phase 6 도입 (>100K chunk), Haiku 4.5 + prompt cache
+3. SSOT 그래프: LightRAG (Phase 2) → HippoRAG 2 pilot (Phase 6)
+4. yesol 격리: read-only + JWT scope (secret/personal endpoint 비공개 404)
+5. Provenance: source_type + decay_factor (human=1.0, llm=0.5) + chain depth
+6. GPU 충돌: ColQwen2 → mac-studio MLX, sol01 ColQwen2-2B INT4 fallback
+7. 컬렉션: 6개 분리 (`neo_ssot/code/paper/notes/quant/secret`)
+
+### 기술 stack 정리
+- VDB: Qdrant 1.16+ + LanceDB + pgvector
+- 임베딩: KURE-v1 (한국어) / Voyage-Code-3 (코드) / Voyage-3-large + Cohere v4 (논문) / ColQwen2 MLX (멀티모달)
+- 리랭커: BGE Reranker v2-m3 자체 호스팅
+- 오케스트레이션: LlamaIndex + 단일 MCP 게이트웨이
+- Eval: RAGAS + Promptfoo + 한국어 golden 50 + AgentDojo + PoisonedRAG
+- 비용: $15~25/월 (시나리오 B 권장)
+
+### 가장 큰 위험 — neo-reviewer 발견
+**`sora_engine.py`의 backend 분기 부재** (P0-1) — Phase 0 시작 전 `rag_search` 도구에 `backend` 파라미터 추가 필수. 그렇지 않으면 Qdrant 마이그 중 Sora가 silent degraded 상태로 운영됨. 이 위험을 Phase 0 Day 3 작업으로 차단함.
+
+### 운영자 의사결정 5개 (다음 세션 응답 필요)
+- (a) Phase 0 시작 시점 — **권고: 다음 주 시작 가능** (Day 1~2 작업이 quant v11/EthicaAI/SBU 등 기존 워크로드와 충돌 거의 없음)
+- (b) Voyage API vs 전부 self-host — **권고: 시나리오 B 혼합**
+- (c) desktop-yesol 격리 강도 — **권고: read-only + JWT scope 제한**
+- (d) ColQwen2 mac-studio 의존도 — **권고: on-demand + sol01 fallback**
+- (e) Contextual Retrieval 비용 cap — **권고: $50/주**
+
+### SSOT 갱신
+- `active-tasks.md`: 새 RAG 도입 section 추가 (P0 Phase 0 Day 1~7 체크리스트 포함)
+- `handoff.md`: 본 섹션 (이 항목)
+- `cross-agent-review.md`: 갱신 안 함 (Claude 단독 multi-agent 진행, Codex 협업 불필요)
+- `daily-log.md`: 갱신 안 함 (handoff에 통합)
+
+### 다음 세션 (Claude / Codex / 누구든) 즉시 액션
+1. owner 의사결정 5개 응답 받기
+2. 응답 후 Phase 0 Day 1 시작 (Qdrant 컨테이너 + rag_governance.yaml 스캐폴드)
+3. SSOT 변경 후 `python scripts/sync_agent_context.py --updated-by claude` 실행 권고 (어댑터 재생성)
+
+### Non-goal (이번 세션에서 명시적으로 제외)
+- 실제 Qdrant 컨테이너 띄우기 (Phase 0 Day 1)
+- 실제 코드 변경 (sora_engine.py 등)
+- 실제 SSH 접근 (디바이스 점검)
+- 외부 API 호출 (Voyage/Anthropic/Cohere 사전 비용 측정)
+
+### Pending verification
+- (없음 — 설계 단계 종료)
+
+### 토큰 사용
+- Wave 1 8 에이전트: ~1.4M 합산 (Claude Opus 4.7 1M-ctx)
+- Wave 2 2 에이전트: ~280K 합산
+- Wave 3 본 세션 작성: ~75K
+- 총 ~1.75M tok 추정 (8개 병렬 에이전트가 컨텍스트 효율 극대화)
+
+---
+
+## 2026-04-27 Phase 0 Day 1~7 로컬 작업 완료 (Claude Opus 4.7)
+
+owner 지시 "너가 판단하고 진행해" 에 따라 의사결정 5개 권고안 채택 후 Phase 0 Day 1~7 로컬 작업 자율 진행.
+
+### 채택된 의사결정
+- (a) Phase 0 즉시 시작 / (b) 시나리오 B 혼합 (Voyage API + self-host) / (c) yesol read-only + JWT scope 제한 / (d) ColQwen2 mac-studio primary + sol01 INT4 fallback / (e) Contextual Retrieval $50/주 cap (Phase 6 게이트)
+
+### 작성된 자산 (24 파일)
+- 정책 8: `.agent/policies/rag_governance.yaml + rag_source_allowlist.yaml + rag_jwt_scopes.yaml + work_pc_rag_isolation.yaml + rag_provenance_overrides.yaml + rag_eval_baseline.yaml + rag_watchdog.yaml + gitleaks-korean-rules.toml`
+- 마이그 1: `.agent/migrations/rag_v2/001_initial.sql` (Supabase: rag_audit_log + rag_eval_runs + rag_chunk_lineage + forgotten_uris + rag_source_allowlist + rag_jwt_revoke_list)
+- Python 9: `src/core/rag_v2/{__init__, chunk_metadata, provenance_classifier}.py` + `scripts/rag_v2/{__init__, migrate_chromadb_to_qdrant, embedding_service, rerank_service, check_mecab_ko, watchdog_indexer}.py`
+- 테스트 1: `tests/rag_golden/ssot_korean_v1.json` (한국어 SSOT golden 10)
+- 코드 수정 1: `src/core/rag_engine.py` `backend` 파라미터 추가 (default=chroma, Qdrant lazy + fallback + provenance decay)
+- RUNBOOK 1: `.agent/knowledge/rag-master/RUNBOOK_PHASE_0.md` (owner 실행 가이드)
+
+### 검증 결과
+- syntax: 9 Python + 7 YAML + 1 JSON + 1 TOML 모두 통과
+- provenance 분류기 회귀: 8/8 PASS (handoff heading + LLM 식별 + tool_log + external_citation 모두 정확)
+- import/시그니처: `RAGEngine.search()` backward-compatible 확인
+- ssotRevision: `ba30bd8fdf3b22e9` → **`d3473c2c2ae51b98`** bump (sync_agent_context.py 실행)
+
+### 발견된 운영자 환경 사실
+- 한국어 토크나이저 4개 (kiwipiepy/konlpy/eunjeon/mecab-python3) **모두 미설치** — Phase 0 Day 5 게이트 차단. P2-10 위험 실현됨. owner `pip install kiwipiepy` 필요.
+
+### Owner 실행 대기 항목 (Day 7-B, RUNBOOK 참조)
+1. 의존성 설치 (qdrant-client + blake3 + pydantic + FastAPI + uvicorn + sentence-transformers + FlagEmbedding + kiwipiepy 등)
+2. ysh-server Qdrant 1.16+ 컨테이너 + API key
+3. Supabase 마이그 apply (`001_initial.sql`)
+4. dry-run 마이그 (`migrate_chromadb_to_qdrant.py --dry-run`)
+5. sol01 embedding + reranker 서비스 가동
+6. fleet 동기화 (sol01 / ysh-server / mac-studio 4대 — yesol는 이미 sync)
+7. Phase 0 게이트 검증 → Phase 1 진입 결정
+
+---
+
 ## 2026-04-24 운영 전환 — Claude primary, Codex fallback
 
 **결정**: 오너 주력 에이전트를 Codex → **Claude Code**로 전환. Codex는 fallback으로 유지.
