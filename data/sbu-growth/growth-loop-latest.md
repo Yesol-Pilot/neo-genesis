@@ -1,6 +1,6 @@
 # SBU Growth Loop
 
-- generatedAt: 2026-04-27T02:32:29+09:00
+- generatedAt: 2026-04-27T11:01:18+09:00
 - passed: true
 
 ## Steps
@@ -22,8 +22,8 @@
     {
       "site": "aiforge",
       "action": "verify-only",
-      "slug": "2026-04-26-ai-agent-platforms-for-product-teams",
-      "latest": "2026-04-26",
+      "slug": "2026-04-27-agentic-crm-automation-tools",
+      "latest": "2026-04-27",
       "live": {
         "blog": true,
         "detail": true,
@@ -33,8 +33,8 @@
     {
       "site": "craftdesk",
       "action": "verify-only",
-      "slug": "2026-04-26-figma-plugins-for-product-design-workflows",
-      "latest": "2026-04-26",
+      "slug": "2026-04-27-brand-asset-workflow-software",
+      "latest": "2026-04-27",
       "live": {
         "blog": true,
         "detail": true,
@@ -44,8 +44,8 @@
     {
       "site": "deploystack",
       "action": "verify-only",
-      "slug": "2026-04-26-serverless-observability-tools-for-startups",
-      "latest": "2026-04-26",
+      "slug": "2026-04-27-devops-incident-review-tools",
+      "latest": "2026-04-27",
       "live": {
         "blog": true,
         "detail": true,
@@ -55,8 +55,8 @@
     {
       "site": "finstack",
       "action": "verify-only",
-      "slug": "2026-04-26-accounts-payable-workflow-buyer-checklist-for-b2b-platform-teams-2026",
-      "latest": "2026-04-26",
+      "slug": "2026-04-27-banking-api-platforms",
+      "latest": "2026-04-27",
       "live": {
         "blog": true,
         "detail": true,
@@ -66,8 +66,8 @@
     {
       "site": "sellkit",
       "action": "verify-only",
-      "slug": "2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-brand-managers-2026",
-      "latest": "2026-04-26",
+      "slug": "2026-04-27-lifecycle-email-automation-tools",
+      "latest": "2026-04-27",
       "live": {
         "blog": true,
         "detail": true,
@@ -81,7 +81,7 @@
 ### control-tower
 
 ```text
-          "weakSamples": [
+            },
             {
               "slug": "2026-04-26-ai-sales-enablement-tools-for-ecommerce",
               "date": "2026-04-26",
@@ -148,7 +148,7 @@
 ```text
 {
   "report": "data\\sbu-growth\\control-tower-latest.json",
-  "generatedAt": "2026-04-27T02:32:25+09:00",
+  "generatedAt": "2026-04-27T11:01:14+09:00",
   "passed": true,
   "criticalIssueCount": 0,
   "warningCount": 0,

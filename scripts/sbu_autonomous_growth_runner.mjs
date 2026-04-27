@@ -113,10 +113,11 @@ function parseArgs(argv) {
 }
 
 function run(cmd, args, cwd, options = {}) {
+  const needsShell = process.platform === 'win32' && (cmd.endsWith('.cmd') || cmd.endsWith('.bat'));
   const result = spawnSync(cmd, args, {
     cwd,
     encoding: 'utf8',
-    shell: false,
+    shell: needsShell,
     stdio: options.capture ? ['ignore', 'pipe', 'pipe'] : 'inherit',
   });
   if (result.status !== 0) {
@@ -124,6 +125,19 @@ function run(cmd, args, cwd, options = {}) {
     throw new Error(`${cmd} ${args.join(' ')} failed${detail ? `: ${detail}` : ''}`);
   }
   return options.capture ? (result.stdout || '').trim() : '';
+}
+
+function isGitIgnored(cwd, relativeFile) {
+  const result = spawnSync('git', ['check-ignore', '-q', relativeFile], {
+    cwd,
+    encoding: 'utf8',
+    shell: false,
+    stdio: 'ignore',
+  });
+  if (result.status === 0) return true;
+  if (result.status === 1) return false;
+  const message = result.error ? result.error.message : 'unknown error';
+  throw new Error(`git check-ignore failed for ${relativeFile}: ${message}`);
 }
 
 function kstDate() {
@@ -351,7 +365,10 @@ async function processSite(site, args, date) {
 
   const addTargets = [path.relative(siteDir, filePath)];
   const llms = path.join(siteDir, 'public', 'llms.txt');
-  if (fs.existsSync(llms)) addTargets.push(path.relative(siteDir, llms));
+  if (fs.existsSync(llms)) {
+    const rel = path.relative(siteDir, llms);
+    if (!isGitIgnored(siteDir, rel)) addTargets.push(rel);
+  }
 
   run('git', ['add', ...addTargets], siteDir);
   const staged = run('git', ['diff', '--cached', '--name-only'], siteDir, { capture: true });

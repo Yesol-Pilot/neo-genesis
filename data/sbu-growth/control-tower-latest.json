@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-27T02:32:25+09:00",
+  "generatedAt": "2026-04-27T11:01:14+09:00",
   "today": "2026-04-27",
   "targetMau": 100000,
   "monthlyVisitsPerReadyPost": 350,
@@ -61,44 +61,44 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 59,
-          "avgWords": 1318,
-          "frontmatterCoverage": 1,
+          "avgWords": 1335,
+          "frontmatterCoverage": 0.984,
           "ctaCoverage": 0.72,
           "internalLinkCoverage": 0.652,
           "weakSamples": [
             {
-              "slug": "my-dear-mdwmt0601a-ae-kr-dishwasher-review-auto-open-convenience",
-              "date": "2026-04-03",
-              "words": 609,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
               "slug": "imuz-mupad-k10-plus-tablet-review-budget-friendly-option",
-              "date": "2026-03-26",
-              "words": 643,
-              "completeFrontmatter": true,
+              "date": "",
+              "words": 1171,
+              "completeFrontmatter": false,
               "draft": false
             },
             {
               "slug": "lenovo-v15-g5-irl-13th-gen-intel-i5-laptop-review",
-              "date": "2026-03-22",
-              "words": 643,
-              "completeFrontmatter": true,
+              "date": "",
+              "words": 1176,
+              "completeFrontmatter": false,
               "draft": false
             },
             {
               "slug": "miraclem-10-port-120w-charger-power-all-your-devices",
-              "date": "2026-03-22",
-              "words": 603,
-              "completeFrontmatter": true,
+              "date": "",
+              "words": 1127,
+              "completeFrontmatter": false,
               "draft": false
             },
             {
-              "slug": "shinil-sdh-pm1000-ai-dehumidifier-a-comprehensive-review",
-              "date": "2026-03-19",
-              "words": 595,
-              "completeFrontmatter": true,
+              "slug": "my-dear-mdwmt0601a-ae-kr-dishwasher-review-auto-open-convenience",
+              "date": "",
+              "words": 1140,
+              "completeFrontmatter": false,
+              "draft": false
+            },
+            {
+              "slug": "romantisme-14-inch-lte-tablet-review-performance-value",
+              "date": "",
+              "words": 1171,
+              "completeFrontmatter": false,
               "draft": false
             }
           ]
@@ -161,35 +161,42 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 431,
+          "total": 432,
           "ready": 419,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 146650,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-04-26-ai-agent-platforms-for-product-teams",
-            "file": "src\\sbu\\aiforge\\content\\blog\\2026-04-26-ai-agent-platforms-for-product-teams.mdx",
-            "title": "AI Agent Platforms for Product Teams in 2026",
-            "date": "2026-04-26",
-            "description": "AI agent platforms - A practical evaluation guide for product, operations, and growth teams.",
+            "slug": "2026-04-27-agentic-crm-automation-tools",
+            "file": "src\\sbu\\aiforge\\content\\blog\\2026-04-27-agentic-crm-automation-tools.mdx",
+            "title": "Agentic CRM Automation Tools for Growth Teams in 2026",
+            "date": "2026-04-27",
+            "description": "agentic CRM automation tools - A practical evaluation guide for AI tools, agent platforms, model operations, and workflow automation.",
             "category": "AI Tools",
             "draft": false,
-            "words": 509,
+            "words": 580,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": true,
+            "hasInternalLink": false,
             "hasExternalLink": false,
             "ready": false
           },
-          "daysSinceLatest": 1,
+          "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 14,
-          "avgWords": 1634,
+          "avgWords": 1631,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.722,
-          "internalLinkCoverage": 0.652,
+          "internalLinkCoverage": 0.65,
           "weakSamples": [
+            {
+              "slug": "2026-04-27-agentic-crm-automation-tools",
+              "date": "2026-04-27",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-04-26-ai-agent-platforms-for-product-teams",
               "date": "2026-04-26",
@@ -215,13 +222,6 @@
               "slug": "ai-powered-observability-platforms",
               "date": "2026-03-29",
               "words": 391,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "ai-testing-tools-ml-model-testing-automated-ml-testing",
-              "date": "2026-03-07",
-              "words": 91,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -285,35 +285,42 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 368,
+          "total": 369,
           "ready": 345,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 120750,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-04-26-figma-plugins-for-product-design-workflows",
-            "file": "src\\sbu\\craftdesk\\content\\blog\\2026-04-26-figma-plugins-for-product-design-workflows.mdx",
-            "title": "Best Figma Plugins for Product Design Workflows in 2026",
-            "date": "2026-04-26",
-            "description": "Figma plugins for product design - A practical evaluation guide for design, product, and creative teams.",
-            "category": "UI/UX",
+            "slug": "2026-04-27-brand-asset-workflow-software",
+            "file": "src\\sbu\\craftdesk\\content\\blog\\2026-04-27-brand-asset-workflow-software.mdx",
+            "title": "Brand Asset Workflow Software for Marketing Teams in 2026",
+            "date": "2026-04-27",
+            "description": "brand asset workflow software - A practical evaluation guide for design tools, creative automation, UI systems, and product design workflows.",
+            "category": "Design Tools",
             "draft": false,
-            "words": 735,
+            "words": 581,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": true,
+            "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": true
+            "ready": false
           },
-          "daysSinceLatest": 1,
+          "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1570,
+          "avgWords": 1567,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.821,
-          "internalLinkCoverage": 0.652,
+          "internalLinkCoverage": 0.65,
           "weakSamples": [
+            {
+              "slug": "2026-04-27-brand-asset-workflow-software",
+              "date": "2026-04-27",
+              "words": 581,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "ai-ui-design-software-comparison-for-enterprise-2026",
               "date": "2026-03-26",
@@ -339,13 +346,6 @@
               "slug": "ai-ui-design-software-enterprise-comparison-2026",
               "date": "2026-03-18",
               "words": 463,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "ai-powered-collaboration-tools-uiux",
-              "date": "2026-03-17",
-              "words": 505,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -409,35 +409,42 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 311,
+          "total": 312,
           "ready": 292,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 102200,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-04-26-serverless-observability-tools-for-startups",
-            "file": "src\\sbu\\deploystack\\content\\blog\\2026-04-26-serverless-observability-tools-for-startups.mdx",
-            "title": "Serverless Observability Tools for Startups in 2026",
-            "date": "2026-04-26",
-            "description": "Serverless observability tools - A practical guide for startup teams running Vercel, Workers, Lambda, and managed databases.",
-            "category": "Observability",
+            "slug": "2026-04-27-devops-incident-review-tools",
+            "file": "src\\sbu\\deploystack\\content\\blog\\2026-04-27-devops-incident-review-tools.mdx",
+            "title": "DevOps Incident Review Tools for Small Teams in 2026",
+            "date": "2026-04-27",
+            "description": "DevOps incident review tools - A practical evaluation guide for deployment platforms, serverless infrastructure, observability, and DevOps workflows.",
+            "category": "DevOps",
             "draft": false,
-            "words": 468,
+            "words": 579,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": true,
+            "hasInternalLink": false,
             "hasExternalLink": false,
             "ready": false
           },
-          "daysSinceLatest": 1,
+          "daysSinceLatest": 0,
           "fresh": true,
-          "categoryCount": 10,
-          "avgWords": 1589,
+          "categoryCount": 11,
+          "avgWords": 1586,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.72,
-          "internalLinkCoverage": 0.653,
+          "ctaCoverage": 0.721,
+          "internalLinkCoverage": 0.651,
           "weakSamples": [
+            {
+              "slug": "2026-04-27-devops-incident-review-tools",
+              "date": "2026-04-27",
+              "words": 579,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-04-26-serverless-observability-tools-for-startups",
               "date": "2026-04-26",
@@ -463,13 +470,6 @@
               "slug": "ai-devops-platforms",
               "date": "2026-03-25",
               "words": 41,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "cloud-infrastructure-automation-tools-comparison",
-              "date": "2026-03-16",
-              "words": 26,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -533,35 +533,42 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 306,
+          "total": 307,
           "ready": 287,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 100450,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-04-26-accounts-payable-workflow-buyer-checklist-for-b2b-platform-teams-2026",
-            "file": "src\\sbu\\finstack\\content\\blog\\2026-04-26-accounts-payable-workflow-buyer-checklist-for-b2b-platform-teams-2026.mdx",
-            "title": "Accounts Payable Workflow Buyer Checklist for B2B Platform Teams in 2026",
-            "date": "2026-04-26",
-            "description": "accounts payable workflow buyer checklist - A practical growth and operations guide for B2B platform teams.",
+            "slug": "2026-04-27-banking-api-platforms",
+            "file": "src\\sbu\\finstack\\content\\blog\\2026-04-27-banking-api-platforms.mdx",
+            "title": "Banking API Platforms for SaaS Builders in 2026",
+            "date": "2026-04-27",
+            "description": "banking API platforms - A practical evaluation guide for fintech infrastructure, payments, banking workflows, and financial SaaS tools.",
             "category": "Fintech",
             "draft": false,
-            "words": 831,
+            "words": 577,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": true,
+            "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": true
+            "ready": false
           },
-          "daysSinceLatest": 1,
+          "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 13,
-          "avgWords": 1158,
+          "avgWords": 1156,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.722,
-          "internalLinkCoverage": 0.65,
+          "ctaCoverage": 0.723,
+          "internalLinkCoverage": 0.648,
           "weakSamples": [
+            {
+              "slug": "2026-04-27-banking-api-platforms",
+              "date": "2026-04-27",
+              "words": 577,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-04-26-embedded-finance-platforms-for-saas",
               "date": "2026-04-26",
@@ -587,13 +594,6 @@
               "slug": "financial-data-api-comparison-for-saas-platforms",
               "date": "2026-03-29",
               "words": 289,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "financial-reporting-api-for-fintech",
-              "date": "2026-03-29",
-              "words": 605,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -657,35 +657,42 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 290,
+          "total": 291,
           "ready": 286,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 100100,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-brand-managers-2026",
-            "file": "src\\sbu\\sellkit\\content\\blog\\2026-04-26-affiliate-campaign-management-tool-buyer-checklist-for-brand-managers-2026.mdx",
-            "title": "Affiliate Campaign Management Tool Buyer Checklist for Brand Managers in 2026",
-            "date": "2026-04-26",
-            "description": "affiliate campaign management tool buyer checklist - A practical growth and operations guide for brand managers.",
+            "slug": "2026-04-27-lifecycle-email-automation-tools",
+            "file": "src\\sbu\\sellkit\\content\\blog\\2026-04-27-lifecycle-email-automation-tools.mdx",
+            "title": "Lifecycle Email Automation Tools for Lean Ecommerce Teams in 2026",
+            "date": "2026-04-27",
+            "description": "lifecycle email automation tools - A practical evaluation guide for ecommerce growth, sales enablement, marketing automation, and conversion tools.",
             "category": "Sales Tools",
             "draft": false,
-            "words": 831,
+            "words": 580,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": true,
+            "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": true
+            "ready": false
           },
-          "daysSinceLatest": 1,
+          "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1026,
+          "avgWords": 1025,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.866,
-          "internalLinkCoverage": 0.752,
+          "internalLinkCoverage": 0.749,
           "weakSamples": [
+            {
+              "slug": "2026-04-27-lifecycle-email-automation-tools",
+              "date": "2026-04-27",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-04-26-ai-sales-enablement-tools-for-ecommerce",
               "date": "2026-04-26",

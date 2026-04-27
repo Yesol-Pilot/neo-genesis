@@ -80,3 +80,16 @@ tools_out*.txt
 ga4_traffic_out.txt
 data/automation/ai_ops_brief/*.md
 data/automation/ai_ops_brief/archive/
+
+# SBU local clones (each is its own git repo)
+src/sbu/
+
+# SBU growth run artifacts (timestamped outputs; keep *-latest.* tracked)
+data/sbu-growth/control-tower-*.json
+data/sbu-growth/control-tower-*.md
+data/sbu-growth/growth-loop-*.json
+data/sbu-growth/growth-loop-*.md
+!data/sbu-growth/control-tower-latest.json
+!data/sbu-growth/control-tower-latest.md
+!data/sbu-growth/growth-loop-latest.json
+!data/sbu-growth/growth-loop-latest.md
