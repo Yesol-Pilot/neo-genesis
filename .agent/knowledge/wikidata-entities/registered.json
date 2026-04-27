@@ -1,30 +1,89 @@
 {
   "_meta": {
-    "description": "Wikidata 등록 후 Q-ID 매핑 (owner 가 등록 완료 시 갱신)",
+    "description": "Wikidata 등록 후 Q-ID 매핑",
     "last_updated": "2026-04-27",
-    "status": "pending_registration"
+    "status": "complete (13/13 registered)",
+    "registration_method": "BotPassword + Python wbeditentity API direct",
+    "account": "Neogenesislab"
   },
   "entities": {
     "neo_genesis": {
-      "qid": null,
-      "url": null,
-      "registered_at": null
+      "qid": "Q139569680",
+      "url": "https://www.wikidata.org/wiki/Q139569680",
+      "registered_at": "2026-04-27",
+      "notes": "Founded entity. Statements + KR/aliases 자동 보강 완료."
     },
     "yesol_heo": {
-      "qid": null,
-      "url": null,
-      "registered_at": null
+      "qid": "Q139569708",
+      "url": "https://www.wikidata.org/wiki/Q139569708",
+      "registered_at": "2026-04-27",
+      "notes": "Founder, P800 → Q139569680 Neo Genesis"
     },
-    "ur_wrong": { "qid": null, "url": null, "registered_at": null },
-    "toolpick": { "qid": null, "url": null, "registered_at": null },
-    "reviewlab": { "qid": null, "url": null, "registered_at": null },
-    "kott": { "qid": null, "url": null, "registered_at": null },
-    "whylab": { "qid": null, "url": null, "registered_at": null },
-    "ethicaai": { "qid": null, "url": null, "registered_at": null },
-    "finstack": { "qid": null, "url": null, "registered_at": null },
-    "aiforge": { "qid": null, "url": null, "registered_at": null },
-    "sellkit": { "qid": null, "url": null, "registered_at": null },
-    "deploystack": { "qid": null, "url": null, "registered_at": null },
-    "craftdesk": { "qid": null, "url": null, "registered_at": null }
+    "ur_wrong": {
+      "qid": "Q139569710",
+      "url": "https://www.wikidata.org/wiki/Q139569710",
+      "registered_at": "2026-04-27",
+      "domain": "ur-wrong.com"
+    },
+    "toolpick": {
+      "qid": "Q139569711",
+      "url": "https://www.wikidata.org/wiki/Q139569711",
+      "registered_at": "2026-04-27",
+      "domain": "toolpick.dev"
+    },
+    "reviewlab": {
+      "qid": "Q139569712",
+      "url": "https://www.wikidata.org/wiki/Q139569712",
+      "registered_at": "2026-04-27",
+      "domain": "review.neogenesis.app"
+    },
+    "kott": {
+      "qid": "Q139569715",
+      "url": "https://www.wikidata.org/wiki/Q139569715",
+      "registered_at": "2026-04-27",
+      "domain": "kott.kr"
+    },
+    "whylab": {
+      "qid": "Q139569716",
+      "url": "https://www.wikidata.org/wiki/Q139569716",
+      "registered_at": "2026-04-27",
+      "domain": "whylab.neogenesis.app"
+    },
+    "ethicaai": {
+      "qid": "Q139569718",
+      "url": "https://www.wikidata.org/wiki/Q139569718",
+      "registered_at": "2026-04-27",
+      "domain": "ethica.neogenesis.app"
+    },
+    "finstack": {
+      "qid": "Q139569720",
+      "url": "https://www.wikidata.org/wiki/Q139569720",
+      "registered_at": "2026-04-27",
+      "domain": "finstack.neogenesis.app"
+    },
+    "aiforge": {
+      "qid": "Q139569724",
+      "url": "https://www.wikidata.org/wiki/Q139569724",
+      "registered_at": "2026-04-27",
+      "domain": "aiforge.neogenesis.app"
+    },
+    "sellkit": {
+      "qid": "Q139569725",
+      "url": "https://www.wikidata.org/wiki/Q139569725",
+      "registered_at": "2026-04-27",
+      "domain": "sellkit.neogenesis.app"
+    },
+    "deploystack": {
+      "qid": "Q139569726",
+      "url": "https://www.wikidata.org/wiki/Q139569726",
+      "registered_at": "2026-04-27",
+      "domain": "deploystack.neogenesis.app"
+    },
+    "craftdesk": {
+      "qid": "Q139569727",
+      "url": "https://www.wikidata.org/wiki/Q139569727",
+      "registered_at": "2026-04-27",
+      "domain": "craftdesk.neogenesis.app"
+    }
   }
 }

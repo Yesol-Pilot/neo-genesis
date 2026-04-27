@@ -1,0 +1,80 @@
+{
+  "Q139569680": {
+    "qid": "Q139569680",
+    "url": "https://www.wikidata.org/wiki/Q139569680",
+    "registered_at": "2026-04-27",
+    "label": "Neo Genesis (existing)"
+  },
+  "yesol_heo": {
+    "qid": "Q139569708",
+    "url": "https://www.wikidata.org/wiki/Q139569708",
+    "registered_at": "2026-04-27",
+    "label": "Yesol Heo (founder)"
+  },
+  "ur_wrong": {
+    "qid": "Q139569710",
+    "url": "https://www.wikidata.org/wiki/Q139569710",
+    "registered_at": "2026-04-27",
+    "label": "UR WRONG"
+  },
+  "toolpick": {
+    "qid": "Q139569711",
+    "url": "https://www.wikidata.org/wiki/Q139569711",
+    "registered_at": "2026-04-27",
+    "label": "ToolPick"
+  },
+  "reviewlab": {
+    "qid": "Q139569712",
+    "url": "https://www.wikidata.org/wiki/Q139569712",
+    "registered_at": "2026-04-27",
+    "label": "ReviewLab"
+  },
+  "kott": {
+    "qid": "Q139569715",
+    "url": "https://www.wikidata.org/wiki/Q139569715",
+    "registered_at": "2026-04-27",
+    "label": "K-OTT"
+  },
+  "whylab": {
+    "qid": "Q139569716",
+    "url": "https://www.wikidata.org/wiki/Q139569716",
+    "registered_at": "2026-04-27",
+    "label": "WhyLab"
+  },
+  "ethicaai": {
+    "qid": "Q139569718",
+    "url": "https://www.wikidata.org/wiki/Q139569718",
+    "registered_at": "2026-04-27",
+    "label": "EthicaAI"
+  },
+  "finstack": {
+    "qid": "Q139569720",
+    "url": "https://www.wikidata.org/wiki/Q139569720",
+    "registered_at": "2026-04-27",
+    "label": "FinStack"
+  },
+  "aiforge": {
+    "qid": "Q139569724",
+    "url": "https://www.wikidata.org/wiki/Q139569724",
+    "registered_at": "2026-04-27",
+    "label": "AIForge"
+  },
+  "sellkit": {
+    "qid": "Q139569725",
+    "url": "https://www.wikidata.org/wiki/Q139569725",
+    "registered_at": "2026-04-27",
+    "label": "SellKit"
+  },
+  "deploystack": {
+    "qid": "Q139569726",
+    "url": "https://www.wikidata.org/wiki/Q139569726",
+    "registered_at": "2026-04-27",
+    "label": "DeployStack"
+  },
+  "craftdesk": {
+    "qid": "Q139569727",
+    "url": "https://www.wikidata.org/wiki/Q139569727",
+    "registered_at": "2026-04-27",
+    "label": "CraftDesk"
+  }
+}

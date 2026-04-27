@@ -25,6 +25,9 @@
     { "property": "P452", "label": "industry", "value": "Q11661", "valueLabel": "information technology" },
     { "property": "P452", "label": "industry", "value": "Q11660", "valueLabel": "artificial intelligence" }
   ],
+  "qid": "Q139569680",
+  "wikidata_url": "https://www.wikidata.org/wiki/Q139569680",
+  "registered_at": "2026-04-27",
   "sitelinks": {
     "enwiki": "(아직 미등록)",
     "kowiki": "(아직 미등록)"
