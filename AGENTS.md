@@ -4,7 +4,7 @@
 > Canonical source: `.agent/NEO_MASTER_RULES.md`
 > Supporting sources: `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, `.agent/shared-brain/*`
 > Regenerate with `python scripts/sync_agent_context.py`
-> Live snapshot source: `.agent/shared-brain/status.json` (`2026-04-28T13:26:20+09:00`)
+> Live snapshot source: `.agent/shared-brain/status.json` (`2026-04-28T13:36:33+09:00`)
 
 ## SSOT Order
 1. `.agent/NEO_MASTER_RULES.md`
@@ -39,7 +39,7 @@
 - Sora reads `src/core/data/sora_context.json` for shared-brain and runtime paths.
 
 ## Runtime Revision
-- ssotRevision: `8484ec5fb10016f4`
+- ssotRevision: `9cb0ffb974dc724b`
 
 ## Live Snapshot
 - `claude-code`: status=active, version=2.1.88, model=claude-opus-4-7, plan=claude-max
@@ -48,14 +48,14 @@
 - `sora`: status=active, version=v5.19, server=YSH-Server (100.67.221.25), container=sora-live (sora:v5.2)
 
 ## Connected Devices
-- checkedAt: `2026-04-27T13:27:29+09:00`
-- online: `desktop-sol01`, `desktop-yesol`, `mx-macbuild-mac-studio`, `s26-ultra`, `ysh-server`
-- offline: `tab-s10-ultra`
+- checkedAt: `2026-04-28T13:29:53+09:00`
+- online: `desktop-sol01`, `desktop-yesol`, `ysh-server`
+- offline: `mx-macbuild-mac-studio`, `s26-ultra`, `tab-s10-ultra`
 
 ## Device Rollout
-- `desktop-sol01`: installed_stale_revision
-- `desktop-yesol`: installed_stale_revision
-- `ysh-server`: installed_stale_revision
-- `mx-macbuild-mac-studio`: installed_stale_revision
-- `s26-ultra`: mobile_operator_mode
+- `desktop-sol01`: verified_installed
+- `desktop-yesol`: verified_installed
+- `ysh-server`: verified_installed
+- `mx-macbuild-mac-studio`: offline
+- `s26-ultra`: mobile_operator_mode_offline
 - `tab-s10-ultra`: mobile_operator_mode_offline
