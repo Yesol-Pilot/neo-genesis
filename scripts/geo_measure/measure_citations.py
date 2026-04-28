@@ -359,7 +359,37 @@ def run(providers: list[str], dry_run: bool, prompts_filter: Optional[str]) -> d
     return {"summary": summary, "elapsed_s": round(elapsed, 1), "dry_run": dry_run}
 
 
+def _load_env_files() -> None:
+    """`.env.local` 우선 + `.env` 보조 자동 로드. 이미 set 된 변수는 덮어쓰지 않음 (cron 안전).
+
+    .env 에 sk-local-* (LiteLLM proxy mock) 가 있고 .env.local 에 진짜 키가 있을 때
+    .env.local 이 winning 하도록 .env.local 을 먼저 로드.
+    """
+    repo_root = Path(__file__).resolve().parents[2]
+    for fname in (".env.local", ".env"):  # .env.local 우선
+        path = repo_root / fname
+        if not path.exists():
+            continue
+        try:
+            with path.open(encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith("#") or "=" not in line:
+                        continue
+                    k, v = line.split("=", 1)
+                    k = k.strip()
+                    v = v.strip().strip('"').strip("'")
+                    # 비어있는 값(예: 부모 shell 의 빈 export)은 override 허용 — 진짜 키가 winning
+                    if k and (k not in os.environ or not os.environ[k].strip()):
+                        os.environ[k] = v
+        except Exception:
+            # cron context 에서 .env 읽기 실패해도 진행 (이미 환경변수 set 되어 있을 수 있음)
+            pass
+
+
 def main() -> int:
+    _load_env_files()
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--providers", default="anthropic,openai,perplexity,gemini")
     parser.add_argument("--dry-run", action="store_true")
