@@ -41,7 +41,7 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
 - [x] **robots.txt** — 25개 AI bot 명시적 Allow + 2 sitemap 등록 (`src/landing/public/robots.txt`)
 - [x] **llms.txt + llms-full.txt** — 동적 route (`src/landing/src/app/llms.txt/route.ts`, `llms-full.txt/route.ts`) — SBU/블로그 단일 소스 자동 반영
 - [x] **Schema.org JSON-LD** — Organization + WebSite + Person + 11 SBU OfferCatalog (`layout.tsx`), BlogPosting + BreadcrumbList 자동 (`blog/[slug]/page.tsx`)
-- [x] **Wikidata Q-item 데이터** — 13 엔티티 (Neo Genesis + 창업자 + 11 SBU) JSON 준비 (`.agent/knowledge/wikidata-entities/`) — owner web UI 등록 대기
+- [x] **Wikidata Q-item 13개 등록 완료** ✅ (2026-04-27) — Neo Genesis Q139569680 (parent) + Yesol Heo Q139569708 (founder) + 11 SBU (Q139569710~Q139569727) BotPassword + Python wbeditentity API 직접 등록. 등록 방식 = `scripts/wikidata_register/register_entities.py` (urllib 단일 의존성, 8s throttle). 매핑 SSOT = `.agent/knowledge/wikidata-entities/registered.json`. layout.tsx `ORGANIZATION_SCHEMA.sameAs` 13 URL 라이브 반영 (landing commit `4df4831`, Vercel production verified). Q139569680 statements = 17개 / properties P159·P17·P2037·P31·P452·P571·P856 모두 라이브. 자격증명 = `.env.local` (gitignored) + `D:/00.test/CREDENTIAL_BIBLE.md` "Wikidata / Wikimedia (Entity Graph)" 섹션 박제
 - [x] **sitemap.xml + RSS feed + IndexNow** — 동적 sitemap (`sitemap.ts`), RSS (`rss.xml/route.ts`), IndexNow API key 발급 (`68833447363a462a612e658317313cbc.txt`), 수동 ping (`api/indexnow/route.ts`), Vercel Cron `0 0 * * *` (`api/cron/indexnow-all/route.ts`)
 - [x] **DIY 측정 protocol** — 30 시드 prompt × 4 LLM (Anthropic / OpenAI / Perplexity / Gemini) cron + sqlite + 일/주/월 리포트 (`scripts/geo_measure/`)
 
@@ -60,19 +60,15 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
 - [x] **GEO Validator + Publish Hook** — `src/pipelines/geo_validator.py` (Statistics density / 외부 출처 / Schema / heading 위계 / freshness 자동 검증), `src/pipelines/geo_publish_hook.py` (IndexNow ping + Vercel revalidate)
 - [x] **HIVE MIND × GEO Integration Guide** — `.agent/knowledge/HIVE_MIND_GEO_INTEGRATION.md` (blog_pipeline / SBU autonomous growth runner 통합 패턴)
 
-#### Phase 0 잔여 (다음 세션) — robots.txt 옵션은 이미 정해 자동 진행되었으므로 삭제됨
-  - 위치: `src/landing/public/robots.txt` (Next.js)
-  - 후보 정책: "모두 허용" (학습 진입 노림) vs "검색 허용 + 학습 차단" — Strategy Lead 결정 보류, owner 의도 = "어떤 방법으로든" 이라 **모두 허용** default
-- [ ] **Schema.org JSON-LD 부착** — `Organization` + `Article` + `Person(author)` 3종, `sameAs` 에 LinkedIn/GitHub/Crunchbase/Wikidata 연결
-  - 위치: Next.js `_app.tsx` 또는 layout 에 inline JSON-LD
-- [ ] **Wikidata Q-item 6개 생성** — Neo Genesis 본체 + 6 SBU (toolpick / aiforge / craftdesk / deploystack / finstack / sellkit). 1주, 무료
-- [ ] **sitemap.xml + lastmod ISO 8601 + RSS feed** — Next.js dynamic sitemap
-- [ ] **IndexNow API key 발급 + Vercel revalidate hook** — Bing → ChatGPT Search 진입 가속의 단일 표준
-- [ ] **llms.txt + llms-full.txt 생성** — `src/landing/public/llms.txt`. downside 0
-- [ ] **Cloudflare AI Crawl Control 활성화** — neogenesis.app Zone, "AI Search 허용 + AI Training 결정에 따라" 프리셋
-- [ ] **Bing Webmaster Tools + Google Search Console 등록** — AI Performance Dashboard (2026-2 출시) 활용
-- [ ] **DIY 측정 protocol 구축** — 시드 prompt 30개 × 4 LLM (ChatGPT / Claude / Perplexity / Gemini) cron, 기존 API key 사용 → baseline 30일
-- [ ] **GA4 / PostHog AI 채널 분리** — regex 등록 (`chatgpt\.com|gemini\.google\.com|openai\.com|perplexity\.ai|copilot\.microsoft\.com|claude\.ai|grok\.com`)
+#### Phase 0 잔여 (코드/등록 ✅ 완료, owner action만 남음)
+
+**자율 진행 가능 (다음 세션)**:
+- [ ] **GA4 / PostHog AI 채널 분리** — regex 등록 (`chatgpt\.com|gemini\.google\.com|openai\.com|perplexity\.ai|copilot\.microsoft\.com|claude\.ai|grok\.com`). Standing Approval 범위 내, 다음 세션 자율 처리
+
+**owner 직접 액션 필요 (G2)**:
+- [ ] **Cloudflare AI Crawl Control 활성화** — neogenesis.app Zone (`85380cbe940510fc1cf2620b1f24c707`), "AI Search 허용 + AI Training 허용" (owner 의도 = "어떤 방법으로든" → 모두 허용 default). 5분 작업, Cloudflare 대시보드 owner 직접 클릭 필요
+- [ ] **Bing Webmaster Tools + Google Search Console 사이트 소유권 등록** — AI Performance Dashboard (2026-2 출시) 활용. owner Microsoft/Google 계정 인증 필요. GSC 는 layout.tsx 의 `verification.google` 토큰 (`ToqjqeHF...`) 만으로 인증 가능, Bing 은 별도 추가
+- [ ] **BotPassword + QuickStatements token revoke** — Wikidata 13개 entity 등록 완료 후 자격증명 정리 권고. (a) https://www.wikidata.org/wiki/Special:BotPasswords 에서 `claude` 봇 삭제, (b) https://quickstatements.toolforge.org/#/user 에서 "Get a new token" 클릭 시 기존 토큰 무효화. owner 가 더 이상 batch 자동화 안 쓸 거면 즉시 권고
 
 **Phase 0 Stop/Go 게이트**: 30일 baseline 확보 + 4 플랫폼 인용 1건 이상
 
