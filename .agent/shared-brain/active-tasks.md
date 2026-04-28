@@ -33,10 +33,16 @@
 - A1 알파 standby (Binance forceOrder snapshot 도착 시 자동 신호 발생)
 - IP 재할당으로 multi-connect 폭주 재발 시 보호막
 
+### owner 결정 — 자율 결정 박제 (2026-04-28)
+
+| 항목 | 결정 | 근거 |
+|---|---|---|
+| **Tardis.dev / CoinAPI 청산 데이터 구매 ($99/월)** | **❌ Phase 2 통과까지 보류** | Phase 1 검증 100% 무료 (Binance public REST + Bybit/OKX free WS). 자본 0 상태 ROI 무한대 적자. Phase 2 통과 (자본 3000만원) 시점부터 ROI 5-7배로 검토 명분. owner 비용 최소화 명시 (2026-04-28) |
+| routine prompt Heap%→mem% 정정 | ✅ 자율 적용 완료 | daily/weekly SKILL.md 갱신 |
+| Bybit/OKX 청산 WS 통합 | ⏳ 시장 활발 시간대 검증 후 | 라이브 probe 30s × 3거래소 모두 0건 (현재 시장 조용 + 평일 점심). A1 본질 = 큰 캐스케이드 시점에만 신호. 즉시 통합 가치 낮음 |
+
 ### owner 결정 대기 (G2)
 1. **Phase 0 Gate #3 임계값 재정의** — Binance 1/sec snapshot 정책 기준 일 X건 재계산 (이전 23.7K 누적은 보존)
-2. **Tardis.dev / CoinAPI 청산 데이터 구매** ($99/월) — Binance 정책 한계 우회 옵션
-3. **routine prompt 정정** — Heap % 해석을 "PM2 mem %" 로 변경 ✅ (자율 적용 완료)
 
 ### 추가 자율 진행 — A3 Extreme Funding Reversal alpha 구현 (commit `2e9e35a`)
 
@@ -197,6 +203,59 @@ neo-architect cold review: `proceed with edits` (5개 필수 edit 반영 → v1.
 - `src/core/governance/alert_manager.py` (390 lines — Alert + 4 dispatcher + dedup + quiet_hours + owner override)
 - `slo_monitor.py:_send_alert` stub → `alert_manager.emit()` 통합
 - **라이브 검증**: P0 → 4 channels 동시 dispatch / 60s dedup 즉시 suppress / P3 → telegram 자동 제외
+
+### Week 3 — Sora **직접 품질 + 보안** 자율 진행 (owner 균형 회복 명령 후)
+
+owner 명령: "소라 관련 작업 맞아? 그렇다면 진행해" — Sora 직접 품질 / 보안 우선.
+
+#### W8.T1 Golden Test 100 ✅
+- 신규: `tests/sora_golden/core_v1.json` (100 tests, 15 categories) + `scripts/run_sora_golden.py`
+- 카테고리: owner_identity / hardcode_absence / local_first_architecture / fastpath / compound_request / constitution / secret_protection / RAG_grounded / tool_call_envelope / owner_override / honest_failure / korean_default / audit_trail
+- Severity: P0 30 + P1 38 + P2 28 + P3 4
+- **라이브 결과**: P0 9/9 + P1 6/6 = **15/15 PASS, FAIL 0** (static-only mode)
+
+#### Critical: 컨테이너 → Git source SSOT 일관성 fix ✅
+- Golden test 첫 실행이 **D:/00.test git source vs 컨테이너 production state out of sync** 자동 감지
+- 8 파일 컨테이너 → host git source pull back (모두 syntax OK):
+  - sora_engine / agent_router / worker / output_filter / 4 hooks
+- **운영 가치 즉시 입증**: Golden test 가 SSOT 일관성 deviation 자동 발견
+
+#### CONSTITUTION + LOCAL_FIRST 누락 fix ✅
+- 컨테이너 `/app/.agent/SORA_CONSTITUTION.md` 미존재 → docker cp 동기화
+- `.env LOCAL_FIRST_ENABLED=true` 검증
+
+#### W6.T1 Threat Model v1 + Adversarial 50 ✅
+- 신규: `.agent/knowledge/security/threat_model_v1.md` (STRIDE + DREAD)
+  - 8 asset 인벤토리 + 10 attack surface + STRIDE 6 카테고리
+  - **15 위협 DREAD 점수** (T-01 owner bot 탈취 38 ~ T-15 personal/ 25)
+  - 14 방어 매핑 + 외부 벤치 (AgentDojo / AgentHarm / PoisonedRAG / GASLITE)
+- 신규: `tests/sora_adversarial/suite_v1.json` (50 tests, 10 카테고리)
+  - prompt_injection 10 + jailbreak 5 + secret_leak 10 + system_prompt_leak 5
+  - tool_abuse 5 + tier_escalation 3 + rag_poisoning 5 + rag_exfiltration 2 + owner_spoofing 2 + subagent_recursion 3
+- 신규: `scripts/run_sora_adversarial.py` (output_filter + pdf_sanitizer 직접 호출)
+- **라이브 검증**: secret_leak **7/7 PASS, FAIL 0** (Anthropic/OpenAI/Google/GitHub/JWT/AWS/sudo password 모두 redact)
+
+#### GitHub Actions CI ✅
+- 신규: `.github/workflows/sora-quality-gate.yml` (**8 jobs**)
+  1. syntax-check (Python compileall)
+  2. yaml-validation (.agent/policies/*.yaml)
+  3. golden-static (P0 fail block)
+  4. adversarial-redaction (P0 fail block)
+  5. **hardcode-audit** (owner PII zero tolerance, 3 핵심 파일)
+  6. **local-first-architecture** (Local LLM primary marker 검증)
+  7. threat-model-current (90일 갱신 cadence)
+  8. ssot-revision-bump (.agent/ 변경 시 동반 검증)
+- Trigger: PR + push to main + workflow_dispatch
+- 로컬 simulation 모두 PASS
+
+### Sora 균형 매트릭스 (운영 vs 직접 품질)
+| 영역 | 가동 자산 | 라이브 검증 |
+|---|---|---|
+| **Sora 운영** | SLO 13 endpoint / OTel trace / Loki+Tempo+Grafana / Promtail / DR drill / secret rotation / alert routing | 13/13 OK + trace 4건 + log 273k lines |
+| **Sora 직접 품질** | Golden 100 / Adversarial 50 / Threat model v1 / Hardcode audit / CI workflow | P0 9/9 + Adversarial 7/7 + hardcode 0 |
+| **Sora 코어** | 하드코딩 SSOT 화 / Local-first 정정 / SSOT 일관성 sync | 8 파일 git ↔ container 일관 |
+
+---
 
 ### Week 3 추가 — **2026-04-28 owner "진행해" 후 W1.T5 + W2.T6 자율 진행 완료** ✅
 
@@ -387,6 +446,17 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **ethicaai**: NeurIPS 2026 논문 + Melting Pot 실험 정적 사이트. codebase = `D:/00.test/github_repos/ethicaai/`. MDX publish 안 함 = 정상 (정체 아님)
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
+
+- [x] **5 병렬 에이전트 GEO 확장 (P1 자율)** ✅ (2026-04-28) — owner 지시 "전부 병렬 에이전트 투입하여 진행" — 5 general-purpose agents 동시 launch + 통합 deploy 1회
+  * **Agent A (Schema 3종)**: page.tsx 에 Article + HowTo (7-stage HIVE MIND) + SpeakableSpecification → 메인 ld+json **5 → 8**
+  * **Agent B (/data 보강)**: DataCatalog Schema + 985 words + 343 numerical signals + 14 외부 권위 인용 (Schema.org / llmstxt.org / IndexNow / Anthropic / HF docs / Wikidata / IETF RFC 8615 / CC) + 8 stat cards + 2 dataset detail cards + 4 paper cards + 7 references
+  * **Agent C (/sbu/[slug] 11 페이지)**: 단일 동적 라우트 신설 (ur-wrong / toolpick / reviewlab / kott / whylab / ethicaai / finstack / aiforge / sellkit / deploystack / craftdesk). 페이지당 SoftwareApplication Schema (applicationCategory mapping per SBU) + BreadcrumbList + ~600-700 words. sitemap.ts 11 entry 추가 (priority 0.85)
+  * **Agent D (research 2건)**: research-assets.ts 에 quant-bot-v11-ensemble-design (~2,326 words / 8 citations / 6 alphas / 9-Layer Kill Switch) + sora-orchestration-architecture (~2,235 words / 7 citations / 6-device fleet / Magentic-One 2-ledger) 추가. 4 → 6 papers
+  * **Agent E (/llms-full.txt 4 새 섹션)**: Pipeline Detail (7 stages × Inputs/Tools/Outputs/Quality Gates) + V-Score Quality Formula (V = 40F + 35E + 15C + 10O, threshold 184.5) + 11 SBU Operational Map (primary AI model + weekly publish rate + intent) + AI Citation Guide (4 citation 형식 + BibTeX 5 templates + Schema.org @id graph). 17KB → **37,620 bytes (2.2배 ↑)**
+  * **라이브 검증 통과**: 메인 ld+json **8개** / /sbu/* 11/11 = HTTP 200 / /data 101KB + DataCatalog Schema / /llms-full.txt 37,620 bytes / 추가 research 2건 모두 200 / sitemap entries **24 → 36** (+12) / /sbu/toolpick SoftwareApplication + BreadcrumbList + Wikidata Q139569711 inline JSON-LD 라이브
+  * **누적 AI 인용 가능 표면**: 18 → **50+ Schema 라이브** (메인 8 + /about 6 + /faq 18 Q + /data DataCatalog + /sbu 22 (11 × 2) + /data/research 6 ScholarlyArticle + /llms-full.txt 37KB markdown)
+  * 5 agent 토큰 합산 약 1.53M, 시간 ~7-8분 (병렬)
+  * Vercel production deploy 29s build, build error 0
 
 - [x] **neogenesis.app GEO 표면 대대적 보강 (P0 자율)** ✅ (2026-04-28) — owner 지시 "네오제네시스 웹페이지 ai 유입 작업만 집중" 에 따라 메인 페이지 + /about + /faq + /llms.txt + /llms-full.txt 일괄 보강
   * **메인 page.tsx 3 새 section 추가**:
