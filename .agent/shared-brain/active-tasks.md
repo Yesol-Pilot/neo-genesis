@@ -62,13 +62,13 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
 
 #### Phase 0 잔여 (코드/등록 ✅ 완료, owner action만 남음)
 
-**자율 진행 가능 (다음 세션)**:
-- [ ] **GA4 / PostHog AI 채널 분리** — regex 등록 (`chatgpt\.com|gemini\.google\.com|openai\.com|perplexity\.ai|copilot\.microsoft\.com|claude\.ai|grok\.com`). Standing Approval 범위 내, 다음 세션 자율 처리
+**자율 진행 완료**:
+- [x] **GA4 AI 채널 자동 분리** ✅ (2026-04-28) — `src/landing/src/app/layout.tsx` gtag init 에 referer 기반 10개 AI 플랫폼 자동 감지 (chatgpt / gemini / perplexity / copilot / claude / grok / you / bing / deepseek / kagi). config parameter `ai_source` + `traffic_channel='ai_referral'` + 명시 event `ai_referral` (ai_source + ai_referrer + page_path + page_location). landing commit `ef4abfb` + Vercel production 배포 (`https://neogenesis.app` aliased) + 라이브 HTML 검증 통과. GA4 Console 에 Custom Dimension `ai_source` / `traffic_channel` 등록 시 데이터 자동 백필. PostHog 는 landing 미사용 (SBU 블로그 한정) 이라 별도 작업 불필요
 
 **owner 직접 액션 필요 (G2)**:
-- [ ] **Cloudflare AI Crawl Control 활성화** — neogenesis.app Zone (`85380cbe940510fc1cf2620b1f24c707`), "AI Search 허용 + AI Training 허용" (owner 의도 = "어떤 방법으로든" → 모두 허용 default). 5분 작업, Cloudflare 대시보드 owner 직접 클릭 필요
+- [ ] **Cloudflare AI Crawl Control 활성화** — neogenesis.app Zone (`85380cbe940510fc1cf2620b1f24c707`), "AI Search 허용 + AI Training 허용" (owner 의도 = "어떤 방법으로든" → 모두 허용 default). 5분 작업. ⚠️ 보유한 CF API token (`scripts/setup_*_dns.py` 하드코딩) 모두 invalid 확인 (2026-04-28 verify endpoint = `Invalid API Token`). Cloudflare Dashboard 직접 진입 또는 새 API token 발급 후 위임 가능
 - [ ] **Bing Webmaster Tools + Google Search Console 사이트 소유권 등록** — AI Performance Dashboard (2026-2 출시) 활용. owner Microsoft/Google 계정 인증 필요. GSC 는 layout.tsx 의 `verification.google` 토큰 (`ToqjqeHF...`) 만으로 인증 가능, Bing 은 별도 추가
-- [ ] **BotPassword + QuickStatements token revoke** — Wikidata 13개 entity 등록 완료 후 자격증명 정리 권고. (a) https://www.wikidata.org/wiki/Special:BotPasswords 에서 `claude` 봇 삭제, (b) https://quickstatements.toolforge.org/#/user 에서 "Get a new token" 클릭 시 기존 토큰 무효화. owner 가 더 이상 batch 자동화 안 쓸 거면 즉시 권고
+- [ ] **BotPassword + QuickStatements token revoke** — owner 결정: PASS (보안 권고만, 강제 아님)
 
 **Phase 0 Stop/Go 게이트**: 30일 baseline 확보 + 4 플랫폼 인용 1건 이상
 
