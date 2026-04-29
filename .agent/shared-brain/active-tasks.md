@@ -447,6 +447,32 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
 
+- [x] **WhyLab Docker dataset publish + 11 SBU Schema 풍부화 (P2 자율)** ✅ (2026-04-29) — owner 지시 "진행해" 자율 위임. 4 병렬 에이전트 시도 → API rate limit 4회 → 직접 수행으로 전환 (Agent H + I 만 우선, F + G 다음 세션)
+  * **3번째 HF dataset publish**: `https://huggingface.co/datasets/neogenesislab/whylab-gemini-2-5-docker-validation`
+    - 67 problems × 3 seeds × 2 conditions = 402 episodes (Gemini 2.5 Flash Docker validation)
+    - **Honest null result** framing (selective adaptive C2 ≯ fixed C2)
+    - 10 files / 484KB (episodes.jsonl 396KB + 7 보조 분석 + README + metadata)
+    - CC-BY-4.0, ko+en bilingual dataset card
+    - `scripts/hf_publish/publish_whylab_docker.py` 박제 (idempotent)
+  * **layout.tsx 통합**:
+    - `ORGANIZATION_SCHEMA.sameAs` 에 WhyLab dataset URL 추가 (HF 3개 모두 등록)
+    - `ORGANIZATION_SCHEMA.hasOfferCatalog` 11 Offer 풍부화 — 단순 `{name, url}` → rich `{itemOffered: SoftwareApplication, category, availability, sameAs}` (각 SBU 별 applicationCategory + Wikidata + 내부 URL)
+    - 신규 `WHYLAB_DOCKER_DATASET_SCHEMA` inline (creator + publisher + author + 7 variableMeasured + Wikidata Q139569716)
+  * **page.tsx 통합**:
+    - 신규 `SBU_ITEM_LIST_SCHEMA` (ItemList @type, 11 ListItem with full SoftwareApplication metadata, programmatic from `SBUS` import)
+    - `SBUS_DATA` alias import (기존 internal SBUS 와 충돌 회피)
+  * **Build 1회 실패 → fix → 통과**:
+    - 1차: SBUS naming conflict (internal const + import) → `SBUS_DATA` alias
+    - 2차: TS2741 `SbuNarrative.operatingDiscipline` 8 SBU 누락 → `optional` 변경
+    - 3차: deploy 28s 통과
+  * **라이브 검증 통과**:
+    - 메인 페이지 ld+json **8 → 10** schemas (WhyLab Dataset + ItemList 추가)
+    - WhyLab Q139569716 + dataset URL + "honest null result" HTML 노출
+    - ItemList + ListItem + sbu-list ID 노출
+    - hasOfferCatalog itemOffered + SoftwareApplication 노출
+  * 누적 HF datasets **2 → 3** (Korean RAG + EthicaAI + WhyLab)
+  * **Agent F (/sbu/[slug] 1,500w 보강) + Agent G (research 4 보강)** = owner 결정 시 다음 세션 자율 진행 가능
+
 - [x] **5 병렬 에이전트 GEO 확장 (P1 자율)** ✅ (2026-04-28) — owner 지시 "전부 병렬 에이전트 투입하여 진행" — 5 general-purpose agents 동시 launch + 통합 deploy 1회
   * **Agent A (Schema 3종)**: page.tsx 에 Article + HowTo (7-stage HIVE MIND) + SpeakableSpecification → 메인 ld+json **5 → 8**
   * **Agent B (/data 보강)**: DataCatalog Schema + 985 words + 343 numerical signals + 14 외부 권위 인용 (Schema.org / llmstxt.org / IndexNow / Anthropic / HF docs / Wikidata / IETF RFC 8615 / CC) + 8 stat cards + 2 dataset detail cards + 4 paper cards + 7 references
