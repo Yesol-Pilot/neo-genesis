@@ -1,7 +1,48 @@
 # Active Tasks — 에이전트 공유 작업 목록
 
-> **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.  
-> **최종 갱신:** 2026-04-28 by Claude Opus 4.7 (Strategy Lead — Liquidation Stream + Binance 정책 변경 + Telegram fix)
+> **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.
+> **최종 갱신:** 2026-04-29 by Claude Opus 4.7 (Sora 5 Fix bundle — 보안/quality/observability)
+
+---
+
+## 🟣 Sora 5 Fix Bundle (2026-04-29, Claude Opus 4.7) ✅
+
+owner 명령: "개선하고 텔레그램 대화내용 분석해바" + "all" → 6 fix 자율 진행 + 컨테이너 라이브 적용 완료.
+
+### 산출물 (8 파일 git source + container 라이브)
+
+| # | Fix | 파일 | 라이브 검증 |
+|---|---|---|---|
+| 1 | **P0 Telegram bot token redaction** | `src/core/security/output_filter.py` (3 패턴 추가: `\b\d{9,10}:[A-Za-z0-9_-]{35,}` + NEO_ALERT_BOT_TOKEN env + TELEGRAM_BOT_TOKEN env) | ✅ 컨테이너 `Bot token: [REDACTED:TELEGRAM_BOT_TOKEN]` |
+| 2 | **Owner identity false-refusal 차단** | `src/core/sora_engine.py` (_owner_intent_fastpath case-insensitive + 영문/자연 표현) | ✅ 11/11 PASS (04-27 거짓 거부 4건 패턴 모두 정확 응답) |
+| 3 | **SLO `telegram_bot_activity` probe 신규** | `.agent/policies/slo_definitions.yaml` (14번째 endpoint, mtime 기반 24h cap) | ✅ age 12.4h, 13/14 OK 라이브 |
+| 4 | **Redis brpop traceback noise 제거** | `src/core/queue/redis_bus.py` (RedisTimeoutError swallow → idle 정상 처리) | ✅ 재시작 후 1분 traceback 0건 (이전 5초/회) |
+| 5 | **SelfHealer Linux false positive 제거** | `src/core/healer/watchdog.py` (powershell FileNotFoundError + Linux managed_by_daemon graceful) | ✅ syntax OK, 5분 cycle 정상화 예정 |
+| 6 | **ConsoleSpanExporter prod 비활성** | `src/core/observability/otel_setup.py` (OTLP 가용 시 Console 자동 disable) | ✅ `Console exporter disabled (OTLP exporter is primary)` |
+| bonus | **rag_poisoning unpack TypeError fix** | `scripts/run_sora_adversarial.py` (compute_injection_risk tuple/int 호환) | (사전 bug 발견) |
+| bonus | **adversarial 회귀 신규 case** | `tests/sora_adversarial/suite_v1.json` A025b/A025c | ✅ telegram bot token 회귀 가드 |
+
+### 회귀 검증
+- secret_leak: **9/9 PASS, 0 FAIL** (3 SKIPPED 정상)
+- owner identity: **11/11 PASS** (단위)
+- SLO 14 endpoint: **13/14 OK**
+
+### 텔레그램 대화 200건 분석 결과 (assistant_memory.json)
+- user 103 / assistant 97 / 실 owner 메시지 100% (cron probe 0건 — 직전 세션의 hourly probe 가정은 오류)
+- 단 1일 (2026-04-27) 에 103건 집중. 04-28~04-29 sora-live 직통 대화 0건 → polling host 가 다른 디바이스
+- 응답 시간 p50 11.2초 / p95 28초 (SLO 미정의, 별도 정의 후속)
+- 거짓 거부 4건 (GitHub/도메인) + 보안 거부 2건 (비밀번호, 정상) — Fix #2 로 직접 차단
+
+### 박제
+- 컨테이너 sora-live 재시작 06:52:45 KST (Telegram Bot + Brain workers 정상 가동)
+- 8 파일 backup `*.bak-20260429-064942` (rollback 가능)
+- Host SSOT mirror: `slo_definitions.yaml`
+- ssotRevision: `020ad544eb71f081` → **`c67c4dbf9cb10dc8`**
+
+### Owner 액션 잔존 1건
+- **`NEO_ALERT_BOT_TOKEN` BotFather 회전** — 직전 세션 stdout 노출 사고 잔존. 회전 후 `.env` 갱신 (redaction 은 이미 완비)
+
+👤 Claude Opus 4.7
 
 ---
 
@@ -78,15 +119,23 @@
 - `orchestrator.js` startup 메시지 정정: `graceful WAIT` → `4 conditions: |F|>=0.08% / OI6h>=5% / basis>=0.3% / 24h±5%`
 - 라이브 검증 (PC + VM): BTC fundingRate=-0.002% / OI=1.27% / basis=0.05% / 24h=-1.33% (4 조건 미달 → WAIT 정상)
 
-### 🎯 Phase 1 입성 완료 (A1 + A3 dual standby)
+### 🎯 Phase 1 입성 완료 (A1 + A2 + A3 triple standby)
 - **A1 Liquidation Cascade alpha**: ✅ standby (Binance 정책 변경으로 흐름 매우 적음)
+- **A2 Mean Reversion OU alpha**: ✅ standby (Regime + OU OLS fit + |z|>2.0, ohlcv1m + 인디케이터 wiring 대기)
 - **A3 Extreme Funding Reversal alpha**: ✅ standby (4 필드 라이브 데이터 정상 흐름 중)
 - 페이퍼 14일 검증 시작 가능 → 1+ 알파 Sharpe ≥ 1.2 + DSR ≥ 0.5 충족 시 **1000만원 입금 권고 트리거**
 
-### 본 세션 누적 commit (2026-04-28 KST)
-- `34901fb` fix: telegraf IPv4 agent (notifier.js getMe ENETUNREACH)
-- `2e9e35a` feat(v11 A3): Extreme Funding Reversal alpha + orchestrator wiring (Phase 1)
-- **`44aea29`** **feat(v11 A3): funding-fetcher data source + marketData wiring (Phase 1 입성)**
+### 누적 commit (2026-04-28 ~ 04-29 KST)
+- `34901fb` fix: telegraf IPv4 agent (notifier.js getMe ENETUNREACH) ✅ pushed
+- `2e9e35a` feat(v11 A3): Extreme Funding Reversal alpha + orchestrator wiring ✅ pushed
+- `44aea29` feat(v11 A3): funding-fetcher data source + marketData wiring (Phase 1 입성) ✅ pushed
+- `2bf2744` test(v11 A3): funding-fetcher mock test scaffold (skipped, TODO nock) ✅ pushed
+- **`f8133df`** **feat(v11 A2): Mean Reversion OU alpha + ou-estimator + orchestrator wiring** (4 files, 566+) ⚠️ **local only, push 보류**
+
+### owner action 필요 — push 보류 (2026-04-29)
+- `f8133df` 가 local 에만 있음. `D:/00.test/neo-genesis/.env` 의 GITHUB_PAT 은 neogenesislab 계정이라 `Yesol-Pilot/quant-bot` push 권한 없음
+- **해결**: Windows credential manager 에 Yesol-Pilot PAT 갱신 또는 owner manual `git push origin master`
+- VM 배포 + 라이브 검증은 이미 완료 (PID 459171, 3 알파 enabled). push 만 외부 sync.
 
 👤 Strategy Lead Claude Opus 4.7 (자율 진행 완료, owner 결정 사항만 대기)
 
@@ -446,6 +495,29 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **ethicaai**: NeurIPS 2026 논문 + Melting Pot 실험 정적 사이트. codebase = `D:/00.test/github_repos/ethicaai/`. MDX publish 안 함 = 정상 (정체 아님)
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
+
+- [x] **Agent F + G 병렬 보강 — /sbu 11p × 1,750w + research 4 × 2,500w (P3 자율)** ✅ (2026-04-29) — owner 지시 "진행해" 자율 위임. 2 병렬 general-purpose agents 동시 launch (rate limit 풀린 후) + 통합 deploy 1회
+  * **Agent F (/sbu/[slug] 11 페이지 1,750w 보강)**:
+    - 페이지당 ~1,750-1,800 words (target 1,500 초과 달성)
+    - **3 schemas 인라인 JSON-LD per page**: SoftwareApplication + BreadcrumbList + **FAQPage (신규 emit)**
+    - 8 SBU 에 `operatingDiscipline` narrative 추가 (kott / whylab / ethicaai / finstack / aiforge / sellkit / deploystack / craftdesk)
+    - 페이지당 6 외부 권위 인용 (Wikidata + Wikipedia + Schema.org + arxiv + 도메인 표준 e.g. JustWatch / FSC Korea / BFCL Berkeley)
+    - 페이지당 18-22 numerical stat rows (SBU detail + portfolio-wide)
+  * **Agent G (research 4 기존 보강)**:
+    - `ethicaai-melting-pot-mixed-safe`: 16 sections / **2,614 words** / 17 citations / Reproducibility + Limitations 섹션 추가, HF dataset link `neogenesislab/ethicaai-mixed-safe-evidence`
+    - `whylab-gemini-2-5-docker-validation`: 18 sections / **2,756 words** / 16 citations / Calibration History E5→Gemini 2.5 추가, NEW HF dataset link `neogenesislab/whylab-gemini-2-5-docker-validation`
+    - `rag-master-design-v1`: 15 sections / **2,401 words** / 19 citations / 24-Week Rollout 풀 테이블 + Six Collections breakdown, HF dataset link
+    - `agent-environment-v2`: 16 sections / **2,489 words** / 22 citations / Operating Layers 8계층 풀 테이블 + Decision Matrix
+    - 합계 새 citations 약 60+ (Pearl Book of Why / ReAct / Toolformer / Constitutional AI / RAGAS / BAAI BGE / Cohere / RRF / MCP / LangGraph / AutoGen / CrewAI / DSPy / OpenHands / CoALA 등)
+  * **landing commit `0724d79`** + Vercel production deploy (29s build, 2 files / 478 insertions)
+  * **라이브 검증 통과**:
+    - /sbu/toolpick = 119KB (이전 ~70KB)
+    - /data/research/ethicaai-melting-pot-mixed-safe = 123KB
+    - /data/research/agent-environment-v2 = 123KB
+    - /sbu/whylab HTML 에 FAQPage + Question + "Operating discipline" 모두 노출
+  * 누적 indexable surface 단어 합계 추정 약 **40,000+ → 60,000+ words** GEO body
+  * 누적 외부 권위 인용 약 **15 → 80+** (research 60 + /sbu 66 + /data 14)
+  * TypeScript clean (양쪽 에이전트 npx tsc --noEmit 통과)
 
 - [x] **WhyLab Docker dataset publish + 11 SBU Schema 풍부화 (P2 자율)** ✅ (2026-04-29) — owner 지시 "진행해" 자율 위임. 4 병렬 에이전트 시도 → API rate limit 4회 → 직접 수행으로 전환 (Agent H + I 만 우선, F + G 다음 세션)
   * **3번째 HF dataset publish**: `https://huggingface.co/datasets/neogenesislab/whylab-gemini-2-5-docker-validation`
