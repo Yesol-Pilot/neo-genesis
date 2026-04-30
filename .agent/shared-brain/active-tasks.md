@@ -496,6 +496,34 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
 
+- [x] **Agent J + K 병렬 — SBU pSEO dataset (4번째 HF) + 4 FLUX research hero images (P4 자율)** ✅ (2026-05-01) — owner 지시 "전부진행" — 4 병렬 launch (J/K/L/M), 2개 성공, 2개 rate limit (다음 세션)
+  * **Agent J (4번째 HF dataset)**: `https://huggingface.co/datasets/neogenesislab/sbu-pseo-effects-2026-04`
+    - 35 anonymized SBU snapshot rows (6 SBUs × 다중 timestamp, 4월 27-29일)
+    - variableMeasured 6: weak_posts_expanded / reinforced / internal_links / intent_routes / clusters / files
+    - 정직한 source filter (dry-run 5건 제외) + assert_anonymized() 7-pattern guard
+    - HTTP 200 + datasets.load_dataset() 검증 통과 (35 rows × 17 cols)
+    - `scripts/hf_publish/publish_sbu_pseo_effects.py` 박제 (idempotent)
+  * **Agent K (4 FLUX hero images)**:
+    - `public/assets/research/{ethicaai-melting-pot, whylab-docker, rag-master-design, agent-environment}.{png,webp}` (총 8 파일, 3.3MB)
+    - 모두 1200x630 letterbox, multi-provider fallback (wavespeed → fal-ai → replicate → together → nebius)
+    - wavespeed 402 quota 도달 후 together / replicate 로 폴백 성공
+    - `scripts/hf_publish/generate_research_heros.py` 박제
+  * **layout.tsx 통합**:
+    - `ORGANIZATION_SCHEMA.sameAs` 에 4번째 dataset URL 추가 (HF 4개 모두 등록)
+    - 신규 `SBU_PSEO_DATASET_SCHEMA` inline (variableMeasured 6 metric)
+    - 메인 페이지 ld+json **10 → 11**
+  * **/data/research/[slug]/page.tsx 통합**:
+    - HERO_IMAGE_MAP 4-research → image URL mapping 추가
+    - `articleSchema.image` 자동 채움 (1200x630 absolute URL)
+  * **landing commit + Vercel production deploy** + 라이브 검증 통과:
+    - 메인 11 schemas (4 Dataset + Org + WebSite + FAQPage + Article + HowTo + Speakable + ItemList)
+    - 4 hero images HTTP 200 (315KB-1.1MB each)
+    - ScholarlyArticle image field 라이브 (ethicaai-melting-pot.png URL HTML 노출 2회)
+    - SBU pSEO dataset URL + "SBU Programmatic SEO" 키워드 HTML 노출
+  * 누적 HF datasets: 3 → **4** (Korean RAG / EthicaAI / WhyLab / SBU pSEO)
+  * 누적 메인 ld+json: 10 → **11**
+  * **Agent L (arXiv preprint 박제) + Agent M (/blog 10 보강)** = rate limit 으로 다음 세션 위임
+
 - [x] **Agent F + G 병렬 보강 — /sbu 11p × 1,750w + research 4 × 2,500w (P3 자율)** ✅ (2026-04-29) — owner 지시 "진행해" 자율 위임. 2 병렬 general-purpose agents 동시 launch (rate limit 풀린 후) + 통합 deploy 1회
   * **Agent F (/sbu/[slug] 11 페이지 1,750w 보강)**:
     - 페이지당 ~1,750-1,800 words (target 1,500 초과 달성)
