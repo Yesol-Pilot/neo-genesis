@@ -4,7 +4,7 @@
 > Canonical source: `.agent/NEO_MASTER_RULES.md`
 > Supporting sources: `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, `.agent/shared-brain/*`
 > Regenerate with `python scripts/sync_agent_context.py`
-> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-03T18:48:43+09:00`)
+> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-03T19:29:40+09:00`)
 
 ## SSOT Order
 1. `.agent/NEO_MASTER_RULES.md`

@@ -63,6 +63,12 @@
 | `GITHUB_PAT` (legacy) | neogenesislab | classic | ⚠️ 동일 제약 |
 | `OPENREVIEW_GITHUB_PAT` | openreview-neurlps | scoped | EthicaAI 학술 push 전용 |
 
+**GitHub 인증 런타임 주의 (2026-05-03)**:
+- Windows Credential Manager: Target=`git:https://github.com`, User=`Yesol-Pilot`, Type=`Generic`
+- PowerShell: `credential.helper=manager` 경유 자동 인증을 기본 push 경로로 사용
+- Git Bash: Windows Credential Manager lookup 호환성이 깨질 수 있으므로 기본 push 경로로 쓰지 않음. 필요 시 PowerShell 우회 또는 일회성 URL embed 사용
+- 기준 push 검증: `5d54262 -> 0a0734a master -> master`, 기준 commit `0a0734a`
+
 ### 3.2 LLM Inference
 | 키 | provider | 측정 cron 사용 | 비고 |
 |---|---|---|---|
