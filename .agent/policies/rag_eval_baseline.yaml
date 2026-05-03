@@ -1,0 +1,124 @@
+# .agent/policies/rag_eval_baseline.yaml
+# RAG eval baseline + regression threshold + cost cap
+# 부록: .agent/knowledge/rag-master/07_eval.md
+version: 1
+last_updated: 2026-05-03
+backend: qdrant  # primary
+
+# GEO (Generative Engine Optimization) citation baseline
+# Source: scripts/geo_measure/citations.sqlite3 (DIY tracker)
+# Report: .agent/knowledge/geo_measurement_report_2026-05-03.md
+geo_citation_baseline:
+  measured_at: 2026-05-03
+  total_measurements: 126
+  ok_measurements: 94
+  cumulative_mention_rate: 0.484
+  by_provider:
+    gemini:
+      ok_calls: 62
+      mention_rate: 0.484
+      brand_mentions: 46
+      sbu_mentions: 150
+      founder_mentions: 21
+    openai:
+      ok_calls: 32
+      mention_rate: 0.563
+      brand_mentions: 10
+      sbu_mentions: 37
+      founder_mentions: 3
+    anthropic:
+      ok_calls: 0
+      blocker: credit_balance_too_low_owner_action
+    perplexity:
+      ok_calls: 0
+      blocker: api_key_absent_owner_action
+  by_category_rate:
+    reputation: 1.000        # 9/9
+    comparison: 0.933        # 14/15
+    product_specific: 0.677  # 21/31
+    pricing: 0.444           # 4/9
+    definition: 0.000        # 0/15  <- biggest content gap
+    problem_solving: 0.000   # 0/15  <- biggest content gap
+  delta_vs_baseline_2026_04_28:
+    openai_rate: +0.533  # 0.0 -> 0.533 after sk-proj-* key sync
+    gemini_rate: +0.000
+  regression_thresholds:
+    cumulative_mention_rate_floor: 0.40  # below = alert
+    per_category_floor:
+      reputation: 0.80
+      comparison: 0.70
+      product_specific: 0.50
+
+baselines:
+  neo_ssot:
+    faithfulness: 0.85
+    answer_relevancy: 0.80
+    context_precision: 0.78
+    context_recall: 0.82
+    kor_recall_at_10: 0.85
+    p95_latency_ms: 500
+
+  neo_code:
+    faithfulness: 0.82
+    context_precision: 0.85
+    mrr: 0.70
+    p95_latency_ms: 600
+
+  neo_paper:
+    faithfulness: 0.88
+    context_recall: 0.85
+    qa_accuracy: 0.75
+    p95_latency_ms: 800
+
+  neo_notes:
+    faithfulness: 0.80  # provenance decay 적용 후 더 보수적
+    context_precision: 0.75
+
+  neo_quant:
+    faithfulness: 0.85
+    context_precision: 0.85
+
+  neo_secret:
+    faithfulness: 0.90  # 매우 정확해야 함
+    context_precision: 0.95
+
+regression_threshold:
+  default: 0.05  # baseline - 0.05 미만이면 alert
+  context_recall: 0.07  # recall은 약간 더 관대
+  p95_latency_ms_multiplier: 1.20  # 20% 증가 허용
+
+action_on_regression:
+  default: alert_telegram_immediate
+  faithfulness:
+    - alert
+    - rollback_last_index_change
+    - block_phase_progression
+  context_recall:
+    - alert
+    - manual_review
+
+cost_caps:
+  daily_anthropic_haiku_usd: 5.0
+  daily_voyage_total_usd: 3.0
+  daily_cohere_usd: 2.0
+  weekly_total_usd: 50.0
+  monthly_total_usd: 50.0  # 마스터 설계 §의사결정 5
+
+  on_cap_exceeded:
+    - skip_eval
+    - alert_telegram
+    - record_in_audit_log
+
+# Phase 0~6 진입 게이트 (Stop/Go)
+phase_gates:
+  phase_1_entry:
+    - kor_mteb_recall_at_10: ">= 0.85"
+    - p95_latency_ms: "<= 500"
+  phase_2_entry:
+    - all_phase_1_passed: true
+    - secret_isolation_verified: true
+  phase_3_entry:
+    - chroma_to_qdrant_ndcg_delta: ">= -0.05"
+  phase_6_entry:
+    - chunk_count_total: ">= 100000"
+    - contextual_retrieval_7day_cost_usd: "< 50"
