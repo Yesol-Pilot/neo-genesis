@@ -512,6 +512,21 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
 
+- [x] **Agent N + O + P 병렬 — README + Wikidata statements + arXiv preprint 박제 (P5 자율)** ✅ (2026-05-03) — owner 지시 "전부진행" — Schema 디버그 직접 + 3 병렬 에이전트
+  * **Agent N (GitHub README 보강)**: 62 → 290 lines (4.7배), 영어 2,455w + 한국어 ~500w, 78 외부 권위 인용, 13 Wikidata Q-IDs cross-link, 4 HF datasets cross-link, 7 tables (By the Numbers / 11 SBUs / 7 stages / Datasets / Tech Stack / Knowledge Graph / License), 14 sections
+  * **Agent O (Wikidata statements +61)**: 13 entities × 평균 4-14 statements 추가 (50 → 111, +122%). `scripts/wikidata_register/add_statements.py` 박제 (idempotent + 8s throttle + dry-run + audit log). 1 fail (P1813 monolingualtext datatype mismatch). audit log `statements_added_2026-05-03.jsonl` 63 records
+    - Q139569680 (parent) +14 (P112 founder / P127 owner / P3320 board / P1830 owner of × 11)
+    - Q139569708 (Yesol Heo) +2 (P106 entrepreneur Q131524 + software developer Q183888)
+    - 11 SBUs +4 each (P361 part of Neo Genesis / P112 founded by Yesol / P3320 board / P407 language)
+    - K-OTT 추가 +1 (P407 한국어 Q9176)
+  * **Agent P (arXiv preprint 박제)**: `D:/00.test/PAPER/{EthicaAI,WhyLab}/arxiv_submission/` 디렉토리 신규 + 마스터 가이드 (`D:/00.test/PAPER/arXiv_submission_guide.md`)
+    - EthicaAI: 18 entries, deanonymized author block (Yesol Heo / Neo Genesis / email), Data Availability section + HF dataset link, pdflatex test 57p / 2.16MB
+    - WhyLab: 11 entries, `[preprint]` flag, deanonymized, pdflatex test 20p / 658KB
+    - 원본 NeurIPS submission 미수정 (frozen anchors `b4d5a90` / `88fa509` 보존)
+    - owner action checklist: arXiv 계정 + cs.MA/cs.LG endorsement + zip 빌드 + 업로드
+  * **Schema emit 디버그**: 3차례 fix 시도 (Fragment 외부 + id attribute + next/script Component) 모두 라이브 미반영. **HTML size 68238 동일** = Vercel CDN/alias stale 의심. 다음 세션 root cause 디버그 위임 (vercel alias 명령 / direct deployment URL 검증 / cache purge)
+  * **Agent F + G + J + K + N + O + P 7개 자율 에이전트 누적 산출** = 1 + 4 + 1 = 6 HF dataset (4 + 4 hero images), 2 deep-content (sbu/[slug] + research/[slug]), 1 README, 61 Wikidata statements, 2 arXiv submission packages
+
 - [x] **Agent J + K 병렬 — SBU pSEO dataset (4번째 HF) + 4 FLUX research hero images (P4 자율)** ✅ (2026-05-01) — owner 지시 "전부진행" — 4 병렬 launch (J/K/L/M), 2개 성공, 2개 rate limit (다음 세션)
   * **Agent J (4번째 HF dataset)**: `https://huggingface.co/datasets/neogenesislab/sbu-pseo-effects-2026-04`
     - 35 anonymized SBU snapshot rows (6 SBUs × 다중 timestamp, 4월 27-29일)
