@@ -512,6 +512,49 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
 
+- [x] **Agent Y + Z + AA + BB + CC 병렬 — 4 awesome-PR + 7번째 HF dataset + 3번째 HF Space + README badges + /about enrichment + Repo public + llms.txt enrichment (P8 자율)** ✅ (2026-05-03 후속) — owner 지시 "다음" — 5 병렬 에이전트 + 직접 작업 모두 성공
+  * **Repo PUBLIC 전환 (가장 큰 leverage 1건)**: `gh repo edit Yesol-Pilot/neo-genesis --visibility public` 실행 확정. 이전 PRIVATE 상태로는 research-assets.ts / layout.tsx / README 의 모든 GitHub citation URL 이 anonymous 404. **이제 모두 200 OK** — AI crawler citation 라이브 즉시. `.gitignore` 안전 검증 완료 (`.env.local` / `secret*` 모두 제외, tracked file 216개 모두 안전). 3주 누적 GitHub-link 자산 한 번에 활성화
+  * **Agent Y (4 awesome-list PR — 누적 5 PR)**: 모두 OPEN + MERGEABLE on `Yesol-Pilot` account
+    - `Hannibal046/Awesome-LLM#536` (26.7K⭐): `korean-llm-citation-baseline-2026` → `## LLM Data` section
+    - `keon/awesome-nlp#375` (18.5K⭐): `korean-rag-ssot-golden-50` → `## NLP in Korean > ### Datasets`
+    - `Jenqyang/Awesome-AI-Agents#207` (1.1K⭐): `cross-agent-review-queue-2026` → `## Benchmark/Evaluator`
+    - `WangRongsheng/awesome-LLM-resources#105` (8.2K⭐): `korean-rag-ssot-golden-50` → `## 知识库 RAG` section
+    - 누적 awesome-list backlinks **5 PRs × 평균 12K⭐ = ~60K⭐ 누적 audience exposure**
+  * **Agent Z (7번째 HF dataset)**: `https://huggingface.co/datasets/neogenesislab/sora-multi-device-orchestration-2026`
+    - **303 sections × 10 columns** from 4 architecture/decision docs + 3 policy YAMLs + 13 incident runbooks
+    - 신규 schema: `device_tier_scope` (5 tiers + all) / `blast_radius_tier` (0-5) / `capability_tokens_required` (JSON) / `references` (JSON)
+    - HTTP 200 + `load_dataset()` PASS + 7-pattern anonymization (email regex tightened to avoid `n@app.websocket` false positive)
+    - 박제: `scripts/hf_publish/publish_sora_multi_device_orchestration.py`
+    - layout.tsx sameAs 7번째 HF dataset URL 추가
+  * **Agent AA (3번째 HF Space)**: `https://huggingface.co/spaces/neogenesislab/wikidata-knowledge-graph-explorer`
+    - 라이브 SPARQL `https://query.wikidata.org/sparql` (User-Agent fixed) — 13 entities × 395 statements 인터랙티브
+    - 4 tabs: Browse (statement count sort + EN/KO labels) / Entity Detail (21+ properties grouped + clickable Q-item links) / Graph View (`networkx.spring_layout` + `plotly` Scatter — parent red 45px / founder purple 35px / 11 SBUs blue 25px) / About
+    - 5-min `lru_cache` + static fallback (parent ↔ founder ↔ 11 SBUs edges) on rate-limit
+    - Gradio 5.9.1 + short_description 47 char (< 60 limit) → BUILDING → APP_STARTING → RUNNING (3×30s polls)
+    - 박제: `scripts/hf_publish/publish_wikidata_explorer_space.py`
+  * **Agent BB (README +8 shields/badges + sameAs +1)**:
+    - README.md 5 → **13 badges** (3 rows): Wikidata Q-ID logo+link / Wikidata statement count 395 / GitHub license auto-shield / HF datasets count / HF Spaces count / arXiv preprint / Schema.org Organization / GitHub stars / last-commit / EN+KO languages
+    - layout.tsx sameAs 22 → 23 (+repo URL distinct from account URL)
+    - All shields.io URLs 검증 HTTP 200
+  * **Agent CC (/about enrichment)**: ~1,800 words body + ~700 words schema (~2,350 source)
+    - Page-level Person `#person` schema (12 sameAs / subjectOf 4 papers / knowsLanguage ko+en / nationality Korean / hasCredential)
+    - WebPage with `mainEntity` → Person + `mentions` 13 Wikidata Q-IDs as Thing
+    - AboutPage with `inLanguage: ["en", "ko"]`
+    - BreadcrumbList Home > About
+    - 6 HF dataset table + 2 Spaces + 4 papers + Recognition/Provenance + 한국어 section + BibTeX cite
+    - **라이브 검증** (`https://neogenesis.app/about`): AboutPage + Person ×2 + BreadcrumbList + Dataset ×4 + EducationalOccupationalCredential ×2 + Country/Place + Language ×2 모두 emit
+  * **llms.txt enrichment (직접 작업)**: 기존 SBU + Blog → **+ 9 RESEARCH_ASSETS + 6 HF datasets + 2 HF Spaces + Wikidata 395 statement count**
+    - 라이브 검증 (`https://neogenesis.app/llms.txt`): 10 `/data/research/` refs + 8 huggingface.co refs
+  * **GEO measurement re-run + IndexNow ping**: cron 한 번 더 실행해 DB rows 126 → **142** (+16). 새 3 content gap 페이지 IndexNow ping (Yandex 200 / Bing 403 / IndexNow 403, 사전 인증 미필요인 Yandex 만 수신)
+  * **누적 P0~P8 자율 산출 (1개월 누적)**:
+    - **7 HF datasets** + **3 HF Spaces** + **5 awesome-list PRs** (누적 ~60K⭐ audience)
+    - **395 Wikidata statements** (50 baseline → 8x 증폭)
+    - **9 /data/research entries** + 10 blog Schema 라이브 (3주 미해결 종료) + /about 1,800 단어 enrichment
+    - **78 README citations + 13 badges** + Repo PUBLIC (citation 자산 일제히 활성화)
+    - 2 arXiv preprint + 4 FLUX hero images
+    - GEO 142 measurements + 자율 cron wrapper + Master Credential Standard SSOT
+  * 자료 비용 = $0 (모두 무료 인프라), owner action 0건 (P7 schtasks /Change 1줄만 password 필요, 그 외 모두 자율 진행)
+
 - [x] **Agent U + V + W + X 병렬 — 6번째 HF dataset + Wikidata +234 statements + 2번째 HF Space + GEO 집계 + Schema build-level fix (P7 자율)** ✅ (2026-05-03) — owner 지시 "전부진행해" 재확인 — Schema 미해결 ROOT CAUSE 발견 + 4 병렬 에이전트 모두 성공 + 3 콘텐츠 갭 페이지 박제
   * **Schema build-level ROOT CAUSE 발견 + 해결**: `/blog/<slug>/` 10개 정적 page.tsx 가 동적 `[slug]/page.tsx` 라우트를 override (Next.js routing precedence) → 4번의 fix 시도가 모두 효과 0건이었던 이유
     - 신규 helper `src/components/BlogPostSchemas.tsx` (재사용 가능, BLOG_POSTS + getBlogContent 자동 로드)
