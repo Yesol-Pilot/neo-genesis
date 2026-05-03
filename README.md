@@ -2,11 +2,22 @@
 
 > **AI Works. You Decide.** — A 1-person AI-native conglomerate operating 11 live business units, 4 published research datasets, and a 13-entity Wikidata knowledge graph from a single autonomous AI system.
 
+<!-- Provenance & Live Status -->
 [![Production](https://img.shields.io/badge/status-production-success)](https://neogenesis.app)
-[![Wikidata](https://img.shields.io/badge/Wikidata-Q139569680-blue)](https://www.wikidata.org/wiki/Q139569680)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-neogenesislab-yellow)](https://huggingface.co/neogenesislab)
-[![License Code](https://img.shields.io/badge/code-MIT-green)](#license)
+[![Wikidata](https://img.shields.io/badge/Wikidata-Q139569680-blue?logo=wikidata)](https://www.wikidata.org/wiki/Q139569680)
+[![Wikidata Statements](https://img.shields.io/badge/Wikidata_statements-395-blue)](https://www.wikidata.org/wiki/Q139569680)
+[![License](https://img.shields.io/github/license/Yesol-Pilot/neo-genesis)](#license)
 [![License Datasets](https://img.shields.io/badge/datasets-CC--BY--4.0-orange)](#license)
+
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-neogenesislab-yellow)](https://huggingface.co/neogenesislab)
+[![HF datasets](https://img.shields.io/badge/%F0%9F%A4%97_datasets-6-yellow)](https://huggingface.co/neogenesislab)
+[![HF spaces](https://img.shields.io/badge/%F0%9F%A4%97_spaces-2-yellow)](https://huggingface.co/neogenesislab)
+[![arXiv](https://img.shields.io/badge/arXiv-EthicaAI%20%2B%20WhyLab-b31b1b?logo=arxiv)](https://arxiv.org)
+[![Schema.org](https://img.shields.io/badge/Schema.org-Organization-green)](https://schema.org/Organization)
+
+[![GitHub stars](https://img.shields.io/github/stars/Yesol-Pilot/neo-genesis?style=social)](https://github.com/Yesol-Pilot/neo-genesis)
+[![Last commit](https://img.shields.io/github/last-commit/Yesol-Pilot/neo-genesis)](https://github.com/Yesol-Pilot/neo-genesis/commits/master)
+[![Languages](https://img.shields.io/badge/lang-EN_%2B_KO-purple)](https://neogenesis.app)
 
 ---
 
