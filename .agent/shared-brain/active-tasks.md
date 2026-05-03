@@ -125,17 +125,33 @@ owner 명령: "개선하고 텔레그램 대화내용 분석해바" + "all" → 
 - **A3 Extreme Funding Reversal alpha**: ✅ standby (4 필드 라이브 데이터 정상 흐름 중)
 - 페이퍼 14일 검증 시작 가능 → 1+ 알파 Sharpe ≥ 1.2 + DSR ≥ 0.5 충족 시 **1000만원 입금 권고 트리거**
 
-### 누적 commit (2026-04-28 ~ 04-29 KST)
+### 누적 commit (2026-04-28 ~ 05-03 KST)
 - `34901fb` fix: telegraf IPv4 agent (notifier.js getMe ENETUNREACH) ✅ pushed
 - `2e9e35a` feat(v11 A3): Extreme Funding Reversal alpha + orchestrator wiring ✅ pushed
 - `44aea29` feat(v11 A3): funding-fetcher data source + marketData wiring (Phase 1 입성) ✅ pushed
 - `2bf2744` test(v11 A3): funding-fetcher mock test scaffold (skipped, TODO nock) ✅ pushed
-- **`f8133df`** **feat(v11 A2): Mean Reversion OU alpha + ou-estimator + orchestrator wiring** (4 files, 566+) ⚠️ **local only, push 보류**
+- **`f8133df`** **feat(v11 A2): Mean Reversion OU alpha + ou-estimator + 22 tests + orchestrator wiring** (4 files, 566+) ⚠️ **local only, push 보류**
+- **`d3f61c9`** **feat(v11 A2): A2 marketData wiring (a2-indicators + v6-live-runner)** (2 files, 133+/2-) ⚠️ **local only, push 보류**
 
-### owner action 필요 — push 보류 (2026-04-29)
-- `f8133df` 가 local 에만 있음. `D:/00.test/neo-genesis/.env` 의 GITHUB_PAT 은 neogenesislab 계정이라 `Yesol-Pilot/quant-bot` push 권한 없음
+### 🎯 A2 OU marketData wiring 완료 (2026-04-29)
+- 신규 `src/core/a2-indicators.js` — `computeA2Indicators({ohlcv5m, ohlcv1h})` 헬퍼
+- `v6-live-runner.js fetchMarketData()` 보강:
+  - ohlcv1m (200 bars) + ohlcv5m (60 bars) WS/REST fetch
+  - ohlcv1h limit 100 → 200 (EMA200 정확 계산)
+  - 5 필드 주입: `ohlcv1m + adx14_5m + bbw20_5m + ema50_1h + ema200_1h`
+- 라이브 검증 (BTC 04-29): adx=25.00 / bbw=0.55% / ema50=76882 / ema200=77397 → A2 정상 WAIT
+- VM 라이브: PID 460185, 3 알파 모두 실 데이터 흐름 ✅
+
+### Phase 1 페이퍼 검증 진행 (D-4/14, 2026-04-29 입성 → 2026-05-13 첫 평가)
+- 누적 거래: 0 (시장 조건 미달, 정상)
+- VM 안정: 4D uptime, 0 unstable restarts, killswitch_48h=0
+- 시장: BEAR 박스권 + ADX 소멸 지속 → 4 알파 진입 조건 미달
+- 봇 무결성 100% — 페이퍼 검증의 본질대로 시장 변동성 도달 자동 트리거 대기
+
+### owner action 대기 (변동 없음)
+- `f8133df` + `d3f61c9` 가 local 에만 있음. `.env` GITHUB_PAT 이 neogenesislab 계정 (Yesol-Pilot/quant-bot 권한 없음)
 - **해결**: Windows credential manager 에 Yesol-Pilot PAT 갱신 또는 owner manual `git push origin master`
-- VM 배포 + 라이브 검증은 이미 완료 (PID 459171, 3 알파 enabled). push 만 외부 sync.
+- VM 배포 + 라이브 검증 모두 완료. push 만 외부 sync (GitHub master 만 보류).
 
 👤 Strategy Lead Claude Opus 4.7 (자율 진행 완료, owner 결정 사항만 대기)
 
@@ -627,10 +643,19 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * landing commit `5ece183` + Vercel production deploy (29s, `https://neogenesis.app` aliased) + 라이브 검증 (og.png 200 / og:image meta 1200x630 / Korean RAG SSOT noun + huggingface.co/neogenesislab + dataset URL 모두 HTML 노출)
   * 자동화 스크립트 박제: `scripts/hf_publish/publish_rag_golden_50.py` + `scripts/hf_publish/generate_og_image.py` (다음 dataset publish 시 재사용)
 
-**owner 직접 액션 필요 (G2)**:
-- [ ] **Cloudflare AI Crawl Control 활성화** — neogenesis.app Zone (`85380cbe940510fc1cf2620b1f24c707`), "AI Search 허용 + AI Training 허용" (owner 의도 = "어떤 방법으로든" → 모두 허용 default). 5분 작업. ⚠️ 보유한 CF API token (`scripts/setup_*_dns.py` 하드코딩) 모두 invalid 확인 (2026-04-28 verify endpoint = `Invalid API Token`). Cloudflare Dashboard 직접 진입 또는 새 API token 발급 후 위임 가능
-- [ ] **Bing Webmaster Tools + Google Search Console 사이트 소유권 등록** — AI Performance Dashboard (2026-2 출시) 활용. owner Microsoft/Google 계정 인증 필요. GSC 는 layout.tsx 의 `verification.google` 토큰 (`ToqjqeHF...`) 만으로 인증 가능, Bing 은 별도 추가
-- [ ] **BotPassword + QuickStatements token revoke** — owner 결정: PASS (보안 권고만, 강제 아님)
+**owner 결정 박제 (2026-05-03): 유료 옵션 전부 PASS**:
+- [x] **Anthropic Console 결제** — owner PASS (돈 드는 거 안 함)
+- [x] **Perplexity Pro 가입 ($20/월)** — owner PASS (돈 드는 거 안 함)
+- [x] **Wikipedia 영문 컨설턴트 ($2,500-5,000)** — owner PASS (돈 드는 거 안 함)
+- [x] **Korea Newswire 보도자료 ($300-500)** — owner PASS (돈 드는 거 안 함)
+- [x] **유료 측정 SaaS (Profound $399/월 등)** — owner PASS (돈 드는 거 안 함)
+- [x] **DIY 측정 cron 갱신** ✅ (2026-05-03) — providers 를 `openai,gemini` 2개로 한정 (anthropic credit 부족 fail 방지). cron 명령 절대경로 python.exe 로 변경 (이전 `-2147024894` ERROR_FILE_NOT_FOUND fail 해소). Next run 2026-05-04 09:00 KST 부터 정상 실행 예정
+
+**owner 직접 액션 필요 (무료, G2)**:
+- [ ] **Cloudflare AI Crawl Control 활성화** — neogenesis.app Zone (`85380cbe940510fc1cf2620b1f24c707`), "AI Search 허용 + AI Training 허용" 무료. 보유한 CF API token 모두 invalid → Cloudflare Dashboard 직접 진입 5분
+- [ ] **Bing Webmaster Tools + Google Search Console 사이트 소유권 등록** — AI Performance Dashboard 무료. owner Microsoft/Google 계정 인증 필요 (GSC 는 verification.google 토큰 박제 완료, Console 사이트 추가만 필요)
+- [ ] **git push origin master** — Yesol-Pilot 계정 PAT 재인증 후 자동 push (3-4건 누적). credential cache 만료
+- [ ] **BotPassword + QuickStatements + HF_TOKEN revoke** — owner 결정: PASS (보안 권고만, 강제 아님)
 
 **Phase 0 Stop/Go 게이트**: 30일 baseline 확보 + 4 플랫폼 인용 1건 이상
 

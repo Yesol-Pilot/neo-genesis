@@ -94,3 +94,4 @@ data/sbu-growth/growth-loop-*.md
 !data/sbu-growth/growth-loop-latest.json
 !data/sbu-growth/growth-loop-latest.md
 scripts/geo_measure/citations*.sqlite3
+.env.fleet-sync-merged.tmp

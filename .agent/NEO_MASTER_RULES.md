@@ -133,6 +133,19 @@
 - `.env`와 자격증명 파일은 git에 커밋하지 않는다.
 - 외부 공유 전 민감정보 노출 여부를 확인한다.
 
+### 1.6-A 마스터 크레덴셜 표준 접근 (모든 디바이스 / 모든 에이전트)
+
+- 모든 fleet 디바이스의 모든 에이전트(Claude / Codex / Sora / Gemini / Antigravity / Ollama / cron / hook)는 마스터 크레덴셜에 표준화된 lookup 방식으로 접근한다.
+- 단일 마스터 SSOT: `desktop-sol01: D:/00.test/neo-genesis/.env.local + .env` (둘의 합집합, `.env.local` 우선).
+- 디바이스 로컬 캐시: `~/.neo-genesis/credentials.env` (mode 600, sync 시 자동 생성).
+- Python 에이전트: `from infra.agent_runtime.credential_loader import load_credentials; load_credentials()`.
+- Bash / cron / hook: `source infra/agent-runtime/credential_loader.sh`.
+- Override 정책: 부모 shell의 set + non-empty 변수는 유지 (cron/CI 안전), 빈 변수는 override 허용.
+- 모바일 디바이스는 마스터 크레덴셜 sync 대상에서 제외 (승인-only 역할).
+- 마스터 키 변경 시 `python scripts/sync_credentials_to_fleet.py` 실행으로 fleet 일괄 동기화.
+- 토큰 출력 시 redaction 의무: `len + first 8 chars`만 노출 (raw 값 chat / log / git commit / 공개 dashboard 출력 금지).
+- 자세한 규칙: `.agent/knowledge/MASTER_CREDENTIAL_ACCESS_STANDARD.md`.
+
 ### 1.7 보고 형식 원칙
 
 - 사용자 응답은 한국어, 결론 우선, 근거 후속 설명 구조를 기본으로 한다.

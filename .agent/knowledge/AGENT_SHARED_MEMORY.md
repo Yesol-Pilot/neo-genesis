@@ -159,6 +159,26 @@ SSOT: D:/00.test/neo-genesis/.agent/
 
 ---
 
+### Master Credential Access Standard (2026-05-03)
+
+owner 지시: "마스터크레덴셜은 모든 디바이스에서 모든 에이전트들이 기본적으로 접근하고 활용해야 해"
+
+- 표준 SSOT: `.agent/knowledge/MASTER_CREDENTIAL_ACCESS_STANDARD.md`
+- 마스터 단일 소스: `desktop-sol01: D:/00.test/neo-genesis/.env.local + .env` (둘의 합집합, .env.local 우선)
+- 디바이스 로컬 캐시: `~/.neo-genesis/credentials.env` (mode 600, sync 시 자동 생성)
+- 모든 에이전트 표준 lookup:
+  - **Python**: `from infra.agent_runtime.credential_loader import load_credentials; load_credentials()`
+  - **Bash / cron / hook**: `source infra/agent-runtime/credential_loader.sh`
+  - **Verbose 진단**: `python infra/agent-runtime/credential_loader.py` 또는 `NEO_CRED_VERBOSE=1 source infra/agent-runtime/credential_loader.sh`
+- Fleet 동기화: `python scripts/sync_credentials_to_fleet.py [--target <device>] [--dry-run]`
+- Override 정책: 부모 shell 의 set + non-empty 변수는 유지 (cron/CI 안전), 빈 변수는 override
+- 보안 guardrails: chat / log / git commit / 공개 dashboard 출력 금지 / 토큰 redaction (len + first 8 chars only) / audit log 의무
+- 첫 fleet 동기화 (2026-05-03):
+  - `ysh-server`: 43 keys synced + chmod 600 ✅
+  - `desktop-yesol`, `mx-macbuild-mac-studio`: offline → 다음 online 시 자동 재시도
+
+---
+
 ## 5. 에이전트 간 역할 분담
 
 > 2026-04-24 갱신: 오너 주력 에이전트가 Codex → **Claude Code**로 전환. Codex는 fallback(토큰 소진/장기 background/shell economical) 경로로 유지.
