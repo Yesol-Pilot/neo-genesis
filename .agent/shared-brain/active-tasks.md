@@ -512,6 +512,33 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
 
+- [x] **Agent Q + R + S + T 병렬 — Cross-Agent Review HF + Wikidata monolingualtext + RAG Explorer Space + Awesome-RAG PR (P6 자율)** ✅ (2026-04-29) — owner 지시 "내갸해야하는거말고 너가 할수 있는거로 전부진행해 수단고 방법가리지말고" — 4 병렬 에이전트 모두 성공 + Schema layout 우회 시도 (build-level issue 확정)
+  * **Agent Q (5번째 HF dataset)**: `https://huggingface.co/datasets/neogenesislab/cross-agent-review-queue-2026`
+    - 37 cross-agent review transcripts (Codex ↔ Claude `neo-reviewer` / `neo-architect` / `neo-implementer`)
+    - 6-tier anonymization (filename / path / Korean / English absolute paths / personal name / email)
+    - HTTP 200 + `datasets.load_dataset()` PASS + dataset card (한+영 bilingual) + Schema.org Dataset
+    - `scripts/hf_publish/publish_cross_agent_review_queue.py` 박제 (idempotent + assert_anonymized 7 pattern + variableMeasured 5)
+  * **Agent R (Wikidata monolingualtext +50)**: 13 entities × P1813 short name + P1448 official name × en/ko = 50 statements
+    - 111 → **161 total Wikidata statements** (+45%). 누적 +122% from baseline 50
+    - `scripts/wikidata_register/add_monolingualtext_statements.py` (correct datatype `{"text": "...", "language": "..."}` format)
+    - audit log `monolingualtext_added_2026-04-29.jsonl` 50 records, 0 failures
+    - P1813 fail 사례 (P5 Agent O) 정정: monolingualtext datatype 분리 처리로 100% 성공
+  * **Agent S (HuggingFace Space 1번째)**: `https://huggingface.co/spaces/neogenesislab/korean-rag-ssot-golden-50-explorer`
+    - Gradio 5.9.1 (Python 3.13 native compatible — audioop / HfFolder / jinja2 모두 회피)
+    - 4-tab Browse / Detail / BM25 search / About — RAG Golden 50 dataset 인터랙티브 탐색
+    - Build chain 5 sequential failure 해결 (audioop missing → HfFolder removed → launch share=True → jinja2 unhashable → final Gradio 5.9.1)
+    - RUNNING status verified, 첫 사용자 인터랙션 가능
+  * **Agent T (Awesome-RAG PR)**: `Yesol-Pilot/Awesome-RAG#62` OPEN, mergeable
+    - Branch `add-korean-rag-ssot-golden-50` (Yesol-Pilot fork)
+    - Korean RAG SSOT Golden 50 dataset 항목 추가 (HF dataset URL + license + paper anchor)
+    - upstream maintainer review 대기
+  * **Schema layout.tsx bypass 시도 (실패)**: `src/landing/src/app/blog/[slug]/layout.tsx` 신규 생성 + Article/Breadcrumb/FAQ schema layout-level emit 시도
+    - 4번째 fix 시도 (P5 의 3 + P6 의 1) 모두 미반영. local `rm -rf .next && npm run build` 결과 동일 = HTML 68238 byte, 6 ld+json schemas, BlogPosting 부재
+    - **결론**: Vercel CDN 아닌 **build-level 이슈** 확정 (`/sbu/[slug]` 와 `/data/research/[slug]` 의 page-level Schema 는 정상 emit, `/blog/[slug]` 만 영향 받음)
+    - 다음 세션 deep debug 위임 (Next.js 16 App Router build minifier inline `<script>` strip 의심)
+  * **누적 산출 (P0~P6 자율 에이전트)**: 5 HF dataset (94+ downloads) + 1 HF Space (RUNNING) + 1 awesome-list PR + 161 Wikidata statements + 78 README citations + 2 arXiv preprint package + 4 FLUX hero images + sbu/[slug] + research/[slug] deep content
+  * 자료 비용 = $0 (모두 무료 인프라), owner action 0 건 — 진짜로 "수단고 방법가리지말고" 진행
+
 - [x] **Agent N + O + P 병렬 — README + Wikidata statements + arXiv preprint 박제 (P5 자율)** ✅ (2026-05-03) — owner 지시 "전부진행" — Schema 디버그 직접 + 3 병렬 에이전트
   * **Agent N (GitHub README 보강)**: 62 → 290 lines (4.7배), 영어 2,455w + 한국어 ~500w, 78 외부 권위 인용, 13 Wikidata Q-IDs cross-link, 4 HF datasets cross-link, 7 tables (By the Numbers / 11 SBUs / 7 stages / Datasets / Tech Stack / Knowledge Graph / License), 14 sections
   * **Agent O (Wikidata statements +61)**: 13 entities × 평균 4-14 statements 추가 (50 → 111, +122%). `scripts/wikidata_register/add_statements.py` 박제 (idempotent + 8s throttle + dry-run + audit log). 1 fail (P1813 monolingualtext datatype mismatch). audit log `statements_added_2026-05-03.jsonl` 63 records
