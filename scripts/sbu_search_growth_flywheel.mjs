@@ -185,29 +185,71 @@ function readEnvFiles() {
   return env;
 }
 
-function resolveServiceAccount() {
-  const envFile = readEnvFiles();
-  const keys = [
-    'GOOGLE_APPLICATION_CREDENTIALS',
-    'GSC_SERVICE_ACCOUNT_JSON',
-    'GOOGLE_SERVICE_ACCOUNT_JSON',
-    'GA4_SERVICE_ACCOUNT_PATH',
-  ];
+const SERVICE_ACCOUNT_KEYS = [
+  'GSC_SERVICE_ACCOUNT_JSON',
+  'GOOGLE_SERVICE_ACCOUNT_JSON',
+  'GA4_SERVICE_ACCOUNT_PATH',
+  'GOOGLE_APPLICATION_CREDENTIALS',
+];
 
-  for (const key of keys) {
-    const value = process.env[key] || envFile[key];
-    if (!value) continue;
-    const trimmed = value.trim();
-    if (trimmed.startsWith('{')) return JSON.parse(trimmed);
-    const file = path.resolve(trimmed);
-    if (fs.existsSync(file)) return JSON.parse(fs.readFileSync(file, 'utf8'));
+function loadServiceAccount(rawValue) {
+  const trimmed = String(rawValue || '').trim();
+  if (!trimmed) return { ok: false, error: 'empty_value' };
+
+  try {
+    if (trimmed.startsWith('{')) return { ok: true, credentials: JSON.parse(trimmed), type: 'json' };
+
+    const candidates = [
+      path.isAbsolute(trimmed) ? trimmed : path.resolve(ROOT, trimmed),
+      path.resolve(trimmed),
+    ];
+    const file = [...new Set(candidates)].find((candidate) => fs.existsSync(candidate));
+    if (!file) return { ok: false, error: 'file_not_found' };
+    return { ok: true, credentials: JSON.parse(fs.readFileSync(file, 'utf8')), type: 'file' };
+  } catch {
+    return { ok: false, error: 'parse_failed' };
   }
-
-  return null;
 }
 
-async function getAccessToken(scopes) {
-  const credentials = resolveServiceAccount();
+function discoverServiceAccounts() {
+  const envFile = readEnvFiles();
+  const rawCandidates = [];
+
+  for (const key of SERVICE_ACCOUNT_KEYS) {
+    if (process.env[key]) rawCandidates.push({ key, origin: 'process.env', value: process.env[key] });
+    if (envFile[key]) rawCandidates.push({ key, origin: 'env-file', value: envFile[key] });
+  }
+
+  const seen = new Set();
+  const candidates = [];
+  for (const raw of rawCandidates) {
+    const label = `${raw.key}@${raw.origin}`;
+    const loaded = loadServiceAccount(raw.value);
+    if (!loaded.ok) {
+      candidates.push({ ok: false, label, key: raw.key, origin: raw.origin, error: loaded.error });
+      continue;
+    }
+
+    const credentials = loaded.credentials || {};
+    const fingerprint = safeHash(`${credentials.client_email || ''}:${credentials.private_key_id || ''}:${credentials.project_id || ''}`);
+    const dedupeKey = `${fingerprint}:${credentials.client_email ? 'email' : 'missing_email'}`;
+    if (seen.has(dedupeKey)) continue;
+    seen.add(dedupeKey);
+    candidates.push({
+      ok: true,
+      label,
+      key: raw.key,
+      origin: raw.origin,
+      type: loaded.type,
+      accountHash: fingerprint,
+      credentials,
+    });
+  }
+
+  return candidates;
+}
+
+async function getAccessTokenForCredentials(credentials, scopes) {
   if (!credentials?.client_email || !credentials?.private_key) {
     return { ok: false, error: 'service_account_missing' };
   }
@@ -239,6 +281,68 @@ async function getAccessToken(scopes) {
   const text = await response.text();
   if (!response.ok) return { ok: false, status: response.status, error: text.slice(0, 240) };
   return { ok: true, token: JSON.parse(text).access_token };
+}
+
+async function getSearchConsoleToken(scopes) {
+  const candidates = discoverServiceAccounts();
+  const attempts = [];
+  if (!candidates.length) return { ok: false, error: 'service_account_missing', attempts };
+
+  for (const candidate of candidates) {
+    const attempt = {
+      source: candidate.label,
+      accountHash: candidate.accountHash || null,
+      stage: 'load',
+      ok: false,
+      status: null,
+      siteCount: 0,
+    };
+
+    if (!candidate.ok) {
+      attempt.error = candidate.error;
+      attempts.push(attempt);
+      continue;
+    }
+
+    const tokenResult = await getAccessTokenForCredentials(candidate.credentials, scopes);
+    if (!tokenResult.ok) {
+      attempts.push({
+        ...attempt,
+        stage: 'oauth',
+        status: tokenResult.status || null,
+        error: 'oauth_failed',
+      });
+      continue;
+    }
+
+    const headers = { authorization: `Bearer ${tokenResult.token}`, 'content-type': 'application/json' };
+    const listResponse = await fetchJson('https://www.googleapis.com/webmasters/v3/sites', { headers }, 1);
+    const siteCount = Array.isArray(listResponse.json?.siteEntry) ? listResponse.json.siteEntry.length : 0;
+    const ok = listResponse.ok && Array.isArray(listResponse.json?.siteEntry);
+    attempts.push({
+      ...attempt,
+      stage: 'sites.list',
+      ok,
+      status: listResponse.status,
+      siteCount,
+      error: ok ? null : `sites_list_${listResponse.status || 'failed'}`,
+    });
+
+    if (ok) {
+      return {
+        ok: true,
+        token: tokenResult.token,
+        listResponse,
+        credential: {
+          source: candidate.label,
+          accountHash: candidate.accountHash,
+        },
+        attempts,
+      };
+    }
+  }
+
+  return { ok: false, error: 'search_console_credential_failed', attempts };
 }
 
 async function fetchJson(url, options = {}, retries = 3) {
@@ -342,12 +446,12 @@ function classifyOpportunity(row, args) {
   return { action, score };
 }
 
-async function collectGsc(token, siteIds, args) {
+async function collectGsc(token, siteIds, args, listResponse = null, credential = null, credentialAttempts = []) {
   const { startDate, endDate } = dateRange(args.days);
   const headers = { authorization: `Bearer ${token}`, 'content-type': 'application/json' };
-  const listResponse = await fetchJson('https://www.googleapis.com/webmasters/v3/sites', { headers });
+  const verifiedListResponse = listResponse || await fetchJson('https://www.googleapis.com/webmasters/v3/sites', { headers });
   const listed = new Map(
-    (listResponse.json?.siteEntry || []).map((entry) => [entry.siteUrl, entry.permissionLevel]),
+    (verifiedListResponse.json?.siteEntry || []).map((entry) => [entry.siteUrl, entry.permissionLevel]),
   );
   const siteReports = [];
 
@@ -420,6 +524,8 @@ async function collectGsc(token, siteIds, args) {
   return {
     startDate,
     endDate,
+    credential,
+    credentialAttempts,
     sites: siteReports,
     propertyListedOk: siteReports.filter((site) => site.propertyListed).length,
     sitemapKnownOk: siteReports.filter((site) => site.sitemapKnown).length,
@@ -746,6 +852,7 @@ function markdown(report) {
     `- generatedAt: ${report.generatedAt}`,
     `- passed: ${report.passed}`,
     `- gscRange: ${report.gsc.startDate}..${report.gsc.endDate}`,
+    `- gscCredentialSource: ${report.gsc.credential?.source || 'unknown'}`,
     `- gscPropertiesListed: ${report.gsc.propertyListedOk}/${report.gsc.sites.length}`,
     `- gscSitemapsKnown: ${report.gsc.sitemapKnownOk}/${report.gsc.sites.length}`,
     `- gscOpportunities: ${report.gsc.opportunityCount}`,
@@ -762,6 +869,15 @@ function markdown(report) {
     lines.push(
       `| ${site.site} | ${site.permission || 'none'} | ${site.sitemapKnown} | ${site.searchAnalytics.rowCount} | ${site.opportunities.length} | ${site.searchAnalytics.noDataYet} |`,
     );
+  }
+
+  if (report.gsc.credentialAttempts?.length) {
+    lines.push('', '## GSC Credential Attempts', '', '| Source | Stage | Status | OK | Site Count |', '|---|---:|---:|---:|---:|');
+    for (const attempt of report.gsc.credentialAttempts) {
+      lines.push(
+        `| ${attempt.source} | ${attempt.stage} | ${attempt.status || '-'} | ${attempt.ok} | ${attempt.siteCount || 0} |`,
+      );
+    }
   }
 
   lines.push('', '## Pipeline Gate', '', '| Site | Status | Latest | Live Blog | Detail | Sitemap | Cron | Issues |', '|---|---:|---|---:|---:|---:|---:|---|');
@@ -803,10 +919,22 @@ async function main() {
   const unknown = siteIds.filter((site) => !SITES[site]);
   if (unknown.length) throw new Error(`Unknown sites: ${unknown.join(', ')}`);
 
-  const tokenResult = await getAccessToken(['https://www.googleapis.com/auth/webmasters']);
-  if (!tokenResult.ok) throw new Error(`Search Console credential unavailable: ${tokenResult.error || tokenResult.status}`);
+  const tokenResult = await getSearchConsoleToken(['https://www.googleapis.com/auth/webmasters']);
+  if (!tokenResult.ok) {
+    const attemptSummary = (tokenResult.attempts || [])
+      .map((attempt) => `${attempt.source}:${attempt.stage}:${attempt.status || attempt.error || 'failed'}`)
+      .join(', ');
+    throw new Error(`Search Console credential unavailable: ${tokenResult.error}${attemptSummary ? ` (${attemptSummary})` : ''}`);
+  }
 
-  const gsc = await collectGsc(tokenResult.token, siteIds, args);
+  const gsc = await collectGsc(
+    tokenResult.token,
+    siteIds,
+    args,
+    tokenResult.listResponse,
+    tokenResult.credential,
+    tokenResult.attempts,
+  );
   const contentApply = args.applyContent ? applyContentUpdates(gsc, args) : {
     enabled: false,
     changedFileCount: 0,

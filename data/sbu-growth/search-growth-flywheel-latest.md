@@ -1,11 +1,12 @@
 # SBU Search Growth Flywheel
 
-- generatedAt: 2026-05-04T13:57:26+09:00
+- generatedAt: 2026-05-04T16:31:58+09:00
 - passed: true
 - gscRange: 2026-04-04..2026-05-02
-- gscPropertiesListed: 13/13
-- gscSitemapsKnown: 13/13
-- gscOpportunities: 112
+- gscCredentialSource: GA4_SERVICE_ACCOUNT_PATH@env-file
+- gscPropertiesListed: 6/6
+- gscSitemapsKnown: 6/6
+- gscOpportunities: 101
 - contentApplyEnabled: false
 - contentChangedFiles: 0
 
@@ -19,13 +20,12 @@
 | deploystack | siteOwner | true | 81 | 23 | false |
 | finstack | siteOwner | true | 2 | 0 | false |
 | sellkit | siteOwner | true | 31 | 19 | false |
-| reviewlab | siteOwner | true | 24 | 7 | false |
-| ur-wrong | siteOwner | true | 2 | 2 | false |
-| kott | siteOwner | true | 0 | 0 | true |
-| ethicaai | siteOwner | true | 0 | 0 | true |
-| whylab | siteOwner | true | 3 | 1 | false |
-| portfolio | siteOwner | true | 1 | 0 | false |
-| neogenesis | siteOwner | true | 1 | 1 | false |
+
+## GSC Credential Attempts
+
+| Source | Stage | Status | OK | Site Count |
+|---|---:|---:|---:|---:|
+| GA4_SERVICE_ACCOUNT_PATH@env-file | sites.list | 200 | true | 13 |
 
 ## Pipeline Gate
 
@@ -43,8 +43,8 @@
 | Site | Status | Missing Required | Missing Recommended |
 |---|---:|---|---|
 | toolpick | green | - | topic_hub_click, signup_intent |
-| aiforge | green | - | $pageview, return_visit, outbound_official_click, topic_hub_click, signup_intent |
-| craftdesk | green | - | $pageview, return_visit, outbound_official_click, topic_hub_click, signup_intent |
-| deploystack | green | - | $pageview, return_visit, outbound_official_click, topic_hub_click, signup_intent |
-| finstack | green | - | $pageview, return_visit, outbound_official_click, topic_hub_click, signup_intent |
-| sellkit | green | - | $pageview, return_visit, outbound_official_click, topic_hub_click, signup_intent |
+| aiforge | green | - | - |
+| craftdesk | green | - | - |
+| deploystack | green | - | - |
+| finstack | green | - | - |
+| sellkit | green | - | - |
