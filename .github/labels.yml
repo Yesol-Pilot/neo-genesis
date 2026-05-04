@@ -1,0 +1,113 @@
+# Label registry for Yesol-Pilot/neo-genesis
+# Referenced by CONTRIBUTING.md.
+# Sync command (manual until automated): use https://github.com/marketplace/actions/github-label-sync
+# or maintain via the GitHub web UI (Settings -> Labels). This file is the SSOT.
+
+# Format: each label has a name, color (hex without #), and description.
+# Colors are coordinated across the registry so triage scanning is consistent.
+
+# Triage status (orange family)
+- name: triage
+  color: ff8a00
+  description: Awaiting initial review by the project operator
+
+- name: needs-info
+  color: ffb84d
+  description: Reporter has been asked for more information
+
+- name: blocked
+  color: 7f1d1d
+  description: Cannot move forward; waiting on an external dependency
+
+# Type (blue family)
+- name: bug
+  color: d73a4a
+  description: Something does not work as documented
+
+- name: enhancement
+  color: a2eeef
+  description: New feature or improvement request
+
+- name: documentation
+  color: 0075ca
+  description: Improvements or additions to documentation
+
+- name: refactor
+  color: 5319e7
+  description: Internal refactor; no functional change
+
+- name: chore
+  color: cfd3d7
+  description: Maintenance task; build configuration, dependencies, tooling
+
+# Area (green family)
+- name: area:datasets
+  color: 22863a
+  description: Hugging Face datasets, dataset cards, or dataset publishing scripts
+
+- name: area:schema
+  color: 0e8a16
+  description: Schema.org JSON-LD emission, llms.txt, sitemap, structured data
+
+- name: area:landing
+  color: 2cbe4e
+  description: Public neogenesis.app landing site (src/landing)
+
+- name: area:agents
+  color: 1f883d
+  description: Agent runtime, hooks, control plane, MCP policy
+
+- name: area:rag
+  color: 196c2e
+  description: RAG v2 infrastructure, embedding service, gateway, governance
+
+- name: area:quant
+  color: 13522e
+  description: auto-trading PAPER mode, alphas, kill switch, risk policy
+
+- name: area:sora
+  color: 0d3818
+  description: Sora orchestrator, dashboard, telegram, voice surfaces
+
+# Priority (red family)
+- name: priority:p0
+  color: b60205
+  description: Blocks live production or owner workflows; resolve immediately
+
+- name: priority:p1
+  color: d93f0b
+  description: Important; resolve within current sprint
+
+- name: priority:p2
+  color: e99695
+  description: Standard priority; resolve within current quarter
+
+- name: priority:p3
+  color: f9d0c4
+  description: Nice to have; revisit after higher-priority work
+
+# Resolution / lifecycle (purple/gray family)
+- name: duplicate
+  color: cfd3d7
+  description: Duplicate of another issue or PR; will be closed
+
+- name: wontfix
+  color: 808080
+  description: Investigated and intentionally not fixed (operator decision)
+
+- name: invalid
+  color: e4e669
+  description: Out of scope, unreproducible, or incorrect premise
+
+- name: good-first-issue
+  color: 7057ff
+  description: Approachable for new contributors
+
+# Citation and dataset use
+- name: dataset-use
+  color: 5319e7
+  description: Report of how a Neo Genesis dataset was used externally
+
+- name: citation
+  color: 8a63d2
+  description: Citation accuracy, attribution policy, license compliance
