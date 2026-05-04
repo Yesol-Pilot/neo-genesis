@@ -1,7 +1,72 @@
 # Active Tasks — 에이전트 공유 작업 목록
 
 > **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.
-> **최종 갱신:** 2026-04-29 by Claude Opus 4.7 (Sora 5 Fix bundle — 보안/quality/observability)
+> **최종 갱신:** 2026-05-04 by Claude Opus 4.7 (Sora 텔레그램 polling 충돌 영구 해결 + 답변 품질 fix)
+
+---
+
+## 🟣 Sora Telegram 안정화 + 답변 품질 fix (2026-05-04, Claude Opus 4.7) ✅
+
+owner 명령: "텔레그램 채팅내역확인해봐 너무불안정한데" + "전부 해결해" + "제언하고 진행해"
+
+### 핵심 진단 (owner 가 답답해한 진짜 원인 4가지)
+1. **ghost 4 process** = 이 PC (desktop-sol01) Startup 폴더 자동 실행으로 4/29 부팅 후 sora 풀스택 (dashboard + brain + daemon + polling) 가 elevated 권한으로 도는 중. owner 텔레그램 입력을 sora-live 가 아닌 ghost 가 가져갔고 응답 도달 못 함 → owner 가 4/30 ~ 5/1 같은 메시지 3번 재전송
+2. **sora-live polling 비활성** = 4/26 daemon 코드가 "Gateway webhook 통합" 가정으로 polling 끔 + webhook URL 등록도 안 됨 → sora-live 직통 메시지 0건
+3. **cron health probe 매시간 발사** = `sora-watchdog.sh` 매시간 정각 → `daily-sora-health-probe.js` 가 owner 인 척 3 prompt 발사 (`너는 어떤 LLM`/`안녕! 한 줄`/`2+2`). audit log 1100 row 중 **733건 (66%)** 이 cron probe. owner 의 진짜 메시지가 history 20 turn 밖으로 밀려 cross-turn memory 실패
+4. **거짓 거부 21%** = `_owner_intent_fastpath` 에서 "내 강점/약점/목적" 같은 분석형 질문에 LLM 이 OWNER_PROFILE.md 무시한 채 일반 거부 응답
+
+### 산출 (12 파일 git commit `9543ad0`)
+| 파일 | 변경 |
+|---|---|
+| `neo_genesis_daemon.py` | polling 비활성 → NeoAssistant subprocess 부팅 (main thread 보장) + BIBLE/boot alert skip |
+| `src/core/sora_engine.py` | cron probe 3 prompt history filter + `_extract_owner_facts_from_memory` (이름/색/숫자 KV) + fastpath LLM 거부 검출 → fallback 강제 |
+| `src/core/neo_assistant_bot.py` | BOT_MATCHERS self-conflict fix + Conflict-on-retry 60s 루프 |
+| `src/core/security/output_filter.py` | telegram bot token redaction (5/3 stdout 노출 후속) |
+| `src/core/queue/redis_bus.py` | BRPOP TimeoutError swallow → brain_err.log noise 영구 제거 |
+| `src/core/healer/watchdog.py` | Linux managed_by_daemon graceful (powershell 미설치 false-positive 차단) |
+| `src/core/observability/otel_setup.py` | OTLP 가용 시 ConsoleSpanExporter 자동 비활성 |
+| `ops/local-llm/litellm_config.yaml` | local-main → Ollama qwen2.5-coder:14b redirect (llama-server 8080 미가동 우회) |
+| `ops/local-llm/scripts/start_litellm.ps1` | port 4400 + host 0.0.0.0 |
+| `tests/sora_adversarial/suite_v1.json` | A025b/A025c 텔레그램 token redaction 회귀 case |
+| `scripts/run_sora_adversarial.py` | compute_injection_risk tuple/int 호환 |
+| `.agent/policies/slo_definitions.yaml` | telegram_bot_activity (filesystem mtime 24h cap) probe 추가 |
+
+### 비코드 변경 (master credential / Windows / cron / runtime)
+- `D:/00.test/neo-genesis/.env`: 7개 텔레그램 봇 master 박제 (owner 가 ChatExport 제공)
+- `D:/00.test/CREDENTIAL_BIBLE.md`: 7봇 inventory (bot_id / 용도 / env key / 발급일)
+- `~/.neo-genesis/credentials.env` (ysh-server fleet): 57 keys synced
+- Windows Startup `_disabled-2026-05-03/`: NeoGenesisDaemon.lnk + neo_genesis_daemon.bat 격리
+- ysh-server crontab: `sora-watchdog.sh` 매시간 → 6시간 (`0 */6 * * *`)
+- Windows Firewall: "Sora LiteLLM 4400" inbound rule (admin 추가 완료)
+- ghost 8 process kill (admin PowerShell `taskkill /F /T /PID 15248 3168 33396 33452`)
+
+### 라이브 검증
+- secret_leak adversarial: **9/9 PASS** (telegram bot token 신규 case 포함)
+- 답변 품질 라이브 8 시나리오: **8/8 PASS**
+  - memory cross-turn (보라색 → 24h 후 회상 정상)
+  - 수학 문맥 (7+5=12, 이전 '10' 오답 정정)
+  - owner identity fastpath (GitHub Yesol-Pilot / heoyesol.kr 즉시)
+  - 강점/약점 fallback (P1 LLM 거부 검출 동작)
+  - 정체 보호 (output_filter)
+- sora-live polling Conflict 60s delta = **0** (이전 5초/회)
+- Local LLM (LiteLLM:4400 / Ollama qwen2.5-coder:14b) localhost OK / Tailscale routing 차단 (별도 task)
+
+### owner 가 매일 받던 반복 메시지 정리
+| Before | After |
+|---|---|
+| BIBLE 동기화 알림 4건/일 | 0건 (실패 시만) |
+| 데몬 시작 alert (restart 마다) | 0건 (crash recovery 만) |
+| sora-watchdog 매시간 (3 prompt brain 부하) | 6시간 마다 (1/6 감축) |
+
+### Owner action 잔존
+- **Local LLM 응답 시간 단축 원할 시**: Tailscale userspace networking 의 ACL/routing 진단 (sora-live → desktop-sol01:4400). 현재 Gemini fallback 18초 정상 작동
+- **NEO_ALERT_BOT_TOKEN 회전** (5/3 stdout 노출 잔존): BotFather `/revoke` + master `.env` 갱신. 보안 권고만, 강제 아님
+
+### 다음 자율 진행 가능
+- LocalLLM 도달 진단 (Tailscale ACL)
+- W6.T2 runtime adversarial / W7.T1 chaos / W9.T1 PIPA (이전 보류)
+
+👤 Claude Opus 4.7
 
 ---
 

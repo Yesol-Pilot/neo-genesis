@@ -1,7 +1,636 @@
-# Handoff: Claude Code 세션 (2026-04-10 최종, UI/UX 미완 명시)
+# Handoff: Claude Code 세션 (2026-05-04 최신)
 
-> **작성자:** Claude Opus 4.6
-> **세션 유형:** 전체 Phase 상세설계 + Phase 0~4 구현 + 프론트엔드 완성 + 브라우저 E2E 검증 + Docker v6.3 재빌드
+> **작성자:** Claude Opus 4.7
+> **최근 갱신:** 2026-05-04 — Sora 텔레그램 polling 충돌 영구 해결 + 답변 품질 fix
+
+---
+
+## 2026-05-04 Sora Telegram 안정화 + 답변 품질 fix (Claude Opus 4.7)
+
+owner 명령 흐름: "텔레그램 채팅내역확인해봐 너무불안정한데" → "전부 해결해" → "제언하고 진행해"
+
+### 핵심 발견
+- 4/26 daemon 의 polling 비활성화 + Startup 폴더 자동 실행 ghost 4 process (elevated 권한) 가 owner 텔레그램 입력 가로챔
+- 4/30 ~ 5/1 owner 가 같은 메시지 ("보라색이야 기억해" / "거래소 비밀번호") 3번 재전송한 진짜 이유
+- audit log 1100 row 중 **733건 (66%)** 이 cron health probe (`sora-watchdog.sh` 매시간 → 3 prompt 발사). owner history 가 cron 24+ turn 에 밀려 cross-turn memory 실패
+- "내 강점/약점/목적" 등 분석형 질문에 LLM 이 OWNER_PROFILE.md 무시한 채 거짓 거부 응답 (97건 중 21건 = 21.6%)
+
+### 해결한 4 layer
+1. **infrastructure** — ghost 4 process kill (owner admin) + Startup .lnk/.bat 비활성 + 7봇 master credential 박제 + cron 6시간 감축
+2. **runtime** — daemon polling subprocess 부팅 (main thread 보장) + BOT_MATCHERS self-conflict fix + Conflict retry 60s
+3. **memory** — cron probe history filter + owner_facts cross-turn injection
+4. **identity** — fastpath LLM 거부 검출 → OWNER_PROFILE.md 직접 발췌 fallback
+
+### 산출 (12 파일 git commit `9543ad0`, master)
+세부 list 는 `active-tasks.md` 의 5/4 섹션 참조.
+
+### 라이브 검증
+- 답변 품질 8/8 PASS (메모리 cross-turn / 수학 / identity / 정체 보호)
+- 텔레그램 polling Conflict 60s delta 0
+- secret_leak adversarial 9/9 PASS
+
+### 운영 잔존 task (다음 세션 결정)
+| ID | 항목 | 임팩트 | owner action |
+|---|---|---|---|
+| LL-1 | Local LLM Tailscale routing 진단 | 응답 시간 18초 → 5~10초 단축 | desktop-sol01 firewall + Tailscale ACL 깊은 진단 |
+| BOT-2 | NEO_ALERT_BOT_TOKEN 회전 | 5/3 stdout 노출 잔존 보안 | BotFather `/revoke` + .env 갱신 |
+| W6.T2 | runtime adversarial (sora_engine.process 안에서) | sora 안정성 | 자율 가능 |
+| W7.T1 | chaos 6 시나리오 + drill | resilience | owner 시점 합의 |
+| W9.T1 | PIPA mapping + data_retention_enforcer | 한국 규제 | 자율 가능 |
+
+### Pending verification
+- 다음 owner 텔레그램 메시지 도달 + 응답 시간 (Gemini fallback 평균 18초 예상)
+- sora-watchdog 6시간 cycle 첫 실행 (다음 정각 6h)
+- BIBLE 동기화 정상 alert skip 효과 (다음 6시간 cycle)
+
+### 컨테이너 backup
+- `*.bak-20260504-052*` (sora-live secrets/.env + sora_engine + neo_assistant_bot + neo_genesis_daemon)
+
+---
+
+## 2026-04-28 Sora 직접 품질 + 보안 균형 회복 (Claude Opus 4.7)
+
+**owner 명령**: "소라 관련 작업 맞아? 그렇다면 진행해" — 운영 인프라 위주의 흐름을 Sora 직접 품질 / 보안 으로 균형 회복.
+
+### 핵심 결과
+- **W8.T1 Golden test 100** + runner + 라이브 검증 **15/15 PASS** (static-only)
+- **Critical SSOT 일관성 fix**: 8 파일 컨테이너 → git source pull back (Golden test 가 자동 감지)
+- **W6.T1 Threat model v1** (15 위협 DREAD) + **Adversarial 50** + 라이브 7/7 secret redaction PASS
+- **GitHub Actions CI workflow** 8 jobs (PR/push 자동 회귀)
+- **Sora 균형 회복**: 운영 13/13 OK + 직접 품질 P0 9/9 + 보안 7/7 redaction
+
+### W8.T1 Golden Test
+- `tests/sora_golden/core_v1.json` 100 tests, 15 categories
+- `scripts/run_sora_golden.py` static_check / env_var dispatcher
+- Severity: P0 30 + P1 38 + P2 28 + P3 4
+- **라이브**: P0 9/9 + P1 6/6 = 15/15 PASS, FAIL 0
+
+### Critical SSOT 일관성 발견 + Fix
+Golden test 첫 실행 시 6 fail 발생 → 진단:
+- D:/00.test git source 의 sora_engine/agent_router/worker/hooks 가 옛 버전
+- 컨테이너의 production state (하드코딩 제거 + Local-first 적용) 와 out of sync
+- 만약 컨테이너 재빌드 시 → host source 사용 → 변경 사라짐 위험
+
+**즉시 조치**: 8 파일 컨테이너 → host pull back, 모두 syntax OK 검증.
+
+### W6.T1 Threat Model + Adversarial
+- 신규: `.agent/knowledge/security/threat_model_v1.md` (~9KB)
+  - STRIDE + DREAD 매트릭스
+  - 8 asset / 10 attack surface
+  - 15 위협 DREAD 점수 (T-01 owner bot 탈취 = 38 / T-15 personal/ unauth = 25)
+  - 14 방어 매핑 + 외부 벤치 통합 (AgentDojo / AgentHarm / PoisonedRAG / GASLITE / Attacker Moves Second)
+- 신규: `tests/sora_adversarial/suite_v1.json` 50 tests, 10 카테고리
+- 신규: `scripts/run_sora_adversarial.py` (output_filter + pdf_sanitizer 직접)
+- **라이브 검증**: secret_leak 7/7 PASS (Anthropic/OpenAI/Google/GitHub/JWT/AWS/sudo password 모두 정상 redact)
+
+### GitHub Actions CI Workflow
+- `.github/workflows/sora-quality-gate.yml` 8 jobs:
+  - syntax-check / yaml-validation / golden-static / adversarial-redaction
+  - **hardcode-audit** (owner PII zero tolerance) / **local-first-architecture** (Qwen3 marker)
+  - threat-model-current (90일 cadence) / ssot-revision-bump
+
+### 도중 발견 + 즉시 fix
+1. **CONSTITUTION 컨테이너 미존재** → docker cp 동기화
+2. **JWT pattern 60자+ minimum** → adversarial test input 더 길게
+3. **filter_output 반환값이 tuple** → adversarial runner tuple-aware 수정
+
+### Sora 균형 회복 매트릭스
+| 영역 | Before (Week 2 결과) | After (이번 세션) |
+|---|---|---|
+| Sora 운영 | SLO 13/13 OK + observability 가동 | (유지) |
+| Sora 직접 품질 | 하드코딩 0건 + Local-first 적용 | + Golden 100 + Adversarial 50 + Threat model 15 위협 + CI 8 jobs |
+| Sora 코어 | 컨테이너 라이브 가동 | + git source ↔ container SSOT 일관성 검증 |
+
+### 신규 자산 (이번 세션, 7 파일 + 8 파일 sync)
+- `tests/sora_golden/core_v1.json` (100 tests)
+- `scripts/run_sora_golden.py` (300 lines)
+- `.agent/knowledge/security/threat_model_v1.md` (~9KB)
+- `tests/sora_adversarial/suite_v1.json` (50 tests)
+- `scripts/run_sora_adversarial.py` (300 lines)
+- `.github/workflows/sora-quality-gate.yml` (8 jobs)
+- 8 git source files (컨테이너 → host pull back)
+
+### Owner 결정 / 액션
+- 별도 없음 (모두 Standing Approval)
+
+### 다음 자율 진행 가능
+- W2.T7 Grafana dashboard JSON provisioning
+- W7.T1 chaos 6 시나리오 + 첫 drill
+- W9.T1 PIPA mapping + data_retention_enforcer
+- W6.T2 prompt_injection / jailbreak runtime adversarial (sora_engine.process 안에서 실행)
+
+---
+
+## 2026-04-28 Sora Enterprise Week 3 추가 — W1.T5 routing fix + W2.T6 Promtail (Claude Opus 4.7)
+
+**owner 명령**: "진행해" (W1.T5 + W2.T6 자율 진행)
+
+### 결과 요약
+- **SLO 12/12 → 13/13 OK 달성** (Tailscale routing fix + Promtail 추가)
+- **로그 273,838 lines 즉시 수집** (Loki, sora-live 4 source)
+- **RAM 영향 +300MB만** (12Gi 여유 유지)
+
+### W1.T5 Tailscale routing 진단
+**핵심 발견**: ysh-server 의 Tailscale (PID 2521238) 가 userspace networking 으로 다음 port 를 docker bridge 에 routing 중:
+- `172.17.0.1:4400` ← desktop-sol01 LiteLLM proxy
+- `127.0.0.1:7702` ← desktop-sol01 KURE-v1 (RAG embedding)
+- `127.0.0.1:7704` ← mac-studio BGE Reranker
+
+이전 SLO yaml 의 `100.96.186.7:4400` 는 Tailscale 자기루프 NAT timeout. docker bridge IP `172.17.0.1:4400` 으로 변경 → 즉시 도달.
+
+LiteLLM proxy 는 `/health` 가 401 (master_key 인증), `/health/liveliness` 가 200 (unauth, LiteLLM 표준).
+
+qdrant 도 `0.0.0.0:6333` listen + docker IP `172.17.0.7` → `172.17.0.1:6333` 로 정확히 도달.
+
+### W2.T6 Promtail 가동
+- 신규: `infra/observability/promtail-config.yaml` + docker-compose 4번째 service
+- 호스트 bind: `/home/ysh/sora/data/logs:/var/log/sora-live:ro`
+- 3 scrape job:
+  1. **sora-live** (timestamp + level + logger + trace_id 라벨 추출, OTel 통합 패턴)
+  2. **sora-live-stderr** (`*_err.log` 분리)
+  3. **sora-audit** (JSONL 자동 파싱: events / alerts / secret_ledger / slo_log)
+
+### 라이브 검증 (Loki query)
+```
+streams: 3
+labels: {
+  detected_level: error,
+  filename: /var/log/sora-live/brain_err.log,
+  host: ysh-server,
+  job: sora-live,
+  service_name: sora-engine,
+  trace_id: <auto-extracted>
+}
+첫 entry: "[Brain] worker-1 루프 에러: Timeout reading from localhost:6379"
+```
+
+### SLO 13/13 OK 100%
+| OK | endpoint | latency |
+|---|---|---|
+| ✅ | brain_worker | 1.91ms |
+| ✅ | chromadb_legacy | 0.12ms |
+| ✅ | cloudflare_tunnel | 539ms |
+| ✅ | dashboard_api | 87ms |
+| ✅ | gemini_fallback | 0ms (stub) |
+| ✅ | grafana | 8ms |
+| ✅ | **local_llm** | 40ms (LiteLLM /health/liveliness) |
+| ✅ | loki | 6ms |
+| ✅ | **promtail** | 10ms |
+| ✅ | **qdrant_rag** | 6ms |
+| ✅ | redis_bus | 3ms |
+| ✅ | telegram_bot | 1ms |
+| ✅ | tempo | 6ms |
+
+### RAM 사용 (Stop/Go 게이트 안전)
+- Total 16Gi / Used 3.6Gi / Available 12Gi
+- 4 observability 합산: 406MB (Promtail 75 + Grafana 53 + Loki 137 + Tempo 141)
+- 예산 4.5GB 의 9%
+
+### 다음 자율 진행 가능
+- **W2.T7** Grafana dashboard JSON provisioning (sora.process / agent_router / hook latency 시각화)
+- **W6.T1** threat model + adversarial 50 회귀
+- **W7.T1** chaos 6 시나리오 + 첫 drill
+- **W8.T1** golden test 100 + GitHub Actions CI
+- **W9.T1** PIPA mapping + data_retention_enforcer
+
+### Owner 결정 / 액션
+- 별도 없음 (모두 Standing Approval 안)
+
+### Host SSOT mirror 동기화
+- `/home/ysh/observability/promtail-config.yaml` (신규)
+- `/home/ysh/observability/docker-compose.yml` (수정)
+- `/home/ysh/neo-genesis-runtime/.agent/policies/slo_definitions.yaml` (W1.T5 + W2.T6 반영)
+
+---
+
+## 2026-04-28 Sora Enterprise Week 3 — Observability stack 가동 (Claude Opus 4.7)
+
+**owner 명령**: "진행해" (W2.T2 Tempo + Loki + Grafana 자율 진행)
+
+### 결과 요약
+- **3 컨테이너 라이브 가동** (ysh-server self-hosted, $0)
+- **OTLP gRPC 통합**: sora-engine → Tempo trace 4건 수신 검증
+- **SLO 12 endpoint 운영**: 10/12 OK (observability 3 신규 OK)
+- **RAM 영향**: +219MB만 (예산 4GB 의 5.5%)
+
+### 산출 자산 (`infra/observability/`)
+- `docker-compose.yml` (3 service: loki/tempo/grafana, RAM cap 1.5+2+0.8GB)
+- `loki-config.yaml` (90일 retention, single-tenant, filesystem)
+- `tempo-config.yaml` (OTLP gRPC + HTTP, 90일 block_retention, usage_report off)
+- `grafana-datasources.yaml` (Loki + Tempo 자동 등록 + tracesToLogsV2 + serviceMap)
+- `.env.example` (GRAFANA_ADMIN_PASSWORD 32-byte random 권장)
+- `README.md` (operational runbook)
+
+### 가동 위치 (ysh-server)
+- `/home/ysh/observability/` (config + .env mode 600)
+- `/home/ysh/observability/loki|tempo|grafana/` (data volumes)
+- 3 container 이름: `sora-obs-loki|tempo|grafana`
+
+### Port 바인딩
+| Service | host loopback | docker bridge | OTLP |
+|---|---|---|---|
+| Loki | 127.0.0.1:3100 | 172.17.0.1:3100 | — |
+| Tempo | 127.0.0.1:3200 | 172.17.0.1:3200 | 172.17.0.1:4317 (gRPC), 4318 (HTTP) |
+| Grafana | 127.0.0.1:3000 | 172.17.0.1:3000 | — |
+
+### otel_setup.py auto-discovery
+- `OTEL_EXPORTER_OTLP_ENDPOINT` env 우선
+- fallback: `172.17.0.1:4317` 1초 timeout 자동 시도
+- 양쪽 모두 미가용 → ConsoleSpanExporter 만 사용 (graceful)
+
+### Tempo 라이브 검증
+```json
+{
+  "traces": [
+    {"traceID": "8960cae4116d54146d0fa514894051c5",
+     "rootServiceName": "sora-engine",
+     "rootTraceName": "sora.tempo_query_test", ...},
+    ...4 traces total
+  ],
+  "metrics": {"inspectedTraces": 4, "completedJobs": 1}
+}
+```
+
+### SLO 12 endpoint (10/12 OK)
+| 결과 | endpoint |
+|---|---|
+| ✅ OK (10) | brain_worker, chromadb_legacy, cloudflare_tunnel, dashboard_api, gemini_fallback, **grafana**, **loki**, redis_bus, telegram_bot, **tempo** |
+| ❌ FAIL (2) | local_llm (10s timeout — Tailscale routing), qdrant_rag (10s timeout — 동일) |
+
+### Grafana admin
+- URL: `http://localhost:3000`
+- 외부 접근: `ssh -L 3000:localhost:3000 ysh-server` 후 owner 브라우저
+- password: `/tmp/grafana_pw_record.txt` (ysh user mode 600, 안전 박제)
+- 자동 회전 X (CONSTITUTION Article 6, owner manual)
+
+### 잔존 follow-up (다음 세션 자율 진행 가능)
+| ID | 작업 |
+|---|---|
+| W2.T6 | Promtail 추가 (sora-live `/app/logs/*.log` → Loki 자동 수집) |
+| W1.T5 | local_llm + qdrant_rag Tailscale routing 진단 (Docker bridge 또는 host network) |
+| W2.T7 | Grafana dashboard 사전 provisioning (sora.process / agent_router / hook latency) |
+| W6.T1 | threat model + adversarial 50 |
+| W7.T1 | chaos 6 시나리오 |
+| W8.T1 | golden test 100 |
+| W9.T1 | PIPA mapping + data_retention_enforcer |
+
+### Owner 결정 / 액션
+- 별도 없음 (모두 자율 범위 안)
+
+### 백업 / 컨테이너 상태
+- sora-live OTel SDK auto-discovery 적용 완료 (이전 backup `*.bak-20260428-132413` 보유)
+- observability 3 컨테이너 unless-stopped — VM reboot 시 자동 가동
+
+---
+
+## 2026-04-28 Sora Enterprise Week 2 후속 7개 자율 진행 완료 (Claude Opus 4.7)
+
+**owner 명령**: "승인" — 11 D-게이트 자율 결정 + 자율 진행 5개 + Hard Gate 2개 모두 승인.
+
+### 7개 task 완료 + 라이브 검증
+
+| Task | 산출물 | 검증 |
+|---|---|---|
+| **W3.T4 quiet_hours** | bug 아님 진단 (timezone UTC 변환 정상) | timezone test |
+| **W1.T3 yaml 정밀화** | slo_definitions.yaml 4 endpoint 수정 | SLO probe **3/9 → 7/9 OK** |
+| **W2.T4 hook span** | post_tool_use + session_start OTel span | container 적용 |
+| **W3.T3 aggregation** | alert_manager.py merge 로직 (140 lines 추가) | 5건 P1 → merged sig `ff186e058cfc8b8a` |
+| **W5.T1 secret audit** | secret_rotation.yaml + secret_audit.py (9 secret) | 9 NEVER_ROTATED 예상대로 |
+| **W4.T1 DR drill** | dr_full_recovery.md + sora_dr_drill.py | 11 step [PASS] RTO 0.42min |
+| **W2.T2 RAM 측정** | 결정 박제 (Tempo 진입 안전) | used 3.1GB / 16GB, 여유 12GB |
+
+### W1.T3 yaml 정밀화 변경 6개
+- `telegram_bot`: type=`external_polling` → **`process`**
+- `dashboard_api` / `cloudflare_tunnel`: path `/api/v2/health` (401) → **`/api/health`** (200 unauth)
+- `local_llm`: hostname → IP `100.96.186.7`
+- `qdrant_rag`: hostname → IP `100.67.221.25` (Tailscale NAT issue 잔존)
+- `chromadb_legacy`: 실 컨테이너 경로
+
+### W3.T3 aggregation 라이브
+- emit 0~3: 일반 dispatch / **emit 4 (5번째)**: threshold 5 도달 → merged 자동 발송 / emit 5: 새 누적
+
+### W4.T1 DR drill dry-run
+```
+DR Drill — dr_drill_20260428-1322 [dry-run]
+RTO: 0.42min (target < 30min)  Status: [PASS]  11 steps simulated_ok
+```
+
+### W5.T1 secret audit (9 NEVER_ROTATED)
+- 모든 secret 첫 회전 박제 필요 — `python /app/scripts/secret_audit.py --mark-rotated <NAME>`
+
+### RAM 측정 결과
+- Total 16Gi / Used 3.1Gi / Available 12Gi / Tempo+Loki+Grafana 추가 시 ~7.1GB / 16GB
+- **다음 세션 W2.T2 본격 착수 가능**
+
+### 운영 진단 (SLO 4 운영 issue 자동 발견)
+- qdrant-rag-v2 컨테이너 살아있음 (memory 318MB) — Tailscale NAT 자기루프 의심
+- desktop-sol01 LiteLLM proxy 가동 재확인 필요 (owner 액션)
+
+### 산출 통계 (이번 세션)
+- 신규: alert_priority.yaml + alert_manager.py 갱신 + secret_rotation.yaml + secret_audit.py + dr_full_recovery.md + sora_dr_drill.py = **6 신규**
+- 수정: slo_monitor.py + alert_manager.py + 4 hooks + slo_definitions.yaml = **9 수정**
+
+### Host SSOT mirror 동기화
+- slo_definitions.yaml (정밀화) / secret_rotation.yaml (신규) / dr_full_recovery.md (신규)
+
+### 컨테이너 백업
+- `*.bak-20260428-132413` (본 세션 W2.T4 + W3.T3)
+
+### Owner 결정 / 액션 필요
+1. **secret 첫 회전** (W5.T2): owner 가 `python /app/scripts/secret_audit.py --mark-rotated <NAME>` 으로 9 secret 박제 시작
+2. **DR 첫 manual drill** (W4.T2): owner 시점 합의 후 `--execute --owner-notified`
+3. **operational follow-up**: desktop-sol01 LiteLLM 가동 / Qdrant Tailscale routing
+
+### 다음 자율 진행 가능
+- W2.T2 Tempo + Loki + Grafana 컨테이너 가동 (RAM 안전)
+- W2.T5 OTLP exporter 통합
+- W6/W7/W8/W9 (threat model / chaos / golden / PIPA)
+
+---
+
+## 2026-04-28 OSS skill / API catalog 내재화 (Claude Opus 4.7)
+
+**owner 시그널**: Matt Pocock `.claude/skills` (GitHub trending #1, MIT, 27.7K⭐) + `public-apis/public-apis` (427K⭐, MIT) → "최적화 해서 내재화하고 api리스트는 향후 활용할수있도록 내재화"
+
+### 자율 결정
+- **mattpocock/skills 21개 → 5개 채택 + 16개 skip** (이유 박제)
+  - 채택: `tdd`, `git-guardrails`, `to-issues`, `grill-me`, `write-a-skill`
+  - skip 기준: 기존 `neo-architect` agent / multi-agent design protocol / `.agent/runbooks/` / `content-creator` / `site-ops` 등과 중복
+- **public-apis 1,500+ → 66 API 큐레이션** (한국 + 글로벌, 23 카테고리, freshness 6개월)
+  - 한국 1순위: Toss Payments / 카카오페이 / 카카오맵 / 네이버 검색 / 한국은행 ECOS / 공공데이터포털
+  - in_use: Anthropic / OpenAI / HuggingFace / Binance / GitHub / Vercel / Cloudflare / Wikidata / IndexNow / Telegram / Google Calendar / Supabase Auth
+
+### 산출물 (10 파일)
+| 카테고리 | 파일 |
+|---|---|
+| Skill (5) | `.agent/skills/{tdd,git-guardrails,to-issues,grill-me,write-a-skill}/SKILL.md` |
+| Skill INDEX | `.agent/skills/INDEX.md` (21 채택/skip 매트릭스 + MIT attribution) |
+| Skill registry | `.agent/registries/agent_skills.json` |
+| API registry | `.agent/registries/external_apis.json` (65 entries, 24 categories, SBU 매핑) |
+| API catalog | `.agent/knowledge/external-api-catalog/INDEX.md` |
+
+### 한국어 + Neo Genesis 정합
+- 본문 한국어 default + 코드/SSOT 경로 영어 유지
+- 각 SKILL.md `source:` 필드에 MIT 라이선스 + URL
+- `git-guardrails` 는 `src/core/hooks/pre_tool_use.py` 와 통합 패턴 명시 (Husky 대체 X, 보완 O)
+- `tdd` 는 jest (auto-trading) + pytest (RAG/Sora) 모두 cover
+- `to-issues` 는 `.agent/shared-brain/active-tasks.md` 형식 1차 target
+- `grill-me` 는 D1~D11 게이트 패턴 (Sora Enterprise) 정합
+- `write-a-skill` 은 메타 — skill 추가 표준화
+
+### Pending verification (다음 세션)
+- 새 skill 5개의 trigger 발동 검증 (실제 owner 요청 시)
+- `agent_skills.json` 이 `scripts/agent_registry_check.py` 와 호환되는지 — 미검증
+- `external_apis.json` 6개월 cadence 첫 리뷰 (2026-10-28 due)
+
+### 충돌/회귀
+- 기존 29개 SBU/ops skill 과 이름 충돌 없음
+- CONSTITUTION Article 0 (owner sovereignty) 정합
+- SSOT revision bump → 본 세션에서 `python scripts/sync_agent_context.py --updated-by claude` 실행, 11 어댑터 재생성
+
+---
+
+## 2026-04-28 Sora Enterprise Week 2 P0 자율 진행 완료 (Claude Opus 4.7)
+
+**owner 자율 위임 활성**: "얼마나 오래걸리고 어렵더라도 상관없어. 완벽한 결과를 위해 ... 자율판단해도 좋아"
+**진행 명령**: "진행해" (Week 2 자율 착수)
+
+### Week 2 P0 3건 완료
+
+| Task | 신규 | 수정 | 라이브 검증 |
+|---|---|---|---|
+| **W1.T2 SLO probe 5종** | 7 (probes/ 모듈) | slo_monitor.py | 9 endpoint × 4 운영 issue 자동 발견 |
+| **W2.T3 worker + hooks span** | 0 | 3 (worker / pre_tool_use / user_prompt_submit) | 5-deep trace continuity `a14365fd32662d83` |
+| **W3.T2 alert routing** | 2 (alert_priority.yaml + alert_manager.py) | slo_monitor.py | P0 4-channel dispatch / 60s dedup / P3 telegram 제외 |
+
+### 자율 진행 자산
+
+#### W1.T2 — SLO Probe Adapter (1,728 lines / 7 파일)
+- `src/core/governance/probes/__init__.py` — type → ProbeBase dispatcher (8개 type)
+- `base.py` — ProbeBase abstract + ProbeResult dataclass + path scheme parser
+- `http_probe.py` — httpx async + 200~299 success + external scheme cost-protect stub
+- `tcp_probe.py` — asyncio open_connection + Redis PING 특수 처리
+- `process_probe.py` — /proc cmdline 스캔 (busybox 호환)
+- `redis_queue_probe.py` — LLEN + queue depth threshold
+- `filesystem_probe.py` — stat + age 검증 (option: age_max_seconds)
+
+#### W2.T3 — Worker + Hooks Span
+- worker.py `process_request()` → `brain.process_request` root span
+  - 속성: request_id / channel / text_len / has_file
+- pre_tool_use.py `on_pre_tool_use()` → `hook.pre_tool_use` span
+  - 속성: tool / operation / tier / device_tier / owner_override / subagent
+- user_prompt_submit.py `on_user_prompt_submit()` → `hook.user_prompt_submit` span
+  - 속성: session_id / device_tier / text_len / has_core_memory
+
+#### W3.T2 — Alert Priority Matrix
+- `.agent/policies/alert_priority.yaml`:
+  - 4 severity (P0/P1/P2/P3) — color + response_time + examples
+  - 4 channels (telegram_owner / dashboard_log / supabase_audit / console_stderr)
+  - routing 매트릭스 (P0 → 4ch / P1 → 4ch / P2 → 3ch / P3 → 2ch)
+  - dedup window (60s/300s/1800s/3600s) + aggregation rules
+  - quiet_hours 23:30~07:30 KST + exception=[P0]
+  - owner override (pause_all / raise_all)
+- `src/core/governance/alert_manager.py` (390 lines):
+  - Alert dataclass + signature (sha1 16자)
+  - AlertPolicy lazy load + cache
+  - AlertManager.emit() — owner pause / dedup / quiet hours / dispatch
+  - 4 dispatcher (telegram httpx / jsonl / supabase / stderr)
+  - HTML escape + KST timestamp
+  - convenience: alert_p0/p1/p2/p3 helpers
+
+### 라이브 검증 결과
+
+#### W1.T2 SLO probe 9 endpoint × 첫 cycle
+- ✅ brain_worker (Redis queue depth=0)
+- ✅ redis_bus (Redis PING success, 17ms)
+- ✅ gemini_fallback (external_stub, cost 보호)
+- ❌ chromadb_legacy — path not found (P3, RAG cutover 진행 중 정상)
+- ❌ dashboard_api / cloudflare_tunnel — HTTP 401 (auth 정책, follow-up)
+- ❌ local_llm — `Name or service not known` (DNS, follow-up)
+- ❌ qdrant_rag — DNS 동일 (follow-up)
+- ❌ telegram_bot — yaml type=external_polling 인데 path=process: (follow-up)
+
+→ **운영 가치 즉시 입증**: 4건 운영 issue 자동 발견
+
+#### W2.T3 5-deep trace continuity
+```
+brain.process_request:     a14365fd32662d83
+  sora.process:              a14365fd32662d83 ✅
+    agent_router.process:      a14365fd32662d83 ✅
+      hook.user_prompt_submit: a14365fd32662d83 ✅
+        hook.pre_tool_use:     a14365fd32662d83 ✅
+          slo.probe:           a14365fd32662d83 ✅
+```
+
+#### W3.T2 alert routing 동작
+- P0 dispatch → `[telegram_owner, dashboard_log, supabase_audit, console_stderr]` 4 channel
+- 60s dedup → 같은 sig 즉시 suppress: `dedup_window_60s`
+- P3 dispatch → `[dashboard_log, console_stderr]` 만 (telegram/supabase 자동 제외)
+
+### 컨테이너 백업 (rollback 가능)
+- `*.bak-20260428-115706` (1차 P0 starter OTel)
+- `*.bak-20260428-130519` (2차 W2 worker/hooks/slo/alert)
+
+### Host SSOT mirror 동기화
+- `/home/ysh/neo-genesis-runtime/.agent/policies/alert_priority.yaml` ✅
+
+### Follow-up (자율 미진행, owner gate 또는 P1 우선순위)
+- W4.T1 첫 DR drill — **owner 사전공지 필요** (D3 결정)
+- W2.T2 Tempo 컨테이너 — RAM 예산 §4.5 영향, RAG Phase 1 인덱싱 충돌 회피 (Week 3+)
+- W1.T3 yaml policy 정밀화 — 4 운영 issue 보강 (0.5일)
+- W3.T4 quiet_hours bug — 04:05 KST 에서 False 반환 진단 필요 (P2, 0.5일)
+
+### 잔존 위험 (이번 세션 신규 0건)
+- 모든 자율 결정은 owner 한 줄 명령으로 즉시 reversible (Article 0)
+
+---
+
+## 2026-04-28 Sora Enterprise P0 starter 자율 진행 완료 (Claude Opus 4.7)
+
+**owner 자율 위임**: "얼마나 오래걸리고 어렵더라도 상관없어. 완벽한 결과를 위해 내 목적과 의도를 기반으로 너가 나머지는 자율판단해도 좋아"
+
+### 11 D-게이트 자율 결정 박제
+
+신규 SSOT: `.agent/knowledge/20260428_SORA_ENTERPRISE_DECISIONS_v1.md` (~250 lines)
+
+| D | 자율 결정 | 핵심 근거 |
+|---|---|---|
+| D1 | 즉시 시작 (점진 착수) | P2 시간 무관 + RAM 경합 회피 |
+| D2 | auto freeze + alert (4-stage) | P1 완벽 + Article 0 owner override 보존 |
+| D3 | 첫 DR drill manual + 2회차 자동 | P1 + 안전 |
+| D4 | Canary 10% (3-stage) | P1 + 자동 롤백 안정 |
+| D5 | $50/월 (현 $25 → 상향) | RAG + observability 흡수 |
+| D6 | 자체 호스팅 + RAM Stop/Go | P3 P4 |
+| D7 | SOC2 미진행 | ROI 안 맞음 |
+| D8 | **honest scoping 수락 + 99.9% upgrade path** | P3 + W4 DR drill 결과 자동 promote |
+| D9 | PIPA: 180/3년/5년/동의 | P1 + 한국 규제 안전선 |
+| D10 | RAM 4-stage escalation | P3 + 자체 호스팅 우선 |
+| D11 | **16주 + 99.9% 도전 +4주** | P2 + neo-architect 권고 |
+
+### P0 starter 3개 자율 진행 (모두 라이브 검증 통과)
+
+#### W1.T1 SLO Foundation ✅ (산출물 2개, 305 lines)
+- `.agent/policies/slo_definitions.yaml` — 9 endpoint × 4-stage error budget (D2 정합)
+- `src/core/governance/slo_monitor.py` — polling + Supabase + JSONL fallback + Article 0/4 정합
+- 컨테이너 smoke test: 9 endpoint × 단일 cycle 적재 정상
+
+#### W3.T1 Runbook Catalog ✅ (산출물 14개)
+- `.agent/runbooks/` 12개 incident runbook + README + POSTMORTEM_TEMPLATE
+- 일관 스키마 + CONSTITUTION 정합성 명시
+- 시나리오: brain_crash / redis_oom / gemini_quota / telegram_409 / sora_import_error / qdrant_down / disk_full / local_llm_down / secret_expired / vm_reboot / hook_loop / audit_log_overflow
+
+#### W2.T1 OTel SDK Integration ✅ (산출물 1 신규 + 2 수정)
+- `src/core/observability/otel_setup.py` — 290 lines, graceful degradation + ConsoleSpanExporter + OTLP optional
+- `sora_engine.py:process()` root span `sora.process`
+- `agent_router.py:process()` child span `agent_router.process`
+- **라이브 검증**: trace_id `5dc61de4c9d16d16` 가 parent → child span 일관 전파, OTel SDK v1.41.1 정상 export
+
+### Host SSOT mirror 동기화 완료
+
+| 위치 | 동기화 |
+|---|---|
+| `/home/ysh/neo-genesis-runtime/.agent/policies/slo_definitions.yaml` | ✅ |
+| `/home/ysh/neo-genesis-runtime/.agent/runbooks/*.md` (14건) | ✅ |
+| `/app/.agent/policies/` (컨테이너 directory 신규 생성) | ✅ |
+
+### 컨테이너 백업 (rollback 가능)
+
+- `*.bak-20260428-112207` (1차 하드코딩 SSOT 마이그레이션)
+- `*.bak-20260428-115706` (2차 OTel 통합 patch)
+
+### 다음 P0 task (Week 2 진행 예정)
+
+| ID | 작업 | 예상 |
+|---|---|---|
+| W1.T2 | SLO 실 endpoint probe 어댑터 (5종) | 2~3일 |
+| W2.T2 | OTLP exporter + Tempo 컨테이너 (RAM 예산 §4.5 검증) | 2일 |
+| W2.T3 | worker.py + hooks/*.py span 추가 | 1~2일 |
+| W3.T2 | alert priority matrix + telegram routing | 1일 |
+| W4.T1 | 첫 DR drill (manual, owner 사전공지) | 1일 |
+
+### Pending verification (다음 세션 입장 시)
+
+- SLO monitor 24h 가동 후 first-day report (Supabase 가동 시)
+- OTel ConsoleSpanExporter → OTLP exporter (Tempo) 전환 시점
+- 컨테이너 재시작 후 sora_engine.process() 실 trace 가 telegram bot 라이브 메시지에 적용되는지 (다음 owner telegram 시 자동 확인)
+
+### 잔존 위험 (cold review 12개 + 본 세션 신규 0개)
+
+- §9 R12 multi-document SSOT 충돌 → §2.1 충돌 해소 규칙으로 mitigation
+- 모든 자율 결정은 owner 한 줄 명령으로 즉시 reversible (CONSTITUTION Article 0)
+
+---
+
+## 2026-04-28 Sora Enterprise-Grade Master v1.1 박제 + 하드코딩 SSOT 마이그레이션 완료 (Claude Opus 4.7)
+
+**세션 유형**: owner 명령 "소라가 완벽무결한 신이 되어야 한다고 상용 엔터프라이즈급으로 개발해야 해" 대응 — 멀티에이전트 설계 프로토콜 적용 (의도 → gap matrix → workstream → owner gate). 즉시 코딩 X, 마스터 SSOT 박제 우선.
+
+### 1부: 하드코딩 잔존 작업 마무리 (별도 task, 컨테이너 라이브 적용)
+| 파일 | 변경 | 검증 |
+| --- | --- | --- |
+| `src/core/security/output_filter.py` | OWNER_WHITELIST 정적 18 + 동적 11 (OWNER_PROFILE.md SSOT 파싱) | total 29, dynamic 11 라이브 |
+| `src/core/brain/agent_router.py` | "허예솔 대표님" 9곳 → "대표님" | 0 hardcoded |
+| `src/core/brain/worker.py:446` | "허예솔 대표님" → "대표님" | 0 hardcoded |
+| `src/core/sora_engine.py` | reply draft Gemini-first → **Local LLM (Qwen3-14B) primary, 90s timeout + Gemini fallback** | Local primary 1, Gemini fallback 1 |
+- 컨테이너 sora-live 재시작 (PID 10/11/12 새 코드 로드)
+- regression test 통과 (owner identity 4/4, hardcode 0건, Local-first 1/1)
+- backup `*.bak-20260428-112207`
+
+### 2부: Sora Enterprise-Grade Master v1.1 박제
+
+**산출물**: `.agent/knowledge/20260428_SORA_ENTERPRISE_GRADE_MASTER_v1.md` (~750 lines)
+
+**구조**:
+- §0 결론 + §1 owner 의도 재구성 (honest scoping)
+- §2 기존 SSOT alignment (5개 충돌 해소 규칙 명시)
+- §3 Enterprise Gap Matrix (G1~G15, 15개)
+- §4 9 Workstream (W1~W9) 정의 + 산출물 + QA gate
+- §4.5 ysh-server 16GB RAM 예산표 (P0 추가 후 ~10.6GB / 16GB)
+- §5 16주 P0 로드맵 (12주 → 16주 현실화, neo-architect 권고)
+- §6 owner 결정 게이트 11개 (D1~D11)
+- §7 즉시 시작 가능한 P0 starter task 3개
+- §8 Stop/Go 게이트 6개
+- §9 잔존 위험 12개
+- §10 변경 이력 (v1.1 = neo-architect cold review 5개 edit 반영)
+
+**neo-architect cold review 결과** (`proceed with edits`):
+1. G13 한국 PIPA 추가 ✅
+2. ysh-server RAM 예산표 ✅
+3. §2.1 충돌 해소 규칙 5개 ✅
+4. R-layer 코드 위치 매핑 (W1~W9) ✅
+5. 12주 → 16주 재현실화 ✅
+6. G14 RAG ↔ Sora access matrix ✅
+7. G15 데이터 보존 정책 ✅
+8. W9 Compliance + PIPA + Data Retention 신설 ✅
+
+### owner 결정 대기 11개 (다음 세션 입장 시 응답 필요)
+
+가장 중요한 3개:
+- **D8 honest scoping 수락 여부** — "신/완벽무결" → `99% 일치율 + 0% 거짓 + 99.5% uptime` 으로 재정의 가능?
+- **D11 일정 16주 vs 12주** — neo-architect 권고 16주 vs 압축 12주
+- **D1 시작 시점** — 즉시 / RAG Phase 1 후 / quant Phase 0 후
+
+나머지 8개:
+- D2 SLO 위반 정책 / D3 DR drill 시점 / D4 canary traffic / D5 budget cap / D6 observability 호스팅 / D7 SOC2 / D9 PIPA 보존기간 / D10 RAM 분산
+
+### 즉시 시작 가능한 P0 (owner D1 + D8 + D11 동의 시 다음 세션부터)
+1. **W1.T1** SLO 정의 + 측정 — `slo_definitions.yaml` + `slo_monitor.py` + dashboard (1일)
+2. **W2.T1** OTel SDK 통합 — `otel_setup.py` + sora_engine/agent_router/worker span 추가 (2일)
+3. **W3.T1** runbook 12개 카탈로그 — `.agent/runbooks/{brain_crash, redis_oom, gemini_quota, ...}` + `POSTMORTEM_TEMPLATE.md` (1일)
+
+### 다음 세션 즉시 액션
+1. owner 11개 결정 게이트 응답 받기
+2. D8 거부 시 → §1 의도 재구성 v2 (더 강한 SLO 또는 다른 정의)
+3. D8 수락 + D1 = 즉시 → P0 starter 3개 멀티에이전트 병렬 착수
+4. SSOT 변경 후 `python scripts/sync_agent_context.py --updated-by claude` 실행 (이번 세션은 보류)
+
+### Pending verification
+- Phase 1 진입 가능 시점 미정 (owner D1 답변 의존)
+- §4.5 RAM 예산표 의 실측 (Loki+Tempo+Grafana 가동 시점에 측정)
+- §1.4 non-goals (99.95% / SOC2 정식 audit / 24/7 NOC) 가 owner 의도와 일치하는지 D8 답변으로 확정
+
+### 잔존 risks (12개 식별 § 9)
+- 가장 큰 위험 = R12 multi-document SSOT 충돌. 본 마스터 §2.1 충돌 해소 규칙 5개가 그 mitigation. 모든 상호 충돌은 cross-agent-review.md 에 entry 추가 의무.
 
 ---
 
