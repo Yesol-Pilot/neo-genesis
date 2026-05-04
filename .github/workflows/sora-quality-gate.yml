@@ -1,0 +1,187 @@
+name: Sora Quality Gate
+
+# Sora Enterprise W8.T1 + W6.T1 — golden + adversarial 자동 회귀
+# Master: 20260428_SORA_ENTERPRISE_GRADE_MASTER_v1.md
+# Trigger: PR + push to main 의 Sora 관련 path 변경 시
+
+on:
+  pull_request:
+    paths:
+      - 'src/core/sora_engine.py'
+      - 'src/core/brain/**'
+      - 'src/core/hooks/**'
+      - 'src/core/security/**'
+      - 'src/core/governance/**'
+      - 'src/core/observability/**'
+      - 'src/core/rag_v2/**'
+      - '.agent/SORA_CONSTITUTION.md'
+      - '.agent/policies/**'
+      - 'tests/sora_golden/**'
+      - 'tests/sora_adversarial/**'
+      - 'scripts/run_sora_golden.py'
+      - 'scripts/run_sora_adversarial.py'
+  push:
+    branches: [main, master]
+    paths:
+      - 'src/core/sora_engine.py'
+      - 'src/core/brain/**'
+      - 'src/core/hooks/**'
+      - 'src/core/security/**'
+      - 'src/core/governance/**'
+      - 'src/core/observability/**'
+      - '.agent/SORA_CONSTITUTION.md'
+  workflow_dispatch:
+    # owner manual trigger 가능
+
+jobs:
+  syntax-check:
+    name: Python Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile all .py
+        run: |
+          python -m compileall -q src/core/sora_engine.py
+          python -m compileall -q src/core/brain/agent_router.py
+          python -m compileall -q src/core/brain/worker.py
+          python -m compileall -q src/core/security/output_filter.py
+          python -m compileall -q src/core/hooks/
+          python -m compileall -q src/core/governance/
+          python -m compileall -q src/core/observability/
+
+  yaml-validation:
+    name: YAML Policy Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PyYAML
+        run: pip install pyyaml
+      - name: Validate all .agent/policies/*.yaml
+        run: |
+          python -c "
+          import yaml, glob, sys
+          fails = []
+          for f in sorted(glob.glob('.agent/policies/*.yaml')):
+              try:
+                  yaml.safe_load(open(f, encoding='utf-8'))
+                  print(f'OK   {f}')
+              except Exception as e:
+                  fails.append((f, e))
+                  print(f'FAIL {f}: {e}')
+          sys.exit(0 if not fails else 1)
+          "
+
+  golden-static:
+    name: Sora Golden Test (static_check)
+    runs-on: ubuntu-latest
+    needs: syntax-check
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run static-only golden tests
+        run: |
+          python -X utf8 scripts/run_sora_golden.py --static-only --fail-on P0 --report text
+
+  adversarial-redaction:
+    name: Sora Adversarial (secret redaction)
+    runs-on: ubuntu-latest
+    needs: syntax-check
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run redaction-only adversarial tests
+        run: |
+          python -X utf8 scripts/run_sora_adversarial.py --redaction-only --fail-on P0 --report text
+
+  hardcode-audit:
+    name: Hardcode Owner Data Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify owner PII not hardcoded in source
+        run: |
+          set -e
+          # 핵심 SSOT 파일에서 owner 개인정보 hardcode 확인 (zero tolerance)
+          for f in src/core/sora_engine.py src/core/brain/agent_router.py src/core/brain/worker.py; do
+            count=$(grep -c "허예솔\|010-3743-2073\|dpthf1537" "$f" 2>/dev/null || echo "0")
+            echo "$f: $count hardcoded owner refs"
+            if [ "$count" -gt 0 ]; then
+              echo "FAIL: hardcoded owner data found in $f"
+              exit 1
+            fi
+          done
+          echo "PASS: 0 hardcoded owner PII in core files"
+
+  local-first-architecture:
+    name: Local-First Architecture (Sora 메인 모델)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Local LLM primary in sora_engine
+        run: |
+          set -e
+          if ! grep -q "Local LLM (Qwen3-14B) primary" src/core/sora_engine.py; then
+            echo "FAIL: Local-first architecture marker missing"
+            exit 1
+          fi
+          if ! grep -q "Local fail 시 Gemini cloud fallback" src/core/sora_engine.py; then
+            echo "FAIL: Gemini fallback chain marker missing"
+            exit 1
+          fi
+          echo "PASS: Local LLM primary + Gemini fallback architecture verified"
+
+  threat-model-current:
+    name: Threat Model Up-to-date (분기 갱신)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify threat_model_v1.md last update < 90d
+        run: |
+          set -e
+          if [ ! -f .agent/knowledge/security/threat_model_v1.md ]; then
+            echo "FAIL: threat_model_v1.md missing"
+            exit 1
+          fi
+          last=$(git log -1 --format=%ct .agent/knowledge/security/threat_model_v1.md)
+          now=$(date +%s)
+          age_days=$(( (now - last) / 86400 ))
+          echo "threat_model age: ${age_days}d"
+          if [ "$age_days" -gt 90 ]; then
+            echo "WARN: threat_model > 90d old (분기 갱신 필요)"
+            # warn only, do not fail (P1 alert)
+          fi
+
+  ssot-revision-bump:
+    name: SSOT Revision Bump Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify ssotRevision changed when .agent/ changed
+        run: |
+          # If .agent/ files changed in this PR, SSOT_REVISION.txt should also change
+          set -e
+          base="${{ github.event.pull_request.base.sha }}"
+          head="${{ github.event.pull_request.head.sha }}"
+          if [ -z "$base" ] || [ -z "$head" ]; then
+            echo "skip: not a PR context"
+            exit 0
+          fi
+          agent_changed=$(git diff --name-only $base..$head | grep -c "^\.agent/" || echo "0")
+          revision_changed=$(git diff --name-only $base..$head | grep -c "infra/agent-runtime/SSOT_REVISION.txt" || echo "0")
+          echo ".agent/ changed: $agent_changed files"
+          echo "SSOT_REVISION changed: $revision_changed"
+          if [ "$agent_changed" -gt 0 ] && [ "$revision_changed" -eq 0 ]; then
+            echo "WARN: .agent/ changed but SSOT_REVISION.txt unchanged. Run scripts/sync_agent_context.py"
+            # warn only — recommendation
+          fi

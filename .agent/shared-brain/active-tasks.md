@@ -577,6 +577,27 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
 
+- [x] **P13 자율 — 4 agents (BBB/CCC/YY/AAA) + ZZ content-filter pivot + 직접 community files** ✅ (2026-05-04) — owner 지시 "다음은?" / "이번 세션에서 모두 진행"
+  * **Agent YY (다국어 번역, $0 native)**: glossary 17 terms × 3 locales (ko/ja/zh) = 51 locale defs / 136 `DefinedTerm` 인스턴스. 3 신규 KO blog (`how-we-run-11-products-ko` / `inside-hive-mind-ko` / `running-11-saas-products-as-solo-founder-2026-ko`, ~6,100 native KO words). About KO 섹션 ~600 words 확장. sitemap 14→17. Build clean.
+  * **Agent AAA (cross-publish)**: GitHub Discussions #2 (Inside HIVE MIND) + #3 (Solo founder) **PUBLISHED** with canonical_url attribution (top blockquote + closing link). 4 ready-to-paste markdown 저장 (devto-* / hashnode-* — owner G2 5분 API key 발급 후 자동 publish).
+  * **Agent BBB (awesome-list PRs follow-up)**: cold honest correction — PRs only 19h old, anti-spam discipline 유지, 0 follow-ups. 다음 valid follow-up 2026-05-08.
+  * **Agent CCC (PWC submission discovery)**: PWC decommissioned (HF acquired) 발견. theater 회피, 8 datasets 이미 successor surface (huggingface.co/papers/trending) 위에.
+  * **Agent ZZ (engagement enrichment)** ❌ content filter block → **직접 작업으로 대체**: SECURITY.md (RFC 9116) + CODE_OF_CONDUCT.md (Contributor Covenant v2.1 reference) + .github/FUNDING.yml + PULL_REQUEST_TEMPLATE.md + ISSUE_TEMPLATE/{config,bug_report,feature_request,dataset_use}.md (7 신규 파일).
+  * **직접 작업**: GitHub Discussions enable + Discussion #1 (Q2 Status Report, Show and Tell) Python urllib post + Yandex Webmaster sitemap ping 200.
+  * **Schema 통합**: 3 GitHub Discussion URLs → `ORGANIZATION_SCHEMA.sameAs` (#1/#2/#3). Community Discussions section → llms.txt + llms-full.txt. canonical attribution policy 명시.
+  * **Bidirectional translation linking**: `BlogPostSchemas` helper auto-detect `<slug>-ko` sibling → `workTranslation` `BlogPosting` node emit. Agent YY 의 known limitation (2 static blog `how-we-run-11-products` + `inside-hive-mind` 가 KO siblings 로 link 안 함) 자동 fix.
+  * **Commits**: landing `c4b73ba` (10 files, +985/-47, Vercel auto-deploy) + neo-genesis main `9be8876` (6 files, +519, SECURITY.md + cross-publish artifacts) + neo-genesis main P13-followup (engagement files + CHANGELOG 0.13.0 + active-tasks).
+  * **누적 P0~P13 자율 산출 (1개월, $0)**:
+    - **17 blog posts** (P12+2 + P13+3 KO) + 10 /data/research + Q2 Report 5,554w + 41.7KB PDF
+    - **8 HF datasets (Parquet Viewer 100%) + 3 HF Spaces RUNNING + 5 awesome-list PRs (~60K⭐) + 9 Zenodo DOIs + 11 OpenAlex + 439 Wikidata statements**
+    - **5 /docs routes** (17 DefinedTerm × 4 langs + 6 TechArticle + 5 HowTo + 28 HowToStep) + PWA manifest + 10 favicons
+    - **3 GitHub Discussions** (#1/#2/#3) + GSC sitemap submission HTTP 204 (60 URLs)
+    - **9 infra surfaces** (humans/security/ai-policy/feed.json/Dublin Core/hreflang) + **7 community files** (CONTRIBUTING/CHANGELOG/CITATION/SECURITY/CODE_OF_CONDUCT/FUNDING/ISSUE+PR templates)
+  * **owner action 잔존 (3건, 모두 5분 무료)**:
+    - Bing Webmaster Tools 인증 (Microsoft ecosystem)
+    - Show HN post (EthicaAI Melting Pot, Wikipedia notability seed)
+    - dev.to + Hashnode API key 발급 (cross-publish 4 추가 URL 자동화)
+
 - [x] **P12 자율 — 5 에이전트 + 직접 Schema 강화 + Blog Auto-Gen 첫 라이브 프로덕션** ✅ (2026-05-04) — owner 지시 "다음은" — 5 병렬 에이전트 모두 성공
   * **Agent TT (Blog Auto-Gen 첫 라이브)** ⭐: 2 신규 blog posts 라이브, 둘 다 V-Score 185.0 PASS, $0 cost
     - `/blog/ai-native-automation-companies-2026-evaluation` (EN, 1,883w, 7/7 citations HEAD 200)

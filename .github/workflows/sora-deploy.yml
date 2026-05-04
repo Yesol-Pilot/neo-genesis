@@ -1,0 +1,121 @@
+name: Sora Deploy Pipeline
+
+# Sora 컨테이너 이미지 자동 빌드 + 검증 + (manual) swap
+# Sprint 4 Day 25: CI/CD GitHub Actions
+# Trigger: push to main with src/core/** changes OR manual dispatch
+# 자율 결정: registry push 안 함 (보안 + 비용), self-hosted runner on ysh-server 만 허용
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'src/core/**'
+      - 'auto-trading/scripts/**'
+      - 'tests/agent_golden/**'
+      - '.github/workflows/sora-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag (e.g., v6.16-feature)'
+        required: true
+        default: 'v-auto'
+      auto_swap:
+        description: 'Auto swap to new image after smoke test'
+        type: boolean
+        default: false
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check Python
+        run: |
+          for f in src/core/brain/agent_router.py src/core/brain/worker.py \
+                   src/core/contracts/sora_io_contracts.py \
+                   src/core/contracts/session_manager.py \
+                   src/core/local_llm_adapter.py \
+                   src/core/utils/llm_client.py \
+                   src/core/notifications/discord_webhook.py \
+                   src/core/brain/cli_code_agent.py; do
+            [ -f "$f" ] && python -m py_compile "$f" && echo "OK: $f"
+          done
+      - name: Validate golden test JSON
+        run: |
+          python -c "import json; json.load(open('tests/agent_golden/sora_v1.json'))"
+          echo "golden_v1.json valid"
+
+  build-and-test:
+    needs: syntax-check
+    runs-on: self-hosted
+    if: github.repository_owner == 'Yesol-Pilot'
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Determine tag
+        id: tag
+        run: |
+          TAG="${{ github.event.inputs.tag }}"
+          if [ -z "$TAG" ] || [ "$TAG" = "v-auto" ]; then
+            TAG="v-ci-$(date +%Y%m%d-%H%M%S)"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+      - name: Sync to ysh-server build context
+        run: |
+          rsync -av --delete \
+            src/core/ ysh-server:/home/ysh/sora/build/src/core/ \
+            --exclude='__pycache__' --exclude='*.pyc'
+      - name: Build image
+        run: |
+          ssh ysh-server "cd /home/ysh/sora/build && docker build \
+            --build-arg CACHE_BUST=\$(date +%s) \
+            -t sora:${{ steps.tag.outputs.tag }} \
+            -f Dockerfile . 2>&1 | tail -5"
+      - name: Smoke test (import)
+        run: |
+          ssh ysh-server "echo 'ysh1234!' | sudo -S bash -c '
+            cat > /tmp/_smoke.py << \"PYEOF\"
+import sys
+sys.path.insert(0, \"/app\")
+from src.core.contracts.sora_io_contracts import NormalizedInput
+from src.core.contracts.session_manager import get_session_manager
+from src.core.brain.worker import BrainWorker
+from src.core.brain.agent_router import AgentRouter
+print(\"IMPORTS_OK\")
+PYEOF
+            docker run --rm -v /tmp/_smoke.py:/tmp/_smoke.py --entrypoint python3 sora:${{ steps.tag.outputs.tag }} /tmp/_smoke.py'"
+      - name: Run golden tests against current production
+        run: |
+          ssh ysh-server "/usr/bin/node /home/ysh/sora/scripts/run-sora-golden-tests.js"
+      - name: Push to GHCR (#67)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ssh ysh-server "echo 'ysh1234!' | sudo -S bash -c '
+            echo \$GITHUB_TOKEN | docker login ghcr.io -u \${{ github.actor }} --password-stdin
+            docker tag sora:${{ steps.tag.outputs.tag }} ghcr.io/yesol-pilot/sora:${{ steps.tag.outputs.tag }}
+            docker push ghcr.io/yesol-pilot/sora:${{ steps.tag.outputs.tag }}
+          '" || echo "GHCR push optional, continuing"
+
+      - name: Auto-swap (if requested)
+        if: github.event.inputs.auto_swap == 'true'
+        run: |
+          ssh ysh-server "echo 'ysh1234!' | sudo -S bash -c '
+            docker stop sora-live 2>/dev/null
+            docker rm sora-live 2>/dev/null
+            docker run -d --name sora-live --restart unless-stopped \
+              --env-file /home/ysh/sora/secrets/.env \
+              -e BRAIN_CONCURRENCY=2 \
+              -v /home/ysh/sora/data/secrets:/app/secrets:rw \
+              -v /home/ysh/sora/data:/app/data:rw \
+              -v /home/ysh/sora/data/chroma_db:/app/src/core/data/rag/chroma_db:rw \
+              -v /home/ysh/sora/data/assistant_memory:/app/src/core/data/assistant_memory:rw \
+              -v /home/ysh/sora/data/logs:/app/logs:rw \
+              -p 7700:7700 \
+              sora:${{ steps.tag.outputs.tag }}'"
+          sleep 15
+          ssh ysh-server "/usr/bin/node /home/ysh/sora/scripts/daily-sora-health-probe.js"

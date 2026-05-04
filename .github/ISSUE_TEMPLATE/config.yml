@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Hugging Face dataset discussions
+    url: https://huggingface.co/neogenesislab
+    about: For questions about specific datasets (Korean RAG SSOT, EthicaAI, WhyLab Docker, etc.), use the discussion tab on the corresponding HF dataset page.
+  - name: Glossary lookup
+    url: https://neogenesis.app/docs/glossary
+    about: 17 defined terms with Schema.org DefinedTerm markup. Check here before opening a clarification issue.
+  - name: How-to guides
+    url: https://neogenesis.app/docs/how-to
+    about: Five reproducibility guides covering RAG, multi-device fleet, V-Score, Wikidata, trust manufacturing.
+  - name: Citation format
+    url: https://github.com/Yesol-Pilot/neo-genesis/blob/master/CITATION.cff
+    about: Use the GitHub "Cite this repository" button or copy the BibTeX from CITATION.cff.

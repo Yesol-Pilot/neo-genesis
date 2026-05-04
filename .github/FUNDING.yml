@@ -1,0 +1,9 @@
+# Sponsorship configuration for Neo Genesis
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+
+# Currently no funding channels are activated. Neo Genesis is solo-operator
+# funded and prefers citation + dataset use over monetary sponsorship.
+# To cite this project, use the GitHub "Cite this repository" button or see CITATION.cff.
+
+github: []
+custom: ["https://neogenesis.app", "https://heoyesol.kr"]
