@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-05-03",
+  "purpose": "Track cross-publish URLs for layout.tsx ORGANIZATION_SCHEMA.sameAs and llms.txt enrichment.",
+  "policy": {
+    "canonical_url_required": true,
+    "platforms_with_api_keys": [],
+    "platforms_without_api_keys": ["dev.to", "Hashnode"],
+    "platforms_published_autonomously": ["GitHub Discussions"]
+  },
+  "posts": [
+    {
+      "slug": "inside-hive-mind",
+      "canonical_url": "https://neogenesis.app/blog/inside-hive-mind",
+      "cross_published": [
+        {
+          "platform": "GitHub Discussions",
+          "status": "PUBLISHED",
+          "url": "https://github.com/Yesol-Pilot/neo-genesis/discussions/2",
+          "category": "Show and tell",
+          "node_id": "D_kwDOSLRJws4AmJKT",
+          "canonical_attribution": "explicit blockquote at top + closing link"
+        },
+        {
+          "platform": "dev.to",
+          "status": "DOCUMENTED",
+          "ready_to_paste_file": ".agent/knowledge/cross-publish/devto-inside-hive-mind.md",
+          "front_matter_canonical_url_set": true,
+          "owner_action_required": "Generate API key at dev.to → Settings → Account → DEV API Keys, save to .env.local as DEVTO_API_KEY, then re-run cross-publish"
+        },
+        {
+          "platform": "Hashnode",
+          "status": "DOCUMENTED",
+          "ready_to_paste_file": ".agent/knowledge/cross-publish/hashnode-inside-hive-mind.md",
+          "front_matter_canonical_url_set": true,
+          "owner_action_required": "Generate Personal Access Token at Hashnode → Settings → Developer, save to .env.local as HASHNODE_API_KEY, then re-run cross-publish"
+        }
+      ]
+    },
+    {
+      "slug": "running-11-saas-products-as-solo-founder-2026",
+      "canonical_url": "https://neogenesis.app/blog/running-11-saas-products-as-solo-founder-2026",
+      "cross_published": [
+        {
+          "platform": "GitHub Discussions",
+          "status": "PUBLISHED",
+          "url": "https://github.com/Yesol-Pilot/neo-genesis/discussions/3",
+          "category": "Show and tell",
+          "node_id": "D_kwDOSLRJws4AmJKZ",
+          "canonical_attribution": "explicit blockquote at top + closing link"
+        },
+        {
+          "platform": "dev.to",
+          "status": "DOCUMENTED",
+          "ready_to_paste_file": ".agent/knowledge/cross-publish/devto-running-11-saas-products.md",
+          "front_matter_canonical_url_set": true,
+          "owner_action_required": "Same as above"
+        },
+        {
+          "platform": "Hashnode",
+          "status": "DOCUMENTED",
+          "ready_to_paste_file": ".agent/knowledge/cross-publish/hashnode-running-11-saas-products.md",
+          "front_matter_canonical_url_set": true,
+          "owner_action_required": "Same as above"
+        }
+      ]
+    }
+  ],
+  "next_steps": [
+    "Add the 2 GitHub Discussions URLs to layout.tsx ORGANIZATION_SCHEMA.sameAs (or create a dedicated schema field for own-org backlinks)",
+    "Reference Discussion URLs in llms.txt under a 'Community discussions' section",
+    "Once dev.to + Hashnode API keys arrive, re-run cross-publish — total = 6 cross-publish URLs (2 posts × 3 platforms)"
+  ],
+  "infrastructure_changes": [
+    "Enabled GitHub Discussions on Yesol-Pilot/neo-genesis (was disabled prior to 2026-05-03)"
+  ]
+}
