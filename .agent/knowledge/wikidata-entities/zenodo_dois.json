@@ -1,0 +1,104 @@
+{
+  "minted_at": "2026-05-04T04:12:07.936294+00:00",
+  "dois": [
+    {
+      "slug": "korean-rag-ssot-golden-50",
+      "title": "Korean RAG SSOT Golden 50 (Neo Genesis)",
+      "upload_type": "dataset",
+      "doi": "10.5281/zenodo.20018462",
+      "record_id": 20018462,
+      "url": "https://zenodo.org/record/20018462",
+      "huggingface_url": "https://huggingface.co/datasets/neogenesislab/korean-rag-ssot-golden-50",
+      "github_url": null,
+      "minted_at_utc": "2026-05-04T04:11:19.166936+00:00"
+    },
+    {
+      "slug": "ethicaai-mixed-safe-evidence",
+      "title": "EthicaAI Mixed-Safe Multi-Environment Evidence (NeurIPS 2026)",
+      "upload_type": "dataset",
+      "doi": "10.5281/zenodo.20018466",
+      "record_id": 20018466,
+      "url": "https://zenodo.org/record/20018466",
+      "huggingface_url": "https://huggingface.co/datasets/neogenesislab/ethicaai-mixed-safe-evidence",
+      "github_url": null,
+      "minted_at_utc": "2026-05-04T04:11:28.687405+00:00"
+    },
+    {
+      "slug": "whylab-gemini-2-5-docker-validation",
+      "title": "WhyLab Gemini 2.5 Flash Docker Validation (Honest Null Result)",
+      "upload_type": "dataset",
+      "doi": "10.5281/zenodo.20018468",
+      "record_id": 20018468,
+      "url": "https://zenodo.org/record/20018468",
+      "huggingface_url": "https://huggingface.co/datasets/neogenesislab/whylab-gemini-2-5-docker-validation",
+      "github_url": null,
+      "minted_at_utc": "2026-05-04T04:11:34.234786+00:00"
+    },
+    {
+      "slug": "sbu-pseo-effects-2026-04",
+      "title": "Neo Genesis SBU Programmatic SEO Effects (April 2026)",
+      "upload_type": "dataset",
+      "doi": "10.5281/zenodo.20018474",
+      "record_id": 20018474,
+      "url": "https://zenodo.org/record/20018474",
+      "huggingface_url": "https://huggingface.co/datasets/neogenesislab/sbu-pseo-effects-2026-04",
+      "github_url": null,
+      "minted_at_utc": "2026-05-04T04:11:39.889806+00:00"
+    },
+    {
+      "slug": "cross-agent-review-queue-2026",
+      "title": "Cross-Agent Code Review Queue (Codex <-> Claude, Neo Genesis 2026)",
+      "upload_type": "dataset",
+      "doi": "10.5281/zenodo.20018477",
+      "record_id": 20018477,
+      "url": "https://zenodo.org/record/20018477",
+      "huggingface_url": "https://huggingface.co/datasets/neogenesislab/cross-agent-review-queue-2026",
+      "github_url": null,
+      "minted_at_utc": "2026-05-04T04:11:45.368336+00:00"
+    },
+    {
+      "slug": "korean-llm-citation-baseline-2026",
+      "title": "Korean LLM Citation Baseline 2026 (Neo Genesis GEO Measurement)",
+      "upload_type": "dataset",
+      "doi": "10.5281/zenodo.20018479",
+      "record_id": 20018479,
+      "url": "https://zenodo.org/record/20018479",
+      "huggingface_url": "https://huggingface.co/datasets/neogenesislab/korean-llm-citation-baseline-2026",
+      "github_url": null,
+      "minted_at_utc": "2026-05-04T04:11:51.250159+00:00"
+    },
+    {
+      "slug": "sora-multi-device-orchestration-2026",
+      "title": "Sora Multi-Device Orchestration Architecture 2026",
+      "upload_type": "dataset",
+      "doi": "10.5281/zenodo.20018481",
+      "record_id": 20018481,
+      "url": "https://zenodo.org/record/20018481",
+      "huggingface_url": "https://huggingface.co/datasets/neogenesislab/sora-multi-device-orchestration-2026",
+      "github_url": null,
+      "minted_at_utc": "2026-05-04T04:11:56.742477+00:00"
+    },
+    {
+      "slug": "quant-v11-ensemble-6alpha-specs-2026",
+      "title": "Quant v11 Ensemble 6-Alpha Specs & Risk Engineering 2026",
+      "upload_type": "dataset",
+      "doi": "10.5281/zenodo.20018487",
+      "record_id": 20018487,
+      "url": "https://zenodo.org/record/20018487",
+      "huggingface_url": "https://huggingface.co/datasets/neogenesislab/quant-v11-ensemble-6alpha-specs-2026",
+      "github_url": null,
+      "minted_at_utc": "2026-05-04T04:12:02.508966+00:00"
+    },
+    {
+      "slug": "neo-genesis-repo-v1",
+      "title": "Neo Genesis: Solo-Operator AI-Native Conglomerate (Public Source Repository v1.0.0)",
+      "upload_type": "software",
+      "doi": "10.5281/zenodo.20018489",
+      "record_id": 20018489,
+      "url": "https://zenodo.org/record/20018489",
+      "huggingface_url": null,
+      "github_url": "https://github.com/Yesol-Pilot/neo-genesis",
+      "minted_at_utc": "2026-05-04T04:12:07.936278+00:00"
+    }
+  ]
+}
