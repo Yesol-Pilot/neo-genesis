@@ -1,89 +1,22 @@
 # SBU Growth Loop
 
-- generatedAt: 2026-05-04T13:54:42+09:00
+- generatedAt: 2026-05-04T17:45:28+09:00
 - passed: true
 
 ## Steps
 
 | Step | OK | Status |
 |---|---:|---:|
-| publisher-verify | true | 0 |
 | control-tower | true | 0 |
 | search-growth-flywheel | true | 0 |
+| full-live-quality | true | 0 |
 | regression-gate | true | 0 |
 
 ## Tails
 
-### publisher-verify
-
-```text
-{
-  "date": "2026-05-04",
-  "results": [
-    {
-      "site": "aiforge",
-      "action": "verify-only",
-      "slug": "2026-05-04-ai-agent-evaluation-platforms",
-      "latest": "2026-05-04",
-      "live": {
-        "blog": true,
-        "detail": true,
-        "sitemap": true
-      }
-    },
-    {
-      "site": "craftdesk",
-      "action": "verify-only",
-      "slug": "2026-05-04-ai-design-qa-tools",
-      "latest": "2026-05-04",
-      "live": {
-        "blog": true,
-        "detail": true,
-        "sitemap": true
-      }
-    },
-    {
-      "site": "deploystack",
-      "action": "verify-only",
-      "slug": "2026-05-04-deployment-preview-workflows",
-      "latest": "2026-05-04",
-      "live": {
-        "blog": true,
-        "detail": true,
-        "sitemap": true
-      }
-    },
-    {
-      "site": "finstack",
-      "action": "verify-only",
-      "slug": "2026-05-04-payment-reconciliation-tools",
-      "latest": "2026-05-04",
-      "live": {
-        "blog": true,
-        "detail": true,
-        "sitemap": true
-      }
-    },
-    {
-      "site": "sellkit",
-      "action": "verify-only",
-      "slug": "2026-05-04-ecommerce-conversion-analytics-tools",
-      "latest": "2026-05-04",
-      "live": {
-        "blog": true,
-        "detail": true,
-        "sitemap": true
-      }
-    }
-  ]
-}
-```
-
 ### control-tower
 
 ```text
-          "daysSinceLatest": 0,
-          "fresh": true,
           "categoryCount": 10,
           "avgWords": 1030,
           "frontmatterCoverage": 1,
@@ -138,7 +71,9 @@
           "hasSitemap": true
         }
       },
-      "actions": []
+      "actions": [
+        "Review dirty working tree before automated publish/deploy."
+      ]
     }
   ]
 }
@@ -209,17 +144,54 @@
 }
 ```
 
+### full-live-quality
+
+```text
+passed=True passedCount=13/13
+```
+
 ### regression-gate
 
 ```text
 {
   "report": "data\\sbu-growth\\control-tower-latest.json",
-  "generatedAt": "2026-05-04T13:54:07+09:00",
+  "generatedAt": "2026-05-04T17:43:13+09:00",
   "passed": true,
   "criticalIssueCount": 0,
-  "warningCount": 0,
+  "warningCount": 6,
   "issues": [],
-  "warnings": []
+  "warnings": [
+    {
+      "site": "toolpick",
+      "code": "dirty_worktree",
+      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
+    },
+    {
+      "site": "aiforge",
+      "code": "dirty_worktree",
+      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
+    },
+    {
+      "site": "craftdesk",
+      "code": "dirty_worktree",
+      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
+    },
+    {
+      "site": "deploystack",
+      "code": "dirty_worktree",
+      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
+    },
+    {
+      "site": "finstack",
+      "code": "dirty_worktree",
+      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
+    },
+    {
+      "site": "sellkit",
+      "code": "dirty_worktree",
+      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
+    }
+  ]
 }
 ```
 
