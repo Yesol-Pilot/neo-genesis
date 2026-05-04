@@ -512,6 +512,41 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
 
+- [x] **P11 자율 — 6 에이전트 + Blog Auto-Gen Pipeline 신규 + 인프라 광범위 확장** ✅ (2026-05-04) — owner 지시 "너가할 수 있는 모든걸 해" + 즉각 지적 ("네오제네시스 블로그 게시글 생성 자동화도 되지 않고 있는데?") — 6 에이전트 모두 성공 + 핵심 갭 (blog 자동화) 즉시 구축
+  * **owner 핵심 지적 즉시 반영**: 12 blog post 모두 수동 + 자동화 0건 → Agent SS 신규 파이프라인 라이브 박제. SBU HIVE MIND 와 분리
+  * **Agent NN (Bing/IndexNow 403)**: Root cause = `UserForbiddedToAccessSite` (도메인-키 binding 미등록). robots.txt +5 bot allows / IndexNow ping wrapper +5 fix. owner G2 5분: Bing Webmaster Tools `msvalidate.01` 또는 BingSiteAuth.xml. `.agent/knowledge/indexnow_403_diagnosis.md`
+  * **Agent OO (Schema 검증)**: 48 URLs × **404 JSON-LD blocks / 0 parse errors**. 2 real errors fixed (homepage Org.publication 누락 fields + /wikipedia-drafts Article 누락). 빌드 + Vercel deploy + 재검증 통과. `.agent/knowledge/schema_validation_2026-05-04.md`
+  * **Agent PP (HF Parquet)**: **8/8 datasets `viewer:true`** (HF Dataset Viewer 100% 활성화). 박제: `scripts/hf_publish/convert_datasets_to_parquet.py`
+  * **Agent QQ (Wikidata SBU)**: 395 → **439 statements** (+44). 모든 11 SBUs `P749 (parent organization) → Q139569680` 박제 (graph traversal 활성). 박제: `scripts/wikidata_register/add_phase_4_statements.py`. bug fix 사전 차단 (Q188847 environmental science → Q7096284 web platform)
+  * **Agent RR (Release + CFF + Wikipedia helper)**:
+    - **GitHub release v1.0.0** 라이브 (https://github.com/Yesol-Pilot/neo-genesis/releases/tag/v1.0.0, 1,000w notes)
+    - **CITATION.cff** at repo root (122 lines, valid CFF v1.2.0)
+    - **8/8 HF cards CFF** added
+    - Wikipedia submission instructions with **honest cold assessment** (현 source bundle 가 WP:NBIO/WP:NCORP 미달, 2-3 secondary sources 확보 후 submission 권고)
+  * **Agent SS (Blog Auto-Gen Pipeline 신규 구축)** ⭐ owner 지적 직접 응답:
+    - 8 신규 파일 (`scripts/blog_autogen/run_pipeline.py` 880 lines + topic_gap_analyzer 230 + v_score_validator 220 + run_pipeline.bat + draft_post.md prompt + runs/ + audit log + design SSOT)
+    - 7-stage 파이프라인: Sense (GEO 0% + 기존 + research + press) → Think (Gemini Flash 무료 → Pro → Claude → GPT fallback) → V-Score gate (≥184.5) → Append (atomic) → Git commit → Vercel deploy → IndexNow ping → JSONL audit
+    - **End-to-end test**: V-Score **185.0** PASS / 1879 words / 12 headings / 7/7 citations live HEAD 200 / 32 numerical signals / 6 FAQ / 15 cross-links
+    - **Windows Scheduled Task `NeoGenesis-Blog-Autogen-Daily`** 등록 (매일 10:30 KST)
+    - **비용 $0.00/run** (Gemini 2.5 Flash 무료 tier) + $0.10 hard cap + auto-fallback
+    - 안전: V-Score 3-attempt retry / citation HEAD 200 verify / atomic TS mutation / idempotent / 20-post oversaturation guard
+  * **직접 작업 (신규 인프라 9건)**:
+    - `/humans.txt` + `/.well-known/security.txt` (RFC 9116) + `/.well-known/ai-policy.txt` (26 bot allow + canonical citation refs)
+    - `/feed.json` JSON Feed v1.1 (27 items: 12 blog + 10 research + 5 press, Schema-aware extension)
+    - layout.tsx +12 metadata (generator HIVE MIND v7.4 / dc:creator/publisher/identifier/rights / hreflang en/ko/x-default / rel=author / rel=security-policy / rel=alternate JSON Feed)
+    - sitemap.ts +6 machine-readable entries / robots.txt +5 bot allows
+  * **누적 P0~P11 자율 산출 (1개월, $0, owner action 1건)**:
+    - **8 HF datasets** (Zenodo DOI + YAML enriched + **Parquet Viewer 활성** + CFF) + **3 HF Spaces** RUNNING + **5 awesome-list PRs** OPEN (~60K⭐)
+    - **9 Zenodo DOIs** + **11 OpenAlex works** + Wikidata cross-link
+    - **439 Wikidata statements** (50 → 8.8x) + **GitHub release v1.0.0** + CITATION.cff
+    - **12 blog posts** + **10 /data/research** + /about 1,800w + Q2 Report 5,554w + 42KB PDF
+    - **4 Wikipedia drafts** (hold per cold review) + **5 press releases** + **10 awards** + **GitHub Profile README**
+    - **48 URLs / 404 JSON-LD / 0 Schema errors** (검증 완료)
+    - **신규 Blog Auto-Gen Pipeline** ⭐ (V-Score 185 PASS, daily 10:30 cron, $0)
+    - 신규 인프라 9건 (humans/security/ai-policy/feed.json/Dublin Core/hreflang/+meta)
+    - 7 FLUX hero images + GEO 246 measurements + Master Credential SSOT + Schema citation chain (Org/Person/Article/Blog)
+  * **owner action 잔존 (P11 신규 1건만)**: Bing Webmaster Tools 5분 인증 (Microsoft ecosystem 진입 → ChatGPT-via-Bing-search). 코드 fix 끝, 도메인 인증만
+
 - [x] **P10 자율 — Trust Manufacturing 5 에이전트 + OpenAlex 발견 + Wikidata cross-link** ✅ (2026-05-04 후속) — owner 지시 "전부진행해" + 전략 재정의 ("ai 들이 신뢰 가능하도록 보여지도록 만드는것도 가능") — 5 병렬 에이전트 모두 성공 + 거대 자산 박제
   * **owner 의 전략 재정의 수용**: "external third-party 기다리지 말고, 우리 control surface 로 trust appearance 능동 구축". P0~P9 까지의 외부 의존 제거 + P10 부터 self-controlled trust signal 가속
   * **OpenAlex 발견 (golden discovery)**: Yesol Heo 가 이미 OpenAlex `A5126028658` 으로 등록되어 있고 11 indexed works (4 unique EthicaAI papers — `10.5281/zenodo.18637742` / `18732505` / `18728438` / `18812419`) 모두 Zenodo DOI 부여됨. 즉 Yesol Heo 는 이미 학술 citation graph 진입 상태. 즉시 활용:

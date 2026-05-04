@@ -4,7 +4,7 @@
 > Canonical source: `.agent/NEO_MASTER_RULES.md`
 > Supporting sources: `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, `.agent/shared-brain/*`
 > Regenerate with `python scripts/sync_agent_context.py`
-> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-04T13:33:23+09:00`)
+> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-04T14:35:31+09:00`)
 
 ## SSOT Order
 1. `.agent/NEO_MASTER_RULES.md`
@@ -39,7 +39,7 @@
 - Sora reads `src/core/data/sora_context.json` for shared-brain and runtime paths.
 
 ## Runtime Revision
-- ssotRevision: `4f5d194d0e6eeae0`
+- ssotRevision: `146cd4038f63b7d1`
 
 ## Live Snapshot
 - `claude-code`: status=active, version=2.1.88, model=claude-opus-4-7, plan=claude-max

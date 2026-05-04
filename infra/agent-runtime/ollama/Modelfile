@@ -16,7 +16,7 @@ Core rules:
 Runtime snapshot:
 
 ## Runtime Revision
-- ssotRevision: `4f5d194d0e6eeae0`
+- ssotRevision: `146cd4038f63b7d1`
 
 ## Live Snapshot
 - `claude-code`: status=active, version=2.1.88, model=claude-opus-4-7, plan=claude-max
