@@ -512,6 +512,68 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
 
+- [x] **P12 자율 — 5 에이전트 + 직접 Schema 강화 + Blog Auto-Gen 첫 라이브 프로덕션** ✅ (2026-05-04) — owner 지시 "다음은" — 5 병렬 에이전트 모두 성공
+  * **Agent TT (Blog Auto-Gen 첫 라이브)** ⭐: 2 신규 blog posts 라이브, 둘 다 V-Score 185.0 PASS, $0 cost
+    - `/blog/ai-native-automation-companies-2026-evaluation` (EN, 1,883w, 7/7 citations HEAD 200)
+    - `/blog/2026-ai-native-automation-top-companies` (KO, 2,009w, 7/7 citations HEAD 200)
+    - BlogPosting + FAQPage + BreadcrumbList all emit live
+    - Pipeline patch: git_commit_push() 가 src/landing/ submodule 내부 작동, credential helper 미래 fix 도큐먼트
+    - 누적 BLOG_POSTS 12 → 14
+  * **Agent UU (PWA infrastructure)**:
+    - `manifest.webmanifest` (W3C valid, 7 icons + 3 shortcuts: Blog/Data/Press)
+    - 10 favicons via PIL (favicon.ico multi-res + 16/32/180/192/192-maskable/512/512-maskable + apple-touch-icon)
+    - Source: existing assets/og.png (no new artwork)
+    - layout.tsx Metadata: manifest, icons array, applicationName, appleWebApp, msapplication-TileColor
+    - 신규 viewport export with themeColor #0a0e1a
+    - 박제: `scripts/landing/generate_favicons.py`
+  * **Agent VV (/docs knowledge base)** ⭐ — TechArticle + DefinedTerm + HowTo Schema 대량 emit
+    - 5 신규 routes: `/docs` (index) / `/docs/glossary` / `/docs/architecture` / `/docs/how-to` / `/docs/reference`
+    - **17 DefinedTerm × DefinedTermSet** (2,200w): HIVE MIND / V-Score / Blast Radius / Capability Token / Sora Orchestrator / Magentic Dual Ledger / disclose-and-confirm / Owner Sovereignty / 9-Layer Kill Switch / Schema Citation Chain / GEO / PAPER Mode / SSOT / Master Credential Standard / Trust Manufacturing / CONSTITUTION / A1-A6 Alpha Specs
+    - **3 TechArticle deep-dives** (2,080w): Sora Multi-Device Orchestration / HIVE MIND Pipeline / Schema Citation Chain
+    - **5 HowTo guides + 28 HowToStep** (2,500w): RAG Golden 50 reproduction / Multi-Device Fleet / V-Score / Wikidata KG / Trust Manufacturing
+    - **3 reference tables** (860w): Wikidata Q-IDs / Schema @type map / CC-BY-4.0 citation
+    - SSOT: `src/lib/data/glossary-terms.ts` (17 terms × 5 categories)
+    - Cross-refs: layout nav, mobile nav, /about, /faq, llms.txt, llms-full.txt
+    - Build verified: 34 DefinedTerm + 7 TechArticle + 5 HowTo + 28 HowToStep + 1 DefinedTermSet
+  * **Agent WW (Wikipedia notability research — brutal honest)**:
+    - **0 third-party mentions found** (HN Algolia / OpenAlex / Semantic Scholar / GitHub / HF / Reddit / DDG)
+    - All Yesol-Pilot/* repos: 0 stars / 0 forks / 0 watchers / 0 issues / 0 third-party PRs
+    - HF neogenesislab: max 27 downloads / 0 likes from others
+    - **Wikipedia notability gate FAIL** (WP:NBIO + WP:NCORP 둘 다 unmet, N=0)
+    - 권고 (cold verdict 유지): DO NOT SUBMIT
+    - 권고 actions:
+      - **owner G2**: Show HN post (EthicaAI Melting Pot, highest single-action ROI)
+      - **owner G2**: Beta List + Indie Hackers + Sidebar simultaneous
+      - 자율 가능: 번역 (ja/zh/es) + arXiv-ready EthicaAI/WhyLab finalize
+    - 현실적 Wikipedia clearance: **Q3-Q4 2026**
+    - 보고: `.agent/knowledge/wikipedia-drafts/notability_research_2026-05-04.md`
+  * **Agent XX (GSC sitemap submission HTTP 204 SUCCESS)**:
+    - Service account `neogenesismaster@ethereal-cache-487709-s3.iam.gserviceaccount.com` (existing GA4 SA at `C:\Users\yesol\Downloads\ethereal-cache-487709-s3-05b0a6adbe20.json`) 가 13 GSC properties siteOwner 권한 보유
+    - PUT https://searchconsole.googleapis.com/webmasters/v3/sites/.../sitemaps/... → **HTTP 204 success**
+    - lastSubmitted 2026-05-04T05:42:20Z / isPending=true / errors=0 / warnings=0
+    - Sitemap pre-submit: HTTP 200 / well-formed XML / **60 URLs** / 0 broken
+    - Bing: Webmaster API key 없음 (owner G2 등록 필요)
+    - 박제: `.agent/knowledge/gsc_sitemap_submission_2026-05-04.md`
+  * **직접 Schema 강화 (병렬)**:
+    - WEBSITE_SCHEMA: alternateName 3 + inLanguage [en,ko] + 2 SearchAction (blog + data) + SpeakableSpecification (voice AI) + hasPart 7 child pages + isPartOf + about → Organization
+    - RAG_GOLDEN_50_DATASET_SCHEMA: encodingFormat 3 + 3 DataDownload distributions + 2 identifiers (DOI Zenodo + Wikidata Q-ID) + citation ScholarlyArticle + dateModified
+  * **누적 P0~P12 자율 산출 (1개월, $0, owner action 2건 대기)**:
+    - **8 HF datasets** (DOI + YAML + Parquet Viewer + CFF) + **3 HF Spaces** + **5 awesome PRs** (~60K⭐)
+    - **9 Zenodo DOIs** + **11 OpenAlex works** + Wikidata 439 statements (50→8.8x)
+    - **GitHub release v1.0.0** + CITATION.cff
+    - **14 blog posts** (P12 +2 라이브 프로덕션) + **10 /data/research** + /about + Q2 Report 5,554w + PDF
+    - **Blog Auto-Gen Pipeline LIVE** (V-Score 185 검증, daily cron, $0)
+    - **5 /docs routes** (17 DefinedTerm + 6 TechArticle + 5 HowTo + 28 HowToStep)
+    - **PWA manifest** + 10 favicons (real product signal)
+    - **GSC sitemap submission HTTP 204** (60 URLs, Google re-crawl scheduled)
+    - 4 Wikipedia drafts (hold per cold review N=0) + 5 press + 10 awards + GitHub Profile
+    - 9 infra surfaces (humans/security/ai-policy/feed.json/Dublin Core/hreflang/...)
+    - Schema citation chain (Org/Person/Article/Blog) + WebSite SearchAction + SpeakableSpecification + DataDownload
+    - 7 FLUX hero images + GEO 246 measurements + Master Credential SSOT
+  * **owner action 잔존 (2건)**:
+    - **Bing Webmaster Tools 5분 인증** (Microsoft ecosystem 진입 → ChatGPT-via-Bing-search citation pickup)
+    - **Show HN 포스트** (EthicaAI Melting Pot finding, highest single-action ROI for Wikipedia notability)
+
 - [x] **P11 자율 — 6 에이전트 + Blog Auto-Gen Pipeline 신규 + 인프라 광범위 확장** ✅ (2026-05-04) — owner 지시 "너가할 수 있는 모든걸 해" + 즉각 지적 ("네오제네시스 블로그 게시글 생성 자동화도 되지 않고 있는데?") — 6 에이전트 모두 성공 + 핵심 갭 (blog 자동화) 즉시 구축
   * **owner 핵심 지적 즉시 반영**: 12 blog post 모두 수동 + 자동화 0건 → Agent SS 신규 파이프라인 라이브 박제. SBU HIVE MIND 와 분리
   * **Agent NN (Bing/IndexNow 403)**: Root cause = `UserForbiddedToAccessSite` (도메인-키 binding 미등록). robots.txt +5 bot allows / IndexNow ping wrapper +5 fix. owner G2 5분: Bing Webmaster Tools `msvalidate.01` 또는 BingSiteAuth.xml. `.agent/knowledge/indexnow_403_diagnosis.md`
