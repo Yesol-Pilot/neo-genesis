@@ -1379,3 +1379,44 @@ Claude 4병렬 리서치(R1-R4) → Codex 기존 v2 팩(P0~P6 구현 완료)과 
 - VM `quant-bot` crontab: `0 0 * * * cd /home/yesol/quant-bot && /usr/bin/node scripts/daily-risk-officer-report.js >> logs/risk-officer/$(date +%Y-%m-%d).log 2>&1`
 - 매일 09:00 KST 자동 실행
 - 텔레그램 fix 후 owner 가 매일 받음
+
+---
+
+## 2026-05-04 (afternoon) Sora 잔존 task 일괄 + P0 output_filter wiring fix (Claude Opus 4.7)
+
+owner 명령 흐름: "잔존 테스트 전부 진행" → "전부 진행" → "계속해" → "전부 진행"
+
+### 종합 결과 (5건)
+| ID | 결과 |
+|---|---|
+| LL-1 Tailscale routing | ⚠️ deferred (자율 진단 한계, anti-virus/Network Protection 차단 추정) |
+| W6.T2 runtime adversarial | ✅ P0 critical bug 발견 + lazy import fix |
+| W7.T1 chaos drill | ✅ runbook (S1~S6) |
+| W9.T1 PIPA + data retention | ✅ 정책 + enforcer + dry-run PASS |
+| BOT-2 token 회전 | ⚠️ owner 만 가능 |
+
+### 가장 큰 발견 — output_filter wiring 매 부팅 fail
+직전 모든 sora 응답 (5/3 telegram bot token redaction / 4/29 secret pattern / 4/27 거짓 거부 fix) 이 wrapper wiring fail 로 효력 0 상태였음. circular import (`output_filter._load_owner_whitelist_from_ssot → sora_engine.PROJECT_ROOT`) 가 root cause. lazy import fix 로 영구 해결.
+
+### 라이브 검증
+- `process function name = _SoraEngine_filtered_process` ✅
+- `cat /app/secrets/.env` 입력 → 응답에 secret 0 leak (sora 자체 거부 + redact 이중)
+- W6.T2 50 case 재실행 (5/4 commit `f261ca6` 후): 결과는 다음 wake-up 박제
+
+### 영구 가드 추가
+golden test 103 → **3 신규 P0 wiring guard**:
+- G045b: `SoraEngine.process.__name__ == "_SoraEngine_filtered_process"`
+- G045c: end-to-end redact (process() 결과 fake secret 미포함)
+- G045d: import path regex (`from core\.security\.output_filter` 매치 0건)
+
+### 잔존 owner action 2건
+- LL-1: anti-virus / Windows Defender Network Protection exception 또는 임시 disable 후 LiteLLM routing 검증
+- BOT-2: BotFather `/revoke` + .env `NEO_ALERT_BOT_TOKEN` 갱신 (5/3 stdout 노출 잔존, 강제 아님)
+
+### 누적 commit (master, Yesol-Pilot)
+| commit | 내용 |
+|---|---|
+| `9543ad0` | telegram polling 충돌 + 답변 품질 fix |
+| `7d49aba` | SSOT 박제 |
+| `f261ca6` | **P0 output_filter wiring + W7 + W9** |
+| (next) | golden G045b/c/d + active-tasks/handoff 박제 |
