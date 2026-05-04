@@ -2106,7 +2106,10 @@ class SoraEngine:
 # Output filter wrapper - identity leak 방어 (보안 critical)
 # ══════════════════════════════════════════════════
 try:
-    from core.security.output_filter import filter_output as _sora_output_filter
+    # 2026-05-04 P0 fix: 직전 wiring 은 module top-level 에서 immediate import 했으나
+    # output_filter 가 _load_owner_whitelist_from_ssot 안에서 sora_engine.PROJECT_ROOT 를
+    # reverse-import 하면서 circular import 발생 → wiring 매 부팅마다 fail.
+    # → lazy import (wrapper 호출 시점) 로 변경. 모든 응답 redact 활성화.
     _SoraEngine_original_process = SoraEngine.process
 
     async def _SoraEngine_filtered_process(self, text: str, file_path: str = None, on_progress=None) -> str:
@@ -2117,7 +2120,9 @@ try:
         if raw_str and raw_str.startswith(fastpath_emojis):
             return raw_str
         try:
-            filtered, _warnings = _sora_output_filter(raw_str, strict=True)
+            # lazy import: 호출 시점이라 sora_engine 모듈 이미 loaded → circular 없음
+            from src.core.security.output_filter import filter_output as _filt
+            filtered, _warnings = _filt(raw_str, strict=True)
             if _warnings:
                 logger.info(f"[SoraEngine] output_filter blocked: {_warnings[:3]}")
             return filtered
@@ -2126,9 +2131,9 @@ try:
             return raw
 
     SoraEngine.process = _SoraEngine_filtered_process
-    logger.info("[SoraEngine] output_filter wired into process() (identity leak + jailbreak guard active)")
+    logger.info("[SoraEngine] output_filter wired into process() with lazy import (P0 secret leak guard active)")
 except Exception as _filter_wire_err:
-    logger.warning(f"[SoraEngine] output_filter wiring skipped: {_filter_wire_err}")
+    logger.warning(f"[SoraEngine] output_filter wrapper setup skipped: {_filter_wire_err}")
 
 
 # ══════════════════════════════════════════════════
