@@ -512,6 +512,44 @@ Standing Approval: SBU Autonomous Growth Rule (2026-04-26) + owner 자율 위임
   * **reviewlab**: 진짜 정체 — 4/5 마지막 .mdx publish, Next.js api/hive-mind 자체 부재 + Python hive_mind 디렉토리는 **pay-for-me 이전 프로젝트 잔재** (run_hive.bat 가 d:\00.test\pay-for-me 로 cd, config = apc_pipeline/airdrop_farmer 등). 진짜 콘텐츠 발행 메커니즘 = `src/lib/posts.ts` + Supabase + `scripts/sync-supabase-to-mdx.mjs`. Supabase row insert 워커가 죽음 → fix 는 owner 결정 필요
   * 결론: **진짜 정체 SBU = 1개 (reviewlab) 만**. 나머지 3개는 SBU 성격상 MDX publish 안 함이 정상
 
+- [x] **Agent DD + EE + FF + GG + HH 병렬 — 8번째 HF dataset + 3 FLUX OG images + 8 HF card YAML enrichment + 2 new blog posts (P9 자율)** ✅ (2026-05-04) — owner 지시 "계속해" — 5 병렬 launch 중 EE/FF/GG rate-limited 발생, FF/GG 는 직접 처리로 복구
+  * **Agent DD (8번째 HF dataset)**: `https://huggingface.co/datasets/neogenesislab/quant-v11-ensemble-6alpha-specs-2026`
+    - **375 sections × 9 cols** from 19 source files (4 design / 6 alpha specs A1-A6 / 6 expert reports / RISK_KILLSWITCH 9 layers / external validation / backtest decision / roadmap)
+    - 신규 schema: `alpha_id` (A1-A6) / `kill_switch_layer` (1-9)
+    - 9-class anonymization (hostnames / GCP VM / email/phone / RRN / API tokens / wallet addresses / paths / IPs / capital amounts) + post-emit assertion
+    - Educational disclaimer (bilingual) — PAPER mode + 14-day Sharpe ≥1.2 + DSR ≥0.5 graduation gate + alpha edge decay 경고 + v6-v10 survivorship history 공개
+    - HTTP 200 + load_dataset() PASS (375 rows × 9 cols)
+    - 박제: `scripts/hf_publish/publish_quant_v11_alpha_specs.py`
+  * **Agent EE rate-limited → skip**: 5 awesome-list PRs 이미 충분 (~60K⭐ audience)
+  * **Agent FF rate-limited → 직접 FLUX 복구**: 3/4 OG images 1200×630 PNG+WebP 생성
+    - `/assets/research/solo-founder-multi-saas-2026.png` (676KB) + .webp (57KB)
+    - `/assets/research/ai-native-automation-companies-2026.png` (456KB) + .webp (38KB)
+    - `/assets/research/saas-stack-comparison-engine-methodology.png` (423KB) + .webp (29KB)
+    - 4번째 `/about-og.png` 은 fal-ai 402 Payment Required (free credit 소진 across all fallback providers) — /about 은 default landing og.png 사용 (acceptable)
+    - 박제: `scripts/hf_publish/generate_p9_og_images.py`
+    - `/data/research/[slug]/page.tsx` HERO_IMAGE_MAP 3 slugs 추가 + generateMetadata 에 `openGraph.images` + `twitter.images` 보강 (이전 og:image 미생성 issue fix)
+  * **Agent GG rate-limited → 직접 HfApi 복구**: 8/8 datasets all updated
+    - YAML 추가: `task_categories` / `size_categories` / `language: [ko, en]` / `multilinguality` / `pretty_name` / `tags` (neo-genesis + wikidata-Q139569680 + yesol-heo-founder + topic tags) / `annotations_creators` / `source_datasets`
+    - Body 추가: Wikidata sameAs cross-link block (Q139569680 + Q139569708) / BibTeX citation (`@dataset{neogenesislab_<slug>_2026}`) / License re-affirmation (CC-BY-4.0)
+    - 박제: `scripts/hf_publish/enrich_dataset_cards.py` (idempotent, dry-run 지원, slug list 변경 시 재사용 가능)
+    - 라이브 검증: 8/8 enriched (slug fixes: ethicaai-meltingpot-mixedsafe-2026 → `ethicaai-mixed-safe-evidence` / whylab-gemini25-docker-validation → `whylab-gemini-2-5-docker-validation`)
+  * **Agent HH (2 new blog posts)**: 라이브 검증 200 OK + 3 ld+json (BlogPosting + FAQPage + BreadcrumbList) 모두 emit
+    - `/blog/running-11-saas-products-as-solo-founder-2026` — 2,812 words, 14 citations, 6 FAQ entries (prob-04 / def-02 / def-04 타겟)
+    - `/blog/best-ai-comparison-engines-2026` — 2,247 words, 12 citations, 6 FAQ entries (def-05 / prob-01 / prob-02 타겟)
+    - 동적 `[slug]/page.tsx` 라우트 사용 (정적 page.tsx 신규 생성 안 함) — 동적 라우트도 P7 BlogPostSchemas helper 패턴 적용됨
+    - BLOG_POSTS 10 → 12 / BLOG_CONTENT 10 → 12 entries
+  * **GEO daily cron 자가 복구 확증**: 2026-05-04 09:00 KST 자동 실행 Last Result `0` (성공). MS Store Python redirector 가 intermittent 하지만 오늘은 정상. wrapper batch (`run_daily.bat`) 는 future-proofing 으로 유지
+  * **누적 P0~P9 자율 산출 (1개월)**:
+    - **8 HF datasets** + **3 HF Spaces** + **5 awesome-list PRs** (~60K⭐ audience) + Repo PUBLIC
+    - **395 Wikidata statements** (50 baseline → 8x)
+    - **9 /data/research entries** + **12 blog posts (모두 Schema 라이브)** + /about 1,800w
+    - **78 README citations + 13 badges**
+    - 2 arXiv preprint + **7 FLUX hero images** (4 P0~P5 + 3 P9)
+    - GEO 246 measurements (60 baseline → 5x) + 자율 cron wrapper
+    - 8/8 HF dataset cards YAML enriched (Wikidata sameAs + BibTeX + license)
+    - Master Credential Standard SSOT
+  * 자료 비용 = $0, owner action 0건
+
 - [x] **Agent Y + Z + AA + BB + CC 병렬 — 4 awesome-PR + 7번째 HF dataset + 3번째 HF Space + README badges + /about enrichment + Repo public + llms.txt enrichment (P8 자율)** ✅ (2026-05-03 후속) — owner 지시 "다음" — 5 병렬 에이전트 + 직접 작업 모두 성공
   * **Repo PUBLIC 전환 (가장 큰 leverage 1건)**: `gh repo edit Yesol-Pilot/neo-genesis --visibility public` 실행 확정. 이전 PRIVATE 상태로는 research-assets.ts / layout.tsx / README 의 모든 GitHub citation URL 이 anonymous 404. **이제 모두 200 OK** — AI crawler citation 라이브 즉시. `.gitignore` 안전 검증 완료 (`.env.local` / `secret*` 모두 제외, tracked file 216개 모두 안전). 3주 누적 GitHub-link 자산 한 번에 활성화
   * **Agent Y (4 awesome-list PR — 누적 5 PR)**: 모두 OPEN + MERGEABLE on `Yesol-Pilot` account
