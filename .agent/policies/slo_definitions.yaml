@@ -1,0 +1,257 @@
+# Sora Enterprise SLO Definitions v1
+# Master: 20260428_SORA_ENTERPRISE_GRADE_MASTER_v1.md (W1)
+# Decisions: 20260428_SORA_ENTERPRISE_DECISIONS_v1.md (D2 4-stage freeze, D8 99.5% start)
+# Owner: 허예솔 (Sora 단일 사용자 single-tenant)
+# Adopted: 2026-04-28
+
+version: 1
+ssot_revision: "auto-tracked-on-bump"
+review_cadence: weekly
+
+# ============================================================
+# Global SLO Targets (Service Level Objective)
+# ============================================================
+global:
+  # Phase 1 (Week 1~16) target — honest single-region SPoF acceptance
+  uptime_target_pct: 99.5  # ~3.5h downtime/month allowed
+  mttr_target_minutes: 30   # Mean Time To Recover
+  rto_target_minutes: 30    # Recovery Time Objective (DR)
+  rpo_target_minutes: 5     # Recovery Point Objective
+  # Stretch (Week 8+ DR drill 결과 양호 시 자동 promote)
+  stretch_uptime_target_pct: 99.9   # ~43min downtime/month
+  stretch_promotion_gate:
+    - "W4 DR drill RTO < 30min 검증 통과"
+    - "desktop-sol01 warm-standby 운영 4주 무사고"
+    - "owner manual confirm"
+
+# ============================================================
+# Endpoint-level SLOs
+# ============================================================
+endpoints:
+  # ── Telegram Bot (owner 의 1차 인터페이스) — process liveness ──
+  - name: telegram_bot
+    component: neo_assistant_bot
+    type: process  # W1.T3 정밀화: process probe 사용 (path scheme 일관성)
+    sli:
+      success_rate_pct: 99.5
+      message_drop_rate_pct: 0.1
+    healthcheck_path: "process:neo_genesis_daemon.py"
+    poll_interval_sec: 60
+    severity_on_violation: P0  # owner 인터페이스 = P0
+    notes: "neo_genesis_daemon.py process /proc 스캔 (telegram polling worker)"
+
+  # ── Telegram Bot — last activity (W6.T2 보강, 2026-04-29) ──
+  # process probe 만으로는 polling host 가 ysh-server 가 아닌 경우 (예: desktop-sol01)
+  # bot 이 살아있는지 직접 검증 못함. assistant_memory.json mtime 으로 owner-bot 통신
+  # 활동 시점을 추적해 24h 이상 idle 시 P2 alert (실 통신 단절 의심).
+  - name: telegram_bot_activity
+    component: neo_assistant_bot_activity
+    type: filesystem
+    sli:
+      max_idle_hours: 24    # owner 가 24h 이상 통신 안 한 경우 P2
+    healthcheck_path: "fs:/app/data/assistant_memory/memory.json"
+    age_max_seconds: 86400  # 24h
+    poll_interval_sec: 600  # 10분 (idle window 추적)
+    severity_on_violation: P2
+    notes: "assistant_memory.json mtime 기준 owner-bot 통신 last-activity. process probe 와 보완. polling host 가 다른 디바이스여도 owner→bot 메시지 도달 시 mtime 갱신."
+
+  # ── Dashboard FastAPI ──
+  - name: dashboard_api
+    component: sora_dashboard
+    type: http
+    sli:
+      latency_p50_ms: 200
+      latency_p99_ms: 1500
+      success_rate_pct: 99.5
+    healthcheck_path: "http://localhost:7700/api/health"  # W1.T3: unauth endpoint (api_traffic.py)
+    poll_interval_sec: 30
+    severity_on_violation: P1
+    notes: "/api/health = unauth endpoint (api_traffic.py), /api/v2/* 는 인증 요구라 401"
+
+  # ── Brain Worker (LLM 처리) ──
+  - name: brain_worker
+    component: src.core.brain.worker
+    type: redis_queue_consumer
+    sli:
+      latency_p50_ms: 3000
+      latency_p99_ms: 30000
+      queue_depth_p99: 5
+      success_rate_pct: 99.0
+    healthcheck_path: "redis:queue_lag:sora_request"
+    poll_interval_sec: 30
+    severity_on_violation: P1
+
+  # ── Local LLM (Qwen3-14B, Sora 메인 모델) ──
+  - name: local_llm
+    component: desktop-sol01_litellm_proxy
+    type: http
+    sli:
+      latency_p50_ms: 4000
+      latency_p99_ms: 60000
+      success_rate_pct: 95.0  # local 환경 전제 (network latency 변동 인정)
+    healthcheck_path: "http://172.17.0.1:4400/health/liveliness"  # W1.T5 정밀화: Tailscale userspace docker bridge + unauth endpoint
+    poll_interval_sec: 60
+    severity_on_violation: P1
+    notes: "desktop-sol01 (100.96.186.7) Tailscale userspace networking 으로 ysh-server docker bridge 4400 에 routing. /health/liveliness 가 unauth (LiteLLM 표준)."
+
+  # ── Gemini cloud fallback ──
+  - name: gemini_fallback
+    component: gemini_api
+    type: http_external
+    sli:
+      latency_p50_ms: 1500
+      latency_p99_ms: 12000
+      success_rate_pct: 99.0
+      cost_per_1k_calls_usd: 0.50
+    healthcheck_path: "external:gemini.generateContent"
+    poll_interval_sec: 300  # 5분 (cost cap 보호)
+    severity_on_violation: P2  # fallback이라 P2
+
+  # ── Redis Bus ──
+  - name: redis_bus
+    component: redis-server
+    type: tcp
+    sli:
+      latency_p99_ms: 10
+      memory_usage_pct: 80
+      success_rate_pct: 99.95
+    healthcheck_path: "tcp:localhost:6379:PING"
+    poll_interval_sec: 30
+    severity_on_violation: P0  # SPoF
+
+  # ── Qdrant RAG v2 ──
+  - name: qdrant_rag
+    component: qdrant-rag-v2
+    type: http
+    sli:
+      latency_p50_ms: 100
+      latency_p99_ms: 800
+      success_rate_pct: 99.5
+    healthcheck_path: "http://172.17.0.1:6333/healthz"  # W1.T5 정밀화: docker bridge gateway (qdrant-rag-v2 컨테이너 0.0.0.0:6333 노출)
+    poll_interval_sec: 60
+    severity_on_violation: P2
+    notes: "qdrant-rag-v2 컨테이너 docker bridge IP 172.17.0.7 / 172.17.0.1:6333 도달. Tailscale 자기루프 우회."
+
+  # ── ChromaDB (legacy, RAG cutover 진행 중) ──
+  - name: chromadb_legacy
+    component: chromadb
+    type: filesystem
+    sli:
+      success_rate_pct: 99.5
+    healthcheck_path: "fs:/app/src/core/data/chromadb/chroma.sqlite3"  # W1.T3 정밀화: 실 컨테이너 경로
+    poll_interval_sec: 300
+    severity_on_violation: P3
+    notes: "Phase 3 ChromaDB 완전 cutover 후 제거. 현재 RAG cutover 진행 중이라 정상."
+
+  # ── Cloudflare Tunnel (외부 expose) ──
+  - name: cloudflare_tunnel
+    component: cloudflared
+    type: external_tunnel
+    sli:
+      success_rate_pct: 99.5
+    healthcheck_path: "https://neo.heoyesol.kr/api/health"  # W1.T3 정밀화: unauth endpoint
+    poll_interval_sec: 120
+    severity_on_violation: P1
+    notes: "외부 expose 검증. /api/health 가 unauth (api_traffic.py)."
+
+  # ── Loki (Observability — log aggregation) — W2.T2 신규 ──
+  - name: loki
+    component: sora-obs-loki
+    type: http
+    sli:
+      latency_p50_ms: 50
+      latency_p99_ms: 500
+      success_rate_pct: 99.5
+    healthcheck_path: "http://172.17.0.1:3100/ready"  # docker bridge gateway (sora-live → host loki)
+    poll_interval_sec: 60
+    severity_on_violation: P2
+    notes: "W2.T2 자체 호스팅 Loki 3.4.1. RAM ~65MB / 1.5GB cap."
+
+  # ── Tempo (Observability — distributed tracing) — W2.T2 신규 ──
+  - name: tempo
+    component: sora-obs-tempo
+    type: http
+    sli:
+      latency_p50_ms: 100
+      latency_p99_ms: 1000
+      success_rate_pct: 99.5
+    healthcheck_path: "http://172.17.0.1:3200/ready"
+    poll_interval_sec: 60
+    severity_on_violation: P1   # OTel trace 의존성 P1
+    notes: "W2.T2 자체 호스팅 Tempo 2.7.0. OTLP gRPC 4317. trace 4건 수신 검증."
+
+  # ── Grafana (Observability — visualization UI) — W2.T2 신규 ──
+  - name: grafana
+    component: sora-obs-grafana
+    type: http
+    sli:
+      latency_p50_ms: 200
+      latency_p99_ms: 1500
+      success_rate_pct: 99.0
+    healthcheck_path: "http://172.17.0.1:3000/api/health"
+    poll_interval_sec: 120
+    severity_on_violation: P2
+    notes: "W2.T2 자체 호스팅 Grafana 11.4.0. owner UI 접근 (admin)."
+
+  # ── Promtail (Log shipper) — W2.T6 신규 ──
+  - name: promtail
+    component: sora-obs-promtail
+    type: http
+    sli:
+      latency_p50_ms: 50
+      latency_p99_ms: 500
+      success_rate_pct: 99.5
+    healthcheck_path: "http://172.17.0.1:9080/ready"
+    poll_interval_sec: 60
+    severity_on_violation: P2
+    notes: "W2.T6 sora-live logs (4 source: brain/brain_err/alerts.jsonl/audit JSONL) → Loki push. 첫 가동 273,838 lines 수집."
+
+# ============================================================
+# Error Budget Policy (D2 4-stage)
+# ============================================================
+error_budget:
+  window_days: 30  # rolling window
+  consumption_thresholds:
+    - threshold_pct: 25
+      severity: P3
+      actions: [alert]
+      message: "월 budget 25% 소진 — 운영 신호. 안정성 분석 권고"
+    - threshold_pct: 50
+      severity: P2
+      actions: [alert, block_canary_deploy]
+      message: "월 budget 50% 소진 — canary deploy 차단. 신규 배포 동결"
+    - threshold_pct: 75
+      severity: P1
+      actions: [alert, block_canary_deploy, block_tier_2_plus]
+      message: "월 budget 75% 소진 — tier ≥ 2 신규 행동 모두 차단"
+    - threshold_pct: 100
+      severity: P0
+      actions: [alert, freeze_all, await_owner_unfreeze]
+      message: "월 budget 소진 — 자동 freeze. owner 명시 unfreeze 명령 대기"
+
+# ============================================================
+# Owner Override (CONSTITUTION Article 0)
+# ============================================================
+owner_override:
+  enabled: true
+  channel: telegram
+  command_examples:
+    - "freeze 풀어"
+    - "SLO 위반 무시"
+    - "tier 2 차단 풀어"
+  audit: required  # override 명령은 모두 audit log 기록
+
+# ============================================================
+# Storage
+# ============================================================
+storage:
+  primary: supabase
+  table: sora_slo_log
+  schema:
+    - timestamp: "TIMESTAMPTZ"
+    - endpoint: "TEXT"
+    - sli_value: "JSONB"
+    - violation: "BOOLEAN"
+    - severity: "TEXT"
+  retention_days: 1095  # 3 years (D9 audit log 보존 + SLO 분석 가치)
+  fallback: "/app/logs/slo_log.jsonl"  # Supabase 미가용 시

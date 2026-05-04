@@ -23,7 +23,7 @@ from typing import Any, Callable, Optional
 from urllib.parse import SplitResult, urlsplit, urlunsplit
 
 import redis.asyncio as aioredis
-from redis.exceptions import ConnectionError as RedisConnectionError
+from redis.exceptions import ConnectionError as RedisConnectionError, TimeoutError as RedisTimeoutError
 
 logger = logging.getLogger("neo.queue.redis")
 
@@ -243,6 +243,10 @@ class RedisBus:
 
         Args:
             timeout: 대기 시간 (초, 0=무한)
+
+        Returns:
+            dict: 큐 메시지 (실 요청 도착 시)
+            None: 큐 비어있음 (timeout 만료, idle 상태 — 정상)
         """
         reconnect_delay = 1.0
         while True:
@@ -252,6 +256,11 @@ class RedisBus:
                 if result:
                     _, message = result
                     return json.loads(message)
+                return None
+            except RedisTimeoutError:
+                # BRPOP socket-level read timeout = idle 상태 (큐 비어있음).
+                # brain.worker._run_worker_loop 가 다음 cycle 에서 재호출하므로 None 반환이 정상.
+                # traceback 로깅을 brain_err.log 에 남기지 않음 (2026-04-29 noise 정리).
                 return None
             except RedisConnectionError as exc:
                 logger.info(f"[RedisBus] dequeue reconnecting: {exc}")

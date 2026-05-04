@@ -1,0 +1,61 @@
+# LiteLLM Proxy config - Sora local LLM gateway
+# Start:
+#   litellm --config ops/local-llm/litellm_config.yaml --port 4000
+# Requires env:
+#   LITELLM_MASTER_KEY, GEMINI_API_KEY (for cloud-fallback)
+
+model_list:
+  # Tier A: main brain — 2026-05-04: llama-server 미가동 → Ollama 직접 routing
+  # 이전 Qwen3-14B GGUF (8080) 대신 Ollama 의 qwen2.5-coder:14b 사용
+  - model_name: local-main
+    litellm_params:
+      model: openai/qwen2.5-coder:14b
+      api_base: http://127.0.0.1:11434/v1
+      api_key: "not-needed"
+      timeout: 90
+
+  # Tier B: draft / intent router — 동일 redirect (qwen3.6:35b 가 강력하지만 latency 우려로 14b 유지)
+  - model_name: local-draft
+    litellm_params:
+      model: openai/qwen2.5-coder:14b
+      api_base: http://127.0.0.1:11434/v1
+      api_key: "not-needed"
+      timeout: 30
+
+  # Tier C: code specialist (optional - enable when Qwen3-Coder-30B-A3B is downloaded)
+  - model_name: local-code
+    litellm_params:
+      model: openai/qwen3-coder-30b-a3b
+      api_base: http://127.0.0.1:8082/v1
+      api_key: "not-needed"
+      timeout: 180
+
+  # Cloud escalation fallback
+  - model_name: cloud-fallback
+    litellm_params:
+      model: gemini/gemini-2.5-flash
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  # Shadow alias (1:1 match with existing Sora Gemini calls)
+  - model_name: gemini-2.5-flash
+    litellm_params:
+      model: gemini/gemini-2.5-flash
+      api_key: "os.environ/GEMINI_API_KEY"
+
+router_settings:
+  routing_strategy: simple-shuffle
+  fallbacks:
+    - local-main: ["cloud-fallback"]
+    - local-code: ["local-main", "cloud-fallback"]
+    - local-draft: ["local-main"]
+  num_retries: 1
+  timeout: 100
+  allowed_fails: 2
+  cooldown_time: 30
+
+general_settings:
+  master_key: "os.environ/LITELLM_MASTER_KEY"
+
+litellm_settings:
+  set_verbose: false
+  drop_params: true
