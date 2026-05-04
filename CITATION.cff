@@ -1,0 +1,122 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Neo Genesis: Solo-Operator AI-Native Conglomerate"
+abstract: >-
+  Neo Genesis is a public, solo-operator AI-native conglomerate that
+  orchestrates multiple AI agents (Claude, Codex, Gemini, Sora, Ollama)
+  across a fleet of devices to operate eleven Strategic Business Units,
+  conduct independent ML research (EthicaAI, WhyLab), run a
+  9-layer kill-switch quantitative trading system, and publish
+  citable datasets, papers, and architectural blueprints.
+  This release marks the public foundation (v1.0.0) of the
+  organization's source-of-truth, infrastructure, and citable assets.
+type: software
+version: "1.0.0"
+date-released: "2026-05-04"
+authors:
+  - family-names: "Heo"
+    given-names: "Yesol"
+    affiliation: "Neo Genesis Lab"
+license:
+  - MIT
+  - Apache-2.0
+repository-code: "https://github.com/Yesol-Pilot/neo-genesis"
+url: "https://neogenesis.app"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20018489"
+    description: "Zenodo software DOI for this release"
+  - type: other
+    value: "Q139569680"
+    description: "Wikidata Q-ID (Neo Genesis as parent organization)"
+keywords:
+  - artificial-intelligence
+  - autonomous-agents
+  - ai-orchestrator
+  - solo-founder
+  - hive-mind
+  - schema-org
+  - generative-engine-optimization
+  - rag-architecture
+  - multi-agent
+  - kill-switch
+  - retrieval-augmented-generation
+  - quantitative-trading
+preferred-citation:
+  type: software
+  title: "Neo Genesis: Solo-Operator AI-Native Conglomerate"
+  version: "1.0.0"
+  authors:
+    - family-names: "Heo"
+      given-names: "Yesol"
+      affiliation: "Neo Genesis Lab"
+  doi: "10.5281/zenodo.20018489"
+  year: 2026
+  url: "https://github.com/Yesol-Pilot/neo-genesis"
+  publisher:
+    name: "Zenodo"
+references:
+  - type: dataset
+    title: "Korean RAG SSOT Golden 50 (Neo Genesis)"
+    authors:
+      - family-names: "Heo"
+        given-names: "Yesol"
+    doi: "10.5281/zenodo.20018462"
+    year: 2026
+    url: "https://huggingface.co/datasets/neogenesislab/korean-rag-ssot-golden-50"
+  - type: dataset
+    title: "EthicaAI Mixed-Safe Multi-Environment Evidence (NeurIPS 2026)"
+    authors:
+      - family-names: "Heo"
+        given-names: "Yesol"
+    doi: "10.5281/zenodo.20018466"
+    year: 2026
+    url: "https://huggingface.co/datasets/neogenesislab/ethicaai-mixed-safe-evidence"
+  - type: dataset
+    title: "WhyLab Gemini 2.5 Flash Docker Validation (Honest Null Result)"
+    authors:
+      - family-names: "Heo"
+        given-names: "Yesol"
+    doi: "10.5281/zenodo.20018468"
+    year: 2026
+    url: "https://huggingface.co/datasets/neogenesislab/whylab-gemini-2-5-docker-validation"
+  - type: dataset
+    title: "Neo Genesis SBU Programmatic SEO Effects (April 2026)"
+    authors:
+      - family-names: "Heo"
+        given-names: "Yesol"
+    doi: "10.5281/zenodo.20018474"
+    year: 2026
+    url: "https://huggingface.co/datasets/neogenesislab/sbu-pseo-effects-2026-04"
+  - type: dataset
+    title: "Cross-Agent Code Review Queue (Codex <-> Claude, Neo Genesis 2026)"
+    authors:
+      - family-names: "Heo"
+        given-names: "Yesol"
+    doi: "10.5281/zenodo.20018477"
+    year: 2026
+    url: "https://huggingface.co/datasets/neogenesislab/cross-agent-review-queue-2026"
+  - type: dataset
+    title: "Korean LLM Citation Baseline 2026 (Neo Genesis GEO Measurement)"
+    authors:
+      - family-names: "Heo"
+        given-names: "Yesol"
+    doi: "10.5281/zenodo.20018479"
+    year: 2026
+    url: "https://huggingface.co/datasets/neogenesislab/korean-llm-citation-baseline-2026"
+  - type: dataset
+    title: "Sora Multi-Device Orchestration Architecture 2026"
+    authors:
+      - family-names: "Heo"
+        given-names: "Yesol"
+    doi: "10.5281/zenodo.20018481"
+    year: 2026
+    url: "https://huggingface.co/datasets/neogenesislab/sora-multi-device-orchestration-2026"
+  - type: dataset
+    title: "Quant v11 Ensemble 6-Alpha Specs & Risk Engineering 2026"
+    authors:
+      - family-names: "Heo"
+        given-names: "Yesol"
+    doi: "10.5281/zenodo.20018487"
+    year: 2026
+    url: "https://huggingface.co/datasets/neogenesislab/quant-v11-ensemble-6alpha-specs-2026"
