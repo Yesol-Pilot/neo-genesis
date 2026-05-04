@@ -112,6 +112,7 @@ function main() {
     steps.push(runStep('publisher-verify', NODE, ['scripts/sbu_autonomous_growth_runner.mjs', '--verify-only']));
   }
   steps.push(runStep('control-tower', NODE, ['scripts/sbu_growth_control_tower.mjs', '--json']));
+  steps.push(runStep('search-growth-flywheel', NODE, ['scripts/sbu_search_growth_flywheel.mjs', '--core-only', '--json']));
   steps.push(runStep('regression-gate', NODE, ['scripts/sbu_growth_regression_gate.mjs', '--json']));
 
   if (args.withAnalytics) {

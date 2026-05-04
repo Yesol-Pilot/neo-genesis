@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -61,6 +62,23 @@ async function fetchText(url, options = {}) {
 
 function readIfExists(filePath) {
   return fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
+}
+
+function configuredEnvKeys() {
+  const keys = new Set(Object.keys(process.env));
+  for (const file of ['.env.local', '.env']) {
+    const text = readIfExists(path.join(ROOT, file));
+    for (const line of text.split(/\r?\n/)) {
+      const match = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=/);
+      if (match) keys.add(match[1]);
+    }
+  }
+  return keys;
+}
+
+function hasConfiguredCredential(names) {
+  const keys = configuredEnvKeys();
+  return names.some((name) => keys.has(name));
 }
 
 function walkFiles(dir, predicate, limit = 5000) {
@@ -183,11 +201,13 @@ async function measurementIntegrity(siteIds) {
 }
 
 async function searchIndexing(siteIds) {
-  const hasSearchConsoleCredentials = Boolean(
-    process.env.GOOGLE_APPLICATION_CREDENTIALS ||
-      process.env.GSC_SERVICE_ACCOUNT_JSON ||
-      process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_EMAIL,
-  );
+  const hasSearchConsoleCredentials = hasConfiguredCredential([
+    'GOOGLE_APPLICATION_CREDENTIALS',
+    'GSC_SERVICE_ACCOUNT_JSON',
+    'GOOGLE_SERVICE_ACCOUNT_JSON',
+    'GA4_SERVICE_ACCOUNT_PATH',
+    'GOOGLE_SEARCH_CONSOLE_CLIENT_EMAIL',
+  ]);
   const sites = [];
   for (const siteId of siteIds) {
     const config = SITES[siteId];
@@ -213,6 +233,44 @@ async function searchIndexing(siteIds) {
     passed: sites.every((site) => site.status === 'green'),
     hasSearchConsoleCredentials,
     sites,
+  };
+}
+
+function tail(text, lines = 40) {
+  return String(text || '').trim().split(/\r?\n/).slice(-lines).join('\n');
+}
+
+function runSearchGrowthFlywheel(siteIds) {
+  const result = spawnSync(process.execPath, ['scripts/sbu_search_growth_flywheel.mjs', '--sites', siteIds.join(','), '--json'], {
+    cwd: ROOT,
+    encoding: 'utf8',
+    shell: false,
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  let parsed = null;
+  let parseError = null;
+  try {
+    parsed = JSON.parse(result.stdout || '{}');
+  } catch (error) {
+    parseError = String(error?.message || error);
+  }
+  return {
+    passed: result.status === 0 && Boolean(parsed?.passed),
+    status: result.status,
+    reportPath: 'data/sbu-growth/search-growth-flywheel-latest.json',
+    summary: parsed
+      ? {
+          propertyListedOk: parsed.gsc?.propertyListedOk || 0,
+          sitemapKnownOk: parsed.gsc?.sitemapKnownOk || 0,
+          opportunityCount: parsed.gsc?.opportunityCount || 0,
+          contentChangedFileCount: parsed.contentApply?.changedFileCount || 0,
+          posthogTaxonomyPassed: Boolean(parsed.posthogTaxonomy?.passed),
+          pipelinePassed: Boolean(parsed.pipeline?.passed),
+        }
+      : null,
+    parseError,
+    stdoutTail: tail(result.stdout, 60),
+    stderrTail: tail(result.stderr, 40),
   };
 }
 
@@ -333,7 +391,7 @@ function weeklyReport(siteIds, report) {
     siteRows,
     nextExperiments: [
       'Raise weak short-post samples above 650 words on each SBU.',
-      'Add query-level Search Console opportunity ingestion once credentials are wired.',
+      'Apply the highest-scoring Search Console query opportunities to editable MDX pages.',
       'Standardize PostHog event names across CTA, affiliate, and topic hub clicks.',
       'Use topic hub click-through data to pick the next 20 cluster expansion posts.',
     ],
@@ -341,10 +399,12 @@ function weeklyReport(siteIds, report) {
       controlTower: 'data/sbu-growth/control-tower-latest.json',
       topicHub: 'data/sbu-growth/topic-hub-live-latest.json',
       indexingQuality: 'data/sbu-growth/indexing-quality-latest.json',
+      searchGrowthFlywheel: 'data/sbu-growth/search-growth-flywheel-latest.json',
     },
     warnings: {
       measurementYellow: report.measurement.sites.filter((site) => site.status !== 'green').length,
       eventTaxonomyYellow: report.eventTaxonomy.sites.filter((site) => site.status !== 'green').length,
+      searchGrowthOpportunityCount: report.searchGrowthFlywheel.summary?.opportunityCount || 0,
       cannibalizationClusters: report.cannibalization.unresolvedClusterCount,
       rawCannibalizationClusters: report.cannibalization.exactClusterCount,
       routedCannibalizationClusters: report.cannibalization.routedClusterCount,
@@ -363,6 +423,7 @@ function markdown(report) {
     '',
     `- measurement integrity: ${report.measurement.passed}`,
     `- search indexing readiness: ${report.searchIndexing.passed}`,
+    `- Search Console growth flywheel: ${report.searchGrowthFlywheel.passed}`,
     `- cannibalization audit generated: ${report.cannibalization.passed}`,
     `- safe cron smoke: ${report.cronSmoke.passed}`,
     `- event taxonomy readiness: ${report.eventTaxonomy.passed}`,
@@ -384,6 +445,9 @@ function markdown(report) {
   for (const experiment of report.weeklyReport.nextExperiments) lines.push(`- ${experiment}`);
   lines.push('', '## Notes', '');
   lines.push(`- Search Console submit mode: ${report.searchIndexing.hasSearchConsoleCredentials ? 'ready' : 'dry-run; credentials not present in this shell'}`);
+  lines.push(`- Search Console query opportunities: ${report.searchGrowthFlywheel.summary?.opportunityCount || 0}`);
+  lines.push(`- Search Console properties listed: ${report.searchGrowthFlywheel.summary?.propertyListedOk || 0}/${report.sites.length}`);
+  lines.push(`- Search Console sitemaps known: ${report.searchGrowthFlywheel.summary?.sitemapKnownOk || 0}/${report.sites.length}`);
   lines.push(`- Cannibalization raw exact clusters found: ${report.cannibalization.exactClusterCount}`);
   lines.push(`- Cannibalization intent-routed clusters: ${report.cannibalization.routedClusterCount}`);
   lines.push(`- Cannibalization unresolved clusters: ${report.cannibalization.unresolvedClusterCount}`);
@@ -399,12 +463,14 @@ async function main() {
 
   report.measurement = await measurementIntegrity(siteIds);
   report.searchIndexing = await searchIndexing(siteIds);
+  report.searchGrowthFlywheel = runSearchGrowthFlywheel(siteIds);
   report.cannibalization = cannibalization(siteIds);
   report.cronSmoke = await cronSmoke(siteIds);
   report.eventTaxonomy = eventTaxonomy(siteIds);
   report.weeklyReport = weeklyReport(siteIds, report);
   report.passed =
     report.searchIndexing.passed &&
+    report.searchGrowthFlywheel.passed &&
     report.cannibalization.passed &&
     report.cronSmoke.passed &&
     report.weeklyReport.passed;

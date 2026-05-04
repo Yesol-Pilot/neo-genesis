@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-27T14:18:47+09:00",
+  "generatedAt": "2026-05-04T13:56:05+09:00",
   "sites": [
     "toolpick",
     "aiforge",
@@ -105,7 +105,7 @@
   },
   "searchIndexing": {
     "passed": true,
-    "hasSearchConsoleCredentials": false,
+    "hasSearchConsoleCredentials": true,
     "sites": [
       {
         "site": "toolpick",
@@ -113,14 +113,14 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 268
+          "blogUrls": 319
         },
         "robots": {
           "status": 200,
           "ok": true,
           "hasSitemap": true
         },
-        "submission": "dry_run_missing_gsc_credentials",
+        "submission": "ready_for_submit",
         "status": "green",
         "issues": []
       },
@@ -130,14 +130,14 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 447
+          "blogUrls": 450
         },
         "robots": {
           "status": 200,
           "ok": true,
           "hasSitemap": true
         },
-        "submission": "dry_run_missing_gsc_credentials",
+        "submission": "ready_for_submit",
         "status": "green",
         "issues": []
       },
@@ -147,20 +147,37 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 380
+          "blogUrls": 383
         },
         "robots": {
           "status": 200,
           "ok": true,
           "hasSitemap": true
         },
-        "submission": "dry_run_missing_gsc_credentials",
+        "submission": "ready_for_submit",
         "status": "green",
         "issues": []
       },
       {
         "site": "deploystack",
         "name": "DeployStack",
+        "sitemap": {
+          "status": 200,
+          "ok": true,
+          "blogUrls": 327
+        },
+        "robots": {
+          "status": 200,
+          "ok": true,
+          "hasSitemap": true
+        },
+        "submission": "ready_for_submit",
+        "status": "green",
+        "issues": []
+      },
+      {
+        "site": "finstack",
+        "name": "FinStack",
         "sitemap": {
           "status": 200,
           "ok": true,
@@ -171,24 +188,7 @@
           "ok": true,
           "hasSitemap": true
         },
-        "submission": "dry_run_missing_gsc_credentials",
-        "status": "green",
-        "issues": []
-      },
-      {
-        "site": "finstack",
-        "name": "FinStack",
-        "sitemap": {
-          "status": 200,
-          "ok": true,
-          "blogUrls": 321
-        },
-        "robots": {
-          "status": 200,
-          "ok": true,
-          "hasSitemap": true
-        },
-        "submission": "dry_run_missing_gsc_credentials",
+        "submission": "ready_for_submit",
         "status": "green",
         "issues": []
       },
@@ -198,22 +198,38 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 302
+          "blogUrls": 305
         },
         "robots": {
           "status": 200,
           "ok": true,
           "hasSitemap": true
         },
-        "submission": "dry_run_missing_gsc_credentials",
+        "submission": "ready_for_submit",
         "status": "green",
         "issues": []
       }
     ]
   },
+  "searchGrowthFlywheel": {
+    "passed": true,
+    "status": 0,
+    "reportPath": "data/sbu-growth/search-growth-flywheel-latest.json",
+    "summary": {
+      "propertyListedOk": 6,
+      "sitemapKnownOk": 6,
+      "opportunityCount": 101,
+      "contentChangedFileCount": 0,
+      "posthogTaxonomyPassed": true,
+      "pipelinePassed": true
+    },
+    "parseError": null,
+    "stdoutTail": "            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      },\n      {\n        \"site\": \"sellkit\",\n        \"latest\": {\n          \"slug\": \"2026-05-04-ecommerce-conversion-analytics-tools\",\n          \"title\": \"Ecommerce Conversion Analytics Tools for 2026 in 2026\",\n          \"date\": \"2026-05-04\"\n        },\n        \"staleDays\": 0,\n        \"live\": {\n          \"blog\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"detail\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      }\n    ]\n  },\n  \"passed\": true\n}",
+    "stderrTail": ""
+  },
   "cannibalization": {
     "passed": true,
-    "totalPosts": 2090,
+    "totalPosts": 2149,
     "exactClusterCount": 25,
     "routedClusterCount": 25,
     "unresolvedClusterCount": 0,
@@ -1284,7 +1300,7 @@
       {
         "site": "toolpick",
         "name": "ToolPick",
-        "ctaCoverage": 0.72,
+        "ctaCoverage": 0.752,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1293,7 +1309,7 @@
       {
         "site": "aiforge",
         "name": "AIForge",
-        "ctaCoverage": 0.731,
+        "ctaCoverage": 0.733,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1302,7 +1318,7 @@
       {
         "site": "craftdesk",
         "name": "CraftDesk",
-        "ctaCoverage": 0.832,
+        "ctaCoverage": 0.836,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1311,7 +1327,7 @@
       {
         "site": "deploystack",
         "name": "DeployStack",
-        "ctaCoverage": 0.728,
+        "ctaCoverage": 0.73,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1320,7 +1336,7 @@
       {
         "site": "finstack",
         "name": "FinStack",
-        "ctaCoverage": 0.739,
+        "ctaCoverage": 0.742,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1329,7 +1345,7 @@
       {
         "site": "sellkit",
         "name": "SellKit",
-        "ctaCoverage": 0.873,
+        "ctaCoverage": 0.878,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1341,17 +1357,17 @@
     "passed": true,
     "summary": {
       "greenSites": 6,
-      "totalModeledMau": 731500,
+      "totalModeledMau": 746900,
       "liveOkSites": 6
     },
     "siteRows": [
       {
         "site": "toolpick",
         "status": "green",
-        "modeledMau": 132650,
-        "readyPosts": 379,
-        "ctaCoverage": 0.72,
-        "internalLinkCoverage": 0.887,
+        "modeledMau": 148050,
+        "readyPosts": 423,
+        "ctaCoverage": 0.752,
+        "internalLinkCoverage": 0.69,
         "liveOk": true
       },
       {
@@ -1359,8 +1375,8 @@
         "status": "green",
         "modeledMau": 151200,
         "readyPosts": 432,
-        "ctaCoverage": 0.731,
-        "internalLinkCoverage": 0.745,
+        "ctaCoverage": 0.733,
+        "internalLinkCoverage": 0.74,
         "liveOk": true
       },
       {
@@ -1368,8 +1384,8 @@
         "status": "green",
         "modeledMau": 129150,
         "readyPosts": 369,
-        "ctaCoverage": 0.832,
-        "internalLinkCoverage": 0.694,
+        "ctaCoverage": 0.836,
+        "internalLinkCoverage": 0.691,
         "liveOk": true
       },
       {
@@ -1377,8 +1393,8 @@
         "status": "green",
         "modeledMau": 109200,
         "readyPosts": 312,
-        "ctaCoverage": 0.728,
-        "internalLinkCoverage": 0.696,
+        "ctaCoverage": 0.73,
+        "internalLinkCoverage": 0.689,
         "liveOk": true
       },
       {
@@ -1386,8 +1402,8 @@
         "status": "green",
         "modeledMau": 107450,
         "readyPosts": 307,
-        "ctaCoverage": 0.739,
-        "internalLinkCoverage": 0.684,
+        "ctaCoverage": 0.742,
+        "internalLinkCoverage": 0.677,
         "liveOk": true
       },
       {
@@ -1395,25 +1411,27 @@
         "status": "green",
         "modeledMau": 101850,
         "readyPosts": 291,
-        "ctaCoverage": 0.873,
-        "internalLinkCoverage": 0.766,
+        "ctaCoverage": 0.878,
+        "internalLinkCoverage": 0.762,
         "liveOk": true
       }
     ],
     "nextExperiments": [
       "Raise weak short-post samples above 650 words on each SBU.",
-      "Add query-level Search Console opportunity ingestion once credentials are wired.",
+      "Apply the highest-scoring Search Console query opportunities to editable MDX pages.",
       "Standardize PostHog event names across CTA, affiliate, and topic hub clicks.",
       "Use topic hub click-through data to pick the next 20 cluster expansion posts."
     ],
     "sourceReports": {
       "controlTower": "data/sbu-growth/control-tower-latest.json",
       "topicHub": "data/sbu-growth/topic-hub-live-latest.json",
-      "indexingQuality": "data/sbu-growth/indexing-quality-latest.json"
+      "indexingQuality": "data/sbu-growth/indexing-quality-latest.json",
+      "searchGrowthFlywheel": "data/sbu-growth/search-growth-flywheel-latest.json"
     },
     "warnings": {
       "measurementYellow": 0,
       "eventTaxonomyYellow": 0,
+      "searchGrowthOpportunityCount": 101,
       "cannibalizationClusters": 0,
       "rawCannibalizationClusters": 25,
       "routedCannibalizationClusters": 25

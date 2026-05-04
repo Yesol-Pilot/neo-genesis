@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-04-27T14:19:18+09:00",
-  "today": "2026-04-27",
+  "generatedAt": "2026-05-04T13:54:07+09:00",
+  "today": "2026-05-04",
   "targetMau": 100000,
   "monthlyVisitsPerReadyPost": 350,
   "requiredReadyPosts": 286,
@@ -13,7 +13,7 @@
       "benchmark": true,
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
-      "score": 88,
+      "score": 87,
       "status": "green",
       "local": {
         "siteDir": "src\\sbu\\toolpick",
@@ -37,34 +37,34 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 379,
-          "ready": 379,
+          "total": 423,
+          "ready": 423,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 132650,
+          "modeledMau": 148050,
           "mauGap": 0,
           "latest": {
-            "slug": "ai-agent-development-tools-2026",
-            "file": "src\\sbu\\toolpick\\content\\blog\\ai-agent-development-tools-2026.mdx",
-            "title": "AI Agent Development Tools in 2026: LangGraph, OpenAI Agents SDK, Mastra, and CrewAI",
-            "date": "2026-04-27",
-            "description": "Compare AI agent development tools for builders choosing orchestration, memory, tools, observability, deployment model, and production risk.",
+            "slug": "2026-05-03-ai-workflow-automation-stack",
+            "file": "src\\sbu\\toolpick\\content\\blog\\2026-05-03-ai-workflow-automation-stack.mdx",
+            "title": "AI Workflow Automation Stack for Small Teams in 2026",
+            "date": "2026-05-03",
+            "description": "A practical buyer brief for choosing an AI workflow automation stack across orchestration, approvals, observability, and cost control.",
             "category": "AI Coding",
             "draft": false,
-            "words": 1085,
+            "words": 1117,
             "completeFrontmatter": true,
-            "hasCta": true,
+            "hasCta": false,
             "hasInternalLink": true,
             "hasExternalLink": true,
             "ready": true
           },
-          "daysSinceLatest": 0,
+          "daysSinceLatest": 1,
           "fresh": true,
-          "categoryCount": 60,
-          "avgWords": 1350,
+          "categoryCount": 61,
+          "avgWords": 1299,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.72,
-          "internalLinkCoverage": 0.887,
+          "ctaCoverage": 0.752,
+          "internalLinkCoverage": 0.69,
           "weakSamples": []
         }
       },
@@ -125,35 +125,57 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 432,
+          "total": 435,
           "ready": 432,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 151200,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-04-27-agentic-crm-automation-tools",
-            "file": "src\\sbu\\aiforge\\content\\blog\\2026-04-27-agentic-crm-automation-tools.mdx",
-            "title": "Agentic CRM Automation Tools for Growth Teams in 2026",
-            "date": "2026-04-27",
-            "description": "agentic CRM automation tools - A practical evaluation guide for AI tools, agent platforms, model operations, and workflow automation.",
+            "slug": "2026-05-04-ai-agent-evaluation-platforms",
+            "file": "src\\sbu\\aiforge\\content\\blog\\2026-05-04-ai-agent-evaluation-platforms.mdx",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "date": "2026-05-04",
+            "description": "AI agent evaluation platforms - A practical evaluation guide for AI tools, agent platforms, model operations, and workflow automation.",
             "category": "AI Tools",
             "draft": false,
-            "words": 1045,
+            "words": 580,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": true,
+            "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": true
+            "ready": false
           },
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 14,
-          "avgWords": 1705,
+          "avgWords": 1698,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.731,
-          "internalLinkCoverage": 0.745,
-          "weakSamples": []
+          "ctaCoverage": 0.733,
+          "internalLinkCoverage": 0.74,
+          "weakSamples": [
+            {
+              "slug": "2026-05-04-ai-agent-evaluation-platforms",
+              "date": "2026-05-04",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-03-agentic-crm-automation-tools",
+              "date": "2026-05-03",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-04-29-llm-observability-tools",
+              "date": "2026-04-29",
+              "words": 577,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
         }
       },
       "live": {
@@ -213,35 +235,57 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 369,
+          "total": 372,
           "ready": 369,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 129150,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-04-27-brand-asset-workflow-software",
-            "file": "src\\sbu\\craftdesk\\content\\blog\\2026-04-27-brand-asset-workflow-software.mdx",
-            "title": "Brand Asset Workflow Software for Marketing Teams in 2026",
-            "date": "2026-04-27",
-            "description": "brand asset workflow software - A practical evaluation guide for design tools, creative automation, UI systems, and product design workflows.",
+            "slug": "2026-05-04-ai-design-qa-tools",
+            "file": "src\\sbu\\craftdesk\\content\\blog\\2026-05-04-ai-design-qa-tools.mdx",
+            "title": "AI Design QA Tools for Product Teams in 2026",
+            "date": "2026-05-04",
+            "description": "AI design QA tools - A practical evaluation guide for design tools, creative automation, UI systems, and product design workflows.",
             "category": "Design Tools",
             "draft": false,
-            "words": 1046,
+            "words": 581,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": true,
+            "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": true
+            "ready": false
           },
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1624,
+          "avgWords": 1618,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.832,
-          "internalLinkCoverage": 0.694,
-          "weakSamples": []
+          "ctaCoverage": 0.836,
+          "internalLinkCoverage": 0.691,
+          "weakSamples": [
+            {
+              "slug": "2026-05-04-ai-design-qa-tools",
+              "date": "2026-05-04",
+              "words": 581,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-03-brand-asset-workflow-software",
+              "date": "2026-05-03",
+              "words": 581,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-04-29-creative-automation-workflow-tools",
+              "date": "2026-04-29",
+              "words": 581,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
         }
       },
       "live": {
@@ -301,35 +345,57 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 312,
+          "total": 315,
           "ready": 312,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 109200,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-04-27-devops-incident-review-tools",
-            "file": "src\\sbu\\deploystack\\content\\blog\\2026-04-27-devops-incident-review-tools.mdx",
-            "title": "DevOps Incident Review Tools for Small Teams in 2026",
-            "date": "2026-04-27",
-            "description": "DevOps incident review tools - A practical evaluation guide for deployment platforms, serverless infrastructure, observability, and DevOps workflows.",
+            "slug": "2026-05-04-deployment-preview-workflows",
+            "file": "src\\sbu\\deploystack\\content\\blog\\2026-05-04-deployment-preview-workflows.mdx",
+            "title": "Deployment Preview Workflows for Startup Teams in 2026",
+            "date": "2026-05-04",
+            "description": "deployment preview workflows - A practical evaluation guide for deployment platforms, serverless infrastructure, observability, and DevOps workflows.",
             "category": "DevOps",
             "draft": false,
-            "words": 1042,
+            "words": 576,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": true,
+            "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": true
+            "ready": false
           },
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 11,
-          "avgWords": 1644,
+          "avgWords": 1634,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.728,
-          "internalLinkCoverage": 0.696,
-          "weakSamples": []
+          "ctaCoverage": 0.73,
+          "internalLinkCoverage": 0.689,
+          "weakSamples": [
+            {
+              "slug": "2026-05-04-deployment-preview-workflows",
+              "date": "2026-05-04",
+              "words": 576,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-03-devops-incident-review-tools",
+              "date": "2026-05-03",
+              "words": 579,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-04-29-serverless-cost-monitoring-tools",
+              "date": "2026-04-29",
+              "words": 579,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
         }
       },
       "live": {
@@ -389,35 +455,57 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 307,
+          "total": 310,
           "ready": 307,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 107450,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-04-27-banking-api-platforms",
-            "file": "src\\sbu\\finstack\\content\\blog\\2026-04-27-banking-api-platforms.mdx",
-            "title": "Banking API Platforms for SaaS Builders in 2026",
-            "date": "2026-04-27",
-            "description": "banking API platforms - A practical evaluation guide for fintech infrastructure, payments, banking workflows, and financial SaaS tools.",
+            "slug": "2026-05-04-payment-reconciliation-tools",
+            "file": "src\\sbu\\finstack\\content\\blog\\2026-05-04-payment-reconciliation-tools.mdx",
+            "title": "Payment Reconciliation Tools for SaaS Finance Teams in 2026",
+            "date": "2026-05-04",
+            "description": "payment reconciliation tools - A practical evaluation guide for fintech infrastructure, payments, banking workflows, and financial SaaS tools.",
             "category": "Fintech",
             "draft": false,
-            "words": 1039,
+            "words": 577,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": true,
+            "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": true
+            "ready": false
           },
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 13,
-          "avgWords": 1192,
+          "avgWords": 1186,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.739,
-          "internalLinkCoverage": 0.684,
-          "weakSamples": []
+          "ctaCoverage": 0.742,
+          "internalLinkCoverage": 0.677,
+          "weakSamples": [
+            {
+              "slug": "2026-05-04-payment-reconciliation-tools",
+              "date": "2026-05-04",
+              "words": 577,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-03-banking-api-platforms",
+              "date": "2026-05-03",
+              "words": 577,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-04-29-fintech-risk-monitoring-platforms",
+              "date": "2026-04-29",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
         }
       },
       "live": {
@@ -477,35 +565,57 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 291,
+          "total": 294,
           "ready": 291,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 101850,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-04-27-lifecycle-email-automation-tools",
-            "file": "src\\sbu\\sellkit\\content\\blog\\2026-04-27-lifecycle-email-automation-tools.mdx",
-            "title": "Lifecycle Email Automation Tools for Lean Ecommerce Teams in 2026",
-            "date": "2026-04-27",
-            "description": "lifecycle email automation tools - A practical evaluation guide for ecommerce growth, sales enablement, marketing automation, and conversion tools.",
+            "slug": "2026-05-04-ecommerce-conversion-analytics-tools",
+            "file": "src\\sbu\\sellkit\\content\\blog\\2026-05-04-ecommerce-conversion-analytics-tools.mdx",
+            "title": "Ecommerce Conversion Analytics Tools for 2026 in 2026",
+            "date": "2026-05-04",
+            "description": "ecommerce conversion analytics tools - A practical evaluation guide for ecommerce growth, sales enablement, marketing automation, and conversion tools.",
             "category": "Sales Tools",
             "draft": false,
-            "words": 1046,
+            "words": 580,
             "completeFrontmatter": true,
             "hasCta": true,
-            "hasInternalLink": true,
+            "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": true
+            "ready": false
           },
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1033,
+          "avgWords": 1030,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.873,
-          "internalLinkCoverage": 0.766,
-          "weakSamples": []
+          "ctaCoverage": 0.878,
+          "internalLinkCoverage": 0.762,
+          "weakSamples": [
+            {
+              "slug": "2026-05-04-ecommerce-conversion-analytics-tools",
+              "date": "2026-05-04",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-03-lifecycle-email-automation-tools",
+              "date": "2026-05-03",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-04-29-ai-product-description-tools",
+              "date": "2026-04-29",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            }
+          ]
         }
       },
       "live": {
