@@ -1,12 +1,13 @@
 # SBU Growth Loop
 
-- generatedAt: 2026-05-04T17:45:28+09:00
+- generatedAt: 2026-05-05T11:34:21+09:00
 - passed: true
 
 ## Steps
 
 | Step | OK | Status |
 |---|---:|---:|
+| publisher-verify | true | 0 |
 | control-tower | true | 0 |
 | search-growth-flywheel | true | 0 |
 | full-live-quality | true | 0 |
@@ -14,15 +15,82 @@
 
 ## Tails
 
+### publisher-verify
+
+```text
+{
+  "date": "2026-05-05",
+  "results": [
+    {
+      "site": "aiforge",
+      "action": "verify-only",
+      "slug": "2026-05-05-llm-observability-tools",
+      "latest": "2026-05-05",
+      "live": {
+        "blog": true,
+        "detail": true,
+        "sitemap": true
+      }
+    },
+    {
+      "site": "craftdesk",
+      "action": "verify-only",
+      "slug": "2026-05-05-creative-automation-workflow-tools",
+      "latest": "2026-05-05",
+      "live": {
+        "blog": true,
+        "detail": true,
+        "sitemap": true
+      }
+    },
+    {
+      "site": "deploystack",
+      "action": "verify-only",
+      "slug": "2026-05-05-serverless-cost-monitoring-tools",
+      "latest": "2026-05-05",
+      "live": {
+        "blog": true,
+        "detail": true,
+        "sitemap": true
+      }
+    },
+    {
+      "site": "finstack",
+      "action": "verify-only",
+      "slug": "2026-05-05-fintech-risk-monitoring-platforms",
+      "latest": "2026-05-05",
+      "live": {
+        "blog": true,
+        "detail": true,
+        "sitemap": true
+      }
+    },
+    {
+      "site": "sellkit",
+      "action": "verify-only",
+      "slug": "2026-05-05-ai-product-description-tools",
+      "latest": "2026-05-05",
+      "live": {
+        "blog": true,
+        "detail": true,
+        "sitemap": true
+      }
+    }
+  ]
+}
+```
+
 ### control-tower
 
 ```text
-          "categoryCount": 10,
-          "avgWords": 1030,
-          "frontmatterCoverage": 1,
-          "ctaCoverage": 0.878,
-          "internalLinkCoverage": 0.762,
           "weakSamples": [
+            {
+              "slug": "2026-05-05-ai-product-description-tools",
+              "date": "2026-05-05",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-04-ecommerce-conversion-analytics-tools",
               "date": "2026-05-04",
@@ -71,9 +139,7 @@
           "hasSitemap": true
         }
       },
-      "actions": [
-        "Review dirty working tree before automated publish/deploy."
-      ]
+      "actions": []
     }
   ]
 }
@@ -106,9 +172,9 @@
       {
         "site": "sellkit",
         "latest": {
-          "slug": "2026-05-04-ecommerce-conversion-analytics-tools",
-          "title": "Ecommerce Conversion Analytics Tools for 2026 in 2026",
-          "date": "2026-05-04"
+          "slug": "2026-05-05-ai-product-description-tools",
+          "title": "AI Product Description Tools for Online Stores in 2026",
+          "date": "2026-05-05"
         },
         "staleDays": 0,
         "live": {
@@ -155,43 +221,12 @@ passed=True passedCount=13/13
 ```text
 {
   "report": "data\\sbu-growth\\control-tower-latest.json",
-  "generatedAt": "2026-05-04T17:43:13+09:00",
+  "generatedAt": "2026-05-05T11:31:23+09:00",
   "passed": true,
   "criticalIssueCount": 0,
-  "warningCount": 6,
+  "warningCount": 0,
   "issues": [],
-  "warnings": [
-    {
-      "site": "toolpick",
-      "code": "dirty_worktree",
-      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
-    },
-    {
-      "site": "aiforge",
-      "code": "dirty_worktree",
-      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
-    },
-    {
-      "site": "craftdesk",
-      "code": "dirty_worktree",
-      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
-    },
-    {
-      "site": "deploystack",
-      "code": "dirty_worktree",
-      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
-    },
-    {
-      "site": "finstack",
-      "code": "dirty_worktree",
-      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
-    },
-    {
-      "site": "sellkit",
-      "code": "dirty_worktree",
-      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
-    }
-  ]
+  "warnings": []
 }
 ```
 

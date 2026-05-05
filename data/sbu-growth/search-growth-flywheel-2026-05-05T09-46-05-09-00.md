@@ -1,14 +1,14 @@
 # SBU Search Growth Flywheel
 
-- generatedAt: 2026-05-05T11:34:48+09:00
+- generatedAt: 2026-05-05T09:46:05+09:00
 - passed: true
 - gscRange: 2026-04-05..2026-05-03
 - gscCredentialSource: GA4_SERVICE_ACCOUNT_PATH@env-file
 - gscPropertiesListed: 6/6
 - gscSitemapsKnown: 6/6
 - gscOpportunities: 95
-- contentApplyEnabled: false
-- contentChangedFiles: 0
+- contentApplyEnabled: true
+- contentChangedFiles: 2
 
 ## GSC Sites
 
@@ -31,7 +31,7 @@
 
 | Site | Status | Latest | Live Blog | Detail | Sitemap | Cron | Issues |
 |---|---:|---|---:|---:|---:|---:|---|
-| toolpick | green | 2026-05-05-ai-agent-evaluation-platforms | true | true | true | true |  |
+| toolpick | green | 2026-05-03-ai-workflow-automation-stack | true | true | true | true |  |
 | aiforge | green | 2026-05-05-llm-observability-tools | true | true | true | true |  |
 | craftdesk | green | 2026-05-05-creative-automation-workflow-tools | true | true | true | true |  |
 | deploystack | green | 2026-05-05-serverless-cost-monitoring-tools | true | true | true | true |  |
@@ -48,3 +48,8 @@
 | deploystack | green | - | - |
 | finstack | green | - | - |
 | sellkit | green | - | - |
+
+## Changed Files
+
+- src\sbu\toolpick\content\blog\excalidraw-vs-tldraw-2026.mdx
+- src\sbu\craftdesk\content\blog\ai-powered-wireframe-tools.mdx

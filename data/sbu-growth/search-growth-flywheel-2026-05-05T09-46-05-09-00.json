@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-05T11:34:48+09:00",
+  "generatedAt": "2026-05-05T09:46:05+09:00",
   "args": {
     "sites": [
       "toolpick",
@@ -12,7 +12,7 @@
     "days": 28,
     "minImpressions": 3,
     "rowLimit": 1000,
-    "applyContent": false,
+    "applyContent": true,
     "maxApplyPerSite": 3,
     "maxStaleDays": 2
   },
@@ -2524,10 +2524,60 @@
     "opportunityCount": 95
   },
   "contentApply": {
-    "enabled": false,
-    "changedFileCount": 0,
-    "changedFiles": [],
-    "sites": []
+    "enabled": true,
+    "changedFileCount": 2,
+    "changedFiles": [
+      "src\\sbu\\toolpick\\content\\blog\\excalidraw-vs-tldraw-2026.mdx",
+      "src\\sbu\\craftdesk\\content\\blog\\ai-powered-wireframe-tools.mdx"
+    ],
+    "sites": [
+      {
+        "site": "toolpick",
+        "skipped": false,
+        "reason": "",
+        "changed": 1,
+        "files": [
+          "src\\sbu\\toolpick\\content\\blog\\excalidraw-vs-tldraw-2026.mdx"
+        ]
+      },
+      {
+        "site": "aiforge",
+        "skipped": false,
+        "reason": "",
+        "changed": 0,
+        "files": []
+      },
+      {
+        "site": "craftdesk",
+        "skipped": false,
+        "reason": "",
+        "changed": 1,
+        "files": [
+          "src\\sbu\\craftdesk\\content\\blog\\ai-powered-wireframe-tools.mdx"
+        ]
+      },
+      {
+        "site": "deploystack",
+        "skipped": false,
+        "reason": "",
+        "changed": 0,
+        "files": []
+      },
+      {
+        "site": "finstack",
+        "skipped": false,
+        "reason": "",
+        "changed": 0,
+        "files": []
+      },
+      {
+        "site": "sellkit",
+        "skipped": false,
+        "reason": "",
+        "changed": 0,
+        "files": []
+      }
+    ]
   },
   "posthogTaxonomy": {
     "requiredEvents": [
@@ -2684,11 +2734,11 @@
       {
         "site": "toolpick",
         "latest": {
-          "slug": "2026-05-05-ai-agent-evaluation-platforms",
-          "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-          "date": "2026-05-05"
+          "slug": "2026-05-03-ai-workflow-automation-stack",
+          "title": "AI Workflow Automation Stack for Small Teams in 2026",
+          "date": "2026-05-03"
         },
-        "staleDays": 0,
+        "staleDays": 2,
         "live": {
           "blog": {
             "status": 200,
@@ -2790,7 +2840,7 @@
         "site": "deploystack",
         "latest": {
           "slug": "2026-05-05-serverless-cost-monitoring-tools",
-          "title": "Serverless Cost Monitoring Tools for 2026",
+          "title": "Serverless Cost Monitoring Tools for 2026 in 2026",
           "date": "2026-05-05"
         },
         "staleDays": 0,
