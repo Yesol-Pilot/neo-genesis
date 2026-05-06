@@ -879,6 +879,38 @@ def main() -> int:
         print(f"TS append FAILED: {e}")
         return 5
 
+    # 4b. Thumbnail generation (Pollinations.ai free + Imagen + HF fallback chain)
+    # Idempotent: scripts/landing/generate_blog_thumbnails.py only fills slugs
+    # whose .png is missing in public/assets/blog/. Running it after every
+    # successful append catches the slug we just added without regenerating
+    # existing thumbnails.
+    try:
+        thumb_script = REPO / "scripts" / "landing" / "generate_blog_thumbnails.py"
+        if thumb_script.exists():
+            print("Generating thumbnail for new post (free Pollinations.ai)...")
+            proc = subprocess.run(
+                [sys.executable, str(thumb_script)],
+                cwd=str(REPO),
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=300,
+            )
+            thumb_status = "ok" if proc.returncode == 0 else f"rc={proc.returncode}"
+            record["phases"]["thumbnail"] = {
+                "status": thumb_status,
+                "stdout_tail": (proc.stdout or "").splitlines()[-3:],
+            }
+            print(f"Thumbnail gen: {thumb_status}")
+        else:
+            record["phases"]["thumbnail"] = {"status": "skipped_missing_script"}
+    except Exception as e:
+        # Non-fatal: blog still publishes without per-post thumbnail
+        # (fall back to default OG image at /assets/og.png).
+        record["phases"]["thumbnail"] = {"status": "fail", "error": f"{type(e).__name__}: {e}"}
+        print(f"Thumbnail gen failed (non-fatal): {e}")
+
     # 5. Git commit + push
     git_result = git_commit_push(last_post, dry_run=False)
     record["phases"]["git"] = git_result
