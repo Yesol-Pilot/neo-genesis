@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-06T12:18:46+09:00",
-      "lastWork": "ToolPick and UR WRONG excluded; DeployStack, NeoGenesis, and live WhyLab SEO/GEO/PostHog loop deployed, verified, and custom 11-site growth gate passed"
+      "lastSession": "2026-05-06T13:00:59+09:00",
+      "lastWork": "ToolPick and UR WRONG excluded; SellKit, DeployStack, and ReviewLab search-intent SEO/GEO/PostHog loop deployed, live-smoked, and custom 11-site growth gate passed"
     },
     "sora": {
       "status": "active",
@@ -57,8 +57,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "7c576dc1155eb290",
-    "lastSyncedAt": "2026-05-06T12:19:14+09:00",
+    "ssotRevision": "4c695db141a7f160",
+    "lastSyncedAt": "2026-05-06T13:01:38+09:00",
     "lastSyncedBy": "codex"
   }
 }

@@ -82,6 +82,24 @@ secret_leak: PASS=9 (Anthropic / OpenAI / Google / GitHub / JWT / AWS / sudo / T
 
 ---
 
+## ✅ SBU Search Intent Reinforcement R2 (2026-05-06, Codex)
+
+Owner instruction: ToolPick and UR WRONG are excluded because other sessions are handling them.
+
+### Completed in this loop
+- [x] SellKit Printful/Gumroad alternative-intent pages strengthened and deployed (`8f52c3f`).
+- [x] SellKit ecommerce billing guide retitled and expanded for `ecommerce billing system` / `ecommerce invoicing software` intent (`8f52c3f`).
+- [x] DeployStack Railway pricing page and Railway Postgres/free-tier blog corrected against official Railway pricing docs and deployed (`358c363`).
+- [x] ReviewLab DB-backed product post metadata, keywords, canonical, JSON-LD, and visible review decision signals deployed (`273dc64`).
+- [x] Live smoke verified GA + PostHog + targeted page copy on SellKit, DeployStack, and ReviewLab.
+- [x] Custom 11-site SBU growth flywheel passed and report pushed (`b9b4f6d`).
+
+### Next residual queue
+- [ ] Re-check GSC after the next Search Console data refresh; current opportunity counts still reflect the pre-change 2026-04-06 to 2026-05-04 window.
+- [ ] If CraftDesk Figma pricing impressions grow beyond low-signal volume, add route-level pricing/free-plan intent copy.
+- [ ] If AIForge `ai security for dev` keeps impressions but position stays weak, add a second-stage comparison/checklist block and more internal links.
+- [ ] If ReviewLab recrawl remains slow, add DB-backed `lastModified` support to `src/sbu/reviewlab/src/app/sitemap.ts`.
+
 ## 2026-05-06 Codex Completed - SBU Traffic Statistics
 
 - [x] GA4/PostHog/GSC traffic statistics collected for the SBU fleet.

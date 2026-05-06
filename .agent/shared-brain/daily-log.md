@@ -1692,3 +1692,29 @@
 - Ran `node scripts\sbu_search_growth_flywheel.mjs --sites aiforge,craftdesk,deploystack,finstack,sellkit,reviewlab,kott,ethicaai,whylab,portfolio,neogenesis --json`.
 - Gate passed: GSC properties 11/11, GSC sitemaps known 11/11, live coverage missing 0, pipeline green for AIForge/CraftDesk/DeployStack/FinStack/SellKit, and PostHog taxonomy green for audited pipeline sites.
 - Recorded growth gate report in `2cb1cd2 ops: record custom SBU growth gate`.
+
+## 2026-05-06 - Codex SBU Search Intent Reinforcement R2
+
+- Excluded ToolPick and UR WRONG again per owner instruction because other sessions are handling them.
+- Used the latest custom GSC report to prioritize non-ToolPick/non-UR-WRONG opportunities: SellKit Printful/Gumroad/ecommerce billing, DeployStack Railway pricing/free tier/Postgres, and ReviewLab dynamic product-review posts.
+- Reinforced and deployed SellKit alternative and billing surfaces:
+  - `8f52c3f seo: reinforce SellKit alternative intent pages`
+  - Live alias `https://sellkit.neogenesis.app`
+  - Verified `/alternatives/printful`, `/alternatives/gumroad`, and `/blog/ecommerce-platform-with-built-in-invoicing` return 200 with GA and PostHog present.
+- Reinforced and deployed DeployStack Railway pricing surface with official Railway pricing-doc language and stale `$5 free credit/month` copy removed:
+  - `358c363 seo: reinforce Railway pricing intent surface`
+  - Live alias `https://deploystack.neogenesis.app`
+  - Verified `/pricing/railway` and `/blog/railway-pricing-free-tier-postgres-2026` return 200 with GA and PostHog present.
+- Reinforced and deployed ReviewLab DB-backed product post metadata and visible review decision signals:
+  - `273dc64 seo: enrich ReviewLab post metadata`
+  - Live alias `https://review.neogenesis.app`
+  - Verified the live Thomson review post returns 200 with GA, PostHog, enriched title, and review decision signals.
+- Root growth report refreshed and pushed:
+  - `b9b4f6d ops: refresh SBU growth flywheel report`
+  - Report: `data/sbu-growth/search-growth-flywheel-custom-02dbce0a15fb-2026-05-06T12-59-42-09-00.*`
+- Final gate passed:
+  - GSC properties 11/11
+  - GSC sitemaps known 11/11
+  - Pipeline green for AIForge/CraftDesk/DeployStack/FinStack/SellKit
+  - Live coverage missing 0
+  - PostHog taxonomy green for audited pipeline sites
