@@ -21,7 +21,7 @@ Claude project assets expected at the repo root:
 - `.claude/agents/neo-implementer.md`
 - `.claude/agents/neo-conflict-resolver.md`
 
-Current canonical revision: `e01d51da4657f6ec`
+Current canonical revision: `3e2d305c2cb60e1e`
 
 Refresh:
 ```powershell

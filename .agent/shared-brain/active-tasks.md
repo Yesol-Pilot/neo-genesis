@@ -95,6 +95,8 @@ Owner instruction: ToolPick and UR WRONG are excluded because other sessions are
 - [x] DeployStack Railway pricing page and Railway Postgres/free-tier blog corrected against official Railway pricing docs and deployed (`358c363`).
 - [x] ReviewLab DB-backed product post metadata, keywords, canonical, JSON-LD, and visible review decision signals deployed (`273dc64`).
 - [x] Live smoke verified GA + PostHog + targeted page copy on SellKit, DeployStack, and ReviewLab.
+- [x] Visual QA captured desktop/mobile full-page screenshots for the six changed live pages.
+- [x] ReviewLab cookie consent obstruction fixed and deployed (`407b8c9`).
 - [x] Custom 11-site SBU growth flywheel passed and report pushed (`b9b4f6d`).
 
 ### Next residual queue

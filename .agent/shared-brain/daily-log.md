@@ -1731,3 +1731,27 @@
   - Pipeline green for AIForge/CraftDesk/DeployStack/FinStack/SellKit
   - Live coverage missing 0
   - PostHog taxonomy green for audited pipeline sites
+
+## 2026-05-06 - Codex SBU Visual QA Follow-Up
+
+- Captured full-page desktop and mobile screenshots for six live pages:
+  - SellKit `/alternatives/printful`
+  - SellKit `/alternatives/gumroad`
+  - SellKit `/blog/ecommerce-platform-with-built-in-invoicing`
+  - DeployStack `/pricing/railway`
+  - DeployStack `/blog/railway-pricing-free-tier-postgres-2026`
+  - ReviewLab Thomson product review post
+- Visual QA result:
+  - SellKit pages: no broken layout, no horizontal overflow seen, intent cards collapse correctly on mobile.
+  - DeployStack pages: no broken layout, Railway pricing cards/table/CTA render correctly on desktop and mobile.
+  - ReviewLab page: content renders, but the full-width cookie consent bar obstructed body copy on desktop and mobile.
+- Fixed and deployed ReviewLab cookie banner obstruction:
+  - `407b8c9 fix: reduce ReviewLab cookie banner obstruction`
+  - Changed the built-in CMP from full-width fixed bar to compact lower-right card.
+  - Replaced synchronous effect state update with `useSyncExternalStore` and removed explicit `any` usage so the touched file passes eslint.
+  - Production alias verified at `https://review.neogenesis.app`.
+- Final ReviewLab checks:
+  - `npx eslint src\components\CookieConsent.tsx src\app\posts\[slug]\page.tsx` passed.
+  - `npm run build` passed locally.
+  - Vercel production build passed and generated 1010 routes.
+  - Live review page returns 200 with GA and PostHog present.
