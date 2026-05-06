@@ -1,7 +1,64 @@
 # Active Tasks — 에이전트 공유 작업 목록
 
 > **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.
-> **최종 갱신:** 2026-05-04 by Claude Opus 4.7 (Sora 텔레그램 polling 충돌 영구 해결 + 답변 품질 fix)
+> **최종 갱신:** 2026-05-06 by Claude Opus 4.7 (전체 프로젝트 감사 + 10 issue fix + Gemini 응답 길이 제약)
+
+---
+
+## 🟣 Sora 전체 감사 + 10 issue fix (2026-05-06, Claude Opus 4.7) ✅
+
+owner 명령 흐름: "코드리뷰해봐" → "프로젝트 전체를 감사 해봐" → "소라가 정말 완벽한 상태야?" → "모든 이슈 개선해"
+
+### Stash recovery (F1/F2/F4)
+- codex auto-stash 가 5/4 commit `9543ad0` 의 핵심 fix 3개를 stash@{0} 에 묶음 → owner 가 5일간 인지 못함
+- `git checkout HEAD -- .` reset 후 `git show stash@{0}:<path>` 로 직접 복원 (patch-based checkout 우회)
+- F1 cron probe history filter (sora_engine.py:87-105) / F2 polling supervisor (neo_genesis_daemon.py:865+) / F4 owner_facts 12 regex (sora_engine.py:821+) 라이브 복구
+
+### 10 issue fix matrix
+| # | 이슈 | 파일 | 결과 |
+|---|---|---|---|
+| 1 | `_JOB_STATS` NameError (사전 존재 bug) | `neo_genesis_daemon.py:118-119` | module-level dict 정의 추가 |
+| 2 | UTF-16 BOM `decision_engine/engine/main.py` | 동 파일 | utf-16-le decode + utf-8 rewrite |
+| 3 | SLOMonitor 4/29~5/6 정지 (single-shot) | `neo_genesis_daemon.py` | background thread 부팅 (commit `27662fb`) |
+| 4 | assistant_memory cron probe purge | `data/sora_assistant_memory.json` | 2 entries 정리 (audit log 기준) |
+| 5 | **Gemini call max_output_tokens 무제한** | `sora_engine.py:227` | **`max_output_tokens=1500` 추가** |
+| 6 | W6.T2 50 case 재실행 | container | **9/9 PASS, FAIL 0** (secret_leak) |
+| 7 | chaos drill dry-run | runbook | `.agent/runbooks/chaos_drill_v1.md` 가동 가능 |
+| 8 | PIPA cron 등록 | crontab | `0 4 * * * data_retention_enforcer.py` |
+| 9 | output_filter wiring 매 부팅 fail (P0) | `sora_engine.py:2112+` | lazy import fix → wrapper 라이브 적용 |
+| 10 | wiring guard (G045b/c/d) | `core_v1.json` | 컨테이너 라이브 ALL PASS |
+
+### 가장 큰 발견 — output_filter wrapper wiring 매 부팅 fail
+- 원인: `output_filter._load_owner_whitelist_from_ssot` → `sora_engine.PROJECT_ROOT` reverse-import (circular)
+- 효과: 모든 sora 응답이 5/3 telegram bot token redaction / 4/29 secret pattern / 4/27 거짓 거부 fix 모두 효력 0 상태였음
+- fix: wrapper 안 lazy import → 매 호출마다 동적 로드, 부팅 import chain 안전
+- 라이브 검증: `cat /app/secrets/.env` 입력 → secret 0 leak
+
+### Gemini 응답 길이 제약 (#5)
+- 변경: `_chat_config.max_output_tokens` 무제한 → **1500 tokens**
+- 목적: p50 11s / p95 28-34s / max 181s 단축
+- 효과 측정 위치: 다음 owner 텔레그램 24h 후 latency 분포
+
+### W6.T2 라이브 검증
+```
+Total: 52  | PASS=9  FAIL=0  SKIPPED=43
+secret_leak: PASS=9 (Anthropic / OpenAI / Google / GitHub / JWT / AWS / sudo / TG bot / NEO_ALERT)
+```
+
+### G045b/c/d wiring guard (라이브 검증 ALL PASS)
+- G045b: `SoraEngine.process.__name__ == "_SoraEngine_filtered_process"` ✅
+- G045c: end-to-end redact (`AIzaSy*` + `ysh1234!` 둘 다 redact + warnings >=2) ✅
+- G045d: import path regex (`from core\.security\.output_filter` 매치 0건) ✅
+
+### 컨테이너 backup
+- `*.bak-20260506-*` (sora_engine + decision_engine + daemon)
+
+### 다음 wake-up 측정
+- Gemini 1500 token cap 적용 후 24h 응답 시간 분포 (audit log 기준 p50 / p95 / max)
+- chaos drill 첫 manual run (S1~S6, owner 시점 합의 후)
+- Local LLM Tailscale routing (anti-virus exception 후)
+
+👤 Claude Opus 4.7
 
 ---
 

@@ -1,7 +1,58 @@
-# Handoff: Claude Code 세션 (2026-05-04 최신)
+# Handoff: Claude Code 세션 (2026-05-06 최신)
 
 > **작성자:** Claude Opus 4.7
-> **최근 갱신:** 2026-05-04 — Sora 텔레그램 polling 충돌 영구 해결 + 답변 품질 fix
+> **최근 갱신:** 2026-05-06 — 전체 감사 + 10 issue fix + Gemini 응답 길이 제약 + output_filter wiring P0 fix
+
+---
+
+## 2026-05-06 Sora 전체 감사 + 10 issue fix (Claude Opus 4.7)
+
+owner 명령 흐름: "코드리뷰해봐" → "프로젝트 전체를 감사 해봐" → "소라가 정말 완벽한 상태야?" → "모든 이슈 개선해"
+
+### 핵심 발견 — output_filter wrapper wiring 매 부팅 fail (P0)
+- 직전 5/3 commit `9543ad0` (telegram polling 충돌 + 답변 품질 fix), 4/29 (telegram bot token redaction), 4/28 (Adversarial 50) 의 모든 secret redact 효과가 사실상 0 상태였음
+- circular import (`output_filter._load_owner_whitelist_from_ssot → sora_engine.PROJECT_ROOT`) 가 wrapper 등록을 매 부팅 fail
+- lazy import fix 로 wrapper 가 실제 라이브 적용 시작
+- 라이브 검증: `cat /app/secrets/.env` → secret 0 leak / W6.T2 secret_leak 9/9 PASS
+
+### Stash recovery (F1/F2/F4)
+- codex auto-stash 가 5/4 의 핵심 3 fix 를 stash@{0} 에 묶음 → owner 5일간 인지 못함
+- `git checkout HEAD -- .` reset → `git show stash@{0}:<path>` 직접 복원 (patch-based checkout 우회)
+
+### Gemini 응답 길이 제약 (#5)
+- `_chat_config.max_output_tokens` 무제한 → **1500 tokens**
+- p50 11s / p95 28-34s / max 181s 단축 목적
+- 효과 측정: 다음 24h owner 텔레그램 audit log 기준
+
+### G045b/c/d wiring guard 라이브 PASS
+- G045b: `SoraEngine.process.__name__ == _SoraEngine_filtered_process` ✅
+- G045c: end-to-end redact (AIzaSy* + ysh1234! 둘 다 redact + warnings >=2) ✅
+- G045d: import path regex bad-path 0건 ✅
+
+### 10 issue fix
+1. `_JOB_STATS` NameError module-level 정의
+2. UTF-16 BOM 인코딩 fix (decision_engine/engine/main.py)
+3. SLOMonitor background thread 부팅 (4/29~5/6 정지 복구)
+4. assistant_memory cron probe purge (2 entries, audit log 기준 정정)
+5. **Gemini max_output_tokens 1500**
+6. W6.T2 50 case 재실행 9/9 PASS
+7. chaos drill v1 runbook
+8. PIPA cron 등록 (`0 4 * * *`)
+9. **output_filter wrapper lazy import P0 fix**
+10. G045b/c/d wiring guard 영구
+
+### 다음 세션 즉시 액션
+- Gemini 1500 token cap 24h 후 라이브 latency 분포 측정 (audit log)
+- chaos drill 첫 manual run (S1~S6, owner 시점 합의 후)
+- Local LLM Tailscale routing (owner anti-virus exception 후)
+- BOT-2 NEO_ALERT_BOT_TOKEN 회전 (보안 권고만)
+
+### Pending verification
+- 다음 owner 텔레그램 응답 시간 (Gemini 1500 cap 효과 측정)
+- assistant_memory cron probe filter 가 다음 sora-watchdog 6h cycle 후 재오염 0건 유지
+
+### 컨테이너 backup
+- `*.bak-20260506-*` (sora_engine + decision_engine + daemon)
 
 ---
 

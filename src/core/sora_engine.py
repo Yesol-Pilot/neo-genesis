@@ -231,6 +231,9 @@ class SoraEngine:
                 disable=False,
             ),
             safety_settings=_safety_off,
+            # 2026-05-06: 응답 길이 제한 — p50 11s / p95 28-34s / max 181s 단축 목적
+            # tool call 이후 final 응답을 압축해 owner 텔레그램 평균 응답시간 개선
+            max_output_tokens=1500,
         )
         self.chat = self._genai_client.chats.create(
             model=GEMINI_MODEL,
