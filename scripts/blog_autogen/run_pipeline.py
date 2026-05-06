@@ -686,6 +686,7 @@ def main() -> int:
     parser.add_argument("--locale", choices=["en", "ko", "auto"], default="auto")
     parser.add_argument("--max-attempts", type=int, default=3, help="V-Score retry budget")
     parser.add_argument("--skip-citation-verify", action="store_true", help="skip HTTP HEAD on each citation URL")
+    parser.add_argument("--force", action="store_true", help="bypass oversaturation guard (BLOG_LIMIT)")
     args = parser.parse_args()
 
     _load_env_files()
@@ -695,11 +696,17 @@ def main() -> int:
 
     # 1. Sense
     ctx = gather_context()
-    if len(ctx["existing_blog"]) >= 20:
-        record["phases"]["sense"] = {"status": "skipped", "reason": "blog_count >= 20 (oversaturation guard)"}
+    # Oversaturation guard: prevents the pipeline from publishing endlessly when
+    # the blog already has many entries. Default raised to 50 (was 20) because
+    # we now intentionally target GEO gaps and 19 entries on 2026-05-06 was
+    # well below the natural saturation point. Override via BLOG_LIMIT env or
+    # --force flag.
+    limit = int(os.environ.get("BLOG_LIMIT", "50"))
+    if not getattr(args, "force", False) and len(ctx["existing_blog"]) >= limit:
+        record["phases"]["sense"] = {"status": "skipped", "reason": f"blog_count >= {limit} (oversaturation guard, override: BLOG_LIMIT env or --force)"}
         record["status"] = "skipped"
         log_run(record)
-        print("Skipping: BLOG_POSTS already has 20+ entries.")
+        print(f"Skipping: BLOG_POSTS already has {limit}+ entries (current: {len(ctx['existing_blog'])}).")
         return 0
 
     # Locale auto: alternate by weekday
