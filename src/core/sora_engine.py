@@ -2062,6 +2062,32 @@ class SoraEngine:
                 except Exception:
                     pass
 
+            # 2026-05-06: telegram → sora_engine.process() 직접 경로의 audit log 보강
+            # worker.py 경로 (cron probe) 외에 owner 실 텔레그램 대화도 latency 측정 대상
+            # KR/EN 혼합 대략 3 chars/token 추정 (Gemini cap 1500 효과 측정용)
+            try:
+                from src.core.audit import get_audit_logger
+                _est_in = max(1, len(text or "") // 3)
+                _est_out = max(1, len(reply or "") // 3)
+                _model_tag = "local" if locals().get("_used_local") else "gemini"
+                _strategy = f"sora_engine_direct/{_model_tag}"
+                _req_id = locals().get("_episode_id") or f"se-{int(_t_start*1000)%1_000_000_000}"
+                # AuditLogger.log 가 async 라면 fire-and-forget 시도; 동기면 그냥 호출
+                _al = get_audit_logger()
+                _audit_call = _al.log(
+                    request_id=str(_req_id),
+                    user_message=text or "",
+                    tools_executed=[(te.get("tool", "?") if isinstance(te, dict) else str(te)) for te in (tool_events or [])][:10],
+                    duration_ms=_latency_ms,
+                    strategy=_strategy,
+                    tokens_in=_est_in,
+                    tokens_out=_est_out,
+                )
+                if asyncio.iscoroutine(_audit_call):
+                    asyncio.create_task(_audit_call)
+            except Exception as _audit_err:
+                logger.debug(f"[SoraEngine] audit log skip: {_audit_err}")
+
             return reply
 
         except Exception as e:

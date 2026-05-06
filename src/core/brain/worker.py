@@ -336,15 +336,21 @@ class BrainWorker:
             self._stats["requests_processed"] += 1
 
             # 감사 로그 기록 (사용 모델 포함)
+            # 2026-05-06: tokens_in/out 추정값 기록 — Gemini max_output_tokens=1500 cap 효과 측정용
+            # KR/EN 혼합 대략 3 chars/token 추정 (Gemini tokenizer 정확값은 아니지만 추세 측정 충분)
             try:
                 from src.core.audit import get_audit_logger
                 from src.core.brain.agent_router import _last_used_model
+                est_tokens_in = max(1, len(text or "") // 3)
+                est_tokens_out = max(1, len(reply or "") // 3)
                 await get_audit_logger().log(
                     request_id=request_id,
                     user_message=text,
                     tools_executed=[],
                     duration_ms=latency_ms,
                     strategy=f"agent_router/{_last_used_model}",
+                    tokens_in=est_tokens_in,
+                    tokens_out=est_tokens_out,
                 )
             except Exception:
                 pass
