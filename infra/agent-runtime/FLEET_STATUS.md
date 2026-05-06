@@ -2,7 +2,7 @@
 # Neo Genesis Fleet Status
 
 > Generated from `.agent/shared-brain/device_inventory.json` and `.agent/shared-brain/device_heartbeats.json`
-> Canonical runtime revision: `2dfa359f864b567f`
+> Canonical runtime revision: `2ee82491cce27186`
 > Last collected: `unknown`
 
 ## Devices
