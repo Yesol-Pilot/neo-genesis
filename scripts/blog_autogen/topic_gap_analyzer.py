@@ -255,10 +255,56 @@ def build_candidates() -> list[TopicCandidate]:
     return candidates
 
 
+_STOPWORDS = {
+    "a", "an", "the", "and", "or", "but", "with", "of", "for", "to", "from",
+    "in", "on", "at", "by", "as", "is", "are", "was", "were", "be", "been",
+    "have", "has", "had", "do", "does", "did", "this", "that", "these",
+    "those", "it", "its", "it's", "vs", "via",
+    # Brand tokens that always appear in our slugs - filtering them avoids
+    # false positives from the always-shared brand prefix.
+    "neo", "genesis", "neogenesis",
+    # Year tokens - often shared across same-topic posts published in
+    # different months.
+    "2024", "2025", "2026", "2027",
+}
+
+
+def _meaningful_tokens(slug: str) -> set[str]:
+    """Return the set of meaningful slug tokens after dropping stopwords + brand."""
+    parts = [p for p in slug.lower().replace("_", "-").split("-") if p]
+    return {p for p in parts if p not in _STOPWORDS and len(p) > 1}
+
+
+def _is_near_duplicate(candidate_slug: str, existing_slugs: set[str], min_overlap: int = 3) -> Optional[str]:
+    """If candidate_slug shares >= min_overlap meaningful tokens with any
+    existing slug, return that existing slug. Otherwise return None.
+
+    Threshold rationale: exactly 3 tokens caught the 2026-05-06 duplicate
+    (neo-genesis-11-saas-single-ai-system-2026 vs
+    neo-genesis-runs-11-saas-products-with-autonomous-ai-2026) which shared
+    the meaningful tokens {11, saas, ai}. Going lower (2) over-fires on
+    common tech terms; going higher (4) misses near-duplicates that
+    differ only in synonyms ("runs" vs "running" vs "operating").
+    """
+    cand_tokens = _meaningful_tokens(candidate_slug)
+    if not cand_tokens:
+        return None
+    for existing in existing_slugs:
+        existing_tokens = _meaningful_tokens(existing)
+        if len(cand_tokens & existing_tokens) >= min_overlap:
+            return existing
+    return None
+
+
 def select_topic(candidates: list[TopicCandidate], existing_slugs: set[str]) -> Optional[TopicCandidate]:
-    """Pick the first candidate not matching any existing slug."""
+    """Pick the first candidate that is neither an exact match nor a near
+    duplicate (3+ shared meaningful tokens) of any existing slug."""
     for c in candidates:
         if c.suggested_slug in existing_slugs:
+            continue
+        clash = _is_near_duplicate(c.suggested_slug, existing_slugs)
+        if clash:
+            # Skip - logged at runtime by the caller for audit visibility.
             continue
         return c
     return None
