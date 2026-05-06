@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://whylab.neogenesis.app/sitemap.xml

@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhyLab - Causal Inference Platform and Causality Lab</title>
+    <meta name="description"
+        content="WhyLab is a causal inference platform and causality lab for teams that need to separate correlation from causation with Double ML, refutation, and multi-agent debate.">
+    <meta name="keywords"
+        content="whylab, causal inference platform, causality lab, causal decision intelligence, Double ML, causal AI, multi-agent debate">
+    <meta property="og:title" content="WhyLab - Causal Inference Platform and Causality Lab">
+    <meta property="og:description"
+        content="WhyLab helps teams answer why outcomes changed with an AI-powered causal inference platform, 16-cell pipeline, and multi-agent evidence debate.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://whylab.neogenesis.app">
+    <link rel="canonical" href="https://whylab.neogenesis.app">
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K9DNK9H515"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-K9DNK9H515');</script>
+    <!-- PostHog Analytics -->
+    <script>
+        !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.crossOrigin = "anonymous", p.async = !0, p.src = s.api_host.replace(".i.posthog.com", "-assets.i.posthog.com") + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.toString(1) + ".people (stub)" }, o = "init capture register register_once unregister opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
+        posthog.init('phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO', {
+            api_host: 'https://us.i.posthog.com',
+            person_profiles: 'identified_only',
+            capture_pageview: true,
+            capture_pageleave: true,
+        });
+        posthog.register({
+            site_id: 'whylab',
+            site_domain: window.location.hostname
+        });
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "WhyLab",
+        "description": "WhyLab is a causal inference platform and causality lab with Multi-Agent Debate. The 16-cell pipeline covers causal discovery, meta-learners, refutation, and AI-powered verdicts.",
+        "url": "https://whylab.neogenesis.app",
+        "author": { "@type": "Organization", "name": "Neo Genesis" },
+        "applicationCategory": "Data Science, Causal Inference Platform, Causality Lab, Decision Intelligence",
+        "keywords": "whylab, causal inference platform, causality lab, causal decision intelligence, Double ML, multi-agent debate"
+    }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-dim: rgba(139, 92, 246, .15);
+            --cyan: #06B6D4;
+            --cyan-dim: rgba(6, 182, 212, .12);
+            --red: #F87171;
+            --bg: #050507;
+            --bg2: #0a0a0f;
+            --b1: rgba(255, 255, 255, .06);
+            --b2: rgba(255, 255, 255, .12);
+            --t1: #e8e8ed;
+            --t2: rgba(255, 255, 255, .5);
+            --t3: rgba(255, 255, 255, .25);
+            --font: 'Inter', -apple-system, sans-serif;
+            --font-d: 'Space Grotesk', sans-serif;
+            --font-m: 'JetBrains Mono', monospace
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--t1);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        img {
+            display: block;
+            max-width: 100%
+        }
+
+        .mx {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px
+        }
+
+        /* Reveal */
+        .r {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity .8s cubic-bezier(.16, 1, .3, 1), transform .8s cubic-bezier(.16, 1, .3, 1)
+        }
+
+        .r.v {
+            opacity: 1;
+            transform: none
+        }
+
+        .gt {
+            background: linear-gradient(135deg, var(--cyan), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .label {
+            font-family: var(--font-m);
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 16px
+        }
+
+        /* ═══ NAV ═══ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            transition: all .4s
+        }
+
+        nav.s {
+            padding: 10px 0;
+            background: rgba(5, 5, 7, .85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--b1)
+        }
+
+        .nv {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .nv-brand {
+            font-family: var(--font-d);
+            font-weight: 800;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .nv-w {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff
+        }
+
+        .nv-links {
+            display: flex;
+            gap: 8px;
+            list-style: none
+        }
+
+        .nv-links a {
+            padding: 8px 16px;
+            font-size: 14px;
+            color: var(--t2);
+            border-radius: 8px;
+            transition: all .3s;
+            font-weight: 500
+        }
+
+        .nv-links a:hover {
+            color: var(--t1);
+            background: rgba(255, 255, 255, .05)
+        }
+
+        .nv-links .cta-sm {
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600
+        }
+
+        .nv-links .cta-sm:hover {
+            background: #7c3aed;
+            color: #fff
+        }
+
+        @media(max-width:640px) {
+            .nv-links {
+                display: none
+            }
+        }
+
+        /* ═══ HERO ═══ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden
+        }
+
+        .hero-bg .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            animation: orbF 22s ease-in-out infinite
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: rgba(139, 92, 246, .1);
+            top: -15%;
+            left: -5%
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: rgba(6, 182, 212, .08);
+            bottom: -10%;
+            right: -5%;
+            animation-delay: -8s
+        }
+
+        @keyframes orbF {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1)
+            }
+
+            33% {
+                transform: translate(40px, -30px) scale(1.05)
+            }
+
+            66% {
+                transform: translate(-30px, 20px) scale(.95)
+            }
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(var(--b1) 1px, transparent 1px), linear-gradient(90deg, var(--b1) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 70%)
+        }
+
+        canvas#dag {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1
+        }
+
+        .hero-c {
+            position: relative;
+            z-index: 2;
+            padding: 140px 24px 80px
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 18px;
+            border: 1px solid var(--b1);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--t2);
+            margin-bottom: 32px;
+            background: rgba(255, 255, 255, .02);
+            backdrop-filter: blur(8px)
+        }
+
+        .bdot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 8px var(--cyan)
+        }
+
+        .hero h1 {
+            font-family: var(--font-d);
+            font-size: clamp(40px, 7vw, 76px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -3px;
+            margin-bottom: 24px
+        }
+
+        .hero h1 .line2 {
+            display: block;
+            color: var(--t1)
+        }
+
+        .hero-p {
+            font-size: clamp(16px, 2.2vw, 19px);
+            color: var(--t2);
+            line-height: 1.7;
+            max-width: 520px;
+            margin: 0 auto 40px
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .cta-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            border-radius: 14px;
+            transition: all .3s;
+            border: none;
+            cursor: pointer
+        }
+
+        .cta-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, .3)
+        }
+
+        .cta-main svg {
+            width: 18px;
+            height: 18px
+        }
+
+        .cta-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border: 1px solid var(--b2);
+            color: var(--t2);
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 14px;
+            transition: all .3s
+        }
+
+        .cta-ghost:hover {
+            border-color: var(--t2);
+            color: var(--t1);
+            background: rgba(255, 255, 255, .03)
+        }
+
+        /* ═══ PRODUCT PREVIEW ═══ */
+        .preview {
+            padding: clamp(80px, 12vh, 140px) 0;
+            position: relative
+        }
+
+        .preview::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, .04), transparent 50%);
+            pointer-events: none
+        }
+
+        .preview-head {
+            text-align: center;
+            margin-bottom: 48px
+        }
+
+        .preview-head h2 {
+            font-family: var(--font-d);
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 16px
+        }
+
+        .preview-head p {
+            font-size: 17px;
+            color: var(--t2);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.65
+        }
+
+        .preview-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 48px
+        }
+
+        .pq {
+            padding: 10px 20px;
+            border: 1px solid var(--b1);
+            border-radius: 100px;
+            font-size: 14px;
+            color: var(--t2);
+            background: rgba(255, 255, 255, .02);
+            font-style: italic
+        }
+
+        /* Scenario Tabs */
+        .sc-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 32px
+        }
+
+        .sc-tab {
+            padding: 12px 28px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--t3);
+            border: 1px solid var(--b1);
+            background: transparent;
+            cursor: pointer;
+            transition: all .3s;
+            font-family: var(--font)
+        }
+
+        .sc-tab:first-child {
+            border-radius: 12px 0 0 12px
+        }
+
+        .sc-tab:last-child {
+            border-radius: 0 12px 12px 0
+        }
+
+        .sc-tab:not(:last-child) {
+            border-right: none
+        }
+
+        .sc-tab.active {
+            background: var(--primary-dim);
+            color: var(--primary);
+            border-color: rgba(139, 92, 246, .3)
+        }
+
+        /* Screenshot Frame */
+        .sc-frame {
+            max-width: 960px;
+            margin: 0 auto;
+            border-radius: 16px;
+            border: 1px solid var(--b1);
+            overflow: hidden;
+            background: var(--bg2);
+            position: relative
+        }
+
+        .sc-frame-bar {
+            height: 36px;
+            background: rgba(255, 255, 255, .03);
+            border-bottom: 1px solid var(--b1);
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            gap: 6px
+        }
+
+        .sc-frame-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--b1)
+        }
+
+        .sc-frame-url {
+            flex: 1;
+            text-align: center;
+            font-size: 11px;
+            color: var(--t3);
+            font-family: var(--font-m)
+        }
+
+        .sc-frame img {
+            width: 100%;
+            display: block;
+            transition: opacity .4s
+        }
+
+        .sc-frame .sc-img {
+            display: none
+        }
+
+        .sc-frame .sc-img.active {
+            display: block
+        }
+
+        .sc-caption {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--t3)
+        }
+
+        .sc-caption strong {
+            color: var(--cyan);
+            font-family: var(--font-m)
+        }
+
+        /* ═══ HOW IT WORKS ═══ */
+        .how {
+            padding: clamp(80px, 12vh, 140px) 0;
+            position: relative
+        }
+
+        .how-head {
+            text-align: center;
+            margin-bottom: 64px
+        }
+
+        .how-head h2 {
+            font-family: var(--font-d);
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 16px
+        }
+
+        .how-head p {
+            font-size: 17px;
+            color: var(--t2);
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.65
+        }
+
+        /* Pipeline */
+        .pipe {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 80px;
+            position: relative
+        }
+
+        .pipe-line {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background: rgba(255, 255, 255, .03);
+            overflow: hidden
+        }
+
+        .pipe-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, var(--cyan), var(--primary), transparent);
+            animation: flowP 3s linear infinite
+        }
+
+        @keyframes flowP {
+            0% {
+                left: -50%
+            }
+
+            100% {
+                left: 100%
+            }
+        }
+
+        .pn {
+            text-align: center;
+            width: 130px;
+            position: relative;
+            z-index: 1
+        }
+
+        .pn-dot {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            margin: 0 auto 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            background: var(--bg);
+            border: 2px solid var(--b1);
+            transition: all .4s;
+            position: relative
+        }
+
+        .pn-dot::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: conic-gradient(var(--cyan), var(--primary), var(--cyan));
+            opacity: 0;
+            transition: opacity .4s;
+            z-index: -1;
+            filter: blur(4px)
+        }
+
+        .pn:hover .pn-dot {
+            border-color: transparent;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(139, 92, 246, .15)
+        }
+
+        .pn:hover .pn-dot::after {
+            opacity: .5
+        }
+
+        .pn-title {
+            font-family: var(--font-d);
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: var(--t1)
+        }
+
+        .pn-sub {
+            font-size: 11px;
+            color: var(--t3)
+        }
+
+        @media(max-width:768px) {
+            .pipe {
+                flex-direction: column;
+                align-items: center;
+                gap: 24px
+            }
+
+            .pipe-line {
+                display: none
+            }
+        }
+
+        /* Debate */
+        .debate {
+            max-width: 860px;
+            margin: 0 auto
+        }
+
+        .debate-label {
+            text-align: center;
+            margin-bottom: 32px
+        }
+
+        .debate-label h3 {
+            font-family: var(--font-d);
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .debate-label p {
+            font-size: 14px;
+            color: var(--t2)
+        }
+
+        .debate-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: center
+        }
+
+        .debate-card {
+            padding: 28px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--b1);
+            background: var(--bg2);
+            transition: all .3s
+        }
+
+        .debate-card:hover {
+            border-color: var(--b2);
+            transform: translateY(-2px)
+        }
+
+        .dc-role {
+            font-family: var(--font-d);
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .dc-role .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%
+        }
+
+        .dc-desc {
+            font-size: 13px;
+            color: var(--t2);
+            line-height: 1.6;
+            margin-bottom: 12px
+        }
+
+        .dc-evidence {
+            font-family: var(--font-m);
+            font-size: 12px;
+            color: var(--t3)
+        }
+
+        .debate-center {
+            text-align: center;
+            padding: 24px 16px
+        }
+
+        .dc-judge {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-dim), rgba(6, 182, 212, .1));
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 12px;
+            box-shadow: 0 0 30px rgba(139, 92, 246, .15)
+        }
+
+        .dc-judge-title {
+            font-family: var(--font-d);
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 12px
+        }
+
+        .dc-arrows {
+            font-size: 18px;
+            color: var(--t3);
+            margin-bottom: 12px
+        }
+
+        .verdict {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-family: var(--font-m);
+            font-size: 12px;
+            font-weight: 700
+        }
+
+        .verdict-g {
+            background: rgba(52, 211, 153, .15);
+            color: #34d399;
+            border: 1px solid rgba(52, 211, 153, .3)
+        }
+
+        @media(max-width:768px) {
+            .debate-grid {
+                grid-template-columns: 1fr;
+                gap: 16px
+            }
+
+            .dc-arrows {
+                transform: rotate(90deg)
+            }
+        }
+
+        /* ═══ NUMBERS ═══ */
+        .numbers {
+            padding: clamp(80px, 12vh, 140px) 0
+        }
+
+        .numbers-head {
+            text-align: center;
+            margin-bottom: 48px
+        }
+
+        .numbers-head h2 {
+            font-family: var(--font-d);
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 800;
+            letter-spacing: -2px
+        }
+
+        .num-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            max-width: 860px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--b1)
+        }
+
+        .num {
+            padding: 40px 24px;
+            text-align: center;
+            position: relative
+        }
+
+        .num:not(:last-child) {
+            border-right: 1px solid var(--b1)
+        }
+
+        .num-val {
+            font-family: var(--font-d);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 8px
+        }
+
+        .num-label {
+            font-size: 13px;
+            color: var(--t2)
+        }
+
+        .num-sub {
+            font-family: var(--font-m);
+            font-size: 11px;
+            color: var(--t3);
+            margin-top: 4px
+        }
+
+        @media(max-width:640px) {
+            .num-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .num:nth-child(odd) {
+                border-right: 1px solid var(--b1)
+            }
+
+            .num:nth-child(even) {
+                border-right: none
+            }
+
+            .num:nth-child(-n+2) {
+                border-bottom: 1px solid var(--b1)
+            }
+        }
+
+        /* ═══ BOTTOM CTA ═══ */
+        .bottom-cta {
+            padding: clamp(80px, 12vh, 140px) 0;
+            text-align: center;
+            position: relative
+        }
+
+        .bottom-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 80%, rgba(6, 182, 212, .04), transparent 50%);
+            pointer-events: none
+        }
+
+        .bottom-cta-c {
+            position: relative
+        }
+
+        .bottom-cta h2 {
+            font-family: var(--font-d);
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 16px
+        }
+
+        .bottom-cta p {
+            font-size: 17px;
+            color: var(--t2);
+            max-width: 420px;
+            margin: 0 auto 40px;
+            line-height: 1.65
+        }
+
+        /* ═══ FOOTER ═══ */
+        footer {
+            padding: 48px 0;
+            border-top: 1px solid var(--b1)
+        }
+
+        .ft {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px
+        }
+
+        .ft-brand {
+            font-family: var(--font-d);
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .ft-brand span {
+            color: var(--t3);
+            font-weight: 400;
+            font-size: 12px
+        }
+
+        .ft-brand a {
+            color: var(--t2);
+            font-size: 12px;
+            transition: color .3s
+        }
+
+        .ft-brand a:hover {
+            color: var(--cyan)
+        }
+
+        .ft-copy {
+            font-size: 11px;
+            color: var(--t3)
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ═══ NAV ═══ -->
+    <nav id="nav">
+        <div class="mx nv">
+            <a href="/" class="nv-brand">
+                <div class="nv-w">W</div>
+                WhyLab
+            </a>
+            <ul class="nv-links">
+                <li><a href="#preview">Features</a></li>
+                <li><a href="#how">Pipeline</a></li>
+                <li><a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="https://whylab.vercel.app/dashboard" target="_blank" rel="noopener" class="cta-sm">Demo</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ═══ HERO ═══ -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+        </div>
+        <div class="hero-grid"></div>
+        <canvas id="dag"></canvas>
+        <div class="hero-c">
+            <div class="hero-badge r"><span class="bdot"></span>Causal Inference Platform · Causality Lab · Benchmark Validated</div>
+            <h1 class="r" style="transition-delay:.1s">
+                <span class="gt">Don't predict the future.</span>
+                <span class="line2">Cause it.</span>
+            </h1>
+            <p class="hero-p r" style="transition-delay:.2s">
+                WhyLab is a causal inference platform for teams that need to separate correlation from causation.<br>
+                Find the real cause with AutoML, Double ML, refutation, and multi-agent debate.
+            </p>
+            <div class="cta-row r" style="transition-delay:.3s">
+                <a href="https://whylab.vercel.app/dashboard" target="_blank" rel="noopener" class="cta-main">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                    Start Demo
+                </a>
+                <a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener" class="cta-ghost">GitHub
+                    ↗</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ PRODUCT PREVIEW ═══ -->
+    <section class="preview" id="preview">
+        <div class="mx">
+            <div class="preview-head">
+                <p class="label r">Causal inference platform</p>
+                <h2 class="r" style="transition-delay:.05s">Answer <span class="gt">"Why?"</span> — not just "What
+                    will happen?"</h2>
+                <p class="r" style="transition-delay:.1s">Three AI agents debate with evidence to deliver<br>
+                    the optimal verdict inside a practical causality lab: <strong>Rollout · A/B Test · Reject</strong>.
+                </p>
+            </div>
+            <div class="preview-questions r" style="transition-delay:.15s">
+                <span class="pq">"Why did churn increase?"</span>
+                <span class="pq">"Will raising limits reduce defaults?"</span>
+                <span class="pq">"Which channel caused the lift?"</span>
+            </div>
+            <div class="sc-tabs r" style="transition-delay:.2s">
+                <button class="sc-tab active" data-tab="0">💳 Credit Limit</button>
+                <button class="sc-tab" data-tab="1">🏥 Medical</button>
+                <button class="sc-tab" data-tab="2">📈 Career</button>
+            </div>
+            <div class="sc-frame r" style="transition-delay:.25s">
+                <div class="sc-frame-bar">
+                    <div class="sc-frame-dot"></div>
+                    <div class="sc-frame-dot"></div>
+                    <div class="sc-frame-dot"></div>
+                    <div class="sc-frame-url">whylab.neogenesis.app/dashboard</div>
+                </div>
+                <img class="sc-img active" src="screenshots/dashboard_overview.png"
+                    alt="WhyLab Dashboard — Credit Limit Scenario" loading="lazy">
+                <img class="sc-img" src="screenshots/dashboard_shap.png"
+                    alt="WhyLab Dashboard — Medical Treatment Analysis" loading="lazy">
+                <img class="sc-img" src="screenshots/dashboard_overview.png" alt="WhyLab Dashboard — Career Analytics"
+                    loading="lazy">
+            </div>
+            <p class="sc-caption r" style="transition-delay:.3s">
+                Scenario A: Credit Limit → Default Rate &nbsp;|&nbsp;
+                <strong>ATE: -12.3% (p=0.0003)</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- ═══ HOW IT WORKS ═══ -->
+    <section class="how" id="how">
+        <div class="mx">
+            <div class="how-head">
+                <p class="label r">How it works</p>
+                <h2 class="r" style="transition-delay:.05s"><span class="gt">16-cell pipeline</span><br>in 6 steps</h2>
+                <p class="r" style="transition-delay:.1s">From data upload to causal verdict,<br>a fully automated
+                    end-to-end causal inference platform workflow.</p>
+            </div>
+
+            <div class="pipe r" style="transition-delay:.15s">
+                <div class="pipe-line"></div>
+                <div class="pn">
+                    <div class="pn-dot">📊</div>
+                    <div class="pn-title">Data</div>
+                    <div class="pn-sub">CSV / SQL / BigQuery</div>
+                </div>
+                <div class="pn">
+                    <div class="pn-dot">🕸️</div>
+                    <div class="pn-title">Discovery</div>
+                    <div class="pn-sub">PC Algorithm</div>
+                </div>
+                <div class="pn">
+                    <div class="pn-dot">🎯</div>
+                    <div class="pn-title">Causal</div>
+                    <div class="pn-sub">Double ML</div>
+                </div>
+                <div class="pn">
+                    <div class="pn-dot">🧠</div>
+                    <div class="pn-title">MetaLearner</div>
+                    <div class="pn-sub">5 Learner Ensemble</div>
+                </div>
+                <div class="pn">
+                    <div class="pn-dot">🛡️</div>
+                    <div class="pn-title">Refutation</div>
+                    <div class="pn-sub">Placebo / Random</div>
+                </div>
+                <div class="pn">
+                    <div class="pn-dot">⚖️</div>
+                    <div class="pn-title">Verdict</div>
+                    <div class="pn-sub">AI Debate → Decision</div>
+                </div>
+            </div>
+
+            <!-- Multi-Agent Debate -->
+            <div class="debate r" style="transition-delay:.2s">
+                <div class="debate-label">
+                    <h3>Multi-Agent <span class="gt">Debate</span></h3>
+                    <p>Three AI agents debate with evidence to reach a final decision</p>
+                </div>
+                <div class="debate-grid">
+                    <div class="debate-card">
+                        <div class="dc-role"><span class="dot" style="background:var(--cyan)"></span>Growth Hacker</div>
+                        <p class="dc-desc">Explores growth opportunities from causal analysis results. Captures
+                            opportunities with 10 evidence types.</p>
+                        <span class="dc-evidence">10 evidence types</span>
+                    </div>
+                    <div class="debate-center">
+                        <div class="dc-arrows">← →</div>
+                        <div class="dc-judge">⚖️</div>
+                        <div class="dc-judge-title">Product Owner</div>
+                        <div class="verdict verdict-g">Rollout 100%</div>
+                    </div>
+                    <div class="debate-card">
+                        <div class="dc-role"><span class="dot" style="background:var(--red)"></span>Risk Manager</div>
+                        <p class="dc-desc">Warns about vulnerabilities and potential losses in causal models. Validates
+                            8 attack vectors.</p>
+                        <span class="dc-evidence">8 attack vectors</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ NUMBERS ═══ -->
+    <section class="numbers" id="numbers">
+        <div class="mx">
+            <div class="numbers-head">
+                <h2 class="r"><span class="gt">Built to be trusted.</span></h2>
+            </div>
+            <div class="num-grid r" style="transition-delay:.1s">
+                <div class="num">
+                    <div class="num-val gt" data-t="99" data-s=".6%">0</div>
+                    <div class="num-label">ATE Accuracy</div>
+                    <div class="num-sub">ACIC Benchmark</div>
+                </div>
+                <div class="num">
+                    <div class="num-val gt" data-t="16">0</div>
+                    <div class="num-label">Analysis Cells</div>
+                    <div class="num-sub">End-to-end Pipeline</div>
+                </div>
+                <div class="num">
+                    <div class="num-val gt" data-t="58" data-s="+">0</div>
+                    <div class="num-label">Test Cases</div>
+                    <div class="num-sub">Automated QA</div>
+                </div>
+                <div class="num">
+                    <div class="num-val gt" data-t="3">0</div>
+                    <div class="num-label">AI Agents</div>
+                    <div class="num-sub">Multi-Agent Debate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ BOTTOM CTA ═══ -->
+    <section class="bottom-cta">
+        <div class="mx bottom-cta-c">
+            <p class="label r">Ready?</p>
+            <h2 class="r" style="transition-delay:.05s">Find <span class="gt">causation.</span></h2>
+            <p class="r" style="transition-delay:.1s">Go beyond correlation. Discover the real cause.</p>
+            <div class="cta-row r" style="transition-delay:.15s">
+                <a href="https://whylab.vercel.app/dashboard" target="_blank" rel="noopener" class="cta-main">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                    Launch Demo
+                </a>
+                <a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener" class="cta-ghost">Read
+                    Paper ↗</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer>
+        <div class="mx ft">
+            <div class="ft-brand">WhyLab <span>Causal Inference Platform by Neo Genesis</span> <span>·</span>
+                <a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener">GitHub</a>
+                <span>·</span>
+                <a href="https://neogenesis.app">Neo Genesis</a>
+            </div>
+            <div class="ft-copy">&copy; 2026 Neo Genesis</div>
+        </div>
+    </footer>
+
+    <script>
+        /* ── DAG Canvas ── */
+        (function () {
+            const c = document.getElementById('dag'), g = c.getContext('2d');
+            let w, h, nodes = [];
+            function resize() { w = c.width = innerWidth; h = c.height = innerHeight; init() }
+            function init() {
+                nodes = [];
+                const count = Math.min(30, Math.floor(w * h / 40000));
+                for (let i = 0; i < count; i++) {
+                    nodes.push({
+                        x: Math.random() * w, y: Math.random() * h,
+                        vx: (Math.random() - .5) * .2, vy: (Math.random() - .5) * .2,
+                        r: Math.random() * 2 + 1.5, label: ['X', 'Y', 'Z', 'T', 'W', 'U', 'C'][Math.floor(Math.random() * 7)]
+                    });
+                }
+            }
+            resize(); addEventListener('resize', resize);
+            function draw() {
+                g.clearRect(0, 0, w, h);
+                nodes.forEach(n => {
+                    n.x += n.vx; n.y += n.vy;
+                    if (n.x < 0) n.x = w; if (n.x > w) n.x = 0;
+                    if (n.y < 0) n.y = h; if (n.y > h) n.y = 0;
+                    g.beginPath(); g.arc(n.x, n.y, n.r * 2, 0, Math.PI * 2);
+                    g.fillStyle = 'rgba(139,92,246,.12)'; g.fill();
+                    g.beginPath(); g.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                    g.fillStyle = 'rgba(139,92,246,.35)'; g.fill();
+                });
+                // Directed edges (arrows)
+                for (let i = 0; i < nodes.length; i++) {
+                    const j = (i + 1) % nodes.length;
+                    const dx = nodes[j].x - nodes[i].x, dy = nodes[j].y - nodes[i].y;
+                    const d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 250 && d > 30) {
+                        const a = .06 * (1 - d / 250);
+                        g.beginPath(); g.moveTo(nodes[i].x, nodes[i].y); g.lineTo(nodes[j].x, nodes[j].y);
+                        g.strokeStyle = `rgba(139,92,246,${a})`; g.lineWidth = .8; g.stroke();
+                        // Arrowhead
+                        const angle = Math.atan2(dy, dx);
+                        const ax = nodes[j].x - dx / d * 8, ay = nodes[j].y - dy / d * 8;
+                        g.beginPath();
+                        g.moveTo(ax + 5 * Math.cos(angle - 2.5), ay + 5 * Math.sin(angle - 2.5));
+                        g.lineTo(nodes[j].x, nodes[j].y);
+                        g.lineTo(ax + 5 * Math.cos(angle + 2.5), ay + 5 * Math.sin(angle + 2.5));
+                        g.strokeStyle = `rgba(139,92,246,${a * 1.5})`; g.stroke();
+                    }
+                }
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+
+        /* ── Scenario Tabs ── */
+        const tabs = document.querySelectorAll('.sc-tab');
+        const imgs = document.querySelectorAll('.sc-img');
+        const captions = [
+            'Scenario A: Credit Limit → Default Rate &nbsp;|&nbsp; <strong>ATE: -12.3% (p=0.0003)</strong>',
+            'Scenario B: Medical Treatment → Recovery Rate &nbsp;|&nbsp; <strong>CATE: +8.7% (p=0.012)</strong>',
+            'Scenario C: Skill Investment → Market Value &nbsp;|&nbsp; <strong>ATE: +$14.2K (p=0.008)</strong>'
+        ];
+        const capEl = document.querySelector('.sc-caption');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const idx = +tab.dataset.tab;
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                imgs.forEach((img, i) => img.classList.toggle('active', i === idx));
+                capEl.innerHTML = captions[idx];
+            });
+        });
+
+        /* ── Reveal ── */
+        const ro = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); ro.unobserve(e.target) } }) }, { threshold: .08 });
+        document.querySelectorAll('.r').forEach(el => ro.observe(el));
+
+        /* ── Nav Scroll ── */
+        addEventListener('scroll', () => { document.getElementById('nav').classList.toggle('s', scrollY > 50) }, { passive: true });
+
+        /* ── Count Up ── */
+        const co = new IntersectionObserver(es => {
+            es.forEach(e => {
+                if (e.isIntersecting) {
+                    const el = e.target, t = +el.dataset.t, sf = el.dataset.s || '';
+                    let c = 0; const st = Math.max(1, Math.ceil(t / 30));
+                    const iv = setInterval(() => { c += st; if (c >= t) { c = t; clearInterval(iv) } el.textContent = c + sf }, 40);
+                    co.unobserve(el);
+                }
+            });
+        }, { threshold: .5 });
+        document.querySelectorAll('.num-val').forEach(el => co.observe(el));
+    </script>
+</body>
+
+</html>
