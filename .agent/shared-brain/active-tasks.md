@@ -97,6 +97,7 @@ Owner instruction: ToolPick and UR WRONG are excluded because other sessions are
 - [x] Live smoke verified GA + PostHog + targeted page copy on SellKit, DeployStack, and ReviewLab.
 - [x] Visual QA captured desktop/mobile full-page screenshots for the six changed live pages.
 - [x] ReviewLab cookie consent obstruction fixed and deployed (`407b8c9`).
+- [x] Commercial design R3 shipped: SellKit decision UX (`62389b0`), DeployStack Railway scenarios (`7525db6`), ReviewLab buyer summary card (`6391ea5`), compact consent card (`48a48b3`).
 - [x] Custom 11-site SBU growth flywheel passed and report pushed (`b9b4f6d`).
 
 ### Next residual queue
@@ -104,6 +105,7 @@ Owner instruction: ToolPick and UR WRONG are excluded because other sessions are
 - [ ] If CraftDesk Figma pricing impressions grow beyond low-signal volume, add route-level pricing/free-plan intent copy.
 - [ ] If AIForge `ai security for dev` keeps impressions but position stays weak, add a second-stage comparison/checklist block and more internal links.
 - [ ] If ReviewLab recrawl remains slow, add DB-backed `lastModified` support to `src/sbu/reviewlab/src/app/sitemap.ts`.
+- [ ] Next design loop: reduce long-form blog ad placeholders and add sticky article summaries where the templates support it without hurting mobile readability.
 
 ## 2026-05-06 Codex Completed - SBU Traffic Statistics
 

@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-06T13:14:00+09:00",
-      "lastWork": "ToolPick and UR WRONG excluded in this session; SellKit, DeployStack, and ReviewLab pages visually QAed on desktop/mobile; ReviewLab cookie banner obstruction fixed and deployed"
+      "lastSession": "2026-05-06T13:42:00+09:00",
+      "lastWork": "ToolPick and UR WRONG excluded; SellKit, DeployStack, and ReviewLab commercial design R3 deployed, desktop/mobile visually QAed, and live smoke passed"
     },
     "sora": {
       "status": "active",
@@ -57,8 +57,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "3e2d305c2cb60e1e",
-    "lastSyncedAt": "2026-05-06T13:36:45+09:00",
+    "ssotRevision": "ed22f11b0122cd1e",
+    "lastSyncedAt": "2026-05-06T18:50:03+09:00",
     "lastSyncedBy": "codex"
   }
 }

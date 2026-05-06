@@ -1755,3 +1755,31 @@
   - `npm run build` passed locally.
   - Vercel production build passed and generated 1010 routes.
   - Live review page returns 200 with GA and PostHog present.
+
+## 2026-05-06 - Codex SBU Commercial Design Upgrade R3
+
+- Excluded ToolPick and UR WRONG per owner instruction because other sessions are handling them.
+- Improved SellKit alternatives commercial UX:
+  - `62389b0 design: improve SellKit alternatives decision UX`
+  - Added buyer decision snapshot for `best first test`, `lowest friction`, `cost pressure`, and `keep current stack` paths.
+  - Added recommendation labels to the top three alternative cards.
+  - Deployed and visually verified `/alternatives/printful` and `/alternatives/gumroad` on desktop/mobile.
+- Improved DeployStack Railway pricing UX:
+  - `7525db6 design: improve Railway pricing decision UX`
+  - Added production budget scenarios for prototype, launch app, and revenue system decisions.
+  - Deployed and visually verified `/pricing/railway` on desktop/mobile.
+- Improved ReviewLab review-page commercial trust surface:
+  - `6391ea5 design: add ReviewLab buyer summary card`
+  - Added product image/thumbnail area, buyer snapshot, rating, price, category, review count, and buyer notes above the article body.
+  - `48a48b3 fix: compact ReviewLab consent card`
+  - Further compacted the built-in consent card after mobile QA showed it still covered part of the buyer summary.
+  - Deployed and visually verified the Thomson review post on desktop/mobile.
+- Verification:
+  - Targeted eslint passed for touched TSX files.
+  - `npm run build` passed for SellKit, DeployStack, and ReviewLab.
+  - Vercel production deploys completed and aliases were updated:
+    - `https://sellkit.neogenesis.app`
+    - `https://deploystack.neogenesis.app`
+    - `https://review.neogenesis.app`
+  - Live smoke passed for the four key pages with design copy, GA, and PostHog present.
+  - Screenshot artifacts: `output/playwright/design-r3/`.
