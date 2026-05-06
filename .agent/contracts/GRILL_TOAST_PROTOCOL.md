@@ -277,6 +277,7 @@ GTP audit 결과는 다음 위치에 박제:
 - **Detail protocol SSOT**: `D:/00.test/PAPER/INDEPENDENT_PAPER_REVIEW_PROTOCOL.md`
 - **Lesson**: Paper review 의 mathematical rigor 가 우리 GTP base 5 dim 의 weak spot. PAT-class reviewer 가 fundamental math error catch 가능. Manuscript v1 G1 통과 전 self-correction 의무.
 - **Scope clarification**: 7 paper-review dim 은 paper review 전용. General decision review 는 5 base + ambition fit 만 적용.
+- **Validity audit outcome (2026-05-06)**: Cold-context independent audit of all 10 PAT claims → **8/10 fully VALID + 2/10 partially VALID + 0/10 invalid hallucination**. PAT substance accuracy ~80%, citation accuracy ~60% (specific table/line numbers sometimes mis-cited, underlying defects real). Actual fix outcome within 35h revision window: 9 patches applied (P0 6 text-only + P1 3 proof rewrite + new appendix paragraph), pdflatex 3-pass clean compile (57 pages, 2.13MB), all 7 broken "Appendix 6" cross-refs resolved, 0 BibTeX warnings. **Confirms 7 forensic audit dimensions necessity** — every dimension caught ≥1 valid issue that base 5 dim + ambition fit alone would miss. Strengthened lesson: **PAT-class audit must run before any manuscript v1 G1 sign-off**, not just at G2 4-Opus blind stage.
 
 ---
 
