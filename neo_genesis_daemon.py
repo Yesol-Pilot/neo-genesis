@@ -934,6 +934,26 @@ class NeoGenesisDaemon:
         except Exception as e:
             logger.warning(f"[AutonomousLoop] 스레드 시작 실패: {e}")
 
+        # ── 📡 SLO Monitor (W1 Sora Enterprise Master) 기동 ──
+        # 2026-05-06 audit 발견: SLO probe 가 4/29 06:54 이후 정지 (14/14 endpoint 0%).
+        # daemon 부팅 시 자동 가동 안 됐던 사고 재발 방지 — AutonomousLoop 와 같은 thread 패턴.
+        try:
+            def _boot_slo_monitor():
+                import asyncio as _aio
+                _slo_loop = _aio.new_event_loop()
+                _aio.set_event_loop(_slo_loop)
+                try:
+                    from src.core.governance.slo_monitor import SLOMonitor
+                    monitor = SLOMonitor()
+                    _slo_loop.run_until_complete(monitor.run_forever())
+                except Exception as e:
+                    logger.warning(f"[SLOMonitor] 기동 실패: {e}")
+            t_slo = threading.Thread(target=_boot_slo_monitor, daemon=True, name="sora-slo-monitor")
+            t_slo.start()
+            logger.info("📡 SLOMonitor — 백그라운드 polling (14 endpoint, yaml 정책 기준)")
+        except Exception as e:
+            logger.warning(f"[SLOMonitor] 스레드 시작 실패: {e}")
+
         logger.info("=" * 60)
 
         # 스케줄 출력
