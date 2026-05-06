@@ -508,11 +508,18 @@ def run_git(args: list[str], cwd: Path = REPO) -> tuple[int, str, str]:
 def git_commit_push(post: dict[str, Any], dry_run: bool = False) -> dict[str, Any]:
     if dry_run:
         return {"status": "skipped (dry-run)"}
-    # Only commit the two files we changed
-    rc, _, err = run_git(["add", str(SBUS_TS), str(BLOG_CONTENT_TS)])
+    # IMPORTANT: SBUS_TS and BLOG_CONTENT_TS live inside `src/landing/`, which is
+    # a SEPARATE git repository (Yesol-Pilot/landing) ignored by neo-genesis main.
+    # Running `git add` from neo-genesis main fails with
+    # "The following paths are ignored by one of your .gitignore files: src/landing".
+    # All git operations must run with cwd=LANDING_DIR and use paths relative to
+    # the landing repo root.
+    sbus_rel = SBUS_TS.relative_to(LANDING_DIR).as_posix()
+    blog_rel = BLOG_CONTENT_TS.relative_to(LANDING_DIR).as_posix()
+    rc, _, err = run_git(["add", sbus_rel, blog_rel], cwd=LANDING_DIR)
     if rc != 0:
         return {"status": "git_add_failed", "stderr": err}
-    rc, status, _ = run_git(["status", "--porcelain"])
+    rc, status, _ = run_git(["status", "--porcelain"], cwd=LANDING_DIR)
     if rc != 0 or not status.strip():
         return {"status": "no_changes"}
     msg = (
@@ -523,11 +530,11 @@ def git_commit_push(post: dict[str, Any], dry_run: bool = False) -> dict[str, An
         f"Pipeline: scripts/blog_autogen/run_pipeline.py\n"
         f"SSOT: .agent/knowledge/blog_autogen_pipeline_v1.md"
     )
-    rc, _, err = run_git(["commit", "-m", msg])
+    rc, _, err = run_git(["commit", "-m", msg], cwd=LANDING_DIR)
     if rc != 0:
         return {"status": "git_commit_failed", "stderr": err}
-    rc, head, _ = run_git(["rev-parse", "HEAD"])
-    rc2, _, perr = run_git(["push", "origin", "HEAD"])
+    rc, head, _ = run_git(["rev-parse", "HEAD"], cwd=LANDING_DIR)
+    rc2, _, perr = run_git(["push", "origin", "HEAD"], cwd=LANDING_DIR)
     return {
         "status": "ok" if rc2 == 0 else "push_failed",
         "commit": head.strip(),
