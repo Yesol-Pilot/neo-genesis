@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-06T10:32:20+09:00",
-      "lastWork": "SBU SEO/GEO/PostHog growth hardening deployed; 13/13 live quality and growth gates passed"
+      "lastSession": "2026-05-06T10:52:00+09:00",
+      "lastWork": "UR WRONG post-vote rebuttal friction loop deployed; one-click rebuttal handoff verified and production gates passed"
     },
     "sora": {
       "status": "active",
@@ -57,8 +57,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "2ee82491cce27186",
-    "lastSyncedAt": "2026-05-06T10:32:32+09:00",
+    "ssotRevision": "efb796ef4545c0cc",
+    "lastSyncedAt": "2026-05-06T10:52:12+09:00",
     "lastSyncedBy": "codex"
   }
 }

@@ -10,8 +10,10 @@
 - [x] Parallel activation/content/analytics hardening loop shipped and deployed to production (`431e42e`).
 - [x] Curated growth seed set expanded to 20 benchmark-grade prompts; 10 new Supabase rows inserted.
 - [x] Ordered funnel counting repaired; production monitor now reports `ordered_activation: 5.0%`.
-- [ ] Next priority: convert post-vote intent into actual rebuttal submission. Current blocker remains `argument_intent_no_submit`, with `argument_quick_submit_clicks=0` and `arguments=0` in the 30d monitor.
-- [ ] Next verification after fresh traffic: rerun `npm run monitor:growth-effect`, `npm run report:funnel`, and production browser smoke; confirm `argument_quick_submit_clicks` and `argument_submit_attempts` move above zero.
+- [x] Post-vote rebuttal friction loop shipped and deployed to production (`14cf39f`): share modal argument CTA now lands on one-click rebuttal controls, and the battle detail page exposes a post-vote one-tap rebuttal handoff.
+- [x] Browser smoke verified vote -> share modal -> write rebuttal -> one-click rebuttal focus -> one-click submit with expected events captured.
+- [ ] Next verification after fresh traffic: rerun `npm run monitor:growth-effect`, `npm run report:funnel`, and production browser smoke; confirm `post_vote_quick_rebuttal_focuses`, `argument_quick_submit_clicks`, and `argument_submit_attempts` move above zero.
+- [ ] If quick-submit remains zero after fresh traffic, next product fix is to place the quick rebuttal templates directly inside `ShareModal` before the share/action grid.
 
 ## 🟣 Sora 전체 감사 + 10 issue fix (2026-05-06, Claude Opus 4.7) ✅
 
@@ -75,7 +77,8 @@ secret_leak: PASS=9 (Anthropic / OpenAI / Google / GitHub / JWT / AWS / sudo / T
 - [x] GA4/PostHog/GSC traffic statistics collected for the SBU fleet.
 - [x] Search growth flywheel restored to green after DeployStack and SellKit production redeploys.
 - [x] Full live SEO/GEO audit verified 13/13 passing after redeploy.
-- [ ] Next loop: convert the 94 GSC opportunities into title/meta/internal-link updates, prioritizing ToolPick, SellKit, DeployStack, and ReviewLab.
+- [x] ToolPick first live GSC opportunity converted into content/template updates and deployed to production (`c7b6bf7`, Vercel `dpl_AWka8DMoX4Kh65oWM1fa2DDQ7kxU`).
+- [ ] Next loop: convert remaining GSC opportunities into title/meta/internal-link updates, prioritizing SellKit, DeployStack, ReviewLab, then additional ToolPick candidates.
 
 ---
 

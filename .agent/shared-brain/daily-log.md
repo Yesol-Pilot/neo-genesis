@@ -15,6 +15,16 @@
 - Found and fixed live publishing lag on DeployStack and SellKit: both had 2026-05-06 posts committed but not live; rebuilt, deployed to Vercel production, and verified detail pages plus sitemap inclusion.
 - Key finding: ToolPick remains the traffic outlier; the rest of the fleet is technically connected and index-ready but needs query-to-click optimization and stronger distribution loops.
 
+## 2026-05-06 - Codex ToolPick Search Growth Hardening Deploy
+
+- Converted the first live GSC ToolPick opportunity into content: refreshed `excalidraw-vs-tldraw-2026` for `tldraw vs excalidraw`, pricing/license intent, FAQ coverage, and internal links.
+- Added SERP-intent refresh sections to ToolPick review, pricing, and alternatives templates for high-intent queries such as Fly.io pricing/news, Netlify free plan pricing, Railway free tier pricing, Notion alternatives, and Railway alternatives.
+- Hardened GA4/PostHog live analytics auditing so zero-traffic gaps are explicit and blocking only when current; recorded the 2026-04-27..2026-05-02 GA4 gap without blocking healthy current telemetry.
+- Fixed static-generation build safety by parsing `GOOGLE_SERVICE_ACCOUNT_JSON` lazily and defensively for GA4/AdSense, supporting both raw JSON and Base64 while falling back instead of crashing builds.
+- Updated 100k MAU readiness audit to count real Search Console opportunity data; latest ToolPick foundation score is 100/100, with the remaining blocker being actual daily session proof.
+- Verified `npm run lint`, `npm run build`, analytics/live/growth/internal-link/cannibalization/money/topic/100k audits, committed `c7b6bf7`, deployed Vercel production `dpl_AWka8DMoX4Kh65oWM1fa2DDQ7kxU`, and verified `https://www.toolpick.dev` smoke.
+- Submitted the refreshed ToolPick priority queue to IndexNow: 100 URLs, `200 OK`, report committed in ToolPick `0a22196`.
+
 ---
 
 ## 2026-04-24 (금)
@@ -1658,3 +1668,16 @@
 - Verification passed: `npm run build`, `verify:growth-analytics`, `verify:ui-quality`, `verify:performance-budget`, `verify:public-api`, `verify:growth-platform`, `verify:share`, `verify:growth-indexing`, `verify:growth-report`, `seed-curated-growth-battles --validate-only`, local ordered funnel, production browser smoke, and HTTP 200 HEAD on the public site.
 - Post-deploy data: ordered activation is now 5.0%; ordered 7d funnel shows 93 landing visitors, 16 battle-interest visitors, 12 vote intent, 9 confirmed votes, and 5 share/argue completions.
 - Remaining growth blocker: real users still show `argument_intent_no_submit`; next loop should push post-vote rebuttal submission further above the fold and measure `argument_quick_submit_clicks` after fresh traffic.
+
+## 2026-05-06 - Codex UR WRONG Post-Vote Rebuttal Friction Loop
+
+- Implemented the next highest-impact activation fix for the live blocker `argument_intent_no_submit`.
+- Changed the post-vote share modal argument CTA so it closes the modal and focuses the first one-click rebuttal button instead of only prefilling the manual text input.
+- Added a post-vote battle detail handoff panel with `Open one-click rebuttals` to keep the next action visible after a saved vote.
+- Added stable DOM hooks for one-click rebuttal panels and primary quick-publish buttons.
+- Extended growth contracts and reports with `post_vote_quick_rebuttal_jump`, `post_vote_quick_rebuttal_focus`, `post_vote_quick_rebuttal_jumps`, and `post_vote_quick_rebuttal_focuses`.
+- Verified locally: `npm run build`, `verify:growth-analytics`, `verify:ui-quality`, `verify:performance-budget`, `verify:growth-platform`, `verify:public-api`, `verify:growth-indexing`, `verify:share`, `verify:growth-report`, `report:funnel`, and Playwright browser smoke with mocked writes.
+- Browser smoke captured the expected events: `post_vote_write_argument_click`, `post_vote_quick_rebuttal_focus`, `argument_quick_submit_click`, `argument_submit_attempt`, and `argument_submit`.
+- Committed and pushed `14cf39f feat: reduce post-vote rebuttal friction` to `Yesol-Pilot/https-ur-wrong.com-`.
+- Deployed Vercel production and verified `https://ur-wrong.com` alias, public APIs, growth platform gates, share preview, indexing gates, and growth report.
+- Immediate post-deploy monitor still reports stale pre-fix blocker data: `argument_quick_submit_clicks=0`, `argument_submit_attempts=0`, `confidence=not_yet`; next read needs fresh traffic after the deployment.
