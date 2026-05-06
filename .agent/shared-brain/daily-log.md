@@ -1682,6 +1682,19 @@
 - Deployed Vercel production and verified `https://ur-wrong.com` alias, public APIs, growth platform gates, share preview, indexing gates, and growth report.
 - Immediate post-deploy monitor still reports stale pre-fix blocker data: `argument_quick_submit_clicks=0`, `argument_submit_attempts=0`, `confidence=not_yet`; next read needs fresh traffic after the deployment.
 
+## 2026-05-06 - Codex UR WRONG Operator Distribution Engine
+
+- Built and deployed the direct-operable acquisition layer requested by the owner so Codex can run free distribution after the owner logs into external channels.
+- Added `/launch` as the public operator landing page, with UTM-aware copy buttons, distribution-ready battle cards, live API data, and a static fallback seed at `/distribution-launch-seed.json`.
+- Added `scripts/generate-distribution-engine.mjs` and `scripts/verify-distribution-engine.mjs`.
+- Generated `docs/growth-distribution/` artifacts: 40 queued channel submissions, UTM CSV, channel-specific Markdown packs, launch pack, runbook, and mutable `distribution-log.json`.
+- Guardrails: assisted browser submission only, no credential handling, no background mass posting, no fake votes/replies, per-channel compliance notes and stop rules.
+- Committed and pushed `7caf0a5 feat: add operator distribution engine` and `55bdedd test: allow public battle slugs` to `Yesol-Pilot/https-ur-wrong.com-`.
+- Deployed Vercel production and verified alias `https://ur-wrong.com`.
+- Verification passed: `growth:distribution`, `verify:distribution-engine`, `verify:ui-quality`, `verify:growth-analytics`, `verify:growth-structure`, `verify:public-api`, `verify:growth-platform`, `verify:growth-report`, `verify:share`, `verify:growth-indexing`, `verify:arena-security`, `verify:performance-budget`, `npm run build`, live `/launch` and seed HTTP checks, and desktop/mobile Playwright screenshots.
+- Post-deploy monitor: visitors 186, external_source_visitors 18, vote_intents 12, vote_saves 15, share_actions 3, ordered_activation 4.9%, confidence `not_yet`.
+- Remaining blockers: external distribution has not been submitted yet because channel login sessions are needed; product-side blocker remains `argument_intent_no_submit`.
+
 ## 2026-05-06 - Codex SBU SEO/GEO/PostHog Custom 11-Site Loop
 
 - Excluded ToolPick and UR WRONG per owner instruction because other sessions are handling them.

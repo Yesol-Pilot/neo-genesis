@@ -22,7 +22,10 @@
 - [x] Ordered funnel counting repaired; production monitor now reports `ordered_activation: 5.0%`.
 - [x] Post-vote rebuttal friction loop shipped and deployed to production (`14cf39f`): share modal argument CTA now lands on one-click rebuttal controls, and the battle detail page exposes a post-vote one-tap rebuttal handoff.
 - [x] Browser smoke verified vote -> share modal -> write rebuttal -> one-click rebuttal focus -> one-click submit with expected events captured.
+- [x] Operator distribution engine shipped and deployed (`7caf0a5`, `55bdedd`): `/launch` landing page, static launch seed, 40-item assisted browser submission queue, UTM CSV, channel copy packs, runbook, and `verify:distribution-engine`.
+- [x] Production `/launch`, `/distribution-launch-seed.json`, public API, growth platform, growth report, and desktop/mobile Playwright screenshots verified after deploy.
 - [ ] Next verification after fresh traffic: rerun `npm run monitor:growth-effect`, `npm run report:funnel`, and production browser smoke; confirm `post_vote_quick_rebuttal_focuses`, `argument_quick_submit_clicks`, and `argument_submit_attempts` move above zero.
+- [ ] Next operator task: with owner login sessions available, submit the first low-risk queue items from `docs/growth-distribution/distribution-queue.json`, record posted URLs in `distribution-log.json`, and pause channels with zero vote intent after three posts.
 - [ ] If quick-submit remains zero after fresh traffic, next product fix is to place the quick rebuttal templates directly inside `ShareModal` before the share/action grid.
 
 ## 🟣 Sora 전체 감사 + 10 issue fix (2026-05-06, Claude Opus 4.7) ✅
