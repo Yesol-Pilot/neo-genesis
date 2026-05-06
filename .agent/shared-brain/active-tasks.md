@@ -5,6 +5,14 @@
 
 ---
 
+## UR WRONG Growth Hardening - Next Loop (Codex, 2026-05-06)
+
+- [x] Parallel activation/content/analytics hardening loop shipped and deployed to production (`431e42e`).
+- [x] Curated growth seed set expanded to 20 benchmark-grade prompts; 10 new Supabase rows inserted.
+- [x] Ordered funnel counting repaired; production monitor now reports `ordered_activation: 5.0%`.
+- [ ] Next priority: convert post-vote intent into actual rebuttal submission. Current blocker remains `argument_intent_no_submit`, with `argument_quick_submit_clicks=0` and `arguments=0` in the 30d monitor.
+- [ ] Next verification after fresh traffic: rerun `npm run monitor:growth-effect`, `npm run report:funnel`, and production browser smoke; confirm `argument_quick_submit_clicks` and `argument_submit_attempts` move above zero.
+
 ## 🟣 Sora 전체 감사 + 10 issue fix (2026-05-06, Claude Opus 4.7) ✅
 
 owner 명령 흐름: "코드리뷰해봐" → "프로젝트 전체를 감사 해봐" → "소라가 정말 완벽한 상태야?" → "모든 이슈 개선해"

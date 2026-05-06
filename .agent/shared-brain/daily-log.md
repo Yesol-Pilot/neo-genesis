@@ -1646,3 +1646,15 @@
   - `node scripts/sbu_indexing_quality_audit.mjs --sites toolpick,aiforge,craftdesk,deploystack,finstack,sellkit --since 2026-04-26` passed with all six sites green.
   - `node scripts/sbu_growth_loop.mjs` passed end-to-end.
 - Remaining external blocker: Search Console submission is still dry-run because GSC credentials are not available in the local execution environment.
+
+## 2026-05-06 - Codex UR WRONG Activation Hardening Parallel Loop
+
+- Ran the UR WRONG MAU growth hardening loop with parallel workers for activation UI, rebuttal friction, content/SEO seed quality, and analytics QA.
+- Implemented direct A/B vote activation copy, post-vote reward CTAs, one-click rebuttal publishing, ordered funnel event repair, English-only distribution safeguards, and curated benchmark-grade debate seeds.
+- Seeded 10 new curated growth battles into Supabase; 10 existing seeds were skipped, and all 20 curated prompts validate as `benchmark_grade`.
+- Fixed browser-discovered UX regressions: toast notifications no longer intercept vote clicks, and post-vote hero primary CTA now switches from duplicate vote copy to `Write rebuttal`.
+- Committed and pushed `431e42e feat: harden debate activation loop` to `Yesol-Pilot/https-ur-wrong.com-`.
+- Deployed Vercel production for `ur-wrong` and verified alias `https://ur-wrong.com`.
+- Verification passed: `npm run build`, `verify:growth-analytics`, `verify:ui-quality`, `verify:performance-budget`, `verify:public-api`, `verify:growth-platform`, `verify:share`, `verify:growth-indexing`, `verify:growth-report`, `seed-curated-growth-battles --validate-only`, local ordered funnel, production browser smoke, and HTTP 200 HEAD on the public site.
+- Post-deploy data: ordered activation is now 5.0%; ordered 7d funnel shows 93 landing visitors, 16 battle-interest visitors, 12 vote intent, 9 confirmed votes, and 5 share/argue completions.
+- Remaining growth blocker: real users still show `argument_intent_no_submit`; next loop should push post-vote rebuttal submission further above the fold and measure `argument_quick_submit_clicks` after fresh traffic.
