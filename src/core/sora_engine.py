@@ -84,8 +84,23 @@ class AssistantMemory:
         except Exception as exc:
             logger.warning("Memory save failed: %s", exc)
 
+    # 2026-05-04 F1: cron health probe 3 prompt 가 매시간 발사돼 200건 buffer 의 진짜
+    # owner 메시지를 밀어내고 audit/memory 둘 다 노이즈로 점유한 문제. 진입 단계에서 차단.
+    _CRON_PROBE_PROMPTS = frozenset({
+        "너는 어떤 LLM 모델이야?",
+        "안녕! 한 줄로 인사해줘",
+        "2+2 얼마야?",
+    })
+
     def add_message(self, role: str, text: str):
-        """대화 기록 추가 (최근 200개 유지)"""
+        """대화 기록 추가 (최근 200개 유지). cron probe user msg + 다음 assistant 응답은 skip."""
+        if role == "user" and (text or "").strip() in self._CRON_PROBE_PROMPTS:
+            # cron probe — 메모리 진입 차단. 직후 assistant 응답도 skip 하기 위해 flag.
+            self._skip_next_assistant = True
+            return
+        if role == "assistant" and getattr(self, "_skip_next_assistant", False):
+            self._skip_next_assistant = False
+            return
         self.data["conversations"].append({
             "role": role,
             "text": text[:500],
@@ -806,11 +821,27 @@ class SoraEngine:
             return {}
         facts: dict[str, str] = {}
         # 패턴 priority: 가장 최근 user 발화가 가장 정확한 값
+        # 2026-05-04 F4: owner 가 자주 쓰는 표현 8개 추가 (5 → 13)
         patterns = [
+            # 정체성
             ("이름", _re.compile(r"내 이름은\s*([가-힣A-Za-z0-9 ]{1,20}?)\s*(?:이야|입니다|이고)?\s*[.!]?\s*기억")),
+            # 취향
             ("좋아하는 색", _re.compile(r"좋아하는 색은?\s*([가-힣A-Za-z0-9 ]{1,15}?)\s*(?:이야|입니다)?\s*[.!]?\s*기억")),
             ("좋아하는 음식", _re.compile(r"좋아하는 음식은?\s*([가-힣A-Za-z0-9 ]{1,15}?)\s*(?:이야|입니다)?\s*[.!]?")),
+            ("좋아하는 영화", _re.compile(r"좋아하는 영화는?\s*([가-힣A-Za-z0-9 ]{1,30}?)\s*(?:이야|입니다)?")),
+            ("좋아하는 운동", _re.compile(r"좋아하는 운동은?\s*([가-힣A-Za-z0-9 ]{1,15}?)\s*(?:이야|입니다)?")),
+            # 숫자 / 수치
             ("기준 숫자", _re.compile(r"내가 만든 수는?\s*([0-9]+)")),
+            ("나이", _re.compile(r"내 나이는?\s*([0-9]{1,3})\s*(?:살|세)")),
+            # 일정 / 약속 (월/일 형식)
+            ("다음 일정", _re.compile(r"(?:다음|이번|이번 주)\s*(?:일정|약속|미팅|모임)은?\s*([가-힣A-Za-z0-9 :월일시분]{1,40}?)\s*(?:이야|입니다)?")),
+            # 운영 선호
+            ("응답 선호", _re.compile(r"(?:응답|답변)은?\s*(짧게|길게|간결하게|자세히|영어로|한국어로)")),
+            ("보고 시간", _re.compile(r"매일\s*([0-9]{1,2}\s*시(?:\s*[0-9]{1,2}분)?)\s*에\s*(?:보고|알림|메시지)")),
+            # 자원 / 환경
+            ("API 한도", _re.compile(r"내\s*([A-Za-z]+)\s*(?:API|결제)\s*(?:한도|한액)는?\s*([가-힣A-Za-z0-9$ ]{1,20})")),
+            # 일반 fact ("기억해" 명시 발화)
+            ("일반 사실", _re.compile(r"(.{5,80}?)\.\s*기억(?:해|해줘|해놔|해 둬)\.?")),
         ]
         for c in convs:
             if c.get("role") != "user":

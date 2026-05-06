@@ -113,6 +113,12 @@ def _tg_send(text: str, channel: str = "auto", job_name: str = "") -> bool:
     return False
 
 
+# 2026-05-06: 사전 NameError bug fix — _JOB_STATS 모듈 정의 누락. _record_result 매 호출마다
+# `name '_JOB_STATS' is not defined` 발생 (daemon.log.4/5/6 매 5분 재발). _HEALTH 도 동일.
+_JOB_STATS: dict = {}
+_HEALTH = None  # placeholder — 실 구현 시 HealthMonitor 인스턴스 주입
+
+
 def _record_result(job_name: str, success: bool, detail: str = ""):
     """각 Job의 실행 결과를 메모리에 기록"""
     if job_name not in _JOB_STATS:
@@ -861,15 +867,48 @@ class NeoGenesisDaemon:
             try:
                 import subprocess as _sp
                 _polling_log = "/app/data/logs/sora_telegram_poll.log"
-                _polling_proc = _sp.Popen(
-                    [sys.executable, "-c",
-                     "from src.core.neo_assistant_bot import NeoAssistant; NeoAssistant().run()"],
-                    cwd=str(PROJECT_ROOT),
-                    stdout=open(_polling_log, "ab", buffering=0),
-                    stderr=_sp.STDOUT,
-                    start_new_session=True,
-                )
+
+                def _spawn_polling_subprocess():
+                    return _sp.Popen(
+                        [sys.executable, "-c",
+                         "from src.core.neo_assistant_bot import NeoAssistant; NeoAssistant().run()"],
+                        cwd=str(PROJECT_ROOT),
+                        stdout=open(_polling_log, "ab", buffering=0),
+                        stderr=_sp.STDOUT,
+                        start_new_session=True,
+                    )
+
+                _polling_proc = _spawn_polling_subprocess()
                 logger.info(f"📨 NeoAssistantBot polling subprocess 기동 (pid={_polling_proc.pid}, log={_polling_log})")
+
+                # 2026-05-04 F2: polling subprocess 가 단독으로 die 시 daemon 이 자동 re-spawn
+                # 직전엔 daemon 이 한 번만 띄우고 monitor 안 함 → polling 죽어도 sora 텔레그램 단절.
+                # supervisord 는 daemon 만 관리 (polling subprocess 는 daemon 의 자식).
+                import threading as _th
+                import time as _time
+                _polling_supervisor_max_respawn = 10
+                _polling_supervisor_respawn_count = 0
+
+                def _polling_supervisor():
+                    nonlocal _polling_proc, _polling_supervisor_respawn_count
+                    while True:
+                        _time.sleep(30)
+                        try:
+                            rc = _polling_proc.poll()
+                            if rc is not None:
+                                _polling_supervisor_respawn_count += 1
+                                if _polling_supervisor_respawn_count > _polling_supervisor_max_respawn:
+                                    logger.error(f"[TelegramBot] supervisor: respawn 한도 {_polling_supervisor_max_respawn} 초과 — 정지")
+                                    _tg_send(f"🚨 <b>NeoAssistant polling supervisor 정지</b>\nrespawn {_polling_supervisor_respawn_count}회 초과 — owner 수동 점검 필요")
+                                    return
+                                logger.warning(f"[TelegramBot] supervisor: polling subprocess 종료 (rc={rc}). re-spawn ({_polling_supervisor_respawn_count}회)")
+                                _polling_proc = _spawn_polling_subprocess()
+                                logger.info(f"[TelegramBot] supervisor: 새 polling pid={_polling_proc.pid}")
+                        except Exception as _sup_exc:
+                            logger.warning(f"[TelegramBot] supervisor 예외: {_sup_exc}")
+
+                _th.Thread(target=_polling_supervisor, daemon=True, name="sora-telegram-polling-supervisor").start()
+                logger.info("👁️  NeoAssistant polling supervisor — 30s polling, max 10 respawn")
             except Exception as exc:
                 logger.warning(f"[TelegramBot] subprocess 기동 실패: {exc}")
         else:
