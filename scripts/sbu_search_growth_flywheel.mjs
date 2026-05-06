@@ -10,6 +10,7 @@ const OUT_DIR = path.join(ROOT, 'data', 'sbu-growth');
 const DEFAULT_SITES =
   'toolpick,aiforge,craftdesk,deploystack,finstack,sellkit,reviewlab,ur-wrong,kott,ethicaai,whylab,portfolio,neogenesis';
 const CORE_SITES = ['toolpick', 'aiforge', 'craftdesk', 'deploystack', 'finstack', 'sellkit'];
+const DEFAULT_SITE_IDS = DEFAULT_SITES.split(',');
 const MARKER = 'sbu-search-growth-flywheel';
 
 const SITES = {
@@ -129,6 +130,48 @@ function parseArgs(argv) {
   }
 
   return args;
+}
+
+function sameSiteSet(left, right) {
+  if (left.length !== right.length) return false;
+  const rightSet = new Set(right);
+  return left.every((site) => rightSet.has(site));
+}
+
+function scopeForSites(siteIds, args) {
+  if (sameSiteSet(siteIds, DEFAULT_SITE_IDS)) {
+    return {
+      id: 'full',
+      label: 'full-13-sites',
+      latestPrefix: 'search-growth-flywheel',
+      writesDefaultLatest: true,
+      selectedSites: siteIds,
+      pipelineSites: siteIds.filter((site) => CORE_SITES.includes(site)),
+      note: 'Default latest is reserved for the full 13-site run.',
+    };
+  }
+
+  if (sameSiteSet(siteIds, CORE_SITES)) {
+    return {
+      id: 'core',
+      label: 'core-6-sites',
+      latestPrefix: 'search-growth-flywheel-core',
+      writesDefaultLatest: false,
+      selectedSites: siteIds,
+      pipelineSites: siteIds,
+      note: 'Core-only latest is separated from the default full-run latest.',
+    };
+  }
+
+  return {
+    id: 'custom',
+    label: `custom-${siteIds.length}-sites`,
+    latestPrefix: `search-growth-flywheel-custom-${safeHash(siteIds.join(','))}`,
+    writesDefaultLatest: false,
+    selectedSites: siteIds,
+    pipelineSites: siteIds.filter((site) => CORE_SITES.includes(site)),
+    note: 'Custom latest uses a scoped filename and does not overwrite the default full-run latest.',
+  };
 }
 
 function nowKst() {
@@ -810,11 +853,55 @@ async function auditPipeline(siteIds, gsc, args) {
     ]);
     const gscSite = gsc.sites.find((entry) => entry.site === siteId);
     const issues = [];
+    const slug = latest?.slug || null;
+    const title = latest?.title || null;
+    const blogUrl = `${site.domain}/blog`;
+    const detailUrl = slug ? `${site.domain}/blog/${slug}` : null;
+    const sitemapUrl = `${site.domain}/sitemap.xml`;
+    const liveBlogOk = Boolean(blog.ok && slug && blog.text.includes(slug));
+    const liveDetailOk = Boolean(detail.ok && title && detail.text.includes(title));
+    const liveSitemapOk = Boolean(sitemap.ok && slug && sitemap.text.includes(`/blog/${slug}`));
+    const liveCoverageMissing = [];
+
+    if (!liveBlogOk) {
+      liveCoverageMissing.push({
+        target: 'blog',
+        site: siteId,
+        slug,
+        expected: slug,
+        url: blogUrl,
+        status: blog.status,
+        reason: blog.ok ? 'slug_not_found' : 'request_failed',
+      });
+    }
+    if (!liveDetailOk) {
+      liveCoverageMissing.push({
+        target: 'detail',
+        site: siteId,
+        slug,
+        expected: title,
+        url: detailUrl,
+        status: detail.status,
+        reason: detail.ok ? 'title_not_found' : 'request_failed',
+      });
+    }
+    if (!liveSitemapOk) {
+      liveCoverageMissing.push({
+        target: 'sitemap',
+        site: siteId,
+        slug,
+        expected: slug ? `/blog/${slug}` : null,
+        url: sitemapUrl,
+        status: sitemap.status,
+        reason: sitemap.ok ? 'slug_url_not_found' : 'request_failed',
+      });
+    }
+
     if (!latest) issues.push('no_local_latest_post');
     if (staleDays === null || staleDays > args.maxStaleDays) issues.push('latest_post_stale');
-    if (!blog.ok || !blog.text.includes(latest?.slug || '__missing__')) issues.push('live_blog_missing_latest');
-    if (!detail.ok || !detail.text.includes(latest?.title || '__missing__')) issues.push('live_detail_missing_latest');
-    if (!sitemap.ok || !sitemap.text.includes(`/blog/${latest?.slug || '__missing__'}`)) issues.push('sitemap_missing_latest');
+    if (!liveBlogOk) issues.push(`live_blog_missing_latest:${slug || 'missing'}`);
+    if (!liveDetailOk) issues.push(`live_detail_missing_latest:${slug || 'missing'}`);
+    if (!liveSitemapOk) issues.push(`sitemap_missing_latest:${slug || 'missing'}`);
     if (!robots.ok || !/sitemap:/i.test(robots.text)) issues.push('robots_missing_sitemap');
     if (!hasNpmScript(site, 'indexnow:submit')) issues.push('indexnow_submit_script_missing');
     if (![401, 403, 405].includes(cron.status)) issues.push('cron_route_unprotected_or_unexpected');
@@ -824,10 +911,18 @@ async function auditPipeline(siteIds, gsc, args) {
       site: siteId,
       latest,
       staleDays,
+      expectedLiveCoverage: {
+        slug,
+        title,
+        blogUrl,
+        detailUrl,
+        sitemapUrl,
+      },
+      liveCoverageMissing,
       live: {
-        blog: { status: blog.status, ok: blog.ok && blog.text.includes(latest?.slug || '__missing__') },
-        detail: { status: detail.status, ok: detail.ok && detail.text.includes(latest?.title || '__missing__') },
-        sitemap: { status: sitemap.status, ok: sitemap.ok && sitemap.text.includes(`/blog/${latest?.slug || '__missing__'}`) },
+        blog: { status: blog.status, ok: liveBlogOk },
+        detail: { status: detail.status, ok: liveDetailOk },
+        sitemap: { status: sitemap.status, ok: liveSitemapOk },
         robots: { status: robots.status, ok: robots.ok && /sitemap:/i.test(robots.text) },
         cron: { status: cron.status, protected: [401, 403, 405].includes(cron.status) },
       },
@@ -840,7 +935,9 @@ async function auditPipeline(siteIds, gsc, args) {
 
   return {
     maxStaleDays: args.maxStaleDays,
+    auditedSites: sites.map((site) => site.site),
     passed: sites.every((site) => site.status === 'green'),
+    liveCoverageMissing: sites.flatMap((site) => site.liveCoverageMissing),
     sites,
   };
 }
@@ -850,14 +947,17 @@ function markdown(report) {
     '# SBU Search Growth Flywheel',
     '',
     `- generatedAt: ${report.generatedAt}`,
+    `- scope: ${report.scope?.label || 'unknown'}`,
     `- passed: ${report.passed}`,
+    `- pipelinePassed: ${report.pipeline.passed}`,
     `- gscRange: ${report.gsc.startDate}..${report.gsc.endDate}`,
     `- gscCredentialSource: ${report.gsc.credential?.source || 'unknown'}`,
     `- gscPropertiesListed: ${report.gsc.propertyListedOk}/${report.gsc.sites.length}`,
     `- gscSitemapsKnown: ${report.gsc.sitemapKnownOk}/${report.gsc.sites.length}`,
-    `- gscOpportunities: ${report.gsc.opportunityCount}`,
+    `- gscOpportunityTotal: ${report.gsc.opportunityCount}`,
     `- contentApplyEnabled: ${report.contentApply.enabled}`,
     `- contentChangedFiles: ${report.contentApply.changedFileCount}`,
+    `- liveCoverageMissing: ${report.failureSummary?.liveCoverageMissingCount || 0}`,
     '',
     '## GSC Sites',
     '',
@@ -887,6 +987,13 @@ function markdown(report) {
     );
   }
 
+  if (report.pipeline.liveCoverageMissing?.length) {
+    lines.push('', '## Live Coverage Missing', '', '| Site | Slug | Target | Status | URL | Reason |', '|---|---|---|---:|---|---|');
+    for (const item of report.pipeline.liveCoverageMissing) {
+      lines.push(`| ${item.site} | ${item.slug || 'missing'} | ${item.target} | ${item.status} | ${item.url || '-'} | ${item.reason} |`);
+    }
+  }
+
   lines.push('', '## PostHog Taxonomy', '', '| Site | Status | Missing Required | Missing Recommended |', '|---|---:|---|---|');
   for (const site of report.posthogTaxonomy.sites) {
     lines.push(
@@ -905,12 +1012,40 @@ function markdown(report) {
 function writeReport(report) {
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const stamp = report.generatedAt.replace(/[:+]/g, '-');
+  const scopePrefix = report.scope?.latestPrefix || 'search-growth-flywheel-custom';
+  const stampedJson = path.join(OUT_DIR, `${scopePrefix}-${stamp}.json`);
+  const stampedMd = path.join(OUT_DIR, `${scopePrefix}-${stamp}.md`);
+  const latestJson = path.join(OUT_DIR, `${scopePrefix}-latest.json`);
+  const latestMd = path.join(OUT_DIR, `${scopePrefix}-latest.md`);
+  const written = [stampedJson, stampedMd, latestJson, latestMd];
+  if (report.scope?.writesDefaultLatest && scopePrefix !== 'search-growth-flywheel') {
+    written.push(path.join(OUT_DIR, 'search-growth-flywheel-latest.json'));
+    written.push(path.join(OUT_DIR, 'search-growth-flywheel-latest.md'));
+  }
+
+  report.output = {
+    stampedJson: path.relative(ROOT, stampedJson),
+    stampedMd: path.relative(ROOT, stampedMd),
+    latestJson: path.relative(ROOT, latestJson),
+    latestMd: path.relative(ROOT, latestMd),
+    writesDefaultLatest: Boolean(report.scope?.writesDefaultLatest),
+    written: written.map((file) => path.relative(ROOT, file)),
+  };
+
   const json = `${JSON.stringify(report, null, 2)}\n`;
   const md = markdown(report);
-  fs.writeFileSync(path.join(OUT_DIR, `search-growth-flywheel-${stamp}.json`), json, 'utf8');
-  fs.writeFileSync(path.join(OUT_DIR, `search-growth-flywheel-${stamp}.md`), md, 'utf8');
-  fs.writeFileSync(path.join(OUT_DIR, 'search-growth-flywheel-latest.json'), json, 'utf8');
-  fs.writeFileSync(path.join(OUT_DIR, 'search-growth-flywheel-latest.md'), md, 'utf8');
+
+  fs.writeFileSync(stampedJson, json, 'utf8');
+  fs.writeFileSync(stampedMd, md, 'utf8');
+  fs.writeFileSync(latestJson, json, 'utf8');
+  fs.writeFileSync(latestMd, md, 'utf8');
+
+  if (report.scope?.writesDefaultLatest && scopePrefix !== 'search-growth-flywheel') {
+    const defaultJson = path.join(OUT_DIR, 'search-growth-flywheel-latest.json');
+    const defaultMd = path.join(OUT_DIR, 'search-growth-flywheel-latest.md');
+    fs.writeFileSync(defaultJson, json, 'utf8');
+    fs.writeFileSync(defaultMd, md, 'utf8');
+  }
 }
 
 async function main() {
@@ -918,6 +1053,7 @@ async function main() {
   const siteIds = args.sites.split(',').map((site) => site.trim()).filter(Boolean);
   const unknown = siteIds.filter((site) => !SITES[site]);
   if (unknown.length) throw new Error(`Unknown sites: ${unknown.join(', ')}`);
+  const scope = scopeForSites(siteIds, args);
 
   const tokenResult = await getSearchConsoleToken(['https://www.googleapis.com/auth/webmasters']);
   if (!tokenResult.ok) {
@@ -942,10 +1078,30 @@ async function main() {
     sites: [],
   };
   const posthogTaxonomy = auditPosthog(siteIds);
-  const pipeline = await auditPipeline(siteIds, gsc, args);
+  const pipeline = await auditPipeline(scope.pipelineSites, gsc, args);
+  const failureSummary = {
+    passed: Boolean(
+      gsc.propertyListedOk === gsc.sites.length &&
+      gsc.sitemapKnownOk === gsc.sites.length &&
+      posthogTaxonomy.passed &&
+      pipeline.passed,
+    ),
+    gscOpportunityTotal: gsc.opportunityCount,
+    pipelinePassed: pipeline.passed,
+    liveCoverageMissingCount: pipeline.liveCoverageMissing.length,
+    liveCoverageMissing: pipeline.liveCoverageMissing,
+    failingSites: pipeline.sites
+      .filter((site) => site.status !== 'green')
+      .map((site) => ({
+        site: site.site,
+        slug: site.latest?.slug || null,
+        issues: site.issues,
+      })),
+  };
 
   const report = {
     generatedAt: nowKst(),
+    scope,
     args: {
       sites: siteIds,
       days: args.days,
@@ -959,6 +1115,7 @@ async function main() {
     contentApply,
     posthogTaxonomy,
     pipeline,
+    failureSummary,
     passed:
       gsc.propertyListedOk === gsc.sites.length &&
       gsc.sitemapKnownOk === gsc.sites.length &&

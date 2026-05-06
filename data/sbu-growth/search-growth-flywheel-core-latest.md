@@ -1,14 +1,14 @@
 # SBU Search Growth Flywheel
 
-- generatedAt: 2026-05-06T10:10:29+09:00
-- scope: full-13-sites
+- generatedAt: 2026-05-06T09:52:33+09:00
+- scope: core-6-sites
 - passed: true
 - pipelinePassed: true
 - gscRange: 2026-04-06..2026-05-04
 - gscCredentialSource: GA4_SERVICE_ACCOUNT_PATH@env-file
-- gscPropertiesListed: 13/13
-- gscSitemapsKnown: 13/13
-- gscOpportunityTotal: 94
+- gscPropertiesListed: 6/6
+- gscSitemapsKnown: 6/6
+- gscOpportunityTotal: 83
 - contentApplyEnabled: false
 - contentChangedFiles: 0
 - liveCoverageMissing: 0
@@ -23,13 +23,6 @@
 | deploystack | siteOwner | true | 45 | 12 | false |
 | finstack | siteOwner | true | 2 | 0 | false |
 | sellkit | siteOwner | true | 31 | 19 | false |
-| reviewlab | siteOwner | true | 30 | 7 | false |
-| ur-wrong | siteOwner | true | 2 | 2 | false |
-| kott | siteOwner | true | 0 | 0 | true |
-| ethicaai | siteOwner | true | 0 | 0 | true |
-| whylab | siteOwner | true | 3 | 1 | false |
-| portfolio | siteOwner | true | 1 | 0 | false |
-| neogenesis | siteOwner | true | 1 | 1 | false |
 
 ## GSC Credential Attempts
 
