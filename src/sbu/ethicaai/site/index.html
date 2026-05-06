@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EthicaAI | AI Ethics Risk Governance Research</title>
+    <meta name="description"
+        content="EthicaAI is an AI ethics, compliance, and risk governance research hub built from 560+ multi-agent reinforcement learning experiments and 70+ figures.">
+    <meta property="og:title" content="EthicaAI | AI Ethics Risk Governance Research">
+    <meta property="og:description"
+        content="AI ethics risk governance, computational ethics, compliance evaluation, 70 figures, 7 research stages, and 560+ experiments.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ethica.neogenesis.app">
+    <link rel="canonical" href="https://ethica.neogenesis.app">
+    <!-- GA4 — NeoGenesis Production (shared with subdomains) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME6PDCNP8B"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-ME6PDCNP8B', { page_path: location.pathname, website_name: location.hostname, linker: { domains: ['neogenesis.app', 'review.neogenesis.app', 'aiforge.neogenesis.app', 'finstack.neogenesis.app', 'sellkit.neogenesis.app', 'deploystack.neogenesis.app', 'craftdesk.neogenesis.app'] } });</script>
+    <!-- AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5874227298630347"
+        crossorigin="anonymous"></script>
+    <!-- PostHog Analytics -->
+    <script>
+        !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.crossOrigin = "anonymous", p.async = !0, p.src = s.api_host.replace(".i.posthog.com", "-assets.i.posthog.com") + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.toString(1) + ".people (stub)" }, o = "init capture register register_once unregister opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
+        posthog.init('phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO', {
+            api_host: 'https://us.i.posthog.com',
+            capture_pageview: true,
+            capture_pageleave: true,
+            person_profiles: 'identified_only',
+            request_batching: false,
+            disable_session_recording: true,
+            disable_surveys: true,
+            disable_surveys_automatic_display: true,
+            advanced_disable_feature_flags_on_first_load: true,
+        });
+        posthog.register({ site_id: 'ethicaai', site_domain: location.hostname });
+        (function () {
+            var key = 'phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO';
+            var storageKey = 'neo_posthog_distinct_id';
+            var distinctId;
+            try {
+                distinctId = localStorage.getItem(storageKey);
+                if (!distinctId) {
+                    distinctId = (crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).slice(2));
+                    localStorage.setItem(storageKey, distinctId);
+                }
+            } catch (e) {
+                distinctId = Date.now() + '-' + Math.random().toString(36).slice(2);
+            }
+            var body = JSON.stringify({
+                api_key: key,
+                event: '$pageview',
+                distinct_id: distinctId,
+                properties: {
+                    site_id: 'ethicaai',
+                    site_domain: location.hostname,
+                    $current_url: location.href,
+                    $pathname: location.pathname,
+                    $process_person_profile: false,
+                    $lib: 'neo-sbu-direct'
+                }
+            });
+            var url = 'https://us.i.posthog.com/i/v0/e/';
+            try {
+                if (navigator.sendBeacon && navigator.sendBeacon(url, new Blob([body], { type: 'application/json' }))) return;
+            } catch (e) { }
+            fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }).catch(function () { });
+        })();
+    </script>
+    <script
+        type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","name":"EthicaAI: AI Ethics Risk Governance Research","description":"Computational ethics and AI risk governance research based on multi-agent reinforcement learning experiments.","url":"https://ethica.neogenesis.app","author":{"@type":"Person","name":"Yesol Heo"},"keywords":["AI ethics","AI risk governance","AI compliance evaluation","multi-agent reinforcement learning","computational ethics"],"sameAs":["https://github.com/Yesol-Pilot/EthicaAI","https://doi.org/10.5281/zenodo.18637742"]}</script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --em: #10B981;
+            --em-dim: rgba(16, 185, 129, .12);
+            --amber: #F59E0B;
+            --amber-dim: rgba(245, 158, 11, .12);
+            --bg: #050507;
+            --bg2: #0a0a0f;
+            --b1: rgba(255, 255, 255, .06);
+            --b2: rgba(255, 255, 255, .12);
+            --t1: #e8e8ed;
+            --t2: rgba(255, 255, 255, .5);
+            --t3: rgba(255, 255, 255, .25);
+            --font: 'Inter', -apple-system, sans-serif;
+            --font-d: 'Space Grotesk', sans-serif;
+            --font-m: 'JetBrains Mono', monospace
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--t1);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        img {
+            display: block;
+            max-width: 100%
+        }
+
+        .mx {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px
+        }
+
+        .r {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .75s cubic-bezier(.16, 1, .3, 1), transform .75s cubic-bezier(.16, 1, .3, 1)
+        }
+
+        .r.v {
+            opacity: 1;
+            transform: none
+        }
+
+        .gt {
+            background: linear-gradient(135deg, var(--em), var(--amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .label {
+            font-family: var(--font-m);
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--em);
+            margin-bottom: 16px
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            transition: all .4s
+        }
+
+        nav.s {
+            padding: 10px 0;
+            background: rgba(5, 5, 7, .85);
+            backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--b1)
+        }
+
+        .nv {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .nv-brand {
+            font-family: var(--font-d);
+            font-weight: 800;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .nv-e {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--em), var(--amber));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px
+        }
+
+        .nv-links {
+            display: flex;
+            gap: 6px;
+            list-style: none
+        }
+
+        .nv-links a {
+            padding: 8px 14px;
+            font-size: 13px;
+            color: var(--t2);
+            border-radius: 8px;
+            transition: all .3s;
+            font-weight: 500
+        }
+
+        .nv-links a:hover {
+            color: var(--t1);
+            background: rgba(255, 255, 255, .05)
+        }
+
+        @media(max-width:640px) {
+            .nv-links {
+                display: none
+            }
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 30%, rgba(16, 185, 129, .05), transparent 60%);
+            pointer-events: none
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(var(--b1) 1px, transparent 1px), linear-gradient(90deg, var(--b1) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at 50% 50%, black 15%, transparent 65%);
+            -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 15%, transparent 65%)
+        }
+
+        .hero-c {
+            position: relative;
+            z-index: 2;
+            padding: 140px 24px 80px
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 18px;
+            border: 1px solid var(--b1);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--t2);
+            margin-bottom: 32px;
+            background: rgba(255, 255, 255, .02)
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--em);
+            box-shadow: 0 0 8px var(--em)
+        }
+
+        .hero h1 {
+            font-family: var(--font-d);
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -2.5px;
+            margin-bottom: 20px
+        }
+
+        .hero-sub {
+            font-size: clamp(15px, 2vw, 18px);
+            color: var(--t2);
+            max-width: 560px;
+            margin: 0 auto 12px;
+            line-height: 1.65
+        }
+
+        .hero-author {
+            font-size: 14px;
+            color: var(--t3);
+            margin-bottom: 36px
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .cta-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 28px;
+            background: linear-gradient(135deg, var(--em), #059669);
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 12px;
+            transition: all .3s
+        }
+
+        .cta-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, .25)
+        }
+
+        .cta-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 24px;
+            border: 1px solid var(--b2);
+            color: var(--t2);
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 12px;
+            transition: all .3s
+        }
+
+        .cta-ghost:hover {
+            border-color: var(--t2);
+            color: var(--t1);
+            background: rgba(255, 255, 255, .03)
+        }
+
+        .glance {
+            padding: clamp(80px, 12vh, 140px) 0
+        }
+
+        .glance-head {
+            text-align: center;
+            margin-bottom: 48px
+        }
+
+        .glance-head h2 {
+            font-family: var(--font-d);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 12px
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            max-width: 780px;
+            margin: 0 auto 48px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--b1)
+        }
+
+        .stat {
+            padding: 32px 20px;
+            text-align: center
+        }
+
+        .stat:not(:nth-child(3n)) {
+            border-right: 1px solid var(--b1)
+        }
+
+        .stat:nth-child(-n+3) {
+            border-bottom: 1px solid var(--b1)
+        }
+
+        .stat-val {
+            font-family: var(--font-d);
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            margin-bottom: 4px
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--t2)
+        }
+
+        .abstract-block {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 28px 32px;
+            border-left: 3px solid var(--em);
+            background: rgba(16, 185, 129, .03);
+            border-radius: 0 12px 12px 0;
+            font-size: 15px;
+            color: var(--t2);
+            line-height: 1.8;
+            font-style: italic
+        }
+
+        .abstract-block em {
+            color: var(--em);
+            font-style: normal;
+            font-weight: 600
+        }
+
+        @media(max-width:640px) {
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .stat:not(:nth-child(3n)) {
+                border-right: none
+            }
+
+            .stat:nth-child(odd) {
+                border-right: 1px solid var(--b1)
+            }
+
+            .stat:not(:nth-last-child(-n+2)) {
+                border-bottom: 1px solid var(--b1)
+            }
+        }
+
+        .findings {
+            padding: clamp(80px, 12vh, 140px) 0
+        }
+
+        .findings-head {
+            text-align: center;
+            margin-bottom: 48px
+        }
+
+        .findings-head h2 {
+            font-family: var(--font-d);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 800;
+            letter-spacing: -2px
+        }
+
+        .find-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            max-width: 860px;
+            margin: 0 auto
+        }
+
+        .find-card {
+            padding: 24px;
+            border: 1px solid var(--b1);
+            border-radius: 14px;
+            background: var(--bg2);
+            transition: all .3s
+        }
+
+        .find-card:hover {
+            border-color: var(--b2);
+            transform: translateY(-2px)
+        }
+
+        .fc-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--em-dim);
+            color: var(--em);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-d);
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 12px
+        }
+
+        .fc-text {
+            font-size: 14px;
+            color: var(--t2);
+            line-height: 1.6;
+            margin-bottom: 12px
+        }
+
+        .fc-stat {
+            font-family: var(--font-m);
+            font-size: 12px;
+            color: var(--em);
+            font-weight: 600
+        }
+
+        @media(max-width:640px) {
+            .find-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .gallery {
+            padding: clamp(80px, 12vh, 140px) 0
+        }
+
+        .gallery-head {
+            text-align: center;
+            margin-bottom: 40px
+        }
+
+        .gallery-head h2 {
+            font-family: var(--font-d);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 12px
+        }
+
+        .gallery-head p {
+            font-size: 15px;
+            color: var(--t2)
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 32px
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t3);
+            border: 1px solid var(--b1);
+            border-radius: 100px;
+            background: transparent;
+            cursor: pointer;
+            transition: all .3s;
+            font-family: var(--font)
+        }
+
+        .filter-btn.active {
+            background: var(--em-dim);
+            color: var(--em);
+            border-color: rgba(16, 185, 129, .3)
+        }
+
+        .filter-btn:hover:not(.active) {
+            border-color: var(--b2);
+            color: var(--t2)
+        }
+
+        .fig-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px
+        }
+
+        .fig-item {
+            border: 1px solid var(--b1);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg2);
+            cursor: pointer;
+            transition: all .3s
+        }
+
+        .fig-item:hover {
+            border-color: var(--b2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .3)
+        }
+
+        .fig-item.hidden {
+            display: none
+        }
+
+        .fig-thumb {
+            width: 100%;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            background: var(--bg);
+            border-bottom: 1px solid var(--b1)
+        }
+
+        .fig-info {
+            padding: 12px 14px
+        }
+
+        .fig-id {
+            font-family: var(--font-m);
+            font-size: 11px;
+            color: var(--em);
+            margin-bottom: 4px
+        }
+
+        .fig-title {
+            font-size: 13px;
+            color: var(--t2);
+            line-height: 1.4
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0, 0, 0, .92);
+            backdrop-filter: blur(16px);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 40px
+        }
+
+        .lightbox.open {
+            display: flex
+        }
+
+        .lb-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: var(--t2);
+            font-size: 28px;
+            cursor: pointer;
+            padding: 8px;
+            transition: color .3s
+        }
+
+        .lb-close:hover {
+            color: var(--t1)
+        }
+
+        .lb-img {
+            max-width: 90vw;
+            max-height: 75vh;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .5)
+        }
+
+        .lb-caption {
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--t2);
+            text-align: center
+        }
+
+        .lb-caption strong {
+            color: var(--em);
+            font-family: var(--font-m)
+        }
+
+        .lb-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid var(--b1);
+            color: var(--t2);
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .3s
+        }
+
+        .lb-nav:hover {
+            background: rgba(255, 255, 255, .1);
+            color: var(--t1)
+        }
+
+        .lb-prev {
+            left: 20px
+        }
+
+        .lb-next {
+            right: 20px
+        }
+
+        @media(max-width:640px) {
+
+            .lb-prev,
+            .lb-next {
+                display: none
+            }
+        }
+
+        .timeline {
+            padding: clamp(80px, 12vh, 140px) 0
+        }
+
+        .timeline-head {
+            text-align: center;
+            margin-bottom: 48px
+        }
+
+        .timeline-head h2 {
+            font-family: var(--font-d);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 800;
+            letter-spacing: -2px
+        }
+
+        .tl {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            padding-left: 36px
+        }
+
+        .tl::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--em), var(--amber));
+            border-radius: 2px
+        }
+
+        .tl-item {
+            position: relative;
+            padding-bottom: 36px
+        }
+
+        .tl-item:last-child {
+            padding-bottom: 0
+        }
+
+        .tl-dot {
+            position: absolute;
+            left: -30px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--em);
+            border: 3px solid var(--bg);
+            box-shadow: 0 0 0 2px var(--em)
+        }
+
+        .tl-item:last-child .tl-dot {
+            background: var(--amber);
+            box-shadow: 0 0 0 2px var(--amber)
+        }
+
+        .tl-stage {
+            font-family: var(--font-d);
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: var(--t1)
+        }
+
+        .tl-desc {
+            font-size: 14px;
+            color: var(--t2);
+            line-height: 1.6
+        }
+
+        .tl-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 100px;
+            background: var(--amber-dim);
+            color: var(--amber);
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        .cite {
+            padding: clamp(80px, 12vh, 140px) 0;
+            position: relative
+        }
+
+        .cite::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 100%, rgba(16, 185, 129, .03), transparent 50%);
+            pointer-events: none
+        }
+
+        .cite-c {
+            position: relative;
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center
+        }
+
+        .cite-c h2 {
+            font-family: var(--font-d);
+            font-size: clamp(24px, 4vw, 36px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 32px
+        }
+
+        .bib-block {
+            text-align: left;
+            padding: 24px;
+            background: var(--bg2);
+            border: 1px solid var(--b1);
+            border-radius: 12px;
+            font-family: var(--font-m);
+            font-size: 13px;
+            color: var(--t2);
+            line-height: 1.7;
+            white-space: pre-wrap;
+            position: relative;
+            margin-bottom: 24px
+        }
+
+        .bib-copy {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 6px 14px;
+            background: var(--em-dim);
+            color: var(--em);
+            border: 1px solid rgba(16, 185, 129, .3);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: all .3s
+        }
+
+        .bib-copy:hover {
+            background: rgba(16, 185, 129, .25)
+        }
+
+        .cite-links {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .cite-link {
+            padding: 12px 24px;
+            border: 1px solid var(--b1);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--t2);
+            transition: all .3s
+        }
+
+        .cite-link:hover {
+            border-color: var(--b2);
+            color: var(--t1);
+            background: rgba(255, 255, 255, .03)
+        }
+
+        .gallery-footer {
+            text-align: center;
+            margin-top: 32px
+        }
+
+        .gallery-count {
+            font-size: 13px;
+            color: var(--t3);
+            margin-bottom: 16px
+        }
+
+        .load-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 32px;
+            border: 1px solid var(--b2);
+            border-radius: 12px;
+            background: transparent;
+            color: var(--t2);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: all .3s
+        }
+
+        .load-more:hover {
+            border-color: var(--em);
+            color: var(--em);
+            background: var(--em-dim)
+        }
+
+        .load-more.hidden {
+            display: none
+        }
+
+        footer {
+            padding: 48px 0;
+            border-top: 1px solid var(--b1)
+        }
+
+        .ft {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px
+        }
+
+        .ft-brand {
+            font-family: var(--font-d);
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .ft-brand span {
+            color: var(--t3);
+            font-weight: 400;
+            font-size: 12px
+        }
+
+        .ft-brand a {
+            color: var(--t2);
+            font-size: 12px;
+            transition: color .3s
+        }
+
+        .ft-brand a:hover {
+            color: var(--em)
+        }
+
+        .ft-copy {
+            font-size: 11px;
+            color: var(--t3)
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="nav">
+        <div class="mx nv">
+            <a href="/" class="nv-brand">
+                <div class="nv-e">&#129516;</div>EthicaAI
+            </a>
+            <ul class="nv-links">
+                <li><a href="#gallery">Figures</a></li>
+                <li><a href="#playground">Demo</a></li>
+                <li><a href="/ai-ethics-risk-governance">Governance</a></li>
+                <li><a href="/ai-compliance-evaluation">Compliance</a></li>
+                <li><a href="#timeline">Stages</a></li>
+                <li><a href="#cite">Cite</a></li>
+                <li><a href="https://github.com/Yesol-Pilot/EthicaAI" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="https://doi.org/10.5281/zenodo.18637742" target="_blank" rel="noopener">DOI</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-c">
+            <div class="hero-badge r"><span class="dot"></span>v2 &middot; February 2026 &middot; NeurIPS Submission
+            </div>
+            <h1 class="r" style="transition-delay:.1s">EthicaAI<br><span class="gt">Beyond Homo Economicus</span></h1>
+            <p class="hero-sub r" style="transition-delay:.18s">Computational Verification of Sen's Meta-Ranking
+                Theory<br>via Multi-Agent Reinforcement Learning</p>
+            <p class="hero-author r" style="transition-delay:.22s">Yesol Heo &middot; Neo Genesis Research</p>
+            <div class="cta-row r" style="transition-delay:.3s">
+                <a href="#gallery" class="cta-main">Explore 70 Figures &#8595;</a>
+                <a href="https://doi.org/10.5281/zenodo.18637742" target="_blank" rel="noopener"
+                    class="cta-ghost">Zenodo DOI &#8599;</a>
+                <a href="https://github.com/Yesol-Pilot/EthicaAI" target="_blank" rel="noopener"
+                    class="cta-ghost">GitHub &#8599;</a>
+                <a href="/ai-ethics-risk-governance" class="cta-ghost">Risk Governance Guide</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="glance" id="glance">
+        <div class="mx">
+            <div class="glance-head">
+                <p class="label r">At a Glance</p>
+                <h2 class="r" style="transition-delay:.05s"><span class="gt">560+ experiments.</span> 70 figures.</h2>
+            </div>
+            <div class="stat-grid r" style="transition-delay:.1s">
+                <div class="stat">
+                    <div class="stat-val gt" data-t="560" data-s="+">0</div>
+                    <div class="stat-label">Experiment Runs</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-val gt" data-t="70">0</div>
+                    <div class="stat-label">Figures</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-val gt" data-t="4">0</div>
+                    <div class="stat-label">Environments</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-val gt" data-t="7">0</div>
+                    <div class="stat-label">Research Stages</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-val gt" data-t="1000" data-s="">0</div>
+                    <div class="stat-label">Max Agents</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-val" style="color:var(--amber)">p=.0023</div>
+                    <div class="stat-label">HAC Robust SE</div>
+                </div>
+            </div>
+            <div class="abstract-block r" style="transition-delay:.15s">
+                EthicaAI formalizes Amartya Sen's "Meta-Ranking" theory &mdash; preferences over preferences &mdash; as
+                a dynamic mechanism in Multi-Agent Reinforcement Learning. We demonstrate that <em>Situational
+                    Commitment</em> &mdash; morality conditional on survival &mdash; is the only Evolutionarily Stable
+                Strategy across 4 environments, 7 SVO conditions, and up to 1,000 agents.
+            </div>
+            <div class="abstract-block r" style="transition-delay:.2s">
+                Search focus: this research surface now routes AI ethics, AI compliance evaluation, and AI risk
+                governance queries into two dedicated guides. Use the governance guide for policy and risk framing, and
+                the compliance guide for evidence, audit criteria, and model evaluation questions.
+                <br><br>
+                <a href="/ai-ethics-risk-governance" style="color:var(--em);font-weight:700">AI ethics risk
+                    governance guide</a>
+                &nbsp;&middot;&nbsp;
+                <a href="/ai-compliance-evaluation" style="color:var(--amber);font-weight:700">AI compliance
+                    evaluation guide</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="findings" id="findings">
+        <div class="mx">
+            <div class="findings-head">
+                <p class="label r">Key Findings</p>
+                <h2 class="r" style="transition-delay:.05s">What we <span class="gt">discovered</span></h2>
+            </div>
+            <div class="find-grid r" style="transition-delay:.1s">
+                <div class="find-card">
+                    <div class="fc-num">1</div>
+                    <p class="fc-text">Dynamic meta-ranking enhances collective welfare significantly</p><span
+                        class="fc-stat">p=0.0003 &middot; Cohen's f&#178;=0.40</span>
+                </div>
+                <div class="find-card">
+                    <div class="fc-num">2</div>
+                    <p class="fc-text">Agents exhibit emergent role specialization &mdash; Cleaners vs Eaters</p><span
+                        class="fc-stat">&#963; divergence p&lt;0.0001</span>
+                </div>
+                <div class="find-card">
+                    <div class="fc-num">3</div>
+                    <p class="fc-text">Only "Situational Commitment" survives as Evolutionarily Stable Strategy</p><span
+                        class="fc-stat">~12% of population &middot; 200-gen</span>
+                </div>
+                <div class="find-card">
+                    <div class="fc-num">4</div>
+                    <p class="fc-text">Individualist SVO best matches human PGG behavioral data</p><span
+                        class="fc-stat">Wasserstein Distance = 0.053</span>
+                </div>
+                <div class="find-card">
+                    <div class="fc-num">5</div>
+                    <p class="fc-text">SVO rotation accounts for majority of total causal effect</p><span
+                        class="fc-stat">86% &middot; full factorial 2&#179;</span>
+                </div>
+                <div class="find-card">
+                    <div class="fc-num">6</div>
+                    <p class="fc-text">Human-AI behavioral alignment maintained across all conditions</p><span
+                        class="fc-stat">WD &lt; 0.2 all conditions</span>
+                </div>
+                <div class="find-card">
+                    <div class="fc-num">7</div>
+                    <p class="fc-text">Byzantine robustness maintained with up to 50% adversarial agents</p><span
+                        class="fc-stat">Up to 50% adversaries</span>
+                </div>
+                <div class="find-card">
+                    <div class="fc-num">8</div>
+                    <p class="fc-text">Scale invariance verified from small groups to large populations</p><span
+                        class="fc-stat">20 &#8594; 1,000 agents &middot; ATE &#177;0.03</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="playground" id="playground" style="padding:clamp(80px,12vh,140px) 0">
+        <div class="mx">
+            <div style="text-align:center;margin-bottom:48px">
+                <p class="label r">Interactive Playground</p>
+                <h2 class="r"
+                    style="transition-delay:.05s;font-family:var(--font-d);font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-2px">
+                    Try the <span class="gt">simulation</span></h2>
+                <p class="r" style="transition-delay:.1s;font-size:15px;color:var(--t2)">Adjust SVO angle and toggle
+                    Meta-Ranking to see how agent cooperation changes in real time</p>
+            </div>
+            <div class="r"
+                style="transition-delay:.15s;display:grid;grid-template-columns:280px 1fr;gap:24px;max-width:900px;margin:0 auto"
+                id="pgWrap">
+                <!-- Controls -->
+                <div style="background:var(--bg2);border:1px solid var(--b1);border-radius:16px;padding:24px">
+                    <div style="margin-bottom:20px">
+                        <label
+                            style="font-size:12px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:8px">Environment</label>
+                        <div style="display:flex;gap:4px" id="pgEnv">
+                            <button class="filter-btn active" data-env="pgg"
+                                style="flex:1;padding:8px 0;font-size:12px">PGG</button>
+                            <button class="filter-btn" data-env="ipd"
+                                style="flex:1;padding:8px 0;font-size:12px">IPD</button>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <label
+                            style="font-size:12px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:8px">SVO
+                            Angle</label>
+                        <input type="range" min="0" max="90" value="45" id="pgSvo"
+                            style="width:100%;accent-color:var(--em)">
+                        <div
+                            style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:4px">
+                            <span>Selfish 0&deg;</span>
+                            <span id="pgSvoVal" style="color:var(--em);font-weight:700">Prosocial 45&deg;</span>
+                            <span>Altruist 90&deg;</span>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <label
+                            style="font-size:12px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:8px">Meta-Ranking</label>
+                        <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                            <input type="checkbox" id="pgMeta" checked
+                                style="width:18px;height:18px;accent-color:var(--em)">
+                            <span style="font-size:13px;color:var(--t2)" id="pgMetaLabel">Dynamic &#955;</span>
+                        </label>
+                    </div>
+                    <div style="border-top:1px solid var(--b1);padding-top:16px;margin-top:8px">
+                        <div style="font-size:11px;color:var(--t3);margin-bottom:12px;font-family:var(--font-m)">METRICS
+                        </div>
+                        <div style="display:grid;gap:8px">
+                            <div
+                                style="background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.15);border-radius:8px;padding:10px 12px">
+                                <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">
+                                    Wasserstein D</div>
+                                <div style="font-family:var(--font-d);font-size:20px;font-weight:800;color:var(--em)"
+                                    id="pgWd">—</div>
+                            </div>
+                            <div
+                                style="background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:8px;padding:10px 12px">
+                                <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">
+                                    Avg Contribution</div>
+                                <div style="font-family:var(--font-d);font-size:20px;font-weight:800;color:var(--t1)"
+                                    id="pgAvg">—</div>
+                            </div>
+                            <div
+                                style="background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.15);border-radius:8px;padding:10px 12px">
+                                <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">
+                                    Final &#955;</div>
+                                <div style="font-family:var(--font-d);font-size:20px;font-weight:800;color:var(--amber)"
+                                    id="pgLam">—</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Chart -->
+                <div
+                    style="background:var(--bg2);border:1px solid var(--b1);border-radius:16px;padding:24px;display:flex;flex-direction:column">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                        <span style="font-family:var(--font-d);font-weight:700;font-size:15px"
+                            id="pgChartTitle">Contribution Rate</span>
+                        <div style="display:flex;gap:16px;font-size:11px">
+                            <span style="color:#3B82F6">&#9679; Meta-Ranking</span>
+                            <span style="color:#6B7280">&#9679; Baseline</span>
+                            <span style="color:var(--amber)">&#9679; Human</span>
+                        </div>
+                    </div>
+                    <canvas id="pgCanvas"
+                        style="width:100%;flex:1;border-radius:8px;background:rgba(0,0,0,.2)"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <div class="mx">
+            <div class="gallery-head">
+                <p class="label r">Figure Gallery</p>
+                <h2 class="r" style="transition-delay:.05s">All <span class="gt">70 figures</span></h2>
+                <p class="r" style="transition-delay:.1s">Click any figure to view full resolution</p>
+            </div>
+            <div class="filter-bar r" style="transition-delay:.15s" id="filterBar"></div>
+            <div class="fig-grid r" style="transition-delay:.2s" id="figGrid"></div>
+            <div class="gallery-footer r" style="transition-delay:.25s">
+                <div class="gallery-count" id="galCount"></div>
+                <button class="load-more" id="loadMore">Load More &#8595;</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close" id="lbClose">&#10005;</button>
+        <button class="lb-nav lb-prev" id="lbPrev">&#8249;</button>
+        <button class="lb-nav lb-next" id="lbNext">&#8250;</button>
+        <img class="lb-img" id="lbImg" src="" alt="">
+        <div class="lb-caption" id="lbCap"></div>
+    </div>
+
+    <section class="timeline" id="timeline">
+        <div class="mx">
+            <div class="timeline-head">
+                <p class="label r">Research Journey</p>
+                <h2 class="r" style="transition-delay:.05s">Seven <span class="gt">stages</span></h2>
+            </div>
+            <div class="tl">
+                <div class="tl-item r">
+                    <div class="tl-dot"></div>
+                    <div class="tl-stage">Stage 1: Core PGG</div>
+                    <div class="tl-desc">7 SVO conditions, causal inference framework, baseline experiments</div>
+                </div>
+                <div class="tl-item r" style="transition-delay:.05s">
+                    <div class="tl-dot"></div>
+                    <div class="tl-stage">Stage 2: Extended</div>
+                    <div class="tl-desc">Mixed-SVO populations, communication channels, continuous action spaces</div>
+                </div>
+                <div class="tl-item r" style="transition-delay:.1s">
+                    <div class="tl-dot"></div>
+                    <div class="tl-stage">Stage 3: Cross-Environment</div>
+                    <div class="tl-desc">Validation across IPD, PGG, Harvest &mdash; evolutionary dynamics</div>
+                </div>
+                <div class="tl-item r" style="transition-delay:.15s">
+                    <div class="tl-dot"></div>
+                    <div class="tl-stage">Stage 4: Human Alignment</div>
+                    <div class="tl-desc">Behavioral alignment with human PGG data, 100-agent scalability</div>
+                </div>
+                <div class="tl-item r" style="transition-delay:.2s">
+                    <div class="tl-dot"></div>
+                    <div class="tl-stage">Stage 5: MAPPO</div>
+                    <div class="tl-desc">Partial observability, LLM comparison, multi-resource environments</div>
+                </div>
+                <div class="tl-item r" style="transition-delay:.25s">
+                    <div class="tl-dot"></div>
+                    <div class="tl-stage">Stage 6: Applications</div>
+                    <div class="tl-desc">Vaccine allocation, AI governance, human-AI interaction scenarios</div>
+                </div>
+                <div class="tl-item r" style="transition-delay:.3s">
+                    <div class="tl-dot"></div>
+                    <div class="tl-stage">Stage 7: Robustness <span class="tl-badge">Final</span></div>
+                    <div class="tl-desc">Byzantine robustness, Moran process, GNN architecture, policy implications
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cite" id="cite">
+        <div class="mx cite-c">
+            <p class="label r">Cite This Work</p>
+            <h2 class="r" style="transition-delay:.05s">Use in your <span class="gt">research</span></h2>
+            <div class="bib-block r" style="transition-delay:.1s" id="bibBlock">@article{heo2026ethicaai,
+                title={EthicaAI: Beyond Homo Economicus --
+                Computational Verification of Sen's
+                Meta-Ranking Theory via Multi-Agent RL},
+                author={Heo, Yesol},
+                year={2026},
+                url={https://ethica.neogenesis.app},
+                doi={10.5281/zenodo.18637742}
+                }<button class="bib-copy" id="bibCopy">Copy</button></div>
+            <div class="cite-links r" style="transition-delay:.15s">
+                <a href="https://doi.org/10.5281/zenodo.18637742" target="_blank" rel="noopener"
+                    class="cite-link">Zenodo DOI &#8599;</a>
+                <a href="https://github.com/Yesol-Pilot/EthicaAI" target="_blank" rel="noopener"
+                    class="cite-link">GitHub &#8599;</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="mx ft">
+            <div class="ft-brand">EthicaAI <span>A Neo Genesis Research Project</span> <span>&middot;</span>
+                <a href="https://github.com/Yesol-Pilot/EthicaAI" target="_blank" rel="noopener">GitHub</a>
+                <span>&middot;</span>
+                <a href="https://neogenesis.app">Neo Genesis</a>
+            </div>
+            <div class="ft-copy">&copy; 2026 Neo Genesis &middot; Yesol Heo</div>
+        </div>
+    </footer>
+
+    <script>
+        /* === Playground Simulation Engine (ported from demo.py) === */
+        (function () {
+            // Seeded PRNG (mulberry32)
+            function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296 } }
+            function gaussRng(rng) { var u = 0, v = 0; while (u === 0) u = rng(); while (v === 0) v = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v) }
+
+            var HUMAN_PGG = { r1: .54, r10: .22, decay: -.035 };
+
+            function computeLambda(theta, wealth, useMeta) {
+                var lam = Math.sin(theta);
+                if (!useMeta) return lam;
+                if (wealth < -5) return 0;
+                if (wealth > 5) return Math.min(1, 1.5 * lam);
+                return lam;
+            }
+
+            function simPGG(theta, useMeta, nAgents, nRounds, seed) {
+                var rng = mulberry32(seed || 42);
+                var endow = 20, mult = 1.6;
+                var wealth = new Array(nAgents).fill(0);
+                var rates = [], payoffs = [], groupPrev = null;
+                for (var t = 0; t < nRounds; t++) {
+                    var contribs = [];
+                    for (var i = 0; i < nAgents; i++) {
+                        var lam = computeLambda(theta, wealth[i], useMeta);
+                        var bc = lam * endow;
+                        if (groupPrev !== null && useMeta) bc += .3 * (groupPrev - bc);
+                        var noise = gaussRng(rng) * endow * .05;
+                        var c = Math.max(0, Math.min(endow, bc + noise));
+                        contribs.push(c);
+                    }
+                    var total = contribs.reduce(function (a, b) { return a + b }, 0);
+                    var pg = total * mult / nAgents;
+                    var pays = contribs.map(function (c) { return (endow - c) + pg });
+                    for (var i = 0; i < nAgents; i++)wealth[i] += pays[i] - endow;
+                    var avgC = total / nAgents / endow;
+                    rates.push(avgC);
+                    payoffs.push(pays.reduce(function (a, b) { return a + b }, 0) / nAgents);
+                    groupPrev = total / nAgents;
+                }
+                return { rates: rates, payoffs: payoffs };
+            }
+
+            function simIPD(theta, useMeta, nRounds, seed) {
+                var rng = mulberry32(seed || 42);
+                var T = 5, R = 3, P = 1, S = 0;
+                var wealth = [0, 0], ccnt = [0, 0], dcnt = [0, 0], hist = [];
+                for (var t = 0; t < nRounds; t++) {
+                    var acts = [];
+                    for (var i = 0; i < 2; i++) {
+                        var j = 1 - i, tot = ccnt[j] + dcnt[j];
+                        var pcr = tot ? ccnt[j] / tot : .5;
+                        var rcs = pcr * R + (1 - pcr) * S;
+                        var rds = pcr * T + (1 - pcr) * P;
+                        var rco = pcr * R + (1 - pcr) * T;
+                        var rdo = pcr * S + (1 - pcr) * P;
+                        var lam = computeLambda(theta, wealth[i], useMeta);
+                        var beta = .1;
+                        var vc = (1 - lam) * rcs + lam * (rco - beta * Math.abs(rcs - rco));
+                        var vd = (1 - lam) * rds + lam * (rdo - beta * Math.abs(rds - rdo));
+                        var pc = 1 / (1 + Math.exp(-(vc - vd)));
+                        acts.push(rng() < pc ? 0 : 1);
+                    }
+                    var pm = [[R, S], [T, P]];
+                    wealth[0] += pm[acts[0]][acts[1]];
+                    wealth[1] += pm[acts[1]][acts[0]];
+                    for (var i = 0; i < 2; i++) { if (acts[i] === 0) ccnt[i]++; else dcnt[i]++ }
+                    hist.push((2 - acts[0] - acts[1]) / 2);
+                }
+                // 10-round moving average
+                var smoothed = [];
+                for (var i = 0; i < hist.length; i++) {
+                    var s = Math.max(0, i - 9), sum = 0;
+                    for (var k = s; k <= i; k++)sum += hist[k];
+                    smoothed.push(sum / (i - s + 1));
+                }
+                return smoothed;
+            }
+
+            function wasserstein(a, b) {
+                var sa = a.slice().sort(function (x, y) { return x - y });
+                var sb = b.slice().sort(function (x, y) { return x - y });
+                var n = Math.min(sa.length, sb.length), d = 0;
+                for (var i = 0; i < n; i++)d += Math.abs(sa[i] - sb[i]);
+                return d / n;
+            }
+
+            // Canvas rendering
+            var canvas = document.getElementById('pgCanvas');
+            var ctx = canvas.getContext('2d');
+            function resizeCanvas() {
+                var rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 48;
+                canvas.height = Math.max(260, rect.height - 80);
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            function drawChart(datasets, yLabel, yMax) {
+                var W = canvas.width, H = canvas.height;
+                var pad = { t: 20, r: 20, b: 36, l: 50 };
+                var cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+                ctx.clearRect(0, 0, W, H);
+
+                // Grid
+                ctx.strokeStyle = 'rgba(255,255,255,.06)';
+                ctx.lineWidth = 1;
+                for (var i = 0; i <= 4; i++) {
+                    var y = pad.t + ch * (1 - i / 4);
+                    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
+                    ctx.fillStyle = 'rgba(255,255,255,.3)';
+                    ctx.font = '10px Inter';
+                    ctx.textAlign = 'right';
+                    ctx.fillText((yMax * i / 4).toFixed(2), pad.l - 6, y + 4);
+                }
+
+                // Axis labels
+                ctx.fillStyle = 'rgba(255,255,255,.3)';
+                ctx.font = '10px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('Round', W / 2, H - 4);
+                ctx.save();
+                ctx.translate(12, H / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText(yLabel, 0, 0);
+                ctx.restore();
+
+                // Draw each dataset
+                datasets.forEach(function (ds) {
+                    var pts = ds.data;
+                    if (!pts || !pts.length) return;
+                    ctx.strokeStyle = ds.color;
+                    ctx.lineWidth = ds.dash ? 1.5 : 2.5;
+                    ctx.globalAlpha = ds.alpha || 1;
+                    if (ds.dash) ctx.setLineDash(ds.dash);
+                    else ctx.setLineDash([]);
+                    ctx.beginPath();
+                    for (var i = 0; i < pts.length; i++) {
+                        var x = pad.l + cw * i / (pts.length - 1 || 1);
+                        var y = pad.t + ch * (1 - Math.min(pts[i], yMax) / yMax);
+                        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+
+                    // Dots for short series
+                    if (pts.length <= 30) {
+                        ctx.fillStyle = ds.color;
+                        for (var i = 0; i < pts.length; i++) {
+                            var x = pad.l + cw * i / (pts.length - 1 || 1);
+                            var y = pad.t + ch * (1 - Math.min(pts[i], yMax) / yMax);
+                            ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill();
+                        }
+                    }
+                    ctx.globalAlpha = 1;
+                    ctx.setLineDash([]);
+                });
+            }
+
+            // SVO labels
+            var svoLabels = ['Selfish', 'Individualist', 'Competitive', 'Moderate', 'Prosocial', 'Cooperative', 'Altruistic', 'Full Altruist', 'Saint', 'Maximum'];
+            function getSvoLabel(deg) {
+                if (deg <= 0) return 'Selfish';
+                if (deg <= 15) return 'Individualist';
+                if (deg <= 30) return 'Competitive';
+                if (deg <= 40) return 'Moderate';
+                if (deg <= 50) return 'Prosocial';
+                if (deg <= 60) return 'Cooperative';
+                if (deg <= 75) return 'Altruistic';
+                return 'Full Altruist';
+            }
+
+            // DOM references
+            var svoSlider = document.getElementById('pgSvo');
+            var svoVal = document.getElementById('pgSvoVal');
+            var metaCb = document.getElementById('pgMeta');
+            var metaLabel = document.getElementById('pgMetaLabel');
+            var envBtns = document.getElementById('pgEnv');
+            var wdEl = document.getElementById('pgWd');
+            var avgEl = document.getElementById('pgAvg');
+            var lamEl = document.getElementById('pgLam');
+            var titleEl = document.getElementById('pgChartTitle');
+            var currentEnv = 'pgg';
+
+            function update() {
+                var deg = +svoSlider.value;
+                var theta = deg * Math.PI / 180;
+                var useMeta = metaCb.checked;
+                svoVal.textContent = getSvoLabel(deg) + ' ' + deg + '°';
+                metaLabel.textContent = useMeta ? 'Dynamic λ' : 'Static λ';
+                lamEl.textContent = computeLambda(theta, 0, useMeta).toFixed(3);
+
+                if (currentEnv === 'pgg') {
+                    titleEl.textContent = 'Contribution Rate (PGG)';
+                    var meta = simPGG(theta, true, 4, 10, 42);
+                    var base = simPGG(theta, false, 4, 10, 42);
+                    var human = [];
+                    for (var t = 0; t < 10; t++)human.push(HUMAN_PGG.r1 + HUMAN_PGG.decay * t);
+                    var wd = wasserstein(meta.rates, human);
+                    var avg = meta.rates.reduce(function (a, b) { return a + b }, 0) / meta.rates.length;
+                    wdEl.textContent = wd.toFixed(4);
+                    avgEl.textContent = avg.toFixed(3);
+                    drawChart([
+                        { data: meta.rates, color: '#3B82F6', alpha: 1 },
+                        { data: base.rates, color: '#6B7280', alpha: .7, dash: [6, 4] },
+                        { data: human, color: '#F59E0B', alpha: .5, dash: [3, 3] }
+                    ], 'Contribution Rate', 1.1);
+                } else {
+                    titleEl.textContent = 'Cooperation Rate (IPD)';
+                    var meta = simIPD(theta, true, 100, 42);
+                    var base = simIPD(theta, false, 100, 42);
+                    var avg = meta.slice(-20).reduce(function (a, b) { return a + b }, 0) / 20;
+                    var avgB = base.slice(-20).reduce(function (a, b) { return a + b }, 0) / 20;
+                    wdEl.textContent = (avg - avgB > 0 ? '+' : '') + (avg - avgB).toFixed(4);
+                    avgEl.textContent = avg.toFixed(3);
+                    drawChart([
+                        { data: meta, color: '#3B82F6', alpha: 1 },
+                        { data: base, color: '#6B7280', alpha: .7, dash: [6, 4] }
+                    ], 'Cooperation Rate', 1.1);
+                }
+            }
+
+            svoSlider.addEventListener('input', update);
+            metaCb.addEventListener('change', update);
+            envBtns.addEventListener('click', function (e) {
+                var b = e.target.closest('[data-env]');
+                if (!b) return;
+                currentEnv = b.dataset.env;
+                envBtns.querySelectorAll('.filter-btn').forEach(function (x) { x.classList.remove('active') });
+                b.classList.add('active');
+                update();
+            });
+
+            // Initial render
+            update();
+        })();
+    </script>
+
+    <script>
+        var figures = [
+            { id: 1, src: 'figures/fig1_learning_curves.png', title: 'Learning Curves', stage: '1-2' },
+            { id: 2, src: 'figures/fig2_cooperation_rate.png', title: 'Cooperation Rate', stage: '1-2' },
+            { id: 3, src: 'figures/fig3_threshold_evolution.png', title: 'Threshold Evolution', stage: '1-2' },
+            { id: 4, src: 'figures/fig4_mechanism.png', title: 'Mechanism Design', stage: '1-2' },
+            { id: 5, src: 'figures/fig5_gini_comparison.png', title: 'Gini Comparison', stage: '1-2' },
+            { id: 6, src: 'figures/fig6_causal_forest.png', title: 'Causal Forest HTE', stage: '1-2' },
+            { id: 7, src: 'figures/fig7_svo_vs_welfare.png', title: 'SVO vs Welfare', stage: '1-2' },
+            { id: 8, src: 'figures/fig8_summary_heatmap.png', title: 'Summary Heatmap', stage: '1-2' },
+            { id: 9, src: 'figures/fig9_role_specialization.png', title: 'Role Specialization', stage: '1-2' },
+            { id: 10, src: 'figures/fig10_scale_comparison.png', title: 'Scale Comparison', stage: '1-2' },
+            { id: 11, src: 'figures/fig11_ate_scale_comparison.png', title: 'ATE Scale Comparison', stage: '1-2' },
+            { id: 12, src: 'figures/fig12_human_ai.png', title: 'Human-AI Comparison', stage: '1-2' },
+            { id: 13, src: 'figures/fig13_convergence.png', title: 'Convergence Analysis', stage: '1-2' },
+            { id: 14, src: 'figures/fig14_risk_analysis.png', title: 'Risk Analysis', stage: '1-2' },
+            { id: 15, src: 'figures/fig15_sensitivity.png', title: 'Sensitivity Analysis', stage: '1-2' },
+            { id: 16, src: 'figures/fig16_cross_env.png', title: 'Cross-Environment', stage: '1-2' },
+            { id: 17, src: 'figures/fig17_pgg.png', title: 'Public Goods Game', stage: '1-2' },
+            { id: 18, src: 'figures/fig18_evolution.png', title: 'Evolutionary Dynamics', stage: '1-2' },
+            { id: 19, src: 'figures/fig19_mechanism.png', title: 'Mechanism Analysis', stage: '1-2' },
+            { id: 20, src: 'figures/fig20_harvest.png', title: 'Harvest Environment', stage: '3' },
+            { id: 21, src: 'figures/fig21_scale_1000.png', title: '1000-Agent Scale', stage: '3' },
+            { id: 22, src: 'figures/fig22_melting_pot.png', title: 'Melting Pot Validation', stage: '3' },
+            { id: 23, src: 'figures/fig23_constitutional.png', title: 'Constitutional AI', stage: '3' },
+            { id: 24, src: 'figures/fig24_full_sweep.png', title: 'Full Parameter Sweep', stage: '3' },
+            { id: 25, src: 'figures/fig25_mixed_svo.png', title: 'Mixed SVO Populations', stage: '3' },
+            { id: 26, src: 'figures/fig26_mixed_ate.png', title: 'Mixed SVO ATE', stage: '3' },
+            { id: 27, src: 'figures/fig27_communication.png', title: 'Communication Channels', stage: '3' },
+            { id: 28, src: 'figures/fig28_truthfulness.png', title: 'Truthfulness Analysis', stage: '3' },
+            { id: 29, src: 'figures/fig29_continuous_dist.png', title: 'Continuous Distribution', stage: '4-5' },
+            { id: 30, src: 'figures/fig30_continuous_lambda.png', title: 'Continuous Lambda', stage: '4-5' },
+            { id: 31, src: 'figures/fig31_mappo_training.png', title: 'MAPPO Training Curves', stage: '4-5' },
+            { id: 32, src: 'figures/fig32_analytical_comparison.png', title: 'Analytical Comparison', stage: '4-5' },
+            { id: 33, src: 'figures/fig33_partial_obs.png', title: 'Partial Observability', stage: '4-5' },
+            { id: 34, src: 'figures/fig34_partial_obs_ate.png', title: 'Partial Obs ATE', stage: '4-5' },
+            { id: 35, src: 'figures/fig35_multi_resource.png', title: 'Multi-Resource', stage: '4-5' },
+            { id: 36, src: 'figures/fig36_multi_resource_ate.png', title: 'Multi-Resource ATE', stage: '4-5' },
+            { id: 37, src: 'figures/fig37_llm_agreement.png', title: 'LLM Agreement', stage: '4-5' },
+            { id: 38, src: 'figures/fig38_llm_divergence.png', title: 'LLM Divergence', stage: '4-5' },
+            { id: 39, src: 'figures/fig39_climate_negotiation.png', title: 'Climate Negotiation', stage: '6' },
+            { id: 40, src: 'figures/fig40_climate_ate.png', title: 'Climate ATE', stage: '6' },
+            { id: 41, src: 'figures/fig41_vaccine_allocation.png', title: 'Vaccine Allocation', stage: '6' },
+            { id: 42, src: 'figures/fig42_vaccine_ate.png', title: 'Vaccine ATE', stage: '6' },
+            { id: 43, src: 'figures/fig43_governance.png', title: 'AI Governance', stage: '6' },
+            { id: 44, src: 'figures/fig44_governance_ate.png', title: 'Governance ATE', stage: '6' },
+            { id: 45, src: 'figures/fig45_hybrid_comparison.png', title: 'Hybrid Comparison', stage: '6' },
+            { id: 46, src: 'figures/fig46_llm_call_distribution.png', title: 'LLM Call Distribution', stage: '6' },
+            { id: 47, src: 'figures/fig47_human_ai_cooperation.png', title: 'Human-AI Cooperation', stage: '6' },
+            { id: 48, src: 'figures/fig48_human_adaptation.png', title: 'Human Adaptation', stage: '6' },
+            { id: 49, src: 'figures/fig49_scale_invariance.png', title: 'Scale Invariance', stage: '7' },
+            { id: 50, src: 'figures/fig50_role_specialization_scaling.png', title: 'Role Specialization Scaling', stage: '7' },
+            { id: 51, src: 'figures/fig51_lmm_results.png', title: 'LMM Results', stage: '7' },
+            { id: 52, src: 'figures/fig52_causal_forest_hte.png', title: 'Causal Forest HTE', stage: '7' },
+            { id: 53, src: 'figures/fig53_moral_theories.png', title: 'Moral Theories Comparison', stage: '7' },
+            { id: 54, src: 'figures/fig54_evolutionary_tournament.png', title: 'Evolutionary Tournament', stage: '7' },
+            { id: 55, src: 'figures/fig55_adversarial_robustness.png', title: 'Adversarial Robustness', stage: '7' },
+            { id: 56, src: 'figures/fig56_resilience.png', title: 'System Resilience', stage: '7' },
+            { id: 57, src: 'figures/fig57_continuous_pgg.png', title: 'Continuous PGG', stage: '7' },
+            { id: 58, src: 'figures/fig58_nonlinear_production.png', title: 'Nonlinear Production', stage: '7' },
+            { id: 59, src: 'figures/fig59_network_topology.png', title: 'Network Topology', stage: '7' },
+            { id: 60, src: 'figures/fig60_information_propagation.png', title: 'Information Propagation', stage: '7' },
+            { id: 61, src: 'figures/fig61_mechanism_design.png', title: 'Mechanism Design', stage: '7' },
+            { id: 62, src: 'figures/fig62_nash_equilibrium.png', title: 'Nash Equilibrium', stage: '7' },
+            { id: 63, src: 'figures/fig63_moran_fixation.png', title: 'Moran Fixation', stage: '7' },
+            { id: 64, src: 'figures/fig64_invasion_resistance.png', title: 'Invasion Resistance', stage: '7' },
+            { id: 65, src: 'figures/fig65_interpretability.png', title: 'Interpretability', stage: '7' },
+            { id: 66, src: 'figures/fig66_decision_boundary.png', title: 'Decision Boundary', stage: '7' },
+            { id: 67, src: 'figures/fig67_policy_simulation.png', title: 'Policy Simulation', stage: '7' },
+            { id: 68, src: 'figures/fig68_policy_dashboard.png', title: 'Policy Dashboard', stage: '7' },
+            { id: 69, src: 'figures/fig69_gnn_comparison.png', title: 'GNN Comparison', stage: '7' },
+            { id: 70, src: 'figures/fig70_gnn_attention.png', title: 'GNN Attention Maps', stage: '7' }
+        ];
+        var stages = [
+            { key: 'all', label: 'All', count: figures.length },
+            { key: '1-2', label: 'Stage 1-2', count: figures.filter(function (f) { return f.stage === '1-2' }).length },
+            { key: '3', label: 'Stage 3', count: figures.filter(function (f) { return f.stage === '3' }).length },
+            { key: '4-5', label: 'Stage 4-5', count: figures.filter(function (f) { return f.stage === '4-5' }).length },
+            { key: '6', label: 'Stage 6', count: figures.filter(function (f) { return f.stage === '6' }).length },
+            { key: '7', label: 'Stage 7', count: figures.filter(function (f) { return f.stage === '7' }).length }
+        ];
+        var filterBar = document.getElementById('filterBar');
+        stages.forEach(function (s, i) { var b = document.createElement('button'); b.className = 'filter-btn' + (i === 0 ? ' active' : ''); b.dataset.stage = s.key; b.textContent = s.label + ' (' + s.count + ')'; filterBar.appendChild(b) });
+        var figGrid = document.getElementById('figGrid');
+        var PAGE_SIZE = 12;
+        var currentFilter = 'all';
+        var currentPage = 0;
+        var galCount = document.getElementById('galCount');
+        var loadMoreBtn = document.getElementById('loadMore');
+
+        function getFiltered() {
+            return figures.filter(function (f) { return currentFilter === 'all' || f.stage === currentFilter });
+        }
+
+        function createFigEl(f) {
+            var e = document.createElement('div');
+            e.className = 'fig-item';
+            e.dataset.stage = f.stage;
+            e.dataset.idx = f.id - 1;
+            e.innerHTML = '<img class="fig-thumb" src="' + f.src + '" alt="' + f.title + '" loading="lazy"><div class="fig-info"><div class="fig-id">Fig ' + f.id + '</div><div class="fig-title">' + f.title + '</div></div>';
+            return e;
+        }
+
+        function renderPage() {
+            var filtered = getFiltered();
+            var end = (currentPage + 1) * PAGE_SIZE;
+            var shown = Math.min(end, filtered.length);
+            galCount.textContent = 'Showing ' + shown + ' of ' + filtered.length + ' figures';
+            loadMoreBtn.classList.toggle('hidden', shown >= filtered.length);
+        }
+
+        function resetGallery() {
+            currentPage = 0;
+            figGrid.innerHTML = '';
+            var filtered = getFiltered();
+            var batch = filtered.slice(0, PAGE_SIZE);
+            batch.forEach(function (f) { figGrid.appendChild(createFigEl(f)) });
+            renderPage();
+            // Preload next batch thumbnails
+            var next = filtered.slice(PAGE_SIZE, PAGE_SIZE * 2);
+            next.forEach(function (f) { var img = new Image(); img.src = f.src });
+        }
+
+        function loadMore() {
+            currentPage++;
+            var filtered = getFiltered();
+            var start = currentPage * PAGE_SIZE;
+            var batch = filtered.slice(start, start + PAGE_SIZE);
+            batch.forEach(function (f) { figGrid.appendChild(createFigEl(f)) });
+            renderPage();
+            // Preload next batch
+            var nextStart = (currentPage + 1) * PAGE_SIZE;
+            var next = filtered.slice(nextStart, nextStart + PAGE_SIZE);
+            next.forEach(function (f) { var img = new Image(); img.src = f.src });
+        }
+
+        loadMoreBtn.addEventListener('click', loadMore);
+        resetGallery();
+
+        filterBar.addEventListener('click', function (e) { var b = e.target.closest('.filter-btn'); if (!b) return; currentFilter = b.dataset.stage; filterBar.querySelectorAll('.filter-btn').forEach(function (x) { x.classList.remove('active') }); b.classList.add('active'); resetGallery() });
+        var lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg'), lbCap = document.getElementById('lbCap'), lbIdx = 0;
+        function visibleFigs() { return figures.filter(function (f) { return currentFilter === 'all' || f.stage === currentFilter }) }
+        function openLb(idx) { var vf = visibleFigs(); lbIdx = idx; var fig = vf[lbIdx]; if (!fig) return; lbImg.src = fig.src; lbCap.innerHTML = '<strong>Fig ' + fig.id + '</strong> &mdash; ' + fig.title; lb.classList.add('open'); document.body.style.overflow = 'hidden' }
+        function closeLb() { lb.classList.remove('open'); document.body.style.overflow = '' }
+        figGrid.addEventListener('click', function (e) { var item = e.target.closest('.fig-item'); if (!item) return; var figId = figures[+item.dataset.idx].id; var vf = visibleFigs(); var vi = vf.findIndex(function (f) { return f.id === figId }); openLb(vi >= 0 ? vi : 0) });
+        document.getElementById('lbClose').addEventListener('click', closeLb);
+        document.getElementById('lbPrev').addEventListener('click', function () { var vf = visibleFigs(); lbIdx = (lbIdx - 1 + vf.length) % vf.length; openLb(lbIdx) });
+        document.getElementById('lbNext').addEventListener('click', function () { var vf = visibleFigs(); lbIdx = (lbIdx + 1) % vf.length; openLb(lbIdx) });
+        lb.addEventListener('click', function (e) { if (e.target === lb) closeLb() });
+        addEventListener('keydown', function (e) { if (!lb.classList.contains('open')) return; if (e.key === 'Escape') closeLb(); if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click(); if (e.key === 'ArrowRight') document.getElementById('lbNext').click() });
+        document.getElementById('bibCopy').addEventListener('click', function () { var bib = document.getElementById('bibBlock').textContent.replace('Copy', '').trim(); navigator.clipboard.writeText(bib).then(function () { var btn = document.getElementById('bibCopy'); btn.textContent = 'Copied!'; setTimeout(function () { btn.textContent = 'Copy' }, 2000) }) });
+        var ro = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('v'); ro.unobserve(e.target) } }) }, { threshold: .08 });
+        document.querySelectorAll('.r').forEach(function (el) { ro.observe(el) });
+        addEventListener('scroll', function () { document.getElementById('nav').classList.toggle('s', scrollY > 50) }, { passive: true });
+        var co = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { var el = e.target, t = +el.dataset.t; if (!t) { co.unobserve(el); return } var sf = el.dataset.s || ''; var c = 0, st = Math.max(1, Math.ceil(t / 30)); var iv = setInterval(function () { c += st; if (c >= t) { c = t; clearInterval(iv) } el.textContent = (t >= 1000 ? c.toLocaleString() : c) + sf }, 40); co.unobserve(el) } }) }, { threshold: .5 });
+        document.querySelectorAll('.stat-val[data-t]').forEach(function (el) { co.observe(el) });
+    </script>
+</body>
+
+</html>

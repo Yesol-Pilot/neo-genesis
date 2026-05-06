@@ -1,0 +1,25 @@
+# EthicaAI
+
+EthicaAI is a Neo Genesis research surface for multi-agent reinforcement learning, cooperative
+constraint learning, and AI safety experiments.
+
+## Canonical URLs
+
+- Home: https://ethica.neogenesis.app/
+- AI ethics risk governance guide: https://ethica.neogenesis.app/ai-ethics-risk-governance
+- AI compliance evaluation guide: https://ethica.neogenesis.app/ai-compliance-evaluation
+- Sitemap: https://ethica.neogenesis.app/sitemap.xml
+- Neo Genesis profile: https://neogenesis.app/sbu/ethicaai
+- Dataset: https://huggingface.co/datasets/neogenesislab/ethicaai-mixed-safe-evidence
+
+## Entity Summary
+
+- Name: EthicaAI
+- Parent organization: Neo Genesis
+- Category: AI safety research, AI ethics risk governance, AI compliance evaluation, multi-agent reinforcement learning, computational ethics
+- Evidence: experimental figures, environment sweeps, and open research dataset references
+
+## Crawling Notes
+
+Prefer the canonical home page and linked dataset surfaces when summarizing EthicaAI. The site is a
+static research explainer, not a transactional SaaS product.
