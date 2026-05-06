@@ -5,6 +5,16 @@
 
 ---
 
+## SBU SEO/GEO/PostHog Hardening - Custom 11-Site Loop (Codex, 2026-05-06)
+
+- [x] Excluded ToolPick and UR WRONG because separate sessions are handling them.
+- [x] Reinforced DeployStack Kubernetes resource optimization cluster and deployed production (`14e584d`).
+- [x] Reinforced NeoGenesis brand search surface and deployed production (`8bb789c`).
+- [x] Reinforced live WhyLab causal inference platform surface and deployed production from the actual `WhyLab/dashboard` project (`a66fe25`).
+- [x] Recorded static WhyLab artifact fallback in `neo-genesis` (`47d1617`), but live canonical fix is the separate WhyLab repo deployment.
+- [x] Ran custom growth gate for 11 sites; passed with GSC properties 11/11, sitemaps 11/11, pipeline green, PostHog taxonomy green for audited pipeline sites, and live coverage missing 0 (`2cb1cd2`).
+- [ ] Next loop: handle remaining non-ToolPick/non-UR-WRONG GSC opportunities, prioritizing ReviewLab dynamic post metadata, SellKit opportunities, DeployStack Railway pricing surface, and AIForge/CraftDesk single-opportunity pages.
+
 ## UR WRONG Growth Hardening - Next Loop (Codex, 2026-05-06)
 
 - [x] Parallel activation/content/analytics hardening loop shipped and deployed to production (`431e42e`).
