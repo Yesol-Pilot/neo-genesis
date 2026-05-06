@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-05T11:34:21+09:00",
+  "generatedAt": "2026-05-06T09:33:37+09:00",
   "sites": [
     "toolpick",
     "aiforge",
@@ -130,7 +130,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 451
+          "blogUrls": 452
         },
         "robots": {
           "status": 200,
@@ -147,7 +147,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 384
+          "blogUrls": 385
         },
         "robots": {
           "status": 200,
@@ -164,7 +164,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 328
+          "blogUrls": 329
         },
         "robots": {
           "status": 200,
@@ -181,7 +181,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 325
+          "blogUrls": 326
         },
         "robots": {
           "status": 200,
@@ -198,7 +198,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 306
+          "blogUrls": 307
         },
         "robots": {
           "status": 200,
@@ -218,18 +218,18 @@
     "summary": {
       "propertyListedOk": 6,
       "sitemapKnownOk": 6,
-      "opportunityCount": 95,
+      "opportunityCount": 83,
       "contentChangedFileCount": 0,
       "posthogTaxonomyPassed": true,
       "pipelinePassed": true
     },
     "parseError": null,
-    "stdoutTail": "            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      },\n      {\n        \"site\": \"sellkit\",\n        \"latest\": {\n          \"slug\": \"2026-05-05-ai-product-description-tools\",\n          \"title\": \"AI Product Description Tools for Online Stores in 2026\",\n          \"date\": \"2026-05-05\"\n        },\n        \"staleDays\": 0,\n        \"live\": {\n          \"blog\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"detail\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      }\n    ]\n  },\n  \"passed\": true\n}",
+    "stdoutTail": "            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      },\n      {\n        \"site\": \"sellkit\",\n        \"latest\": {\n          \"slug\": \"2026-05-06-customer-review-mining-tools\",\n          \"title\": \"Customer Review Mining Tools for Ecommerce Teams in 2026\",\n          \"date\": \"2026-05-06\"\n        },\n        \"staleDays\": 0,\n        \"live\": {\n          \"blog\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"detail\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      }\n    ]\n  },\n  \"passed\": true\n}",
     "stderrTail": ""
   },
   "cannibalization": {
     "passed": true,
-    "totalPosts": 2155,
+    "totalPosts": 2160,
     "exactClusterCount": 25,
     "routedClusterCount": 25,
     "unresolvedClusterCount": 0,
@@ -1309,7 +1309,7 @@
       {
         "site": "aiforge",
         "name": "AIForge",
-        "ctaCoverage": 0.734,
+        "ctaCoverage": 0.735,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1318,7 +1318,7 @@
       {
         "site": "craftdesk",
         "name": "CraftDesk",
-        "ctaCoverage": 0.836,
+        "ctaCoverage": 0.837,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1327,7 +1327,7 @@
       {
         "site": "deploystack",
         "name": "DeployStack",
-        "ctaCoverage": 0.731,
+        "ctaCoverage": 0.732,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1336,7 +1336,7 @@
       {
         "site": "finstack",
         "name": "FinStack",
-        "ctaCoverage": 0.743,
+        "ctaCoverage": 0.744,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1375,8 +1375,8 @@
         "status": "green",
         "modeledMau": 151200,
         "readyPosts": 432,
-        "ctaCoverage": 0.734,
-        "internalLinkCoverage": 0.739,
+        "ctaCoverage": 0.735,
+        "internalLinkCoverage": 0.737,
         "liveOk": true
       },
       {
@@ -1384,8 +1384,8 @@
         "status": "green",
         "modeledMau": 129150,
         "readyPosts": 369,
-        "ctaCoverage": 0.836,
-        "internalLinkCoverage": 0.692,
+        "ctaCoverage": 0.837,
+        "internalLinkCoverage": 0.69,
         "liveOk": true
       },
       {
@@ -1393,8 +1393,8 @@
         "status": "green",
         "modeledMau": 109200,
         "readyPosts": 312,
-        "ctaCoverage": 0.731,
-        "internalLinkCoverage": 0.687,
+        "ctaCoverage": 0.732,
+        "internalLinkCoverage": 0.685,
         "liveOk": true
       },
       {
@@ -1402,8 +1402,8 @@
         "status": "green",
         "modeledMau": 107450,
         "readyPosts": 307,
-        "ctaCoverage": 0.743,
-        "internalLinkCoverage": 0.675,
+        "ctaCoverage": 0.744,
+        "internalLinkCoverage": 0.673,
         "liveOk": true
       },
       {
@@ -1412,7 +1412,7 @@
         "modeledMau": 101850,
         "readyPosts": 291,
         "ctaCoverage": 0.878,
-        "internalLinkCoverage": 0.759,
+        "internalLinkCoverage": 0.757,
         "liveOk": true
       }
     ],
@@ -1431,7 +1431,7 @@
     "warnings": {
       "measurementYellow": 0,
       "eventTaxonomyYellow": 0,
-      "searchGrowthOpportunityCount": 95,
+      "searchGrowthOpportunityCount": 83,
       "cannibalizationClusters": 0,
       "rawCannibalizationClusters": 25,
       "routedCannibalizationClusters": 25

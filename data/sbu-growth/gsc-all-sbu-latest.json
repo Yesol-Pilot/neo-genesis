@@ -1,69 +1,29 @@
 {
-  "generatedAt": "2026-05-04T15:57:36+09:00",
+  "generatedAt": "2026-05-06T09:09:53+09:00",
   "tokenSource": "refresh_token",
   "args": {
     "sites": "toolpick,aiforge,craftdesk,deploystack,finstack,sellkit,reviewlab,ur-wrong,kott,whylab,ethicaai,neogenesis",
-    "days": 28,
-    "rowLimit": 2500,
-    "submitSitemaps": true,
+    "days": 30,
+    "rowLimit": 250,
+    "submitSitemaps": false,
     "fetch": true,
     "minImpressions": 1
   },
   "window": {
     "startDate": "2026-04-04",
-    "endDate": "2026-05-02"
+    "endDate": "2026-05-04"
   },
   "listedProperties": [
-    {
-      "siteUrl": "sc-domain:toolpick.dev",
-      "permissionLevel": "siteOwner"
-    },
-    {
-      "siteUrl": "https://whylab.neogenesis.app/",
-      "permissionLevel": "siteOwner"
-    },
-    {
-      "siteUrl": "https://www.toolpick.dev/",
-      "permissionLevel": "siteOwner"
-    },
-    {
-      "siteUrl": "https://ur-wrong.com/",
-      "permissionLevel": "siteOwner"
-    },
-    {
-      "siteUrl": "https://craftdesk.neogenesis.app/",
-      "permissionLevel": "siteOwner"
-    },
-    {
-      "siteUrl": "sc-domain:heoyesol.kr",
-      "permissionLevel": "siteOwner"
-    },
-    {
-      "siteUrl": "https://sellkit.neogenesis.app/",
-      "permissionLevel": "siteOwner"
-    },
     {
       "siteUrl": "https://ethicaai.vercel.app/",
       "permissionLevel": "siteUnverifiedUser"
     },
     {
-      "siteUrl": "https://review.neogenesis.app/",
-      "permissionLevel": "siteOwner"
+      "siteUrl": "https://reviewlab.vercel.app/",
+      "permissionLevel": "siteUnverifiedUser"
     },
     {
-      "siteUrl": "https://toolpick.dev/",
-      "permissionLevel": "siteOwner"
-    },
-    {
-      "siteUrl": "https://finstack.neogenesis.app/",
-      "permissionLevel": "siteOwner"
-    },
-    {
-      "siteUrl": "https://neogenesis.app/",
-      "permissionLevel": "siteOwner"
-    },
-    {
-      "siteUrl": "https://deploystack.neogenesis.app/",
+      "siteUrl": "https://craftdesk.neogenesis.app/",
       "permissionLevel": "siteOwner"
     },
     {
@@ -71,15 +31,19 @@
       "permissionLevel": "siteOwner"
     },
     {
-      "siteUrl": "https://reviewlab.vercel.app/",
-      "permissionLevel": "siteUnverifiedUser"
+      "siteUrl": "https://toolpick.dev/",
+      "permissionLevel": "siteOwner"
     },
     {
       "siteUrl": "sc-domain:review.neogenesis.app",
       "permissionLevel": "siteOwner"
     },
     {
-      "siteUrl": "https://heoyesol.kr/",
+      "siteUrl": "https://aiforge.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://whylab.neogenesis.app/",
       "permissionLevel": "siteOwner"
     },
     {
@@ -87,7 +51,43 @@
       "permissionLevel": "siteOwner"
     },
     {
-      "siteUrl": "https://aiforge.neogenesis.app/",
+      "siteUrl": "https://www.toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:toolpick.dev",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://sellkit.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://deploystack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://finstack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://heoyesol.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:heoyesol.kr",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://review.neogenesis.app/",
       "permissionLevel": "siteOwner"
     }
   ],
@@ -96,11 +96,11 @@
     "propertiesListed": 12,
     "liveSitemapsOk": 12,
     "gscSitemapsKnown": 12,
-    "sitemapSubmissionsAttempted": 12,
-    "sitemapSubmissionsOk": 12,
+    "sitemapSubmissionsAttempted": 0,
+    "sitemapSubmissionsOk": 0,
     "searchAnalyticsAttempted": 12,
     "searchAnalyticsOk": 12,
-    "totalRows": 460
+    "totalRows": 439
   },
   "sites": [
     {
@@ -114,7 +114,7 @@
       "liveSitemap": {
         "ok": true,
         "status": 200,
-        "locCount": 906,
+        "locCount": 907,
         "finalUrl": "https://www.toolpick.dev/sitemap.xml",
         "error": null
       },
@@ -124,40 +124,35 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
-        "rows": 277,
+        "rows": 250,
         "error": null
       },
       "opportunities": [
         {
           "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
           "clicks": 0,
-          "impressions": 261,
-          "weightedPosition": 19701,
+          "impressions": 280,
+          "weightedPosition": 21220,
           "queries": [
             {
               "query": "no code machine learning platform",
               "clicks": 0,
-              "impressions": 152,
+              "impressions": 165,
               "ctr": 0,
-              "position": 72.875,
-              "score": 1.4244
+              "position": 73.16363636363636,
+              "score": 1.5432
             },
             {
               "query": "low-code ai platform",
               "clicks": 0,
-              "impressions": 19,
+              "impressions": 23,
               "ctr": 0,
-              "position": 87,
-              "score": 0.163
+              "position": 87.6086956521739,
+              "score": 0.1966
             },
             {
               "query": "low code ai",
@@ -168,30 +163,30 @@
               "score": 0.0982
             },
             {
+              "query": "low-code ai",
+              "clicks": 0,
+              "impressions": 10,
+              "ctr": 0,
+              "position": 78.4,
+              "score": 0.0904
+            },
+            {
               "query": "low-code analytics platforms pricing?",
               "clicks": 0,
               "impressions": 10,
               "ctr": 0,
               "position": 82.4,
               "score": 0.0881
-            },
-            {
-              "query": "low-code ai",
-              "clicks": 0,
-              "impressions": 9,
-              "ctr": 0,
-              "position": 79.22222222222223,
-              "score": 0.0809
             }
           ],
-          "score": 2.4114,
-          "averagePosition": 75.48
+          "score": 2.5817,
+          "averagePosition": 75.79
         },
         {
           "page": "https://www.toolpick.dev/reviews/fly-io-review",
           "clicks": 0,
-          "impressions": 95,
-          "weightedPosition": 1828,
+          "impressions": 97,
+          "weightedPosition": 1823,
           "queries": [
             {
               "query": "fly.io news 2026",
@@ -210,6 +205,14 @@
               "score": 0.3628
             },
             {
+              "query": "fly.io pricing 2026",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 9.166666666666666,
+              "score": 0.1585
+            },
+            {
               "query": "fly.io browser extension review 2026",
               "clicks": 0,
               "impressions": 4,
@@ -218,30 +221,22 @@
               "score": 0.1468
             },
             {
-              "query": "fly.io pricing 2026",
+              "query": "fly io",
               "clicks": 0,
-              "impressions": 5,
+              "impressions": 11,
               "ctr": 0,
-              "position": 8.8,
-              "score": 0.1348
-            },
-            {
-              "query": "fly.io pricing free allowance official 2026",
-              "clicks": 0,
-              "impressions": 3,
-              "ctr": 0,
-              "position": 4.666666666666666,
-              "score": 0.1111
+              "position": 56.27272727272727,
+              "score": 0.1173
             }
           ],
-          "score": 2.3324,
-          "averagePosition": 19.24
+          "score": 2.3816,
+          "averagePosition": 18.79
         },
         {
           "page": "https://www.toolpick.dev/reviews/netlify-review",
           "clicks": 0,
-          "impressions": 51,
-          "weightedPosition": 275,
+          "impressions": 52,
+          "weightedPosition": 339,
           "queries": [
             {
               "query": "netlify pricing free plan 2026",
@@ -284,30 +279,30 @@
               "score": 0.12
             }
           ],
-          "score": 1.8032,
-          "averagePosition": 5.39
+          "score": 1.8132,
+          "averagePosition": 6.52
         },
         {
           "page": "https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026",
           "clicks": 1,
-          "impressions": 80,
-          "weightedPosition": 809,
+          "impressions": 79,
+          "weightedPosition": 798,
           "queries": [
             {
               "query": "tldraw vs excalidraw",
               "clicks": 1,
-              "impressions": 44,
-              "ctr": 0.022727272727272728,
-              "position": 10.477272727272727,
-              "score": 0.7785
+              "impressions": 50,
+              "ctr": 0.02,
+              "position": 10.46,
+              "score": 0.9276
             },
             {
               "query": "excalidraw vs tldraw",
               "clicks": 0,
-              "impressions": 20,
+              "impressions": 21,
               "ctr": 0,
-              "position": 10.1,
-              "score": 0.5035
+              "position": 10.095238095238095,
+              "score": 0.5288
             },
             {
               "query": "excalidraw vs tldraw 2026",
@@ -324,18 +319,10 @@
               "ctr": 0,
               "position": 11,
               "score": 0.0965
-            },
-            {
-              "query": "tldraw vs excalidraw 2026",
-              "clicks": 0,
-              "impressions": 2,
-              "ctr": 0,
-              "position": 4,
-              "score": 0.08
             }
           ],
-          "score": 1.7497,
-          "averagePosition": 10.11
+          "score": 1.6997,
+          "averagePosition": 10.1
         },
         {
           "page": "https://www.toolpick.dev/blog/anker-power-bank-25000mah-165w-power-on-the-go",
@@ -390,8 +377,8 @@
         {
           "page": "https://www.toolpick.dev/alternatives/railway",
           "clicks": 0,
-          "impressions": 37,
-          "weightedPosition": 343,
+          "impressions": 36,
+          "weightedPosition": 341,
           "queries": [
             {
               "query": "railway pricing free tier 2026 official",
@@ -426,22 +413,22 @@
               "score": 0.0628
             },
             {
-              "query": "render vs railway pricing 2026",
+              "query": "railway redis pricing 2026",
               "clicks": 0,
               "impressions": 1,
               "ctr": 0,
-              "position": 2,
-              "score": 0.0566
+              "position": 9,
+              "score": 0.0267
             }
           ],
-          "score": 1.1272,
-          "averagePosition": 9.27
+          "score": 1.0706,
+          "averagePosition": 9.47
         },
         {
           "page": "https://www.toolpick.dev/blog/cloudflare-pages-vs-vercel-2026",
           "clicks": 0,
-          "impressions": 37,
-          "weightedPosition": 468,
+          "impressions": 31,
+          "weightedPosition": 266,
           "queries": [
             {
               "query": "cloudflare pages pricing free plan 2026",
@@ -484,8 +471,8 @@
               "score": 0.0584
             }
           ],
-          "score": 1.1219,
-          "averagePosition": 12.65
+          "score": 1.0257,
+          "averagePosition": 8.58
         },
         {
           "page": "https://www.toolpick.dev/reviews/penpot-review",
@@ -538,6 +525,56 @@
           "averagePosition": 9.32
         },
         {
+          "page": "https://www.toolpick.dev/alternatives/notion",
+          "clicks": 0,
+          "impressions": 73,
+          "weightedPosition": 5815,
+          "queries": [
+            {
+              "query": "notion alternative",
+              "clicks": 0,
+              "impressions": 31,
+              "ctr": 0,
+              "position": 78.35483870967742,
+              "score": 0.2802
+            },
+            {
+              "query": "notion alternatives",
+              "clicks": 0,
+              "impressions": 20,
+              "ctr": 0,
+              "position": 83.45,
+              "score": 0.1751
+            },
+            {
+              "query": "alternative to notion",
+              "clicks": 0,
+              "impressions": 5,
+              "ctr": 0,
+              "position": 80.8,
+              "score": 0.0445
+            },
+            {
+              "query": "app like notion",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 66.5,
+              "score": 0.0392
+            },
+            {
+              "query": "notion vs",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 77,
+              "score": 0.0365
+            }
+          ],
+          "score": 0.6554,
+          "averagePosition": 79.66
+        },
+        {
           "page": "https://www.toolpick.dev/blog/obsidian-review-2026",
           "clicks": 0,
           "impressions": 21,
@@ -586,56 +623,6 @@
           ],
           "score": 0.6032,
           "averagePosition": 8.76
-        },
-        {
-          "page": "https://www.toolpick.dev/reviews/obsidian-review",
-          "clicks": 0,
-          "impressions": 21,
-          "weightedPosition": 177,
-          "queries": [
-            {
-              "query": "obsidian sync pricing 2026",
-              "clicks": 0,
-              "impressions": 9,
-              "ctr": 0,
-              "position": 8.333333333333332,
-              "score": 0.2494
-            },
-            {
-              "query": "obsidian pricing sync publish 2026",
-              "clicks": 0,
-              "impressions": 3,
-              "ctr": 0,
-              "position": 7,
-              "score": 0.0907
-            },
-            {
-              "query": "obsidian pricing official 2026",
-              "clicks": 0,
-              "impressions": 1,
-              "ctr": 0,
-              "position": 2,
-              "score": 0.0566
-            },
-            {
-              "query": "obsidian pricing sync publish official 2026",
-              "clicks": 0,
-              "impressions": 2,
-              "ctr": 0,
-              "position": 8.5,
-              "score": 0.0549
-            },
-            {
-              "query": "obsidian sync price 2026",
-              "clicks": 0,
-              "impressions": 2,
-              "ctr": 0,
-              "position": 9.5,
-              "score": 0.0519
-            }
-          ],
-          "score": 0.6017,
-          "averagePosition": 8.43
         }
       ]
     },
@@ -650,7 +637,7 @@
       "liveSitemap": {
         "ok": true,
         "status": 200,
-        "locCount": 640,
+        "locCount": 642,
         "finalUrl": "https://aiforge.neogenesis.app/sitemap.xml",
         "error": null
       },
@@ -660,12 +647,7 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
@@ -730,7 +712,7 @@
       "liveSitemap": {
         "ok": true,
         "status": 200,
-        "locCount": 495,
+        "locCount": 497,
         "finalUrl": "https://craftdesk.neogenesis.app/sitemap.xml",
         "error": null
       },
@@ -740,12 +722,7 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
@@ -1074,7 +1051,7 @@
       "liveSitemap": {
         "ok": true,
         "status": 200,
-        "locCount": 444,
+        "locCount": 445,
         "finalUrl": "https://deploystack.neogenesis.app/sitemap.xml",
         "error": null
       },
@@ -1084,12 +1061,7 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
@@ -1386,7 +1358,7 @@
       "liveSitemap": {
         "ok": true,
         "status": 200,
-        "locCount": 436,
+        "locCount": 437,
         "finalUrl": "https://finstack.neogenesis.app/sitemap.xml",
         "error": null
       },
@@ -1396,12 +1368,7 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
@@ -1448,7 +1415,7 @@
       "liveSitemap": {
         "ok": true,
         "status": 200,
-        "locCount": 400,
+        "locCount": 401,
         "finalUrl": "https://sellkit.neogenesis.app/sitemap.xml",
         "error": null
       },
@@ -1458,12 +1425,7 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
@@ -1474,24 +1436,24 @@
         {
           "page": "https://sellkit.neogenesis.app/alternatives/printful",
           "clicks": 0,
-          "impressions": 146,
-          "weightedPosition": 9994,
+          "impressions": 151,
+          "weightedPosition": 10407,
           "queries": [
             {
               "query": "printful alternatives",
               "clicks": 0,
-              "impressions": 86,
+              "impressions": 90,
               "ctr": 0,
-              "position": 71.77906976744185,
-              "score": 0.8121
+              "position": 72.31111111111112,
+              "score": 0.8467
             },
             {
               "query": "alternatives to printful",
               "clicks": 0,
-              "impressions": 34,
+              "impressions": 35,
               "ctr": 0,
-              "position": 59.588235294117645,
-              "score": 0.3524
+              "position": 60.114285714285714,
+              "score": 0.3611
             },
             {
               "query": "sites like printful",
@@ -1518,22 +1480,22 @@
               "score": 0.0282
             }
           ],
-          "score": 1.4176,
-          "averagePosition": 68.45
+          "score": 1.4609,
+          "averagePosition": 68.92
         },
         {
           "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-invoicing",
           "clicks": 0,
-          "impressions": 89,
-          "weightedPosition": 7122,
+          "impressions": 92,
+          "weightedPosition": 7377,
           "queries": [
             {
               "query": "ecommerce billing system",
               "clicks": 0,
-              "impressions": 33,
+              "impressions": 34,
               "ctr": 0,
-              "position": 79.18181818181819,
-              "score": 0.2967
+              "position": 79.29411764705883,
+              "score": 0.3055
             },
             {
               "query": "ecommerce invoicing software",
@@ -1546,18 +1508,18 @@
             {
               "query": "e commerce invoice software",
               "clicks": 0,
-              "impressions": 18,
+              "impressions": 19,
               "ctr": 0,
-              "position": 84.72222222222223,
-              "score": 0.1564
+              "position": 84.6842105263158,
+              "score": 0.1652
             },
             {
               "query": "e commerce billing system",
               "clicks": 0,
-              "impressions": 10,
+              "impressions": 11,
               "ctr": 0,
-              "position": 79.3,
-              "score": 0.0898
+              "position": 80.0909090909091,
+              "score": 0.0983
             },
             {
               "query": "platforms that integrate invoicing and payments",
@@ -1568,8 +1530,8 @@
               "score": 0.0092
             }
           ],
-          "score": 0.7961,
-          "averagePosition": 80.02
+          "score": 0.8222,
+          "averagePosition": 80.18
         },
         {
           "page": "https://sellkit.neogenesis.app/alternatives/gumroad",
@@ -1624,20 +1586,20 @@
         {
           "page": "https://sellkit.neogenesis.app/",
           "clicks": 0,
-          "impressions": 3,
-          "weightedPosition": 116,
+          "impressions": 4,
+          "weightedPosition": 165,
           "queries": [
             {
               "query": "sellkit",
               "clicks": 0,
-              "impressions": 3,
+              "impressions": 4,
               "ctr": 0,
-              "position": 38.666666666666664,
-              "score": 0.0386
+              "position": 41.25,
+              "score": 0.0498
             }
           ],
-          "score": 0.0386,
-          "averagePosition": 38.67
+          "score": 0.0498,
+          "averagePosition": 41.25
         }
       ]
     },
@@ -1662,19 +1624,64 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
-        "rows": 24,
+        "rows": 30,
         "error": null
       },
       "opportunities": [
+        {
+          "page": "https://review.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 10,
+          "weightedPosition": 210,
+          "queries": [
+            {
+              "query": "6축 로봇의 정확도와 안전성 향상",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 6.666666666666667,
+              "score": 0.093
+            },
+            {
+              "query": "가열식 가습기 소음",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            },
+            {
+              "query": "\"슬릭부스트\" -site:reddit.com -site:twitter.com -site:x.com -site:wykop.pl -site:tripadvisor.com -site:youtube.com -site:yelp.com -site:booking.com -site:facebook.com -site:instagram.com -site:tiktok.com",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 5,
+              "score": 0.0358
+            },
+            {
+              "query": "신지모루 보조배터리",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 26,
+              "score": 0.0157
+            },
+            {
+              "query": "프로티나",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 34,
+              "score": 0.0137
+            }
+          ],
+          "score": 0.2361,
+          "averagePosition": 21
+        },
         {
           "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%ED%99%88%EC%B9%B4%ED%8E%98-%EC%99%84%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%84%A0%ED%83%9D",
           "clicks": 0,
@@ -1702,22 +1709,48 @@
           "averagePosition": 12.75
         },
         {
-          "page": "https://review.neogenesis.app/posts/%ED%94%84%EB%9E%91%EC%8A%A4-%ED%86%B0%EC%8A%A8-tbe-201b-%EB%B8%94%EB%A3%A8%ED%88%AC%EC%8A%A4-%EC%9D%B4%EC%96%B4%ED%8F%B0-%EB%A6%AC%EB%B7%B0-enc-%EB%85%B8%EC%9D%B4%EC%A6%88-%EC%BA%94%EC%8A%AC%EB%A7%81%EA%B3%BC-led%EC%9D%98-%EC%A1%B0%ED%99%94",
+          "page": "https://review.neogenesis.app/posts/hp-2026-%EB%85%B8%ED%8A%B8%EB%B6%81-15-%EB%9D%BC%EC%9D%B4%EC%A0%A0-7000-%EC%8B%9C%EB%A6%AC%EC%A6%88-%ED%83%91%EC%9E%AC-%EA%B0%80%EC%84%B1%EB%B9%84-%EB%85%B8%ED%8A%B8%EB%B6%81-%EB%A6%AC%EB%B7%B0",
           "clicks": 0,
           "impressions": 5,
-          "weightedPosition": 51,
+          "weightedPosition": 35,
+          "queries": [
+            {
+              "query": "hp 2026 노트북 15 () reviews",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7.25,
+              "score": 0.1188
+            },
+            {
+              "query": "hp 2026 노트북 15 라이젠5 () reviews",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0327
+            }
+          ],
+          "score": 0.1515,
+          "averagePosition": 7
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%94%84%EB%9E%91%EC%8A%A4-%ED%86%B0%EC%8A%A8-tbe-201b-%EB%B8%94%EB%A3%A8%ED%88%AC%EC%8A%A4-%EC%9D%B4%EC%96%B4%ED%8F%B0-%EB%A6%AC%EB%B7%B0-enc-%EB%85%B8%EC%9D%B4%EC%A6%88-%EC%BA%94%EC%8A%AC%EB%A7%81%EA%B3%BC-led%EC%9D%98-%EC%A1%B0%ED%99%94",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 61,
           "queries": [
             {
               "query": "톰슨 이어폰 후기",
               "clicks": 0,
-              "impressions": 5,
+              "impressions": 6,
               "ctr": 0,
-              "position": 10.2,
-              "score": 0.1252
+              "position": 10.166666666666666,
+              "score": 0.1505
             }
           ],
-          "score": 0.1252,
-          "averagePosition": 10.2
+          "score": 0.1505,
+          "averagePosition": 10.17
         },
         {
           "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%ED%99%88%EC%B9%B4%ED%8E%98-%EC%99%84%EB%B2%BD-%EC%86%94%EB%A3%A8%EC%85%98",
@@ -1744,32 +1777,6 @@
           ],
           "score": 0.1243,
           "averagePosition": 11.14
-        },
-        {
-          "page": "https://review.neogenesis.app/posts/hp-2026-%EB%85%B8%ED%8A%B8%EB%B6%81-15-%EB%9D%BC%EC%9D%B4%EC%A0%A0-7000-%EC%8B%9C%EB%A6%AC%EC%A6%88-%ED%83%91%EC%9E%AC-%EA%B0%80%EC%84%B1%EB%B9%84-%EB%85%B8%ED%8A%B8%EB%B6%81-%EB%A6%AC%EB%B7%B0",
-          "clicks": 0,
-          "impressions": 4,
-          "weightedPosition": 28,
-          "queries": [
-            {
-              "query": "hp 2026 노트북 15 () reviews",
-              "clicks": 0,
-              "impressions": 3,
-              "ctr": 0,
-              "position": 7.333333333333333,
-              "score": 0.0886
-            },
-            {
-              "query": "hp 2026 노트북 15 라이젠5 () reviews",
-              "clicks": 0,
-              "impressions": 1,
-              "ctr": 0,
-              "position": 6,
-              "score": 0.0327
-            }
-          ],
-          "score": 0.1213,
-          "averagePosition": 7
         },
         {
           "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EC%A0%84%EC%9E%90%EB%8F%99-%EC%BB%A4%ED%94%BC%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%EB%B0%8F-%EA%B5%AC%EB%A7%A4-%EA%B0%80%EC%9D%B4%EB%93%9C",
@@ -1814,40 +1821,6 @@
           ],
           "score": 0.0703,
           "averagePosition": 11.67
-        },
-        {
-          "page": "https://review.neogenesis.app/",
-          "clicks": 0,
-          "impressions": 3,
-          "weightedPosition": 75,
-          "queries": [
-            {
-              "query": "가열식 가습기 소음",
-              "clicks": 0,
-              "impressions": 1,
-              "ctr": 0,
-              "position": 4,
-              "score": 0.04
-            },
-            {
-              "query": "신지모루 보조배터리",
-              "clicks": 0,
-              "impressions": 1,
-              "ctr": 0,
-              "position": 26,
-              "score": 0.0157
-            },
-            {
-              "query": "에어로 x16",
-              "clicks": 0,
-              "impressions": 1,
-              "ctr": 0,
-              "position": 45,
-              "score": 0.0119
-            }
-          ],
-          "score": 0.0676,
-          "averagePosition": 25
         },
         {
           "page": "https://review.neogenesis.app/posts/%EC%97%90%EC%9D%B4%ED%88%AC-point-5-%EB%A7%88%EC%9A%B0%EC%8A%A4-%EB%A6%AC%EB%B7%B0-%EA%B2%8C%EC%9D%B4%EB%B0%8D%EA%B3%BC-%EC%82%AC%EB%AC%B4%EB%A5%BC-%EC%9E%87%EB%8A%94-rgb-%EC%9C%A0%EB%AC%B4%EC%84%A0-%EB%A7%88%EC%9A%B0%EC%8A%A4",
@@ -1942,12 +1915,7 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
@@ -1994,7 +1962,7 @@
       "liveSitemap": {
         "ok": true,
         "status": 200,
-        "locCount": 397,
+        "locCount": 374,
         "finalUrl": "https://kott.kr/sitemap.xml",
         "error": null
       },
@@ -2004,12 +1972,7 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
@@ -2039,12 +2002,7 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
@@ -2109,12 +2067,7 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,
@@ -2134,7 +2087,7 @@
       "liveSitemap": {
         "ok": true,
         "status": 200,
-        "locCount": 67,
+        "locCount": 70,
         "finalUrl": "https://neogenesis.app/sitemap.xml",
         "error": null
       },
@@ -2144,12 +2097,7 @@
         "known": true,
         "error": null
       },
-      "sitemapSubmit": {
-        "ok": true,
-        "status": 204,
-        "submitted": true,
-        "error": null
-      },
+      "sitemapSubmit": null,
       "searchAnalytics": {
         "ok": true,
         "status": 200,

@@ -5,6 +5,15 @@
 
 ---
 
+## 2026-05-06 Codex Completed - SBU Traffic Statistics
+
+- [x] GA4/PostHog/GSC traffic statistics collected for the SBU fleet.
+- [x] Search growth flywheel restored to green after DeployStack and SellKit production redeploys.
+- [x] Full live SEO/GEO audit verified 13/13 passing after redeploy.
+- [ ] Next loop: convert the 94 GSC opportunities into title/meta/internal-link updates, prioritizing ToolPick, SellKit, DeployStack, and ReviewLab.
+
+---
+
 ## 🟣 Sora Telegram 안정화 + 답변 품질 fix (2026-05-04, Claude Opus 4.7) ✅
 
 owner 명령: "텔레그램 채팅내역확인해봐 너무불안정한데" + "전부 해결해" + "제언하고 진행해"

@@ -1,6 +1,6 @@
 # SBU Growth Ops Suite
 
-- generatedAt: 2026-05-05T11:34:21+09:00
+- generatedAt: 2026-05-06T09:33:37+09:00
 - passed: true
 
 ## Gates
@@ -18,11 +18,11 @@
 | Site | Status | Modeled MAU | Ready Posts | CTA | Internal | Live |
 |---|---:|---:|---:|---:|---:|---:|
 | toolpick | green | 148400 | 424 | 0.752 | 0.691 | true |
-| aiforge | green | 151200 | 432 | 0.734 | 0.739 | true |
-| craftdesk | green | 129150 | 369 | 0.836 | 0.692 | true |
-| deploystack | green | 109200 | 312 | 0.731 | 0.687 | true |
-| finstack | green | 107450 | 307 | 0.743 | 0.675 | true |
-| sellkit | green | 101850 | 291 | 0.878 | 0.759 | true |
+| aiforge | green | 151200 | 432 | 0.735 | 0.737 | true |
+| craftdesk | green | 129150 | 369 | 0.837 | 0.69 | true |
+| deploystack | green | 109200 | 312 | 0.732 | 0.685 | true |
+| finstack | green | 107450 | 307 | 0.744 | 0.673 | true |
+| sellkit | green | 101850 | 291 | 0.878 | 0.757 | true |
 
 ## Next Experiments
 
@@ -34,7 +34,7 @@
 ## Notes
 
 - Search Console submit mode: ready
-- Search Console query opportunities: 95
+- Search Console query opportunities: 83
 - Search Console properties listed: 6/6
 - Search Console sitemaps known: 6/6
 - Cannibalization raw exact clusters found: 25

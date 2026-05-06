@@ -1,6 +1,6 @@
 # SBU Full Live SEO/GEO/PostHog Audit
 
-- generatedAt: `2026-05-05T11:34:21.367485+09:00`
+- generatedAt: `2026-05-06T09:33:37.272001+09:00`
 - sites: `13`
 - passed: `13/13`
 - overall: `PASS`

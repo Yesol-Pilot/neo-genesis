@@ -6,6 +6,17 @@
 
 ---
 
+## 2026-05-06 - Codex SBU Traffic Statistics and Live Pipeline Recovery
+
+- Ran GA4, PostHog, GSC/Search Console, search-growth-flywheel, and full live SEO/GEO audits for the commercial SBU fleet.
+- Final gates: growth flywheel passed, GSC properties listed 13/13, GSC sitemaps known 13/13, PostHog taxonomy passed, live SEO/GEO audit passed 13/13.
+- Traffic baseline: GA4 configured 28d users 2106, GA4 7d users 152, PostHog 28d pageviews 811 / visitors 557, PostHog 7d pageviews 84 / visitors 78.
+- GSC baseline: 594 query/page rows, 1984 top-row impressions, 5 clicks, 94 ranked opportunities.
+- Found and fixed live publishing lag on DeployStack and SellKit: both had 2026-05-06 posts committed but not live; rebuilt, deployed to Vercel production, and verified detail pages plus sitemap inclusion.
+- Key finding: ToolPick remains the traffic outlier; the rest of the fleet is technically connected and index-ready but needs query-to-click optimization and stronger distribution loops.
+
+---
+
 ## 2026-04-24 (금)
 
 ### 🟣 Codex
