@@ -4,8 +4,13 @@
   "policy": {
     "canonical_url_required": true,
     "platforms_with_api_keys": [],
-    "platforms_without_api_keys": ["dev.to", "Hashnode"],
-    "platforms_published_autonomously": ["GitHub Discussions"]
+    "platforms_without_api_keys": [
+      "dev.to",
+      "Hashnode"
+    ],
+    "platforms_published_autonomously": [
+      "GitHub Discussions"
+    ]
   },
   "posts": [
     {
@@ -22,10 +27,11 @@
         },
         {
           "platform": "dev.to",
-          "status": "DOCUMENTED",
+          "status": "FAILED",
           "ready_to_paste_file": ".agent/knowledge/cross-publish/devto-inside-hive-mind.md",
           "front_matter_canonical_url_set": true,
-          "owner_action_required": "Generate API key at dev.to → Settings → Account → DEV API Keys, save to .env.local as DEVTO_API_KEY, then re-run cross-publish"
+          "owner_action_required": "Generate API key at dev.to → Settings → Account → DEV API Keys, save to .env.local as DEVTO_API_KEY, then re-run cross-publish",
+          "last_error": "{'raw': ''}"
         },
         {
           "platform": "Hashnode",
@@ -50,10 +56,11 @@
         },
         {
           "platform": "dev.to",
-          "status": "DOCUMENTED",
+          "status": "FAILED",
           "ready_to_paste_file": ".agent/knowledge/cross-publish/devto-running-11-saas-products.md",
           "front_matter_canonical_url_set": true,
-          "owner_action_required": "Same as above"
+          "owner_action_required": "Same as above",
+          "last_error": "{'raw': ''}"
         },
         {
           "platform": "Hashnode",
