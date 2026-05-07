@@ -1887,3 +1887,24 @@
   - The old 30d monitor still shows `argument_submit_no_save` because the previous synthetic smoke attempt remains in `growth_events`.
   - The corrected source of truth is now `verified_vote_rows=8` and `verified_human_argument_rows=0`.
   - Next useful check is fresh real traffic, not more synthetic production clicking.
+
+## 2026-05-07 - Codex GSC 404 Indexing Triage
+
+- Investigated Search Console email: "not indexed - Not found (404)".
+- Current official sitemap scan passed for live properties:
+  - `toolpick`, `aiforge`, `craftdesk`, `deploystack`, `finstack`, `sellkit`, `reviewlab`, `ur-wrong`, `kott`, `whylab`, `ethicaai`, `neogenesis`, `portfolio`
+  - All current sitemap URLs returned 200 and all listed URLs had 0 live 404s.
+- Confirmed historical transient 404 candidates from growth reports:
+  - `deploystack`: `2026-05-06-edge-deployment-platforms`
+  - `sellkit`: `2026-05-06-customer-review-mining-tools`
+  - `finstack`: `2026-05-07-banking-api-platforms`
+  - `toolpick`: `2026-05-07-llm-observability-tools` sitemap/listing delay, detail already 200 at the time
+- Fixed one active portfolio sitemap 404:
+  - `https://heoyesol.kr/projects/sora` was in sitemap but had no Vercel rewrite.
+  - Added `/projects/sora` and `/projects/sora/` rewrites to `public/projects/sora.html`.
+  - Built, deployed, and verified production alias `https://heoyesol.kr`.
+  - Post-fix portfolio sitemap scan: 13 URLs, 0 live 404s.
+  - Commit pushed to `Yesol-Pilot/portfolio`: `4419661 fix: route sora project page`.
+- Residual source:
+  - Legacy GSC properties `https://ethicaai.vercel.app/` and `https://reviewlab.vercel.app/` still return 404, including `/sitemap.xml`.
+  - Treat these as stale/legacy properties unless owner wants them redirected or removed from GSC.
