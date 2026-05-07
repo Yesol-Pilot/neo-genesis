@@ -923,6 +923,40 @@ def main() -> int:
         record["phases"]["thumbnail"] = {"status": "fail", "error": f"{type(e).__name__}: {e}"}
         print(f"Thumbnail gen failed (non-fatal): {e}")
 
+    # 4c. Quality audits (locale consistency + metadata sanity).
+    # Both audits are non-fatal: they record drift in audit_log so the next
+    # cron / owner review can see the issue. We do not block publish on
+    # audit failures because that would make a single broken external
+    # citation (e.g., a vendor 403-ing HEAD requests) prevent legitimate
+    # content from shipping.
+    audit_results: dict[str, dict] = {}
+    for audit_name, audit_path in [
+        ("locale", REPO / "scripts" / "landing" / "audit_blog_locale.py"),
+        ("metadata", REPO / "scripts" / "landing" / "audit_blog_metadata.py"),
+    ]:
+        if not audit_path.exists():
+            audit_results[audit_name] = {"status": "skipped_missing_script"}
+            continue
+        try:
+            proc = subprocess.run(
+                [sys.executable, str(audit_path)],
+                cwd=str(REPO),
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=300,
+            )
+            audit_results[audit_name] = {
+                "status": "ok" if proc.returncode == 0 else "issues_found",
+                "rc": proc.returncode,
+                "stdout_tail": (proc.stdout or "").splitlines()[-5:],
+            }
+            print(f"Audit {audit_name}: {audit_results[audit_name]['status']}")
+        except Exception as e:
+            audit_results[audit_name] = {"status": "fail", "error": f"{type(e).__name__}: {e}"}
+    record["phases"]["audit"] = audit_results
+
     # 5. Git commit + push
     git_result = git_commit_push(last_post, dry_run=False)
     record["phases"]["git"] = git_result
