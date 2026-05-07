@@ -1,0 +1,9 @@
+{
+  "name": "reviewlab-legacy-redirect",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "node -e \"console.log('redirect-only deployment')\""
+  }
+}
+

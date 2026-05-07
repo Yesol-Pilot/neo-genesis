@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "destination": "https://review.neogenesis.app/:path*",
+      "statusCode": 308
+    }
+  ]
+}
+
