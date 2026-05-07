@@ -1783,3 +1783,43 @@
     - `https://review.neogenesis.app`
   - Live smoke passed for the four key pages with design copy, GA, and PostHog present.
   - Screenshot artifacts: `output/playwright/design-r3/`.
+
+## 2026-05-07 - Codex UR WRONG Share Modal Quick Rebuttal Loop
+
+- Ran the UR WRONG growth hardening heartbeat against live production.
+- Current live monitor still showed weak argument activation:
+  - visitors 186 before deploy, external source visitors 18
+  - vote intents 12, vote saves 15
+  - share modal opens 6, post-vote write-argument clicks 4
+  - argument intents 5, but argument submit attempts 0 and arguments 0
+  - blocker: `argument_intent_no_submit`
+- Implemented the highest-impact next product fix:
+  - Moved quick rebuttal text generation into `src/lib/commentPolicy.js`.
+  - Added one-click rebuttal templates directly inside `ShareModal`.
+  - Added `share_modal_quick_rebuttal_click` instrumentation and source-cohort/report support.
+  - Directly saves the quick rebuttal through the existing `addComment` server persistence path.
+- Pushed and deployed UR WRONG:
+  - `df477c4 feat: add share modal quick rebuttals`
+  - `23c720e fix: restore quick rebuttal side labels`
+  - Production alias: `https://ur-wrong.com`
+- Verification passed:
+  - `npm run verify:growth-analytics`
+  - `npm run verify:ui-quality`
+  - `npm run verify:growth-platform`
+  - `npm run verify:distribution-engine`
+  - `npm run verify:public-api`
+  - `npm run verify:growth-report`
+  - `npm run verify:growth-indexing`
+  - `npm run verify:share`
+  - `npm run verify:performance-budget`
+  - `npm run verify:arena-security`
+  - `npm run verify:growth-structure`
+  - `npm run build`
+- Browser smoke caught a post-deploy runtime regression (`getSideLabel is not defined`) before finalizing. Fixed, redeployed, and reran smoke.
+- Final production browser smoke passed:
+  - `/battle/abb5fe9a-5c79-4047-9f12-66c8d40827b6`
+  - mocked vote API and comment API to avoid production data pollution
+  - share modal rendered three quick rebuttal buttons
+  - one-click rebuttal closed the modal and showed success toast
+  - no relevant console errors
+- Next fresh-traffic check: rerun `npm run monitor:growth-effect` and confirm `share_modal_quick_rebuttal_clicks`, `argument_quick_submit_clicks`, and `argument_submit_attempts` move above zero.
