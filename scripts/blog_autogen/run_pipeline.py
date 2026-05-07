@@ -738,11 +738,15 @@ def main() -> int:
             log_run(record)
             print("No topic candidate available.")
             return 1
-        topic.target_locale = target_locale if args.locale != "auto" else topic.target_locale
-        # Locale-suffix invariant (mirror of topic_gap_analyzer.py guard): if
-        # the resolved locale is Korean, the slug MUST end in -ko. This
-        # protects against args.locale='ko' overriding a non-Korean candidate
-        # whose slug was built without the suffix.
+        # 2026-05-07: English-only publication policy (owner directive
+        # "글로벌 AI 표준 사이트이니까 영어가 맞겠지"). The auto path resolves
+        # target_locale to "en" unconditionally; here we ALWAYS overwrite the
+        # topic's target_locale with the resolved value, regardless of whether
+        # args.locale was "auto" or explicit. The previous logic preserved
+        # topic.target_locale on auto mode, which let the topic_gap_analyzer's
+        # Korean-prompt detection slip a Korean post past the gate.
+        topic.target_locale = target_locale
+        # Locale-suffix invariant: slug must match content language.
         if topic.target_locale == "ko" and not topic.suggested_slug.endswith("-ko"):
             topic.suggested_slug = (topic.suggested_slug[:72] + "-ko").strip("-")
         elif topic.target_locale == "en" and topic.suggested_slug.endswith("-ko"):
