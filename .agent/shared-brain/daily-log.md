@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-05-07 - Codex UR WRONG Statistics Report
+
+- Ran live UR WRONG 30d, 7d, and 1d growth monitors plus Supabase ordered funnel reports.
+- Current 30d baseline: 194 visitors, 12 vote intents, 18 vote saves, 9 share modal opens, 1 share-modal quick rebuttal click, 1 argument quick submit click, 1 argument submit attempt, 0 saved arguments.
+- Current 7d ordered funnel: 105 landing visitors, 88 surface ready, 16 battle interest, 12 vote intent, 9 vote confirmed, 5 share-or-argue completions; ordered activation is 8.6%.
+- Deep analysis correction: the single quick-rebuttal click/submit/saved sequence was from the 09:23 KST production browser smoke with mocked comment persistence, while `comments` has 0 human rows for 30d/7d; real-user blocker remains `argument_intent_no_submit`.
+- Distribution log remains empty, so external operator submissions have not started yet.
+
 ## 2026-05-06 - Codex SBU Traffic Statistics and Live Pipeline Recovery
 
 - Ran GA4, PostHog, GSC/Search Console, search-growth-flywheel, and full live SEO/GEO audits for the commercial SBU fleet.
@@ -1823,3 +1831,59 @@
   - one-click rebuttal closed the modal and showed success toast
   - no relevant console errors
 - Next fresh-traffic check: rerun `npm run monitor:growth-effect` and confirm `share_modal_quick_rebuttal_clicks`, `argument_quick_submit_clicks`, and `argument_submit_attempts` move above zero.
+
+## 2026-05-07 - Codex ToolPick Analytics Parity Fix
+
+- Investigated GA4 vs PostHog visitor mismatch for ToolPick.
+- Root cause: PostHog raw persons were being inflated by legacy direct browser `$pageview` capture (`toolpick-direct-browser`) and should not be reported as visitor count.
+- Implemented analytics hardening:
+  - GA4 is now the traffic source of truth for visitors, sessions, and page views.
+  - PostHog is scoped to behavior events and capture-health diagnostics.
+  - Removed direct browser `$pageview` fallback and switched route pageviews to the PostHog SDK path.
+  - Added automated/bot visitor guard for PostHog capture.
+  - Added diagnostics for raw PostHog persons, legacy direct pageviews, SDK pageviews, and deltas vs GA4.
+- Verification:
+  - `npm run lint`
+  - `npm run build`
+  - `npm run audit:live`
+  - `npm run audit:live-analytics`
+  - Live bundle check: `posthog_js_sdk` present and `toolpick-direct-browser` absent.
+- Pushed and deployed ToolPick:
+  - `e003060 fix: align toolpick analytics reporting`
+  - `06b3e27 docs: refresh toolpick analytics verification`
+  - Production alias: `https://www.toolpick.dev`
+- Follow-up: wait for fresh real-user traffic, then confirm PostHog `sdkPageviews` rises above zero while `legacyDirectPageviews` stops increasing.
+
+## 2026-05-07 - Codex UR WRONG Analytics Isolation + Verified Growth Report
+
+- Completed the full follow-through for the UR WRONG deep analysis.
+- Shipped and deployed `476f521 fix: isolate smoke analytics and verify growth metrics` to `https://ur-wrong.com`.
+- Product changes:
+  - Post-vote handoff now exposes the three one-click rebuttal publish buttons directly, plus the existing jump-to-panel fallback.
+  - New events: `post_vote_quick_rebuttal_click` and `post_vote_quick_rebuttal_saved`.
+- Data integrity changes:
+  - Client analytics can be disabled with `urw_analytics_mode=smoke/test` or `window.__URW_ANALYTICS_DISABLED__`.
+  - `/api/events` returns 202 but ignores `actor_type=system`, `source_type=test`, or smoke/test analytics modes.
+  - `/api/growth-report` now reports DB-verified `verified_vote_rows` and `verified_human_argument_rows`, while preserving event counters as `event_vote_save_actions` / `event_arguments`.
+- Verification passed before deploy:
+  - `npm run verify:growth-analytics`
+  - `npm run verify:ui-quality`
+  - `npm run verify:growth-structure`
+  - `npm run verify:public-api`
+  - `npm run verify:distribution-engine`
+  - `npm run verify:share`
+  - `npm run verify:growth-indexing`
+  - `npm run verify:performance-budget`
+  - `npm run verify:arena-security`
+  - `npm run build`
+  - Local Playwright smoke with mocked APIs: vote write 1, comment write 1, `/api/events` requests 0, screenshot `output/playwright/post-vote-handoff-smoke.png`.
+- Production verification after deploy:
+  - `npm run verify:growth-platform` passed and confirmed `server event collector test isolation`.
+  - `npm run verify:growth-report` passed: `vote_saves=8`, `event_vote_saves=18`, `verified_arguments=0`, `confidence=not_yet`.
+  - `npm run verify:public-api` passed.
+  - `npm run verify:share` passed.
+  - `HEAD https://ur-wrong.com` returned 200 on Vercel.
+- Current interpretation:
+  - The old 30d monitor still shows `argument_submit_no_save` because the previous synthetic smoke attempt remains in `growth_events`.
+  - The corrected source of truth is now `verified_vote_rows=8` and `verified_human_argument_rows=0`.
+  - Next useful check is fresh real traffic, not more synthetic production clicking.

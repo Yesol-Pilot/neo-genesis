@@ -26,9 +26,10 @@
 - [x] Production `/launch`, `/distribution-launch-seed.json`, public API, growth platform, growth report, and desktop/mobile Playwright screenshots verified after deploy.
 - [x] Share modal quick rebuttal templates shipped and deployed (`df477c4`, `23c720e`): voters can publish a one-click rebuttal directly inside `ShareModal` without scrolling to the comment box.
 - [x] Production browser smoke verified `/battle/abb5fe9a-5c79-4047-9f12-66c8d40827b6` -> mocked vote -> share modal -> three quick rebuttal buttons -> mocked comment save -> success toast, with no relevant console errors.
-- [ ] Next verification after fresh traffic: rerun `npm run monitor:growth-effect`, `npm run report:funnel`, and production browser smoke; confirm `post_vote_quick_rebuttal_focuses`, `argument_quick_submit_clicks`, and `argument_submit_attempts` move above zero.
+- [x] Fresh-traffic stats check completed on 2026-05-07 KST and deep analysis corrected the interpretation: raw monitor shows `share_modal_quick_rebuttal_clicks=1`, `argument_quick_submit_clicks=1`, and `argument_submit_attempts=1`, but those events came from the 09:23 KST production browser smoke with mocked comment save; real-user blocker remains `argument_intent_no_submit`.
 - [ ] Next operator task: with owner login sessions available, submit the first low-risk queue items from `docs/growth-distribution/distribution-queue.json`, record posted URLs in `distribution-log.json`, and pause channels with zero vote intent after three posts.
-- [ ] If `share_modal_quick_rebuttal_clicks` and `argument_submit_attempts` remain zero after fresh traffic, next product fix is to expose the same one-click rebuttal CTA in the first-screen post-vote reward card.
+- [x] Product/data fix completed and deployed (`476f521`): analytics smoke/test traffic is suppressed client-side and ignored server-side, `/api/growth-report` now separates DB-verified votes/comments from event counters, and post-vote voters get direct one-click rebuttal publish buttons in the handoff card.
+- [ ] Next fresh-traffic check: after real traffic arrives, confirm `post_vote_quick_rebuttal_clicks`, `post_vote_quick_rebuttal_saved`, and `verified_human_argument_rows` rise. Current 30d monitor still carries one old synthetic `argument_submit_attempt`, so treat `event_vote_saves=18` vs `verified_vote_rows=8` as the integrity baseline.
 
 ## 🟣 Sora 전체 감사 + 10 issue fix (2026-05-06, Claude Opus 4.7) ✅
 
