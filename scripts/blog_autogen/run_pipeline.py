@@ -709,10 +709,13 @@ def main() -> int:
         print(f"Skipping: BLOG_POSTS already has {limit}+ entries (current: {len(ctx['existing_blog'])}).")
         return 0
 
-    # Locale auto: alternate by weekday
+    # Locale auto: English-only publication after 2026-05-06 owner directive
+    # ("글로벌 AI 표준 사이트이니까 영어가 맞겠지"). Korean siblings were experimental
+    # and now removed. The pipeline still accepts --locale ko for one-off
+    # experiments, but the auto path is fixed to English so cron runs never
+    # accidentally publish a Korean post that would mismatch the global brand.
     if args.locale == "auto":
-        weekday = dt.date.today().weekday()  # Monday=0
-        target_locale = "ko" if weekday == 0 else "en"
+        target_locale = "en"
     else:
         target_locale = args.locale
 
