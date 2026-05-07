@@ -736,6 +736,15 @@ def main() -> int:
             print("No topic candidate available.")
             return 1
         topic.target_locale = target_locale if args.locale != "auto" else topic.target_locale
+        # Locale-suffix invariant (mirror of topic_gap_analyzer.py guard): if
+        # the resolved locale is Korean, the slug MUST end in -ko. This
+        # protects against args.locale='ko' overriding a non-Korean candidate
+        # whose slug was built without the suffix.
+        if topic.target_locale == "ko" and not topic.suggested_slug.endswith("-ko"):
+            topic.suggested_slug = (topic.suggested_slug[:72] + "-ko").strip("-")
+        elif topic.target_locale == "en" and topic.suggested_slug.endswith("-ko"):
+            # Inverse: don't ship -ko-suffixed slugs as English posts
+            topic.suggested_slug = topic.suggested_slug[:-3].rstrip("-")
     record["phases"]["sense"] = {
         "status": "ok",
         "topic_slug": topic.suggested_slug,

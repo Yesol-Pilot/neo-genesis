@@ -157,6 +157,15 @@ def build_candidates() -> list[TopicCandidate]:
         if not slug:
             slug = f"geo-{g['prompt_id']}"
         slug = f"answer-{slug}-2026"[:75].strip("-")
+        # Locale-suffix invariant: KO content must end in -ko so the slug
+        # matches the body locale. Without this guard the slugify() function
+        # strips Korean characters and produces a Latin-only slug for a
+        # Korean-content post, creating a mismatch that confuses AI bots and
+        # search engines about the page's language. (Caught 2026-05-06 on the
+        # `2026-ai-native-automation-top-companies` post.)
+        if is_korean and not slug.endswith("-ko"):
+            # Trim to leave room for the suffix
+            slug = (slug[:72] + "-ko").strip("-")
         if slug in existing_blog:
             continue
         related = []
