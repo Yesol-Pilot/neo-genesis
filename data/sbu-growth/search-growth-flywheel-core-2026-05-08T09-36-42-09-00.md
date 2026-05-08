@@ -1,17 +1,17 @@
 # SBU Search Growth Flywheel
 
-- generatedAt: 2026-05-08T09:49:22+09:00
-- scope: full-13-sites
-- passed: true
-- pipelinePassed: true
+- generatedAt: 2026-05-08T09:36:42+09:00
+- scope: core-6-sites
+- passed: false
+- pipelinePassed: false
 - gscRange: 2026-04-08..2026-05-06
 - gscCredentialSource: GA4_SERVICE_ACCOUNT_PATH@env-file
-- gscPropertiesListed: 13/13
-- gscSitemapsKnown: 13/13
-- gscOpportunityTotal: 83
-- contentApplyEnabled: false
+- gscPropertiesListed: 6/6
+- gscSitemapsKnown: 6/6
+- gscOpportunityTotal: 73
+- contentApplyEnabled: true
 - contentChangedFiles: 0
-- liveCoverageMissing: 0
+- liveCoverageMissing: 3
 
 ## GSC Sites
 
@@ -23,13 +23,6 @@
 | deploystack | siteOwner | true | 11 | 3 | false |
 | finstack | siteOwner | true | 2 | 0 | false |
 | sellkit | siteOwner | true | 32 | 19 | false |
-| reviewlab | siteOwner | true | 32 | 7 | false |
-| ur-wrong | siteOwner | true | 2 | 1 | false |
-| kott | siteOwner | true | 0 | 0 | true |
-| ethicaai | siteOwner | true | 0 | 0 | true |
-| whylab | siteOwner | true | 2 | 1 | false |
-| portfolio | siteOwner | true | 1 | 0 | false |
-| neogenesis | siteOwner | true | 1 | 1 | false |
 
 ## GSC Credential Attempts
 
@@ -46,7 +39,15 @@
 | craftdesk | green | 2026-05-08-ai-design-qa-tools | true | true | true | true |  |
 | deploystack | green | 2026-05-08-deployment-preview-workflows | true | true | true | true |  |
 | finstack | green | 2026-05-08-payment-reconciliation-tools | true | true | true | true |  |
-| sellkit | green | 2026-05-08-ecommerce-conversion-analytics-tools | true | true | true | true |  |
+| sellkit | red | 2026-05-08-ecommerce-conversion-analytics-tools | false | false | false | true | live_blog_missing_latest:2026-05-08-ecommerce-conversion-analytics-tools, live_detail_missing_latest:2026-05-08-ecommerce-conversion-analytics-tools, sitemap_missing_latest:2026-05-08-ecommerce-conversion-analytics-tools |
+
+## Live Coverage Missing
+
+| Site | Slug | Target | Status | URL | Reason |
+|---|---|---|---:|---|---|
+| sellkit | 2026-05-08-ecommerce-conversion-analytics-tools | blog | 200 | https://sellkit.neogenesis.app/blog | slug_not_found |
+| sellkit | 2026-05-08-ecommerce-conversion-analytics-tools | detail | 404 | https://sellkit.neogenesis.app/blog/2026-05-08-ecommerce-conversion-analytics-tools | request_failed |
+| sellkit | 2026-05-08-ecommerce-conversion-analytics-tools | sitemap | 200 | https://sellkit.neogenesis.app/sitemap.xml | slug_url_not_found |
 
 ## PostHog Taxonomy
 

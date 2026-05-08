@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-06T09:31:37+09:00",
-  "today": "2026-05-06",
+  "generatedAt": "2026-05-08T09:48:39+09:00",
+  "today": "2026-05-08",
   "targetMau": 100000,
   "monthlyVisitsPerReadyPost": 350,
   "requiredReadyPosts": 286,
@@ -37,21 +37,21 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 424,
-          "ready": 424,
+          "total": 425,
+          "ready": 425,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 148400,
+          "modeledMau": 148750,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-05-ai-agent-evaluation-platforms",
-            "file": "src\\sbu\\toolpick\\content\\blog\\2026-05-05-ai-agent-evaluation-platforms.mdx",
-            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-            "date": "2026-05-05",
-            "description": "AI agent evaluation platforms - A practical buyer guide for choosing evals, tracing, and guardrails without adding process debt.",
+            "slug": "2026-05-07-llm-observability-tools",
+            "file": "src\\sbu\\toolpick\\content\\blog\\2026-05-07-llm-observability-tools.mdx",
+            "title": "LLM Observability Tools for Lean AI Teams in 2026",
+            "date": "2026-05-07",
+            "description": "LLM observability tools - A practical buyer guide for tracing, evals, cost controls, and failure triage in production AI apps.",
             "category": "AI Coding",
             "draft": false,
-            "words": 908,
+            "words": 1072,
             "completeFrontmatter": true,
             "hasCta": true,
             "hasInternalLink": true,
@@ -61,10 +61,10 @@
           "daysSinceLatest": 1,
           "fresh": true,
           "categoryCount": 61,
-          "avgWords": 1297,
+          "avgWords": 1299,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.752,
-          "internalLinkCoverage": 0.691,
+          "ctaCoverage": 0.753,
+          "internalLinkCoverage": 0.692,
           "weakSamples": []
         }
       },
@@ -125,18 +125,18 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 437,
+          "total": 439,
           "ready": 432,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 151200,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-06-ai-workflow-automation-stack",
-            "file": "src\\sbu\\aiforge\\content\\blog\\2026-05-06-ai-workflow-automation-stack.mdx",
-            "title": "AI Workflow Automation Stack for Small Teams in 2026",
-            "date": "2026-05-06",
-            "description": "AI workflow automation stack - A practical evaluation guide for AI tools, agent platforms, model operations, and workflow automation.",
+            "slug": "2026-05-08-ai-agent-evaluation-platforms",
+            "file": "src\\sbu\\aiforge\\content\\blog\\2026-05-08-ai-agent-evaluation-platforms.mdx",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "date": "2026-05-08",
+            "description": "AI agent evaluation platforms - A practical evaluation guide for AI tools, agent platforms, model operations, and workflow automation.",
             "category": "AI Tools",
             "draft": false,
             "words": 580,
@@ -149,11 +149,25 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 14,
-          "avgWords": 1693,
+          "avgWords": 1689,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.735,
-          "internalLinkCoverage": 0.737,
+          "ctaCoverage": 0.736,
+          "internalLinkCoverage": 0.733,
           "weakSamples": [
+            {
+              "slug": "2026-05-08-ai-agent-evaluation-platforms",
+              "date": "2026-05-08",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-07-agentic-crm-automation-tools",
+              "date": "2026-05-07",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-06-ai-workflow-automation-stack",
               "date": "2026-05-06",
@@ -172,20 +186,6 @@
               "slug": "2026-05-04-ai-agent-evaluation-platforms",
               "date": "2026-05-04",
               "words": 580,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-05-03-agentic-crm-automation-tools",
-              "date": "2026-05-03",
-              "words": 580,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-04-29-llm-observability-tools",
-              "date": "2026-04-29",
-              "words": 577,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -249,18 +249,18 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 374,
+          "total": 376,
           "ready": 369,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
           "modeledMau": 129150,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-06-design-system-documentation-tools",
-            "file": "src\\sbu\\craftdesk\\content\\blog\\2026-05-06-design-system-documentation-tools.mdx",
-            "title": "Design System Documentation Tools for 2026 in 2026",
-            "date": "2026-05-06",
-            "description": "design system documentation tools - A practical evaluation guide for design tools, creative automation, UI systems, and product design workflows.",
+            "slug": "2026-05-08-ai-design-qa-tools",
+            "file": "src\\sbu\\craftdesk\\content\\blog\\2026-05-08-ai-design-qa-tools.mdx",
+            "title": "AI Design QA Tools for Product Teams in 2026",
+            "date": "2026-05-08",
+            "description": "AI design QA tools - A practical evaluation guide for design tools, creative automation, UI systems, and product design workflows.",
             "category": "Design Tools",
             "draft": false,
             "words": 581,
@@ -273,11 +273,25 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1613,
+          "avgWords": 1608,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.837,
-          "internalLinkCoverage": 0.69,
+          "ctaCoverage": 0.838,
+          "internalLinkCoverage": 0.686,
           "weakSamples": [
+            {
+              "slug": "2026-05-08-ai-design-qa-tools",
+              "date": "2026-05-08",
+              "words": 581,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-07-brand-asset-workflow-software",
+              "date": "2026-05-07",
+              "words": 581,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-06-design-system-documentation-tools",
               "date": "2026-05-06",
@@ -295,20 +309,6 @@
             {
               "slug": "2026-05-04-ai-design-qa-tools",
               "date": "2026-05-04",
-              "words": 581,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-05-03-brand-asset-workflow-software",
-              "date": "2026-05-03",
-              "words": 581,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-04-29-creative-automation-workflow-tools",
-              "date": "2026-04-29",
               "words": 581,
               "completeFrontmatter": true,
               "draft": false
@@ -373,18 +373,18 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 317,
-          "ready": 312,
+          "total": 320,
+          "ready": 313,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 109200,
+          "modeledMau": 109550,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-06-edge-deployment-platforms",
-            "file": "src\\sbu\\deploystack\\content\\blog\\2026-05-06-edge-deployment-platforms.mdx",
-            "title": "Edge Deployment Platforms for Product Teams in 2026",
-            "date": "2026-05-06",
-            "description": "edge deployment platforms - A practical evaluation guide for deployment platforms, serverless infrastructure, observability, and DevOps workflows.",
+            "slug": "2026-05-08-deployment-preview-workflows",
+            "file": "src\\sbu\\deploystack\\content\\blog\\2026-05-08-deployment-preview-workflows.mdx",
+            "title": "Deployment Preview Workflows for Startup Teams in 2026",
+            "date": "2026-05-08",
+            "description": "deployment preview workflows - A practical evaluation guide for deployment platforms, serverless infrastructure, observability, and DevOps workflows.",
             "category": "DevOps",
             "draft": false,
             "words": 576,
@@ -397,11 +397,25 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 11,
-          "avgWords": 1628,
+          "avgWords": 1620,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.732,
-          "internalLinkCoverage": 0.685,
+          "ctaCoverage": 0.734,
+          "internalLinkCoverage": 0.681,
           "weakSamples": [
+            {
+              "slug": "2026-05-08-deployment-preview-workflows",
+              "date": "2026-05-08",
+              "words": 576,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-07-devops-incident-review-tools",
+              "date": "2026-05-07",
+              "words": 579,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-06-edge-deployment-platforms",
               "date": "2026-05-06",
@@ -420,20 +434,6 @@
               "slug": "2026-05-04-deployment-preview-workflows",
               "date": "2026-05-04",
               "words": 576,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-05-03-devops-incident-review-tools",
-              "date": "2026-05-03",
-              "words": 579,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-04-29-serverless-cost-monitoring-tools",
-              "date": "2026-04-29",
-              "words": 579,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -497,18 +497,18 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 312,
-          "ready": 307,
+          "total": 315,
+          "ready": 308,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 107450,
+          "modeledMau": 107800,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-06-invoice-automation-software",
-            "file": "src\\sbu\\finstack\\content\\blog\\2026-05-06-invoice-automation-software.mdx",
-            "title": "Invoice Automation Software for Lean Finance Teams in 2026",
-            "date": "2026-05-06",
-            "description": "invoice automation software - A practical evaluation guide for fintech infrastructure, payments, banking workflows, and financial SaaS tools.",
+            "slug": "2026-05-08-payment-reconciliation-tools",
+            "file": "src\\sbu\\finstack\\content\\blog\\2026-05-08-payment-reconciliation-tools.mdx",
+            "title": "Payment Reconciliation Tools for SaaS Finance Teams in 2026",
+            "date": "2026-05-08",
+            "description": "payment reconciliation tools - A practical evaluation guide for fintech infrastructure, payments, banking workflows, and financial SaaS tools.",
             "category": "Fintech",
             "draft": false,
             "words": 577,
@@ -521,11 +521,25 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 13,
-          "avgWords": 1182,
+          "avgWords": 1177,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.744,
-          "internalLinkCoverage": 0.673,
+          "ctaCoverage": 0.746,
+          "internalLinkCoverage": 0.67,
           "weakSamples": [
+            {
+              "slug": "2026-05-08-payment-reconciliation-tools",
+              "date": "2026-05-08",
+              "words": 577,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-07-banking-api-platforms",
+              "date": "2026-05-07",
+              "words": 577,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-06-invoice-automation-software",
               "date": "2026-05-06",
@@ -544,20 +558,6 @@
               "slug": "2026-05-04-payment-reconciliation-tools",
               "date": "2026-05-04",
               "words": 577,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-05-03-banking-api-platforms",
-              "date": "2026-05-03",
-              "words": 577,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-04-29-fintech-risk-monitoring-platforms",
-              "date": "2026-04-29",
-              "words": 580,
               "completeFrontmatter": true,
               "draft": false
             }
@@ -598,7 +598,7 @@
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
       "score": 88,
-      "status": "green",
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\sellkit",
         "exists": true,
@@ -615,24 +615,24 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/sellkit.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 2
         },
         "posts": {
-          "total": 296,
-          "ready": 291,
+          "total": 299,
+          "ready": 292,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 101850,
+          "modeledMau": 102200,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-06-customer-review-mining-tools",
-            "file": "src\\sbu\\sellkit\\content\\blog\\2026-05-06-customer-review-mining-tools.mdx",
-            "title": "Customer Review Mining Tools for Ecommerce Teams in 2026",
-            "date": "2026-05-06",
-            "description": "customer review mining tools - A practical evaluation guide for ecommerce growth, sales enablement, marketing automation, and conversion tools.",
+            "slug": "2026-05-08-ecommerce-conversion-analytics-tools",
+            "file": "src\\sbu\\sellkit\\content\\blog\\2026-05-08-ecommerce-conversion-analytics-tools.mdx",
+            "title": "Ecommerce Conversion Analytics Tools for 2026 in 2026",
+            "date": "2026-05-08",
+            "description": "ecommerce conversion analytics tools - A practical evaluation guide for ecommerce growth, sales enablement, marketing automation, and conversion tools.",
             "category": "Sales Tools",
             "draft": false,
             "words": 580,
@@ -645,11 +645,25 @@
           "daysSinceLatest": 0,
           "fresh": true,
           "categoryCount": 10,
-          "avgWords": 1027,
+          "avgWords": 1024,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.878,
-          "internalLinkCoverage": 0.757,
+          "ctaCoverage": 0.88,
+          "internalLinkCoverage": 0.753,
           "weakSamples": [
+            {
+              "slug": "2026-05-08-ecommerce-conversion-analytics-tools",
+              "date": "2026-05-08",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-07-lifecycle-email-automation-tools",
+              "date": "2026-05-07",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-06-customer-review-mining-tools",
               "date": "2026-05-06",
@@ -667,20 +681,6 @@
             {
               "slug": "2026-05-04-ecommerce-conversion-analytics-tools",
               "date": "2026-05-04",
-              "words": 580,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-05-03-lifecycle-email-automation-tools",
-              "date": "2026-05-03",
-              "words": 580,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-04-29-ai-product-description-tools",
-              "date": "2026-04-29",
               "words": 580,
               "completeFrontmatter": true,
               "draft": false
@@ -712,7 +712,9 @@
           "hasSitemap": true
         }
       },
-      "actions": []
+      "actions": [
+        "Review dirty working tree before automated publish/deploy."
+      ]
     }
   ]
 }

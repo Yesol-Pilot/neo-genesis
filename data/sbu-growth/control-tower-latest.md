@@ -1,6 +1,6 @@
 # SBU Growth Control Tower
 
-- generatedAt: 2026-05-06T09:31:37+09:00
+- generatedAt: 2026-05-08T09:48:39+09:00
 - targetMauPerSite: 100000
 - modeledMonthlyVisitsPerReadyPost: 350
 - requiredReadyPostsFor100k: 286
@@ -9,12 +9,12 @@
 
 | Site | Status | Score | Posts | Ready | Modeled MAU | MAU Gap | Latest | Live | Top Action |
 |---|---:|---:|---:|---:|---:|---:|---|---|---|
-| ToolPick | green | 87 | 424 | 424 | 148400 | 0 | 2026-05-05 / 2026-05-05-ai-agent-evaluation-platforms | ok | none |
-| AIForge | green | 87 | 437 | 432 | 151200 | 0 | 2026-05-06 / 2026-05-06-ai-workflow-automation-stack | ok | none |
-| CraftDesk | green | 88 | 374 | 369 | 129150 | 0 | 2026-05-06 / 2026-05-06-design-system-documentation-tools | ok | none |
-| DeployStack | green | 87 | 317 | 312 | 109200 | 0 | 2026-05-06 / 2026-05-06-edge-deployment-platforms | ok | none |
-| FinStack | green | 87 | 312 | 307 | 107450 | 0 | 2026-05-06 / 2026-05-06-invoice-automation-software | ok | none |
-| SellKit | green | 88 | 296 | 291 | 101850 | 0 | 2026-05-06 / 2026-05-06-customer-review-mining-tools | ok | none |
+| ToolPick | green | 87 | 425 | 425 | 148750 | 0 | 2026-05-07 / 2026-05-07-llm-observability-tools | ok | none |
+| AIForge | green | 87 | 439 | 432 | 151200 | 0 | 2026-05-08 / 2026-05-08-ai-agent-evaluation-platforms | ok | none |
+| CraftDesk | green | 88 | 376 | 369 | 129150 | 0 | 2026-05-08 / 2026-05-08-ai-design-qa-tools | ok | none |
+| DeployStack | green | 87 | 320 | 313 | 109550 | 0 | 2026-05-08 / 2026-05-08-deployment-preview-workflows | ok | none |
+| FinStack | green | 87 | 315 | 308 | 107800 | 0 | 2026-05-08 / 2026-05-08-payment-reconciliation-tools | ok | none |
+| SellKit | yellow | 88 | 299 | 292 | 102200 | 0 | 2026-05-08 / 2026-05-08-ecommerce-conversion-analytics-tools | ok | Review dirty working tree before automated publish/deploy. |
 
 ## Site Details
 
@@ -22,11 +22,11 @@
 
 - domain: https://toolpick.dev
 - status: green (87/100)
-- latestPost: 2026-05-05 / 2026-05-05-ai-agent-evaluation-platforms
+- latestPost: 2026-05-07 / 2026-05-07-llm-observability-tools
 - freshnessDays: 1
-- posts: 424 total, 424 promotion-ready
-- modeledMau: 148400, gap: 0
-- quality: frontmatter 1, CTA 0.752, internalLinks 0.691, avgWords 1297
+- posts: 425 total, 425 promotion-ready
+- modeledMau: 148750, gap: 0
+- quality: frontmatter 1, CTA 0.753, internalLinks 0.692, avgWords 1299
 - ops: build=true, vercel=true, remote=true, email=true, dirty=false
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
@@ -36,11 +36,11 @@
 
 - domain: https://aiforge.neogenesis.app
 - status: green (87/100)
-- latestPost: 2026-05-06 / 2026-05-06-ai-workflow-automation-stack
+- latestPost: 2026-05-08 / 2026-05-08-ai-agent-evaluation-platforms
 - freshnessDays: 0
-- posts: 437 total, 432 promotion-ready
+- posts: 439 total, 432 promotion-ready
 - modeledMau: 151200, gap: 0
-- quality: frontmatter 1, CTA 0.735, internalLinks 0.737, avgWords 1693
+- quality: frontmatter 1, CTA 0.736, internalLinks 0.733, avgWords 1689
 - ops: build=true, vercel=true, remote=true, email=true, dirty=false
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
@@ -50,11 +50,11 @@
 
 - domain: https://craftdesk.neogenesis.app
 - status: green (88/100)
-- latestPost: 2026-05-06 / 2026-05-06-design-system-documentation-tools
+- latestPost: 2026-05-08 / 2026-05-08-ai-design-qa-tools
 - freshnessDays: 0
-- posts: 374 total, 369 promotion-ready
+- posts: 376 total, 369 promotion-ready
 - modeledMau: 129150, gap: 0
-- quality: frontmatter 1, CTA 0.837, internalLinks 0.69, avgWords 1613
+- quality: frontmatter 1, CTA 0.838, internalLinks 0.686, avgWords 1608
 - ops: build=true, vercel=true, remote=true, email=true, dirty=false
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
@@ -64,11 +64,11 @@
 
 - domain: https://deploystack.neogenesis.app
 - status: green (87/100)
-- latestPost: 2026-05-06 / 2026-05-06-edge-deployment-platforms
+- latestPost: 2026-05-08 / 2026-05-08-deployment-preview-workflows
 - freshnessDays: 0
-- posts: 317 total, 312 promotion-ready
-- modeledMau: 109200, gap: 0
-- quality: frontmatter 1, CTA 0.732, internalLinks 0.685, avgWords 1628
+- posts: 320 total, 313 promotion-ready
+- modeledMau: 109550, gap: 0
+- quality: frontmatter 1, CTA 0.734, internalLinks 0.681, avgWords 1620
 - ops: build=true, vercel=true, remote=true, email=true, dirty=false
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
@@ -78,11 +78,11 @@
 
 - domain: https://finstack.neogenesis.app
 - status: green (87/100)
-- latestPost: 2026-05-06 / 2026-05-06-invoice-automation-software
+- latestPost: 2026-05-08 / 2026-05-08-payment-reconciliation-tools
 - freshnessDays: 0
-- posts: 312 total, 307 promotion-ready
-- modeledMau: 107450, gap: 0
-- quality: frontmatter 1, CTA 0.744, internalLinks 0.673, avgWords 1182
+- posts: 315 total, 308 promotion-ready
+- modeledMau: 107800, gap: 0
+- quality: frontmatter 1, CTA 0.746, internalLinks 0.67, avgWords 1177
 - ops: build=true, vercel=true, remote=true, email=true, dirty=false
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
@@ -91,14 +91,14 @@
 ### SellKit
 
 - domain: https://sellkit.neogenesis.app
-- status: green (88/100)
-- latestPost: 2026-05-06 / 2026-05-06-customer-review-mining-tools
+- status: yellow (88/100)
+- latestPost: 2026-05-08 / 2026-05-08-ecommerce-conversion-analytics-tools
 - freshnessDays: 0
-- posts: 296 total, 291 promotion-ready
-- modeledMau: 101850, gap: 0
-- quality: frontmatter 1, CTA 0.878, internalLinks 0.757, avgWords 1027
-- ops: build=true, vercel=true, remote=true, email=true, dirty=false
+- posts: 299 total, 292 promotion-ready
+- modeledMau: 102200, gap: 0
+- quality: frontmatter 1, CTA 0.88, internalLinks 0.753, avgWords 1024
+- ops: build=true, vercel=true, remote=true, email=true, dirty=true
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
-  - none
+  - Review dirty working tree before automated publish/deploy.
 

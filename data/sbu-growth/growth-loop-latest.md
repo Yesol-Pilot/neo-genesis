@@ -1,7 +1,7 @@
 # SBU Growth Loop
 
-- generatedAt: 2026-05-06T09:33:37+09:00
-- passed: true
+- generatedAt: 2026-05-08T09:51:10+09:00
+- passed: false
 
 ## Steps
 
@@ -10,7 +10,7 @@
 | publisher-verify | true | 0 |
 | control-tower | true | 0 |
 | search-growth-flywheel | true | 0 |
-| full-live-quality | true | 0 |
+| full-live-quality | false | 1 |
 | regression-gate | true | 0 |
 
 ## Tails
@@ -19,13 +19,13 @@
 
 ```text
 {
-  "date": "2026-05-06",
+  "date": "2026-05-08",
   "results": [
     {
       "site": "aiforge",
       "action": "verify-only",
-      "slug": "2026-05-06-ai-workflow-automation-stack",
-      "latest": "2026-05-06",
+      "slug": "2026-05-08-ai-agent-evaluation-platforms",
+      "latest": "2026-05-08",
       "live": {
         "blog": true,
         "detail": true,
@@ -35,8 +35,8 @@
     {
       "site": "craftdesk",
       "action": "verify-only",
-      "slug": "2026-05-06-design-system-documentation-tools",
-      "latest": "2026-05-06",
+      "slug": "2026-05-08-ai-design-qa-tools",
+      "latest": "2026-05-08",
       "live": {
         "blog": true,
         "detail": true,
@@ -46,8 +46,8 @@
     {
       "site": "deploystack",
       "action": "verify-only",
-      "slug": "2026-05-06-edge-deployment-platforms",
-      "latest": "2026-05-06",
+      "slug": "2026-05-08-deployment-preview-workflows",
+      "latest": "2026-05-08",
       "live": {
         "blog": true,
         "detail": true,
@@ -57,8 +57,8 @@
     {
       "site": "finstack",
       "action": "verify-only",
-      "slug": "2026-05-06-invoice-automation-software",
-      "latest": "2026-05-06",
+      "slug": "2026-05-08-payment-reconciliation-tools",
+      "latest": "2026-05-08",
       "live": {
         "blog": true,
         "detail": true,
@@ -68,8 +68,8 @@
     {
       "site": "sellkit",
       "action": "verify-only",
-      "slug": "2026-05-06-customer-review-mining-tools",
-      "latest": "2026-05-06",
+      "slug": "2026-05-08-ecommerce-conversion-analytics-tools",
+      "latest": "2026-05-08",
       "live": {
         "blog": true,
         "detail": true,
@@ -83,6 +83,18 @@
 ### control-tower
 
 ```text
+              "slug": "2026-05-07-lifecycle-email-automation-tools",
+              "date": "2026-05-07",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
+            {
+              "slug": "2026-05-06-customer-review-mining-tools",
+              "date": "2026-05-06",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
             },
             {
               "slug": "2026-05-05-ai-product-description-tools",
@@ -94,20 +106,6 @@
             {
               "slug": "2026-05-04-ecommerce-conversion-analytics-tools",
               "date": "2026-05-04",
-              "words": 580,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-05-03-lifecycle-email-automation-tools",
-              "date": "2026-05-03",
-              "words": 580,
-              "completeFrontmatter": true,
-              "draft": false
-            },
-            {
-              "slug": "2026-04-29-ai-product-description-tools",
-              "date": "2026-04-29",
               "words": 580,
               "completeFrontmatter": true,
               "draft": false
@@ -139,7 +137,9 @@
           "hasSitemap": true
         }
       },
-      "actions": []
+      "actions": [
+        "Review dirty working tree before automated publish/deploy."
+      ]
     }
   ]
 }
@@ -148,35 +148,14 @@
 ### search-growth-flywheel
 
 ```text
-            "status": 200,
-            "ok": true
-          },
-          "sitemap": {
-            "status": 200,
-            "ok": true
-          },
-          "robots": {
-            "status": 200,
-            "ok": true
-          },
-          "cron": {
-            "status": 401,
-            "protected": true
-          }
+        "expectedLiveCoverage": {
+          "slug": "2026-05-08-ecommerce-conversion-analytics-tools",
+          "title": "Ecommerce Conversion Analytics Tools for 2026 in 2026",
+          "blogUrl": "https://sellkit.neogenesis.app/blog",
+          "detailUrl": "https://sellkit.neogenesis.app/blog/2026-05-08-ecommerce-conversion-analytics-tools",
+          "sitemapUrl": "https://sellkit.neogenesis.app/sitemap.xml"
         },
-        "indexnowSubmitScript": true,
-        "gscReady": true,
-        "status": "green",
-        "issues": []
-      },
-      {
-        "site": "sellkit",
-        "latest": {
-          "slug": "2026-05-06-customer-review-mining-tools",
-          "title": "Customer Review Mining Tools for Ecommerce Teams in 2026",
-          "date": "2026-05-06"
-        },
-        "staleDays": 0,
+        "liveCoverageMissing": [],
         "live": {
           "blog": {
             "status": 200,
@@ -206,14 +185,35 @@
       }
     ]
   },
-  "passed": true
+  "failureSummary": {
+    "passed": true,
+    "gscOpportunityTotal": 83,
+    "pipelinePassed": true,
+    "liveCoverageMissingCount": 0,
+    "liveCoverageMissing": [],
+    "failingSites": []
+  },
+  "passed": true,
+  "output": {
+    "stampedJson": "data\\sbu-growth\\search-growth-flywheel-2026-05-08T09-49-22-09-00.json",
+    "stampedMd": "data\\sbu-growth\\search-growth-flywheel-2026-05-08T09-49-22-09-00.md",
+    "latestJson": "data\\sbu-growth\\search-growth-flywheel-latest.json",
+    "latestMd": "data\\sbu-growth\\search-growth-flywheel-latest.md",
+    "writesDefaultLatest": true,
+    "written": [
+      "data\\sbu-growth\\search-growth-flywheel-2026-05-08T09-49-22-09-00.json",
+      "data\\sbu-growth\\search-growth-flywheel-2026-05-08T09-49-22-09-00.md",
+      "data\\sbu-growth\\search-growth-flywheel-latest.json",
+      "data\\sbu-growth\\search-growth-flywheel-latest.md"
+    ]
+  }
 }
 ```
 
 ### full-live-quality
 
 ```text
-passed=True passedCount=13/13
+passed=False passedCount=12/13
 ```
 
 ### regression-gate
@@ -221,12 +221,18 @@ passed=True passedCount=13/13
 ```text
 {
   "report": "data\\sbu-growth\\control-tower-latest.json",
-  "generatedAt": "2026-05-06T09:31:37+09:00",
+  "generatedAt": "2026-05-08T09:48:39+09:00",
   "passed": true,
   "criticalIssueCount": 0,
-  "warningCount": 0,
+  "warningCount": 1,
   "issues": [],
-  "warnings": []
+  "warnings": [
+    {
+      "site": "sellkit",
+      "code": "dirty_worktree",
+      "message": "SBU working tree has uncommitted changes; skip automated deploy until reviewed."
+    }
+  ]
 }
 ```
 
