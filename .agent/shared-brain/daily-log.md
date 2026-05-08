@@ -6,6 +6,32 @@
 
 ---
 
+## 2026-05-08 - Codex K-OTT GSC Indexing Operations
+
+- Continued after owner said "진행해".
+- Verified official Google Search docs:
+  - Indexing API is limited to `JobPosting` and livestream `BroadcastEvent` pages, so K-OTT generic OTT pages are not eligible.
+  - Search Console sitemap submit API is the correct automated sitemap submission path.
+  - URL Inspection API checks indexed URL state, not live indexability or generic request-indexing automation.
+  - Search Analytics API is the reporting path for query/page performance.
+  - Sitemap ping endpoints are deprecated and return 404.
+- Shipped commit `c2c415d` to `Yesol-Pilot/kott` main.
+- Added:
+  - `frontend/src/lib/growth-indexing-queue.ts`
+  - `frontend/src/app/gsc-indexing-queue.json/route.ts`
+  - `frontend/scripts/verify-growth-indexing.cjs`
+  - `frontend/docs/gsc-indexing-runbook.md`
+  - `npm run verify:growth-indexing`
+- Deployed production to Vercel project `kott`; aliased to `https://kott.kr`.
+- Verification:
+  - Lint PASS with only 18 pre-existing warnings.
+  - Build PASS with 74 static pages.
+  - Local and live `verify:growth-indexing` PASS: 42 queue entries, 25 `/watch`, 10 `/compare`, 5 `p0`, 21 `p1`, 16 `p2`.
+  - Live curl HEAD smoke for queue/sitemap/priority pages returned 200.
+- Next action: submit sitemap in GSC, inspect `p0` URLs, then use GSC impressions to decide the next content expansion.
+
+---
+
 ## 2026-05-08 - Codex SBU Growth Hardening: FinStack, WhyLab, EthicaAI
 
 - Scope: ToolPick, UR WRONG, and NeoGenesis were excluded by owner instruction because other sessions own them.

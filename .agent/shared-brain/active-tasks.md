@@ -5,6 +5,34 @@
 
 ---
 
+## 2026-05-08 - K-OTT GSC indexing operations loop
+
+- [x] Official Google constraints verified before implementation:
+  - Indexing API is not eligible for K-OTT generic OTT decision pages.
+  - Approved path is Search Console sitemap submission, URL Inspection monitoring/manual request for priority URLs, and Search Analytics reporting.
+  - Deprecated sitemap ping endpoint must not be used.
+- [x] Shipped K-OTT commit `c2c415d` (`growth: add GSC indexing queue`) to `Yesol-Pilot/kott` main.
+- [x] Added `https://kott.kr/gsc-indexing-queue.json` with 42 URLs:
+  - `p0`: 5 URLs.
+  - `p1`: 21 URLs.
+  - `p2`: 16 URLs.
+  - `/watch`: 25 title-intent pages.
+  - `/compare`: 10 comparison pages.
+- [x] Added `frontend/docs/gsc-indexing-runbook.md`.
+- [x] Added `npm run verify:growth-indexing`.
+- [x] Verification:
+  - `npm run lint`: PASS, 18 pre-existing warnings.
+  - `npm run build`: PASS, 74 static pages including `/gsc-indexing-queue.json`.
+  - Local `KOTT_BASE_URL=http://127.0.0.1:4044 npm run verify:growth-indexing`: PASS.
+  - Live `npm run verify:growth-indexing`: PASS against `https://kott.kr`.
+  - Live curl HEAD smoke: `/gsc-indexing-queue.json`, `/sitemap.xml`, `/plans`, `/rotation`, `/watch/moving`, `/compare/ott-subscription-rotation` all 200.
+- [ ] Next loop:
+  - Submit `https://kott.kr/sitemap.xml` in Google Search Console.
+  - Manually inspect/request indexing for `p0` URLs.
+  - Pull GSC query/page data after 24-72h and expand pages from real impressions.
+
+---
+
 ## Agent Runtime Persona Phase A Closeout (Codex, 2026-05-08)
 
 - [x] Persona catalog drift corrected: `.agent/personas/INDEX.md` now reflects Tier S/A/B/C all completed instead of stale Day 2/3 pending status.
