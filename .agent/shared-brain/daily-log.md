@@ -1991,3 +1991,27 @@
   - Foundation is green: `foundationScore=100`, `grade=A`, `foundationPass=true`.
   - Traffic proof is not yet green: `mauProof=false` because GA4 daily sessions are still far below a 100k MAU trajectory.
   - Content ledger critical guardrails pass, but readiness remains `50/100` because Tier A depth is 9 and source-shape coverage is 65.1%.
+
+## 2026-05-08 - Codex K-OTT Growth Rescue
+
+- Owner feedback: live K-OTT has no visitors and current surface feels low quality.
+- Diagnosis:
+  - Live search result existed, but homepage/SERP text was generic app framing rather than high-intent OTT comparison answers.
+  - Sitemap was mostly numeric `/contents/{tmdb_id}` pages; static intent pages were too few for meaningful organic entry points.
+  - `npm run lint` previously failed on one `no-explicit-any` blocker.
+- Shipped commit `9fc40eb` to `Yesol-Pilot/kott` main.
+- Product/SEO changes:
+  - Added `/compare` hub.
+  - Added 10 SSG comparison-intent pages: `netflix-vs-tving`, `tving-vs-wavve`, `netflix-vs-disney-plus`, `coupang-play-vs-tving`, `watcha-vs-netflix`, `best-ott-for-korean-drama`, `best-ott-for-korean-variety`, `best-ott-for-family`, `ott-subscription-rotation`, `korean-ott-for-students`.
+  - Added FAQ JSON-LD on comparison pages.
+  - Linked comparison pages from home, desktop nav, mobile nav, footer, sitemap, and `llms.txt`.
+  - Fixed `frontend/src/app/contents/[id]/page.tsx` `any` lint blocker with a typed TMDB metadata shape.
+- Verification:
+  - `npm run lint`: 0 errors, 18 pre-existing warnings.
+  - `npm run build`: PASS, 46 pages generated, comparison pages SSG.
+  - Local smoke: `http://127.0.0.1:4042/compare/netflix-vs-tving` 200 with H1 + FAQ JSON-LD.
+  - Vercel production deploy from `frontend` project `kott` completed and aliased to `https://kott.kr`.
+  - Live smoke passed for `/`, `/compare`, `/compare/netflix-vs-tving`, `/sitemap.xml`, and `/api/contents/trending`.
+- Residual risk:
+  - This creates indexable demand-capture pages, but traffic proof still depends on crawl/index latency and distribution.
+  - Remaining issue: existing content detail URLs are numeric and thin; next useful loop is title-slug content URLs plus Search Console indexing/distribution queue.

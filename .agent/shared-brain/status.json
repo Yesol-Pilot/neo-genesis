@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-08T15:44:48+09:00",
-      "lastWork": "Persona Library v1.2 Phase A closeout: stale catalog/framework docs corrected, adversarial runner suite contract support added, hook golden 20 cases added, UserPromptSubmit GA4 routing bug fixed, persona 32/32 + adversarial contract + hooks 20/20 verified"
+      "lastSession": "2026-05-08T15:57:44+09:00",
+      "lastWork": "K-OTT growth rescue shipped: comparison intent hub plus 10 SSG comparison pages, home/nav/sitemap/llms links, lint blocker fixed, commit 9fc40eb pushed, Vercel production deploy aliased to kott.kr, live smoke passed"
     },
     "sora": {
       "status": "active",
@@ -57,8 +57,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "92613c3d6066233f",
-    "lastSyncedAt": "2026-05-08T15:45:08+09:00",
+    "ssotRevision": "197e6148e3b76db6",
+    "lastSyncedAt": "2026-05-08T15:58:27+09:00",
     "lastSyncedBy": "codex"
   }
 }

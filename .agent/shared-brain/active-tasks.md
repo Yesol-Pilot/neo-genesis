@@ -28,6 +28,18 @@
 
 ---
 
+## K-OTT Growth Rescue (Codex, 2026-05-08)
+
+- [x] Brutal live/product diagnosis completed: homepage framing was generic and sitemap was mostly numeric content URLs.
+- [x] Added `/compare` hub plus 10 SSG high-intent comparison pages.
+- [x] Added FAQ JSON-LD and wired comparison pages into home, nav, mobile nav, footer, sitemap, and `llms.txt`.
+- [x] Fixed the active lint blocker in `frontend/src/app/contents/[id]/page.tsx`.
+- [x] Verified `npm run lint` (0 errors), `npm run build`, local smoke, production deploy, and live smoke on `https://kott.kr`.
+- [x] Committed `9fc40eb`, pushed to `Yesol-Pilot/kott`, and deployed production alias `https://kott.kr`.
+- [ ] Next loop: replace/augment numeric `/contents/{tmdb_id}` SEO with title-slug content URLs, add GSC indexing submission queue for the new comparison pages, and build at least 20 more source-backed intent pages from real GSC queries.
+
+---
+
 ## UR WRONG Human Rebuttal Growth Loop (Codex, 2026-05-08)
 
 - [x] Full improvement design completed: `src/sbu/ur-wrong/docs/reports/20260508_UR_WRONG_full_improvement_design.md`.
