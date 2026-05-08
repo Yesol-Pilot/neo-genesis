@@ -95,3 +95,6 @@ data/sbu-growth/growth-loop-*.md
 !data/sbu-growth/growth-loop-latest.md
 scripts/geo_measure/citations*.sqlite3
 .env.fleet-sync-merged.tmp
+
+# Blog autogen run drafts (local artifacts)
+scripts/blog_autogen/runs/
