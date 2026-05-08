@@ -1,0 +1,8 @@
+﻿{"nested_spawn":false,"token_warning":null,"event":"subagent_stop","nested_depth":0,"stop_reason":"","tokens_used":0,"ts":"2026-05-08T12:03:57+09:00","subagent_type":"unknown"}
+{"nested_spawn":false,"token_warning":null,"event":"subagent_stop","nested_depth":0,"stop_reason":"","tokens_used":0,"ts":"2026-05-08T12:05:53+09:00","subagent_type":"unknown"}
+{"nested_spawn":false,"token_warning":"WARN: subagent (general-purpose) used 75000 tokens (\u003e= 50K)","event":"subagent_stop","nested_depth":0,"stop_reason":"tool_complete","tokens_used":75000,"ts":"2026-05-08T12:06:05+09:00","subagent_type":"general-purpose"}
+{"nested_spawn":false,"token_warning":null,"event":"subagent_stop","nested_depth":0,"stop_reason":"","tokens_used":0,"ts":"2026-05-08T15:41:50+09:00","subagent_type":"unknown"}
+{"nested_spawn":false,"token_warning":null,"event":"subagent_stop","nested_depth":0,"stop_reason":"","tokens_used":0,"ts":"2026-05-08T15:42:21+09:00","subagent_type":"unknown"}
+{"nested_spawn":false,"token_warning":null,"event":"subagent_stop","nested_depth":0,"stop_reason":"","tokens_used":0,"ts":"2026-05-08T15:43:41+09:00","subagent_type":"unknown"}
+{"nested_spawn":false,"token_warning":null,"event":"subagent_stop","nested_depth":0,"stop_reason":"","tokens_used":0,"ts":"2026-05-08T15:45:21+09:00","subagent_type":"unknown"}
+{"nested_spawn":false,"token_warning":null,"event":"subagent_stop","nested_depth":0,"stop_reason":"","tokens_used":0,"ts":"2026-05-08T15:50:56+09:00","subagent_type":"unknown"}

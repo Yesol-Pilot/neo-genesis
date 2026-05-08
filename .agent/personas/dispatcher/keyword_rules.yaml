@@ -1,0 +1,125 @@
+# Keyword Routing Rules for Persona Dispatcher v1.2
+# 작성: 2026-05-08, Strategy Lead Claude Opus 4.7
+# SSOT: .agent/personas/_schema/persona_schema_v1.2.yaml
+#
+# 우선순위 (priority desc):
+#   90+: G2 / 보안 critical (즉시 차단 또는 specialist)
+#   80~89: Tier S core domain (domain expert routing)
+#   70~79: Tier A specialist
+#   60~69: Tier B/C generalist
+#   < 60: fallback
+
+schema_version: "1.2"
+
+rules:
+  # ============================================================
+  # Tier S: Critical Domain Routing (priority 80~89)
+  # ============================================================
+
+  # S1 senior-backend-eng-korean
+  - pattern: "(?i)(코드\\s*리뷰|PR\\s*리뷰|회귀|버그\\s*진단|jest|pytest|async\\s*race|RLS|Supabase|Binance API|Python|Node\\.?js|디버깅)"
+    primary: senior-backend-eng-korean
+    secondary: []
+    priority: 85
+    framework: "PEV + Side-Effect Matrix"
+
+  # S2 senior-da-pm-korean
+  - pattern: "(?i)(GA4|PostHog|GSC|방문자|트래픽\\s*분석|conversion|funnel|JTBD|product\\s*metrics|이탈률|retention)"
+    primary: senior-da-pm-korean
+    secondary: [korean-seo-geo-strategist]
+    priority: 85
+    framework: "JTBD + AARRR"
+
+  # S3 quant-strategy-lead
+  - pattern: "(?i)(quant|sharpe|backtest|paper.?mode|live.?mode|alpha|kill.?switch|leverage|position\\s*size|CPCV|DSR|PBO|Phase\\s*[01]|liquidation)"
+    primary: quant-strategy-lead
+    secondary: []
+    priority: 88
+    framework: "DSR/PBO + CPCV"
+
+  # S4 sora-sre-ops
+  - pattern: "(?i)(SLO|SLA|incident|postmortem|runbook|chaos|DR drill|RTO|RPO|observability|OTel|Loki|Grafana|Tempo|alert)"
+    primary: sora-sre-ops
+    secondary: []
+    priority: 86
+    framework: "OODA + SRE"
+
+  # S5 prompt-injection-auditor
+  - pattern: "(?i)(prompt\\s*injection|jailbreak|adversarial|STRIDE|DREAD|threat\\s*model|AgentDojo|PoisonedRAG|secret\\s*leak)"
+    primary: prompt-injection-auditor
+    secondary: []
+    priority: 90
+    framework: "STRIDE + DREAD"
+
+  # S6 korean-seo-geo-strategist
+  - pattern: "(?i)(SEO|GEO|HuggingFace dataset|Wikidata|llms\\.txt|IndexNow|sitemap|Schema\\.org|GSC|구글\\s*알고리즘|search\\s*intent)"
+    primary: korean-seo-geo-strategist
+    secondary: []
+    priority: 85
+    framework: "Pirate Funnel + GEO"
+
+  # S7 korean-copywriter-tone
+  - pattern: "(?i)(카피|copywriting|블로그\\s*제목|slogan|landing|tone|보이스|브랜드\\s*톤|광고\\s*문구|AIDA)"
+    primary: korean-copywriter-tone
+    secondary: []
+    priority: 80
+    framework: "AIDA + 4U"
+
+  # S8 multi-agent-orchestrator
+  - pattern: "(?i)(multi.?agent|orchestrat|병렬\\s*에이전트|cascade|ensemble|magentic|LATS|task.?board|페르소나\\s*조합)"
+    primary: multi-agent-orchestrator
+    secondary: []
+    priority: 87
+    framework: "Magentic-One Dual-Ledger + LATS"
+
+  # ============================================================
+  # 복합 도메인 트리거 (cascade 자동 활성)
+  # ============================================================
+
+  # 설계/전략/로드맵 → multi-agent (멀티 페르소나 협업 프로토콜)
+  - pattern: "(?i)(설계|기획|전략|로드맵|아키텍처|방안\\s*수립|내재화|마스터\\s*플랜)"
+    primary: multi-agent-orchestrator
+    secondary: [senior-backend-eng-korean, senior-da-pm-korean]
+    priority: 84
+    framework: "Multi-Agent Design Protocol"
+
+  # 보도자료/PR → korean-copywriter + senior-da-pm
+  - pattern: "(?i)(보도자료|press\\s*release|tier\\s*1|영문\\s*매체)"
+    primary: korean-copywriter-tone
+    secondary: [senior-da-pm-korean]
+    priority: 82
+    framework: "AIDA + JTBD"
+
+  # 자본/트레이딩 + 위험 → quant + auditor cascade
+  - pattern: "(?i)(자본\\s*입금|capital\\s*allocation|owner\\s*risk|paper.?to.?live|LIVE\\s*전환)"
+    primary: quant-strategy-lead
+    secondary: [prompt-injection-auditor, sora-sre-ops]
+    priority: 92
+    framework: "DSR/PBO + STRIDE + OODA"
+
+  # ============================================================
+  # Devil's Advocate auto-trigger (high stakes)
+  # ============================================================
+
+  - pattern: "(?i)(production\\s*deploy|force\\s*push|main\\s*브랜치|prod\\s*머지|cred 회전|secret rotation)"
+    primary: prompt-injection-auditor
+    secondary: [sora-sre-ops, senior-backend-eng-korean]
+    priority: 95
+    framework: "STRIDE + Pre-mortem + Devil's Advocate"
+    private: true  # 자동 devils_advocate 활성
+
+  # ============================================================
+  # Fallback (priority < 60)
+  # ============================================================
+
+  - pattern: "(?i)(코드|개발|프로그래밍|구현)"
+    primary: senior-backend-eng-korean
+    secondary: []
+    priority: 50
+    framework: "PEV"
+
+  - pattern: "(?i)(분석|리뷰|진단|검토)"
+    primary: senior-backend-eng-korean
+    secondary: []
+    priority: 45
+    framework: "PEV"

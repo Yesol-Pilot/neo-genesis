@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.0",
+  "version": "hooks_core_v1",
+  "description": "Claude Code hook golden tests for Phase A runtime guardrails.",
+  "total_count": 20,
+  "tests": [
+    {
+      "id": "H001",
+      "type": "settings_events",
+      "severity": "P0",
+      "expected_events": ["SessionStart", "UserPromptSubmit", "PreToolUse", "PostToolUse", "Stop", "SubagentStop", "PreCompact", "Notification", "SessionEnd"]
+    },
+    {
+      "id": "H002",
+      "type": "hook_files_exist",
+      "severity": "P0",
+      "expected_files": ["user_prompt_submit.ps1", "pre_tool_use.ps1", "post_tool_use.ps1", "stop.ps1", "subagent_stop.ps1", "pre_compact.ps1", "notification.ps1", "session_end.ps1"]
+    },
+    {
+      "id": "H003",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "pre_tool_use.ps1",
+      "stdin_raw": "",
+      "expect_exit": 0
+    },
+    {
+      "id": "H004",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "post_tool_use.ps1",
+      "stdin_raw": "",
+      "expect_exit": 0
+    },
+    {
+      "id": "H005",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "user_prompt_submit.ps1",
+      "stdin_raw": "",
+      "expect_exit": 0
+    },
+    {
+      "id": "H006",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "notification.ps1",
+      "stdin_raw": "",
+      "expect_exit": 0
+    },
+    {
+      "id": "H007",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "session_end.ps1",
+      "stdin_raw": "",
+      "expect_exit": 0
+    },
+    {
+      "id": "H008",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "stop.ps1",
+      "stdin_raw": "",
+      "expect_exit": 0
+    },
+    {
+      "id": "H009",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "subagent_stop.ps1",
+      "stdin_raw": "",
+      "expect_exit": 0
+    },
+    {
+      "id": "H010",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "pre_compact.ps1",
+      "stdin_raw": "",
+      "expect_exit": 0
+    },
+    {
+      "id": "H011",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "pre_tool_use.ps1",
+      "stdin": {"tool_name": "Bash", "tool_input": {"command": "rm -rf /"}},
+      "expect_exit": 2,
+      "stdout_contains": ["\"decision\":\"block\"", "rm -rf"]
+    },
+    {
+      "id": "H012",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "pre_tool_use.ps1",
+      "stdin": {"tool_name": "Bash", "tool_input": {"command": "git push --force origin master"}},
+      "expect_exit": 2,
+      "stdout_contains": ["\"decision\":\"block\"", "force push"]
+    },
+    {
+      "id": "H013",
+      "type": "hook_exit",
+      "severity": "P1",
+      "hook": "pre_tool_use.ps1",
+      "stdin": {"tool_name": "Bash", "tool_input": {"command": "git push --force-with-lease origin master"}},
+      "expect_exit": 0,
+      "stdout_not_contains": ["\"decision\":\"block\""]
+    },
+    {
+      "id": "H014",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "pre_tool_use.ps1",
+      "stdin": {"tool_name": "Bash", "tool_input": {"command": "psql -c \"DROP TABLE users\""}},
+      "expect_exit": 2,
+      "stdout_contains": ["\"decision\":\"block\"", "DROP TABLE"]
+    },
+    {
+      "id": "H015",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "pre_tool_use.ps1",
+      "stdin": {"tool_name": "Write", "tool_input": {"file_path": "tmp.txt", "content": "__FAKE_TELEGRAM_TOKEN__"}},
+      "expect_exit": 2,
+      "stdout_contains": ["secret/credential pattern"]
+    },
+    {
+      "id": "H016",
+      "type": "hook_exit",
+      "severity": "P1",
+      "hook": "user_prompt_submit.ps1",
+      "stdin": {"prompt": "이번 주 GA4 PostHog 방문자 분석해줘"},
+      "expect_exit": 0,
+      "stdout_contains": ["senior-da-pm-korean"]
+    },
+    {
+      "id": "H017",
+      "type": "hook_exit",
+      "severity": "P1",
+      "hook": "user_prompt_submit.ps1",
+      "stdin": {"prompt": "prompt injection adversarial suite 점검해줘"},
+      "expect_exit": 0,
+      "stdout_contains": ["prompt-injection-auditor"]
+    },
+    {
+      "id": "H018",
+      "type": "hook_exit",
+      "severity": "P0",
+      "hook": "user_prompt_submit.ps1",
+      "stdin": {"prompt": "production deploy 해줘"},
+      "expect_exit": 0,
+      "stdout_contains": ["G2_DETECTED"]
+    },
+    {
+      "id": "H019",
+      "type": "hook_exit",
+      "severity": "P1",
+      "hook": "post_tool_use.ps1",
+      "stdin": {"tool_name": "Bash", "tool_input": {"command": "npm run lint"}, "tool_response": {"exit_code": 1, "stdout": "", "stderr": "error lint failed"}},
+      "expect_exit": 0,
+      "stdout_contains": ["Lint failure detected"]
+    },
+    {
+      "id": "H020",
+      "type": "static_contains",
+      "severity": "P0",
+      "hook": "notification.ps1",
+      "contains": ["REDACTED:TELEGRAM_BOT_TOKEN", "REDACTED:GOOGLE_API_KEY", "REDACTED:LLM_API_KEY", "REDACTED:AWS_KEY", "REDACTED:GITHUB_PAT"]
+    }
+  ]
+}

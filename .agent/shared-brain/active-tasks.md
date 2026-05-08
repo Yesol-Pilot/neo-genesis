@@ -1,7 +1,147 @@
 # Active Tasks — 에이전트 공유 작업 목록
 
 > **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.
-> **최종 갱신:** 2026-05-06 by Claude Opus 4.7 (전체 프로젝트 감사 + 10 issue fix + Gemini 응답 길이 제약)
+> **최종 갱신:** 2026-05-08 by Claude Opus 4.7 Strategy Lead (P0 #1/#2/#4 push + VM 미배포 진단 + P0-A/B/C/D 자율 진행)
+
+---
+
+## Agent Runtime Persona Phase A Closeout (Codex, 2026-05-08)
+
+- [x] Persona catalog drift corrected: `.agent/personas/INDEX.md` now reflects Tier S/A/B/C all completed instead of stale Day 2/3 pending status.
+- [x] Framework mapping drift corrected: `.agent/personas/_schema/framework_mapping_v1.2.md` now records Tier A/B/C completed mappings.
+- [x] Persona safety policy updated with the executable validation gate: `constitutional_injector.py --validate-all` must return 32/32 valid before runtime adapter sync.
+- [x] Adversarial runner now accepts `--suite` and `--contract-only`, so `tests/sora_adversarial/persona_v1.json` is part of the repeatable local gate.
+- [x] Hook golden suite added: `tests/hooks_golden/core_v1.json` (20 cases) + `scripts/run_claude_hooks_golden.py`.
+- [x] Hook regression found and fixed: `~/.claude/hooks/user_prompt_submit.ps1` missed GA4/PostHog routing under Windows PowerShell UTF-8/CP949 behavior; ASCII-safe rules and `[PERSONA_MATCH]` / `[G2_DETECTED]` tags added.
+- [x] Verification passed:
+  - `python scripts/persona/constitutional_injector.py --validate-all` -> 32/32 valid.
+  - `python scripts/run_sora_adversarial.py --suite tests/sora_adversarial/persona_v1.json --contract-only` -> 5/5 suite contract PASS.
+  - `python scripts/run_claude_hooks_golden.py` -> 20/20 PASS.
+  - `python scripts/persona/dispatcher.py --query "production deploy 해줘"` -> `prompt-injection-auditor`, `g2_detected=true`.
+  - `python -m py_compile scripts/run_sora_adversarial.py scripts/run_claude_hooks_golden.py scripts/persona/dispatcher.py scripts/persona/constitutional_injector.py` -> PASS.
+- [ ] Remaining Phase B/P1 queue:
+  - PT-1 Prompt Caching for high-token Tier S personas.
+  - Dispatcher Layer 3 KURE-v1 cosine implementation.
+  - MCP 25->8 curation and callable tool hygiene.
+  - First live owner-command routing audit.
+  - Persona adversarial 180-case live execution harness beyond JSON contract validation.
+
+---
+
+## UR WRONG Human Rebuttal Growth Loop (Codex, 2026-05-08)
+
+- [x] Full improvement design completed: `src/sbu/ur-wrong/docs/reports/20260508_UR_WRONG_full_improvement_design.md`.
+- [x] P0 loop shipped: vote -> rebuttal-first handoff -> verified comment save -> share with saved rebuttal.
+- [x] Growth report gates rebuilt around verified human arguments, top-feed human signal, vote parity, comment API failure, and repeat rate.
+- [x] Feed now labels AI-seed-only prompts separately from human-active benchmarks.
+- [x] Committed `fa7781a`, pushed to `Yesol-Pilot`, and deployed production alias `https://ur-wrong.com`.
+- [x] Automation `UR WRONG growth hardening loop` updated for the new gates and owner-zero-touch policy.
+- [ ] Next monitor: wait for real fresh traffic and confirm comment API save events produce active `comments` rows, then attack remaining blockers: `argument_rate`, `weekly_human_arguments`, `top_feed_human_signal_ratio`, `vote_parity_gap_rate`, and `repeat_rate`.
+
+---
+
+## ToolPick Growth Quality Loop (Codex, 2026-05-08)
+
+- [x] Content quality ledger shipped and wired into growth ops.
+- [x] Consumer/off-topic and public internal-language index gates hardened.
+- [x] Obsidian, PostHog, and Plausible money-page evidence refreshed against official sources.
+- [x] `plausible-vs-posthog` comparison SERP brief rendered.
+- [x] `excalidraw-vs-tldraw-2026` refreshed from GSC query evidence.
+- [x] Production deployed to `https://www.toolpick.dev`.
+- [x] Post-deploy live smoke, analytics, and 100k MAU readiness audits passed.
+- [ ] Next loop: raise Tier A pages from 9 toward 120 and source-shape coverage from 65.1% toward 95% before claiming 10/10 content readiness.
+- [ ] Next loop: distribute/index P0 queue and wait for GA4 daily sessions to prove a 100k MAU trajectory.
+
+---
+
+## 🟣 v11 Phase 0 P0 #1 + #2 + #4 박제 + VM 미배포 진단 (2026-05-08, Strategy Lead Claude Opus 4.7)
+
+owner 명령: "너가 재무책임자로서 판단하고 진행해" — Financial Advisor 헌장 G1 자율 권한 행사.
+
+### Push 완료 commit (Yesol-Pilot/quant-bot master)
+
+| commit | 내용 | 라인 |
+|---|---|---|
+| `c8f4e7b` | **P0 #1**: 9-Layer Kill Switch production wiring (HaltOrchestrator + KillSwitchDispatcher 라이브 실 wiring + 26 신규 tests) | +1,460 |
+| `233a420` | **P0 #2 + #4**: A6 Alt MM scaffold + A1 backfill honest report (13 신규 tests + Binance 정책 영구 변경 박제) | +468 |
+
+### P0 #1 9-Layer Kill Switch 6-step 실 구현
+1. cancelAllOrders — universe 모든 심볼 open order 취소
+2. verifyNoOpenOrders — exchange.fetchOpenOrders 재조회 (race-safe)
+3. emergencyClosePositions — positionRegistry active position reduce-only close
+4. persistHaltUntil — supabase quant_runtime_leases.halt_until + killswitch_log audit
+5. blockNewEntries — process-local flag (가장 빠른 gate)
+6. sendAlert — notifier.send Telegram + console
+
+PAPER 모드: cancelAll/verify/close graceful no-op. LIVE 모드: 모든 6-step 실 실행 (Knight Capital 2012 lesson 준수).
+
+### P0 #2 A1 Backfill Honest Report
+- doc: `auto-trading/docs/v11-ensemble/A1_BACKFILL_HONEST_REPORT.md`
+- 진단: Binance `!forceOrder@arr` 영구 1/sec snapshot (2026-04-27) + `/fapi/v1/allForceOrders` 영구 deprecated → 무료 backfill 0건
+- 대안: Bybit + OKX + Hyperliquid 무료 WS aggregation (P0-B 작업으로 별도)
+- owner G2: Tardis.dev $99/월 = PASS until Phase 2 (이전 결정 유지)
+
+### P0 #4 A6 Alt MM BaseAgent Scaffold
+- agent: `auto-trading/src/agents/alt-mm-agent.js` (150 lines, BaseAgent 호환)
+- LINK/SUI/APT (BTC/ETH 제외, HFT colocation 회피)
+- inventory > ±2% 시 반대 방향 single-shot taker hedge 신호
+- spread compression (<4bps) 시 MM pause 권고
+- 양쪽 limit MM 본 로직은 별도 engine (`src/engines/alt-mm-engine.js`, Phase 1 통과 후 owner G2 결정)
+- 13/13 tests PASS
+
+### 🔴 핵심 발견 — VM 미배포
+
+본 세션 master push commit이 **라이브 봇에 미적용**:
+
+| 검증 | VM 상태 |
+|---|---|
+| `/home/yesol/quant-bot/src/core/kill-switch-runtime.js` | ❌ NOT_DEPLOYED |
+| `/home/yesol/quant-bot/src/agents/alt-mm-agent.js` | ❌ NOT_DEPLOYED |
+| `/home/yesol/quant-bot/` git 상태 | NOT_GIT_REPO (tarball/rsync deploy) |
+
+**의미**: GitHub master 라이브 + VM은 옛 v6-live-runner.js. P0 #1 Kill Switch 라이브 wiring 효과 = 현재 0. 봇은 안정적으로 구동 중이지만 9-Layer 보호 미적용.
+
+### VM 봇 헬스 (옛 코드 기준 정상)
+- uptime 210h (8.75D), restarts 21, unstable_restarts 0
+- 사이클 12,600회 / 성공률 99.9% (timeout 11)
+- 메모리 244MB / peak 273MB / 경고 0
+- WS Market ✅ / Private ❌ (PAPER 정상)
+- 거래 0건 / PnL 0% / MaxDD 0%
+- 시장: BULL (↑3 ↓0) + ADX 소멸중 → 4 알파 진입 임계 미달
+
+### Supabase quant_* 7일
+- `quant_runtime_leases` 활성 0건 (PAPER 모드라 lease 미획득 = 정상)
+- `quant_trade_ledger` 0거래 (시장 조건 미달)
+- `quant_killswitch_log` 0발동 (false positive 0)
+- `quant_liquidation_events` 0건 (Binance 정책 영구 변경 + 시장 조용)
+
+### 5/13 Phase 1 D-5 평가 가능성 진단 (Strategy Lead cold judgment)
+- 4/29 wiring 시점 ~ 5/8 (11일) 거래 0건
+- D-5 (5/13) 14일 평가 시 표본 = 0 (Sharpe + DSR 통계적 유의성 최소 30 거래 필요)
+- Best case: A4 macro event (5/13 22:30 CPI + 5/14 03:00 FOMC) → 6 거래만 발생
+- **권고**: 5/13 평가 결과 표본 부족 시 4주 페이퍼 연장 (5/27 평가)
+- **자본 입금 권고: ❌ 변동 없음** — 1+ 알파 14일 Sharpe ≥ 1.2 + DSR ≥ 0.5 트리거 미달
+
+### 본 세션 (2026-05-08) 자율 진행 작업 (G1)
+- [x] **P0-C**: A2 OU spec drift fix (mean-revert-ou-agent.test.js line 200-201, Round 2 동대칭 SL=0.005 정합) — 22/22 PASS 회복
+- [x] **P0-D**: 본 SSOT entry 박제 (이 항목)
+- [ ] **P0-A**: VM Deploy (rsync + PM2 restart) — owner G2 권고 (PAPER 자본 위험 0이지만 운영 변경)
+- [ ] **P0-B**: Bybit + OKX cross-exchange aggregation (2일, A1 데이터 부활)
+
+### Owner 결정 게이트 (G2)
+- **D1 VM deploy 시점**: 즉시 / 5/13 평가 후 / 다음 묶음 후 — Strategy Lead 권고 = 즉시
+- **D2 Bybit/OKX 통합 자율 진행 OK?**: G1 자율 가능, owner 확인 권장
+- **D3 Phase 1 평가 4주 연장**: 5/13 평가 결과 표본 < 30 시 자동 연장 권고
+- **D4 Phase 0 Gate #3 임계값 재정의**: Bybit/OKX 통합 후 (정책 변경 반영, 30~50/일)
+- **D5 Tardis.dev $99/월**: PASS until Phase 2 (변동 없음)
+
+### 다음 세션 우선순위
+1. P0-B Bybit + OKX WS aggregation (2일)
+2. 5/13 평가 결과 모니터링 (passive)
+3. A6 engine 본 구현 (Phase 1 통과 후, owner G2)
+4. A5 PairManager + Spot API 등록 (Phase 2 진입 후, owner G2)
+
+👤 Strategy Lead Claude Opus 4.7
 
 ---
 
@@ -27,9 +167,10 @@
 - [x] Share modal quick rebuttal templates shipped and deployed (`df477c4`, `23c720e`): voters can publish a one-click rebuttal directly inside `ShareModal` without scrolling to the comment box.
 - [x] Production browser smoke verified `/battle/abb5fe9a-5c79-4047-9f12-66c8d40827b6` -> mocked vote -> share modal -> three quick rebuttal buttons -> mocked comment save -> success toast, with no relevant console errors.
 - [x] Fresh-traffic stats check completed on 2026-05-07 KST and deep analysis corrected the interpretation: raw monitor shows `share_modal_quick_rebuttal_clicks=1`, `argument_quick_submit_clicks=1`, and `argument_submit_attempts=1`, but those events came from the 09:23 KST production browser smoke with mocked comment save; real-user blocker remains `argument_intent_no_submit`.
-- [ ] Next operator task: with owner login sessions available, submit the first low-risk queue items from `docs/growth-distribution/distribution-queue.json`, record posted URLs in `distribution-log.json`, and pause channels with zero vote intent after three posts.
+- [x] Owner-zero-touch correction completed: do not assign representative manual external posting. Keep launch/distribution assets as no-login owned surfaces and optional copy inventory only.
 - [x] Product/data fix completed and deployed (`476f521`): analytics smoke/test traffic is suppressed client-side and ignored server-side, `/api/growth-report` now separates DB-verified votes/comments from event counters, and post-vote voters get direct one-click rebuttal publish buttons in the handoff card.
-- [ ] Next fresh-traffic check: after real traffic arrives, confirm `post_vote_quick_rebuttal_clicks`, `post_vote_quick_rebuttal_saved`, and `verified_human_argument_rows` rise. Current 30d monitor still carries one old synthetic `argument_submit_attempt`, so treat `event_vote_saves=18` vs `verified_vote_rows=8` as the integrity baseline.
+- [x] P0 full improvement implementation completed locally (Codex, 2026-05-08): human-signal honest feed, rebuttal-first post-vote handoff, one-click rebuttal diagnostics, saved-rebuttal share modal, and growth-report north-star gates.
+- [ ] Next fresh-traffic check: after deployment and real traffic, confirm `comment_api_request`, `comment_api_saved`, `post_vote_quick_rebuttal_saved`, and `verified_human_argument_rows` rise. Current 30d monitor baseline remains `verified_vote_rows=8`, `verified_human_argument_rows=0`, and readiness `not_yet`.
 
 ## 🟣 Sora 전체 감사 + 10 issue fix (2026-05-06, Claude Opus 4.7) ✅
 

@@ -6,6 +6,58 @@
 
 ---
 
+## 2026-05-08 - Codex Agent Runtime Persona Phase A Closeout
+
+- Closed the Persona Library v1.2 Phase A consistency gap after disk-level verification.
+- Corrected stale persona docs:
+  - `.agent/personas/INDEX.md` now reports Tier S/A/B/C all completed and 32/32 valid.
+  - `.agent/personas/_schema/framework_mapping_v1.2.md` now records Tier A/B/C as completed mappings instead of future Day 2/3 work.
+  - `.agent/policies/persona_safety.yaml` now records the executable 32/32 validation gate before runtime adapter sync.
+- Extended `scripts/run_sora_adversarial.py` with `--suite` and `--contract-only` so `tests/sora_adversarial/persona_v1.json` can be validated repeatably.
+- Added hook regression assets:
+  - `tests/hooks_golden/core_v1.json` with 20 cases.
+  - `scripts/run_claude_hooks_golden.py`.
+- The hook golden suite found a real Windows PowerShell routing bug in `~/.claude/hooks/user_prompt_submit.ps1`: GA4/PostHog prompts did not dispatch to `senior-da-pm-korean` because mixed Korean regex/source encoding made the rule unreliable. Fixed with ASCII-safe high-value rules and stable `[PERSONA_MATCH]` / `[G2_DETECTED]` tags.
+- Verification passed:
+  - Persona validator: 32/32 valid.
+  - Persona adversarial contract: 5/5 PASS for 180-case JSON suite.
+  - Hook golden: 20/20 PASS.
+  - Dispatcher production deploy query: `prompt-injection-auditor`, `g2_detected=true`.
+  - Python compile for touched runners and persona scripts: PASS.
+
+## 2026-05-08 - Codex UR WRONG Human Rebuttal Growth Loop
+
+- Completed UR WRONG full improvement design: `src/sbu/ur-wrong/docs/reports/20260508_UR_WRONG_full_improvement_design.md`.
+- Implemented the P0 product loop: vote success now routes to rebuttal-first handoff instead of premature sharing; one-click rebuttal save opens share modal with the saved rebuttal included.
+- Hardened comment persistence telemetry: `comment_api_request`, `comment_api_saved`, `comment_api_failed`, `comment_hidden_by_policy`, and verified `argument_submit` only fires for active non-hidden human comments.
+- Rebuilt growth monitoring around verified human arguments, argument rate, top-feed human signal ratio, vote/event parity, comment failure rate, and repeat rate.
+- Feed now separates human-active battles from AI-seed-only prompts and avoids presenting AI seed activity as crowd proof.
+- Commit: `fa7781a feat: make human rebuttals the primary growth loop`.
+- Pushed to `Yesol-Pilot/https-ur-wrong.com-` and deployed Vercel production alias `https://ur-wrong.com`.
+- Verification passed: `npm run build`, `node --check api/actions.js`, `node --check api/growth-report.js`, `node --check src/store/useArenaStore.js`, production root/public API/growth-report smoke, and production browser smoke with write APIs mocked.
+- Current live 30d readiness after deploy: 202 unique visitors, 8 verified DB vote rows, 0 verified human argument rows, argument rate 0, top-feed human signal ratio 0, vote parity gap 0.5556, comment failure rate 0, confidence `not_yet`.
+- Updated `UR WRONG growth hardening loop` automation to monitor the new gates and not ask the owner to post externally.
+
+## 2026-05-08 - Codex ToolPick Full Improvement Design
+
+- Created and pushed ToolPick full improvement design document: `docs/operations/toolpick-full-improvement-design-2026-05-08.md`.
+- Commit: `1f3849b docs: design ToolPick full improvement system`.
+- Design conclusion: ToolPick should move from broad SEO blog to SaaS Decision OS.
+- Core sequence: quality firewall -> SERP CTR repair -> product utility -> original pricing data -> external signal -> retention loop.
+- Detailed workstreams documented: content tiering, GSC experiment ledger, DecisionBrief/CostRiskTable/SourceEvidenceBox components, calculator upgrade, stack blueprints, pricing snapshots, distribution log, and 14/30/90-day success gates.
+- Basis used: live ToolPick metrics, GSC opportunities, local content scan, live page checks, and current Google Search Central guidance on helpful content, SEO structure, Core Web Vitals, and structured data quality.
+
+## 2026-05-08 - Codex ToolPick Performance Monitoring
+
+- Refreshed ToolPick performance monitoring with GA4, PostHog, Search Console opportunities, growth data loop, live smoke, and 100k MAU readiness.
+- Current partial-day GA4 for 2026-05-08: 18 sessions, 16 pageviews, 18 users, 58 events, 1 active user.
+- Latest GA4 7d sum: 223 sessions / 223 users / 274 pageviews / 817 events vs previous 7d 111 sessions / 111 users / 116 pageviews / 385 events.
+- PostHog current day: 9 events, 7 persons, 7 pageviews, 0 legacy direct pageviews, 7 SDK pageviews, 2 action events; GA4 remains the visitor source of truth.
+- GSC fetch window 2026-04-08..2026-05-06 returned 307 rows. Top opportunities: Netlify pricing free plan, Railway free tier, Fly.io news/pricing, Penpot reviews, tldraw vs Excalidraw, Plausible vs PostHog, Obsidian Sync pricing.
+- Live smoke passed for blog, topic hubs, sitemap, robots, RSS, feed, verification file, redirects, and consumer noindex handling.
+- 100k MAU audit remains foundation 100/100, grade A, 306 indexable posts, 305 promotion-ready posts, but `mauProof=false` because current GA4 daily session proof is still too low.
+- Committed ToolPick monitoring reports: `957fb2d docs: refresh ToolPick performance monitoring`.
+
 ## 2026-05-07 - Codex UR WRONG Statistics Report
 
 - Ran live UR WRONG 30d, 7d, and 1d growth monitors plus Supabase ordered funnel reports.
@@ -1908,3 +1960,34 @@
 - Residual source:
   - Legacy GSC properties `https://ethicaai.vercel.app/` and `https://reviewlab.vercel.app/` still return 404, including `/sitemap.xml`.
   - Treat these as stale/legacy properties unless owner wants them redirected or removed from GSC.
+
+## 2026-05-08 - Codex ToolPick Growth Quality Loop
+
+- Completed a ToolPick improvement/deploy loop for 100k MAU readiness.
+- Shipped commits:
+  - `0521936 improve growth quality gates and SERP content`
+  - `4c82c86 docs: record post-deploy ToolPick audit`
+- Production deployed via Vercel CLI and aliased to `https://www.toolpick.dev`.
+- Product/content changes:
+  - Added content quality ledger generation and wired it into `growth:loop` / `growth:ops`.
+  - Tightened consumer/off-topic and public internal-language noindex gates.
+  - Refreshed Obsidian, PostHog, and Plausible money-page evidence against official sources.
+  - Added SERP-intent decision brief rendering for comparison pages, including `plausible-vs-posthog`.
+  - Updated `excalidraw-vs-tldraw-2026` for live GSC query intent `tldraw vs excalidraw`.
+- Verification passed:
+  - `npm run lint`
+  - `npm run build`
+  - `npm run audit:growth`
+  - `npm run audit:content-quality-ledger`
+  - `npm run growth:validate-official-links`
+  - `npm run audit:money-evidence`
+  - `npm run audit:internal-links`
+  - `npm run audit:cannibalization`
+  - `npm run audit:performance`
+  - `npm run audit:live`
+  - `npm run audit:live-analytics`
+  - `npm run audit:100k-mau`
+- Current interpretation:
+  - Foundation is green: `foundationScore=100`, `grade=A`, `foundationPass=true`.
+  - Traffic proof is not yet green: `mauProof=false` because GA4 daily sessions are still far below a 100k MAU trajectory.
+  - Content ledger critical guardrails pass, but readiness remains `50/100` because Tier A depth is 9 and source-shape coverage is 65.1%.

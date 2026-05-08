@@ -1,4 +1,153 @@
-# Handoff: Claude Code 세션 (2026-05-06 최신)
+# Handoff: Codex Phase A Closeout (2026-05-08 최신)
+
+> **작성자:** Codex
+> **최근 갱신:** 2026-05-08 — Persona Library v1.2 Phase A 정합성 마감 + hook golden 20/20 PASS
+
+---
+
+## 2026-05-08 Persona Library v1.2 Phase A Closeout (Codex)
+
+대표님 지시 "진행해"에 따라 직전 Claude handoff의 Phase A 산출물을 디스크 기준으로 재검증하고, 실제 구현 상태와 문서/러너/테스트를 맞췄다.
+
+### 완료
+- `.agent/personas/INDEX.md`: Tier A/B/C pending 문구 제거, 실제 32/32 valid 상태로 갱신.
+- `.agent/personas/_schema/framework_mapping_v1.2.md`: Tier A/B/C를 "예상/Day 2~3 예정"이 아니라 확정 매핑으로 갱신.
+- `.agent/policies/persona_safety.yaml`: 32 persona validation gate 명시.
+- `scripts/run_sora_adversarial.py`: `--suite` + `--contract-only` 추가. `tests/sora_adversarial/persona_v1.json` 180 cases를 반복 검증 경로에 연결.
+- `tests/hooks_golden/core_v1.json`: hook golden 20 cases 추가.
+- `scripts/run_claude_hooks_golden.py`: hook golden runner 추가.
+- `~/.claude/hooks/user_prompt_submit.ps1`: Windows PowerShell 인코딩 영향으로 GA4/PostHog routing이 누락되는 문제 수정. ASCII-safe routing rule과 `[PERSONA_MATCH]`, `[G2_DETECTED]` 출력 태그 추가.
+
+### 검증 결과
+```
+python scripts/persona/constitutional_injector.py --validate-all
+=> Total personas: 32 / Valid: 32 / Invalid: 0
+
+python scripts/run_sora_adversarial.py --suite tests/sora_adversarial/persona_v1.json --contract-only
+=> PASS=5 / FAIL=0
+
+python scripts/run_claude_hooks_golden.py
+=> PASS=20 / FAIL=0
+
+python scripts/persona/dispatcher.py --query "production deploy 해줘"
+=> persona_id=prompt-injection-auditor / g2_detected=true
+```
+
+### 남은 다음 순서
+1. PT-1 Prompt Caching: Tier S 고토큰 페르소나부터 cache strategy 적용.
+2. Dispatcher Layer 3: KURE-v1 embedding cosine 구현.
+3. MCP 25->8 큐레이션: 과도한 tool surface 축소.
+4. 첫 라이브 owner-command routing audit.
+5. 180 persona adversarial live execution harness 구현. 현재는 JSON contract gate까지 완료.
+
+---
+
+# Handoff: Claude Code 세션 (2026-05-08 이전)
+
+> **작성자:** Claude Opus 4.7
+> **최근 갱신:** 2026-05-08 — Persona Library v1.2 (역할극 → 방법론) + Tier S 8/8 검증 PASS + Dispatcher 라이브
+
+---
+
+## 2026-05-08 Persona Library v1.2 — 역할극 → 방법론 전환 (Claude Opus 4.7, Strategy Lead)
+
+owner 명령 흐름:
+1. "10년 경력 전문가" prompt engineering 토론 → 역할극 vs 방법론 분석
+2. "이것들을 우리가 내재화해서 고도화 하고 최적화 해야하지않을까?"
+3. "결정이 필요한 부분을 너가 상세히 분석하고 직접 판단햇 ㅓ진행해" — G2 자율 위임
+
+### Cold Toast (직전 세션 vs 현 디스크)
+직전 세션 summary 가 "Phase A Day 1 12/27 tasks 완료" 주장했으나 디스크 검증 결과:
+- ✅ 4 PowerShell hooks (`~/.claude/hooks/`) 실재
+- ✅ `~/.claude/settings.json` deny + hooks 등록 실재
+- ❌ 8 Tier S persona files: 디스크 미존재 (재작성 필요)
+- ❌ dispatcher.py / constitutional_injector.py: 미존재
+- ❌ schema YAML: 미존재
+
+본 세션은 v1.2 schema 부터 처음부터 재작성.
+
+### G2 자율 결정 박제 (3건, Strategy Lead 권한)
+
+| G2 | 결정 | 근거 |
+|---|---|---|
+| G2-1 citation_required | persona별 차등 (Tier S: 4 ON / 3 OFF / 1 HYBRID) | blanket ON 시 over-caution, fact 기반 페르소나만 강제 |
+| G2-2 pre_mortem | blast_radius_ceiling >= 3 자동 ON | trivial fix 노이즈 회피 |
+| G2-3 Tier C v1.2 | schema 적용 + enforcement 최소화 | Tier C 정적 보조, framework 비용 대비 효과 낮음 |
+
+### 산출 (8 파일 + 2 script + 1 INDEX = 11 파일)
+
+| 파일 | 카테고리 |
+|---|---|
+| `.agent/personas/_schema/persona_schema_v1.2.yaml` | v1.2 schema (G2 결정 박제) |
+| `.agent/personas/_schema/framework_mapping_v1.2.md` | 32 페르소나 framework 매핑 |
+| `.agent/personas/tier-s/senior-backend-eng-korean.md` | Tier S #1 v1.2 |
+| `.agent/personas/tier-s/senior-da-pm-korean.md` | Tier S #2 v1.2 |
+| `.agent/personas/tier-s/quant-strategy-lead.md` | Tier S #3 v1.2 |
+| `.agent/personas/tier-s/sora-sre-ops.md` | Tier S #4 v1.2 |
+| `.agent/personas/tier-s/prompt-injection-auditor.md` | Tier S #5 v1.2 |
+| `.agent/personas/tier-s/korean-seo-geo-strategist.md` | Tier S #6 v1.2 |
+| `.agent/personas/tier-s/korean-copywriter-tone.md` | Tier S #7 v1.2 |
+| `.agent/personas/tier-s/multi-agent-orchestrator.md` | Tier S #8 v1.2 |
+| `.agent/personas/dispatcher/keyword_rules.yaml` | L2 keyword regex (priority 80~95) |
+| `.agent/policies/persona_safety.yaml` | safety policy (forbidden patterns / PIPA / heterogeneous models) |
+| `scripts/persona/dispatcher.py` | 4-tier hybrid dispatcher (L1/L2/L3 stub/L4 stub) |
+| `scripts/persona/constitutional_injector.py` | v1.1 + v1.2 validator |
+| `.agent/personas/INDEX.md` | catalog + status |
+
+### Tier S 8 페르소나 v1.2 매핑
+| ID | framework | model | blast | citation | pre_mortem |
+|---|---|---|---|---|---|
+| senior-backend-eng-korean | PEV + Side-Effect Matrix | sonnet | 3 | OFF | ON |
+| senior-da-pm-korean | JTBD + AARRR + Pre-mortem | sonnet | 3 | ON | ON |
+| quant-strategy-lead | DSR/PBO + CPCV + Stop/Go | opus | 4 | ON | ON |
+| sora-sre-ops | OODA + Google SRE Postmortem | sonnet | 4 | HYBRID | ON |
+| prompt-injection-auditor | STRIDE + DREAD + AgentDojo | opus | 5 | ON | ON |
+| korean-seo-geo-strategist | Pirate Funnel + GEO citation | sonnet | 2 | ON | OFF |
+| korean-copywriter-tone | AIDA + 4U + Tone Matrix | sonnet | 1 | OFF | OFF |
+| multi-agent-orchestrator | Magentic Dual-Ledger + LATS | opus | 4 | OFF | ON |
+
+### 라이브 검증 PASS
+
+```
+$ python scripts/persona/constitutional_injector.py --validate-all
+Total personas: 8
+v1.2 schema: 8
+Valid: 8 / Invalid: 0  ✅
+
+$ python scripts/persona/dispatcher.py --query "이번 주 ToolPick 방문자 분석해줘"
+matched_layer: L2_keyword
+persona_id: senior-da-pm-korean
+secondary_personas: [korean-seo-geo-strategist]
+ensemble_pattern: cascade
+g2_detected: false
+framework: JTBD + AARRR + Pre-mortem  ✅
+
+$ python scripts/persona/dispatcher.py --query "production deploy 해줘"
+persona_id: prompt-injection-auditor
+secondary_personas: [sora-sre-ops, senior-backend-eng-korean]
+g2_detected: true  ✅
+framework: STRIDE + DREAD + AgentDojo  ✅
+```
+
+### 발견된 이슈 + 즉시 fix
+- 3 페르소나 (auditor / quant / sre-ops) "G2 액션" 키워드 누락 → snippet wording "G2 액션 (...)" 형식으로 정정
+- dispatcher slash command Windows cp949 mojibake (cosmetic only, 라우팅 정상)
+
+### 다음 세션 즉시 액션
+1. **Day 2**: Tier A 9 페르소나 v1.2 변환 (database-architect-postgres / api-design-restful 등)
+2. **Day 3**: Tier B 10 + Tier C 5 페르소나 변환 (Tier C 최소 enforcement)
+3. **Phase B 진입 사전**: PT-1 Prompt Caching 적용 (Tier S 5 페르소나, $32/월 절감)
+4. **PS-3 Adversarial 50 → 180 case 확장** (Tier-based 분배)
+5. **Dispatcher Layer 3 (KURE-v1 embedding)** — Phase B 본격 구현
+
+### Pending verification
+- 다음 세션 입장 시 `git status` 로 본 세션 파일들 디스크 잔존 확인 (직전 세션 학습 — Cold Toast 검증)
+- Tier S 8 페르소나 실제 라우팅 테스트 (live owner 명령 시 자동 트리거)
+- ssotRevision bump (sync_agent_context.py 실행 후)
+
+---
+
+# Handoff: Claude Code 세션 (2026-05-06 — 이전 세션)
 
 > **작성자:** Claude Opus 4.7
 > **최근 갱신:** 2026-05-06 — 전체 감사 + 10 issue fix + Gemini 응답 길이 제약 + output_filter wiring P0 fix

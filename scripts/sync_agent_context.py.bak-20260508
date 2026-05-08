@@ -9,20 +9,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-# Optional credential-bible sync. The script was historically split out into
-# `scripts/sync_credential_bible.py` (per `.agent/shared-brain/daily-log.md`
-# entry around 2026-04-x), but the file is no longer present on disk and there
-# is no remaining git history for it. Treat its absence as a no-op so SSOT
-# regeneration is never blocked by a missing optional helper.
-try:
-    from sync_credential_bible import sync_credential_bible  # type: ignore
-    _HAS_CREDENTIAL_BIBLE = True
-except ImportError:
-    _HAS_CREDENTIAL_BIBLE = False
-
-    def sync_credential_bible(*_args: Any, **_kwargs: Any) -> list[Path]:
-        """No-op stub when sync_credential_bible.py is not present."""
-        return []
+from sync_credential_bible import sync_credential_bible
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent

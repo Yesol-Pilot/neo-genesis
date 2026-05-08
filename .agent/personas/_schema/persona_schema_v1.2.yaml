@@ -1,0 +1,146 @@
+# Persona Schema v1.2
+# 작성일: 2026-05-08
+# 갱신: 2026-05-08 — owner G2 자율 결정 반영 (Strategy Lead 권한 행사)
+# 변경: v1.1 → v1.2 (additive only, backward-compat 유지)
+#
+# G2 결정 박제 (이번 세션):
+#   G2-1 citation_required = persona별 차등 (4 ON / 4 OFF in Tier S)
+#   G2-2 pre_mortem = blast_radius_ceiling >= 3 시 자동
+#   G2-3 Tier C = schema 적용 + enforcement 최소화
+
+schema_version: "1.2"
+backward_compat: ["1.0", "1.1"]
+
+# ============================================================
+# Required fields (v1.1 기존 + v1.2 추가)
+# ============================================================
+required_v1_1:
+  - name
+  - description
+  - domain
+  - language
+  - expertise_level
+  - model
+  - tools
+  - authority_tier
+  - constitutional_snippet
+  - blast_radius_ceiling
+  - mcp_coupling
+  - cost_cap_monthly_usd
+  - cache_strategy
+
+required_v1_2_additions:
+  - methodology  # 새 필드: framework 임베드 (v1.1 추상 원칙 보강)
+
+optional_v1_2_additions:
+  - mandatory_tools
+  - verification_gates
+  - adversarial_hooks
+
+# ============================================================
+# v1.2 신규 필드 정의
+# ============================================================
+
+methodology:
+  description: |
+    페르소나가 사용할 명시 framework. v1.1 의 추상 DOMAIN PRINCIPLES 를
+    구체적 framework 이름으로 대체. "역할극 → 방법론" 전환 핵심.
+  required_subfields:
+    - primary_framework  # 예: "STRIDE", "JTBD", "OODA", "PEV", "DSR/PBO"
+    - framework_source   # 예: "Microsoft 2002", "Christensen 2003"
+  optional_subfields:
+    - secondary_frameworks  # list (보조 framework)
+    - step_output_schemas   # list (단계별 출력 schema)
+
+mandatory_tools:
+  description: |
+    Conditional tool 사용 강제. 경험적 주장 시 WebSearch + citation 등.
+    G2-1 결정: persona별 차등 적용 (blanket 강제 X).
+  structure:
+    conditional:
+      - condition: str  # 예: "empirical_claim_made"
+        required_tool: str  # 예: "WebSearch"
+        enforce: str  # "citation_required" | "verification_required" | "optional"
+  defaults_by_tier:
+    s: persona_specific  # 4/8 ON in Tier S
+    a: persona_specific
+    b: persona_specific
+    c: empty  # G2-3 결정: Tier C 는 default empty
+
+verification_gates:
+  description: |
+    단계 간 검증 게이트. step_1 출력이 schema 일치하지 않으면 step_2 진입 차단.
+    Augment Code PEV (Plan-Execute-Verify) 패턴 차용.
+  structure:
+    - between_steps: [int, int]
+      check: str  # 예: "step_1_output matches schema"
+      on_fail: str  # "halt_and_report" | "warn_and_continue" | "retry_once"
+
+adversarial_hooks:
+  description: |
+    적대적 사고 hook. pre_mortem (6개월 후 실패 시나리오) + devils_advocate.
+    G2-2 결정: blast_radius_ceiling >= 3 시 자동 ON.
+  structure:
+    pre_mortem:
+      enabled: bool
+      trigger: str  # "blast_radius_ge_3" | "always" | "owner_explicit" | "never"
+      output_count: int  # 시나리오 개수 (default 5)
+    devils_advocate:
+      enabled: bool
+      trigger: str  # "high_stakes_auto" | "always" | "never"
+
+# ============================================================
+# G2 결정 매트릭스 (Strategy Lead 자율 판단, 2026-05-08)
+# ============================================================
+g2_decisions:
+  citation_required_by_persona:
+    # Tier S
+    senior-da-pm-korean: ON  # GA4/PostHog 알고리즘 변경
+    quant-strategy-lead: ON  # 시장 regime / paper validation
+    prompt-injection-auditor: ON  # CVE / attack vector
+    korean-seo-geo-strategist: ON  # Google 알고리즘
+    sora-sre-ops: HYBRID  # empirical 만 (procedural 제외)
+    senior-backend-eng-korean: OFF  # Read tool 사용, WebSearch 불필요
+    korean-copywriter-tone: OFF  # 창작/톤
+    multi-agent-orchestrator: OFF  # 라우팅 로직
+
+  pre_mortem_trigger:
+    rule: "blast_radius_ceiling >= 3"
+    override: "owner_explicit_request"
+    skip_for: ["NO_NEW_SIGNAL", "trivial_typo_fix"]
+
+  tier_c_enforcement:
+    methodology_required: true
+    mandatory_tools_required: false
+    verification_gates_required: false
+    pre_mortem_default: false
+
+# ============================================================
+# 32 Persona Framework Mapping (Strategy Lead 결정)
+# ============================================================
+framework_mapping:
+  tier-s:
+    senior-backend-eng-korean:
+      primary_framework: "PEV (Plan-Execute-Verify) + Side-Effect Matrix"
+      source: "Augment Code 2024 + Neo Genesis Article 4"
+    senior-da-pm-korean:
+      primary_framework: "JTBD + AARRR + Pre-mortem"
+      source: "Christensen 2003 / McClure 2007 / Klein 2007"
+    quant-strategy-lead:
+      primary_framework: "DSR/PBO + CPCV + Stop/Go gates"
+      source: "Bailey & López de Prado 2014"
+    sora-sre-ops:
+      primary_framework: "OODA + Google SRE Postmortem + RTO/RPO"
+      source: "Boyd 1976 / Beyer 2016"
+    prompt-injection-auditor:
+      primary_framework: "STRIDE + DREAD + AgentDojo"
+      source: "Microsoft 2002 / Schneier / Debenedetti 2024"
+    korean-seo-geo-strategist:
+      primary_framework: "Pirate Funnel + Search Intent Hierarchy"
+      source: "McClure / Patel"
+    korean-copywriter-tone:
+      primary_framework: "AIDA + 4U + Tone Calibration Matrix"
+      source: "Hopkins 1923 / Carlton"
+    multi-agent-orchestrator:
+      primary_framework: "Magentic-One Dual-Ledger + LATS"
+      source: "MSR 2024-11 / arxiv 2310.04406"
