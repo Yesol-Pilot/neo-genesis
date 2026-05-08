@@ -5,6 +5,38 @@
 
 ---
 
+## 2026-05-08 Agent Runtime Device Rollout (Codex)
+
+Owner asked to apply the new Neo Genesis agent runtime baseline to Tailscale devices: this PC, ASUS, company PC, and YSH server.
+
+### Applied
+- `desktop-home` / this PC:
+  - Repo is on `origin/master` at `cc76d6c20e0b708ef891f4d8f139a760b9bdd9c9`.
+  - Updated `C:\Users\yesol\.codex\AGENTS.md` from the latest repo `AGENTS.md`.
+- `ysh-server`:
+  - Deployed runtime archive to `/home/ysh/neo-genesis-runtime`.
+  - Backup: `/home/ysh/neo-genesis-runtime.agent-bak-cc76d6c20e0b-20260508161336`.
+  - Updated `/home/ysh/.codex/AGENTS.md`.
+
+### Verification
+```
+ysh-server persona validate: 32/32 PASS
+ysh-server persona adversarial contract: 5/5 PASS
+ysh-server py_compile: PASS
+ysh-server dispatcher "production deploy 해줘": prompt-injection-auditor, g2_detected=true
+ysh-server dispatcher "이번 주 ToolPick 방문자 분석해줘": senior-da-pm-korean
+```
+
+### Blocked
+- `yesol-asus`: Tailscale reachable, SSH port 22 open, SMB 445 open, but SSH auth is denied and SMB share listing is denied.
+- `etribe-yesol`: Tailscale reachable, SSH port 22 open, SMB 445 open, but SSH auth is denied and SMB share listing is denied.
+
+### Next
+- Open one remote execution path on `yesol-asus` and `etribe-yesol`: SSH key auth, Tailscale SSH user mapping, or SMB credentials.
+- After auth is available, copy/pull `cc76d6c20e0b` and update global Codex `AGENTS.md` on those devices.
+
+---
+
 ## 2026-05-08 Persona Library v1.2 Phase A Closeout (Codex)
 
 대표님 지시 "진행해"에 따라 직전 Claude handoff의 Phase A 산출물을 디스크 기준으로 재검증하고, 실제 구현 상태와 문서/러너/테스트를 맞췄다.

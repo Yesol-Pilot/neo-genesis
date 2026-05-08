@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-08T15:57:44+09:00",
-      "lastWork": "K-OTT growth rescue shipped: comparison intent hub plus 10 SSG comparison pages, home/nav/sitemap/llms links, lint blocker fixed, commit 9fc40eb pushed, Vercel production deploy aliased to kott.kr, live smoke passed"
+      "lastSession": "2026-05-08T16:18:31+09:00",
+      "lastWork": "Agent runtime rollout: desktop-home and ysh-server updated to latest synced SSOT; yesol-asus and etribe-yesol Tailscale reachable but blocked by SSH/SMB auth"
     },
     "sora": {
       "status": "active",
@@ -26,10 +26,11 @@
   },
   "infrastructure": {
     "tailscale": {
-      "checkedAt": "2026-04-28T13:28:03+09:00",
+      "checkedAt": "2026-05-08T16:18:31+09:00",
       "online": [
-        "desktop-sol01",
-        "desktop-yesol",
+        "desktop-home",
+        "yesol-asus",
+        "etribe-yesol",
         "ysh-server"
       ],
       "offline": [
@@ -40,9 +41,12 @@
     }
   },
   "deviceRollout": {
+    "desktop-home": "verified_installed_local_codex_global_updated",
+    "yesol-asus": "tailscale_online_remote_auth_blocked",
+    "etribe-yesol": "tailscale_online_remote_auth_blocked",
     "desktop-sol01": "verified_installed",
     "desktop-yesol": "verified_installed",
-    "ysh-server": "verified_installed",
+    "ysh-server": "verified_installed_runtime_snapshot_latest_ssot",
     "mx-macbuild-mac-studio": "offline",
     "s26-ultra": "mobile_operator_mode_offline",
     "tab-s10-ultra": "mobile_operator_mode_offline"
@@ -57,8 +61,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "197e6148e3b76db6",
-    "lastSyncedAt": "2026-05-08T15:58:27+09:00",
+    "ssotRevision": "6f69ceceb1525cf4",
+    "lastSyncedAt": "2026-05-08T16:20:59+09:00",
     "lastSyncedBy": "codex"
   }
 }

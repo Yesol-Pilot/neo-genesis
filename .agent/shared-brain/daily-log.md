@@ -2015,3 +2015,31 @@
 - Residual risk:
   - This creates indexable demand-capture pages, but traffic proof still depends on crawl/index latency and distribution.
   - Remaining issue: existing content detail URLs are numeric and thin; next useful loop is title-slug content URLs plus Search Console indexing/distribution queue.
+
+## 2026-05-08 - Codex Agent Runtime Device Rollout
+
+- Owner requested applying the new Neo Genesis agent runtime baseline across Tailscale devices: this PC, ASUS, company PC, and YSH server.
+- Current baseline:
+  - Starting Git commit: `cc76d6c20e0b708ef891f4d8f139a760b9bdd9c9`
+  - Post-rollout SSOT revision: see `infra/agent-runtime/SSOT_REVISION.txt`.
+  - Includes Persona Library v1.2 Phase A closeout from `a916d1c`.
+- Applied:
+  - `desktop-home` / this PC:
+    - Local repo already on `origin/master`.
+    - Updated global Codex adapter: `C:\Users\yesol\.codex\AGENTS.md`.
+  - `ysh-server`:
+    - Updated `/home/ysh/neo-genesis-runtime` from runtime archive.
+    - Backup stored at `/home/ysh/neo-genesis-runtime.agent-bak-cc76d6c20e0b-20260508161336`.
+    - Updated global Codex adapter: `/home/ysh/.codex/AGENTS.md`.
+- YSH verification:
+  - Persona validation: 32/32 PASS.
+  - Persona adversarial contract: 5/5 PASS.
+  - Python compile: PASS.
+  - Dispatcher sample:
+    - `production deploy 해줘` -> `prompt-injection-auditor`, `g2_detected=true`.
+    - `이번 주 ToolPick 방문자 분석해줘` -> `senior-da-pm-korean`.
+- Blocked:
+  - `yesol-asus`: Tailscale ping/22/445 reachable, but SSH returns `Permission denied` and SMB returns `Access denied`.
+  - `etribe-yesol`: Tailscale ping/22/445 reachable, but SSH returns `Permission denied` and SMB returns `Access denied`.
+- Next required action:
+  - Enable SSH key auth, Tailscale SSH user mapping, or SMB credentials on `yesol-asus` and `etribe-yesol`; then rerun the same rollout.
