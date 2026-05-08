@@ -36,7 +36,13 @@
 - [x] Fixed the active lint blocker in `frontend/src/app/contents/[id]/page.tsx`.
 - [x] Verified `npm run lint` (0 errors), `npm run build`, local smoke, production deploy, and live smoke on `https://kott.kr`.
 - [x] Committed `9fc40eb`, pushed to `Yesol-Pilot/kott`, and deployed production alias `https://kott.kr`.
-- [ ] Next loop: replace/augment numeric `/contents/{tmdb_id}` SEO with title-slug content URLs, add GSC indexing submission queue for the new comparison pages, and build at least 20 more source-backed intent pages from real GSC queries.
+- [x] Added 25 SSG title-intent `/watch/{slug}` pages for "작품명 어디서 보나" search demand.
+- [x] Added `/plans` decision page with official source links and no hardcoded volatile prices.
+- [x] Added `/rotation` monthly subscription planner with `rotation_plan_generated` and `decision_saved` events.
+- [x] Rewired home, nav, mobile nav, footer, cards, hero, sitemap, and `llms.txt` to expose `/watch`, `/plans`, and `/rotation`.
+- [x] Verified `npm run lint` (0 errors), `npm run build` (73 pages), local smoke, production deploy, and live smoke on `https://kott.kr`.
+- [x] Committed `dc8e949`, pushed to `Yesol-Pilot/kott`, and deployed production alias `https://kott.kr`.
+- [ ] Next loop: add GSC indexing submission queue for `/compare`, `/watch`, `/plans`, `/rotation`; then build source-backed pages from real GSC queries and add Search Console click/impression reporting.
 
 ---
 

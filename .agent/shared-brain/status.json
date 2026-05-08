@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-08T16:18:31+09:00",
-      "lastWork": "Agent runtime rollout: desktop-home and ysh-server updated to latest synced SSOT; yesol-asus and etribe-yesol Tailscale reachable but blocked by SSH/SMB auth"
+      "lastSession": "2026-05-08T16:33:09+09:00",
+      "lastWork": "K-OTT full growth execution shipped: 25 SSG /watch title-intent pages, /plans decision page, /rotation planner with decision events, home/nav/footer/card/sitemap/llms integration, commit dc8e949 pushed, Vercel production deploy aliased to kott.kr, live smoke passed"
     },
     "sora": {
       "status": "active",
@@ -61,8 +61,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "6f69ceceb1525cf4",
-    "lastSyncedAt": "2026-05-08T16:20:59+09:00",
+    "ssotRevision": "1f4eb0af5d1683f2",
+    "lastSyncedAt": "2026-05-08T16:33:56+09:00",
     "lastSyncedBy": "codex"
   }
 }

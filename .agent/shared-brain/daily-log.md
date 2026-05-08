@@ -2016,6 +2016,28 @@
   - This creates indexable demand-capture pages, but traffic proof still depends on crawl/index latency and distribution.
   - Remaining issue: existing content detail URLs are numeric and thin; next useful loop is title-slug content URLs plus Search Console indexing/distribution queue.
 
+## 2026-05-08 - Codex K-OTT Full Growth Execution
+
+- Owner instruction: "전부 병렬로 진행해" after detailed K-OTT planning.
+- Parallel agents were spawned for `/watch`, `/plans`/`/rotation`, and codebase exploration. Worker agents returned planning/empty-directory state only, so Codex integrated the work directly.
+- Shipped commit `dc8e949` to `Yesol-Pilot/kott` main.
+- Product/SEO changes:
+  - Added 25 SSG `/watch/{slug}` title-intent pages for "작품명 어디서 보나" searches.
+  - Added `/plans` decision page with provider fit, official source links, and `lastVerified` metadata.
+  - Added `/rotation` monthly subscription planner with `rotation_plan_generated` and `decision_saved` tracking.
+  - Added `official_provider_click` tracking on OTT deep links.
+  - Rewired home, desktop nav, mobile nav, footer, carousel cards, hero card, sitemap, and `llms.txt`.
+- Verification:
+  - `npm run lint`: 0 errors, 18 pre-existing warnings.
+  - `npm run build`: PASS, 73 pages generated, `/watch/[slug]` SSG with 25 paths.
+  - Local smoke passed for `/watch/moving`, `/plans`, `/rotation`, `/sitemap.xml`, `/llms.txt`, and `/`.
+  - Vercel production deploy completed from frontend project `kott` and aliased to `https://kott.kr`.
+  - Live smoke passed for `/watch/moving`, `/watch/the-glory`, `/plans`, `/rotation`, `/sitemap.xml`, `/llms.txt`, `/api/contents/trending`, and `/`.
+  - Live sitemap includes 25 `/watch/` URLs, 10 `/compare/` URLs, `/plans`, and `/rotation`.
+- Residual risk:
+  - Traffic proof still depends on crawl/index latency and GSC query validation.
+  - Next useful loop is indexing submission, GSC reporting, and source-backed expansion from real queries.
+
 ## 2026-05-08 - Codex Agent Runtime Device Rollout
 
 - Owner requested applying the new Neo Genesis agent runtime baseline across Tailscale devices: this PC, ASUS, company PC, and YSH server.
