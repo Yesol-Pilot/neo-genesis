@@ -6,6 +6,26 @@
 
 ---
 
+## 2026-05-08 - Codex SBU Growth Hardening: FinStack, WhyLab, EthicaAI
+
+- Scope: ToolPick, UR WRONG, and NeoGenesis were excluded by owner instruction because other sessions own them.
+- FinStack:
+  - Shipped and pushed `b8a2241` to `Yesol-Pilot/finstack`.
+  - Added FinStack-specific PostHog `site_id`, global market properties, CTA/viewport/internal navigation telemetry, `/blog` latest-96 rendering cap, finance-focused blog metadata, corrected `llms.txt` generator from ToolPick URLs to FinStack URLs, and mobile hero typography QA fix.
+  - Production deploy aliased to `https://finstack.neogenesis.app`.
+  - Live QA passed for `/`, `/blog`, latest 2026-05-08 post, `/sitemap.xml`, `/llms.txt`, desktop/mobile screenshots, no horizontal overflow, no framework overlay.
+- WhyLab:
+  - Added local `llms.txt`, `vercel.json` route preservation, expanded sitemap, canonical `/dashboard` demo links, PostHog CTA/viewport/internal/outbound event tracking, global market properties, and mobile hero typography fix.
+  - Production deploy aliased to `https://whylab.neogenesis.app` using a temporary `dashboard/` deploy root to respect the Vercel project rootDirectory setting.
+  - Live QA passed for `/`, `/llms.txt`, `/sitemap.xml`, desktop/mobile screenshots, no old `whylab.vercel.app` links, no horizontal overflow.
+- EthicaAI:
+  - Added `llms.txt` alternate discovery, cross-domain GA linker entries for Ethica/WhyLab, PostHog market/page intent properties, CTA tracking on research hub, guide-page data attributes/properties, and sitemap freshness.
+  - Production deploy aliased to `https://ethica.neogenesis.app`.
+  - Live QA passed for `/`, `/ai-ethics-risk-governance`, `/sitemap.xml`, screenshots, GA/PostHog presence, no horizontal overflow.
+- Residual risk:
+  - WhyLab Vercel project is linked to separate `Yesol-Pilot/WhyLab` with `rootDirectory=dashboard`; local neo-genesis deployment requires the temporary dashboard-shaped deploy root unless project settings are intentionally changed.
+  - Traffic proof still depends on crawl/index latency and post-deploy GA/GSC/PostHog monitoring.
+
 ## 2026-05-08 - Codex Agent Runtime Persona Phase A Closeout
 
 - Closed the Persona Library v1.2 Phase A consistency gap after disk-level verification.

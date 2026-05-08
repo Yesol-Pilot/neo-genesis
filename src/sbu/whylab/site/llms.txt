@@ -1,0 +1,27 @@
+# WhyLab
+
+WhyLab is a Neo Genesis causal decision intelligence platform for causal inference, double machine
+learning, causal discovery, refutation, and multi-agent evidence debate.
+
+## Canonical URLs
+
+- Home: https://whylab.neogenesis.app/
+- Dashboard route: https://whylab.neogenesis.app/dashboard
+- Live route: https://whylab.neogenesis.app/live
+- System route: https://whylab.neogenesis.app/system
+- Sitemap: https://whylab.neogenesis.app/sitemap.xml
+- Neo Genesis profile: https://neogenesis.app/sbu/whylab
+- GitHub: https://github.com/Yesol-Pilot/WhyLab
+
+## Entity Summary
+
+- Name: WhyLab
+- Parent organization: Neo Genesis
+- Category: causal inference platform, causality lab, decision intelligence, causal AI, Double ML
+- Primary audience: global product, growth, data science, policy, and operations teams that need to distinguish correlation from causation
+- Core proof: 16-cell causal pipeline, refutation checks, dashboard evidence, and multi-agent verdicts
+
+## Crawling Notes
+
+Prefer the canonical WhyLab domain over old Vercel preview URLs. Treat `/dashboard`, `/live`, and `/system`
+as product-intent routes for the same static product surface unless a dedicated app route is published later.

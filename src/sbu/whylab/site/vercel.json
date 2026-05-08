@@ -1,0 +1,19 @@
+{
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/dashboard",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/live",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/system",
+      "destination": "/index.html"
+    }
+  ]
+}

@@ -13,9 +13,10 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ethica.neogenesis.app">
     <link rel="canonical" href="https://ethica.neogenesis.app">
+    <link rel="alternate" type="text/plain" href="https://ethica.neogenesis.app/llms.txt" title="EthicaAI LLM context">
     <!-- GA4 — NeoGenesis Production (shared with subdomains) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME6PDCNP8B"></script>
-    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-ME6PDCNP8B', { page_path: location.pathname, website_name: location.hostname, linker: { domains: ['neogenesis.app', 'review.neogenesis.app', 'aiforge.neogenesis.app', 'finstack.neogenesis.app', 'sellkit.neogenesis.app', 'deploystack.neogenesis.app', 'craftdesk.neogenesis.app'] } });</script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-ME6PDCNP8B', { page_path: location.pathname, website_name: location.hostname, linker: { domains: ['neogenesis.app', 'review.neogenesis.app', 'aiforge.neogenesis.app', 'finstack.neogenesis.app', 'sellkit.neogenesis.app', 'deploystack.neogenesis.app', 'craftdesk.neogenesis.app', 'ethica.neogenesis.app', 'whylab.neogenesis.app'] } });</script>
     <!-- AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5874227298630347"
         crossorigin="anonymous"></script>
@@ -33,7 +34,62 @@
             disable_surveys_automatic_display: true,
             advanced_disable_feature_flags_on_first_load: true,
         });
-        posthog.register({ site_id: 'ethicaai', site_domain: location.hostname });
+        posthog.register({
+            site_id: 'ethicaai',
+            site_domain: location.hostname,
+            audience_locale: 'en-US',
+            market: 'global',
+            content_vertical: 'ai_ethics',
+            page_type: 'research_hub',
+            intent_cluster: 'ai_ethics_risk_governance'
+        });
+        function captureEthicaEvent(eventName, properties) {
+            if (!window.posthog || !posthog.capture) return;
+            posthog.capture(eventName, Object.assign({
+                site_id: 'ethicaai',
+                site_domain: location.hostname,
+                audience_locale: 'en-US',
+                market: 'global',
+                content_vertical: 'ai_ethics',
+                page_type: 'research_hub',
+                intent_cluster: 'ai_ethics_risk_governance',
+                page: location.pathname
+            }, properties || {}));
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[data-cta]').forEach(function (el) {
+                el.addEventListener('click', function () {
+                    var href = el.getAttribute('href') || '';
+                    var ctaId = el.getAttribute('data-cta') || 'unknown';
+                    var destinationType = href.indexOf('http') === 0 && href.indexOf(location.hostname) === -1 ? 'external' : 'internal';
+                    captureEthicaEvent('cta_click', {
+                        cta_id: ctaId,
+                        cta_label: (el.textContent || ctaId).replace(/\s+/g, ' ').trim(),
+                        destination_url: href,
+                        destination_type: destinationType
+                    });
+                    captureEthicaEvent(destinationType === 'internal' ? 'internal_next_click' : 'outbound_official_click', {
+                        cta_id: ctaId,
+                        destination_url: href
+                    });
+                });
+            });
+            if ('IntersectionObserver' in window) {
+                var seen = {};
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (!entry.isIntersecting) return;
+                        var el = entry.target;
+                        var ctaId = el.getAttribute('data-cta') || 'unknown';
+                        if (seen[ctaId]) return;
+                        seen[ctaId] = true;
+                        captureEthicaEvent('cta_viewport_reached', { cta_id: ctaId });
+                        observer.unobserve(el);
+                    });
+                }, { threshold: 0.5 });
+                document.querySelectorAll('[data-cta]').forEach(function (el) { observer.observe(el); });
+            }
+        });
         (function () {
             var key = 'phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO';
             var storageKey = 'neo_posthog_distinct_id';
@@ -54,6 +110,11 @@
                 properties: {
                     site_id: 'ethicaai',
                     site_domain: location.hostname,
+                    audience_locale: 'en-US',
+                    market: 'global',
+                    content_vertical: 'ai_ethics',
+                    page_type: 'research_hub',
+                    intent_cluster: 'ai_ethics_risk_governance',
                     $current_url: location.href,
                     $pathname: location.pathname,
                     $process_person_profile: false,
@@ -965,14 +1026,14 @@
                 <div class="nv-e">&#129516;</div>EthicaAI
             </a>
             <ul class="nv-links">
-                <li><a href="#gallery">Figures</a></li>
-                <li><a href="#playground">Demo</a></li>
-                <li><a href="/ai-ethics-risk-governance">Governance</a></li>
-                <li><a href="/ai-compliance-evaluation">Compliance</a></li>
-                <li><a href="#timeline">Stages</a></li>
-                <li><a href="#cite">Cite</a></li>
-                <li><a href="https://github.com/Yesol-Pilot/EthicaAI" target="_blank" rel="noopener">GitHub</a></li>
-                <li><a href="https://doi.org/10.5281/zenodo.18637742" target="_blank" rel="noopener">DOI</a></li>
+                <li><a href="#gallery" data-cta="nav-figures">Figures</a></li>
+                <li><a href="#playground" data-cta="nav-demo">Demo</a></li>
+                <li><a href="/ai-ethics-risk-governance" data-cta="nav-governance">Governance</a></li>
+                <li><a href="/ai-compliance-evaluation" data-cta="nav-compliance">Compliance</a></li>
+                <li><a href="#timeline" data-cta="nav-stages">Stages</a></li>
+                <li><a href="#cite" data-cta="nav-cite">Cite</a></li>
+                <li><a href="https://github.com/Yesol-Pilot/EthicaAI" target="_blank" rel="noopener" data-cta="nav-github">GitHub</a></li>
+                <li><a href="https://doi.org/10.5281/zenodo.18637742" target="_blank" rel="noopener" data-cta="nav-doi">DOI</a></li>
             </ul>
         </div>
     </nav>
@@ -987,12 +1048,12 @@
                 Theory<br>via Multi-Agent Reinforcement Learning</p>
             <p class="hero-author r" style="transition-delay:.22s">Yesol Heo &middot; Neo Genesis Research</p>
             <div class="cta-row r" style="transition-delay:.3s">
-                <a href="#gallery" class="cta-main">Explore 70 Figures &#8595;</a>
+                <a href="#gallery" class="cta-main" data-cta="hero-explore-figures">Explore 70 Figures &#8595;</a>
                 <a href="https://doi.org/10.5281/zenodo.18637742" target="_blank" rel="noopener"
-                    class="cta-ghost">Zenodo DOI &#8599;</a>
+                    class="cta-ghost" data-cta="hero-zenodo-doi">Zenodo DOI &#8599;</a>
                 <a href="https://github.com/Yesol-Pilot/EthicaAI" target="_blank" rel="noopener"
-                    class="cta-ghost">GitHub &#8599;</a>
-                <a href="/ai-ethics-risk-governance" class="cta-ghost">Risk Governance Guide</a>
+                    class="cta-ghost" data-cta="hero-github">GitHub &#8599;</a>
+                <a href="/ai-ethics-risk-governance" class="cta-ghost" data-cta="hero-risk-governance">Risk Governance Guide</a>
             </div>
         </div>
     </section>
@@ -1280,9 +1341,9 @@
                 }<button class="bib-copy" id="bibCopy">Copy</button></div>
             <div class="cite-links r" style="transition-delay:.15s">
                 <a href="https://doi.org/10.5281/zenodo.18637742" target="_blank" rel="noopener"
-                    class="cite-link">Zenodo DOI &#8599;</a>
+                    class="cite-link" data-cta="cite-zenodo-doi">Zenodo DOI &#8599;</a>
                 <a href="https://github.com/Yesol-Pilot/EthicaAI" target="_blank" rel="noopener"
-                    class="cite-link">GitHub &#8599;</a>
+                    class="cite-link" data-cta="cite-github">GitHub &#8599;</a>
             </div>
         </div>
     </section>

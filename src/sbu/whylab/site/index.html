@@ -15,6 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://whylab.neogenesis.app">
     <link rel="canonical" href="https://whylab.neogenesis.app">
+    <link rel="alternate" type="text/plain" href="https://whylab.neogenesis.app/llms.txt" title="WhyLab LLM context">
     <!-- Google Analytics (GA4) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K9DNK9H515"></script>
     <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-K9DNK9H515');</script>
@@ -29,7 +30,59 @@
         });
         posthog.register({
             site_id: 'whylab',
-            site_domain: window.location.hostname
+            site_domain: window.location.hostname,
+            audience_locale: 'en-US',
+            market: 'global',
+            content_vertical: 'causal_inference',
+            page_type: 'product',
+            intent_cluster: 'causal_decision_intelligence'
+        });
+        function captureWhyLabEvent(eventName, properties) {
+            if (!window.posthog || !posthog.capture) return;
+            posthog.capture(eventName, Object.assign({
+                site_id: 'whylab',
+                site_domain: window.location.hostname,
+                audience_locale: 'en-US',
+                market: 'global',
+                content_vertical: 'causal_inference',
+                page_type: 'product',
+                intent_cluster: 'causal_decision_intelligence',
+                page: window.location.pathname
+            }, properties || {}));
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[data-cta]').forEach(function (el) {
+                el.addEventListener('click', function () {
+                    var href = el.getAttribute('href') || '';
+                    var ctaId = el.getAttribute('data-cta') || 'unknown';
+                    var destinationType = href.indexOf('http') === 0 && href.indexOf(window.location.hostname) === -1 ? 'external' : 'internal';
+                    captureWhyLabEvent('cta_click', {
+                        cta_id: ctaId,
+                        cta_label: (el.textContent || ctaId).replace(/\s+/g, ' ').trim(),
+                        destination_url: href,
+                        destination_type: destinationType
+                    });
+                    captureWhyLabEvent(destinationType === 'internal' ? 'internal_next_click' : 'outbound_official_click', {
+                        cta_id: ctaId,
+                        destination_url: href
+                    });
+                });
+            });
+            if ('IntersectionObserver' in window) {
+                var seen = {};
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (!entry.isIntersecting) return;
+                        var el = entry.target;
+                        var ctaId = el.getAttribute('data-cta') || 'unknown';
+                        if (seen[ctaId]) return;
+                        seen[ctaId] = true;
+                        captureWhyLabEvent('cta_viewport_reached', { cta_id: ctaId });
+                        observer.unobserve(el);
+                    });
+                }, { threshold: 0.5 });
+                document.querySelectorAll('[data-cta]').forEach(function (el) { observer.observe(el); });
+            }
         });
     </script>
     <script type="application/ld+json">
@@ -322,7 +375,7 @@
             font-size: clamp(40px, 7vw, 76px);
             font-weight: 800;
             line-height: 1.05;
-            letter-spacing: -3px;
+            letter-spacing: 0;
             margin-bottom: 24px
         }
 
@@ -337,6 +390,26 @@
             line-height: 1.7;
             max-width: 520px;
             margin: 0 auto 40px
+        }
+
+        @media(max-width:640px) {
+            .hero h1 {
+                max-width: 340px;
+                margin-left: auto;
+                margin-right: auto;
+                font-size: 40px;
+                line-height: 1.14;
+            }
+
+            .hero h1 .line2 {
+                margin-top: 4px
+            }
+
+            .hero-p {
+                max-width: 340px;
+                font-size: 16px;
+                line-height: 1.55
+            }
         }
 
         .cta-row {
@@ -413,7 +486,7 @@
             font-family: var(--font-d);
             font-size: clamp(28px, 4vw, 48px);
             font-weight: 800;
-            letter-spacing: -2px;
+            letter-spacing: 0;
             margin-bottom: 16px
         }
 
@@ -558,7 +631,7 @@
             font-family: var(--font-d);
             font-size: clamp(28px, 4vw, 48px);
             font-weight: 800;
-            letter-spacing: -2px;
+            letter-spacing: 0;
             margin-bottom: 16px
         }
 
@@ -825,7 +898,7 @@
             font-family: var(--font-d);
             font-size: clamp(28px, 4vw, 48px);
             font-weight: 800;
-            letter-spacing: -2px
+            letter-spacing: 0
         }
 
         .num-grid {
@@ -909,7 +982,7 @@
             font-family: var(--font-d);
             font-size: clamp(32px, 5vw, 56px);
             font-weight: 800;
-            letter-spacing: -2px;
+            letter-spacing: 0;
             margin-bottom: 16px
         }
 
@@ -979,8 +1052,8 @@
             <ul class="nv-links">
                 <li><a href="#preview">Features</a></li>
                 <li><a href="#how">Pipeline</a></li>
-                <li><a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener">GitHub</a></li>
-                <li><a href="https://whylab.vercel.app/dashboard" target="_blank" rel="noopener" class="cta-sm">Demo</a>
+                <li><a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener" data-cta="nav-github">GitHub</a></li>
+                <li><a href="/dashboard" class="cta-sm" data-cta="nav-demo">Demo</a>
                 </li>
             </ul>
         </div>
@@ -1005,13 +1078,13 @@
                 Find the real cause with AutoML, Double ML, refutation, and multi-agent debate.
             </p>
             <div class="cta-row r" style="transition-delay:.3s">
-                <a href="https://whylab.vercel.app/dashboard" target="_blank" rel="noopener" class="cta-main">
+                <a href="/dashboard" class="cta-main" data-cta="hero-start-demo">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <polygon points="5 3 19 12 5 21 5 3" />
                     </svg>
                     Start Demo
                 </a>
-                <a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener" class="cta-ghost">GitHub
+                <a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener" class="cta-ghost" data-cta="hero-github">GitHub
                     ↗</a>
             </div>
         </div>
@@ -1171,13 +1244,13 @@
             <h2 class="r" style="transition-delay:.05s">Find <span class="gt">causation.</span></h2>
             <p class="r" style="transition-delay:.1s">Go beyond correlation. Discover the real cause.</p>
             <div class="cta-row r" style="transition-delay:.15s">
-                <a href="https://whylab.vercel.app/dashboard" target="_blank" rel="noopener" class="cta-main">
+                <a href="/dashboard" class="cta-main" data-cta="bottom-launch-demo">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <polygon points="5 3 19 12 5 21 5 3" />
                     </svg>
                     Launch Demo
                 </a>
-                <a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener" class="cta-ghost">Read
+                <a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener" class="cta-ghost" data-cta="bottom-read-paper">Read
                     Paper ↗</a>
             </div>
         </div>
@@ -1187,7 +1260,7 @@
     <footer>
         <div class="mx ft">
             <div class="ft-brand">WhyLab <span>Causal Inference Platform by Neo Genesis</span> <span>·</span>
-                <a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://github.com/Yesol-Pilot/WhyLab" target="_blank" rel="noopener" data-cta="footer-github">GitHub</a>
                 <span>·</span>
                 <a href="https://neogenesis.app">Neo Genesis</a>
             </div>
