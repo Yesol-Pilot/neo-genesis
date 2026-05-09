@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-08T09:51:10+09:00",
+  "generatedAt": "2026-05-09T11:37:59+09:00",
   "sites": [
     "toolpick",
     "aiforge",
@@ -113,7 +113,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 320
+          "blogUrls": 323
         },
         "robots": {
           "status": 200,
@@ -130,7 +130,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 454
+          "blogUrls": 455
         },
         "robots": {
           "status": 200,
@@ -147,7 +147,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 387
+          "blogUrls": 388
         },
         "robots": {
           "status": 200,
@@ -164,7 +164,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 332
+          "blogUrls": 333
         },
         "robots": {
           "status": 200,
@@ -181,7 +181,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 329
+          "blogUrls": 330
         },
         "robots": {
           "status": 200,
@@ -198,7 +198,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 310
+          "blogUrls": 311
         },
         "robots": {
           "status": 200,
@@ -224,15 +224,15 @@
       "pipelinePassed": true
     },
     "parseError": null,
-    "stdoutTail": "        \"expectedLiveCoverage\": {\n          \"slug\": \"2026-05-08-ecommerce-conversion-analytics-tools\",\n          \"title\": \"Ecommerce Conversion Analytics Tools for 2026 in 2026\",\n          \"blogUrl\": \"https://sellkit.neogenesis.app/blog\",\n          \"detailUrl\": \"https://sellkit.neogenesis.app/blog/2026-05-08-ecommerce-conversion-analytics-tools\",\n          \"sitemapUrl\": \"https://sellkit.neogenesis.app/sitemap.xml\"\n        },\n        \"liveCoverageMissing\": [],\n        \"live\": {\n          \"blog\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"detail\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      }\n    ]\n  },\n  \"failureSummary\": {\n    \"passed\": true,\n    \"gscOpportunityTotal\": 73,\n    \"pipelinePassed\": true,\n    \"liveCoverageMissingCount\": 0,\n    \"liveCoverageMissing\": [],\n    \"failingSites\": []\n  },\n  \"passed\": true,\n  \"output\": {\n    \"stampedJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-08T09-51-35-09-00.json\",\n    \"stampedMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-08T09-51-35-09-00.md\",\n    \"latestJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.json\",\n    \"latestMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.md\",\n    \"writesDefaultLatest\": false,\n    \"written\": [\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-08T09-51-35-09-00.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-08T09-51-35-09-00.md\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.md\"\n    ]\n  }\n}",
+    "stdoutTail": "        \"expectedLiveCoverage\": {\n          \"slug\": \"2026-05-09-ai-product-description-tools\",\n          \"title\": \"AI Product Description Tools for Online Stores in 2026\",\n          \"blogUrl\": \"https://sellkit.neogenesis.app/blog\",\n          \"detailUrl\": \"https://sellkit.neogenesis.app/blog/2026-05-09-ai-product-description-tools\",\n          \"sitemapUrl\": \"https://sellkit.neogenesis.app/sitemap.xml\"\n        },\n        \"liveCoverageMissing\": [],\n        \"live\": {\n          \"blog\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"detail\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      }\n    ]\n  },\n  \"failureSummary\": {\n    \"passed\": true,\n    \"gscOpportunityTotal\": 73,\n    \"pipelinePassed\": true,\n    \"liveCoverageMissingCount\": 0,\n    \"liveCoverageMissing\": [],\n    \"failingSites\": []\n  },\n  \"passed\": true,\n  \"output\": {\n    \"stampedJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.json\",\n    \"stampedMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.md\",\n    \"latestJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.json\",\n    \"latestMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.md\",\n    \"writesDefaultLatest\": false,\n    \"written\": [\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.md\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.md\"\n    ]\n  }\n}",
     "stderrTail": ""
   },
   "cannibalization": {
     "passed": true,
-    "totalPosts": 2174,
+    "totalPosts": 2180,
     "exactClusterCount": 25,
-    "routedClusterCount": 25,
-    "unresolvedClusterCount": 0,
+    "routedClusterCount": 23,
+    "unresolvedClusterCount": 2,
     "topClusters": [
       {
         "key": "ai model deployment cost optimization",
@@ -956,6 +956,76 @@
         ]
       },
       {
+        "key": "ai agent evaluation product teams",
+        "count": 4,
+        "routed": false,
+        "sites": [
+          "toolpick",
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "toolpick",
+            "slug": "2026-05-05-ai-agent-evaluation-platforms",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "hasIntentRouting": false
+          },
+          {
+            "site": "toolpick",
+            "slug": "2026-05-09-ai-agent-evaluation-platforms",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "hasIntentRouting": false
+          },
+          {
+            "site": "aiforge",
+            "slug": "2026-05-04-ai-agent-evaluation-platforms",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "hasIntentRouting": false
+          },
+          {
+            "site": "aiforge",
+            "slug": "2026-05-08-ai-agent-evaluation-platforms",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "hasIntentRouting": false
+          }
+        ]
+      },
+      {
+        "key": "llm observability lean ai teams",
+        "count": 4,
+        "routed": false,
+        "sites": [
+          "toolpick",
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "toolpick",
+            "slug": "2026-05-07-llm-observability-tools",
+            "title": "LLM Observability Tools for Lean AI Teams in 2026",
+            "hasIntentRouting": false
+          },
+          {
+            "site": "aiforge",
+            "slug": "2026-04-29-llm-observability-tools",
+            "title": "LLM Observability Tools for Lean AI Teams in 2026",
+            "hasIntentRouting": false
+          },
+          {
+            "site": "aiforge",
+            "slug": "2026-05-05-llm-observability-tools",
+            "title": "LLM Observability Tools for Lean AI Teams in 2026",
+            "hasIntentRouting": false
+          },
+          {
+            "site": "aiforge",
+            "slug": "2026-05-09-llm-observability-tools",
+            "title": "LLM Observability Tools for Lean AI Teams in 2026",
+            "hasIntentRouting": false
+          }
+        ]
+      },
+      {
         "key": "ai code analysis",
         "count": 4,
         "routed": true,
@@ -1163,77 +1233,80 @@
             "hasIntentRouting": true
           }
         ]
-      },
+      }
+    ],
+    "topUnresolvedClusters": [
       {
-        "key": "ai code generation",
+        "key": "ai agent evaluation product teams",
         "count": 4,
-        "routed": true,
+        "routed": false,
         "sites": [
+          "toolpick",
           "aiforge"
         ],
         "samples": [
           {
-            "site": "aiforge",
-            "slug": "ai-code-generation-tools-comparison-2026",
-            "title": "AI Code Generation Tools Comparison 2026",
-            "hasIntentRouting": true
+            "site": "toolpick",
+            "slug": "2026-05-05-ai-agent-evaluation-platforms",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "hasIntentRouting": false
+          },
+          {
+            "site": "toolpick",
+            "slug": "2026-05-09-ai-agent-evaluation-platforms",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "hasIntentRouting": false
           },
           {
             "site": "aiforge",
-            "slug": "ai-code-generation-tools-comparison",
-            "title": "AI Code Generation Tools Comparison",
-            "hasIntentRouting": true
+            "slug": "2026-05-04-ai-agent-evaluation-platforms",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "hasIntentRouting": false
           },
           {
             "site": "aiforge",
-            "slug": "ai-code-generation-tools",
-            "title": "AI Code Generation Tools",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-code-generation",
-            "title": "AI Code Generation",
-            "hasIntentRouting": true
+            "slug": "2026-05-08-ai-agent-evaluation-platforms",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "hasIntentRouting": false
           }
         ]
       },
       {
-        "key": "ai model deployment cost monitoring",
+        "key": "llm observability lean ai teams",
         "count": 4,
-        "routed": true,
+        "routed": false,
         "sites": [
+          "toolpick",
           "aiforge"
         ],
         "samples": [
           {
-            "site": "aiforge",
-            "slug": "ai-model-deployment-cost-monitoring-platforms-2026",
-            "title": "AI Model Deployment Cost Monitoring Platforms 2026",
-            "hasIntentRouting": true
+            "site": "toolpick",
+            "slug": "2026-05-07-llm-observability-tools",
+            "title": "LLM Observability Tools for Lean AI Teams in 2026",
+            "hasIntentRouting": false
           },
           {
             "site": "aiforge",
-            "slug": "ai-model-deployment-cost-monitoring-platforms",
-            "title": "AI Model Deployment Cost Monitoring Platforms",
-            "hasIntentRouting": true
+            "slug": "2026-04-29-llm-observability-tools",
+            "title": "LLM Observability Tools for Lean AI Teams in 2026",
+            "hasIntentRouting": false
           },
           {
             "site": "aiforge",
-            "slug": "ai-model-deployment-cost-monitoring-tools",
-            "title": "AI Model Deployment Cost Monitoring Tools",
-            "hasIntentRouting": true
+            "slug": "2026-05-05-llm-observability-tools",
+            "title": "LLM Observability Tools for Lean AI Teams in 2026",
+            "hasIntentRouting": false
           },
           {
             "site": "aiforge",
-            "slug": "ai-model-deployment-cost-monitoring",
-            "title": "AI Model Deployment Cost Monitoring",
-            "hasIntentRouting": true
+            "slug": "2026-05-09-llm-observability-tools",
+            "title": "LLM Observability Tools for Lean AI Teams in 2026",
+            "hasIntentRouting": false
           }
         ]
       }
-    ],
-    "topUnresolvedClusters": []
+    ]
   },
   "cronSmoke": {
     "passed": true,
@@ -1300,7 +1373,7 @@
       {
         "site": "toolpick",
         "name": "ToolPick",
-        "ctaCoverage": 0.753,
+        "ctaCoverage": 0.754,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1327,7 +1400,7 @@
       {
         "site": "deploystack",
         "name": "DeployStack",
-        "ctaCoverage": 0.734,
+        "ctaCoverage": 0.735,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1336,7 +1409,7 @@
       {
         "site": "finstack",
         "name": "FinStack",
-        "ctaCoverage": 0.746,
+        "ctaCoverage": 0.747,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1356,18 +1429,18 @@
   "weeklyReport": {
     "passed": true,
     "summary": {
-      "greenSites": 5,
-      "totalModeledMau": 748650,
+      "greenSites": 6,
+      "totalModeledMau": 749000,
       "liveOkSites": 6
     },
     "siteRows": [
       {
         "site": "toolpick",
         "status": "green",
-        "modeledMau": 148750,
-        "readyPosts": 425,
-        "ctaCoverage": 0.753,
-        "internalLinkCoverage": 0.692,
+        "modeledMau": 149100,
+        "readyPosts": 426,
+        "ctaCoverage": 0.754,
+        "internalLinkCoverage": 0.791,
         "liveOk": true
       },
       {
@@ -1376,7 +1449,7 @@
         "modeledMau": 151200,
         "readyPosts": 432,
         "ctaCoverage": 0.736,
-        "internalLinkCoverage": 0.733,
+        "internalLinkCoverage": 0.732,
         "liveOk": true
       },
       {
@@ -1385,7 +1458,7 @@
         "modeledMau": 129150,
         "readyPosts": 369,
         "ctaCoverage": 0.838,
-        "internalLinkCoverage": 0.686,
+        "internalLinkCoverage": 0.684,
         "liveOk": true
       },
       {
@@ -1393,8 +1466,8 @@
         "status": "green",
         "modeledMau": 109550,
         "readyPosts": 313,
-        "ctaCoverage": 0.734,
-        "internalLinkCoverage": 0.681,
+        "ctaCoverage": 0.735,
+        "internalLinkCoverage": 0.679,
         "liveOk": true
       },
       {
@@ -1402,17 +1475,17 @@
         "status": "green",
         "modeledMau": 107800,
         "readyPosts": 308,
-        "ctaCoverage": 0.746,
-        "internalLinkCoverage": 0.67,
+        "ctaCoverage": 0.747,
+        "internalLinkCoverage": 0.668,
         "liveOk": true
       },
       {
         "site": "sellkit",
-        "status": "yellow",
+        "status": "green",
         "modeledMau": 102200,
         "readyPosts": 292,
         "ctaCoverage": 0.88,
-        "internalLinkCoverage": 0.753,
+        "internalLinkCoverage": 0.75,
         "liveOk": true
       }
     ],
@@ -1432,9 +1505,9 @@
       "measurementYellow": 0,
       "eventTaxonomyYellow": 0,
       "searchGrowthOpportunityCount": 73,
-      "cannibalizationClusters": 0,
+      "cannibalizationClusters": 2,
       "rawCannibalizationClusters": 25,
-      "routedCannibalizationClusters": 25
+      "routedCannibalizationClusters": 23
     }
   },
   "passed": true

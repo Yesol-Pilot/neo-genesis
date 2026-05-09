@@ -1,41 +1,43 @@
 {
-  "generatedAt": "2026-05-08T11:38:52.606349+09:00",
+  "generatedAt": "2026-05-09T11:37:53.378180+09:00",
   "siteCount": 13,
-  "passedCount": 12,
-  "failedCount": 1,
-  "passed": false,
+  "passedCount": 13,
+  "failedCount": 0,
+  "passed": true,
   "sites": [
     {
       "id": "toolpick",
       "name": "ToolPick",
       "url": "https://www.toolpick.dev/",
-      "passed": false,
-      "issues": [
-        "posthog_capture_missing"
-      ],
+      "passed": true,
+      "issues": [],
       "browser": {
         "status": 200,
         "title": "ToolPick — SaaS Decision Engine for Solo Devs & Small Teams",
         "titleLen": 59,
-        "htmlLen": 109477,
+        "htmlLen": 118360,
         "canonical": "https://www.toolpick.dev",
         "description": "Deep tool profiles, cost calculators, and stack blueprints for solo developers, indie hackers, and small teams. Make smarter SaaS decisions with real data.",
         "descriptionLen": 155,
         "jsonLdCount": 2,
         "gaRuntimeOk": true,
-        "posthogCaptureOk": false,
+        "posthogCaptureOk": true,
         "networkEvents": [
           {
             "url": "https://www.googletagmanager.com/gtag/js?id=G-8YRD4KPHZN",
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778207854994&ver=1.372.1",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778294199539&ver=1.372.1",
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-8YRD4KPHZN&gtm=45je6562v9243579737za200zd9243579737&_p=1778207854989&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=685059192.1778207855&frm=0&pscdl=noapi&rcb=10&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938468~118463262&dp=%2F&dl=https%3A%2F%2Fwww.toolpick.dev%2F&dt=ToolPick%20%E2%80%94%20SaaS%20Decision%20Engine%20for%20Solo%20Devs%20%26%20Small%20Teams&sid=1778207855&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=www.toolpick.dev&tfd=686",
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-8YRD4KPHZN&gtm=45je6562v9243579737za200zd9243579737&_p=1778294199534&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=669013656.1778294200&frm=0&pscdl=noapi&rcb=6&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115616985~115938466~115938468~118463261&dp=%2F&dl=https%3A%2F%2Fwww.toolpick.dev%2F&dt=ToolPick%20%E2%80%94%20SaaS%20Decision%20Engine%20for%20Solo%20Devs%20%26%20Small%20Teams&sid=1778294199&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=www.toolpick.dev&tfd=391",
             "status": 204
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
           }
         ],
         "error": null
@@ -44,7 +46,7 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 907,
+        "sitemapUrlCount": 910,
         "llmsStatus": 200,
         "llmsLen": 29972,
         "llmsWeak": false
@@ -60,7 +62,7 @@
         "status": 200,
         "title": "AI Forge — AI Tools & Automation for Solo Devs",
         "titleLen": 46,
-        "htmlLen": 92488,
+        "htmlLen": 95283,
         "canonical": "https://aiforge.neogenesis.app",
         "description": "Compare AI writing tools, code assistants, image generators, and automation platforms. Real benchmarks, cost analysis, and honest reviews for solo devs and creators.",
         "descriptionLen": 165,
@@ -69,8 +71,16 @@
         "posthogCaptureOk": true,
         "networkEvents": [
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5ycloP6Jjhxe/config?ip=0&_=1778207863433&ver=1.358.0",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5ycloP6Jjhxe/config?ip=0&_=1778294207948&ver=1.358.0",
             "status": 404
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
           },
           {
             "url": "https://us.i.posthog.com/i/v0/e/",
@@ -83,9 +93,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 644,
+        "sitemapUrlCount": 645,
         "llmsStatus": 200,
-        "llmsLen": 9052,
+        "llmsLen": 9125,
         "llmsWeak": false
       }
     },
@@ -99,7 +109,7 @@
         "status": 200,
         "title": "CraftDesk — Design Tools for Solo Creators & Studios",
         "titleLen": 52,
-        "htmlLen": 92482,
+        "htmlLen": 95322,
         "canonical": "https://craftdesk.neogenesis.app",
         "description": "Compare design tools, video editors, prototyping platforms, and creative suites. Real workflow analysis and pricing for freelance designers and creators.",
         "descriptionLen": 153,
@@ -108,7 +118,15 @@
         "posthogCaptureOk": true,
         "networkEvents": [
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778207869026&ver=1.353.0",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778294213155&ver=1.353.0",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
             "status": 200
           },
           {
@@ -122,9 +140,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 499,
+        "sitemapUrlCount": 500,
         "llmsStatus": 200,
-        "llmsLen": 7240,
+        "llmsLen": 7372,
         "llmsWeak": false
       }
     },
@@ -138,7 +156,7 @@
         "status": 200,
         "title": "DeployStack — DevOps Tools for Solo Devs & Small Teams",
         "titleLen": 54,
-        "htmlLen": 93275,
+        "htmlLen": 95195,
         "canonical": "https://deploystack.neogenesis.app",
         "description": "Compare hosting, CI/CD, monitoring, and infrastructure tools. Real performance benchmarks, pricing analysis, and deployment guides for indie developers.",
         "descriptionLen": 152,
@@ -147,7 +165,15 @@
         "posthogCaptureOk": true,
         "networkEvents": [
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778207874515&ver=1.358.0",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778294218370&ver=1.358.0",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
             "status": 200
           },
           {
@@ -161,9 +187,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 449,
+        "sitemapUrlCount": 450,
         "llmsStatus": 200,
-        "llmsLen": 7812,
+        "llmsLen": 7919,
         "llmsWeak": false
       }
     },
@@ -177,7 +203,7 @@
         "status": 200,
         "title": "FinStack — Fintech Tools for Freelancers & Solo Businesses",
         "titleLen": 58,
-        "htmlLen": 93924,
+        "htmlLen": 97023,
         "canonical": "https://finstack.neogenesis.app",
         "description": "Compare payment processors, invoicing tools, expense trackers, and business banking for freelancers, solopreneurs, and small teams. Real cost breakdowns and honest reviews.",
         "descriptionLen": 172,
@@ -186,8 +212,16 @@
         "posthogCaptureOk": true,
         "networkEvents": [
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5ycloP6Jjhxe/config?ip=0&_=1778207879999&ver=1.353.0",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5ycloP6Jjhxe/config?ip=0&_=1778294223599&ver=1.353.0",
             "status": 404
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
           },
           {
             "url": "https://us.i.posthog.com/i/v0/e/",
@@ -200,9 +234,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 441,
+        "sitemapUrlCount": 442,
         "llmsStatus": 200,
-        "llmsLen": 9158,
+        "llmsLen": 15362,
         "llmsWeak": false
       }
     },
@@ -216,7 +250,7 @@
         "status": 200,
         "title": "SellKit — E-commerce Tools for Solo Sellers",
         "titleLen": 43,
-        "htmlLen": 93571,
+        "htmlLen": 93503,
         "canonical": "https://sellkit.neogenesis.app",
         "description": "Compare e-commerce platforms, dropshipping tools, email marketing, and analytics for solo sellers. Real cost breakdowns and conversion rate data.",
         "descriptionLen": 145,
@@ -225,7 +259,7 @@
         "posthogCaptureOk": true,
         "networkEvents": [
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5ycloP6Jjhxe/config?ip=0&_=1778207885167&ver=1.353.0",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5ycloP6Jjhxe/config?ip=0&_=1778294228988&ver=1.353.0",
             "status": 404
           },
           {
@@ -239,9 +273,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 405,
+        "sitemapUrlCount": 458,
         "llmsStatus": 200,
-        "llmsLen": 9218,
+        "llmsLen": 10955,
         "llmsWeak": false
       }
     },
@@ -253,18 +287,18 @@
       "issues": [],
       "browser": {
         "status": 200,
-        "title": "ReviewLab | Product Review Intelligence for Better Buying Decisions",
-        "titleLen": 67,
-        "htmlLen": 7012014,
+        "title": "살까 말까? 한국 쇼핑 리뷰·가격·단점 비교",
+        "titleLen": 24,
+        "htmlLen": 134840,
         "canonical": "https://review.neogenesis.app",
-        "description": "ReviewLab turns product reviews, price signals, and source evidence into practical buying recommendations for Korean shoppers and affiliate research.",
-        "descriptionLen": 149,
+        "description": "ReviewLab helps you compare real shopping reviews, price signals, and tradeoffs. Decide buy vs skip faster with decision-focused summaries, evidence links, and clear alternatives.",
+        "descriptionLen": 179,
         "jsonLdCount": 2,
         "gaRuntimeOk": true,
         "posthogCaptureOk": true,
         "networkEvents": [
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778207891253&ver=1.353.0",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778294234169&ver=1.353.0",
             "status": 200
           },
           {
@@ -294,7 +328,7 @@
         "status": 200,
         "title": "UR WRONG - AI opens the debate. Humans decide the benchmark.",
         "titleLen": 60,
-        "htmlLen": 70901,
+        "htmlLen": 72198,
         "canonical": "https://ur-wrong.com/",
         "description": "A no-signup debate benchmark platform where AI frames both sides and verified human votes decide the public signal in under 20 seconds.",
         "descriptionLen": 135,
@@ -303,23 +337,7 @@
         "posthogCaptureOk": true,
         "networkEvents": [
           {
-            "url": "https://www.googletagmanager.com/gtag/js?id=G-MHJ96JLHT2",
-            "status": 200
-          },
-          {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-MHJ96JLHT2&gtm=45je6562v9243862531za200zd9243862531&_p=1778207896607&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1291093281.1778207897&frm=0&pscdl=noapi&rcb=6&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115616985~115938466~115938469~118463262&sid=s_f35b7350-e964-42b3-8eba-b1136ddfaf94&dp=%2F&dl=https%3A%2F%2Fur-wrong.com%2F&dt=UR%20WRONG%20-%20AI%20opens%20the%20debate.%20Humans%20decide%20the%20benchmark.&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.site_id=ur-wrong&ep.site_domain=ur-wrong.com&ep.schema_version=2026-04-25.real-user-growth&ep.visitor_id=v_1ea9f291-8c7a-4a55-bb5f-f7cdf34d0c5b&ep.referrer=%24direct&ep.landing_url=https%3A%2F%2Fur-wrong.com%2F&ep.initial_referrer=%24direct&ep.utm_source=&ep.utm_medium=&ep.utm_campaign=&ep.utm_content=&ep.utm_term=&ep.route=feed&ep.battle_id=&ep.route_path=%2F&ep.%24current_url=https%3A%2F%2Fur-wrong.com%2F&ep.%24pathname=%2F&ep.actor_type=human&ep.source_type=client&ep.analytics_mode=production&ep.is_test_traffic=false&tfd=344",
-            "status": 204
-          },
-          {
             "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config.js",
-            "status": 200
-          },
-          {
-            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.353.0",
-            "status": 200
-          },
-          {
-            "url": "https://us-assets.i.posthog.com/static/surveys.js?v=1.353.0",
             "status": 200
           },
           {
@@ -327,7 +345,23 @@
             "status": 200
           },
           {
-            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1778207897078&ver=1.353.0&compression=base64",
+            "url": "https://us-assets.i.posthog.com/static/surveys.js?v=1.353.0",
+            "status": 200
+          },
+          {
+            "url": "https://www.googletagmanager.com/gtag/js?id=G-MHJ96JLHT2",
+            "status": 200
+          },
+          {
+            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.353.0",
+            "status": 200
+          },
+          {
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-MHJ96JLHT2&gtm=45je6562v9243862531za200zd9243862531&_p=1778294239398&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=410452338.1778294240&frm=0&pscdl=noapi&rcb=17&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938469~118128923~118463262~118719171&sid=s_121550ec-36fb-45b8-b18f-1a3372f8bd4d&dp=%2F&dl=https%3A%2F%2Fur-wrong.com%2F&dt=UR%20WRONG%20-%20AI%20opens%20the%20debate.%20Humans%20decide%20the%20benchmark.&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.site_id=ur-wrong&ep.site_domain=ur-wrong.com&ep.schema_version=2026-04-25.real-user-growth&ep.visitor_id=v_d1eca166-3fdd-483c-b993-0c852404e417&ep.referrer=%24direct&ep.landing_url=https%3A%2F%2Fur-wrong.com%2F&ep.initial_referrer=%24direct&ep.utm_source=&ep.utm_medium=&ep.utm_campaign=&ep.utm_content=&ep.utm_term=&ep.route=feed&ep.battle_id=&ep.route_path=%2F&ep.%24current_url=https%3A%2F%2Fur-wrong.com%2F&ep.%24pathname=%2F&ep.actor_type=human&ep.source_type=client&ep.analytics_mode=production&ep.is_test_traffic=false&tfd=374",
+            "status": 204
+          },
+          {
+            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1778294239646&ver=1.353.0&compression=base64",
             "status": 200
           },
           {
@@ -371,34 +405,22 @@
       "issues": [],
       "browser": {
         "status": 200,
-        "title": "K-OTT | AI-Powered Korean OTT Recommendation Engine",
-        "titleLen": 51,
-        "htmlLen": 351819,
+        "title": "오늘 뭐 볼까? 한국 OTT 추천·요금제 비교·어디서 볼지 찾기 | K-OTT",
+        "titleLen": 43,
+        "htmlLen": 384088,
         "canonical": "https://kott.kr",
-        "description": "K-OTT compares Netflix, Disney+, Wavve, TVING, and Korean OTT catalogs with AI-powered discovery, Korean OTT recommendations, pricing comparisons, watchlist, and subscription-fit guidance.",
-        "descriptionLen": 188,
+        "description": "Netflix, TVING, Wavve, Disney+, Coupang Play, Watcha 중 오늘 볼 작품과 유지할 구독 조합을 한국 사용자 기준으로 빠르게 좁혀보세요.",
+        "descriptionLen": 97,
         "jsonLdCount": 3,
         "gaRuntimeOk": true,
         "posthogCaptureOk": true,
         "networkEvents": [
           {
-            "url": "https://www.googletagmanager.com/gtag/js?id=G-E8RGGHZG23",
-            "status": 200
-          },
-          {
             "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config.js",
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-E8RGGHZG23&gtm=45je6562v9244480845za200zd9244480845&_p=1778207902599&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1302593693.1778207903&frm=0&pscdl=noapi&rcb=3&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115616986~115938466~115938469~118463261~118719172&sid=1778207902&sct=1&seg=0&dl=https%3A%2F%2Fkott.kr%2F&dt=K-OTT%20%7C%20AI-Powered%20Korean%20OTT%20Recommendation%20Engine&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=339",
-            "status": 204
-          },
-          {
             "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.353.0",
-            "status": 200
-          },
-          {
-            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.353.0",
             "status": 200
           },
           {
@@ -406,7 +428,19 @@
             "status": 200
           },
           {
-            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1778207902875&ver=1.353.0&compression=base64",
+            "url": "https://www.googletagmanager.com/gtag/js?id=G-E8RGGHZG23",
+            "status": 200
+          },
+          {
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-E8RGGHZG23&gtm=45je6562h1v9244480845za200zd9244480845&_p=1778294245413&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=790436800.1778294246&frm=0&pscdl=noapi&rcb=9&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938468~118128923~118463262~118494633&sid=1778294245&sct=1&seg=0&dl=https%3A%2F%2Fkott.kr%2F&dt=%EC%98%A4%EB%8A%98%20%EB%AD%90%20%EB%B3%BC%EA%B9%8C%3F%20%ED%95%9C%EA%B5%AD%20OTT%20%EC%B6%94%EC%B2%9C%C2%B7%EC%9A%94%EA%B8%88%EC%A0%9C%20%EB%B9%84%EA%B5%90%C2%B7%EC%96%B4%EB%94%94%EC%84%9C%20%EB%B3%BC%EC%A7%80%20%EC%B0%BE%EA%B8%B0%20%7C%20K-OTT&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=321",
+            "status": 204
+          },
+          {
+            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.353.0",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1778294245477&ver=1.353.0&compression=base64",
             "status": 200
           },
           {
@@ -420,9 +454,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 408,
+        "sitemapUrlCount": 446,
         "llmsStatus": 200,
-        "llmsLen": 1633,
+        "llmsLen": 2645,
         "llmsWeak": false
       }
     },
@@ -436,7 +470,7 @@
         "status": 200,
         "title": "EthicaAI | AI Ethics Risk Governance Research",
         "titleLen": 45,
-        "htmlLen": 80997,
+        "htmlLen": 84432,
         "canonical": "https://ethica.neogenesis.app",
         "description": "EthicaAI is an AI ethics, compliance, and risk governance research hub built from 560+ multi-agent reinforcement learning experiments and 70+ figures.",
         "descriptionLen": 150,
@@ -487,7 +521,7 @@
         "status": 200,
         "title": "WhyLab - Causal Inference Platform and Causality Lab",
         "titleLen": 52,
-        "htmlLen": 36335,
+        "htmlLen": 37968,
         "canonical": "https://whylab.neogenesis.app",
         "description": "WhyLab is a causal inference platform and causality lab that turns Double ML, counterfactual analysis, refutation, and AI-assisted decision analysis into operational evidence.",
         "descriptionLen": 175,
@@ -524,7 +558,7 @@
         "sitemapStatus": 200,
         "sitemapUrlCount": 4,
         "llmsStatus": 200,
-        "llmsLen": 889,
+        "llmsLen": 912,
         "llmsWeak": false
       }
     },
@@ -555,10 +589,6 @@
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-SPPMR6QS9B&gtm=45je6562v9243864104za200zd9243864104&_p=1778207920106&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=945378869.1778207920&frm=0&pscdl=noapi&rcb=2&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115616985~115938465~115938468~118463261~118494633&sid=1778207920&sct=1&seg=0&dl=https%3A%2F%2Fheoyesol.kr%2F&dt=heoyesol%20%E2%80%94%20I%20build%20to%20find%20out&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=812",
-            "status": 204
-          },
-          {
             "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config.js",
             "status": 200
           },
@@ -567,15 +597,19 @@
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.372.10",
-            "status": 200
-          },
-          {
             "url": "https://us-assets.i.posthog.com/static/surveys.js?v=1.372.10",
             "status": 200
           },
           {
-            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1778207920688&ver=1.372.10&compression=base64",
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-SPPMR6QS9B&gtm=45je6562v9243864104za200zd9243864104&_p=1778294261291&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=317001783.1778294262&frm=0&pscdl=noapi&rcb=5&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938469~118463261&sid=1778294261&sct=1&seg=0&dl=https%3A%2F%2Fheoyesol.kr%2F&dt=heoyesol%20%E2%80%94%20I%20build%20to%20find%20out&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=786",
+            "status": 204
+          },
+          {
+            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.372.10",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1778294261698&ver=1.372.10&compression=base64",
             "status": 200
           },
           {
@@ -605,7 +639,7 @@
         "status": 200,
         "title": "Neo Genesis (NeoGenesis) - AI-Native Automation Company",
         "titleLen": 55,
-        "htmlLen": 203456,
+        "htmlLen": 203446,
         "canonical": "https://neogenesis.app",
         "description": "Neo Genesis, also written NeoGenesis, is an AI-native automation company running 11 business units with a single autonomous AI system. Built by one, powered by AI.",
         "descriptionLen": 163,
@@ -618,7 +652,7 @@
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je6562v9244911236za200zd9244911236&_p=1778207926918&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=911042274.1778207927&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938468~118463262~118719170&dp=%2F&sid=1778207927&sct=1&seg=0&dl=https%3A%2F%2Fneogenesis.app%2F&dt=Neo%20Genesis%20(NeoGenesis)%20-%20AI-Native%20Automation%20Company&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=neogenesis.app&tfd=403",
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je6570h2v9244911236za200zd9244911236&_p=1778294267872&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=907051557.1778294268&frm=0&pscdl=noapi&rcb=17&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938469~118463261&dp=%2F&sid=1778294268&sct=1&seg=0&dl=https%3A%2F%2Fneogenesis.app%2F&dt=Neo%20Genesis%20(NeoGenesis)%20-%20AI-Native%20Automation%20Company&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=neogenesis.app&tfd=399",
             "status": 204
           },
           {

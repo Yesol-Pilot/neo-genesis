@@ -89,10 +89,26 @@ data/sbu-growth/control-tower-*.json
 data/sbu-growth/control-tower-*.md
 data/sbu-growth/growth-loop-*.json
 data/sbu-growth/growth-loop-*.md
+data/sbu-growth/growth-ops-suite-*.json
+data/sbu-growth/growth-ops-suite-*.md
+data/sbu-growth/search-growth-flywheel-*.json
+data/sbu-growth/search-growth-flywheel-*.md
+data/sbu-growth/search-growth-flywheel-core-*.json
+data/sbu-growth/search-growth-flywheel-core-*.md
+data/sbu-growth/seo-geo-live-*.json
+data/sbu-growth/seo-geo-live-*.md
 !data/sbu-growth/control-tower-latest.json
 !data/sbu-growth/control-tower-latest.md
 !data/sbu-growth/growth-loop-latest.json
 !data/sbu-growth/growth-loop-latest.md
+!data/sbu-growth/growth-ops-suite-latest.json
+!data/sbu-growth/growth-ops-suite-latest.md
+!data/sbu-growth/search-growth-flywheel-latest.json
+!data/sbu-growth/search-growth-flywheel-latest.md
+!data/sbu-growth/search-growth-flywheel-core-latest.json
+!data/sbu-growth/search-growth-flywheel-core-latest.md
+!data/sbu-growth/seo-geo-live-latest.json
+!data/sbu-growth/seo-geo-live-latest.md
 scripts/geo_measure/citations*.sqlite3
 .env.fleet-sync-merged.tmp
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-08T09:51:35+09:00",
+  "generatedAt": "2026-05-09T11:38:24+09:00",
   "scope": {
     "id": "core",
     "label": "core-6-sites",
@@ -40,8 +40,8 @@
     "maxStaleDays": 2
   },
   "gsc": {
-    "startDate": "2026-04-08",
-    "endDate": "2026-05-06",
+    "startDate": "2026-04-09",
+    "endDate": "2026-05-07",
     "credential": {
       "source": "GA4_SERVICE_ACCOUNT_PATH@env-file",
       "accountHash": "ca69116ec269"
@@ -68,9 +68,9 @@
         "searchAnalytics": {
           "status": 200,
           "ok": true,
-          "rowCount": 436,
-          "startDate": "2026-04-08",
-          "endDate": "2026-05-06",
+          "rowCount": 442,
+          "startDate": "2026-04-09",
+          "endDate": "2026-05-07",
           "noDataYet": false
         },
         "topRows": [
@@ -78,121 +78,133 @@
             "query": "no code machine learning platform",
             "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
             "clicks": 0,
-            "impressions": 478,
+            "impressions": 471,
             "ctr": 0,
-            "position": 72,
+            "position": 72.44,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 6.7599
+            "score": 6.6405
           },
           {
             "query": "notion alternative",
             "page": "https://www.toolpick.dev/alternatives/notion",
             "clicks": 0,
-            "impressions": 106,
+            "impressions": 103,
             "ctr": 0,
-            "position": 76.08,
+            "position": 76.38,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 1.4584
+            "score": 1.4143
           },
           {
             "query": "tldraw vs excalidraw",
             "page": "https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026",
             "clicks": 2,
-            "impressions": 91,
-            "ctr": 0.022,
-            "position": 10.71,
+            "impressions": 101,
+            "ctr": 0.0198,
+            "position": 10.67,
             "localFile": "src\\sbu\\toolpick\\content\\blog\\excalidraw-vs-tldraw-2026.mdx",
             "localEditable": true,
-            "action": "expand_striking_distance",
-            "score": 3.1711
+            "action": "rewrite_title_meta",
+            "score": 4.9709
           },
           {
             "query": "basecamp vs asana",
             "page": "https://www.toolpick.dev/comparisons/asana-vs-basecamp",
             "clicks": 0,
-            "impressions": 64,
+            "impressions": 62,
             "ctr": 0,
-            "position": 75.78,
+            "position": 75.69,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.8822
+            "score": 0.8552
           },
           {
             "query": "notion alternatives",
             "page": "https://www.toolpick.dev/alternatives/notion",
             "clicks": 0,
-            "impressions": 58,
+            "impressions": 60,
             "ctr": 0,
-            "position": 79,
+            "position": 78.83,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.7831
+            "score": 0.8109
           },
           {
-            "query": "figma pricing free plan 2026",
-            "page": "https://www.toolpick.dev/pricing/figma",
-            "clicks": 0,
+            "query": "excalidraw vs tldraw",
+            "page": "https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026",
+            "clicks": 1,
             "impressions": 55,
-            "ctr": 0,
-            "position": 7.31,
-            "localFile": null,
-            "localEditable": false,
+            "ctr": 0.0182,
+            "position": 10.56,
+            "localFile": "src\\sbu\\toolpick\\content\\blog\\excalidraw-vs-tldraw-2026.mdx",
+            "localEditable": true,
             "action": "rewrite_title_meta",
-            "score": 4.8825
+            "score": 2.8306
           },
           {
             "query": "fly.io news 2026",
             "page": "https://www.toolpick.dev/reviews/fly-io-review",
             "clicks": 0,
-            "impressions": 53,
+            "impressions": 52,
             "ctr": 0,
-            "position": 9.45,
+            "position": 9.42,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 4.1372
+            "score": 4.0655
+          },
+          {
+            "query": "figma pricing free plan 2026",
+            "page": "https://www.toolpick.dev/pricing/figma",
+            "clicks": 0,
+            "impressions": 51,
+            "ctr": 0,
+            "position": 7.2,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 4.5628
           },
           {
             "query": "figma pricing free plan official 2026",
             "page": "https://www.toolpick.dev/pricing/figma",
             "clicks": 0,
-            "impressions": 52,
+            "impressions": 51,
             "ctr": 0,
-            "position": 10.23,
+            "position": 10.22,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 3.9018
-          },
-          {
-            "query": "excalidraw vs tldraw",
-            "page": "https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026",
-            "clicks": 0,
-            "impressions": 49,
-            "ctr": 0,
-            "position": 10.82,
-            "localFile": "src\\sbu\\toolpick\\content\\blog\\excalidraw-vs-tldraw-2026.mdx",
-            "localEditable": true,
-            "action": "rewrite_title_meta",
-            "score": 3.5758
+            "score": 3.8295
           },
           {
             "query": "low code ai",
             "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
             "clicks": 0,
-            "impressions": 38,
+            "impressions": 39,
             "ctr": 0,
-            "position": 82.95,
+            "position": 82.59,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.5007
+            "score": 0.515
+          },
+          {
+            "query": "low-code ai platform",
+            "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
+            "clicks": 0,
+            "impressions": 38,
+            "ctr": 0,
+            "position": 88.66,
+            "localFile": null,
+            "localEditable": false,
+            "action": "add_depth_and_internal_links",
+            "score": 0.4843
           },
           {
             "query": "best value crm for solo creators",
@@ -207,64 +219,52 @@
             "score": 2.8537
           },
           {
-            "query": "low-code ai platform",
+            "query": "low-code ai",
             "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
-            "clicks": 0,
-            "impressions": 34,
-            "ctr": 0,
-            "position": 88.47,
-            "localFile": null,
-            "localEditable": false,
-            "action": "add_depth_and_internal_links",
-            "score": 0.4338
-          },
-          {
-            "query": "is figma free pricing 2026",
-            "page": "https://www.toolpick.dev/pricing/figma",
             "clicks": 0,
             "impressions": 31,
             "ctr": 0,
-            "position": 10.23,
+            "position": 78.94,
             "localFile": null,
             "localEditable": false,
-            "action": "rewrite_title_meta",
-            "score": 2.3266
+            "action": "add_depth_and_internal_links",
+            "score": 0.4187
           },
           {
             "query": "alternative to notion",
             "page": "https://www.toolpick.dev/alternatives/notion",
             "clicks": 0,
-            "impressions": 30,
+            "impressions": 29,
             "ctr": 0,
-            "position": 76.63,
+            "position": 76.62,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.4112
-          },
-          {
-            "query": "low-code ai",
-            "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
-            "clicks": 0,
-            "impressions": 30,
-            "ctr": 0,
-            "position": 78.83,
-            "localFile": null,
-            "localEditable": false,
-            "action": "add_depth_and_internal_links",
-            "score": 0.4055
+            "score": 0.3976
           },
           {
             "query": "figma dev mode pricing 2026",
             "page": "https://www.toolpick.dev/pricing/figma",
             "clicks": 0,
-            "impressions": 26,
+            "impressions": 25,
             "ctr": 0,
             "position": 6.96,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 2.365
+            "score": 2.2743
+          },
+          {
+            "query": "is figma free pricing 2026",
+            "page": "https://www.toolpick.dev/pricing/figma",
+            "clicks": 0,
+            "impressions": 25,
+            "ctr": 0,
+            "position": 10.08,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 1.8898
           },
           {
             "query": "notion vs",
@@ -284,95 +284,95 @@
             "clicks": 0,
             "impressions": 24,
             "ctr": 0,
-            "position": 69.83,
+            "position": 73.13,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.3446
-          },
-          {
-            "query": "ai cloud security solutions",
-            "page": "https://www.toolpick.dev/blog/ai-powered-cloud-security-platforms",
-            "clicks": 0,
-            "impressions": 22,
-            "ctr": 0,
-            "position": 49.91,
-            "localFile": "src\\sbu\\toolpick\\content\\blog\\ai-powered-cloud-security-platforms.mdx",
-            "localEditable": true,
-            "action": "add_depth_and_internal_links",
-            "score": 0.3737
+            "score": 0.3368
           },
           {
             "query": "low-code analytics platforms pricing?",
             "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
             "clicks": 0,
-            "impressions": 21,
+            "impressions": 23,
             "ctr": 0,
-            "position": 81.43,
+            "position": 81.78,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.2793
+            "score": 0.3052
           },
           {
-            "query": "fly.io ease of use review 2026",
-            "page": "https://www.toolpick.dev/reviews/fly-io-review",
+            "query": "ai cloud security solutions",
+            "page": "https://www.toolpick.dev/blog/ai-powered-cloud-security-platforms",
             "clicks": 0,
-            "impressions": 19,
+            "impressions": 21,
             "ctr": 0,
-            "position": 6.79,
-            "localFile": null,
-            "localEditable": false,
-            "action": "rewrite_title_meta",
-            "score": 1.75
+            "position": 49.81,
+            "localFile": "src\\sbu\\toolpick\\content\\blog\\ai-powered-cloud-security-platforms.mdx",
+            "localEditable": true,
+            "action": "add_depth_and_internal_links",
+            "score": 0.3571
           },
           {
             "query": "tldraw vs excalidraw 2026",
             "page": "https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026",
             "clicks": 0,
-            "impressions": 19,
+            "impressions": 21,
             "ctr": 0,
-            "position": 4.58,
+            "position": 4.48,
             "localFile": "src\\sbu\\toolpick\\content\\blog\\excalidraw-vs-tldraw-2026.mdx",
             "localEditable": true,
             "action": "rewrite_title_meta",
-            "score": 2.131
+            "score": 2.3822
           },
           {
             "query": "low code ai platform",
             "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
             "clicks": 0,
-            "impressions": 18,
+            "impressions": 19,
             "ctr": 0,
-            "position": 89,
+            "position": 86.16,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.229
-          },
-          {
-            "query": "figma free plan limits 2026",
-            "page": "https://www.toolpick.dev/pricing/figma",
-            "clicks": 0,
-            "impressions": 17,
-            "ctr": 0,
-            "position": 5.35,
-            "localFile": null,
-            "localEditable": false,
-            "action": "rewrite_title_meta",
-            "score": 1.7635
+            "score": 0.2456
           },
           {
             "query": "fly.io ease of use reviews 2026",
             "page": "https://www.toolpick.dev/reviews/fly-io-review",
             "clicks": 0,
-            "impressions": 17,
+            "impressions": 18,
             "ctr": 0,
-            "position": 8.76,
+            "position": 8.72,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 1.3781
+            "score": 1.4628
+          },
+          {
+            "query": "netlify pricing free plan 2026",
+            "page": "https://www.toolpick.dev/reviews/netlify-review",
+            "clicks": 0,
+            "impressions": 17,
+            "ctr": 0,
+            "position": 6.12,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 1.6496
+          },
+          {
+            "query": "railway pricing free tier 2026 official",
+            "page": "https://www.toolpick.dev/alternatives/railway",
+            "clicks": 0,
+            "impressions": 17,
+            "ctr": 0,
+            "position": 5.53,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 1.7351
           }
         ],
         "opportunities": [
@@ -380,73 +380,61 @@
             "query": "no code machine learning platform",
             "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
             "clicks": 0,
-            "impressions": 478,
+            "impressions": 471,
             "ctr": 0,
-            "position": 72,
+            "position": 72.44,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 6.7599
-          },
-          {
-            "query": "figma pricing free plan 2026",
-            "page": "https://www.toolpick.dev/pricing/figma",
-            "clicks": 0,
-            "impressions": 55,
-            "ctr": 0,
-            "position": 7.31,
-            "localFile": null,
-            "localEditable": false,
-            "action": "rewrite_title_meta",
-            "score": 4.8825
-          },
-          {
-            "query": "fly.io news 2026",
-            "page": "https://www.toolpick.dev/reviews/fly-io-review",
-            "clicks": 0,
-            "impressions": 53,
-            "ctr": 0,
-            "position": 9.45,
-            "localFile": null,
-            "localEditable": false,
-            "action": "rewrite_title_meta",
-            "score": 4.1372
-          },
-          {
-            "query": "figma pricing free plan official 2026",
-            "page": "https://www.toolpick.dev/pricing/figma",
-            "clicks": 0,
-            "impressions": 52,
-            "ctr": 0,
-            "position": 10.23,
-            "localFile": null,
-            "localEditable": false,
-            "action": "rewrite_title_meta",
-            "score": 3.9018
-          },
-          {
-            "query": "excalidraw vs tldraw",
-            "page": "https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026",
-            "clicks": 0,
-            "impressions": 49,
-            "ctr": 0,
-            "position": 10.82,
-            "localFile": "src\\sbu\\toolpick\\content\\blog\\excalidraw-vs-tldraw-2026.mdx",
-            "localEditable": true,
-            "action": "rewrite_title_meta",
-            "score": 3.5758
+            "score": 6.6405
           },
           {
             "query": "tldraw vs excalidraw",
             "page": "https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026",
             "clicks": 2,
-            "impressions": 91,
-            "ctr": 0.022,
-            "position": 10.71,
+            "impressions": 101,
+            "ctr": 0.0198,
+            "position": 10.67,
             "localFile": "src\\sbu\\toolpick\\content\\blog\\excalidraw-vs-tldraw-2026.mdx",
             "localEditable": true,
-            "action": "expand_striking_distance",
-            "score": 3.1711
+            "action": "rewrite_title_meta",
+            "score": 4.9709
+          },
+          {
+            "query": "figma pricing free plan 2026",
+            "page": "https://www.toolpick.dev/pricing/figma",
+            "clicks": 0,
+            "impressions": 51,
+            "ctr": 0,
+            "position": 7.2,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 4.5628
+          },
+          {
+            "query": "fly.io news 2026",
+            "page": "https://www.toolpick.dev/reviews/fly-io-review",
+            "clicks": 0,
+            "impressions": 52,
+            "ctr": 0,
+            "position": 9.42,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 4.0655
+          },
+          {
+            "query": "figma pricing free plan official 2026",
+            "page": "https://www.toolpick.dev/pricing/figma",
+            "clicks": 0,
+            "impressions": 51,
+            "ctr": 0,
+            "position": 10.22,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 3.8295
           },
           {
             "query": "best value crm for solo creators",
@@ -461,64 +449,52 @@
             "score": 2.8537
           },
           {
-            "query": "figma dev mode pricing 2026",
-            "page": "https://www.toolpick.dev/pricing/figma",
-            "clicks": 0,
-            "impressions": 26,
-            "ctr": 0,
-            "position": 6.96,
-            "localFile": null,
-            "localEditable": false,
+            "query": "excalidraw vs tldraw",
+            "page": "https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026",
+            "clicks": 1,
+            "impressions": 55,
+            "ctr": 0.0182,
+            "position": 10.56,
+            "localFile": "src\\sbu\\toolpick\\content\\blog\\excalidraw-vs-tldraw-2026.mdx",
+            "localEditable": true,
             "action": "rewrite_title_meta",
-            "score": 2.365
-          },
-          {
-            "query": "is figma free pricing 2026",
-            "page": "https://www.toolpick.dev/pricing/figma",
-            "clicks": 0,
-            "impressions": 31,
-            "ctr": 0,
-            "position": 10.23,
-            "localFile": null,
-            "localEditable": false,
-            "action": "rewrite_title_meta",
-            "score": 2.3266
+            "score": 2.8306
           },
           {
             "query": "tldraw vs excalidraw 2026",
             "page": "https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026",
             "clicks": 0,
-            "impressions": 19,
+            "impressions": 21,
             "ctr": 0,
-            "position": 4.58,
+            "position": 4.48,
             "localFile": "src\\sbu\\toolpick\\content\\blog\\excalidraw-vs-tldraw-2026.mdx",
             "localEditable": true,
             "action": "rewrite_title_meta",
-            "score": 2.131
+            "score": 2.3822
           },
           {
-            "query": "figma free plan limits 2026",
+            "query": "figma dev mode pricing 2026",
             "page": "https://www.toolpick.dev/pricing/figma",
             "clicks": 0,
-            "impressions": 17,
+            "impressions": 25,
             "ctr": 0,
-            "position": 5.35,
+            "position": 6.96,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 1.7635
+            "score": 2.2743
           },
           {
-            "query": "fly.io ease of use review 2026",
-            "page": "https://www.toolpick.dev/reviews/fly-io-review",
+            "query": "is figma free pricing 2026",
+            "page": "https://www.toolpick.dev/pricing/figma",
             "clicks": 0,
-            "impressions": 19,
+            "impressions": 25,
             "ctr": 0,
-            "position": 6.79,
+            "position": 10.08,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 1.75
+            "score": 1.8898
           },
           {
             "query": "railway pricing free tier 2026 official",
@@ -557,28 +533,40 @@
             "score": 1.5123
           },
           {
-            "query": "notion alternative",
-            "page": "https://www.toolpick.dev/alternatives/notion",
-            "clicks": 0,
-            "impressions": 106,
-            "ctr": 0,
-            "position": 76.08,
-            "localFile": null,
-            "localEditable": false,
-            "action": "add_depth_and_internal_links",
-            "score": 1.4584
-          },
-          {
             "query": "fly.io ease of use reviews 2026",
             "page": "https://www.toolpick.dev/reviews/fly-io-review",
             "clicks": 0,
-            "impressions": 17,
+            "impressions": 18,
             "ctr": 0,
-            "position": 8.76,
+            "position": 8.72,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 1.3781
+            "score": 1.4628
+          },
+          {
+            "query": "notion alternative",
+            "page": "https://www.toolpick.dev/alternatives/notion",
+            "clicks": 0,
+            "impressions": 103,
+            "ctr": 0,
+            "position": 76.38,
+            "localFile": null,
+            "localEditable": false,
+            "action": "add_depth_and_internal_links",
+            "score": 1.4143
+          },
+          {
+            "query": "fly.io ease of use review 2026",
+            "page": "https://www.toolpick.dev/reviews/fly-io-review",
+            "clicks": 0,
+            "impressions": 15,
+            "ctr": 0,
+            "position": 6.87,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 1.3738
           },
           {
             "query": "railway pricing free tier official 2026",
@@ -665,18 +653,6 @@
             "score": 0.8888
           },
           {
-            "query": "basecamp vs asana",
-            "page": "https://www.toolpick.dev/comparisons/asana-vs-basecamp",
-            "clicks": 0,
-            "impressions": 64,
-            "ctr": 0,
-            "position": 75.78,
-            "localFile": null,
-            "localEditable": false,
-            "action": "add_depth_and_internal_links",
-            "score": 0.8822
-          },
-          {
             "query": "netlify pricing plans 2026",
             "page": "https://www.toolpick.dev/reviews/netlify-review",
             "clicks": 0,
@@ -687,6 +663,30 @@
             "localEditable": false,
             "action": "rewrite_title_meta",
             "score": 0.8696
+          },
+          {
+            "query": "figma free plan limits 2026",
+            "page": "https://www.toolpick.dev/pricing/figma",
+            "clicks": 0,
+            "impressions": 8,
+            "ctr": 0,
+            "position": 5,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 0.8587
+          },
+          {
+            "query": "basecamp vs asana",
+            "page": "https://www.toolpick.dev/comparisons/asana-vs-basecamp",
+            "clicks": 0,
+            "impressions": 62,
+            "ctr": 0,
+            "position": 75.69,
+            "localFile": null,
+            "localEditable": false,
+            "action": "add_depth_and_internal_links",
+            "score": 0.8552
           },
           {
             "query": "penpot review pros cons 2025 2026",
@@ -704,13 +704,13 @@
             "query": "notion alternatives",
             "page": "https://www.toolpick.dev/alternatives/notion",
             "clicks": 0,
-            "impressions": 58,
+            "impressions": 60,
             "ctr": 0,
-            "position": 79,
+            "position": 78.83,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.7831
+            "score": 0.8109
           },
           {
             "query": "penpot review pros cons 2026",
@@ -723,6 +723,18 @@
             "localEditable": false,
             "action": "rewrite_title_meta",
             "score": 0.768
+          },
+          {
+            "query": "figma pricing for prototyping and handoff",
+            "page": "https://www.toolpick.dev/pricing/figma",
+            "clicks": 0,
+            "impressions": 9,
+            "ctr": 0,
+            "position": 8.33,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 0.7482
           },
           {
             "query": "obsidian sync pricing 2026",
@@ -749,28 +761,28 @@
             "score": 0.7372
           },
           {
-            "query": "figma free plan details 2026",
-            "page": "https://www.toolpick.dev/pricing/figma",
+            "query": "is discord worth it",
+            "page": "https://www.toolpick.dev/reviews/discord-review",
             "clicks": 0,
-            "impressions": 6,
+            "impressions": 10,
             "ctr": 0,
-            "position": 4.33,
+            "position": 10.7,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 0.6918
+            "score": 0.7337
           },
           {
-            "query": "figma pricing free plan limits 2026",
-            "page": "https://www.toolpick.dev/pricing/figma",
+            "query": "fly.io browser extension review 2026",
+            "page": "https://www.toolpick.dev/reviews/fly-io-review",
             "clicks": 0,
-            "impressions": 8,
+            "impressions": 7,
             "ctr": 0,
-            "position": 7.75,
+            "position": 5.86,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 0.6897
+            "score": 0.6942
           },
           {
             "query": "cloudflare pages pricing free plan 2026",
@@ -785,16 +797,16 @@
             "score": 0.6859
           },
           {
-            "query": "figma free plan pricing 2026",
-            "page": "https://www.toolpick.dev/pricing/figma",
+            "query": "cal.com free plan limits 2026",
+            "page": "https://www.toolpick.dev/pricing/cal-com",
             "clicks": 0,
             "impressions": 8,
             "ctr": 0,
-            "position": 8.25,
+            "position": 8.13,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 0.6685
+            "score": 0.6736
           },
           {
             "query": "arc browser review 2026",
@@ -821,18 +833,6 @@
             "score": 0.6491
           },
           {
-            "query": "fly.io browser extension review 2026",
-            "page": "https://www.toolpick.dev/reviews/fly-io-review",
-            "clicks": 0,
-            "impressions": 6,
-            "ctr": 0,
-            "position": 5.33,
-            "localFile": null,
-            "localEditable": false,
-            "action": "rewrite_title_meta",
-            "score": 0.6235
-          },
-          {
             "query": "figma pricing free plan details 2026",
             "page": "https://www.toolpick.dev/pricing/figma",
             "clicks": 0,
@@ -857,18 +857,6 @@
             "score": 0.6189
           },
           {
-            "query": "figma pricing for prototyping and handoff",
-            "page": "https://www.toolpick.dev/pricing/figma",
-            "clicks": 0,
-            "impressions": 7,
-            "ctr": 0,
-            "position": 7.57,
-            "localFile": null,
-            "localEditable": false,
-            "action": "rewrite_title_meta",
-            "score": 0.6105
-          },
-          {
             "query": "penpot software company review",
             "page": "https://www.toolpick.dev/reviews/penpot-review",
             "clicks": 0,
@@ -881,16 +869,28 @@
             "score": 0.5997
           },
           {
-            "query": "lemon squeezy pricing official 2026",
-            "page": "https://www.toolpick.dev/pricing/lemonsqueezy",
+            "query": "figma pricing free plan limits 2026",
+            "page": "https://www.toolpick.dev/pricing/figma",
             "clicks": 0,
-            "impressions": 6,
+            "impressions": 7,
             "ctr": 0,
-            "position": 6.33,
+            "position": 8,
             "localFile": null,
             "localEditable": false,
             "action": "rewrite_title_meta",
-            "score": 0.5722
+            "score": 0.594
+          },
+          {
+            "query": "figma free plan pricing 2026",
+            "page": "https://www.toolpick.dev/pricing/figma",
+            "clicks": 0,
+            "impressions": 7,
+            "ctr": 0,
+            "position": 8.29,
+            "localFile": null,
+            "localEditable": false,
+            "action": "rewrite_title_meta",
+            "score": 0.5836
           },
           {
             "query": "arc browser alternatives 2026",
@@ -941,6 +941,18 @@
             "score": 0.5258
           },
           {
+            "query": "low code ai",
+            "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
+            "clicks": 0,
+            "impressions": 39,
+            "ctr": 0,
+            "position": 82.59,
+            "localFile": null,
+            "localEditable": false,
+            "action": "add_depth_and_internal_links",
+            "score": 0.515
+          },
+          {
             "query": "todoist pricing free plan official",
             "page": "https://www.toolpick.dev/reviews/todoist-review",
             "clicks": 0,
@@ -953,28 +965,16 @@
             "score": 0.5071
           },
           {
-            "query": "low code ai",
+            "query": "low-code ai platform",
             "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
             "clicks": 0,
             "impressions": 38,
             "ctr": 0,
-            "position": 82.95,
+            "position": 88.66,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.5007
-          },
-          {
-            "query": "cal.com free plan limits 2026",
-            "page": "https://www.toolpick.dev/pricing/cal-com",
-            "clicks": 0,
-            "impressions": 6,
-            "ctr": 0,
-            "position": 8.5,
-            "localFile": null,
-            "localEditable": false,
-            "action": "rewrite_title_meta",
-            "score": 0.4939
+            "score": 0.4843
           }
         ]
       },
@@ -989,8 +989,8 @@
           "status": 200,
           "ok": true,
           "rowCount": 3,
-          "startDate": "2026-04-08",
-          "endDate": "2026-05-06",
+          "startDate": "2026-04-09",
+          "endDate": "2026-05-07",
           "noDataYet": false
         },
         "topRows": [
@@ -1057,23 +1057,11 @@
           "status": 200,
           "ok": true,
           "rowCount": 7,
-          "startDate": "2026-04-08",
-          "endDate": "2026-05-06",
+          "startDate": "2026-04-09",
+          "endDate": "2026-05-07",
           "noDataYet": false
         },
         "topRows": [
-          {
-            "query": "design systems library",
-            "page": "https://craftdesk.neogenesis.app/blog/design-system-component-library-comparison",
-            "clicks": 0,
-            "impressions": 2,
-            "ctr": 0,
-            "position": 91.5,
-            "localFile": "src\\sbu\\craftdesk\\content\\blog\\design-system-component-library-comparison.mdx",
-            "localEditable": true,
-            "action": "ignore_low_signal",
-            "score": 0
-          },
           {
             "query": "rapid prototyping user interface",
             "page": "https://craftdesk.neogenesis.app/blog/uiux-tools-rapid-prototyping",
@@ -1094,6 +1082,18 @@
             "ctr": 0,
             "position": 79,
             "localFile": "src\\sbu\\craftdesk\\content\\blog\\ai-ui-design-tools-for-web-apps.mdx",
+            "localEditable": true,
+            "action": "ignore_low_signal",
+            "score": 0
+          },
+          {
+            "query": "design systems library",
+            "page": "https://craftdesk.neogenesis.app/blog/design-system-component-library-comparison",
+            "clicks": 0,
+            "impressions": 1,
+            "ctr": 0,
+            "position": 91,
+            "localFile": "src\\sbu\\craftdesk\\content\\blog\\design-system-component-library-comparison.mdx",
             "localEditable": true,
             "action": "ignore_low_signal",
             "score": 0
@@ -1159,9 +1159,9 @@
         "searchAnalytics": {
           "status": 200,
           "ok": true,
-          "rowCount": 11,
-          "startDate": "2026-04-08",
-          "endDate": "2026-05-06",
+          "rowCount": 10,
+          "startDate": "2026-04-09",
+          "endDate": "2026-05-07",
           "noDataYet": false
         },
         "topRows": [
@@ -1169,13 +1169,13 @@
             "query": "kubernetes resource optimization software",
             "page": "https://deploystack.neogenesis.app/blog/kubernetes-cost-optimization-tools",
             "clicks": 0,
-            "impressions": 8,
+            "impressions": 7,
             "ctr": 0,
-            "position": 91.63,
+            "position": 91.43,
             "localFile": "src\\sbu\\deploystack\\content\\blog\\kubernetes-cost-optimization-tools.mdx",
             "localEditable": true,
             "action": "add_depth_and_internal_links",
-            "score": 0.1003
+            "score": 0.0878
           },
           {
             "query": "kubernetes resource optimization platforms",
@@ -1202,18 +1202,6 @@
             "score": 0.0499
           },
           {
-            "query": "kyc api pricing",
-            "page": "https://deploystack.neogenesis.app/blog/fintech-api-pricing",
-            "clicks": 0,
-            "impressions": 2,
-            "ctr": 0,
-            "position": 87.5,
-            "localFile": null,
-            "localEditable": false,
-            "action": "ignore_low_signal",
-            "score": 0
-          },
-          {
             "query": "cloud deployment tools",
             "page": "https://deploystack.neogenesis.app/blog/cloud-deployment-automation-tools",
             "clicks": 0,
@@ -1222,18 +1210,6 @@
             "position": 33,
             "localFile": "src\\sbu\\deploystack\\content\\blog\\cloud-deployment-automation-tools.mdx",
             "localEditable": true,
-            "action": "ignore_low_signal",
-            "score": 0
-          },
-          {
-            "query": "docker free alternative",
-            "page": "https://deploystack.neogenesis.app/alternatives/docker",
-            "clicks": 0,
-            "impressions": 1,
-            "ctr": 0,
-            "position": 77,
-            "localFile": null,
-            "localEditable": false,
             "action": "ignore_low_signal",
             "score": 0
           },
@@ -1286,6 +1262,18 @@
             "score": 0
           },
           {
+            "query": "kyc api pricing",
+            "page": "https://deploystack.neogenesis.app/blog/fintech-api-pricing",
+            "clicks": 0,
+            "impressions": 1,
+            "ctr": 0,
+            "position": 87,
+            "localFile": null,
+            "localEditable": false,
+            "action": "ignore_low_signal",
+            "score": 0
+          },
+          {
             "query": "railway pricing 2026 developer plan",
             "page": "https://deploystack.neogenesis.app/pricing/railway",
             "clicks": 0,
@@ -1303,13 +1291,13 @@
             "query": "kubernetes resource optimization software",
             "page": "https://deploystack.neogenesis.app/blog/kubernetes-cost-optimization-tools",
             "clicks": 0,
-            "impressions": 8,
+            "impressions": 7,
             "ctr": 0,
-            "position": 91.63,
+            "position": 91.43,
             "localFile": "src\\sbu\\deploystack\\content\\blog\\kubernetes-cost-optimization-tools.mdx",
             "localEditable": true,
             "action": "add_depth_and_internal_links",
-            "score": 0.1003
+            "score": 0.0878
           },
           {
             "query": "kubernetes resource optimization platforms",
@@ -1347,9 +1335,9 @@
         "searchAnalytics": {
           "status": 200,
           "ok": true,
-          "rowCount": 2,
-          "startDate": "2026-04-08",
-          "endDate": "2026-05-06",
+          "rowCount": 1,
+          "startDate": "2026-04-09",
+          "endDate": "2026-05-07",
           "noDataYet": false
         },
         "topRows": [
@@ -1360,18 +1348,6 @@
             "impressions": 1,
             "ctr": 0,
             "position": 93,
-            "localFile": null,
-            "localEditable": false,
-            "action": "ignore_low_signal",
-            "score": 0
-          },
-          {
-            "query": "fullstack finance",
-            "page": "https://finstack.neogenesis.app/",
-            "clicks": 0,
-            "impressions": 1,
-            "ctr": 0,
-            "position": 65,
             "localFile": null,
             "localEditable": false,
             "action": "ignore_low_signal",
@@ -1390,9 +1366,9 @@
         "searchAnalytics": {
           "status": 200,
           "ok": true,
-          "rowCount": 32,
-          "startDate": "2026-04-08",
-          "endDate": "2026-05-06",
+          "rowCount": 37,
+          "startDate": "2026-04-09",
+          "endDate": "2026-05-07",
           "noDataYet": false
         },
         "topRows": [
@@ -1400,13 +1376,13 @@
             "query": "printful alternatives",
             "page": "https://sellkit.neogenesis.app/alternatives/printful",
             "clicks": 0,
-            "impressions": 81,
+            "impressions": 84,
             "ctr": 0,
-            "position": 73.68,
+            "position": 74.3,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 1.1324
+            "score": 1.1694
           },
           {
             "query": "alternatives to printful",
@@ -1414,47 +1390,47 @@
             "clicks": 0,
             "impressions": 31,
             "ctr": 0,
-            "position": 60.29,
+            "position": 60.9,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.4791
+            "score": 0.4767
           },
           {
             "query": "ecommerce billing system",
             "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-invoicing",
             "clicks": 0,
-            "impressions": 29,
+            "impressions": 28,
             "ctr": 0,
-            "position": 79.69,
+            "position": 79.75,
             "localFile": "src\\sbu\\sellkit\\content\\blog\\ecommerce-platform-with-built-in-invoicing.mdx",
             "localEditable": true,
             "action": "add_depth_and_internal_links",
-            "score": 0.3898
+            "score": 0.3762
           },
           {
             "query": "ecommerce invoicing software",
             "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-invoicing",
             "clicks": 0,
-            "impressions": 24,
+            "impressions": 23,
             "ctr": 0,
-            "position": 79,
+            "position": 79.13,
             "localFile": "src\\sbu\\sellkit\\content\\blog\\ecommerce-platform-with-built-in-invoicing.mdx",
             "localEditable": true,
             "action": "add_depth_and_internal_links",
-            "score": 0.324
+            "score": 0.3103
           },
           {
             "query": "e commerce invoice software",
             "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-invoicing",
             "clicks": 0,
-            "impressions": 15,
+            "impressions": 14,
             "ctr": 0,
-            "position": 83.93,
+            "position": 83.64,
             "localFile": "src\\sbu\\sellkit\\content\\blog\\ecommerce-platform-with-built-in-invoicing.mdx",
             "localEditable": true,
             "action": "add_depth_and_internal_links",
-            "score": 0.1965
+            "score": 0.1837
           },
           {
             "query": "e commerce billing system",
@@ -1493,6 +1469,18 @@
             "score": 0.0687
           },
           {
+            "query": "sellkit",
+            "page": "https://sellkit.neogenesis.app/",
+            "clicks": 0,
+            "impressions": 5,
+            "ctr": 0,
+            "position": 39.8,
+            "localFile": null,
+            "localEditable": false,
+            "action": "add_depth_and_internal_links",
+            "score": 0.0951
+          },
+          {
             "query": "printful competitors",
             "page": "https://sellkit.neogenesis.app/alternatives/printful",
             "clicks": 0,
@@ -1503,18 +1491,6 @@
             "localEditable": false,
             "action": "add_depth_and_internal_links",
             "score": 0.0632
-          },
-          {
-            "query": "sellkit",
-            "page": "https://sellkit.neogenesis.app/",
-            "clicks": 0,
-            "impressions": 4,
-            "ctr": 0,
-            "position": 41.25,
-            "localFile": null,
-            "localEditable": false,
-            "action": "add_depth_and_internal_links",
-            "score": 0.0747
           },
           {
             "query": "alternative to gumroad",
@@ -1673,24 +1649,24 @@
             "score": 0
           },
           {
-            "query": "sites similar to printful",
-            "page": "https://sellkit.neogenesis.app/alternatives/printful",
-            "clicks": 0,
-            "impressions": 2,
-            "ctr": 0,
-            "position": 60.5,
-            "localFile": null,
-            "localEditable": false,
-            "action": "ignore_low_signal",
-            "score": 0
-          },
-          {
             "query": "alternativas a printful",
             "page": "https://sellkit.neogenesis.app/alternatives/printful",
             "clicks": 0,
             "impressions": 1,
             "ctr": 0,
             "position": 49,
+            "localFile": null,
+            "localEditable": false,
+            "action": "ignore_low_signal",
+            "score": 0
+          },
+          {
+            "query": "alternative to printful",
+            "page": "https://sellkit.neogenesis.app/alternatives/printful",
+            "clicks": 0,
+            "impressions": 1,
+            "ctr": 0,
+            "position": 63,
             "localFile": null,
             "localEditable": false,
             "action": "ignore_low_signal",
@@ -1702,13 +1678,13 @@
             "query": "printful alternatives",
             "page": "https://sellkit.neogenesis.app/alternatives/printful",
             "clicks": 0,
-            "impressions": 81,
+            "impressions": 84,
             "ctr": 0,
-            "position": 73.68,
+            "position": 74.3,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 1.1324
+            "score": 1.1694
           },
           {
             "query": "alternatives to printful",
@@ -1716,35 +1692,35 @@
             "clicks": 0,
             "impressions": 31,
             "ctr": 0,
-            "position": 60.29,
+            "position": 60.9,
             "localFile": null,
             "localEditable": false,
             "action": "add_depth_and_internal_links",
-            "score": 0.4791
+            "score": 0.4767
           },
           {
             "query": "ecommerce billing system",
             "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-invoicing",
             "clicks": 0,
-            "impressions": 29,
+            "impressions": 28,
             "ctr": 0,
-            "position": 79.69,
+            "position": 79.75,
             "localFile": "src\\sbu\\sellkit\\content\\blog\\ecommerce-platform-with-built-in-invoicing.mdx",
             "localEditable": true,
             "action": "add_depth_and_internal_links",
-            "score": 0.3898
+            "score": 0.3762
           },
           {
             "query": "ecommerce invoicing software",
             "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-invoicing",
             "clicks": 0,
-            "impressions": 24,
+            "impressions": 23,
             "ctr": 0,
-            "position": 79,
+            "position": 79.13,
             "localFile": "src\\sbu\\sellkit\\content\\blog\\ecommerce-platform-with-built-in-invoicing.mdx",
             "localEditable": true,
             "action": "add_depth_and_internal_links",
-            "score": 0.324
+            "score": 0.3103
           },
           {
             "query": "gumroad pricing free plan fees 2026",
@@ -1786,13 +1762,13 @@
             "query": "e commerce invoice software",
             "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-invoicing",
             "clicks": 0,
-            "impressions": 15,
+            "impressions": 14,
             "ctr": 0,
-            "position": 83.93,
+            "position": 83.64,
             "localFile": "src\\sbu\\sellkit\\content\\blog\\ecommerce-platform-with-built-in-invoicing.mdx",
             "localEditable": true,
             "action": "add_depth_and_internal_links",
-            "score": 0.1965
+            "score": 0.1837
           },
           {
             "query": "e commerce billing system",
@@ -1807,6 +1783,18 @@
             "score": 0.1475
           },
           {
+            "query": "sellkit",
+            "page": "https://sellkit.neogenesis.app/",
+            "clicks": 0,
+            "impressions": 5,
+            "ctr": 0,
+            "position": 39.8,
+            "localFile": null,
+            "localEditable": false,
+            "action": "add_depth_and_internal_links",
+            "score": 0.0951
+          },
+          {
             "query": "gumroad alternative",
             "page": "https://sellkit.neogenesis.app/alternatives/gumroad",
             "clicks": 0,
@@ -1817,18 +1805,6 @@
             "localEditable": false,
             "action": "add_depth_and_internal_links",
             "score": 0.0816
-          },
-          {
-            "query": "sellkit",
-            "page": "https://sellkit.neogenesis.app/",
-            "clicks": 0,
-            "impressions": 4,
-            "ctr": 0,
-            "position": 41.25,
-            "localFile": null,
-            "localEditable": false,
-            "action": "add_depth_and_internal_links",
-            "score": 0.0747
           },
           {
             "query": "gumroad similar",
@@ -2100,16 +2076,16 @@
       {
         "site": "toolpick",
         "latest": {
-          "slug": "2026-05-07-llm-observability-tools",
-          "title": "LLM Observability Tools for Lean AI Teams in 2026",
-          "date": "2026-05-07"
+          "slug": "2026-05-09-ai-agent-evaluation-platforms",
+          "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+          "date": "2026-05-09"
         },
-        "staleDays": 1,
+        "staleDays": 0,
         "expectedLiveCoverage": {
-          "slug": "2026-05-07-llm-observability-tools",
-          "title": "LLM Observability Tools for Lean AI Teams in 2026",
+          "slug": "2026-05-09-ai-agent-evaluation-platforms",
+          "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
           "blogUrl": "https://www.toolpick.dev/blog",
-          "detailUrl": "https://www.toolpick.dev/blog/2026-05-07-llm-observability-tools",
+          "detailUrl": "https://www.toolpick.dev/blog/2026-05-09-ai-agent-evaluation-platforms",
           "sitemapUrl": "https://www.toolpick.dev/sitemap.xml"
         },
         "liveCoverageMissing": [],
@@ -2143,16 +2119,16 @@
       {
         "site": "aiforge",
         "latest": {
-          "slug": "2026-05-08-ai-agent-evaluation-platforms",
-          "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-          "date": "2026-05-08"
+          "slug": "2026-05-09-llm-observability-tools",
+          "title": "LLM Observability Tools for Lean AI Teams in 2026",
+          "date": "2026-05-09"
         },
         "staleDays": 0,
         "expectedLiveCoverage": {
-          "slug": "2026-05-08-ai-agent-evaluation-platforms",
-          "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+          "slug": "2026-05-09-llm-observability-tools",
+          "title": "LLM Observability Tools for Lean AI Teams in 2026",
           "blogUrl": "https://aiforge.neogenesis.app/blog",
-          "detailUrl": "https://aiforge.neogenesis.app/blog/2026-05-08-ai-agent-evaluation-platforms",
+          "detailUrl": "https://aiforge.neogenesis.app/blog/2026-05-09-llm-observability-tools",
           "sitemapUrl": "https://aiforge.neogenesis.app/sitemap.xml"
         },
         "liveCoverageMissing": [],
@@ -2186,16 +2162,16 @@
       {
         "site": "craftdesk",
         "latest": {
-          "slug": "2026-05-08-ai-design-qa-tools",
-          "title": "AI Design QA Tools for Product Teams in 2026",
-          "date": "2026-05-08"
+          "slug": "2026-05-09-creative-automation-workflow-tools",
+          "title": "Creative Automation Workflow Tools for Small Teams in 2026",
+          "date": "2026-05-09"
         },
         "staleDays": 0,
         "expectedLiveCoverage": {
-          "slug": "2026-05-08-ai-design-qa-tools",
-          "title": "AI Design QA Tools for Product Teams in 2026",
+          "slug": "2026-05-09-creative-automation-workflow-tools",
+          "title": "Creative Automation Workflow Tools for Small Teams in 2026",
           "blogUrl": "https://craftdesk.neogenesis.app/blog",
-          "detailUrl": "https://craftdesk.neogenesis.app/blog/2026-05-08-ai-design-qa-tools",
+          "detailUrl": "https://craftdesk.neogenesis.app/blog/2026-05-09-creative-automation-workflow-tools",
           "sitemapUrl": "https://craftdesk.neogenesis.app/sitemap.xml"
         },
         "liveCoverageMissing": [],
@@ -2229,16 +2205,16 @@
       {
         "site": "deploystack",
         "latest": {
-          "slug": "2026-05-08-deployment-preview-workflows",
-          "title": "Deployment Preview Workflows for Startup Teams in 2026",
-          "date": "2026-05-08"
+          "slug": "2026-05-09-serverless-cost-monitoring-tools",
+          "title": "Serverless Cost Monitoring Tools for 2026 in 2026",
+          "date": "2026-05-09"
         },
         "staleDays": 0,
         "expectedLiveCoverage": {
-          "slug": "2026-05-08-deployment-preview-workflows",
-          "title": "Deployment Preview Workflows for Startup Teams in 2026",
+          "slug": "2026-05-09-serverless-cost-monitoring-tools",
+          "title": "Serverless Cost Monitoring Tools for 2026 in 2026",
           "blogUrl": "https://deploystack.neogenesis.app/blog",
-          "detailUrl": "https://deploystack.neogenesis.app/blog/2026-05-08-deployment-preview-workflows",
+          "detailUrl": "https://deploystack.neogenesis.app/blog/2026-05-09-serverless-cost-monitoring-tools",
           "sitemapUrl": "https://deploystack.neogenesis.app/sitemap.xml"
         },
         "liveCoverageMissing": [],
@@ -2272,16 +2248,16 @@
       {
         "site": "finstack",
         "latest": {
-          "slug": "2026-05-08-payment-reconciliation-tools",
-          "title": "Payment Reconciliation Tools for SaaS Finance Teams in 2026",
-          "date": "2026-05-08"
+          "slug": "2026-05-09-fintech-risk-monitoring-platforms",
+          "title": "Fintech Risk Monitoring Platforms for 2026 in 2026",
+          "date": "2026-05-09"
         },
         "staleDays": 0,
         "expectedLiveCoverage": {
-          "slug": "2026-05-08-payment-reconciliation-tools",
-          "title": "Payment Reconciliation Tools for SaaS Finance Teams in 2026",
+          "slug": "2026-05-09-fintech-risk-monitoring-platforms",
+          "title": "Fintech Risk Monitoring Platforms for 2026 in 2026",
           "blogUrl": "https://finstack.neogenesis.app/blog",
-          "detailUrl": "https://finstack.neogenesis.app/blog/2026-05-08-payment-reconciliation-tools",
+          "detailUrl": "https://finstack.neogenesis.app/blog/2026-05-09-fintech-risk-monitoring-platforms",
           "sitemapUrl": "https://finstack.neogenesis.app/sitemap.xml"
         },
         "liveCoverageMissing": [],
@@ -2315,16 +2291,16 @@
       {
         "site": "sellkit",
         "latest": {
-          "slug": "2026-05-08-ecommerce-conversion-analytics-tools",
-          "title": "Ecommerce Conversion Analytics Tools for 2026 in 2026",
-          "date": "2026-05-08"
+          "slug": "2026-05-09-ai-product-description-tools",
+          "title": "AI Product Description Tools for Online Stores in 2026",
+          "date": "2026-05-09"
         },
         "staleDays": 0,
         "expectedLiveCoverage": {
-          "slug": "2026-05-08-ecommerce-conversion-analytics-tools",
-          "title": "Ecommerce Conversion Analytics Tools for 2026 in 2026",
+          "slug": "2026-05-09-ai-product-description-tools",
+          "title": "AI Product Description Tools for Online Stores in 2026",
           "blogUrl": "https://sellkit.neogenesis.app/blog",
-          "detailUrl": "https://sellkit.neogenesis.app/blog/2026-05-08-ecommerce-conversion-analytics-tools",
+          "detailUrl": "https://sellkit.neogenesis.app/blog/2026-05-09-ai-product-description-tools",
           "sitemapUrl": "https://sellkit.neogenesis.app/sitemap.xml"
         },
         "liveCoverageMissing": [],
@@ -2367,14 +2343,14 @@
   },
   "passed": true,
   "output": {
-    "stampedJson": "data\\sbu-growth\\search-growth-flywheel-core-2026-05-08T09-51-35-09-00.json",
-    "stampedMd": "data\\sbu-growth\\search-growth-flywheel-core-2026-05-08T09-51-35-09-00.md",
+    "stampedJson": "data\\sbu-growth\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.json",
+    "stampedMd": "data\\sbu-growth\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.md",
     "latestJson": "data\\sbu-growth\\search-growth-flywheel-core-latest.json",
     "latestMd": "data\\sbu-growth\\search-growth-flywheel-core-latest.md",
     "writesDefaultLatest": false,
     "written": [
-      "data\\sbu-growth\\search-growth-flywheel-core-2026-05-08T09-51-35-09-00.json",
-      "data\\sbu-growth\\search-growth-flywheel-core-2026-05-08T09-51-35-09-00.md",
+      "data\\sbu-growth\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.json",
+      "data\\sbu-growth\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.md",
       "data\\sbu-growth\\search-growth-flywheel-core-latest.json",
       "data\\sbu-growth\\search-growth-flywheel-core-latest.md"
     ]

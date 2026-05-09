@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-08T09:51:10+09:00",
-  "passed": false,
+  "generatedAt": "2026-05-09T11:37:53+09:00",
+  "passed": true,
   "steps": [
     {
       "name": "publisher-verify",
@@ -8,9 +8,9 @@
       "status": 0,
       "ok": true,
       "allowedFailure": false,
-      "startedAt": "2026-05-08T09:48:38+09:00",
-      "endedAt": "2026-05-08T09:48:39+09:00",
-      "stdoutTail": "{\n  \"date\": \"2026-05-08\",\n  \"results\": [\n    {\n      \"site\": \"aiforge\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-05-08-ai-agent-evaluation-platforms\",\n      \"latest\": \"2026-05-08\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"craftdesk\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-05-08-ai-design-qa-tools\",\n      \"latest\": \"2026-05-08\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"deploystack\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-05-08-deployment-preview-workflows\",\n      \"latest\": \"2026-05-08\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"finstack\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-05-08-payment-reconciliation-tools\",\n      \"latest\": \"2026-05-08\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"sellkit\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-05-08-ecommerce-conversion-analytics-tools\",\n      \"latest\": \"2026-05-08\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    }\n  ]\n}",
+      "startedAt": "2026-05-09T11:35:36+09:00",
+      "endedAt": "2026-05-09T11:35:45+09:00",
+      "stdoutTail": "{\n  \"date\": \"2026-05-09\",\n  \"results\": [\n    {\n      \"site\": \"aiforge\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-05-09-llm-observability-tools\",\n      \"latest\": \"2026-05-09\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"craftdesk\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-05-09-creative-automation-workflow-tools\",\n      \"latest\": \"2026-05-09\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"deploystack\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-05-09-serverless-cost-monitoring-tools\",\n      \"latest\": \"2026-05-09\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"finstack\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-05-09-fintech-risk-monitoring-platforms\",\n      \"latest\": \"2026-05-09\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    },\n    {\n      \"site\": \"sellkit\",\n      \"action\": \"verify-only\",\n      \"slug\": \"2026-05-09-ai-product-description-tools\",\n      \"latest\": \"2026-05-09\",\n      \"live\": {\n        \"blog\": true,\n        \"detail\": true,\n        \"sitemap\": true\n      }\n    }\n  ]\n}",
       "stderrTail": "",
       "gateOk": true
     },
@@ -20,9 +20,9 @@
       "status": 0,
       "ok": true,
       "allowedFailure": false,
-      "startedAt": "2026-05-08T09:48:39+09:00",
-      "endedAt": "2026-05-08T09:48:44+09:00",
-      "stdoutTail": "              \"slug\": \"2026-05-07-lifecycle-email-automation-tools\",\n              \"date\": \"2026-05-07\",\n              \"words\": 580,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"2026-05-06-customer-review-mining-tools\",\n              \"date\": \"2026-05-06\",\n              \"words\": 580,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"2026-05-05-ai-product-description-tools\",\n              \"date\": \"2026-05-05\",\n              \"words\": 580,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"2026-05-04-ecommerce-conversion-analytics-tools\",\n              \"date\": \"2026-05-04\",\n              \"words\": 580,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            }\n          ]\n        }\n      },\n      \"live\": {\n        \"blog\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasSlug\": true,\n          \"hasTitle\": true\n        },\n        \"detail\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasTitle\": true,\n          \"hasDate\": true\n        },\n        \"sitemap\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasLatestSlug\": true\n        },\n        \"robots\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasSitemap\": true\n        }\n      },\n      \"actions\": [\n        \"Review dirty working tree before automated publish/deploy.\"\n      ]\n    }\n  ]\n}",
+      "startedAt": "2026-05-09T11:35:45+09:00",
+      "endedAt": "2026-05-09T11:35:54+09:00",
+      "stdoutTail": "            },\n            {\n              \"slug\": \"2026-05-08-ecommerce-conversion-analytics-tools\",\n              \"date\": \"2026-05-08\",\n              \"words\": 580,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"2026-05-07-lifecycle-email-automation-tools\",\n              \"date\": \"2026-05-07\",\n              \"words\": 580,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"2026-05-06-customer-review-mining-tools\",\n              \"date\": \"2026-05-06\",\n              \"words\": 580,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            },\n            {\n              \"slug\": \"2026-05-05-ai-product-description-tools\",\n              \"date\": \"2026-05-05\",\n              \"words\": 580,\n              \"completeFrontmatter\": true,\n              \"draft\": false\n            }\n          ]\n        }\n      },\n      \"live\": {\n        \"blog\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasSlug\": true,\n          \"hasTitle\": true\n        },\n        \"detail\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasTitle\": true,\n          \"hasDate\": true\n        },\n        \"sitemap\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasLatestSlug\": true\n        },\n        \"robots\": {\n          \"ok\": true,\n          \"status\": 200,\n          \"hasSitemap\": true\n        }\n      },\n      \"actions\": []\n    }\n  ]\n}",
       "stderrTail": "",
       "gateOk": true
     },
@@ -32,23 +32,23 @@
       "status": 0,
       "ok": true,
       "allowedFailure": false,
-      "startedAt": "2026-05-08T09:48:44+09:00",
-      "endedAt": "2026-05-08T09:49:22+09:00",
-      "stdoutTail": "        \"expectedLiveCoverage\": {\n          \"slug\": \"2026-05-08-ecommerce-conversion-analytics-tools\",\n          \"title\": \"Ecommerce Conversion Analytics Tools for 2026 in 2026\",\n          \"blogUrl\": \"https://sellkit.neogenesis.app/blog\",\n          \"detailUrl\": \"https://sellkit.neogenesis.app/blog/2026-05-08-ecommerce-conversion-analytics-tools\",\n          \"sitemapUrl\": \"https://sellkit.neogenesis.app/sitemap.xml\"\n        },\n        \"liveCoverageMissing\": [],\n        \"live\": {\n          \"blog\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"detail\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      }\n    ]\n  },\n  \"failureSummary\": {\n    \"passed\": true,\n    \"gscOpportunityTotal\": 83,\n    \"pipelinePassed\": true,\n    \"liveCoverageMissingCount\": 0,\n    \"liveCoverageMissing\": [],\n    \"failingSites\": []\n  },\n  \"passed\": true,\n  \"output\": {\n    \"stampedJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-2026-05-08T09-49-22-09-00.json\",\n    \"stampedMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-2026-05-08T09-49-22-09-00.md\",\n    \"latestJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-latest.json\",\n    \"latestMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-latest.md\",\n    \"writesDefaultLatest\": true,\n    \"written\": [\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-2026-05-08T09-49-22-09-00.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-2026-05-08T09-49-22-09-00.md\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-latest.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-latest.md\"\n    ]\n  }\n}",
+      "startedAt": "2026-05-09T11:35:54+09:00",
+      "endedAt": "2026-05-09T11:36:38+09:00",
+      "stdoutTail": "        \"expectedLiveCoverage\": {\n          \"slug\": \"2026-05-09-ai-product-description-tools\",\n          \"title\": \"AI Product Description Tools for Online Stores in 2026\",\n          \"blogUrl\": \"https://sellkit.neogenesis.app/blog\",\n          \"detailUrl\": \"https://sellkit.neogenesis.app/blog/2026-05-09-ai-product-description-tools\",\n          \"sitemapUrl\": \"https://sellkit.neogenesis.app/sitemap.xml\"\n        },\n        \"liveCoverageMissing\": [],\n        \"live\": {\n          \"blog\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"detail\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      }\n    ]\n  },\n  \"failureSummary\": {\n    \"passed\": true,\n    \"gscOpportunityTotal\": 83,\n    \"pipelinePassed\": true,\n    \"liveCoverageMissingCount\": 0,\n    \"liveCoverageMissing\": [],\n    \"failingSites\": []\n  },\n  \"passed\": true,\n  \"output\": {\n    \"stampedJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-2026-05-09T11-36-38-09-00.json\",\n    \"stampedMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-2026-05-09T11-36-38-09-00.md\",\n    \"latestJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-latest.json\",\n    \"latestMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-latest.md\",\n    \"writesDefaultLatest\": true,\n    \"written\": [\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-2026-05-09T11-36-38-09-00.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-2026-05-09T11-36-38-09-00.md\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-latest.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-latest.md\"\n    ]\n  }\n}",
       "stderrTail": "",
       "gateOk": true
     },
     {
       "name": "full-live-quality",
       "cmd": "python scripts/sbu_full_live_quality_audit.py --wait-ms 3000",
-      "status": 1,
-      "ok": false,
+      "status": 0,
+      "ok": true,
       "allowedFailure": false,
-      "startedAt": "2026-05-08T09:49:22+09:00",
-      "endedAt": "2026-05-08T09:51:10+09:00",
-      "stdoutTail": "passed=False passedCount=12/13",
+      "startedAt": "2026-05-09T11:36:38+09:00",
+      "endedAt": "2026-05-09T11:37:53+09:00",
+      "stdoutTail": "passed=True passedCount=13/13",
       "stderrTail": "",
-      "gateOk": false
+      "gateOk": true
     },
     {
       "name": "regression-gate",
@@ -56,9 +56,9 @@
       "status": 0,
       "ok": true,
       "allowedFailure": false,
-      "startedAt": "2026-05-08T09:51:10+09:00",
-      "endedAt": "2026-05-08T09:51:10+09:00",
-      "stdoutTail": "{\n  \"report\": \"data\\\\sbu-growth\\\\control-tower-latest.json\",\n  \"generatedAt\": \"2026-05-08T09:48:39+09:00\",\n  \"passed\": true,\n  \"criticalIssueCount\": 0,\n  \"warningCount\": 1,\n  \"issues\": [],\n  \"warnings\": [\n    {\n      \"site\": \"sellkit\",\n      \"code\": \"dirty_worktree\",\n      \"message\": \"SBU working tree has uncommitted changes; skip automated deploy until reviewed.\"\n    }\n  ]\n}",
+      "startedAt": "2026-05-09T11:37:53+09:00",
+      "endedAt": "2026-05-09T11:37:53+09:00",
+      "stdoutTail": "{\n  \"report\": \"data\\\\sbu-growth\\\\control-tower-latest.json\",\n  \"generatedAt\": \"2026-05-09T11:35:46+09:00\",\n  \"passed\": true,\n  \"criticalIssueCount\": 0,\n  \"warningCount\": 0,\n  \"issues\": [],\n  \"warnings\": []\n}",
       "stderrTail": "",
       "gateOk": true
     }
