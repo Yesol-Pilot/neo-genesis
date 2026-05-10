@@ -28,7 +28,7 @@ SITES = [
     ("finstack", "finstack.neogenesis.app"),
     ("sellkit", "sellkit.neogenesis.app"),
     ("reviewlab", "review.neogenesis.app"),
-    ("kott", "k-ott.com"),
+    ("kott", "kott.kr"),
     ("whylab", "whylab.neogenesis.app"),
     ("ethicaai", "ethica.neogenesis.app"),
 ]
@@ -82,33 +82,18 @@ def site_case_expression() -> str:
 
 def fetch_traffic(days: int = 7) -> list[tuple[str, int, int]]:
     """Return rows compatible with scripts.traffic_alert: host, pageviews, users."""
-    site_expr = site_case_expression()
-    query = f"""
-SELECT
-  {site_expr} AS site,
-  countIf(event = '$pageview') AS pageviews,
-  uniq(distinct_id) AS users
-FROM events
-WHERE timestamp >= now() - INTERVAL {int(days)} DAY
-  AND (
-    properties.site_id IN ({", ".join("'" + site_id + "'" for site_id, _ in SITES)})
-    OR properties.site_domain IN ({", ".join("'" + host + "'" for _, host in SITES)})
-    OR properties.$host IN ({", ".join("'" + host + "'" for _, host in SITES)})
-    OR properties.$current_url LIKE '%neogenesis.app%'
-    OR properties.$current_url LIKE '%k-ott.com%'
-  )
-GROUP BY site
-ORDER BY pageviews DESC, users DESC
-"""
-    rows = run_hogql(query)
-    return [(str(row[0]), int(row[1] or 0), int(row[2] or 0)) for row in rows]
+    rows = fetch_site_events(days)
+    return [
+        (row["site"], row["pageviews"], row["users"])
+        for row in sorted(rows, key=lambda item: (item["pageviews"], item["users"]), reverse=True)
+    ]
 
 
 def fetch_site_events(days: int = 7) -> list[dict[str, Any]]:
-    site_expr = site_case_expression()
-    query = f"""
+    results: list[dict[str, Any]] = []
+    for site_id, host in SITES:
+        query = f"""
 SELECT
-  {site_expr} AS site,
   count() AS events,
   countIf(event = '$pageview') AS pageviews,
   countIf(event != '$pageview') AS action_events,
@@ -117,29 +102,25 @@ SELECT
 FROM events
 WHERE timestamp >= now() - INTERVAL {int(days)} DAY
   AND (
-    properties.site_id IN ({", ".join("'" + site_id + "'" for site_id, _ in SITES)})
-    OR properties.site_domain IN ({", ".join("'" + host + "'" for _, host in SITES)})
-    OR properties.$host IN ({", ".join("'" + host + "'" for _, host in SITES)})
-    OR properties.$current_url LIKE '%neogenesis.app%'
-    OR properties.$current_url LIKE '%k-ott.com%'
+    trim(toString(properties.site_id)) = '{site_id}'
+    OR properties.site_domain = '{host}'
+    OR properties.$host = '{host}'
+    OR properties.$current_url LIKE '%{host}%'
   )
-GROUP BY site
-ORDER BY events DESC, users DESC
 """
-    rows = run_hogql(query)
-    by_site = {
-        str(row[0]): {
-            "site": str(row[0]),
-            "events": int(row[1] or 0),
-            "pageviews": int(row[2] or 0),
-            "actionEvents": int(row[3] or 0),
-            "users": int(row[4] or 0),
-            "lastSeen": row[5],
-        }
-        for row in rows
-    }
-    return [
-        by_site.get(site_id, {
+        rows = run_hogql(query)
+        if rows:
+            row = rows[0]
+            results.append({
+                "site": site_id,
+                "events": int(row[0] or 0),
+                "pageviews": int(row[1] or 0),
+                "actionEvents": int(row[2] or 0),
+                "users": int(row[3] or 0),
+                "lastSeen": row[4],
+            })
+        else:
+            results.append({
             "site": site_id,
             "events": 0,
             "pageviews": 0,
@@ -147,8 +128,7 @@ ORDER BY events DESC, users DESC
             "users": 0,
             "lastSeen": None,
         })
-        for site_id, _host in SITES
-    ]
+    return results
 
 
 def write_report(days: int, rows: list[dict[str, Any]]) -> dict[str, Any]:
