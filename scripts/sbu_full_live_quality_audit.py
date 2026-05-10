@@ -23,6 +23,9 @@ from zoneinfo import ZoneInfo
 
 from playwright.async_api import async_playwright
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 
 SITE_MATRIX = [
     {"id": "toolpick", "name": "ToolPick", "url": "https://www.toolpick.dev/"},
@@ -204,11 +207,13 @@ def site_issues(site: dict[str, str], browser: dict[str, Any], static: dict[str,
     return issues
 
 
-async def run_audit(wait_ms: int) -> dict[str, Any]:
+async def run_audit(wait_ms: int, excluded_ids: set[str] | None = None) -> dict[str, Any]:
+    excluded_ids = excluded_ids or set()
+    site_matrix = [site for site in SITE_MATRIX if site["id"] not in excluded_ids]
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(headless=True)
         results = []
-        for site in SITE_MATRIX:
+        for site in site_matrix:
             browser_result = await audit_browser_site(browser, site, wait_ms)
             static_result = audit_static_site(site)
             issues = site_issues(site, browser_result, static_result)
@@ -288,9 +293,15 @@ def main() -> int:
     parser.add_argument("--json", action="store_true", help="Print JSON report to stdout")
     parser.add_argument("--wait-ms", type=int, default=3000, help="Post-load wait for analytics beacons")
     parser.add_argument("--no-write", action="store_true", help="Do not write report files")
+    parser.add_argument(
+        "--exclude",
+        default="",
+        help="Comma-separated site IDs to skip, for example: toolpick,ur-wrong,neogenesis",
+    )
     args = parser.parse_args()
 
-    report = asyncio.run(run_audit(args.wait_ms))
+    excluded_ids = {item.strip() for item in args.exclude.split(",") if item.strip()}
+    report = asyncio.run(run_audit(args.wait_ms, excluded_ids))
     if not args.no_write:
         repo_root = Path(__file__).resolve().parents[1]
         write_reports(report, repo_root / "data" / "sbu-growth")
