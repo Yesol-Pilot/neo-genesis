@@ -68,6 +68,7 @@ def _runtime_revision() -> str:
         AGENT_ROOT / "knowledge" / "AGENT_RUNTIME_OPTIMIZATION.md",
         AGENT_ROOT / "knowledge" / "CLAUDE_COLLABORATION.md",
         AGENT_ROOT / "knowledge" / "20260510_C_DRIVE_MANAGEMENT_POLICY.md",
+        AGENT_ROOT / "knowledge" / "20260510_D_DRIVE_ROOT_POLICY.md",
         AGENT_ROOT / "knowledge" / "OWNER_PROFILE.md",
         SHARED_BRAIN / "active-tasks.md",
         SHARED_BRAIN / "cross-agent-review.md",
@@ -184,6 +185,7 @@ def _render_repo_agents(status_payload: dict[str, Any]) -> str:
 - Check scope and side effects before tests, deploys, notifications, credential changes, or any external action.
 - Do not hardcode paths, URLs, model names, or environment-specific values when SSOT or config already defines them.
 - For C drive storage/cleanup, follow `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`: move or re-home large agent-created state to `D:` before deleting.
+- For D drive root hygiene, follow `.agent/knowledge/20260510_D_DRIVE_ROOT_POLICY.md`: do not create ad hoc top-level folders under `D:\\`.
 - Verify unstable or time-sensitive facts with official documentation before using them.
 - Treat `.agent/` as the source of truth. Treat root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `infra/agent-runtime/` as generated adapters.
 
@@ -193,6 +195,7 @@ def _render_repo_agents(status_payload: dict[str, Any]) -> str:
 - Role optimization: `.agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md`
 - Claude collaboration: `.agent/knowledge/CLAUDE_COLLABORATION.md`
 - C drive management: `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`
+- D drive root policy: `.agent/knowledge/20260510_D_DRIVE_ROOT_POLICY.md`
 - Owner profile: `.agent/knowledge/OWNER_PROFILE.md`
 - Live state: `.agent/shared-brain/status.json`, `.agent/shared-brain/active-tasks.md`, `.agent/shared-brain/handoff.md`, `.agent/shared-brain/cross-agent-review.md`
 - Fleet state: `.agent/shared-brain/device_inventory.json`, `.agent/shared-brain/device_heartbeats.json`, `infra/agent-runtime/FLEET_STATUS.md`

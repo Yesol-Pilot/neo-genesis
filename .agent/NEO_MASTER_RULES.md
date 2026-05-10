@@ -566,3 +566,13 @@ Before cleaning disk space, classify each candidate as `MOVE`, `CACHE-REBUILD`, 
 Agents must not manually move or delete Google DriveFS upload/download cache, WSL/Docker VHDX files, `C:\Windows`, `Program Files`, `ProgramData`, pagefile, hibernation files, credential stores, or personal/legal/financial folders. Use official app settings, export/import, uninstall/cleanup tools, or owner-approved administrator steps.
 
 Capacity targets: keep `C:` free space at 200GiB+ when practical; treat free space below 150GiB or used space above 80% as warning; treat free space below 100GiB or used space above 90% as critical.
+
+## 2026-05-10 D Drive Root Directory Policy
+
+Canonical detail: `.agent/knowledge/20260510_D_DRIVE_ROOT_POLICY.md`.
+
+Owner instruction: `D:\` must not become an unstructured dumping ground after C-drive migration. Agents must keep the D root readable and place new artifacts under standard category roots.
+
+Default rule: do not create ad hoc top-level folders under `D:\`. Use `D:\00.test\` for Neo Genesis project/SSOT work, `D:\local-dev\` for experiments and local tools, `D:\output\` for generated artifacts, `D:\tmp\` for disposable temp, `D:\models\` for model stores, and `D:\agent-cache|agent-runtime|agent-state\` for agent-managed runtime state.
+
+Root app paths such as `D:\KakaoTalk`, `D:\Telegram Desktop`, `D:\Creative App`, `D:\Launcher`, `D:\steam`, and `D:\mods` are app-managed. Do not move them unless the owning app configuration is updated or the move is done in a stopped-app maintenance window.

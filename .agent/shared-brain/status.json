@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-10T23:28:26+09:00",
-      "lastWork": "C drive cleanup completed with move-first policy: agent/model/runtime caches, WSL, Docker, Gemini, Miniconda, and Downloads moved to D with junctions/env; C free space increased from about 112.1 GiB to about 450.6 GiB; pagefile shrink remains elevated/reboot work"
+      "lastSession": "2026-05-10T23:52:04+09:00",
+      "lastWork": "D drive root hygiene applied and documented: new D root policy added, low-risk root clutter moved into D:\\00.test\\_archive\\root-cleanup-20260510 or D:\\local-dev\\tools, app-managed roots left in place, D:\\agenttest blocked by active Windows file handle"
     },
     "sora": {
       "status": "active",
@@ -61,8 +61,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "2f100c4e4c09862f",
-    "lastSyncedAt": "2026-05-10T23:32:33+09:00",
+    "ssotRevision": "01aa801e0fa5f1c8",
+    "lastSyncedAt": "2026-05-10T23:52:15+09:00",
     "lastSyncedBy": "codex"
   }
 }
