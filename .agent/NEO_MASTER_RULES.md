@@ -539,3 +539,30 @@ Required gates remain active: verify `Yesol-Pilot` remote, `dpthf1537@gmail.com`
 This approval does not authorize billing changes, legal/contract changes, organization ownership changes, production data deletion/truncate, repository/branch deletion, bulk external messaging, or movement of personal/legal/financial documents.
 
 For file-based SBU blogs, DB-only publish is not success. Success requires MDX in the live content source, commit/push, Vercel production deploy, live blog listing, live detail HTTP 200 with expected title/date, and sitemap inclusion.
+
+## 11. C Drive Management Policy (2026-05-10)
+
+Canonical detail: `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`.
+
+Owner instruction: C drive cleanup should prioritize moving/re-homing large agent-created state to D drive instead of unconditional deletion. Since agents, not the owner, usually install tools and generate artifacts, every agent must treat C drive capacity as an operational resource that needs explicit governance.
+
+Default rule: keep `C:` for Windows, drivers, unavoidable app binaries, small profile/config state, and active OS runtime files only. Put new repositories, worktrees, model weights, generated datasets, bulk package caches, browser automation caches, crawl/export artifacts, and long-running temp output on `D:`.
+
+Standard D-drive targets:
+
+| Purpose | Path |
+|---|---|
+| Project SSOT and repos | `D:\00.test\` |
+| Large AI models | `D:\models\` |
+| ComfyUI models | `D:\ComfyUI_models\` |
+| Agent/package caches | `D:\agent-cache\` |
+| Temporary output | `D:\tmp\` |
+| Generated exports | `D:\output\` |
+| WSL distributions | `D:\wsl\<distro>\` |
+| Docker disk data | `D:\docker\` or Docker Desktop's D-drive disk image setting |
+
+Before cleaning disk space, classify each candidate as `MOVE`, `CACHE-REBUILD`, `KEEP`, or `DELETE`. `MOVE` is preferred whenever the data has future value and the tool supports a D-drive location. `DELETE` is allowed only for clearly disposable cache, crash dumps, duplicate installers, or owner-approved personal/download artifacts.
+
+Agents must not manually move or delete Google DriveFS upload/download cache, WSL/Docker VHDX files, `C:\Windows`, `Program Files`, `ProgramData`, pagefile, hibernation files, credential stores, or personal/legal/financial folders. Use official app settings, export/import, uninstall/cleanup tools, or owner-approved administrator steps.
+
+Capacity targets: keep `C:` free space at 200GiB+ when practical; treat free space below 150GiB or used space above 80% as warning; treat free space below 100GiB or used space above 90% as critical.

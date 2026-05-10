@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-10T16:10:05+09:00",
-      "lastWork": "K-OTT GSC monitoring corrected and deepened: monitor now uses root refresh-token credentials, GSC Search Analytics returns 0 rows/0 impressions, sitemap resubmitted successfully, URL Inspection shows home indexed but /compare, /plans, /rotation, and /compare/ott-subscription-rotation are unknown_to_google; inspect:gsc automation added, commit 7632f5c pushed"
+      "lastSession": "2026-05-10T17:18:41+09:00",
+      "lastWork": "C drive management policy added: cleanup now prioritizes moving/re-homing large agent-created state to D drive before deletion; policy captured in .agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md, SSOT summaries and shared memory updated, sync_agent_context generator now exposes the rule in generated AGENTS.md, standard D cache roots created"
     },
     "sora": {
       "status": "active",
@@ -61,8 +61,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "da1cf7ac2ffbd7a2",
-    "lastSyncedAt": "2026-05-10T16:10:29+09:00",
+    "ssotRevision": "b65dd81ca8e4bddf",
+    "lastSyncedAt": "2026-05-10T17:18:58+09:00",
     "lastSyncedBy": "codex"
   }
 }

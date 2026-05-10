@@ -4,7 +4,7 @@
 > Canonical source: `.agent/NEO_MASTER_RULES.md`
 > Supporting sources: `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, `.agent/shared-brain/*`
 > Regenerate with `python scripts/sync_agent_context.py`
-> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-10T16:10:29+09:00`)
+> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-10T17:18:58+09:00`)
 
 ## SSOT Order
 1. `.agent/NEO_MASTER_RULES.md`
@@ -18,6 +18,7 @@
 - Read SSOT before coding, refactoring, or changing operational behavior.
 - Check scope and side effects before tests, deploys, notifications, credential changes, or any external action.
 - Do not hardcode paths, URLs, model names, or environment-specific values when SSOT or config already defines them.
+- For C drive storage/cleanup, follow `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`: move or re-home large agent-created state to `D:` before deleting.
 - Verify unstable or time-sensitive facts with official documentation before using them.
 - Treat `.agent/` as the source of truth. Treat root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `infra/agent-runtime/` as generated adapters.
 
@@ -26,6 +27,7 @@
 - Long-term memory: `.agent/knowledge/AGENT_SHARED_MEMORY.md`
 - Role optimization: `.agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md`
 - Claude collaboration: `.agent/knowledge/CLAUDE_COLLABORATION.md`
+- C drive management: `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`
 - Owner profile: `.agent/knowledge/OWNER_PROFILE.md`
 - Live state: `.agent/shared-brain/status.json`, `.agent/shared-brain/active-tasks.md`, `.agent/shared-brain/handoff.md`, `.agent/shared-brain/cross-agent-review.md`
 - Fleet state: `.agent/shared-brain/device_inventory.json`, `.agent/shared-brain/device_heartbeats.json`, `infra/agent-runtime/FLEET_STATUS.md`
@@ -39,7 +41,7 @@
 - Sora reads `src/core/data/sora_context.json` for shared-brain and runtime paths.
 
 ## Runtime Revision
-- ssotRevision: `da1cf7ac2ffbd7a2`
+- ssotRevision: `b65dd81ca8e4bddf`
 
 ## Live Snapshot
 - `claude-code`: status=active, version=2.1.88, model=claude-opus-4-7, plan=claude-max

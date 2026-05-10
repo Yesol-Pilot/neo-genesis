@@ -414,6 +414,20 @@ ga4_traffic_out.txt
 
 Canonical detail: `.agent/knowledge/20260426_SBU_AUTONOMOUS_GROWTH_RULE.md`.
 
+## 2026-05-10 C Drive Management Policy
+
+Canonical detail: `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`.
+
+Owner instruction: do not clean `C:` by deleting first. Prefer moving or re-homing large agent-created state to `D:` and then verify the tool still works.
+
+Operational defaults:
+
+- `C:` is for Windows, drivers, unavoidable app binaries, small profile/config state, and OS runtime files.
+- New repos, worktrees, generated datasets, model weights, large caches, temp output, crawler/export artifacts, and automation state go to `D:`.
+- Standard D targets: `D:\00.test\`, `D:\models\`, `D:\ComfyUI_models\`, `D:\agent-cache\`, `D:\tmp\`, `D:\output\`, `D:\wsl\`, `D:\docker\`.
+- Classify cleanup candidates as `MOVE`, `CACHE-REBUILD`, `KEEP`, or `DELETE`; use `MOVE` before `DELETE` when data may be useful.
+- Do not manually move/delete Google DriveFS internals, WSL/Docker VHDX, Windows system folders, pagefile/hibernation, credential stores, or personal/legal/financial files.
+
 대표님 지시에 따라 SBU 성장 운영은 기본 자율주행으로 처리한다. 범위는 콘텐츠 생성/수정, SEO, 분석, sitemap/llms, GitHub commit/push, Vercel production deploy, SBU-scoped Vercel env update, broken automation credential rotation, cron/publishing/revalidation/indexing 복구, live smoke 검증이다.
 
 필수 게이트는 유지한다: `Yesol-Pilot` remote, `dpthf1537@gmail.com`, `.vercel/project.json`, 비밀값 미출력/미커밋, 빌드/핵심 테스트, 배포 후 blog/detail/sitemap/API smoke, 커밋/배포/잔여 리스크 보고.

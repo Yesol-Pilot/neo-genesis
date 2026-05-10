@@ -2143,3 +2143,42 @@
   - `etribe-yesol`: Tailscale ping/22/445 reachable, but SSH returns `Permission denied` and SMB returns `Access denied`.
 - Next required action:
   - Enable SSH key auth, Tailscale SSH user mapping, or SMB credentials on `yesol-asus` and `etribe-yesol`; then rerun the same rollout.
+
+## 2026-05-10 - Codex K-OTT Manual GSC Indexing Requests
+
+- Owner requested using the Chrome extension browser instead of the in-app browser.
+- Opened Google Search Console for `https://kott.kr/` in the logged-in Chrome profile (`dpthf1537@gmail.com`).
+- Confirmed overview state:
+  - total web search clicks: `0`
+  - indexed pages: `1`
+  - not indexed pages: `19`
+- Manually ran URL Inspection and requested indexing for four p0 growth URLs:
+  - `https://kott.kr/compare`: GSC state `discovered - currently not indexed`; request accepted.
+  - `https://kott.kr/compare/ott-subscription-rotation`: GSC state `discovered - currently not indexed`; request accepted.
+  - `https://kott.kr/plans`: GSC state `discovered - currently not indexed`; request accepted.
+  - `https://kott.kr/rotation`: GSC state `unknown to Google`; request accepted.
+- GSC displayed `색인 생성 요청됨` for all four requested URLs.
+- Next: re-run `npm run inspect:gsc` after Google processes the queue; do not infer keyword expansion until pages are indexed or impressions appear.
+
+## 2026-05-10 - Codex C Drive Management Policy
+
+- Owner clarified that C drive cleanup should not mean unconditional deletion; valuable large artifacts should be moved/re-homed to D drive first.
+- Added canonical policy: `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`.
+- Updated SSOT summaries:
+  - `.agent/NEO_MASTER_RULES.md`
+  - `.agent/BIBLE.md`
+  - `.agent/knowledge/AGENT_SHARED_MEMORY.md`
+- Updated `scripts/sync_agent_context.py` so the C drive policy participates in runtime revision hashing and generated `AGENTS.md` exposes the rule directly.
+- Regenerated runtime adapters with `python scripts/sync_agent_context.py`; new ssotRevision: `b65dd81ca8e4bddf`.
+- Created empty D-drive standard roots for future agents:
+  - `D:\agent-cache\`
+  - `D:\agent-cache\npm-cache\`
+  - `D:\agent-cache\pip\`
+  - `D:\agent-cache\uv\`
+  - `D:\agent-cache\ms-playwright\`
+  - `D:\agent-cache\puppeteer\`
+  - `D:\wsl\`
+  - `D:\docker\`
+  - `D:\models\ollama\`
+  - `D:\models\huggingface\`
+- No C-drive files were moved or deleted in this pass.
