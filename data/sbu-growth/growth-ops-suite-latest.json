@@ -1,7 +1,6 @@
 {
-  "generatedAt": "2026-05-09T11:37:59+09:00",
+  "generatedAt": "2026-05-10T15:49:41+09:00",
   "sites": [
-    "toolpick",
     "aiforge",
     "craftdesk",
     "deploystack",
@@ -11,21 +10,6 @@
   "measurement": {
     "passed": true,
     "sites": [
-      {
-        "site": "toolpick",
-        "name": "ToolPick",
-        "homeStatus": 200,
-        "code": {
-          "posthog": true,
-          "ga": true
-        },
-        "live": {
-          "posthog": false,
-          "ga": true
-        },
-        "status": "green",
-        "issues": []
-      },
       {
         "site": "aiforge",
         "name": "AIForge",
@@ -107,23 +91,6 @@
     "passed": true,
     "hasSearchConsoleCredentials": true,
     "sites": [
-      {
-        "site": "toolpick",
-        "name": "ToolPick",
-        "sitemap": {
-          "status": 200,
-          "ok": true,
-          "blogUrls": 323
-        },
-        "robots": {
-          "status": 200,
-          "ok": true,
-          "hasSitemap": true
-        },
-        "submission": "ready_for_submit",
-        "status": "green",
-        "issues": []
-      },
       {
         "site": "aiforge",
         "name": "AIForge",
@@ -212,27 +179,27 @@
     ]
   },
   "searchGrowthFlywheel": {
-    "passed": true,
-    "status": 0,
+    "passed": false,
+    "status": 1,
     "reportPath": "data/sbu-growth/search-growth-flywheel-latest.json",
     "summary": {
-      "propertyListedOk": 6,
-      "sitemapKnownOk": 6,
-      "opportunityCount": 73,
+      "propertyListedOk": 5,
+      "sitemapKnownOk": 5,
+      "opportunityCount": 23,
       "contentChangedFileCount": 0,
       "posthogTaxonomyPassed": true,
-      "pipelinePassed": true
+      "pipelinePassed": false
     },
     "parseError": null,
-    "stdoutTail": "        \"expectedLiveCoverage\": {\n          \"slug\": \"2026-05-09-ai-product-description-tools\",\n          \"title\": \"AI Product Description Tools for Online Stores in 2026\",\n          \"blogUrl\": \"https://sellkit.neogenesis.app/blog\",\n          \"detailUrl\": \"https://sellkit.neogenesis.app/blog/2026-05-09-ai-product-description-tools\",\n          \"sitemapUrl\": \"https://sellkit.neogenesis.app/sitemap.xml\"\n        },\n        \"liveCoverageMissing\": [],\n        \"live\": {\n          \"blog\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"detail\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      }\n    ]\n  },\n  \"failureSummary\": {\n    \"passed\": true,\n    \"gscOpportunityTotal\": 73,\n    \"pipelinePassed\": true,\n    \"liveCoverageMissingCount\": 0,\n    \"liveCoverageMissing\": [],\n    \"failingSites\": []\n  },\n  \"passed\": true,\n  \"output\": {\n    \"stampedJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.json\",\n    \"stampedMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.md\",\n    \"latestJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.json\",\n    \"latestMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.md\",\n    \"writesDefaultLatest\": false,\n    \"written\": [\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-2026-05-09T11-38-24-09-00.md\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-core-latest.md\"\n    ]\n  }\n}",
+    "stdoutTail": "    \"passed\": false,\n    \"gscOpportunityTotal\": 23,\n    \"pipelinePassed\": false,\n    \"liveCoverageMissingCount\": 3,\n    \"liveCoverageMissing\": [\n      {\n        \"target\": \"blog\",\n        \"site\": \"aiforge\",\n        \"slug\": \"2026-05-10-ai-workflow-automation-stack\",\n        \"expected\": \"2026-05-10-ai-workflow-automation-stack\",\n        \"url\": \"https://aiforge.neogenesis.app/blog\",\n        \"status\": 200,\n        \"reason\": \"slug_not_found\"\n      },\n      {\n        \"target\": \"detail\",\n        \"site\": \"aiforge\",\n        \"slug\": \"2026-05-10-ai-workflow-automation-stack\",\n        \"expected\": \"AI Workflow Automation Stack for Small Teams in 2026\",\n        \"url\": \"https://aiforge.neogenesis.app/blog/2026-05-10-ai-workflow-automation-stack\",\n        \"status\": 404,\n        \"reason\": \"request_failed\"\n      },\n      {\n        \"target\": \"sitemap\",\n        \"site\": \"aiforge\",\n        \"slug\": \"2026-05-10-ai-workflow-automation-stack\",\n        \"expected\": \"/blog/2026-05-10-ai-workflow-automation-stack\",\n        \"url\": \"https://aiforge.neogenesis.app/sitemap.xml\",\n        \"status\": 200,\n        \"reason\": \"slug_url_not_found\"\n      }\n    ],\n    \"failingSites\": [\n      {\n        \"site\": \"aiforge\",\n        \"slug\": \"2026-05-10-ai-workflow-automation-stack\",\n        \"issues\": [\n          \"live_blog_missing_latest:2026-05-10-ai-workflow-automation-stack\",\n          \"live_detail_missing_latest:2026-05-10-ai-workflow-automation-stack\",\n          \"sitemap_missing_latest:2026-05-10-ai-workflow-automation-stack\"\n        ]\n      }\n    ]\n  },\n  \"passed\": false,\n  \"output\": {\n    \"stampedJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T15-50-03-09-00.json\",\n    \"stampedMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T15-50-03-09-00.md\",\n    \"latestJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.json\",\n    \"latestMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.md\",\n    \"writesDefaultLatest\": false,\n    \"written\": [\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T15-50-03-09-00.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T15-50-03-09-00.md\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.md\"\n    ]\n  }\n}",
     "stderrTail": ""
   },
   "cannibalization": {
     "passed": true,
-    "totalPosts": 2180,
+    "totalPosts": 1755,
     "exactClusterCount": 25,
-    "routedClusterCount": 23,
-    "unresolvedClusterCount": 2,
+    "routedClusterCount": 25,
+    "unresolvedClusterCount": 0,
     "topClusters": [
       {
         "key": "ai model deployment cost optimization",
@@ -339,54 +306,6 @@
         ]
       },
       {
-        "key": "ai devops",
-        "count": 6,
-        "routed": true,
-        "sites": [
-          "toolpick",
-          "aiforge",
-          "deploystack"
-        ],
-        "samples": [
-          {
-            "site": "toolpick",
-            "slug": "ai-devops-tools",
-            "title": "AI DevOps tools",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-devops-tools",
-            "title": "AI DevOps tools",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-devops",
-            "title": "AI DevOps",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "deploystack",
-            "slug": "ai-devops-platforms",
-            "title": "AI DevOps platforms",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "deploystack",
-            "slug": "ai-devops-tools",
-            "title": "AI DevOps tools",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "deploystack",
-            "slug": "ai-devops",
-            "title": "AI DevOps",
-            "hasIntentRouting": true
-          }
-        ]
-      },
-      {
         "key": "ai model deployment security",
         "count": 6,
         "routed": true,
@@ -433,89 +352,6 @@
         ]
       },
       {
-        "key": "ai devops automation",
-        "count": 5,
-        "routed": true,
-        "sites": [
-          "toolpick",
-          "aiforge",
-          "deploystack"
-        ],
-        "samples": [
-          {
-            "site": "toolpick",
-            "slug": "ai-devops-automation",
-            "title": "AI DevOps Automation",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-devops-automation-tools",
-            "title": "AI DevOps Automation Tools",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-devops-automation",
-            "title": "AI DevOps Automation",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "deploystack",
-            "slug": "ai-devops-automation-platforms",
-            "title": "AI DevOps Automation Platforms",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "deploystack",
-            "slug": "ai-devops-automation",
-            "title": "AI DevOps Automation",
-            "hasIntentRouting": true
-          }
-        ]
-      },
-      {
-        "key": "ai model deployment",
-        "count": 5,
-        "routed": true,
-        "sites": [
-          "toolpick",
-          "aiforge"
-        ],
-        "samples": [
-          {
-            "site": "toolpick",
-            "slug": "ai-model-deployment",
-            "title": "AI Model Deployment",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-model-deployment-platforms-comparison-2026",
-            "title": "AI Model Deployment Platforms Comparison 2026",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-model-deployment-platforms-comparison",
-            "title": "AI Model Deployment Platforms Comparison",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-model-deployment-platforms",
-            "title": "AI model deployment platforms",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-model-deployment-tools",
-            "title": "AI Model Deployment Tools",
-            "hasIntentRouting": true
-          }
-        ]
-      },
-      {
         "key": "ai api observability",
         "count": 5,
         "routed": true,
@@ -551,6 +387,47 @@
             "site": "aiforge",
             "slug": "ai-api-observability",
             "title": "AI API observability",
+            "hasIntentRouting": true
+          }
+        ]
+      },
+      {
+        "key": "ai devops",
+        "count": 5,
+        "routed": true,
+        "sites": [
+          "aiforge",
+          "deploystack"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-devops-tools",
+            "title": "AI DevOps tools",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-devops",
+            "title": "AI DevOps",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "deploystack",
+            "slug": "ai-devops-platforms",
+            "title": "AI DevOps platforms",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "deploystack",
+            "slug": "ai-devops-tools",
+            "title": "AI DevOps tools",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "deploystack",
+            "slug": "ai-devops",
+            "title": "AI DevOps",
             "hasIntentRouting": true
           }
         ]
@@ -956,251 +833,6 @@
         ]
       },
       {
-        "key": "ai agent evaluation product teams",
-        "count": 4,
-        "routed": false,
-        "sites": [
-          "toolpick",
-          "aiforge"
-        ],
-        "samples": [
-          {
-            "site": "toolpick",
-            "slug": "2026-05-05-ai-agent-evaluation-platforms",
-            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-            "hasIntentRouting": false
-          },
-          {
-            "site": "toolpick",
-            "slug": "2026-05-09-ai-agent-evaluation-platforms",
-            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-            "hasIntentRouting": false
-          },
-          {
-            "site": "aiforge",
-            "slug": "2026-05-04-ai-agent-evaluation-platforms",
-            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-            "hasIntentRouting": false
-          },
-          {
-            "site": "aiforge",
-            "slug": "2026-05-08-ai-agent-evaluation-platforms",
-            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-            "hasIntentRouting": false
-          }
-        ]
-      },
-      {
-        "key": "llm observability lean ai teams",
-        "count": 4,
-        "routed": false,
-        "sites": [
-          "toolpick",
-          "aiforge"
-        ],
-        "samples": [
-          {
-            "site": "toolpick",
-            "slug": "2026-05-07-llm-observability-tools",
-            "title": "LLM Observability Tools for Lean AI Teams in 2026",
-            "hasIntentRouting": false
-          },
-          {
-            "site": "aiforge",
-            "slug": "2026-04-29-llm-observability-tools",
-            "title": "LLM Observability Tools for Lean AI Teams in 2026",
-            "hasIntentRouting": false
-          },
-          {
-            "site": "aiforge",
-            "slug": "2026-05-05-llm-observability-tools",
-            "title": "LLM Observability Tools for Lean AI Teams in 2026",
-            "hasIntentRouting": false
-          },
-          {
-            "site": "aiforge",
-            "slug": "2026-05-09-llm-observability-tools",
-            "title": "LLM Observability Tools for Lean AI Teams in 2026",
-            "hasIntentRouting": false
-          }
-        ]
-      },
-      {
-        "key": "ai code analysis",
-        "count": 4,
-        "routed": true,
-        "sites": [
-          "toolpick",
-          "aiforge"
-        ],
-        "samples": [
-          {
-            "site": "toolpick",
-            "slug": "ai-code-analysis-tools",
-            "title": "AI code analysis tools",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-code-analysis-platforms",
-            "title": "AI code analysis platforms",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-code-analysis-tools",
-            "title": "AI code analysis tools",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-code-analysis",
-            "title": "AI code analysis",
-            "hasIntentRouting": true
-          }
-        ]
-      },
-      {
-        "key": "ai cybersecurity saas",
-        "count": 4,
-        "routed": true,
-        "sites": [
-          "toolpick",
-          "aiforge"
-        ],
-        "samples": [
-          {
-            "site": "toolpick",
-            "slug": "ai-cybersecurity-saas",
-            "title": "AI cybersecurity SaaS",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-cybersecurity-for-saas",
-            "title": "AI Cybersecurity for SaaS",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-cybersecurity-saas",
-            "title": "AI cybersecurity SaaS",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-cybersecurity-tools-for-saas",
-            "title": "AI cybersecurity tools for SaaS",
-            "hasIntentRouting": true
-          }
-        ]
-      },
-      {
-        "key": "ai observability",
-        "count": 4,
-        "routed": true,
-        "sites": [
-          "toolpick",
-          "aiforge"
-        ],
-        "samples": [
-          {
-            "site": "toolpick",
-            "slug": "ai-observability-tools",
-            "title": "AI observability tools",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-observability-platforms",
-            "title": "AI observability platforms",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-observability-tools-comparison",
-            "title": "AI Observability Tools Comparison",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-observability-tools",
-            "title": "AI observability tools",
-            "hasIntentRouting": true
-          }
-        ]
-      },
-      {
-        "key": "ai powered api testing",
-        "count": 4,
-        "routed": true,
-        "sites": [
-          "toolpick",
-          "aiforge"
-        ],
-        "samples": [
-          {
-            "site": "toolpick",
-            "slug": "ai-powered-api-testing-tools",
-            "title": "AI-Powered API Testing Tools",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-powered-api-testing-platforms-2026",
-            "title": "AI-Powered API Testing Platforms 2026",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-powered-api-testing-tools-2026",
-            "title": "AI-Powered API Testing Tools 2026",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "aiforge",
-            "slug": "ai-powered-api-testing-tools",
-            "title": "AI-Powered API Testing Tools",
-            "hasIntentRouting": true
-          }
-        ]
-      },
-      {
-        "key": "serverless security",
-        "count": 4,
-        "routed": true,
-        "sites": [
-          "toolpick",
-          "deploystack"
-        ],
-        "samples": [
-          {
-            "site": "toolpick",
-            "slug": "serverless-security-tools",
-            "title": "Serverless Security Tools",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "toolpick",
-            "slug": "serverless-security",
-            "title": "Serverless Security",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "deploystack",
-            "slug": "serverless-security-2026",
-            "title": "Serverless Security 2026",
-            "hasIntentRouting": true
-          },
-          {
-            "site": "deploystack",
-            "slug": "serverless-security",
-            "title": "Serverless Security",
-            "hasIntentRouting": true
-          }
-        ]
-      },
-      {
         "key": "ai code generation security",
         "count": 4,
         "routed": true,
@@ -1233,93 +865,320 @@
             "hasIntentRouting": true
           }
         ]
-      }
-    ],
-    "topUnresolvedClusters": [
+      },
       {
-        "key": "ai agent evaluation product teams",
+        "key": "ai code generation",
         "count": 4,
-        "routed": false,
+        "routed": true,
         "sites": [
-          "toolpick",
           "aiforge"
         ],
         "samples": [
           {
-            "site": "toolpick",
-            "slug": "2026-05-05-ai-agent-evaluation-platforms",
-            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-            "hasIntentRouting": false
-          },
-          {
-            "site": "toolpick",
-            "slug": "2026-05-09-ai-agent-evaluation-platforms",
-            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-            "hasIntentRouting": false
+            "site": "aiforge",
+            "slug": "ai-code-generation-tools-comparison-2026",
+            "title": "AI Code Generation Tools Comparison 2026",
+            "hasIntentRouting": true
           },
           {
             "site": "aiforge",
-            "slug": "2026-05-04-ai-agent-evaluation-platforms",
-            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-            "hasIntentRouting": false
+            "slug": "ai-code-generation-tools-comparison",
+            "title": "AI Code Generation Tools Comparison",
+            "hasIntentRouting": true
           },
           {
             "site": "aiforge",
-            "slug": "2026-05-08-ai-agent-evaluation-platforms",
-            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-            "hasIntentRouting": false
+            "slug": "ai-code-generation-tools",
+            "title": "AI Code Generation Tools",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-code-generation",
+            "title": "AI Code Generation",
+            "hasIntentRouting": true
           }
         ]
       },
       {
-        "key": "llm observability lean ai teams",
+        "key": "ai devops automation",
         "count": 4,
-        "routed": false,
+        "routed": true,
         "sites": [
-          "toolpick",
+          "aiforge",
+          "deploystack"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-devops-automation-tools",
+            "title": "AI DevOps Automation Tools",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-devops-automation",
+            "title": "AI DevOps Automation",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "deploystack",
+            "slug": "ai-devops-automation-platforms",
+            "title": "AI DevOps Automation Platforms",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "deploystack",
+            "slug": "ai-devops-automation",
+            "title": "AI DevOps Automation",
+            "hasIntentRouting": true
+          }
+        ]
+      },
+      {
+        "key": "ai model deployment cost monitoring",
+        "count": 4,
+        "routed": true,
+        "sites": [
           "aiforge"
         ],
         "samples": [
           {
-            "site": "toolpick",
-            "slug": "2026-05-07-llm-observability-tools",
-            "title": "LLM Observability Tools for Lean AI Teams in 2026",
-            "hasIntentRouting": false
+            "site": "aiforge",
+            "slug": "ai-model-deployment-cost-monitoring-platforms-2026",
+            "title": "AI Model Deployment Cost Monitoring Platforms 2026",
+            "hasIntentRouting": true
           },
           {
             "site": "aiforge",
-            "slug": "2026-04-29-llm-observability-tools",
-            "title": "LLM Observability Tools for Lean AI Teams in 2026",
-            "hasIntentRouting": false
+            "slug": "ai-model-deployment-cost-monitoring-platforms",
+            "title": "AI Model Deployment Cost Monitoring Platforms",
+            "hasIntentRouting": true
           },
           {
             "site": "aiforge",
-            "slug": "2026-05-05-llm-observability-tools",
-            "title": "LLM Observability Tools for Lean AI Teams in 2026",
-            "hasIntentRouting": false
+            "slug": "ai-model-deployment-cost-monitoring-tools",
+            "title": "AI Model Deployment Cost Monitoring Tools",
+            "hasIntentRouting": true
           },
           {
             "site": "aiforge",
-            "slug": "2026-05-09-llm-observability-tools",
-            "title": "LLM Observability Tools for Lean AI Teams in 2026",
-            "hasIntentRouting": false
+            "slug": "ai-model-deployment-cost-monitoring",
+            "title": "AI Model Deployment Cost Monitoring",
+            "hasIntentRouting": true
+          }
+        ]
+      },
+      {
+        "key": "ai model deployment",
+        "count": 4,
+        "routed": true,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-platforms-comparison-2026",
+            "title": "AI Model Deployment Platforms Comparison 2026",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-platforms-comparison",
+            "title": "AI Model Deployment Platforms Comparison",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-platforms",
+            "title": "AI model deployment platforms",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-model-deployment-tools",
+            "title": "AI Model Deployment Tools",
+            "hasIntentRouting": true
+          }
+        ]
+      },
+      {
+        "key": "ai powered api governance",
+        "count": 4,
+        "routed": true,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-governance-platforms-2026-comparison",
+            "title": "AI-Powered API Governance Platforms 2026 Comparison",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-governance-platforms-2026",
+            "title": "AI-Powered API Governance Platforms 2026",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-governance-tools-2026",
+            "title": "AI-Powered API Governance Tools 2026",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "ai-powered-api-governance-tools",
+            "title": "AI-Powered API Governance Tools",
+            "hasIntentRouting": true
+          }
+        ]
+      },
+      {
+        "key": "llm security",
+        "count": 4,
+        "routed": true,
+        "sites": [
+          "aiforge"
+        ],
+        "samples": [
+          {
+            "site": "aiforge",
+            "slug": "llm-security-platforms-comparison-for-2026",
+            "title": "LLM Security Platforms Comparison for 2026",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-security-platforms-comparison",
+            "title": "LLM Security Platforms Comparison",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-security-platforms",
+            "title": "LLM Security Platforms",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "aiforge",
+            "slug": "llm-security-tools",
+            "title": "LLM Security Tools",
+            "hasIntentRouting": true
+          }
+        ]
+      },
+      {
+        "key": "ai powered prototyping",
+        "count": 4,
+        "routed": true,
+        "sites": [
+          "craftdesk"
+        ],
+        "samples": [
+          {
+            "site": "craftdesk",
+            "slug": "ai-powered-prototyping-software",
+            "title": "AI Powered Prototyping Software",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-powered-prototyping-tools-2026",
+            "title": "ai powered prototyping tools 2026",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-powered-prototyping-tools-comparison-2026",
+            "title": "AI-Powered Prototyping Tools Comparison 2026",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "craftdesk",
+            "slug": "ai-powered-prototyping-tools",
+            "title": "AI-Powered Prototyping Tools",
+            "hasIntentRouting": true
+          }
+        ]
+      },
+      {
+        "key": "no code animation ui ux prototyping",
+        "count": 4,
+        "routed": true,
+        "sites": [
+          "craftdesk"
+        ],
+        "samples": [
+          {
+            "site": "craftdesk",
+            "slug": "no-code-animation-for-uiux-prototyping",
+            "title": "No-Code Animation for UI/UX Prototyping",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "craftdesk",
+            "slug": "no-code-animation-tools-for-uiux-prototyping",
+            "title": "No-Code Animation Tools for UI/UX Prototyping",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "craftdesk",
+            "slug": "no-code-animation-tools-uiux-prototyping",
+            "title": "No-Code Animation Tools UI/UX Prototyping",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "craftdesk",
+            "slug": "no-code-animation-uiux-prototyping",
+            "title": "No-Code Animation UI/UX Prototyping",
+            "hasIntentRouting": true
+          }
+        ]
+      },
+      {
+        "key": "no code animation ui ux",
+        "count": 4,
+        "routed": true,
+        "sites": [
+          "craftdesk"
+        ],
+        "samples": [
+          {
+            "site": "craftdesk",
+            "slug": "no-code-animation-tools-for-uiux",
+            "title": "No-Code Animation Tools for UI/UX",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "craftdesk",
+            "slug": "no-code-animation-tools-uiux",
+            "title": "No-Code Animation Tools UI/UX",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "craftdesk",
+            "slug": "no-code-animation-ui-ux",
+            "title": "no-code animation UI UX",
+            "hasIntentRouting": true
+          },
+          {
+            "site": "craftdesk",
+            "slug": "no-code-animation-uiux",
+            "title": "no-code animation UI/UX",
+            "hasIntentRouting": true
           }
         ]
       }
-    ]
+    ],
+    "topUnresolvedClusters": []
   },
   "cronSmoke": {
     "passed": true,
     "sites": [
-      {
-        "site": "toolpick",
-        "name": "ToolPick",
-        "statusCode": 401,
-        "protectedRoute": true,
-        "safeSmokePassed": true,
-        "status": "green",
-        "issues": []
-      },
       {
         "site": "aiforge",
         "name": "AIForge",
@@ -1371,18 +1230,9 @@
     "passed": true,
     "sites": [
       {
-        "site": "toolpick",
-        "name": "ToolPick",
-        "ctaCoverage": 0.754,
-        "hasTrackedLink": true,
-        "hasPosthogEvents": true,
-        "status": "green",
-        "issues": []
-      },
-      {
         "site": "aiforge",
         "name": "AIForge",
-        "ctaCoverage": 0.736,
+        "ctaCoverage": 0.737,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1429,20 +1279,11 @@
   "weeklyReport": {
     "passed": true,
     "summary": {
-      "greenSites": 6,
-      "totalModeledMau": 749000,
-      "liveOkSites": 6
+      "greenSites": 5,
+      "totalModeledMau": 599900,
+      "liveOkSites": 5
     },
     "siteRows": [
-      {
-        "site": "toolpick",
-        "status": "green",
-        "modeledMau": 149100,
-        "readyPosts": 426,
-        "ctaCoverage": 0.754,
-        "internalLinkCoverage": 0.791,
-        "liveOk": true
-      },
       {
         "site": "aiforge",
         "status": "green",
@@ -1504,11 +1345,11 @@
     "warnings": {
       "measurementYellow": 0,
       "eventTaxonomyYellow": 0,
-      "searchGrowthOpportunityCount": 73,
-      "cannibalizationClusters": 2,
+      "searchGrowthOpportunityCount": 23,
+      "cannibalizationClusters": 0,
       "rawCannibalizationClusters": 25,
-      "routedCannibalizationClusters": 23
+      "routedCannibalizationClusters": 25
     }
   },
-  "passed": true
+  "passed": false
 }
