@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-10T15:49:41+09:00",
+  "generatedAt": "2026-05-10T17:20:08+09:00",
   "sites": [
     "aiforge",
     "craftdesk",
@@ -97,7 +97,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 455
+          "blogUrls": 456
         },
         "robots": {
           "status": 200,
@@ -114,7 +114,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 388
+          "blogUrls": 389
         },
         "robots": {
           "status": 200,
@@ -131,7 +131,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 333
+          "blogUrls": 334
         },
         "robots": {
           "status": 200,
@@ -148,7 +148,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 330
+          "blogUrls": 331
         },
         "robots": {
           "status": 200,
@@ -165,7 +165,7 @@
         "sitemap": {
           "status": 200,
           "ok": true,
-          "blogUrls": 311
+          "blogUrls": 312
         },
         "robots": {
           "status": 200,
@@ -179,24 +179,24 @@
     ]
   },
   "searchGrowthFlywheel": {
-    "passed": false,
-    "status": 1,
+    "passed": true,
+    "status": 0,
     "reportPath": "data/sbu-growth/search-growth-flywheel-latest.json",
     "summary": {
       "propertyListedOk": 5,
       "sitemapKnownOk": 5,
-      "opportunityCount": 23,
+      "opportunityCount": 25,
       "contentChangedFileCount": 0,
       "posthogTaxonomyPassed": true,
-      "pipelinePassed": false
+      "pipelinePassed": true
     },
     "parseError": null,
-    "stdoutTail": "    \"passed\": false,\n    \"gscOpportunityTotal\": 23,\n    \"pipelinePassed\": false,\n    \"liveCoverageMissingCount\": 3,\n    \"liveCoverageMissing\": [\n      {\n        \"target\": \"blog\",\n        \"site\": \"aiforge\",\n        \"slug\": \"2026-05-10-ai-workflow-automation-stack\",\n        \"expected\": \"2026-05-10-ai-workflow-automation-stack\",\n        \"url\": \"https://aiforge.neogenesis.app/blog\",\n        \"status\": 200,\n        \"reason\": \"slug_not_found\"\n      },\n      {\n        \"target\": \"detail\",\n        \"site\": \"aiforge\",\n        \"slug\": \"2026-05-10-ai-workflow-automation-stack\",\n        \"expected\": \"AI Workflow Automation Stack for Small Teams in 2026\",\n        \"url\": \"https://aiforge.neogenesis.app/blog/2026-05-10-ai-workflow-automation-stack\",\n        \"status\": 404,\n        \"reason\": \"request_failed\"\n      },\n      {\n        \"target\": \"sitemap\",\n        \"site\": \"aiforge\",\n        \"slug\": \"2026-05-10-ai-workflow-automation-stack\",\n        \"expected\": \"/blog/2026-05-10-ai-workflow-automation-stack\",\n        \"url\": \"https://aiforge.neogenesis.app/sitemap.xml\",\n        \"status\": 200,\n        \"reason\": \"slug_url_not_found\"\n      }\n    ],\n    \"failingSites\": [\n      {\n        \"site\": \"aiforge\",\n        \"slug\": \"2026-05-10-ai-workflow-automation-stack\",\n        \"issues\": [\n          \"live_blog_missing_latest:2026-05-10-ai-workflow-automation-stack\",\n          \"live_detail_missing_latest:2026-05-10-ai-workflow-automation-stack\",\n          \"sitemap_missing_latest:2026-05-10-ai-workflow-automation-stack\"\n        ]\n      }\n    ]\n  },\n  \"passed\": false,\n  \"output\": {\n    \"stampedJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T15-50-03-09-00.json\",\n    \"stampedMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T15-50-03-09-00.md\",\n    \"latestJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.json\",\n    \"latestMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.md\",\n    \"writesDefaultLatest\": false,\n    \"written\": [\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T15-50-03-09-00.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T15-50-03-09-00.md\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.md\"\n    ]\n  }\n}",
+    "stdoutTail": "        \"expectedLiveCoverage\": {\n          \"slug\": \"2026-05-10-customer-review-mining-tools\",\n          \"title\": \"Customer Review Mining Tools for Ecommerce Teams in 2026\",\n          \"blogUrl\": \"https://sellkit.neogenesis.app/blog\",\n          \"detailUrl\": \"https://sellkit.neogenesis.app/blog/2026-05-10-customer-review-mining-tools\",\n          \"sitemapUrl\": \"https://sellkit.neogenesis.app/sitemap.xml\"\n        },\n        \"liveCoverageMissing\": [],\n        \"live\": {\n          \"blog\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"detail\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"sitemap\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"robots\": {\n            \"status\": 200,\n            \"ok\": true\n          },\n          \"cron\": {\n            \"status\": 401,\n            \"protected\": true\n          }\n        },\n        \"indexnowSubmitScript\": true,\n        \"gscReady\": true,\n        \"status\": \"green\",\n        \"issues\": []\n      }\n    ]\n  },\n  \"failureSummary\": {\n    \"passed\": true,\n    \"gscOpportunityTotal\": 25,\n    \"pipelinePassed\": true,\n    \"liveCoverageMissingCount\": 0,\n    \"liveCoverageMissing\": [],\n    \"failingSites\": []\n  },\n  \"passed\": true,\n  \"output\": {\n    \"stampedJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T17-20-25-09-00.json\",\n    \"stampedMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T17-20-25-09-00.md\",\n    \"latestJson\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.json\",\n    \"latestMd\": \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.md\",\n    \"writesDefaultLatest\": false,\n    \"written\": [\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T17-20-25-09-00.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-2026-05-10T17-20-25-09-00.md\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.json\",\n      \"data\\\\sbu-growth\\\\search-growth-flywheel-custom-cb1a6d941ace-latest.md\"\n    ]\n  }\n}",
     "stderrTail": ""
   },
   "cannibalization": {
     "passed": true,
-    "totalPosts": 1755,
+    "totalPosts": 1759,
     "exactClusterCount": 25,
     "routedClusterCount": 25,
     "unresolvedClusterCount": 0,
@@ -1241,7 +1241,7 @@
       {
         "site": "craftdesk",
         "name": "CraftDesk",
-        "ctaCoverage": 0.838,
+        "ctaCoverage": 0.839,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1250,7 +1250,7 @@
       {
         "site": "deploystack",
         "name": "DeployStack",
-        "ctaCoverage": 0.735,
+        "ctaCoverage": 0.736,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1259,7 +1259,7 @@
       {
         "site": "finstack",
         "name": "FinStack",
-        "ctaCoverage": 0.747,
+        "ctaCoverage": 0.748,
         "hasTrackedLink": true,
         "hasPosthogEvents": true,
         "status": "green",
@@ -1289,8 +1289,8 @@
         "status": "green",
         "modeledMau": 151200,
         "readyPosts": 432,
-        "ctaCoverage": 0.736,
-        "internalLinkCoverage": 0.732,
+        "ctaCoverage": 0.737,
+        "internalLinkCoverage": 0.73,
         "liveOk": true
       },
       {
@@ -1298,8 +1298,8 @@
         "status": "green",
         "modeledMau": 129150,
         "readyPosts": 369,
-        "ctaCoverage": 0.838,
-        "internalLinkCoverage": 0.684,
+        "ctaCoverage": 0.839,
+        "internalLinkCoverage": 0.688,
         "liveOk": true
       },
       {
@@ -1307,8 +1307,8 @@
         "status": "green",
         "modeledMau": 109550,
         "readyPosts": 313,
-        "ctaCoverage": 0.735,
-        "internalLinkCoverage": 0.679,
+        "ctaCoverage": 0.736,
+        "internalLinkCoverage": 0.677,
         "liveOk": true
       },
       {
@@ -1316,8 +1316,8 @@
         "status": "green",
         "modeledMau": 107800,
         "readyPosts": 308,
-        "ctaCoverage": 0.747,
-        "internalLinkCoverage": 0.668,
+        "ctaCoverage": 0.748,
+        "internalLinkCoverage": 0.666,
         "liveOk": true
       },
       {
@@ -1326,7 +1326,7 @@
         "modeledMau": 102200,
         "readyPosts": 292,
         "ctaCoverage": 0.88,
-        "internalLinkCoverage": 0.75,
+        "internalLinkCoverage": 0.748,
         "liveOk": true
       }
     ],
@@ -1345,11 +1345,11 @@
     "warnings": {
       "measurementYellow": 0,
       "eventTaxonomyYellow": 0,
-      "searchGrowthOpportunityCount": 23,
+      "searchGrowthOpportunityCount": 25,
       "cannibalizationClusters": 0,
       "rawCannibalizationClusters": 25,
       "routedCannibalizationClusters": 25
     }
   },
-  "passed": false
+  "passed": true
 }
