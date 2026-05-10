@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-10T17:18:41+09:00",
-      "lastWork": "C drive management policy added: cleanup now prioritizes moving/re-homing large agent-created state to D drive before deletion; policy captured in .agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md, SSOT summaries and shared memory updated, sync_agent_context generator now exposes the rule in generated AGENTS.md, standard D cache roots created"
+      "lastSession": "2026-05-10T23:28:26+09:00",
+      "lastWork": "C drive cleanup completed with move-first policy: agent/model/runtime caches, WSL, Docker, Gemini, Miniconda, and Downloads moved to D with junctions/env; C free space increased from about 112.1 GiB to about 450.6 GiB; pagefile shrink remains elevated/reboot work"
     },
     "sora": {
       "status": "active",
@@ -61,8 +61,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "b65dd81ca8e4bddf",
-    "lastSyncedAt": "2026-05-10T17:18:58+09:00",
+    "ssotRevision": "2f100c4e4c09862f",
+    "lastSyncedAt": "2026-05-10T23:32:33+09:00",
     "lastSyncedBy": "codex"
   }
 }

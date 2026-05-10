@@ -79,7 +79,7 @@ Default sequence:
 
 ## 6. Current desktop-home Priorities
 
-Measured on 2026-05-10:
+Initial measurement on 2026-05-10 before migration:
 
 | Item | Current path | Size | Policy |
 |---|---|---:|---|
@@ -93,6 +93,36 @@ Measured on 2026-05-10:
 | Docker VHDX | `C:\Users\yesol\AppData\Local\Docker\wsl\disk` | 11.7GiB | Move through Docker Desktop settings |
 | npm/pip caches | AppData Local caches | 19.2GiB | Point to `D:\agent-cache`, then prune |
 | Downloads exports | `C:\Users\yesol\Downloads` | 18.2GiB | Separate duplicates from business/personal files before action |
+
+## 6-A. Applied desktop-home State
+
+Detailed migration record:
+
+- `.agent/knowledge/20260510_C_DRIVE_MIGRATION_RECORD.md`
+
+Applied on 2026-05-10:
+
+| Item | Current state |
+|---|---|
+| C free space | about `450.4GiB`, up from about `112.1GiB` |
+| Ollama models | `C:\Users\yesol\.ollama\models` is a junction to `D:\models\ollama` |
+| HuggingFace cache | `C:\Users\yesol\.cache\huggingface` is a junction to `D:\models\huggingface` |
+| npm cache | `C:\Users\yesol\AppData\Local\npm-cache` is a junction to `D:\agent-cache\npm-cache` |
+| Playwright browsers | `C:\Users\yesol\AppData\Local\ms-playwright` is a junction to `D:\agent-cache\ms-playwright` |
+| Puppeteer cache | `C:\Users\yesol\.cache\puppeteer` is a junction to `D:\agent-cache\puppeteer` |
+| WSL Ubuntu | `Ubuntu-24.04` was export/import migrated to `D:\wsl\Ubuntu-24.04\ext4.vhdx` |
+| Docker data | `C:\Users\yesol\AppData\Local\Docker\wsl` is a junction to `D:\docker\wsl` |
+| Gemini agent state | `C:\Users\yesol\.gemini` is a junction to `D:\agent-state\gemini` |
+| Miniconda runtime | `C:\Users\yesol\miniconda3` is a junction to `D:\agent-runtime\miniconda3` |
+| Downloads | contents moved to `D:\output\downloads-archive\20260510` |
+
+Do not replace these junctions with real C-drive directories. Treat them as compatibility shims for tools that still use old absolute paths.
+
+Remaining known C-side work:
+
+- `C:\pagefile.sys` is still custom configured at `98304 MB` initial and `196608 MB` max. Changing this requires elevated Windows settings and reboot planning.
+- `C:\Users\yesol\miniconda3._old_20260510` may remain until next login/reboot because some old DLL files were locked. HKCU RunOnce `DeleteOldMiniconda20260510` was registered to retry deletion.
+- Google DriveFS, Chrome, Claude, and Codex live state were intentionally left untouched while running. Move only through supported app settings or a stopped-agent maintenance window.
 
 ## 7. Capacity Targets
 
