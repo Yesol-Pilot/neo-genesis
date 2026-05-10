@@ -5,6 +5,30 @@
 
 ---
 
+## 2026-05-10 - K-OTT growth performance monitoring
+
+- [x] Shipped K-OTT commit `55bff5c` (`growth: add performance monitoring report`) to `Yesol-Pilot/kott` main.
+- [x] Added `npm run monitor:growth`.
+- [x] Added `frontend/scripts/monitor-growth-performance.cjs`.
+- [x] Added `frontend/docs/performance-monitoring-runbook.md`.
+- [x] Added generated report ignore rule for `frontend/reports/growth/*.json`.
+- [x] Ran live performance monitor with `KOTT_MONITOR_WRITE=1`.
+  - verdict: `green`
+  - score: `92`
+  - blockers: `0`
+  - warning: GSC Search Analytics token not configured.
+  - queue: 42 URLs, 25 `/watch`, 10 `/compare`, 5 `p0`.
+  - p0: `/`, `/compare`, `/compare/ott-subscription-rotation`, `/plans`, `/rotation`.
+  - GA script detected on live home.
+  - PostHog provider and growth events detected locally.
+  - all critical live URLs returned 200.
+- [x] Created Codex automation `k-ott-growth-performance-monitor` for daily 09:30 KST monitoring.
+- [ ] Next loop:
+  - Add `GOOGLE_OAUTH_ACCESS_TOKEN`/`GSC_SITE_URL` when GSC Search Analytics access is available.
+  - Use first real GSC impressions to decide next `/watch` and `/compare` expansion.
+
+---
+
 ## 2026-05-08 - K-OTT GSC indexing operations loop
 
 - [x] Official Google constraints verified before implementation:

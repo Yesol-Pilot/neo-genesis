@@ -6,6 +6,29 @@
 
 ---
 
+## 2026-05-10 - Codex K-OTT Growth Performance Monitoring
+
+- Owner requested "성과 모니터링".
+- Added K-OTT performance monitoring loop:
+  - `frontend/scripts/monitor-growth-performance.cjs`
+  - `frontend/docs/performance-monitoring-runbook.md`
+  - `npm run monitor:growth`
+  - `frontend/.gitignore` rule for generated `reports/growth/*.json`
+- Live run:
+  - `KOTT_MONITOR_WRITE=1 npm run monitor:growth`
+  - verdict `green`, score `92`
+  - blockers `0`
+  - only warning: GSC Search Analytics token not configured
+  - queue/sitemap coverage clean: 42 URLs, missing `0`
+  - critical live URLs all 200
+  - GA detected on live home
+  - PostHog provider and growth events detected locally
+- Shipped commit `55bff5c` to `Yesol-Pilot/kott` main.
+- Created Codex automation `k-ott-growth-performance-monitor`, daily 09:30 KST.
+- No Vercel deploy was needed because only scripts/docs/package metadata changed.
+
+---
+
 ## 2026-05-08 - Codex K-OTT GSC Indexing Operations
 
 - Continued after owner said "진행해".
