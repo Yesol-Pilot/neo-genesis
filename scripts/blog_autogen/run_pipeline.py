@@ -516,7 +516,18 @@ def git_commit_push(post: dict[str, Any], dry_run: bool = False) -> dict[str, An
     # the landing repo root.
     sbus_rel = SBUS_TS.relative_to(LANDING_DIR).as_posix()
     blog_rel = BLOG_CONTENT_TS.relative_to(LANDING_DIR).as_posix()
-    rc, _, err = run_git(["add", sbus_rel, blog_rel], cwd=LANDING_DIR)
+    add_paths = [sbus_rel, blog_rel]
+    # Also stage the per-slug thumbnail produced by phase 4b. Without this
+    # the cron-generated post commit ships without its thumbnail and the
+    # blog index renders a 404 image until a follow-up commit catches up.
+    # The thumbnail-gen phase wrote PNG + WebP to public/assets/blog/<slug>.{png,webp}.
+    thumb_png = LANDING_DIR / "public" / "assets" / "blog" / f"{post['slug']}.png"
+    thumb_webp = LANDING_DIR / "public" / "assets" / "blog" / f"{post['slug']}.webp"
+    if thumb_png.exists():
+        add_paths.append(thumb_png.relative_to(LANDING_DIR).as_posix())
+    if thumb_webp.exists():
+        add_paths.append(thumb_webp.relative_to(LANDING_DIR).as_posix())
+    rc, _, err = run_git(["add", *add_paths], cwd=LANDING_DIR)
     if rc != 0:
         return {"status": "git_add_failed", "stderr": err}
     rc, status, _ = run_git(["status", "--porcelain"], cwd=LANDING_DIR)
