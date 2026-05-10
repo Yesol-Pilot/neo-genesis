@@ -8,24 +8,38 @@
 ## 2026-05-10 - K-OTT growth performance monitoring
 
 - [x] Shipped K-OTT commit `55bff5c` (`growth: add performance monitoring report`) to `Yesol-Pilot/kott` main.
+- [x] Corrected GSC credential handling in K-OTT monitor and shipped commit `18ba09a`.
+- [x] Added URL Inspection monitor and shipped commit `7632f5c`.
 - [x] Added `npm run monitor:growth`.
+- [x] Added `npm run inspect:gsc`.
 - [x] Added `frontend/scripts/monitor-growth-performance.cjs`.
+- [x] Added `frontend/scripts/inspect-gsc-indexing.cjs`.
 - [x] Added `frontend/docs/performance-monitoring-runbook.md`.
 - [x] Added generated report ignore rule for `frontend/reports/growth/*.json`.
 - [x] Ran live performance monitor with `KOTT_MONITOR_WRITE=1`.
   - verdict: `green`
   - score: `92`
   - blockers: `0`
-  - warning: GSC Search Analytics token not configured.
+  - GSC token source: `refresh_token`.
+  - GSC Search Analytics: connected, rows `0`, impressions `0`, clicks `0`.
   - queue: 42 URLs, 25 `/watch`, 10 `/compare`, 5 `p0`.
   - p0: `/`, `/compare`, `/compare/ott-subscription-rotation`, `/plans`, `/rotation`.
   - GA script detected on live home.
   - PostHog provider and growth events detected locally.
   - all critical live URLs returned 200.
+- [x] Resubmitted `https://kott.kr/sitemap.xml` through GSC API; submission returned ok.
+- [x] Ran URL Inspection for p0:
+  - `/`: indexed, last crawled `2026-05-03T12:49:54Z`.
+  - `/compare`: `unknown_to_google`.
+  - `/compare/ott-subscription-rotation`: `unknown_to_google`.
+  - `/plans`: `unknown_to_google`.
+  - `/rotation`: `unknown_to_google`.
 - [x] Created Codex automation `k-ott-growth-performance-monitor` for daily 09:30 KST monitoring.
+- [x] Updated the automation to run both `monitor:growth` and `inspect:gsc`.
 - [ ] Next loop:
-  - Add `GOOGLE_OAUTH_ACCESS_TOKEN`/`GSC_SITE_URL` when GSC Search Analytics access is available.
-  - Use first real GSC impressions to decide next `/watch` and `/compare` expansion.
+  - Check p0 URL Inspection again after Google processes the resubmitted sitemap.
+  - Manually inspect/request indexing for p0 URLs in Search Console UI because API cannot request indexing for generic pages.
+  - Do not expand from guessed keywords until at least impressions or indexed-state evidence appears.
 
 ---
 

@@ -26,6 +26,15 @@
 - Shipped commit `55bff5c` to `Yesol-Pilot/kott` main.
 - Created Codex automation `k-ott-growth-performance-monitor`, daily 09:30 KST.
 - No Vercel deploy was needed because only scripts/docs/package metadata changed.
+- Follow-up after owner asked why GSC API was missing:
+  - Root GSC API already existed in `scripts/sbu_gsc_all.mjs`.
+  - Actual issue was K-OTT monitor not loading root `.env`/refresh-token credentials.
+  - Shipped K-OTT commit `18ba09a` to wire monitor to root GSC credentials.
+  - Search Analytics now connects with `refresh_token`; K-OTT rows/impressions/clicks are all `0` for `2026-04-10` to `2026-05-08`.
+  - Added `npm run inspect:gsc` and shipped K-OTT commit `7632f5c`.
+  - Resubmitted `https://kott.kr/sitemap.xml` through GSC API; ok.
+  - URL Inspection p0 result: home indexed, but `/compare`, `/plans`, `/rotation`, and `/compare/ott-subscription-rotation` are `unknown_to_google`.
+  - Updated daily automation to run both monitor and URL Inspection.
 
 ---
 

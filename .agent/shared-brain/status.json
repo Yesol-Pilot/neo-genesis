@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-10T15:51:28+09:00",
-      "lastWork": "K-OTT growth performance monitoring shipped: monitor:growth script and runbook added, live score 92 green with only GSC token missing, daily 09:30 KST automation created, commit 55bff5c pushed to Yesol-Pilot/kott"
+      "lastSession": "2026-05-10T16:10:05+09:00",
+      "lastWork": "K-OTT GSC monitoring corrected and deepened: monitor now uses root refresh-token credentials, GSC Search Analytics returns 0 rows/0 impressions, sitemap resubmitted successfully, URL Inspection shows home indexed but /compare, /plans, /rotation, and /compare/ott-subscription-rotation are unknown_to_google; inspect:gsc automation added, commit 7632f5c pushed"
     },
     "sora": {
       "status": "active",
@@ -61,8 +61,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "474fda60762e8d64",
-    "lastSyncedAt": "2026-05-10T15:51:52+09:00",
+    "ssotRevision": "da1cf7ac2ffbd7a2",
+    "lastSyncedAt": "2026-05-10T16:10:29+09:00",
     "lastSyncedBy": "codex"
   }
 }
