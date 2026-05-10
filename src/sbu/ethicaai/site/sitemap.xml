@@ -18,4 +18,15 @@
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
+  <url><loc>https://ethica.neogenesis.app/ai-governance-checklist</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethica.neogenesis.app/model-risk-management-checklist</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethica.neogenesis.app/ai-compliance-audit-readiness</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethica.neogenesis.app/eu-ai-act-readiness</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethica.neogenesis.app/nist-ai-rmf-checklist</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethica.neogenesis.app/high-risk-ai-system-checklist</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethica.neogenesis.app/ai-safety-evaluation-checklist</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethica.neogenesis.app/ai-risk-register-template</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethica.neogenesis.app/ai-model-validation-checklist</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethica.neogenesis.app/ai-documentation-checklist</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethica.neogenesis.app/ai-incident-response-playbook</loc><lastmod>2026-05-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
