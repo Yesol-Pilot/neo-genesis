@@ -1150,6 +1150,105 @@ class SoraEngine:
 
         return f"{cleaned}\n\n{summary}" if cleaned else summary
 
+    async def _tool_intent_fastpath(self, text: str) -> str:
+        """2026-05-12 P0: 자연어 의도 → tool 직접 호출 → 사용자 친화 응답.
+
+        Gemini hallucination 차단 (도구 호출 없이 거짓말 응답하는 패턴 차단).
+        owner 가 진단 보고: "도구 호출하라 해도 LLM이라 못한다고 말함".
+        실제 원인: Gemini 가 109개 tool 중 자연어 의도 매핑 실패 → text-only 추측 응답.
+
+        해결: Python 코드로 직접 dispatching. 자연어 의도 매핑 후 tool 함수 호출 + 결과 포맷.
+        """
+        tl = (text or "").lower().strip()
+
+        # ── 1. 오늘 일정 ── (calendar_today 직접 호출)
+        if any(k in tl for k in [
+            "오늘 일정", "오늘일정", "오늘 스케줄", "오늘의 일정",
+            "today's events", "today schedule", "오늘 약속",
+            "오늘 미팅", "오늘 회의", "오늘 뭐 있어",
+        ]):
+            try:
+                from src.core.integrations.google_calendar import calendar_today
+                raw = calendar_today()
+                if isinstance(raw, str):
+                    import json as _json
+                    try:
+                        parsed = _json.loads(raw)
+                        if isinstance(parsed, dict) and "error" in parsed:
+                            return f"📅 Calendar 미연결 (`/setup_google` 으로 재인증 필요): {parsed['error']}"
+                        if isinstance(parsed, dict) and "events" in parsed:
+                            events = parsed["events"]
+                            if not events:
+                                return "📅 오늘 등록된 일정이 없습니다."
+                            lines = ["📅 <b>오늘 일정</b>"]
+                            for ev in events[:8]:
+                                title = ev.get("summary", "(제목 없음)")
+                                start = ev.get("start", "")
+                                if isinstance(start, dict):
+                                    start = start.get("dateTime", "") or start.get("date", "")
+                                hhmm = start.split("T")[-1][:5] if "T" in start else "종일"
+                                lines.append(f"  • {hhmm} {title[:50]}")
+                            return "\n".join(lines)
+                    except Exception:
+                        pass
+                    return f"📅 Calendar 응답: {raw[:500]}"
+            except Exception as e:
+                return f"📅 Calendar tool 호출 실패: {e}"
+
+        # ── 2. 미확인 메일 ── (gmail.list_unread 직접 호출)
+        if any(k in tl for k in [
+            "미확인 메일", "안 읽은 메일", "안읽은 메일", "unread", "새 메일",
+            "메일 확인", "이메일 확인", "메일함", "받은 메일", "수신함",
+        ]):
+            try:
+                from src.core.integrations.gmail import list_unread
+                msgs = list_unread(8)
+                if not msgs:
+                    return "📧 미확인 메일이 없습니다."
+                lines = [f"📧 <b>미확인 메일 {len(msgs)}건</b>"]
+                for m in msgs[:8]:
+                    if isinstance(m, dict):
+                        sender = (m.get("from") or m.get("sender") or "?")[:30]
+                        subject = (m.get("subject") or "(제목 없음)")[:50]
+                        lines.append(f"  • {sender}: {subject}")
+                    else:
+                        lines.append(f"  • {str(m)[:80]}")
+                return "\n".join(lines)
+            except Exception as e:
+                err_msg = str(e)
+                if "token" in err_msg.lower() or "auth" in err_msg.lower():
+                    return f"📧 Gmail 미연결 (`/setup_google` 으로 재인증 필요): {err_msg[:100]}"
+                return f"📧 Gmail tool 호출 실패: {err_msg[:200]}"
+
+        # ── 3. SBU 데몬 스케줄 ── (get_today_schedule, owner calendar 와 별개)
+        if any(k in tl for k in [
+            "데몬 스케줄", "sbu 스케줄", "cron 스케줄", "운영 스케줄",
+            "데몬 일정", "neo genesis 스케줄", "회사 스케줄",
+        ]):
+            try:
+                from src.core.tools.system_tools import get_today_schedule
+                return get_today_schedule()
+            except Exception as e:
+                return f"⚠️ 데몬 스케줄 조회 실패: {e}"
+
+        # ── 4. 디렉토리 목록 ── (list_directory + path 추출)
+        if any(k in tl for k in [
+            "디렉토리 보여", "디렉토리 목록", "파일 목록", "디렉토리에 있는",
+            "list directory", "ls -la",
+        ]):
+            try:
+                from src.core.tools.system_tools import list_directory
+                # 경로 추출 (없으면 . = 현재 디렉토리)
+                import re as _re
+                path_match = _re.search(r"['\"`]([^'\"`]+)['\"`]|(/[\w./-]+|\w+/[\w/]*)", text)
+                path = path_match.group(0).strip("'\"`") if path_match else "."
+                result = list_directory(path)
+                return f"📁 <b>{path} 디렉토리</b>\n{result[:1500]}"
+            except Exception as e:
+                return f"📁 디렉토리 조회 실패: {e}"
+
+        return ""
+
     async def _owner_intent_fastpath(self, text: str) -> str:
         """오너 자기 자신에 대한 메타 질문 → OWNER_PROFILE.md 직접 응답.
 
@@ -1895,6 +1994,15 @@ class SoraEngine:
                     return owner_reply
             except Exception as oerr:
                 logger.warning(f"[SoraEngine] owner_intent_fastpath skip: {oerr}")
+            # 2026-05-12 P0: 자연어 의도 → tool 직접 dispatch (Gemini hallucination 차단)
+            try:
+                tool_reply = await self._tool_intent_fastpath(text)
+                if tool_reply:
+                    logger.info(f"[SoraEngine] tool_intent_fastpath hit: {len(tool_reply)} chars")
+                    self._conversation_ledger.append({"role": "assistant", "text": tool_reply[:1500], "ts": time.time()})
+                    return tool_reply
+            except Exception as terr:
+                logger.warning(f"[SoraEngine] tool_intent_fastpath skip: {terr}")
             try:
                 v2_reply = await self._v2_fastpath(text)
                 if v2_reply:
