@@ -1,8 +1,18 @@
-# 11 SBU Canonical Reference Audit — 2026-05-12
+# 11 SBU Canonical Reference Audit — 2026-05-12 (v1.1 정정)
 
 > 작성자: Strategy Lead Claude Opus 4.7
 > 목적: 11 SBU 가 neogenesis.app + Wikidata Q139569680 + parentOrganization Schema 명시 emit 하는지 확인
 > 컨텍스트: Common Crawl 미인덱싱 (3 snapshot 모두). 진입 가속 = inbound link 강화. 11 SBU 가 가장 큰 자체 inbound source.
+
+## ⏸️ v1.1 정정 — Blind Review Anonymity 발견
+
+owner clarification (2026-05-12 후속): "블라인드 심사에 문제가 될까봐 다운시켰을걸"
+
+**EthicaAI 다운 = P0 운영 issue X / Blind Review Anonymity 의도적 보호 O** 로 정정:
+- ethicaai.neogenesis.app dedicated site = author Yesol Heo + project info + Heo 2026 finding 노출 surface
+- 블라인드 심사 룰: double-blind venue (NeurIPS / ICML 등) 심사 중 reviewer 가 google 검색 시 author identity 추적 가능 = anonymity 위반
+- **즉, EthicaAI 다운 = 정상 운영 결정. 부활 권고 X.**
+- 본 audit 의 "EthicaAI 부활" 권고 = **취소** (owner intent 와 충돌)
 
 ---
 
@@ -39,7 +49,13 @@
 
 **WhyLab (6 mentions)** — 다른 SBU 의 6배. WhyLab/dashboard 가 가장 강한 인용 site (research-heavy 컨텍스트). 다른 10 SBU 가 따라야 할 reference.
 
-**EthicaAI offline** ⚠️ P0 — 다음 commit cycle 이내 fix. NeurIPS 2026 submission 박제 사이트가 다운 = citation graph credibility 손상.
+**EthicaAI offline** ⏸️ **Blind Review Anonymity 보호 (정정)** — owner 의도적 다운. 심사 종료 후 부활 검토. 본 commit cycle 이내 부활 권고 X.
+
+**WhyLab inconsistency 발견 (owner 확인 필요)** — `whylab.neogenesis.app` 은 LIVE 상태 (200, 6 mentions). EthicaAI 와 동일 블라인드 심사 진행 중인데 사이트 alive. 가설:
+- (a) owner 가 WhyLab 도 다운 의향이지만 미수행 (owner action queue 추가)
+- (b) WhyLab 심사 상태가 EthicaAI 와 다름 (예: 이미 reject 통보 → anonymity 무관)
+- (c) WhyLab 사이트 content 의 author identity 노출 정도가 EthicaAI 보다 낮음
+- 단정 X — owner clarification 권고
 
 **ToolPick 308 redirect** — `toolpick.dev` → `www.toolpick.dev`. crawler 가 follow 하지만 추가 hop = 효율 ↓. CF Page Rules / DNS apex 직접 serve 검토 필요.
 
@@ -93,11 +109,11 @@
 
 | 우선순위 | 작업 | 자율 가능? |
 |---|---|---|
-| P0 | EthicaAI 사이트 부활 (다운 상태 fix) | owner action (DNS / Vercel deploy 점검) |
-| P0 | 11 SBU 모두 parentOrganization + Wikidata sameAs Schema 추가 | per-SBU repo 별 PR (자율 가능, 시간 소요) |
+| ~~P0~~ | ~~EthicaAI 사이트 부활~~ | **⏸️ HOLD — Blind Review Anonymity 의도적 다운, 심사 종료 후 owner 재량** |
+| ⏸️ | WhyLab 사이트도 동일 logic 으로 다운 검토 (owner clarification) | owner G2 |
+| P1 | 11 SBU 모두 parentOrganization + Wikidata sameAs Schema 추가 | **⚠️ 블라인드 심사 중 SBU 는 제외** (EthicaAI / WhyLab 둘 다 제외). 9 SBU 만 자율 가능 |
 | P1 | toolpick.dev apex DNS 직접 serve (308 redirect 제거) | owner action (DNS) |
-| P1 | WhyLab 의 6-mention 패턴을 다른 10 SBU 에 복제 | SBU repo edit (자율) |
-| P2 | 11 SBU footer 에 visible "Part of Neo Genesis (Wikidata Q139569680)" 텍스트 | 자율 |
+| P2 | (블라인드 미충돌 9 SBU) footer 에 visible "Part of Neo Genesis (Wikidata Q139569680)" 텍스트 | 자율 |
 
 ---
 

@@ -91,22 +91,30 @@ Wikidata: Q139569680
 
 ---
 
-## §3 EthicaAI 사이트 부활 (P0, 5분)
+## §3 ~~EthicaAI 사이트 부활~~ — 취소 (Blind Review Anonymity 보호)
 
-### Why
-- 2026-05-12 audit 결과 `ethicaai.neogenesis.app` HTTP 000 (DNS / 연결 실패)
-- NeurIPS 2026 submission 박제 site 다운 = citation graph credibility 손상
-- 다른 10 SBU 의 정상 200 응답 대비 명확한 약점
+owner clarification (2026-05-12): "블라인드 심사에 문제가 될까봐 다운시켰을걸"
 
-### Steps
-1. Vercel Dashboard: https://vercel.com/yesol-pilot
-2. `ethicaai` project 또는 `EthicaAI/dashboard` project 검색
-3. 마지막 deployment status 확인:
-   - `Failed` → redeploy
-   - `Success` 인데 도메인 unreachable → DNS / domain settings 검토
-4. Cloudflare DNS 에서 `ethicaai.neogenesis.app` CNAME record 확인:
-   - target = `cname.vercel-dns.com` (또는 owner Vercel project 의 alias target)
-5. 부활 후 검증: `curl -I https://ethicaai.neogenesis.app/` → HTTP 200
+**정정**: ethicaai.neogenesis.app 다운 = owner 의도적 anonymity 보호 결정. 부활 권고 X.
+
+### 본 §3 의 원 권고 = 취소
+- ❌ EthicaAI 사이트 부활 시도 금지
+- ✅ 심사 종료 후 owner 재량으로 부활 검토
+
+### Blind Review 관련 sites 정책 (확장)
+
+| Site | 현 상태 | 정책 |
+|---|---|---|
+| ethicaai.neogenesis.app | 🔴 DOWN | ⏸️ 의도적 hold (anonymity 보호) |
+| whylab.neogenesis.app | 🟢 LIVE | ⚠️ inconsistency — owner clarification 필요 (동일 blind 진행 중인데 LIVE) |
+| `/data/research/ethicaai-melting-pot-mixed-safe` | 🟢 LIVE | ⚠️ author byline "Yesol Heo" + paper finding 직접 인용 노출 |
+| `/data/research/whylab-gemini-2-5-docker-validation` | 🟢 LIVE | ⚠️ 동일 |
+| `/blog/ethicaai-mixed-safe-vs-anthropic-constitutional-ai-2026` | 🟢 LIVE (본 세션 publish) | ⚠️ "Heo 2026" + paper finding 직접 인용 |
+| `/blog/whylab-docker-validation-vs-rubric-scoring-2026` | 🟢 LIVE (본 세션 publish) | ⚠️ 동일 |
+| HF dataset 2 (ethicaai-mixed-safe-evidence) | 🟢 LIVE | author = neogenesislab. owner intentional publish (grandfathered?) |
+| HF dataset 3 (whylab-gemini-2-5-docker-validation) | 🟢 LIVE | 동일 |
+
+**Owner clarification 필요**: 위 LIVE 자산 중 어디까지 blind review HOLD scope 인지 명시. 가장 의심 자산 = 본 세션 publish 한 2 comparison posts (`/blog/ethicaai-vs-...` + `/blog/whylab-docker-...`).
 
 ---
 
