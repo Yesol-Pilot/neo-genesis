@@ -141,6 +141,28 @@ def _check_quant_lease() -> dict | None:
     return None
 
 
+def _check_local_llm_tunnel() -> dict | None:
+    """SSH reverse tunnel (desktop-home Ollama → ysh-server:11434) 활성 확인.
+
+    2026-05-12: tunnel 끊기면 owner Sora 응답 시간이 1초 → 18초 (Gemini fallback) 로 늘어남.
+    매 10분 ping → tunnel down 시 P1 alert.
+    """
+    try:
+        import urllib.request
+        with urllib.request.urlopen("http://172.17.0.1:11434/api/version", timeout=3) as r:
+            data = json.loads(r.read())
+            if data.get("version"):
+                return None  # alive
+    except Exception:
+        pass
+    return {
+        "scenario": "local_llm_tunnel_down",
+        "severity": "P1",
+        "summary": "Local LLM SSH tunnel 끊김 — Sora 응답 시간 1s → 18s 로 늘어날 수 있음. desktop-home 의 ssh_tunnel_ollama.bat 확인 필요.",
+        "sig_payload": "tunnel_down",
+    }
+
+
 def _check_sora_brain_alive() -> dict | None:
     """brain.worker process /proc 검사 — 없으면 P0."""
     try:
@@ -204,6 +226,7 @@ def run_ambient_check() -> dict:
         _check_disk_usage,
         _check_quant_lease,
         _check_sora_brain_alive,
+        _check_local_llm_tunnel,  # 2026-05-12 신규
     ]
 
     alerts_fired = 0

@@ -36,37 +36,49 @@ def _safe_call(fn, *args, **kwargs) -> Any:
 
 
 def _fetch_calendar_today() -> str:
-    """오늘 이벤트 raw text — calendar_today() 반환 그대로 잘라 표시."""
+    """오늘 이벤트 raw text — calendar_today() 반환 그대로 잘라 표시.
+
+    2026-05-12: JSON `{"error": "..."}` 형식 → 한국어 친화 메시지로 변환.
+    """
     try:
         from src.core.integrations.google_calendar import calendar_today
     except Exception as e:
-        return f"⚠️ calendar 모듈 import 실패: {e}"
+        return f"📅 Calendar 모듈 미가용 (모듈 import 실패: {e})"
     raw = _safe_call(calendar_today)
     if raw is None:
-        return "⚠️ Calendar 조회 실패 (gcal_token 만료 가능)"
-    # calendar_today() 가 JSON string 일 수도 / 한국어 text 일 수도. 두 케이스 모두.
+        return "📅 Calendar 미연결 — 텔레그램에 `/setup_google` 입력해 재인증해주세요."
+
+    # JSON 파싱 시도
+    parsed = None
     if isinstance(raw, dict):
-        events = raw.get("events", [])
+        parsed = raw
     elif isinstance(raw, str):
         try:
             parsed = json.loads(raw)
-            if isinstance(parsed, dict) and "events" in parsed:
-                events = parsed["events"]
-            else:
-                return raw[:600]  # plain text 응답
         except Exception:
-            return raw[:600]
+            parsed = None
+
+    # error 응답 친화 처리
+    if isinstance(parsed, dict) and "error" in parsed:
+        return "📅 Calendar 미연결 — 텔레그램에 `/setup_google` 입력해 재인증해주세요."
+
+    # events 추출
+    if isinstance(parsed, dict) and "events" in parsed:
+        events = parsed["events"]
+    elif isinstance(parsed, list):
+        events = parsed
     else:
-        return str(raw)[:600]
+        # JSON 아닌 plain text
+        return f"📅 {str(raw)[:500]}"
+
     if not events:
         return "📅 오늘 등록된 일정 없음."
     lines = ["📅 <b>오늘 일정</b>"]
     for ev in events[:8]:
-        title = ev.get("summary", "(제목 없음)")
-        start = ev.get("start", "")
+        title = ev.get("summary", "(제목 없음)") if isinstance(ev, dict) else str(ev)[:50]
+        start = ev.get("start", "") if isinstance(ev, dict) else ""
         if isinstance(start, dict):
             start = start.get("dateTime", "") or start.get("date", "")
-        # ISO 시간만 시:분 표시
         hhmm = start.split("T")[-1][:5] if "T" in start else "종일"
         lines.append(f"  • {hhmm} {title[:50]}")
     return "\n".join(lines)
