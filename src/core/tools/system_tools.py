@@ -113,7 +113,11 @@ def get_system_status() -> str:
 
 
 def get_today_schedule() -> str:
-    """오늘의 데몬 스케줄 전체를 반환합니다."""
+    """**SBU 데몬 운영 스케줄** 전체를 반환합니다 (owner 본인 일정 아님).
+
+    이 도구는 Neo Genesis 데몬의 cron 스케줄 (ReviewLab/ToolPick/UR WRONG 등 SBU 운영 job)
+    을 반환합니다. owner 본인의 캘린더 일정을 요청받으면 calendar_today 도구를 쓰세요.
+    """
     schedule = [
         ("06:00", "감사국 정기 감사"),
         ("07:00", "리워드 수확기"),

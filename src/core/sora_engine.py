@@ -224,8 +224,17 @@ class SoraEngine:
                 "HARM_CATEGORY_CIVIC_INTEGRITY",
             ]
         ]
+        # 2026-05-12 P0: system_prompt 끝에 tool 사용 강화 (Gemini hallucination 차단)
+        _sp_base = self._build_system_prompt()
+        _tool_reinforcement = (
+            "\n\n## 도구 사용 강제 규칙 (P0)\n"
+            "- 일정/메일/파일/시스템/RAG/calendar/gmail 관련 질문은 **반드시 등록된 도구를 호출**해서 답한다.\n"
+            "- 도구 호출 없이 'X 가 없어요'/'정보가 없어요' 같은 추측성 응답 금지.\n"
+            "- 도구 호출이 실패했다면 실패 사실을 그대로 보고하고, 임의로 결과를 만들어내지 않는다.\n"
+            "- 'LLM 이라서 못한다' / '직접 실행할 수 없다' 같은 거부 응답 금지 — 도구가 등록되어 있으면 호출한다."
+        )
         self._chat_config = types.GenerateContentConfig(
-            system_instruction=self._build_system_prompt(),
+            system_instruction=_sp_base + _tool_reinforcement,
             tools=ALL_TOOLS,
             automatic_function_calling=types.AutomaticFunctionCallingConfig(
                 disable=False,
@@ -234,6 +243,8 @@ class SoraEngine:
             # 2026-05-06: 응답 길이 제한 — p50 11s / p95 28-34s / max 181s 단축 목적
             # tool call 이후 final 응답을 압축해 owner 텔레그램 평균 응답시간 개선
             max_output_tokens=1500,
+            # 2026-05-12 P0: temperature 명시 — default 1.0 의 발산성으로 인한 tool 미호출 차단
+            temperature=0.7,
         )
         self.chat = self._genai_client.chats.create(
             model=GEMINI_MODEL,
@@ -1797,7 +1808,60 @@ class SoraEngine:
             _get_tid = lambda: ""  # type: ignore
 
         with _process_span_cm:
+            # 2026-05-12 P0: _deferred_init 자동 트리거 (6주간 dead code 활성화).
+            # 첫 process() 호출 시 background init kick off. fire-and-forget — 첫 호출은
+            # fallback prompt 로 빠르게 응답, 두 번째 호출부터 PromptBuilder + RAG + Retriever
+            # + EternalMemory 의 풍부한 system_prompt 활성. chat 재생성은 _deferred_init 종료에서.
+            if not getattr(self, "_init_complete", False) and not getattr(self, "_init_kicked", False):
+                self._init_kicked = True
+                try:
+                    asyncio.create_task(self._deferred_init_and_rebuild_chat())
+                except Exception as _kick_err:
+                    logger.warning(f"[SoraEngine] deferred init kick 실패 (graceful): {_kick_err}")
             return await self._process_inner(text, file_path, on_progress)
+
+    async def _deferred_init_and_rebuild_chat(self):
+        """_deferred_init 완료 후 chat 객체를 풍부한 system_prompt 로 재생성.
+
+        2026-05-12 P0 fix: PromptBuilder 가 6주간 None 상태였던 dead path 활성.
+        init 진행 중 owner 첫 호출은 fallback prompt 로 응답 → 다음 호출부터 정상.
+        """
+        try:
+            await self._deferred_init()
+        except Exception as e:
+            logger.warning(f"[SoraEngine] _deferred_init 실패: {e}")
+            return
+        # PromptBuilder 가 활성화되었다면 chat 을 새 system_prompt 로 재생성
+        try:
+            if self.prompt_builder:
+                from google.genai import types  # noqa
+                _sp_full = self._build_system_prompt()
+                _tool_reinforcement = (
+                    "\n\n## 도구 사용 강제 규칙 (P0)\n"
+                    "- 일정/메일/파일/시스템/RAG/calendar/gmail 관련 질문은 **반드시 등록된 도구를 호출**해서 답한다.\n"
+                    "- 도구 호출 없이 'X 가 없어요'/'정보가 없어요' 같은 추측성 응답 금지.\n"
+                    "- 도구 호출이 실패했다면 실패 사실을 그대로 보고하고, 임의로 결과를 만들어내지 않는다.\n"
+                    "- 'LLM 이라서 못한다' / '직접 실행할 수 없다' 같은 거부 응답 금지 — 도구가 등록되어 있으면 호출한다."
+                )
+                # 새 config 로 chat 재생성 — chat history 는 손실되지만 system_prompt 가 활성
+                self._chat_config = types.GenerateContentConfig(
+                    system_instruction=_sp_full + _tool_reinforcement,
+                    tools=ALL_TOOLS,
+                    automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=False),
+                    safety_settings=self._chat_config.safety_settings,
+                    max_output_tokens=1500,
+                    temperature=0.7,
+                )
+                self.chat = self._genai_client.chats.create(
+                    model=GEMINI_MODEL,
+                    config=self._chat_config,
+                )
+                logger.info(
+                    f"[SoraEngine] ⭐ chat 재생성 완료 — PromptBuilder 활성 system_prompt "
+                    f"(chars={len(_sp_full)}, 6주 dead path 해소)"
+                )
+        except Exception as e:
+            logger.warning(f"[SoraEngine] chat 재생성 실패 (fallback prompt 로 계속): {e}")
 
     async def _process_inner(
         self,
