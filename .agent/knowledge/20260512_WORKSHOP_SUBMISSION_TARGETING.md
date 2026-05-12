@@ -1,21 +1,36 @@
 # Workshop Submission Targeting — Week 3 Strategic Path
 
 > 작성자: Strategy Lead Claude Opus 4.7
-> 작성일: 2026-05-12
-> 목적: Strategy v1 §2.G workshop track 권고 실행 (arXiv 영구 박제 박제됨, workshop 은 별도 path)
-> Owner instruction: "arxiv 이거는 안된다 ... 나머지는 진행" — workshop submission 은 "나머지" 에 포함
+> 작성일: 2026-05-12 (v1.1 정정: blind review hold 반영)
+> 목적: Strategy v1 §2.G workshop track 권고
+> Owner instruction: "arxiv 이거는 안된다 ... 논문 블라인드 심사중이라고" — 동일 manuscript blind review anonymity 보호.
+
+## ⏸️ Blind Review Anonymity Policy 적용 (v1.1)
+
+- **EthicaAI + WhyLab manuscripts** 가 double-blind venue 심사 중 → 동일 manuscript 의 workshop 재제출 시 **author identity 추적 가능 위험**
+- NeurIPS Workshop = NeurIPS 의 same-conference family → main track 심사 conflict 가능
+- ICML/ICLR Workshop = 다른 conference family 이지만 paper similarity / dual-submission 룰 점검 필수
+- ReScience / ML Reproducibility Challenge = **별도 venue, anonymity 영향 적음** → 우선 권고
+- 동일 manuscript 재제출보다 **별도 신규 manuscript / dataset descriptor / reproducibility writeup** 이 안전
 
 ---
 
 ## §0 결론
 
-**Week 3 #1 자율 진행 가능 범위 + Owner G2 결정 게이트** 분리:
-- **자율 (G1)**: 후보 workshop 식별 + 기존 frozen submission packages 적합성 평가 + submission timeline mapping
-- **Owner G2**: 실제 submission 클릭 (author 정보 제출 + 검토 응답 + camera-ready 준비)
+**현 상황 (v1.1 정정)**:
+- EthicaAI `b4d5a90` + WhyLab `88fa509` = **double-blind venue 심사 진행 중** (anonymity 보호 필요)
+- arXiv/SocArXiv/동일-manuscript-workshop 재제출 = **⏸️ HOLD** until 심사 결과 발표
+- PAPER/EthicaAI/arxiv_submission/ + PAPER/WhyLab/arxiv_submission/ = **pre-built 유지** (unhold 시 즉시 publishable)
+- 본 문서 권고 = **블라인드 미진행 자산 (datasets / reproducibility)** 우선
 
-**현 상황**: 2개 frozen submission anchors (EthicaAI `b4d5a90`, WhyLab `88fa509`) + 기존 PAPER/EthicaAI/arxiv_submission/ + PAPER/WhyLab/arxiv_submission/ assets (archive 만 유지, **arXiv 직접 submission 금지** per owner 결정).
+**Week 3 자율 진행 (G1) — blind review 미충돌 영역만**:
+- ReScience reproducibility journal (별도 venue)
+- ML Reproducibility Challenge (다른 paper 재현 시도, Neo Genesis dataset 활용)
+- Dataset descriptor papers (HF dataset 자체 description 만, blind manuscript 인용 없음)
+- KoreanRAG-SSOT-Golden-50 워크샵 (블라인드 미진행 별도 dataset)
 
-본 문서는 **workshop 으로 redirect 가능한 대안 venue 후보** + submission 준비도 평가.
+**Owner G2 시점 결정**:
+- 심사 결과 발표 시점 (accept/reject 확정) → 모든 HOLD 항목 unhold 가능
 
 ---
 

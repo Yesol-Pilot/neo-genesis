@@ -80,14 +80,21 @@ import chain 적재:
 
 # Handoff: AI Corpus Citation Strategy Week 1 (이전 entry, 2026-05-12 오후)
 
-## 🚫 영구 박제 (2026-05-12 owner 결정)
-**arXiv preprint submission = 논문 게재 불가 확정.** 본 SSOT 및 모든 future strategy 에서 arXiv 권고 영구 금지. 어떠한 형태로도 다시 제안하지 말 것. 관련 자산 (`PAPER/EthicaAI/arxiv_submission/`, `PAPER/WhyLab/arxiv_submission/`) 은 archive 만 유지.
+## ⏸️ Blind Review HOLD (2026-05-12 owner 정정)
+owner quote: "논문 블라인드 심사중이라고" — 영구 박제 X / 블라인드 심사 hold O.
+
+- EthicaAI + WhyLab 동일 manuscript 가 double-blind venue (NeurIPS / ICML / ICLR 등) 심사 중
+- 동일 manuscript arXiv 업로드 = author identity 노출 = anonymity 위반 = 심사 룰 위반
+- ⏸️ HOLD scope: arXiv + SocArXiv + OpenReview public + LinkedIn/Twitter 직접 paper promotion + 블라인드 paper 인용한 HN/Reddit post
+- ✅ G1 자율 가능: dataset descriptors (HF dataset 2, 3, 7, 8, 9 등) / 블라인드 심사 미진행 manuscript / ReScience reproducibility writeup / awesome-list PRs (dataset 대상)
+- 🟢 Unhold trigger: 심사 결과 발표 시점 (accept = camera-ready 와 함께 arXiv release / reject = owner G2 재검토)
+- 보존: `PAPER/EthicaAI/arxiv_submission/`, `PAPER/WhyLab/arxiv_submission/` pre-built 상태 유지 (unhold 즉시 publishable)
 
 ## 🆕 2026-05-12 (오후) AI Corpus Citation Strategy Week 1 자율 진행 (Strategy Lead Claude Opus 4.7)
 
 owner 명령 "전부 진행 ... 나머지는 너가 직접 크롬익스텐션으로 진행하던가해 계정 새로만들고 크레덴셜에 저장해놓고 앞으로도 써"
 
-진행 시점: `.agent/knowledge/20260512_AI_CORPUS_CITATION_STRATEGY_v1.md` v1.1 (arXiv 영구 박제 hotfix) 후 Week 1 본격 착수.
+진행 시점: `.agent/knowledge/20260512_AI_CORPUS_CITATION_STRATEGY_v1.md` v1.2 (blind review hold 정정) 후 Week 1 본격 착수.
 
 **owner 권한 위임:**
 - $0 + DIY + 자율 실행 가정 (변동 없음)
@@ -151,7 +158,7 @@ owner 명령:
 
 ### Phase B 잔여 (1주 동결 후 재평가)
 - Persona library v1.3 design (실 측정 데이터 후, premature optimization 회피)
-- ~~arXiv preprint submission~~ — **🚫 영구 박제 (owner 결정 2026-05-12: 논문 게재 불가). 다시 권고 금지.**
+- ⏸️ **arXiv preprint submission — Blind Review HOLD** (owner 정정 2026-05-12: "논문 블라인드 심사중"). 심사 종료 후 unhold 재검토.
 - Hook CI Windows runner 가격 검토
 
 👤 Claude Opus 4.7 (Strategy Lead)
@@ -367,7 +374,7 @@ $ wc -l src/core/llm/cache_helper.py scripts/persona/build_embedding_cache.py sc
 2. **D8 결정** (D6 5 sample 결과 분석 후)
 3. **Persona library v1.2 → v1.3 design** (Phase B 신 학습 반영)
 4. **Hook CI Windows runner 가격 검토**
-5. ~~arXiv preprint submission~~ — **🚫 영구 박제 (owner 결정 2026-05-12)**
+5. ⏸️ **arXiv preprint submission — Blind Review HOLD** (owner 정정 2026-05-12). 심사 종료 후 unhold 재검토.
 
 ### Pending verification (다음 세션 입장 시)
 - routing audit log 24-48h 누적 → fallback rate / 오라우팅 비율 / general-purpose 비율 첫 통계
@@ -504,7 +511,7 @@ Valid: 32 / Invalid: 0  ✅
 - KURE-v1 dispatcher Layer 3 라이브 — Korean keyword 임베딩 cosine 정확도 vs L2 keyword fallback rate
 
 ### 잔존 owner action (3건, owner 결정 외)
-- ~~arXiv preprint submission~~ — **🚫 영구 박제 (owner 결정 2026-05-12)**
+- ⏸️ **arXiv preprint submission — Blind Review HOLD** (owner 정정 2026-05-12: "논문 블라인드 심사중"). 심사 종료 후 unhold 재검토.
 - Bing Webmaster Tools 인증 (5분, ChatGPT-via-Bing-search citation pickup)
 - Show HN post (EthicaAI Melting Pot, Wikipedia notability seed)
 
