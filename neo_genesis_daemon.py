@@ -797,6 +797,30 @@ class NeoGenesisDaemon:
             misfire_grace_time=600,
         )
 
+        # ── 09:00 owner 개인 비서 brief (2026-05-12 STOP 해제 후 자비스 proactive 첫 도입) ──
+        try:
+            from src.core.jobs.personal_brief import run_personal_brief
+            self.scheduler.add_job(
+                run_personal_brief, "cron", hour=9, minute=0,
+                id="personal_brief", name="🤖 개인 비서 brief (calendar + gmail)",
+                misfire_grace_time=600,
+            )
+            logger.info("[Scheduler] personal_brief 09:00 KST 등록 완료")
+        except Exception as e:
+            logger.warning(f"[Scheduler] personal_brief 등록 실패 (계속 진행): {e}")
+
+        # ── 10분 주기 ambient watcher (2026-05-12 STOP 해제, 자비스 ambient context) ──
+        try:
+            from src.core.jobs.ambient_watcher import run_ambient_check
+            self.scheduler.add_job(
+                run_ambient_check, "interval", minutes=10,
+                id="ambient_watcher", name="🛰️ Ambient state watcher (SLO/quant/disk/brain)",
+                misfire_grace_time=300,
+            )
+            logger.info("[Scheduler] ambient_watcher 10분 주기 등록 완료")
+        except Exception as e:
+            logger.warning(f"[Scheduler] ambient_watcher 등록 실패 (계속 진행): {e}")
+
         # ── 매 6시간 BIBLE 환경 동기화 (Phase -1) ──
         self.scheduler.add_job(
             self.sync_bible, "interval", hours=6,
