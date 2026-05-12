@@ -25,4 +25,3 @@ Writes default latest: false
 | CraftDesk | https://craftdesk.neogenesis.app/ | true | siteOwner | 200/505 | 200 | 204 | skip | 0 |
 
 ## Top Opportunities
-
