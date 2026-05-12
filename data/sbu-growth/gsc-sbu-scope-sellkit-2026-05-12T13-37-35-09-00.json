@@ -1,0 +1,573 @@
+{
+  "generatedAt": "2026-05-12T13:37:35+09:00",
+  "tokenSource": "refresh_token",
+  "args": {
+    "sites": "sellkit",
+    "days": 28,
+    "rowLimit": 2500,
+    "submitSitemaps": true,
+    "fetch": true,
+    "minImpressions": 1,
+    "writeDefaultLatest": false
+  },
+  "scope": {
+    "label": "scope-sellkit",
+    "siteIds": [
+      "sellkit"
+    ],
+    "isDefaultAll": false,
+    "filePrefix": "gsc-sbu-scope-sellkit",
+    "writesDefaultLatest": false
+  },
+  "window": {
+    "startDate": "2026-04-12",
+    "endDate": "2026-05-10"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "https://craftdesk.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://finstack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://kott.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://sellkit.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://deploystack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://www.toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:review.neogenesis.app",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://aiforge.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:toolpick.dev",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://heoyesol.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:heoyesol.kr",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ethica.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://whylab.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://review.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 1,
+    "propertiesListed": 1,
+    "liveSitemapsOk": 1,
+    "gscSitemapsKnown": 1,
+    "sitemapSubmissionsAttempted": 1,
+    "sitemapSubmissionsOk": 1,
+    "searchAnalyticsAttempted": 1,
+    "searchAnalyticsOk": 1,
+    "totalRows": 73
+  },
+  "sites": [
+    {
+      "id": "sellkit",
+      "name": "SellKit",
+      "property": "https://sellkit.neogenesis.app/",
+      "domain": "https://sellkit.neogenesis.app",
+      "sitemap": "https://sellkit.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 460,
+        "finalUrl": "https://sellkit.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 73,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/printful",
+          "clicks": 0,
+          "impressions": 136,
+          "weightedPosition": 9800,
+          "queries": [
+            {
+              "query": "printful alternatives",
+              "clicks": 0,
+              "impressions": 84,
+              "ctr": 0,
+              "position": 76.10714285714286,
+              "score": 0.7703
+            },
+            {
+              "query": "alternatives to printful",
+              "clicks": 0,
+              "impressions": 30,
+              "ctr": 0,
+              "position": 62.6,
+              "score": 0.3033
+            },
+            {
+              "query": "websites like printful",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 74,
+              "score": 0.0372
+            },
+            {
+              "query": "sites like printful",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 77,
+              "score": 0.0274
+            },
+            {
+              "query": "websites similar to printful",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 77,
+              "score": 0.0274
+            }
+          ],
+          "score": 1.2863,
+          "averagePosition": 72.06
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-invoicing",
+          "clicks": 0,
+          "impressions": 69,
+          "weightedPosition": 5542,
+          "queries": [
+            {
+              "query": "ecommerce billing system",
+              "clicks": 0,
+              "impressions": 25,
+              "ctr": 0,
+              "position": 79.48,
+              "score": 0.2243
+            },
+            {
+              "query": "ecommerce invoicing software",
+              "clicks": 0,
+              "impressions": 22,
+              "ctr": 0,
+              "position": 79.22727272727273,
+              "score": 0.1977
+            },
+            {
+              "query": "e commerce invoice software",
+              "clicks": 0,
+              "impressions": 13,
+              "ctr": 0,
+              "position": 83.61538461538461,
+              "score": 0.1137
+            },
+            {
+              "query": "e commerce billing system",
+              "clicks": 0,
+              "impressions": 8,
+              "ctr": 0,
+              "position": 81.25,
+              "score": 0.071
+            },
+            {
+              "query": "platforms that integrate invoicing and payments",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 75,
+              "score": 0.0092
+            }
+          ],
+          "score": 0.6159,
+          "averagePosition": 80.32
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/gumroad",
+          "clicks": 0,
+          "impressions": 33,
+          "weightedPosition": 1585,
+          "queries": [
+            {
+              "query": "gumroad pricing free plan fees 2026",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 8,
+              "score": 0.0849
+            },
+            {
+              "query": "gumroad pricing free plan fees",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 10.333333333333334,
+              "score": 0.0747
+            },
+            {
+              "query": "gumroad pricing free plan",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 12,
+              "score": 0.0693
+            },
+            {
+              "query": "gumroad pricing free plan no monthly fee",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 8,
+              "score": 0.0566
+            },
+            {
+              "query": "gumroad alternative",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 77.83333333333333,
+              "score": 0.0544
+            }
+          ],
+          "score": 0.5361,
+          "averagePosition": 48.03
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/best-ecommerce-platform-for-digital-products-2026",
+          "clicks": 0,
+          "impressions": 5,
+          "weightedPosition": 88,
+          "queries": [
+            {
+              "query": "best checkout monetization platforms 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 14,
+              "score": 0.0214
+            },
+            {
+              "query": "best e-commerce platforms for small businesses selling physical products 2025 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 17,
+              "score": 0.0194
+            },
+            {
+              "query": "best of breed ecommerce platforms 2025 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 18,
+              "score": 0.0189
+            },
+            {
+              "query": "best d2c ecommerce platforms 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 19,
+              "score": 0.0184
+            },
+            {
+              "query": "digital transformation ecommerce tools comparison 2025 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 20,
+              "score": 0.0179
+            }
+          ],
+          "score": 0.096,
+          "averagePosition": 17.6
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/pricing/stripe",
+          "clicks": 0,
+          "impressions": 9,
+          "weightedPosition": 670,
+          "queries": [
+            {
+              "query": "stripe pricing",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 70,
+              "score": 0.0574
+            },
+            {
+              "query": "stripe plan",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 70,
+              "score": 0.0096
+            },
+            {
+              "query": "how much is stripe a month",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 90,
+              "score": 0.0084
+            },
+            {
+              "query": "how much is stripe per month",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 90,
+              "score": 0.0084
+            }
+          ],
+          "score": 0.0838,
+          "averagePosition": 74.44
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/pricing/printful",
+          "clicks": 0,
+          "impressions": 8,
+          "weightedPosition": 537,
+          "queries": [
+            {
+              "query": "printful prices",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 73,
+              "score": 0.0187
+            },
+            {
+              "query": "printful pricing",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 77,
+              "score": 0.0182
+            },
+            {
+              "query": "printful shipping calculator",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 43,
+              "score": 0.0122
+            },
+            {
+              "query": "how much does printful take per sale",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 48,
+              "score": 0.0115
+            },
+            {
+              "query": "how much is printful",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 68,
+              "score": 0.0097
+            }
+          ],
+          "score": 0.0794,
+          "averagePosition": 67.13
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 242,
+          "queries": [
+            {
+              "query": "sellkit",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 40.333333333333336,
+              "score": 0.0756
+            }
+          ],
+          "score": 0.0756,
+          "averagePosition": 40.33
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/reviews/gumroad-review",
+          "clicks": 0,
+          "impressions": 5,
+          "weightedPosition": 389,
+          "queries": [
+            {
+              "query": "gumroad reviews",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 19,
+              "score": 0.0184
+            },
+            {
+              "query": "gumroad price",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 83,
+              "score": 0.0176
+            },
+            {
+              "query": "gumroad prices",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 72,
+              "score": 0.0094
+            },
+            {
+              "query": "gumroad pricing",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 132,
+              "score": 0.007
+            }
+          ],
+          "score": 0.0524,
+          "averagePosition": 77.8
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/reviews/printful-review",
+          "clicks": 0,
+          "impressions": 3,
+          "weightedPosition": 173,
+          "queries": [
+            {
+              "query": "printful product quality reviews 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 9,
+              "score": 0.0267
+            },
+            {
+              "query": "how much is printful",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 79,
+              "score": 0.009
+            },
+            {
+              "query": "is printful free",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 85,
+              "score": 0.0087
+            }
+          ],
+          "score": 0.0444,
+          "averagePosition": 57.67
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/ecommerce-inventory-management-software-comparison",
+          "clicks": 0,
+          "impressions": 5,
+          "weightedPosition": 412,
+          "queries": [
+            {
+              "query": "e-commerce inventory management software",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 81,
+              "score": 0.0178
+            },
+            {
+              "query": "e commerce inventory management software market",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 77,
+              "score": 0.0091
+            },
+            {
+              "query": "marketplace inventory management software",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 85,
+              "score": 0.0087
+            },
+            {
+              "query": "ecommerce inventory software",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 88,
+              "score": 0.0085
+            }
+          ],
+          "score": 0.0441,
+          "averagePosition": 82.4
+        }
+      ]
+    }
+  ]
+}
