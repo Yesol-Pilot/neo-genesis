@@ -153,4 +153,59 @@ Owner 한 줄 명령 → 즉시 자율 진행 가능:
 
 가장 conservative 권고: **Option A UNPUBLISH** + 심사 종료 후 owner 재량으로 unhold.
 
+---
+
+## §6 v1.1 적용 결과 — Owner 선택 = Option B ANONYMIZE
+
+owner 명령 quote: "검색 및 노출되는거에선 익명화해"
+
+선택: **Option B ANONYMIZE** (Option A unpublish 아닌 익명화 유지)
+
+### 적용 commit
+- `landing c5da66a`: 4 files anonymized (page.tsx + markdown route + llms-full.txt + blog-content.ts)
+
+### 익명화 적용 surfaces
+| Surface | Before | After |
+|---|---|---|
+| `/data/research/ethicaai-...` ScholarlyArticle Schema author | Person (Yesol Heo) | **Organization (Neo Genesis)** |
+| `/data/research/whylab-...` ScholarlyArticle Schema author | Person (Yesol Heo) | **Organization (Neo Genesis)** |
+| 양 페이지 visible byline | "Yesol Heo · Neo Genesis" | **"Anonymous (under peer review) · Neo Genesis"** |
+| 양 페이지 ClaimReview itemReviewed.author | Person | **Organization (블라인드 paper만)** |
+| 양 페이지 metadata.authors + creator + dc:creator | Yesol Heo | **Anonymous (under peer review)** |
+| `/data/research/[slug]/markdown` frontmatter + body | Yesol Heo | **Anonymous (under peer review)** |
+| `/blog/ethicaai-vs-...` FAQ "Cite as" | "Heo, Yesol (2026). EthicaAI: Mixed-Safe..." | **"Anonymous authors (2026, under peer review). EthicaAI Mixed-Safe Multi-Environment Evidence Dataset..."** |
+| `/blog/whylab-docker-vs-...` FAQ "Cite as" | "Heo, Yesol (2026). WhyLab: Gemini..." | **"Anonymous authors (2026, under peer review). WhyLab Docker Validation Evidence Dataset..."** |
+| `/llms-full.txt` FACT-008 + FACT-009 | "Heo 2026" 인용 | **"under peer review at a double-blind venue — author identity withheld"** |
+| `/llms-full.txt` BibTeX ethicaai_2026 + whylab_2026 | author = "Heo, Yesol" | **author = "Anonymous (under peer review)"** |
+| `/llms-full.txt` @inproceedings ethicaai_neurips2026_mixed_safe × 2 | author = "Heo, Yesol" + venue = "Submitted to NeurIPS 2026" | **author = "Anonymous (under peer review)" + venue 제거** |
+| `/llms-full.txt` dataset 2 description "NeurIPS 2026 paper underlying data..." | author 노출 | **anonymized** |
+
+### Build 검증
+- 127 pages compiled
+- 두 블라인드 페이지 모두 "Anonymous (under peer review)" 3 occurrences emit
+- ScholarlyArticle author Person 0 → Organization 1 (각 페이지)
+- Non-blind research pages (rag-master / agent-environment / solo-founder / etc) 박제 founder 박제 유지
+
+### ⚠️ 알려진 잔존 (root layout 한계)
+
+`src/app/layout.tsx` 의 hardcoded raw HTML meta tags:
+```html
+<meta name="author" content="Yesol Heo" />
+<meta property="dc:creator" content="Yesol Heo" />
+```
+
+이 두 tag 가 사이트 전역 emit. Page-level Next.js Metadata API override 불가 (raw HTML 이라 API 무관).
+
+**영향**: 블라인드 페이지에서도 사이트-wide `<meta name="author">` = "Yesol Heo" 노출.
+**Mitigation**: page-level Schema (ScholarlyArticle Person → Org, BibTeX, visible byline) 모두 anonymous → reviewer 의 paper-specific search 시 page-specific signal 이 우선.
+**완전 fix path** (별도 commit): root layout 의 raw meta 를 client component 로 변환 + `usePathname()` 으로 BLIND_REVIEW_SLUGS 조건부 emit. Or 더 깨끗하게: hardcoded raw tag 제거하고 Metadata API 만 사용.
+
+### Owner G2 추가 결정 사안 (3건)
+
+본 anonymization 으로 충분 vs root layout 도 fix 필요 여부 + 다른 grandfathered 자산 hold 여부:
+
+1. **Root layout `<meta name="author">` 제거 OK?** — 모든 페이지 영향, 단순 SEO 면 author Schema 부재가 일부 ranking 영향 가능
+2. **`whylab.neogenesis.app` dedicated site 도 다운**? — EthicaAI 와 동일 logic 적용 ack
+3. **HF datasets 2 + 3 의 author 정보** 도 익명화? — grandfathered 추정이지만 명확화
+
 작성: 2026-05-12, Strategy Lead Claude Opus 4.7
