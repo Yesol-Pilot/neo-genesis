@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Telegram adapter for Sora."""
 
 from __future__ import annotations
@@ -693,14 +693,14 @@ class NeoAssistant:
             local_path = MEMORY_DIR / f"photo_{int(time.time())}.jpg"
             await file.download_to_drive(str(local_path))
 
-            caption = (message.caption or "泥⑤? ?대?吏瑜??④퍡 遺꾩꽍?댁쨾.").strip()
+            caption = (message.caption or "첨부 이미지를 분석해줘.").strip()
             if await self._ingest_meeting_file(message, str(local_path), caption=caption):
                 return
             await self.task_queue.put((update, caption, str(local_path)))
         except Exception as exc:
             logger.error("[Sora] photo download failed: %s", exc, exc_info=True)
             try:
-                await message.reply_text("?대?吏瑜?遺덈윭?ㅼ? 紐삵뻽?듬땲??")
+                await message.reply_text("이미지를 불러오지 못했습니다.")
             except Exception:
                 pass
 

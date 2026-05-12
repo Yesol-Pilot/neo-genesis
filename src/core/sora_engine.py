@@ -2070,7 +2070,16 @@ class SoraEngine:
                 _est_in = max(1, len(text or "") // 3)
                 _est_out = max(1, len(reply or "") // 3)
                 _model_tag = "local" if locals().get("_used_local") else "gemini"
-                _strategy = f"sora_engine_direct/{_model_tag}"
+                # 2026-05-12: Vision multimodal marker — file_path 가 이미지 확장자면 strategy 에 표시
+                _vision_suffix = ""
+                try:
+                    if file_path:
+                        _img_exts = ('.jpg', '.jpeg', '.png', '.webp', '.gif', '.bmp', '.heic')
+                        if str(file_path).lower().endswith(_img_exts):
+                            _vision_suffix = "/vision"
+                except Exception:
+                    pass
+                _strategy = f"sora_engine_direct/{_model_tag}{_vision_suffix}"
                 _req_id = locals().get("_episode_id") or f"se-{int(_t_start*1000)%1_000_000_000}"
                 # AuditLogger.log 가 async 라면 fire-and-forget 시도; 동기면 그냥 호출
                 _al = get_audit_logger()
