@@ -1,0 +1,400 @@
+{
+  "generatedAt": "2026-05-12T13:17:34+09:00",
+  "scope": {
+    "excluded": [
+      "neogenesis",
+      "toolpick",
+      "ur-wrong"
+    ],
+    "sites": [
+      "aiforge",
+      "craftdesk",
+      "deploystack",
+      "finstack",
+      "sellkit",
+      "reviewlab",
+      "kott",
+      "whylab",
+      "ethicaai"
+    ]
+  },
+  "sources": {
+    "gsc": {
+      "path": "data\\sbu-growth\\gsc-all-sbu-2026-05-12T13-17-28-09-00.json",
+      "generatedAt": "2026-05-12T13:17:28+09:00",
+      "sites": 12
+    },
+    "posthog": {
+      "path": "data\\sbu-growth\\posthog-traffic-latest.json",
+      "days": 7
+    },
+    "ga4": {
+      "path": "logs\\ga4_result.json"
+    }
+  },
+  "rows": [
+    {
+      "site": "sellkit",
+      "name": "SellKit",
+      "market": "global",
+      "lane": "ecommerce sellers",
+      "posthog": {
+        "events": 2,
+        "pageviews": 2,
+        "users": 2,
+        "lastSeen": "2026-05-11T06:34:59.304000+09:00"
+      },
+      "ga4": {
+        "users7d": 0,
+        "views7d": 0,
+        "sessions7d": 0,
+        "users28d": 2,
+        "views28d": 2
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 73,
+        "opportunityCount": 10,
+        "opportunityImpressions": 279,
+        "topOpportunity": {
+          "page": "https://sellkit.neogenesis.app/alternatives/printful",
+          "impressions": 136,
+          "clicks": 0,
+          "averagePosition": 72.06,
+          "topQuery": "printful alternatives"
+        }
+      },
+      "strategy": [
+        "Exploit proven GSC intent: Printful alternatives, Stripe pricing, Printful pricing, and Gumroad review.",
+        "Add Stripe fee and POD margin calculators, then seed ecommerce/POD communities with tracked URLs."
+      ],
+      "stage": "capture-now",
+      "score": 663.8,
+      "measurementWarnings": []
+    },
+    {
+      "site": "reviewlab",
+      "name": "ReviewLab",
+      "market": "korea",
+      "lane": "Korean product review",
+      "posthog": {
+        "events": 70,
+        "pageviews": 55,
+        "users": 51,
+        "lastSeen": "2026-05-12T10:14:40.128000+09:00"
+      },
+      "ga4": {
+        "users7d": 0,
+        "views7d": 0,
+        "sessions7d": 0,
+        "users28d": 6,
+        "views28d": 6
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 38,
+        "opportunityCount": 10,
+        "opportunityImpressions": 72,
+        "topOpportunity": {
+          "page": "https://review.neogenesis.app/posts/tabwee-2026-%ED%83%9C%EB%B8%94%EB%A6%BF-%EB%A6%AC%EB%B7%B0-android-16-gemini-ai-11%EC%9D%B8%EC%B9%98-16gb-ram-%ED%83%91%EC%9E%AC",
+          "impressions": 20,
+          "clicks": 2,
+          "averagePosition": 6.95,
+          "topQuery": "tabwee 태블릿 후기"
+        }
+      },
+      "strategy": [
+        "Rewrite Korean title/description/H1 for comparison and purchase-review intent.",
+        "Prioritize Naver Search Advisor checks and Korean FAQ/pros-cons/spec tables."
+      ],
+      "stage": "capture-now",
+      "score": 377.9,
+      "measurementWarnings": [
+        "PostHog shows recent users but GA4 7d is zero; verify property/hostname filtering and data freshness."
+      ]
+    },
+    {
+      "site": "craftdesk",
+      "name": "CraftDesk",
+      "market": "global",
+      "lane": "design/product workflow",
+      "posthog": {
+        "events": 160,
+        "pageviews": 54,
+        "users": 50,
+        "lastSeen": "2026-05-11T07:37:54.604000+09:00"
+      },
+      "ga4": {
+        "users7d": 0,
+        "views7d": 0,
+        "sessions7d": 0,
+        "users28d": 35,
+        "views28d": 39
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 5,
+        "opportunityCount": 3,
+        "opportunityImpressions": 6,
+        "topOpportunity": {
+          "page": "https://craftdesk.neogenesis.app/blog/uiux-tools-rapid-prototyping",
+          "impressions": 3,
+          "clicks": 0,
+          "averagePosition": 96.33,
+          "topQuery": "rapid prototyping user interface"
+        }
+      },
+      "strategy": [
+        "Publish a Figma Community template or UX rapid-prototyping checklist.",
+        "Create search pages around rapid prototyping, UI review, and design QA workflows."
+      ],
+      "stage": "distribution-validation",
+      "score": 185,
+      "measurementWarnings": [
+        "PostHog shows recent users but GA4 7d is zero; verify property/hostname filtering and data freshness."
+      ]
+    },
+    {
+      "site": "kott",
+      "name": "K-OTT",
+      "market": "korea",
+      "lane": "Korean OTT decision",
+      "posthog": {
+        "events": 84,
+        "pageviews": 60,
+        "users": 49,
+        "lastSeen": "2026-05-12T07:04:37.322000+09:00"
+      },
+      "ga4": {
+        "users7d": 14,
+        "views7d": 19,
+        "sessions7d": 15,
+        "users28d": 69,
+        "views28d": 75
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Build OTT price, plan, and monthly-watch decision hubs in Korean.",
+        "Track Naver/Google Korean queries separately from owned/direct traffic."
+      ],
+      "stage": "distribution-validation",
+      "score": 182.1,
+      "measurementWarnings": [
+        "Traffic exists without search opportunity; validate referral/direct source and bot filtering."
+      ]
+    },
+    {
+      "site": "deploystack",
+      "name": "DeployStack",
+      "market": "global",
+      "lane": "developer/devops",
+      "posthog": {
+        "events": 122,
+        "pageviews": 39,
+        "users": 42,
+        "lastSeen": "2026-05-12T11:11:11.666000+09:00"
+      },
+      "ga4": {
+        "users7d": 0,
+        "views7d": 0,
+        "sessions7d": 0,
+        "users28d": 9,
+        "views28d": 9
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 4,
+        "opportunityCount": 2,
+        "opportunityImpressions": 10,
+        "topOpportunity": {
+          "page": "https://deploystack.neogenesis.app/blog/kubernetes-cost-optimization-tools",
+          "impressions": 9,
+          "clicks": 0,
+          "averagePosition": 90.11,
+          "topQuery": "kubernetes resource optimization software"
+        }
+      },
+      "strategy": [
+        "Ship a CI/CD YAML generator or preview-environment cost checklist.",
+        "Distribute via DEV, GitHub templates, and HN only when the artifact is directly usable."
+      ],
+      "stage": "distribution-validation",
+      "score": 145.6,
+      "measurementWarnings": [
+        "PostHog shows recent users but GA4 7d is zero; verify property/hostname filtering and data freshness."
+      ]
+    },
+    {
+      "site": "whylab",
+      "name": "WhyLab",
+      "market": "global",
+      "lane": "research/product proof",
+      "posthog": {
+        "events": 38,
+        "pageviews": 25,
+        "users": 25,
+        "lastSeen": "2026-05-11T05:14:31.204000+09:00"
+      },
+      "ga4": {
+        "users7d": 0,
+        "views7d": 0,
+        "sessions7d": 0,
+        "users28d": 7,
+        "views28d": 7
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 4,
+        "opportunityCount": 2,
+        "opportunityImpressions": 4,
+        "topOpportunity": {
+          "page": "https://whylab.neogenesis.app/",
+          "impressions": 3,
+          "clicks": 0,
+          "averagePosition": 46.67,
+          "topQuery": "whylab"
+        }
+      },
+      "strategy": [
+        "Treat current pages as credibility assets until a concrete user job is defined.",
+        "Avoid broad MAU acquisition spend before a repeatable tool or decision workflow exists."
+      ],
+      "stage": "productize-before-growth",
+      "score": 93.3,
+      "measurementWarnings": [
+        "PostHog shows recent users but GA4 7d is zero; verify property/hostname filtering and data freshness."
+      ]
+    },
+    {
+      "site": "ethicaai",
+      "name": "EthicaAI",
+      "market": "global",
+      "lane": "AI ethics research",
+      "posthog": {
+        "events": 68,
+        "pageviews": 29,
+        "users": 29,
+        "lastSeen": "2026-05-11T17:48:49.511000+09:00"
+      },
+      "ga4": {
+        "users7d": 0,
+        "views7d": 0,
+        "sessions7d": 0,
+        "users28d": 0,
+        "views28d": 0
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Productize one practical artifact such as an AI risk checklist or model evaluation worksheet.",
+        "Use research pages for authority, not direct MAU scaling, until activation is measurable."
+      ],
+      "stage": "productize-before-growth",
+      "score": 72.5,
+      "measurementWarnings": [
+        "PostHog shows recent users but GA4 7d is zero; verify property/hostname filtering and data freshness."
+      ]
+    },
+    {
+      "site": "aiforge",
+      "name": "AIForge",
+      "market": "global",
+      "lane": "AI builders",
+      "posthog": {
+        "events": 75,
+        "pageviews": 3,
+        "users": 3,
+        "lastSeen": "2026-05-12T07:25:52.291000+09:00"
+      },
+      "ga4": {
+        "users7d": 0,
+        "views7d": 0,
+        "sessions7d": 0,
+        "users28d": 3,
+        "views28d": 3
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 3,
+        "opportunityCount": 2,
+        "opportunityImpressions": 4,
+        "topOpportunity": {
+          "page": "https://aiforge.neogenesis.app/blog/ai-cybersecurity-tools-for-developers",
+          "impressions": 2,
+          "clicks": 0,
+          "averagePosition": 82,
+          "topQuery": "ai security for dev"
+        }
+      },
+      "strategy": [
+        "Ship an agent stack selector or evaluation checklist as a tryable tool.",
+        "Distribute through GitHub, AI builder communities, and Product Hunt only after the demo is usable."
+      ],
+      "stage": "productize-before-growth",
+      "score": 36.7,
+      "measurementWarnings": []
+    },
+    {
+      "site": "finstack",
+      "name": "FinStack",
+      "market": "global",
+      "lane": "finance ops",
+      "posthog": {
+        "events": 41,
+        "pageviews": 4,
+        "users": 4,
+        "lastSeen": "2026-05-11T22:54:01.833000+09:00"
+      },
+      "ga4": {
+        "users7d": 0,
+        "views7d": 0,
+        "sessions7d": 0,
+        "users28d": 5,
+        "views28d": 5
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Narrow the product promise to Stripe reconciliation, invoice ops, or SaaS finance templates.",
+        "Publish one practical calculator/template before adding more generic finance posts."
+      ],
+      "stage": "productize-before-growth",
+      "score": 12,
+      "measurementWarnings": []
+    }
+  ],
+  "summary": {
+    "siteCount": 9,
+    "captureNow": 2,
+    "distributionValidation": 3,
+    "productizeBeforeGrowth": 4,
+    "totalPosthogUsers": 255,
+    "totalPosthogPageviews": 271,
+    "totalGscOpportunityImpressions": 375
+  }
+}

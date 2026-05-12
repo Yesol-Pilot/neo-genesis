@@ -9,8 +9,21 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'data', 'sbu-growth');
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const WEBMASTERS_SCOPE = 'https://www.googleapis.com/auth/webmasters';
-const DEFAULT_SITES =
-  'toolpick,aiforge,craftdesk,deploystack,finstack,sellkit,reviewlab,ur-wrong,kott,whylab,ethicaai,neogenesis';
+const DEFAULT_SITE_IDS = [
+  'toolpick',
+  'aiforge',
+  'craftdesk',
+  'deploystack',
+  'finstack',
+  'sellkit',
+  'reviewlab',
+  'ur-wrong',
+  'kott',
+  'whylab',
+  'ethicaai',
+  'neogenesis',
+];
+const DEFAULT_SITES = DEFAULT_SITE_IDS.join(',');
 
 const SITES = {
   toolpick: {
@@ -107,6 +120,7 @@ function parseArgs(argv) {
     submitSitemaps: false,
     fetch: false,
     minImpressions: 1,
+    writeDefaultLatest: false,
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -117,6 +131,7 @@ function parseArgs(argv) {
     else if (arg === '--min-impressions') args.minImpressions = Number(argv[++i] || args.minImpressions);
     else if (arg === '--submit-sitemaps') args.submitSitemaps = true;
     else if (arg === '--fetch') args.fetch = true;
+    else if (arg === '--write-default-latest') args.writeDefaultLatest = true;
     else if (arg === '--all') {
       args.submitSitemaps = true;
       args.fetch = true;
@@ -124,6 +139,29 @@ function parseArgs(argv) {
   }
 
   return args;
+}
+
+function sameSiteSet(left, right) {
+  if (left.length !== right.length) return false;
+  const rightSet = new Set(right);
+  return left.every((siteId) => rightSet.has(siteId));
+}
+
+function safeScopeSlug(siteIds) {
+  if (siteIds.length <= 3) return siteIds.join('-').replace(/[^a-z0-9-]/gi, '-').toLowerCase();
+  return crypto.createHash('sha1').update(siteIds.join(',')).digest('hex').slice(0, 12);
+}
+
+function outputScopeForSites(siteIds, args) {
+  const isDefaultAll = sameSiteSet(siteIds, DEFAULT_SITE_IDS);
+  const label = isDefaultAll ? 'all-sbu' : `scope-${safeScopeSlug(siteIds)}`;
+  return {
+    label,
+    siteIds,
+    isDefaultAll,
+    filePrefix: isDefaultAll ? 'gsc-all-sbu' : `gsc-sbu-${label}`,
+    writesDefaultLatest: isDefaultAll || args.writeDefaultLatest,
+  };
 }
 
 function loadEnvFiles() {
@@ -436,6 +474,8 @@ function renderMarkdown(report) {
     `Generated: ${report.generatedAt}`,
     `Token source: ${report.tokenSource}`,
     `Window: ${report.window.startDate} to ${report.window.endDate}`,
+    `Scope: ${report.scope?.label || 'unknown'} (${(report.scope?.siteIds || []).join(', ')})`,
+    `Writes default latest: ${Boolean(report.scope?.writesDefaultLatest)}`,
     '',
     '## Summary',
     '',
@@ -484,6 +524,7 @@ async function main() {
     .filter(Boolean);
   const unknown = siteIds.filter((siteId) => !SITES[siteId]);
   if (unknown.length) throw new Error(`Unknown SBU site ids: ${unknown.join(', ')}`);
+  const scope = outputScopeForSites(siteIds, args);
 
   const tokenResult = await resolveToken();
   if (!tokenResult?.token) throw new Error('missing_search_console_oauth_token');
@@ -505,6 +546,7 @@ async function main() {
     generatedAt: kstNow(),
     tokenSource: tokenResult.source,
     args,
+    scope,
     window: { startDate, endDate },
     listedProperties: [...listedProperties.entries()].map(([siteUrl, permissionLevel]) => ({ siteUrl, permissionLevel })),
     summary: {
@@ -527,16 +569,30 @@ async function main() {
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const stamp = report.generatedAt.replace(/[:+]/g, '-');
-  const jsonOut = path.join(OUT_DIR, `gsc-all-sbu-${stamp}.json`);
-  const mdOut = path.join(OUT_DIR, `gsc-all-sbu-${stamp}.md`);
-  const latestJson = path.join(OUT_DIR, 'gsc-all-sbu-latest.json');
-  const latestMd = path.join(OUT_DIR, 'gsc-all-sbu-latest.md');
+  const jsonOut = path.join(OUT_DIR, `${scope.filePrefix}-${stamp}.json`);
+  const mdOut = path.join(OUT_DIR, `${scope.filePrefix}-${stamp}.md`);
+  const latestJson = path.join(OUT_DIR, `${scope.filePrefix}-latest.json`);
+  const latestMd = path.join(OUT_DIR, `${scope.filePrefix}-latest.md`);
+  const defaultLatestJson = path.join(OUT_DIR, 'gsc-all-sbu-latest.json');
+  const defaultLatestMd = path.join(OUT_DIR, 'gsc-all-sbu-latest.md');
   const markdown = renderMarkdown(report);
 
   for (const file of [jsonOut, latestJson]) fs.writeFileSync(file, JSON.stringify(report, null, 2));
   for (const file of [mdOut, latestMd]) fs.writeFileSync(file, markdown);
+  if (scope.writesDefaultLatest) {
+    if (latestJson !== defaultLatestJson) fs.writeFileSync(defaultLatestJson, JSON.stringify(report, null, 2));
+    if (latestMd !== defaultLatestMd) fs.writeFileSync(defaultLatestMd, markdown);
+  }
 
-  console.log(JSON.stringify({ pass, latestJson, latestMd, summary: report.summary }, null, 2));
+  console.log(JSON.stringify({
+    pass,
+    scope,
+    latestJson,
+    latestMd,
+    defaultLatestJson: scope.writesDefaultLatest ? defaultLatestJson : null,
+    defaultLatestMd: scope.writesDefaultLatest ? defaultLatestMd : null,
+    summary: report.summary,
+  }, null, 2));
   if (!pass) process.exitCode = 1;
 }
 
