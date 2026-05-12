@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """Weekly traffic alert composed from GA4 and PostHog data."""
 
-import json
-import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -10,21 +8,17 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from scripts.ga4_traffic_report import SITES, get_access_token, run_report, val
+from scripts.ga4_traffic_report import SITES, resolve_access_token, run_report, val
 from scripts.posthog_traffic import fetch_traffic
 
 
 def generate_traffic_report() -> str:
-    sa_path = os.environ.get("GA4_SERVICE_ACCOUNT_PATH", "")
     ga4_data = []
     total_ga4_users = 0
     total_ga4_views = 0
 
-    if sa_path and os.path.exists(sa_path):
-        with open(sa_path, encoding="utf-8") as f:
-            sa = json.load(f)
-        token = get_access_token(sa)
-
+    try:
+        token, _token_source = resolve_access_token()
         for site in SITES:
             try:
                 report = run_report(
@@ -45,6 +39,8 @@ def generate_traffic_report() -> str:
                 pass
 
         ga4_data.sort(key=lambda row: row[1], reverse=True)
+    except Exception:
+        pass
 
     ph_data = fetch_traffic(days=7)
     total_ph_views = sum(int(row[1]) for row in ph_data) if ph_data else 0

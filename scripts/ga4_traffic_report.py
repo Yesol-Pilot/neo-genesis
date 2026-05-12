@@ -1,4 +1,9 @@
-"""GA4 traffic report via the Data API using a service-account JWT."""
+"""GA4 traffic report via the Data API.
+
+OAuth refresh tokens are preferred because the GA4 properties are usually
+granted to a human Google account. Service-account JWT remains as a fallback
+for environments that explicitly grant property access to the bot account.
+"""
 
 import base64
 import json
@@ -23,6 +28,10 @@ def resolve_service_account_path() -> str:
             return candidate
     return candidates[0] if candidates else ""
 
+
+def resolve_oauth_client_path() -> str:
+    return os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET_FILE", "").strip()
+
 SITES = [
     {"name": "ToolPick", "property": "properties/524659689"},
     {"name": "UR WRONG", "property": "properties/524964770"},
@@ -43,7 +52,7 @@ def b64url(data: bytes) -> str:
     return base64.urlsafe_b64encode(data).rstrip(b"=").decode()
 
 
-def get_access_token(sa: dict) -> str:
+def get_service_account_access_token(sa: dict) -> str:
     from cryptography.hazmat.primitives import hashes, serialization
     from cryptography.hazmat.primitives.asymmetric import padding
 
@@ -73,9 +82,69 @@ def get_access_token(sa: dict) -> str:
     )
     token = response.json().get("access_token")
     if not token:
-        print(f"TOKEN FAIL: {response.text}")
-        sys.exit(1)
+        raise RuntimeError(f"service-account token failed: {response.text[:200]}")
     return token
+
+
+def get_oauth_access_token() -> str:
+    import requests
+
+    client_path = resolve_oauth_client_path()
+    refresh_token = os.environ.get("GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN", "").strip()
+    if not client_path or not refresh_token:
+        raise RuntimeError("OAuth client path or refresh token is not configured")
+    if not os.path.exists(client_path):
+        raise RuntimeError(f"OAuth client path does not exist: {client_path}")
+
+    with open(client_path, encoding="utf-8") as f:
+        client = json.load(f)
+    client_info = client.get("installed") or client.get("web") or {}
+    response = requests.post(
+        "https://oauth2.googleapis.com/token",
+        data={
+            "client_id": client_info.get("client_id"),
+            "client_secret": client_info.get("client_secret"),
+            "refresh_token": refresh_token,
+            "grant_type": "refresh_token",
+        },
+        timeout=15,
+    )
+    payload = response.json()
+    token = payload.get("access_token")
+    if not token:
+        error = payload.get("error") or response.text[:200]
+        raise RuntimeError(f"OAuth refresh token failed: {error}")
+    return token
+
+
+def resolve_access_token() -> tuple[str, str]:
+    errors = []
+    try:
+        return get_oauth_access_token(), "oauth_refresh_token"
+    except Exception as exc:
+        errors.append(str(exc))
+
+    sa_path = resolve_service_account_path()
+    if sa_path and os.path.exists(sa_path):
+        try:
+            with open(sa_path, encoding="utf-8") as f:
+                return get_service_account_access_token(json.load(f)), "service_account"
+        except Exception as exc:
+            errors.append(str(exc))
+    elif sa_path:
+        errors.append(f"GA4 service account path does not exist: {sa_path}")
+
+    raise SystemExit("GA4 token resolution failed: " + " | ".join(errors))
+
+
+def get_access_token(sa: dict | None = None) -> str:
+    """Backward-compatible token helper for older reporting scripts."""
+    try:
+        return get_oauth_access_token()
+    except Exception:
+        if sa is not None:
+            return get_service_account_access_token(sa)
+    return resolve_access_token()[0]
 
 
 def run_report(
@@ -123,17 +192,8 @@ def val(report: dict, idx: int = 0) -> str:
 
 
 def main():
-    sa_path = resolve_service_account_path()
-    if not sa_path:
-        raise SystemExit("GA4 service account path is not configured")
-    if not os.path.exists(sa_path):
-        raise SystemExit(f"GA4 service account path does not exist: {sa_path}")
-
-    with open(sa_path, encoding="utf-8") as f:
-        sa = json.load(f)
-
-    token = get_access_token(sa)
-    print("TOKEN OK")
+    token, token_source = resolve_access_token()
+    print(f"TOKEN OK ({token_source})")
     print("NOTE: NeoGenesis subdomains are reported via shared property properties/526345390.")
 
     metrics = ["activeUsers", "screenPageViews", "sessions"]
