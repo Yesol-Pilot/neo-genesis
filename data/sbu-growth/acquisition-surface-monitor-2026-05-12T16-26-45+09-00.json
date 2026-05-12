@@ -1,0 +1,260 @@
+{
+  "generatedAt": "2026-05-12T16:26:45+09:00",
+  "source": "data\\sbu-growth\\acquisition-surface-targets.json",
+  "excludes": [
+    "toolpick",
+    "ur-wrong",
+    "neogenesis"
+  ],
+  "summary": {
+    "targets": 3,
+    "passed": 3,
+    "failed": 0,
+    "averageScore": 100,
+    "readyToExpand": [
+      "reviewlab-buying-guide",
+      "kott-price-calculator",
+      "craftdesk-rapid-prototyping-template"
+    ]
+  },
+  "surfaces": [
+    {
+      "id": "reviewlab-buying-guide",
+      "site": "reviewlab",
+      "name": "ReviewLab buying guide",
+      "market": "korea",
+      "url": "https://review.neogenesis.app/buying-guide",
+      "sitemap": {
+        "status": 200,
+        "included": true,
+        "error": null
+      },
+      "robots": {
+        "status": 200,
+        "blocked": false,
+        "error": null
+      },
+      "launchedAt": "2026-05-12",
+      "primaryIntent": "구매 전 체크리스트, 블로그 후기 신뢰도, 환불 조건 확인",
+      "expectedPhrases": [
+        "구매 전 체크리스트",
+        "후기 신뢰도",
+        "반품·환불",
+        "대체 상품"
+      ],
+      "nextExpansionCandidates": [
+        {
+          "path": "/review-checklist",
+          "intent": "Korean blog review credibility query",
+          "asset": "Korean review credibility checklist"
+        },
+        {
+          "path": "/refund-checklist",
+          "intent": "Korean refund and return condition query",
+          "asset": "Korean refund and return checklist"
+        },
+        {
+          "path": "/electronics-buying-guide",
+          "intent": "Korean consumer electronics pre-purchase query",
+          "asset": "Consumer electronics buying decision guide"
+        }
+      ],
+      "checkedAt": "2026-05-12T16:26:45+09:00",
+      "pass": true,
+      "score": 100,
+      "checks": {
+        "pageOk": true,
+        "titleOk": true,
+        "descriptionOk": true,
+        "canonicalOk": true,
+        "jsonLdOk": true,
+        "expectedCopyOk": true,
+        "sitemapOk": true,
+        "robotsOk": true,
+        "indexNowKeyOk": true
+      },
+      "page": {
+        "status": 200,
+        "finalUrl": "https://review.neogenesis.app/buying-guide",
+        "title": "구매 전 체크리스트 | 리뷰랩 | ReviewLab",
+        "titleLen": 28,
+        "descriptionLen": 81,
+        "canonical": "https://review.neogenesis.app/buying-guide",
+        "jsonLdCount": 4,
+        "expectedCopyMissing": [],
+        "error": null
+      },
+      "indexNow": {
+        "keyUrl": "https://review.neogenesis.app/15b32b494fc359fadb0fceaca3097394.txt",
+        "status": 200,
+        "keyOk": true,
+        "error": null
+      },
+      "trackerHints": {
+        "posthogStaticHint": true,
+        "gaStaticHint": true,
+        "expectedEvent": null
+      },
+      "nextAction": "monitor_gsc_and_posthog_48h_then_expand_top_candidate"
+    },
+    {
+      "id": "kott-price-calculator",
+      "site": "kott",
+      "name": "K-OTT price calculator",
+      "market": "korea",
+      "url": "https://kott.kr/ott-price-calculator",
+      "sitemap": {
+        "status": 200,
+        "included": true,
+        "error": null
+      },
+      "robots": {
+        "status": 200,
+        "blocked": false,
+        "error": null
+      },
+      "launchedAt": "2026-05-12",
+      "primaryIntent": "OTT 요금제 계산기, 넷플릭스 티빙 웨이브 가격 비교, OTT 구독 절약",
+      "expectedPhrases": [
+        "OTT 요금제 계산기",
+        "구독 중인 OTT 선택",
+        "예상 지출",
+        "월별 로테이션 추정"
+      ],
+      "posthogEvent": "price_calculator_used",
+      "nextExpansionCandidates": [
+        {
+          "path": "/ott-family-plan-calculator",
+          "intent": "Korean family OTT plan comparison query",
+          "asset": "Family sharing and monthly cost calculator"
+        },
+        {
+          "path": "/netflix-tving-price-comparison",
+          "intent": "Netflix vs TVING price comparison query",
+          "asset": "Netflix vs TVING price and content decision page"
+        },
+        {
+          "path": "/ott-rotation/2026-06",
+          "intent": "Monthly Korean OTT watch planning query",
+          "asset": "Monthly Korean OTT rotation plan"
+        }
+      ],
+      "checkedAt": "2026-05-12T16:26:44+09:00",
+      "pass": true,
+      "score": 100,
+      "checks": {
+        "pageOk": true,
+        "titleOk": true,
+        "descriptionOk": true,
+        "canonicalOk": true,
+        "jsonLdOk": true,
+        "expectedCopyOk": true,
+        "sitemapOk": true,
+        "robotsOk": true,
+        "indexNowKeyOk": true
+      },
+      "page": {
+        "status": 200,
+        "finalUrl": "https://kott.kr/ott-price-calculator",
+        "title": "OTT 요금제 계산기: 넷플릭스·티빙·웨이브 월 구독료 비교 | K-OTT | K-OTT",
+        "titleLen": 49,
+        "descriptionLen": 80,
+        "canonical": "https://kott.kr/ott-price-calculator",
+        "jsonLdCount": 5,
+        "expectedCopyMissing": [],
+        "error": null
+      },
+      "indexNow": {
+        "keyUrl": "https://kott.kr/15b32b494fc359fadb0fceaca3097394.txt",
+        "status": 200,
+        "keyOk": true,
+        "error": null
+      },
+      "trackerHints": {
+        "posthogStaticHint": true,
+        "gaStaticHint": true,
+        "expectedEvent": "price_calculator_used"
+      },
+      "nextAction": "monitor_gsc_and_posthog_48h_then_expand_top_candidate"
+    },
+    {
+      "id": "craftdesk-rapid-prototyping-template",
+      "site": "craftdesk",
+      "name": "CraftDesk rapid prototyping template",
+      "market": "global",
+      "url": "https://craftdesk.neogenesis.app/templates/rapid-prototyping-checklist",
+      "sitemap": {
+        "status": 200,
+        "included": true,
+        "error": null
+      },
+      "robots": {
+        "status": 200,
+        "blocked": false,
+        "error": null
+      },
+      "launchedAt": "2026-05-12",
+      "primaryIntent": "Figma rapid prototyping checklist, UX prototype review checklist",
+      "expectedPhrases": [
+        "Figma Rapid Prototyping Checklist",
+        "6 phases",
+        "18 checks",
+        "Three prototype boards"
+      ],
+      "nextExpansionCandidates": [
+        {
+          "path": "/templates/ux-review-checklist",
+          "intent": "UX review checklist template",
+          "asset": "UX review checklist for solo teams"
+        },
+        {
+          "path": "/templates/design-qa-checklist",
+          "intent": "design QA checklist",
+          "asset": "Design QA handoff checklist"
+        },
+        {
+          "path": "/templates/figma-handoff-checklist",
+          "intent": "Figma handoff checklist",
+          "asset": "Figma to developer handoff checklist"
+        }
+      ],
+      "checkedAt": "2026-05-12T16:26:44+09:00",
+      "pass": true,
+      "score": 100,
+      "checks": {
+        "pageOk": true,
+        "titleOk": true,
+        "descriptionOk": true,
+        "canonicalOk": true,
+        "jsonLdOk": true,
+        "expectedCopyOk": true,
+        "sitemapOk": true,
+        "robotsOk": true,
+        "indexNowKeyOk": true
+      },
+      "page": {
+        "status": 200,
+        "finalUrl": "https://craftdesk.neogenesis.app/templates/rapid-prototyping-checklist",
+        "title": "Figma Rapid Prototyping Checklist Template | CraftDesk | CraftDesk",
+        "titleLen": 66,
+        "descriptionLen": 171,
+        "canonical": "https://craftdesk.neogenesis.app/templates/rapid-prototyping-checklist",
+        "jsonLdCount": 4,
+        "expectedCopyMissing": [],
+        "error": null
+      },
+      "indexNow": {
+        "keyUrl": "https://craftdesk.neogenesis.app/15b32b494fc359fadb0fceaca3097394.txt",
+        "status": 200,
+        "keyOk": true,
+        "error": null
+      },
+      "trackerHints": {
+        "posthogStaticHint": true,
+        "gaStaticHint": true,
+        "expectedEvent": null
+      },
+      "nextAction": "monitor_gsc_and_posthog_48h_then_expand_top_candidate"
+    }
+  ]
+}

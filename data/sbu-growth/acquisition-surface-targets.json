@@ -1,0 +1,110 @@
+{
+  "generatedBy": "scripts/sbu_acquisition_surface_monitor.mjs",
+  "defaultExcludes": ["toolpick", "ur-wrong", "neogenesis"],
+  "indexNowKey": "15b32b494fc359fadb0fceaca3097394",
+  "surfaces": [
+    {
+      "id": "reviewlab-buying-guide",
+      "site": "reviewlab",
+      "name": "ReviewLab buying guide",
+      "market": "korea",
+      "url": "https://review.neogenesis.app/buying-guide",
+      "sitemap": "https://review.neogenesis.app/sitemap.xml",
+      "robots": "https://review.neogenesis.app/robots.txt",
+      "launchedAt": "2026-05-12",
+      "primaryIntent": "구매 전 체크리스트, 블로그 후기 신뢰도, 환불 조건 확인",
+      "expectedPhrases": [
+        "구매 전 체크리스트",
+        "후기 신뢰도",
+        "반품·환불",
+        "대체 상품"
+      ],
+      "nextExpansionCandidates": [
+        {
+          "path": "/review-checklist",
+          "intent": "Korean blog review credibility query",
+          "asset": "Korean review credibility checklist"
+        },
+        {
+          "path": "/refund-checklist",
+          "intent": "Korean refund and return condition query",
+          "asset": "Korean refund and return checklist"
+        },
+        {
+          "path": "/electronics-buying-guide",
+          "intent": "Korean consumer electronics pre-purchase query",
+          "asset": "Consumer electronics buying decision guide"
+        }
+      ]
+    },
+    {
+      "id": "kott-price-calculator",
+      "site": "kott",
+      "name": "K-OTT price calculator",
+      "market": "korea",
+      "url": "https://kott.kr/ott-price-calculator",
+      "sitemap": "https://kott.kr/sitemap.xml",
+      "robots": "https://kott.kr/robots.txt",
+      "launchedAt": "2026-05-12",
+      "primaryIntent": "OTT 요금제 계산기, 넷플릭스 티빙 웨이브 가격 비교, OTT 구독 절약",
+      "expectedPhrases": [
+        "OTT 요금제 계산기",
+        "구독 중인 OTT 선택",
+        "예상 지출",
+        "월별 로테이션 추정"
+      ],
+      "posthogEvent": "price_calculator_used",
+      "nextExpansionCandidates": [
+        {
+          "path": "/ott-family-plan-calculator",
+          "intent": "Korean family OTT plan comparison query",
+          "asset": "Family sharing and monthly cost calculator"
+        },
+        {
+          "path": "/netflix-tving-price-comparison",
+          "intent": "Netflix vs TVING price comparison query",
+          "asset": "Netflix vs TVING price and content decision page"
+        },
+        {
+          "path": "/ott-rotation/2026-06",
+          "intent": "Monthly Korean OTT watch planning query",
+          "asset": "Monthly Korean OTT rotation plan"
+        }
+      ]
+    },
+    {
+      "id": "craftdesk-rapid-prototyping-template",
+      "site": "craftdesk",
+      "name": "CraftDesk rapid prototyping template",
+      "market": "global",
+      "url": "https://craftdesk.neogenesis.app/templates/rapid-prototyping-checklist",
+      "sitemap": "https://craftdesk.neogenesis.app/sitemap.xml",
+      "robots": "https://craftdesk.neogenesis.app/robots.txt",
+      "launchedAt": "2026-05-12",
+      "primaryIntent": "Figma rapid prototyping checklist, UX prototype review checklist",
+      "expectedPhrases": [
+        "Figma Rapid Prototyping Checklist",
+        "6 phases",
+        "18 checks",
+        "Three prototype boards"
+      ],
+      "nextExpansionCandidates": [
+        {
+          "path": "/templates/ux-review-checklist",
+          "intent": "UX review checklist template",
+          "asset": "UX review checklist for solo teams"
+        },
+        {
+          "path": "/templates/design-qa-checklist",
+          "intent": "design QA checklist",
+          "asset": "Design QA handoff checklist"
+        },
+        {
+          "path": "/templates/figma-handoff-checklist",
+          "intent": "Figma handoff checklist",
+          "asset": "Figma to developer handoff checklist"
+        }
+      ]
+    }
+  ]
+}
