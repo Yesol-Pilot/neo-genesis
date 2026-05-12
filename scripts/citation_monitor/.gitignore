@@ -1,0 +1,2 @@
+# SQLite DBs populated by cron — don't commit baseline data
+citations_3rd_party.sqlite3
