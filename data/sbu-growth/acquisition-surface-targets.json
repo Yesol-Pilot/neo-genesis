@@ -72,6 +72,40 @@
       ]
     },
     {
+      "id": "reviewlab-refund-checklist",
+      "site": "reviewlab",
+      "name": "ReviewLab refund and return checklist",
+      "market": "korea",
+      "url": "https://review.neogenesis.app/refund-checklist",
+      "sitemap": "https://review.neogenesis.app/sitemap.xml",
+      "robots": "https://review.neogenesis.app/robots.txt",
+      "launchedAt": "2026-05-12",
+      "primaryIntent": "Korean refund return exchange condition pre-purchase checklist",
+      "expectedPhrases": [
+        "환불·반품 조건 체크리스트",
+        "환불 가능 기간",
+        "개봉 후 제한",
+        "배송비 부담"
+      ],
+      "nextExpansionCandidates": [
+        {
+          "path": "/electronics-buying-guide",
+          "intent": "Korean consumer electronics pre-purchase query",
+          "asset": "Consumer electronics buying decision guide"
+        },
+        {
+          "path": "/sponsored-review-guide",
+          "intent": "Korean sponsored review detection query",
+          "asset": "Sponsored review detection guide"
+        },
+        {
+          "path": "/return-policy-guide",
+          "intent": "Korean shopping mall return policy query",
+          "asset": "Return policy decision guide"
+        }
+      ]
+    },
+    {
       "id": "kott-price-calculator",
       "site": "kott",
       "name": "K-OTT price calculator",
@@ -142,6 +176,40 @@
       ]
     },
     {
+      "id": "kott-netflix-tving-price-comparison",
+      "site": "kott",
+      "name": "K-OTT Netflix TVING price comparison",
+      "market": "korea",
+      "url": "https://kott.kr/netflix-tving-price-comparison",
+      "sitemap": "https://kott.kr/sitemap.xml",
+      "robots": "https://kott.kr/robots.txt",
+      "launchedAt": "2026-05-12",
+      "primaryIntent": "Korean Netflix TVING price and plan comparison",
+      "expectedPhrases": [
+        "넷플릭스 티빙 가격 비교",
+        "빠른 결론",
+        "결제 전 4가지 규칙",
+        "넷플릭스 공식 요금 확인"
+      ],
+      "nextExpansionCandidates": [
+        {
+          "path": "/ott-rotation/2026-06",
+          "intent": "Monthly Korean OTT watch planning query",
+          "asset": "Monthly Korean OTT rotation plan"
+        },
+        {
+          "path": "/ott-kids-plan-guide",
+          "intent": "Korean kids and family OTT guide query",
+          "asset": "Kids and family OTT decision guide"
+        },
+        {
+          "path": "/student-ott-price-guide",
+          "intent": "Korean student OTT price query",
+          "asset": "Student OTT price decision guide"
+        }
+      ]
+    },
+    {
       "id": "craftdesk-rapid-prototyping-template",
       "site": "craftdesk",
       "name": "CraftDesk rapid prototyping template",
@@ -172,6 +240,40 @@
           "path": "/templates/figma-handoff-checklist",
           "intent": "Figma handoff checklist",
           "asset": "Figma to developer handoff checklist"
+        }
+      ]
+    },
+    {
+      "id": "craftdesk-design-qa-checklist",
+      "site": "craftdesk",
+      "name": "CraftDesk design QA checklist",
+      "market": "global",
+      "url": "https://craftdesk.neogenesis.app/templates/design-qa-checklist",
+      "sitemap": "https://craftdesk.neogenesis.app/sitemap.xml",
+      "robots": "https://craftdesk.neogenesis.app/robots.txt",
+      "launchedAt": "2026-05-12",
+      "primaryIntent": "design QA checklist template and UI QA checklist",
+      "expectedPhrases": [
+        "Design QA Checklist Template",
+        "6 gates",
+        "18 checks",
+        "decision log"
+      ],
+      "nextExpansionCandidates": [
+        {
+          "path": "/templates/figma-handoff-checklist",
+          "intent": "Figma handoff checklist",
+          "asset": "Figma to developer handoff checklist"
+        },
+        {
+          "path": "/templates/landing-page-review-checklist",
+          "intent": "landing page review checklist",
+          "asset": "Landing page review checklist for founders"
+        },
+        {
+          "path": "/templates/accessibility-qa-checklist",
+          "intent": "accessibility QA checklist",
+          "asset": "Accessibility QA checklist for product teams"
         }
       ]
     },
