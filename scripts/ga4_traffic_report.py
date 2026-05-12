@@ -8,8 +8,20 @@ import time
 
 from dotenv import load_dotenv
 
-load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
-SA_PATH = os.environ.get("GA4_SERVICE_ACCOUNT_PATH", "")
+PROJECT_ROOT = os.path.join(os.path.dirname(__file__), "..")
+load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
+load_dotenv(os.path.join(PROJECT_ROOT, ".env.local"), override=False)
+
+
+def resolve_service_account_path() -> str:
+    candidates = [
+        os.environ.get("GA4_SERVICE_ACCOUNT_PATH", ""),
+        os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", ""),
+    ]
+    for candidate in candidates:
+        if candidate and os.path.exists(candidate):
+            return candidate
+    return candidates[0] if candidates else ""
 
 SITES = [
     {"name": "ToolPick", "property": "properties/524659689"},
@@ -99,6 +111,11 @@ def run_report(
 
 
 def val(report: dict, idx: int = 0) -> str:
+    if "error" in report:
+        error = report["error"]
+        status = error.get("status", "ERROR")
+        code = error.get("code", "unknown")
+        raise RuntimeError(f"GA4 API {status} ({code})")
     rows = report.get("rows", [])
     if not rows:
         return "0"
@@ -106,7 +123,13 @@ def val(report: dict, idx: int = 0) -> str:
 
 
 def main():
-    with open(SA_PATH, encoding="utf-8") as f:
+    sa_path = resolve_service_account_path()
+    if not sa_path:
+        raise SystemExit("GA4 service account path is not configured")
+    if not os.path.exists(sa_path):
+        raise SystemExit(f"GA4 service account path does not exist: {sa_path}")
+
+    with open(sa_path, encoding="utf-8") as f:
         sa = json.load(f)
 
     token = get_access_token(sa)
@@ -122,6 +145,7 @@ def main():
     print(separator)
 
     totals = {"7u": 0, "7v": 0, "28u": 0, "28v": 0, "today": 0}
+    had_error = False
 
     for site in SITES:
         try:
@@ -144,6 +168,7 @@ def main():
                 f"{users_28d:>10} {views_28d:>10} {today_users:>8}"
             )
         except Exception as exc:
+            had_error = True
             print(f"{site['name']:<22} ERROR: {str(exc)[:50]}")
 
     print(separator)
@@ -182,6 +207,7 @@ def main():
                     f"{float(avg_sec):>9.1f}s {float(engage_rate) * 100:>9.1f}% {float(pv_per_session):>9.2f}"
                 )
             except Exception as exc:
+                had_error = True
                 print(f"{site['name']:<22} ERROR: {str(exc)[:40]}")
 
     print(f"\n{'Site':<22} {'This Wk':>10} {'Last Wk':>10} {'WoW %':>10}")
@@ -201,10 +227,13 @@ def main():
                 print(f"{site['name']:<22} {this_value:>10} {last_value:>10} {delta:>+9.1f}%")
             elif this_value > 0:
                 print(f"{site['name']:<22} {this_value:>10} {last_value:>10}      NEW")
-        except Exception:
-            pass
+        except Exception as exc:
+            had_error = True
+            print(f"{site['name']:<22} ERROR: {str(exc)[:40]}")
 
     print(separator)
+    if had_error:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

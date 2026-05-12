@@ -255,7 +255,14 @@ async function resolveToken() {
     return { token: process.env.GOOGLE_SEARCH_CONSOLE_ACCESS_TOKEN, source: 'access_token' };
   }
 
-  return (await tokenFromRefreshToken()) || (await tokenFromServiceAccount(WEBMASTERS_SCOPE));
+  try {
+    const refreshToken = await tokenFromRefreshToken();
+    if (refreshToken) return refreshToken;
+  } catch (error) {
+    console.warn(`[gsc] refresh token unavailable, trying service account fallback: ${error.message}`);
+  }
+
+  return tokenFromServiceAccount(WEBMASTERS_SCOPE);
 }
 
 async function fetchText(url) {
@@ -513,6 +520,10 @@ async function main() {
     },
     sites,
   };
+  const pass =
+    report.summary.liveSitemapsOk === report.summary.sites &&
+    (!args.fetch || report.summary.searchAnalyticsOk === report.summary.searchAnalyticsAttempted) &&
+    (!args.submitSitemaps || report.summary.sitemapSubmissionsOk === report.summary.sitemapSubmissionsAttempted);
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const stamp = report.generatedAt.replace(/[:+]/g, '-');
@@ -525,7 +536,8 @@ async function main() {
   for (const file of [jsonOut, latestJson]) fs.writeFileSync(file, JSON.stringify(report, null, 2));
   for (const file of [mdOut, latestMd]) fs.writeFileSync(file, markdown);
 
-  console.log(JSON.stringify({ pass: true, latestJson, latestMd, summary: report.summary }, null, 2));
+  console.log(JSON.stringify({ pass, latestJson, latestMd, summary: report.summary }, null, 2));
+  if (!pass) process.exitCode = 1;
 }
 
 main().catch((error) => {
