@@ -31,7 +31,8 @@ WORKER_PID_PATH = PROJECT_ROOT / "brain_worker.pid"
 WORKER_MATCHERS = ("src.core.brain.worker", "brain\\worker.py")
 
 from dotenv import load_dotenv
-load_dotenv(PROJECT_ROOT / ".env", override=True)
+# 2026-05-12 P0: override=False — docker --env-file 우선 (stale /app/.env override 차단)
+load_dotenv(PROJECT_ROOT / ".env", override=False)
 
 from src.core.ops_telegram_alerts import (
     notify_agent_approval_requested,

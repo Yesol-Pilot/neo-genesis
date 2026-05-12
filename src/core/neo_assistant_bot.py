@@ -25,8 +25,9 @@ PROFIT_ROOT = PROJECT_ROOT / "src" / "sbu" / "profit_center" / "profit"
 MEMORY_DIR = PROJECT_ROOT / "src" / "core" / "data" / "assistant_memory"
 MEMORY_DIR.mkdir(parents=True, exist_ok=True)
 
-load_dotenv(PROJECT_ROOT / ".env", override=True)
-load_dotenv(PROFIT_ROOT / ".env", override=True)
+# 2026-05-12 P0: override=False — docker --env-file 우선 (stale /app/.env override 차단)
+load_dotenv(PROJECT_ROOT / ".env", override=False)
+load_dotenv(PROFIT_ROOT / ".env", override=False)
 
 logger = logging.getLogger("neo.jarvis")
 

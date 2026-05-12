@@ -43,9 +43,13 @@ PROFIT_ROOT = PROJECT_ROOT / "src" / "sbu" / "profit_center" / "profit"
 MEMORY_DIR = PROJECT_ROOT / "src" / "core" / "data" / "assistant_memory"
 MEMORY_DIR.mkdir(parents=True, exist_ok=True)
 
-# .env 로드
-load_dotenv(PROJECT_ROOT / ".env", override=True)
-load_dotenv(PROFIT_ROOT / ".env", override=True)
+# .env 로드 — 2026-05-12 P0: override=False (docker --env-file 우선)
+# 이전 override=True 가 stale /app/.env (image-baked) 로 owner-set env 덮어쓰는 bug 6주 누적.
+# 결과: OPENAI_API_BASE / LLM_PRIMARY_MODEL 이 매번 옛 값 (4400/v1, local-main) 으로 복원,
+# Local LLM Connection error 매번 발생. owner action /home/ysh/sora/secrets/.env 갱신 무의미.
+# fix: docker container 의 외부 env 가 항상 우선. .env 파일은 빠진 변수만 보충.
+load_dotenv(PROJECT_ROOT / ".env", override=False)
+load_dotenv(PROFIT_ROOT / ".env", override=False)
 
 # ── 로깅 ─────────────────────────────────────────
 logger = logging.getLogger("neo.sora.engine")
@@ -1231,21 +1235,111 @@ class SoraEngine:
             except Exception as e:
                 return f"⚠️ 데몬 스케줄 조회 실패: {e}"
 
-        # ── 4. 디렉토리 목록 ── (list_directory + path 추출)
+        # ── 4. 디렉토리 목록 ── (list_directory + path 추출, 키워드 보강)
         if any(k in tl for k in [
             "디렉토리 보여", "디렉토리 목록", "파일 목록", "디렉토리에 있는",
-            "list directory", "ls -la",
-        ]):
+            "list directory", "ls -la", "디렉토리", "폴더 보여", "폴더 목록",
+        ]) and ("/" in text or "디렉토리" in text or "폴더" in text):
             try:
                 from src.core.tools.system_tools import list_directory
-                # 경로 추출 (없으면 . = 현재 디렉토리)
                 import re as _re
-                path_match = _re.search(r"['\"`]([^'\"`]+)['\"`]|(/[\w./-]+|\w+/[\w/]*)", text)
-                path = path_match.group(0).strip("'\"`") if path_match else "."
+                # 경로 추출 - /app 같은 절대경로 우선
+                path_match = _re.search(r"(/[\w./-]+)", text)
+                path = path_match.group(1) if path_match else "."
                 result = list_directory(path)
                 return f"📁 <b>{path} 디렉토리</b>\n{result[:1500]}"
             except Exception as e:
                 return f"📁 디렉토리 조회 실패: {e}"
+
+        # ── 5. 메일 검색 ── (gmail.search_messages)
+        if any(k in tl for k in [
+            "메일 검색", "이메일 검색", "메일 찾아", "이메일 찾아",
+            "메일에서 찾", "gmail search", "search mail",
+        ]):
+            try:
+                from src.core.integrations.gmail import search_messages
+                # 검색어 추출: "X 메일 검색" / "메일에서 X 찾아"
+                import re as _re
+                q_match = _re.search(r"['\"`]([^'\"`]+)['\"`]", text)
+                if q_match:
+                    query = q_match.group(1)
+                else:
+                    # 키워드 뒤 단어 추출
+                    for kw in ["메일 검색", "이메일 검색", "메일 찾아", "이메일 찾아", "메일에서"]:
+                        if kw in text:
+                            after = text.split(kw, 1)[1].strip().strip("'\"`").rstrip("을를?.,")
+                            if after:
+                                query = after.split()[0] if after else text
+                                break
+                    else:
+                        query = text
+                msgs = search_messages(query, 8)
+                if not msgs:
+                    return f"📧 '{query}' 검색 결과 없음"
+                lines = [f"📧 <b>'{query}' 검색 결과 {len(msgs)}건</b>"]
+                for m in msgs[:8]:
+                    if isinstance(m, dict):
+                        sender = (m.get("from") or m.get("sender") or "?")[:30]
+                        subject = (m.get("subject") or "(제목 없음)")[:50]
+                        lines.append(f"  • {sender}: {subject}")
+                return "\n".join(lines)
+            except Exception as e:
+                return f"📧 메일 검색 실패: {str(e)[:200]}"
+
+        # ── 6. Git 상태 ── (git status / log)
+        if any(k in tl for k in [
+            "git status", "git log", "최근 커밋", "최근 commit",
+            "변경된 파일", "수정된 파일", "uncommitted", "untracked",
+        ]):
+            try:
+                from src.core.tools.system_tools import run_pc_command
+                cmd = "git status --short && echo '---' && git log --oneline -5"
+                # path 추출
+                import re as _re
+                cwd_match = _re.search(r"(/[\w./-]+|D:[\\/][\w.\\/-]+)", text)
+                if cwd_match:
+                    cmd = f"cd {cwd_match.group(1)} && {cmd}"
+                result = run_pc_command(cmd)
+                return f"🔧 <b>Git 상태</b>\n{result[:1500]}"
+            except Exception as e:
+                return f"🔧 Git 조회 실패: {e}"
+
+        # ── 7. RAG 검색 ── (rag_search 직접)
+        if any(k in tl for k in [
+            "rag 검색", "지식 검색", "기억 검색", "관련 문서", "관련 정보 찾",
+            "rag search", "knowledge search",
+        ]):
+            try:
+                from src.core.tools.memory_tools import rag_search
+                import re as _re
+                q_match = _re.search(r"['\"`]([^'\"`]+)['\"`]", text)
+                query = q_match.group(1) if q_match else text
+                result = rag_search(query, n_results=5)
+                return f"🔍 <b>RAG 검색: {query[:50]}</b>\n{str(result)[:1500]}"
+            except Exception as e:
+                return f"🔍 RAG 검색 실패: {e}"
+
+        # ── 8. PC 명령 ── (자연어 → run_pc_command, 명시적 호출만 — 안전)
+        if any(k in tl for k in [
+            "pc 명령 실행", "shell 명령", "터미널 명령",
+            "run command", "execute command",
+        ]):
+            try:
+                from src.core.tools.system_tools import run_pc_command
+                import re as _re
+                # 백틱 안 명령어 추출
+                cmd_match = _re.search(r"['\"`]([^'\"`]+)['\"`]", text)
+                if not cmd_match:
+                    return "⚠️ PC 명령은 backtick 안에 명령어를 지정해주세요. 예: `dir` 실행"
+                cmd = cmd_match.group(1)
+                # 안전 가드 — destructive 명령 차단
+                blocked = ["rm -rf", "del /s", "format ", "shutdown", "reboot", "mkfs"]
+                if any(b in cmd.lower() for b in blocked):
+                    return f"⚠️ destructive 명령 차단: {cmd[:80]}"
+                result = run_pc_command(cmd)
+                return f"💻 <b>$ {cmd}</b>\n{result[:1500]}"
+            except Exception as e:
+                return f"💻 PC 명령 실패: {e}"
 
         return ""
 
@@ -2091,6 +2185,11 @@ class SoraEngine:
 
             if response is None:
                 return "😓 잠시 후 다시 말씀해주세요!"
+
+            # 2026-05-12 P0: Local LLM 응답이면 audit log strategy 가 local 로 기록되도록 flag set.
+            # _call_gemini 가 _LocalWrap(text=..., _local=True) 을 return 하는 경우.
+            if getattr(response, "_local", False):
+                _used_local = True
 
             # 응답 텍스트 추출
             reply = ""
