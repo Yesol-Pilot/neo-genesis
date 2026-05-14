@@ -13,80 +13,80 @@
   ],
   "passed": true,
   "sitesWithEvents": 9,
-  "totalEvents": 446,
-  "totalPageviews": 263,
+  "totalEvents": 676,
+  "totalPageviews": 259,
   "rows": [
     {
       "site": "aiforge",
-      "events": 3,
-      "pageviews": 1,
-      "actionEvents": 2,
-      "users": 1,
-      "lastSeen": "2026-05-10T17:14:22.999000+09:00"
+      "events": 86,
+      "pageviews": 6,
+      "actionEvents": 80,
+      "users": 6,
+      "lastSeen": "2026-05-14T11:28:07.551000+09:00"
     },
     {
       "site": "craftdesk",
-      "events": 137,
-      "pageviews": 63,
-      "actionEvents": 74,
-      "users": 59,
-      "lastSeen": "2026-05-10T17:14:34.506000+09:00"
+      "events": 149,
+      "pageviews": 42,
+      "actionEvents": 107,
+      "users": 43,
+      "lastSeen": "2026-05-14T11:28:14.772000+09:00"
     },
     {
       "site": "deploystack",
-      "events": 78,
-      "pageviews": 36,
-      "actionEvents": 42,
-      "users": 35,
-      "lastSeen": "2026-05-10T17:14:41.930000+09:00"
+      "events": 119,
+      "pageviews": 33,
+      "actionEvents": 86,
+      "users": 37,
+      "lastSeen": "2026-05-14T11:28:22.684000+09:00"
     },
     {
       "site": "finstack",
-      "events": 3,
-      "pageviews": 1,
-      "actionEvents": 2,
-      "users": 1,
-      "lastSeen": "2026-05-10T17:14:50.865000+09:00"
+      "events": 45,
+      "pageviews": 5,
+      "actionEvents": 40,
+      "users": 6,
+      "lastSeen": "2026-05-14T11:28:28.975000+09:00"
     },
     {
       "site": "sellkit",
-      "events": 1,
-      "pageviews": 1,
-      "actionEvents": 0,
-      "users": 1,
-      "lastSeen": "2026-05-10T17:15:03.223000+09:00"
+      "events": 25,
+      "pageviews": 16,
+      "actionEvents": 9,
+      "users": 17,
+      "lastSeen": "2026-05-14T11:29:09.004000+09:00"
     },
     {
       "site": "reviewlab",
-      "events": 69,
-      "pageviews": 56,
-      "actionEvents": 13,
-      "users": 52,
-      "lastSeen": "2026-05-10T17:15:12.106000+09:00"
+      "events": 80,
+      "pageviews": 62,
+      "actionEvents": 18,
+      "users": 51,
+      "lastSeen": "2026-05-14T11:29:10.003000+09:00"
     },
     {
       "site": "kott",
-      "events": 73,
-      "pageviews": 49,
-      "actionEvents": 24,
-      "users": 48,
-      "lastSeen": "2026-05-10T17:15:19.385000+09:00"
+      "events": 76,
+      "pageviews": 55,
+      "actionEvents": 21,
+      "users": 40,
+      "lastSeen": "2026-05-12T18:25:14.956000+09:00"
     },
     {
       "site": "whylab",
-      "events": 27,
-      "pageviews": 25,
-      "actionEvents": 2,
-      "users": 25,
-      "lastSeen": "2026-05-10T17:15:34.907000+09:00"
+      "events": 28,
+      "pageviews": 15,
+      "actionEvents": 13,
+      "users": 15,
+      "lastSeen": "2026-05-11T05:14:31.204000+09:00"
     },
     {
       "site": "ethicaai",
-      "events": 55,
-      "pageviews": 31,
-      "actionEvents": 24,
-      "users": 31,
-      "lastSeen": "2026-05-10T17:15:26.814000+09:00"
+      "events": 68,
+      "pageviews": 25,
+      "actionEvents": 43,
+      "users": 25,
+      "lastSeen": "2026-05-13T09:28:10.161000+09:00"
     }
   ]
 }
