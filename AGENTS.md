@@ -4,7 +4,7 @@
 > Canonical source: `.agent/NEO_MASTER_RULES.md`
 > Supporting sources: `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, `.agent/shared-brain/*`
 > Regenerate with `python scripts/sync_agent_context.py`
-> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-10T23:52:15+09:00`)
+> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-14T10:11:17+09:00`)
 
 ## SSOT Order
 1. `.agent/NEO_MASTER_RULES.md`
@@ -20,12 +20,14 @@
 - Do not hardcode paths, URLs, model names, or environment-specific values when SSOT or config already defines them.
 - For C drive storage/cleanup, follow `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`: move or re-home large agent-created state to `D:` before deleting.
 - For D drive root hygiene, follow `.agent/knowledge/20260510_D_DRIVE_ROOT_POLICY.md`: do not create ad hoc top-level folders under `D:\`.
+- For owner-authorized personal legal/finance context, follow `.agent/knowledge/PERSONAL_CONTEXT_ROUTING.md` and do not copy sensitive contents into shared prompts.
 - Verify unstable or time-sensitive facts with official documentation before using them.
 - Treat `.agent/` as the source of truth. Treat root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `infra/agent-runtime/` as generated adapters.
 
 ## Shared Knowledge
 - Collaboration contract: `.agent/contracts/COLLABORATION_CONTRACT.md`
 - Long-term memory: `.agent/knowledge/AGENT_SHARED_MEMORY.md`
+- Personal context routing: `.agent/knowledge/PERSONAL_CONTEXT_ROUTING.md`
 - Role optimization: `.agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md`
 - Claude collaboration: `.agent/knowledge/CLAUDE_COLLABORATION.md`
 - C drive management: `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`
@@ -43,7 +45,7 @@
 - Sora reads `src/core/data/sora_context.json` for shared-brain and runtime paths.
 
 ## Runtime Revision
-- ssotRevision: `01aa801e0fa5f1c8`
+- ssotRevision: `9457e49f034ff376`
 
 ## Live Snapshot
 - `claude-code`: status=active, version=2.1.88, model=claude-opus-4-7, plan=claude-max
@@ -59,10 +61,11 @@
 ## Device Rollout
 - `desktop-home`: verified_installed_local_codex_global_updated
 - `yesol-asus`: tailscale_online_remote_auth_blocked
-- `etribe-yesol`: tailscale_online_remote_auth_blocked
+- `etribe-yesol`: verified_installed_primary_latest_ssot
+- `heejin`: tailscale_offline_ssh_timeout
 - `desktop-sol01`: verified_installed
 - `desktop-yesol`: verified_installed
-- `ysh-server`: verified_installed_runtime_snapshot_latest_ssot
+- `ysh-server`: verified_installed_primary_latest_ssot
 - `mx-macbuild-mac-studio`: offline
 - `s26-ultra`: mobile_operator_mode_offline
 - `tab-s10-ultra`: mobile_operator_mode_offline

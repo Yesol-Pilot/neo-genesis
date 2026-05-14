@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-10T23:52:04+09:00",
-      "lastWork": "D drive root hygiene applied and documented: new D root policy added, low-risk root clutter moved into D:\\00.test\\_archive\\root-cleanup-20260510 or D:\\local-dev\\tools, app-managed roots left in place, D:\\agenttest blocked by active Windows file handle"
+      "lastSession": "2026-05-14T10:12:00+09:00",
+      "lastWork": "ToolPick post-indexing live validation completed after the GSC manual request loop. The 8 requested URLs all returned HTTP 200, self-canonical, index/follow, and sitemap inclusion. Updated ToolPick operations docs, refreshed live-growth smoke evidence, pushed 861fa79 to Yesol-Pilot/https-www.toolpick.dev-, and scheduled heartbeat automation toolpick-gsc-post-indexing-recheck for follow-up coverage inspection."
     },
     "sora": {
       "status": "active",
@@ -43,10 +43,11 @@
   "deviceRollout": {
     "desktop-home": "verified_installed_local_codex_global_updated",
     "yesol-asus": "tailscale_online_remote_auth_blocked",
-    "etribe-yesol": "tailscale_online_remote_auth_blocked",
+    "etribe-yesol": "verified_installed_primary_latest_ssot",
+    "heejin": "tailscale_offline_ssh_timeout",
     "desktop-sol01": "verified_installed",
     "desktop-yesol": "verified_installed",
-    "ysh-server": "verified_installed_runtime_snapshot_latest_ssot",
+    "ysh-server": "verified_installed_primary_latest_ssot",
     "mx-macbuild-mac-studio": "offline",
     "s26-ultra": "mobile_operator_mode_offline",
     "tab-s10-ultra": "mobile_operator_mode_offline"
@@ -61,8 +62,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "01aa801e0fa5f1c8",
-    "lastSyncedAt": "2026-05-10T23:52:15+09:00",
+    "ssotRevision": "9457e49f034ff376",
+    "lastSyncedAt": "2026-05-14T10:11:17+09:00",
     "lastSyncedBy": "codex"
   }
 }
