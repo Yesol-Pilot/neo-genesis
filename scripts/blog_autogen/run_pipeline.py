@@ -16,11 +16,13 @@ Requires environment (auto-loaded from .env.local then .env):
     OPENAI_API_KEY (fallback)
     VERCEL_DEPLOY_HOOK (optional — if set, triggers deploy via webhook)
 
+Git push fallback can use GITHUB_PAT_YESOL_PILOT, GITHUB_TOKEN, or GH_TOKEN.
 Cost cap: $0.10 per run. Auto-abort if exceeded.
 """
 from __future__ import annotations
 
 import argparse
+import base64
 import datetime as dt
 import json
 import os
@@ -492,9 +494,17 @@ def append_blog_post_metadata(post: dict[str, Any]) -> None:
 # Git + Vercel + IndexNow
 # ─────────────────────────────────────────────
 
-def run_git(args: list[str], cwd: Path = REPO) -> tuple[int, str, str]:
+def run_git(
+    args: list[str],
+    cwd: Path = REPO,
+    extra_git_args: Optional[list[str]] = None,
+) -> tuple[int, str, str]:
+    cmd = ["git"]
+    if extra_git_args:
+        cmd.extend(extra_git_args)
+    cmd.extend(args)
     proc = subprocess.run(
-        ["git"] + args,
+        cmd,
         cwd=str(cwd),
         capture_output=True,
         text=True,
@@ -503,6 +513,75 @@ def run_git(args: list[str], cwd: Path = REPO) -> tuple[int, str, str]:
         timeout=120,
     )
     return proc.returncode, proc.stdout, proc.stderr
+
+
+def _github_token() -> str:
+    for key in ("GITHUB_PAT_YESOL_PILOT", "GITHUB_TOKEN", "GH_TOKEN"):
+        value = os.environ.get(key, "").strip()
+        if value:
+            return value
+    return ""
+
+
+def _github_extraheader_args() -> list[str]:
+    token = _github_token()
+    if not token:
+        return []
+    auth = base64.b64encode(f"x-access-token:{token}".encode("utf-8")).decode("ascii")
+    return ["-c", f"http.https://github.com/.extraheader=AUTHORIZATION: Basic {auth}"]
+
+
+def _setup_gh_git_auth() -> dict[str, Any]:
+    try:
+        proc = subprocess.run(
+            ["gh", "auth", "setup-git", "-h", "github.com"],
+            cwd=str(LANDING_DIR),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=60,
+        )
+        return {
+            "status": "ok" if proc.returncode == 0 else "failed",
+            "stderr": proc.stderr.strip(),
+        }
+    except FileNotFoundError:
+        return {"status": "missing_gh"}
+    except Exception as exc:
+        return {"status": "failed", "stderr": str(exc)}
+
+
+def push_with_fallback() -> dict[str, Any]:
+    attempts: list[dict[str, str]] = []
+
+    rc, _, err = run_git(["push", "origin", "HEAD"], cwd=LANDING_DIR)
+    attempts.append({"method": "git_default", "status": "ok" if rc == 0 else "failed", "stderr": err})
+    if rc == 0:
+        return {"status": "ok", "attempts": attempts}
+
+    gh_setup = _setup_gh_git_auth()
+    attempts.append({
+        "method": "gh_auth_setup_git",
+        "status": gh_setup.get("status", "failed"),
+        "stderr": gh_setup.get("stderr", ""),
+    })
+    if gh_setup.get("status") == "ok":
+        rc, _, err = run_git(["push", "origin", "HEAD"], cwd=LANDING_DIR)
+        attempts.append({"method": "git_after_gh_setup", "status": "ok" if rc == 0 else "failed", "stderr": err})
+        if rc == 0:
+            return {"status": "ok", "attempts": attempts}
+
+    extra = _github_extraheader_args()
+    if extra:
+        rc, _, err = run_git(["push", "origin", "HEAD"], cwd=LANDING_DIR, extra_git_args=extra)
+        attempts.append({"method": "git_token_extraheader", "status": "ok" if rc == 0 else "failed", "stderr": err})
+        if rc == 0:
+            return {"status": "ok", "attempts": attempts}
+    else:
+        attempts.append({"method": "git_token_extraheader", "status": "skipped_no_token", "stderr": ""})
+
+    return {"status": "failed", "attempts": attempts}
 
 
 def git_commit_push(post: dict[str, Any], dry_run: bool = False) -> dict[str, Any]:
@@ -545,11 +624,17 @@ def git_commit_push(post: dict[str, Any], dry_run: bool = False) -> dict[str, An
     if rc != 0:
         return {"status": "git_commit_failed", "stderr": err}
     rc, head, _ = run_git(["rev-parse", "HEAD"], cwd=LANDING_DIR)
-    rc2, _, perr = run_git(["push", "origin", "HEAD"], cwd=LANDING_DIR)
+    push = push_with_fallback()
+    perr = ""
+    for attempt in reversed(push.get("attempts", [])):
+        if attempt.get("stderr"):
+            perr = attempt["stderr"]
+            break
     return {
-        "status": "ok" if rc2 == 0 else "push_failed",
+        "status": "ok" if push.get("status") == "ok" else "push_failed",
         "commit": head.strip(),
-        "push_stderr": perr if rc2 != 0 else "",
+        "push_attempts": push.get("attempts", []),
+        "push_stderr": perr if push.get("status") != "ok" else "",
     }
 
 
@@ -695,7 +780,7 @@ def main() -> int:
     parser.add_argument("--provider", default=None, help="force provider substring (e.g. 'gemini')")
     parser.add_argument("--no-deploy", action="store_true", help="commit but skip Vercel + IndexNow")
     parser.add_argument("--locale", choices=["en", "ko", "auto"], default="auto")
-    parser.add_argument("--max-attempts", type=int, default=3, help="V-Score retry budget")
+    parser.add_argument("--max-attempts", type=int, default=5, help="V-Score retry budget")
     parser.add_argument("--skip-citation-verify", action="store_true", help="skip HTTP HEAD on each citation URL")
     parser.add_argument("--force", action="store_true", help="bypass oversaturation guard (BLOG_LIMIT)")
     args = parser.parse_args()
@@ -781,6 +866,10 @@ def main() -> int:
     last_post = None
     last_validation = None
     last_attempts: list[dict[str, Any]] = []
+    citation_attempts: list[dict[str, Any]] = []
+    citation_feedback_dead_urls: list[str] = []
+    final_dead_urls: list[str] = []
+    last_failure_kind = "validation_failed"
     for attempt in range(1, args.max_attempts + 1):
         user_prompt = build_user_prompt(
             topic,
@@ -796,6 +885,16 @@ def main() -> int:
                 user_prompt += f"- {err}\n"
             for w in last_validation.warnings[:3]:
                 user_prompt += f"- (warn) {w}\n"
+        if citation_feedback_dead_urls:
+            user_prompt += "\n\n## Previous attempt rejected by live citation verification\n"
+            user_prompt += "Do not cite these URLs again; they failed live HEAD/GET checks:\n"
+            for dead_url in citation_feedback_dead_urls:
+                user_prompt += f"- {dead_url}\n"
+            user_prompt += (
+                "Replace them with stable, live, authoritative HTTPS sources. "
+                "Prefer root documentation, official docs, or standards pages over deep URLs "
+                "when a deep citation may 404 or reject crawlers.\n"
+            )
         post, attempts = draft_with_chain(system_prompt, user_prompt,
                                           forced_provider=args.provider,
                                           budget_remaining_usd=MAX_COST_USD - cost_used)
@@ -808,12 +907,60 @@ def main() -> int:
         validation = validate_post(post)
         last_post, last_validation = post, validation
         print(f"  attempt {attempt}: V={validation.score} ({'PASS' if validation.passed else 'FAIL'})")
-        if validation.passed:
+        if not validation.passed:
+            last_failure_kind = "validation_failed"
+            continue
+
+        dead_urls = verify_citations(post, skip=args.skip_citation_verify)
+        citation_record: dict[str, Any] = {
+            "attempt": attempt,
+            "slug": post.get("slug"),
+            "skipped": args.skip_citation_verify,
+            "dead_urls": dead_urls,
+        }
+        citation_attempts.append(citation_record)
+        final_dead_urls = dead_urls
+        if args.skip_citation_verify or not dead_urls:
             break
+
+        # Strip dead URLs and re-score. If the post still passes, publish the
+        # filtered version. Otherwise feed the failed live URLs back into the
+        # next LLM attempt so the run can self-repair instead of aborting.
+        post["citations"] = [c for c in post["citations"] if c["url"] not in dead_urls]
+        revalidation = validate_post(post)
+        citation_record["after_filter"] = {
+            "v_score": revalidation.score,
+            "passed": revalidation.passed,
+            "errors": revalidation.errors,
+            "counts": revalidation.counts,
+        }
+        last_post, last_validation = post, revalidation
+        if revalidation.passed:
+            print(f"  attempt {attempt}: dropped {len(dead_urls)} dead citations; V={revalidation.score} still passes")
+            break
+        citation_feedback_dead_urls = dead_urls
+        last_failure_kind = "dead_citations_below_threshold"
+        (RUNS_DIR / f"dead-citation-attempt-{started.replace(':', '-')}-{attempt}.json").write_text(
+            json.dumps(
+                {"post": post, "dead_urls": dead_urls, "revalidation": asdict_or_none(revalidation)},
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        print(
+            f"  attempt {attempt}: dropped {len(dead_urls)} dead citations -> "
+            f"V={revalidation.score}; retrying with citation feedback"
+        )
     record["phases"]["think"] = {
         "attempts": last_attempts,
         "cost_used_usd": round(cost_used, 4),
         "post_slug": last_post.get("slug") if last_post else None,
+    }
+    record["phases"]["citation_verify"] = {
+        "skipped": args.skip_citation_verify,
+        "dead_urls": final_dead_urls,
+        "attempts": citation_attempts,
     }
     if cost_used >= MAX_COST_USD:
         print(f"COST CAP reached ({cost_used:.4f} USD). Aborting.")
@@ -825,17 +972,18 @@ def main() -> int:
             "status": "fail",
             "validation": (asdict_or_none(last_validation) if last_validation else None),
         }
-        record["status"] = "validation_failed"
+        record["status"] = last_failure_kind
         log_run(record)
         # Save draft for debugging
         if last_post:
-            (RUNS_DIR / f"rejected-{started.replace(':', '-')}.json").write_text(
+            rejected_prefix = "dead-citation" if last_failure_kind == "dead_citations_below_threshold" else "rejected"
+            (RUNS_DIR / f"{rejected_prefix}-{started.replace(':', '-')}.json").write_text(
                 json.dumps(last_post, ensure_ascii=False, indent=2), encoding="utf-8"
             )
-        print(f"V-Score gate FAILED.")
+        print(f"{last_failure_kind} FAILED.")
         if last_validation:
             print(format_result(last_validation))
-        return 3
+        return 4 if last_failure_kind == "dead_citations_below_threshold" else 3
 
     # Final V-Score result
     record["phases"]["quality"] = {
@@ -850,29 +998,12 @@ def main() -> int:
     if last_post["slug"] in ctx["existing_slugs"]:
         last_post["slug"] = f"{last_post['slug']}-2026"
 
-    # 3.5 Citation HEAD verification
-    dead_urls = verify_citations(last_post, skip=args.skip_citation_verify)
-    record["phases"]["citation_verify"] = {
-        "skipped": args.skip_citation_verify,
-        "dead_urls": dead_urls,
-    }
-    if dead_urls and not args.skip_citation_verify:
-        # Strip dead URLs but keep going if remaining citations are still >= 5 authoritative
-        last_post["citations"] = [c for c in last_post["citations"] if c["url"] not in dead_urls]
-        revalidation = validate_post(last_post)
-        if not revalidation.passed:
-            record["status"] = "dead_citations_below_threshold"
-            log_run(record)
-            (RUNS_DIR / f"dead-citation-{started.replace(':', '-')}.json").write_text(
-                json.dumps({"post": last_post, "dead_urls": dead_urls}, ensure_ascii=False, indent=2),
-                encoding="utf-8",
-            )
-            print(f"Dead citations dropped {len(dead_urls)} -> below V-Score threshold. Aborting.")
-            return 4
-        last_validation = revalidation
+    # Citation verification already ran inside the retry loop. Preserve a
+    # compact success summary for log readers that expect it under quality.
+    if final_dead_urls and not args.skip_citation_verify:
         record["phases"]["quality"]["after_citation_filter"] = {
-            "v_score": revalidation.score,
-            "dropped": len(dead_urls),
+            "v_score": last_validation.score,
+            "dropped": len(final_dead_urls),
         }
 
     # Set publish dates if missing
@@ -930,13 +1061,31 @@ def main() -> int:
                 "stdout_tail": (proc.stdout or "").splitlines()[-3:],
             }
             print(f"Thumbnail gen: {thumb_status}")
+            if proc.returncode != 0:
+                record["status"] = "thumbnail_failed"
+                log_run(record)
+                print(f"Thumbnail generation failed: {thumb_status}")
+                return 7
+            thumb_png = LANDING_DIR / "public" / "assets" / "blog" / f"{last_post['slug']}.png"
+            if not thumb_png.exists():
+                record["phases"]["thumbnail"]["status"] = "missing_output"
+                record["phases"]["thumbnail"]["expected"] = str(thumb_png)
+                record["status"] = "thumbnail_failed"
+                log_run(record)
+                print(f"Thumbnail generation did not create {thumb_png}")
+                return 7
         else:
             record["phases"]["thumbnail"] = {"status": "skipped_missing_script"}
+            record["status"] = "thumbnail_failed"
+            log_run(record)
+            print(f"Thumbnail script missing: {thumb_script}")
+            return 7
     except Exception as e:
-        # Non-fatal: blog still publishes without per-post thumbnail
-        # (fall back to default OG image at /assets/og.png).
         record["phases"]["thumbnail"] = {"status": "fail", "error": f"{type(e).__name__}: {e}"}
-        print(f"Thumbnail gen failed (non-fatal): {e}")
+        record["status"] = "thumbnail_failed"
+        log_run(record)
+        print(f"Thumbnail gen failed: {e}")
+        return 7
 
     # 4c. Quality audits (locale consistency + metadata sanity).
     # Both audits are non-fatal: they record drift in audit_log so the next

@@ -38,6 +38,8 @@ new pipeline run.
 
 from __future__ import annotations
 
+import argparse
+import hashlib
 import os
 import re
 import sys
@@ -58,7 +60,8 @@ BLOG_DIR = ROOT / "src/landing/public/assets/blog"
 NEGATIVE = (
     "text, letters, watermark, logo, signature, low quality, blurry, "
     "distorted faces, cluttered, busy composition, readable words, "
-    "specific company logos, ugly, amateur"
+    "specific company logos, ugly, amateur, typography, glyphs, fake text, "
+    "pseudo text, UI labels, numbers, captions"
 )
 TARGET_W = 1200
 TARGET_H = 630
@@ -118,6 +121,16 @@ PROMPTS: dict[str, str] = {
         "cyan and emerald accent glow, technical poster aesthetic, "
         "ultra-detailed, no readable text, wide cinematic 16:9"
     ),
+    "data-driven-devops-platform-evaluation-2026": (
+        "Cinematic 3D still life for DevOps platform evaluation: three "
+        "parallel glowing deployment rails made of unlabeled glass blocks, "
+        "serverless nodes as clean geometric cubes, container modules as "
+        "matte rectangular solids, and release gates as abstract light arches. "
+        "No screens, no dashboards, no panels, no charts, no typography, no "
+        "letters, no numbers, no labels, no logos, no screenshots. Dark navy "
+        "studio background, cyan primary glow with amber and emerald accents, "
+        "clean editorial 16:9 composition, polished, high contrast."
+    ),
 }
 
 GENERIC_FALLBACK = (
@@ -143,8 +156,8 @@ def _load_env() -> None:
                 os.environ[k] = v
 
 
-def parse_blog_slugs() -> list[str]:
-    """Extract BLOG_POSTS slugs from sbus.ts. We deliberately use a regex
+def parse_blog_posts() -> list[dict[str, str]]:
+    """Extract BLOG_POSTS metadata from sbus.ts. We deliberately use a regex
     on the BLOG_POSTS array block rather than parse TS, because the file
     is a TS module with templated literals that no Python parser handles
     cleanly. The regex is anchored to the BLOG_POSTS marker so SBU slugs
@@ -157,7 +170,41 @@ def parse_blog_slugs() -> list[str]:
     # find the closing ];
     end = text.find("];", start)
     block = text[start:end]
-    return re.findall(r'slug:\s*"([^"]+)"', block)
+    posts: list[dict[str, str]] = []
+    for item in re.finditer(r"\{\s*slug:\s*\"(?P<slug>[^\"]+)\"(?P<body>.*?)(?=\n\s*\},)", block, re.S):
+        body = item.group("body")
+        post = {"slug": item.group("slug")}
+        for key in ("title", "summary", "category"):
+            m = re.search(rf'{key}:\s*"([^"]*)"', body, re.S)
+            if m:
+                post[key] = m.group(1)
+        posts.append(post)
+    return posts
+
+
+def parse_blog_slugs() -> list[str]:
+    return [post["slug"] for post in parse_blog_posts()]
+
+
+def _prompt_for_post(post: dict[str, str]) -> str:
+    slug = post["slug"]
+    if slug in PROMPTS:
+        return PROMPTS[slug]
+    title = post.get("title", slug.replace("-", " "))
+    summary = post.get("summary", "")
+    category = post.get("category", "engineering")
+    return (
+        "Editorial Neo Genesis blog cover for a technology article. "
+        f"Article title theme: {title}. "
+        f"Core idea to visualize: {summary[:420]}. "
+        f"Category: {category}. "
+        "Create a subject-specific visual metaphor with concrete objects, "
+        "systems, diagrams, tools, dashboards, or research artifacts that match "
+        "the article topic. Dark navy background, cyan primary accent, one warm "
+        "secondary accent, sophisticated technical magazine cover style, "
+        "wide cinematic composition, no readable text, no letters, no numbers, "
+        "no UI labels, no logos, no watermark."
+    )
 
 
 def _gen_pollinations(prompt: str) -> Optional[bytes]:
@@ -165,8 +212,9 @@ def _gen_pollinations(prompt: str) -> Optional[bytes]:
     rotating open-source models. Reliable enough for thumbnail use."""
     import urllib.parse
     import urllib.request
-    enc = urllib.parse.quote(prompt[:1000], safe="")
-    url = f"https://image.pollinations.ai/prompt/{enc}?width=1024&height=1024&nologo=true&seed={hash(prompt) & 0xFFFF}"
+    seed = int(hashlib.sha256(prompt.encode("utf-8")).hexdigest()[:8], 16) & 0xFFFF
+    enc = urllib.parse.quote(f"{prompt}. Avoid: {NEGATIVE}"[:1200], safe="")
+    url = f"https://image.pollinations.ai/prompt/{enc}?width=1024&height=1024&nologo=true&seed={seed}"
     print(f"    trying pollinations.ai (free public)...")
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "neo-genesis-thumbnail-gen/1.0"})
@@ -266,14 +314,13 @@ def _hf_infer(prompt: str) -> Optional[bytes]:
     """Generation router with three strategies in order of preference.
 
     Order rationale:
-      1. Pollinations.ai - free, no key, fastest, works for our use case.
-         Quality is below FLUX.1-dev but adequate for thumbnails.
-      2. Google Imagen via Gemini API - free tier available, higher quality
-         than Pollinations, requires GEMINI_API_KEY.
+      1. Google Imagen via Gemini API - higher quality and better at avoiding
+         broken pseudo-text when the key is available.
+      2. Pollinations.ai - free, no key, fastest fallback.
       3. HF Inference Providers FLUX.1-dev - highest quality but requires
          paid credits (the free wavespeed/fal/replicate buckets exhaust).
     """
-    for fn in (_gen_pollinations, _gen_imagen, _gen_hf_flux):
+    for fn in (_gen_imagen, _gen_pollinations, _gen_hf_flux):
         result = fn(prompt)
         if result:
             return result
@@ -307,35 +354,158 @@ def _letterbox_to_target(png_bytes: bytes, out_path: Path) -> None:
     print(f"      [WebP] {webp_path.name} ({webp_path.stat().st_size:,}B)")
 
 
-def main() -> int:
+def _save_image_pair(img, out_path: Path) -> None:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    img.save(out_path, format="PNG", optimize=True)
+    print(f"      [PNG] {out_path.name} {img.size} ({out_path.stat().st_size:,}B)")
+    webp_path = out_path.with_suffix(".webp")
+    img.save(webp_path, format="WebP", quality=90, method=6)
+    print(f"      [WebP] {webp_path.name} ({webp_path.stat().st_size:,}B)")
+
+
+def _draw_glow_line(draw, layer, xy, color, width: int = 3, glow: int = 14) -> None:
+    from PIL import Image, ImageDraw, ImageFilter
+
+    glow_layer = Image.new("RGBA", layer.size, (0, 0, 0, 0))
+    g = ImageDraw.Draw(glow_layer)
+    g.line(xy, fill=(*color, 180), width=width * 3, joint="curve")
+    layer.alpha_composite(glow_layer.filter(ImageFilter.GaussianBlur(glow)))
+    draw.line(xy, fill=(*color, 230), width=width, joint="curve")
+
+
+def _draw_glass_block(draw, layer, box, color) -> None:
+    from PIL import Image, ImageDraw, ImageFilter
+
+    x1, y1, x2, y2 = box
+    glow = Image.new("RGBA", layer.size, (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow)
+    gd.rounded_rectangle(box, radius=18, outline=(*color, 150), width=5, fill=(*color, 24))
+    layer.alpha_composite(glow.filter(ImageFilter.GaussianBlur(12)))
+    draw.rounded_rectangle(box, radius=18, outline=(*color, 190), width=2, fill=(*color, 28))
+    draw.polygon(
+        [(x1 + 14, y1 + 14), (x2 - 16, y1 + 14), (x2 - 40, y1 + 46), (x1 + 36, y1 + 46)],
+        fill=(*color, 38),
+    )
+    draw.line([(x1 + 20, y2 - 22), (x2 - 20, y2 - 22)], fill=(*color, 120), width=3)
+
+
+def _render_devops_evaluation_thumbnail(out_path: Path) -> None:
+    from PIL import Image, ImageDraw, ImageFilter
+
+    img = Image.new("RGB", (TARGET_W, TARGET_H), (6, 11, 24))
+    bg = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    bdraw = ImageDraw.Draw(bg)
+    for y in range(TARGET_H):
+        alpha = int(80 * (y / TARGET_H))
+        bdraw.line([(0, y), (TARGET_W, y)], fill=(0, 180, 210, alpha))
+    img = Image.alpha_composite(img.convert("RGBA"), bg)
+
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(layer)
+    cyan = (54, 226, 236)
+    emerald = (77, 224, 149)
+    amber = (255, 177, 56)
+
+    # Subtle floor grid with pure geometric lines only.
+    for x in range(-160, TARGET_W + 160, 90):
+        draw.line([(x, 500), (x + 300, TARGET_H)], fill=(72, 120, 150, 34), width=1)
+    for y in range(470, TARGET_H, 38):
+        draw.line([(0, y), (TARGET_W, y)], fill=(72, 120, 150, 28), width=1)
+
+    lanes = [
+        (155, cyan, [(90, 155), (375, 155), (575, 235), (845, 235), (1070, 155)]),
+        (315, emerald, [(80, 315), (310, 315), (500, 260), (710, 365), (1080, 365)]),
+        (455, amber, [(95, 455), (350, 455), (540, 405), (770, 455), (1060, 455)]),
+    ]
+    for _, color, points in lanes:
+        _draw_glow_line(draw, layer, points, color, width=4, glow=18)
+        for px, py in points[1:-1]:
+            draw.ellipse((px - 10, py - 10, px + 10, py + 10), fill=(*color, 220))
+            draw.ellipse((px - 23, py - 23, px + 23, py + 23), outline=(*color, 80), width=2)
+
+    _draw_glass_block(draw, layer, (105, 245, 265, 430), cyan)
+    _draw_glass_block(draw, layer, (325, 185, 500, 385), emerald)
+    _draw_glass_block(draw, layer, (560, 250, 725, 475), cyan)
+    _draw_glass_block(draw, layer, (820, 170, 990, 420), amber)
+
+    # Release gates as abstract arches; no labels, text, or UI panels.
+    for x, color in [(785, emerald), (955, amber)]:
+        gate = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        gd = ImageDraw.Draw(gate)
+        gd.rounded_rectangle((x, 118, x + 120, 500), radius=56, outline=(*color, 190), width=8)
+        layer.alpha_composite(gate.filter(ImageFilter.GaussianBlur(16)))
+        draw.rounded_rectangle((x, 118, x + 120, 500), radius=56, outline=(*color, 230), width=3)
+        draw.rectangle((x + 20, 250, x + 100, 500), fill=(6, 11, 24, 170))
+
+    for cx, cy, r, color in [(605, 155, 42, cyan), (675, 122, 24, emerald), (735, 205, 18, amber)]:
+        draw.ellipse((cx - r, cy - r, cx + r, cy + r), outline=(*color, 190), width=3, fill=(*color, 28))
+        draw.ellipse((cx - 5, cy - 5, cx + 5, cy + 5), fill=(*color, 230))
+
+    img.alpha_composite(layer)
+    vignette = Image.new("L", img.size, 0)
+    vdraw = ImageDraw.Draw(vignette)
+    vdraw.ellipse((-140, -180, TARGET_W + 140, TARGET_H + 180), fill=220)
+    vignette = vignette.filter(ImageFilter.GaussianBlur(80))
+    dark = Image.new("RGBA", img.size, (0, 0, 0, 80))
+    img = Image.composite(img, Image.alpha_composite(img, dark), vignette)
+    _save_image_pair(img.convert("RGB"), out_path)
+
+
+CUSTOM_RENDERERS = {
+    "data-driven-devops-platform-evaluation-2026": _render_devops_evaluation_thumbnail,
+}
+
+
+def main(argv: Optional[list[str]] = None) -> int:
+    parser = argparse.ArgumentParser(description="Generate Neo Genesis blog thumbnails.")
+    parser.add_argument("--slug", action="append", default=[], help="Only generate this slug. Repeatable.")
+    parser.add_argument("--force", action="store_true", help="Regenerate even when the PNG already exists.")
+    args = parser.parse_args(argv)
+
     _load_env()
-    slugs = parse_blog_slugs()
-    if not slugs:
+    posts = parse_blog_posts()
+    if not posts:
         return 1
 
     # Filter: skip KO siblings (they share the EN parent's image via the
     # slug.replace(/-ko$/, "") lookup in /blog/page.tsx)
-    en_slugs = [s for s in slugs if not s.endswith("-ko")]
-    print(f"Total BLOG_POSTS: {len(slugs)} | EN candidates: {len(en_slugs)}")
+    en_posts = [p for p in posts if not p["slug"].endswith("-ko")]
+    if args.slug:
+        wanted = set(args.slug)
+        en_posts = [p for p in en_posts if p["slug"] in wanted]
+        missing_slugs = wanted.difference(p["slug"] for p in en_posts)
+        if missing_slugs:
+            print(f"Unknown slug(s): {', '.join(sorted(missing_slugs))}")
+            return 1
+    print(f"Total BLOG_POSTS: {len(posts)} | EN candidates: {len(en_posts)}")
 
-    missing: list[str] = []
-    for slug in en_slugs:
+    missing: list[dict[str, str]] = []
+    for post in en_posts:
+        slug = post["slug"]
         png = BLOG_DIR / f"{slug}.png"
-        if not png.exists():
-            missing.append(slug)
+        if args.force or not png.exists():
+            missing.append(post)
 
-    print(f"Missing thumbnails: {len(missing)}")
+    print(f"Thumbnails to generate: {len(missing)}")
     if not missing:
         print("All thumbnails present.")
         return 0
-    for slug in missing:
-        print(f"  - {slug}")
+    for post in missing:
+        print(f"  - {post['slug']}")
 
     print()
     success = 0
-    for slug in missing:
+    for post in missing:
+        slug = post["slug"]
         out = BLOG_DIR / f"{slug}.png"
-        prompt = PROMPTS.get(slug, GENERIC_FALLBACK)
+        custom_renderer = CUSTOM_RENDERERS.get(slug)
+        if custom_renderer:
+            print(f"=== {slug} ===")
+            print("    using deterministic subject renderer")
+            custom_renderer(out)
+            success += 1
+            continue
+        prompt = _prompt_for_post(post) or GENERIC_FALLBACK
         print(f"=== {slug} ===")
         png_bytes = _hf_infer(prompt)
         if png_bytes is None:

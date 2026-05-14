@@ -17,7 +17,7 @@ This pipeline closes that gap with a self-contained Python module (no Node, no N
 3. **Validates** quality against the V-Score gate (V ≥ 184.5).
 4. **Verifies** every cited URL with HTTP HEAD before commit.
 5. **Appends** the post to the two TypeScript SSOT files atomically.
-6. **Commits + pushes** to the `Yesol-Pilot/neo-genesis` repo.
+6. **Commits + pushes** to the `Yesol-Pilot/landing` repo.
 7. **Triggers** Vercel deploy (webhook) and IndexNow (Yandex + IndexNow.org).
 8. **Logs** the full run record to a JSONL audit trail.
 
@@ -39,7 +39,7 @@ Everything is one process. No queues, no Redis, no orchestrators. The pipeline f
 │  │  Sense   │→ │  Think   │→ │ Validate │→ │   Append +   │    │
 │  │ topic    │  │ Gemini   │  │ V-Score  │  │  Commit +    │    │
 │  │ gap      │  │ → Claude │  │ ≥ 184.5  │  │   Deploy +   │    │
-│  │ analyzer │  │ → OpenAI │  │ (3 retry)│  │  IndexNow    │    │
+│  │ analyzer │  │ → OpenAI │  │ (5 retry)│  │  IndexNow    │    │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────────┘    │
 │                                                                  │
 │  └─→ runs/draft-<slug>.json (artifact)                          │
@@ -116,11 +116,13 @@ Hard structural failures (any of these blocks publish, regardless of numeric sco
 - missing `title`, `summary`, `lead`, `category`, or `wordCount`
 - LLM returned `slug: "REJECT_INSUFFICIENT_SOURCES"`
 
-The pipeline retries up to 3 times. On each retry, the rejected post's errors are appended to the user prompt so the LLM can correct.
+The pipeline retries up to 5 times. On each retry, the rejected post's errors are appended to the user prompt so the LLM can correct. This retry budget is intentional: the 2026-05-14 recovery run passed V-Score on attempt 4.
 
 ## 7. Citation HEAD verification
 
-Before commit, each `citations[].url` is checked with HTTP HEAD (8s timeout). If HEAD returns 405/403, the pipeline retries with GET (some hosts disable HEAD). Dead URLs are dropped and the post is re-validated; if dropping pushes V-Score below threshold, the run aborts and the rejected draft is saved to `runs/dead-citation-*.json`.
+Before commit, each `citations[].url` is checked with HTTP HEAD (8s timeout). If HEAD returns 405/403, the pipeline retries with GET (some hosts disable HEAD). Dead URLs are dropped and the post is re-validated; if the filtered post still passes V-Score, the pipeline publishes the filtered version.
+
+If dropping dead citations pushes V-Score below threshold, the same run does not abort immediately. The dead URLs are injected into the next LLM retry prompt with an explicit "do not cite these URLs again" instruction. Only after the retry budget is exhausted does the run exit with `dead_citations_below_threshold` and save the rejected draft to `runs/dead-citation-*.json`.
 
 `--skip-citation-verify` is available for offline/test runs.
 
@@ -137,8 +139,8 @@ The TS rendering uses `json.dumps(value, ensure_ascii=False)` for all string lit
 
 ## 9. Git + Vercel + IndexNow
 
-- **Commit:** only the two SSOT files are staged (`git add <sbus.ts> <blog-content.ts>`). Commit message embeds the V-Score, word count, citation count, and FAQ count.
-- **Push:** `git push origin HEAD`. The push to `Yesol-Pilot/neo-genesis master` triggers Vercel automatically because the landing project has Git integration.
+- **Commit:** the two SSOT files plus the generated per-slug thumbnail assets are staged. Commit message embeds the V-Score, word count, citation count, and FAQ count.
+- **Push:** `git push origin HEAD` from the nested landing repo. If the default git credential helper fails, the pipeline runs `gh auth setup-git -h github.com` and retries. If that also fails, it retries with `GITHUB_PAT_YESOL_PILOT`, `GITHUB_TOKEN`, or `GH_TOKEN` via a one-shot Git extraheader. The push to `Yesol-Pilot/landing master` triggers Vercel automatically because the landing project has Git integration.
 - **Vercel webhook (optional):** if `VERCEL_DEPLOY_HOOK` is set, the pipeline POSTs to it as a redundant trigger.
 - **IndexNow:** POSTs the new blog URL + `/blog` index + `sitemap.xml` to Yandex (most reliable for new domains) and api.indexnow.org (Bing path; first-time domains often 403 until Bingbot discovers the key file naturally — harmless).
 
@@ -205,10 +207,11 @@ No owner G2 action is required to operate the pipeline. The owner should:
 | Existing blog count ≥ 20 | Skip, status=`skipped` |
 | LLM chain all fail | Exit 1 + log |
 | Cost cap reached | Exit 2 + log |
-| V-Score < 184.5 after 3 attempts | Exit 3 + save rejected draft |
-| Citation HEAD reduces V-Score below threshold | Exit 4 + save draft |
+| V-Score < 184.5 after 5 attempts | Exit 3 + save rejected draft |
+| Citation HEAD reduces V-Score below threshold after retries | Exit 4 + save draft |
 | TS append throws (file shape changed) | Exit 5 + log |
 | Git commit/push fails | Exit 6 + log |
+| Thumbnail generation fails or produces no PNG | Exit 7 + log; no commit/push |
 
 All exits write a JSONL log entry. The Windows wrapper captures stdout/stderr to `logs/blog_autogen/run-YYYY-MM-DD.log` for owner-side debugging.
 
