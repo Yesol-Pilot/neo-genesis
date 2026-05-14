@@ -243,17 +243,38 @@ The best products now combine four traits:
 
 Start with the workflow that wastes the most time. Define the before and after state before comparing vendors. A narrower tool that removes one persistent bottleneck is usually better than a broad platform that adds another dashboard.
 
+The clearest signal is adoption by the person who owns the work every week. If the tool is only used during a launch, audit, or one-off cleanup, it should be evaluated as a project tool rather than a core operating system. If it becomes the default surface for planning, review, and measurement, it can justify deeper integration.
+
 ### Governance
 
 Governance is not only a large-company concern. Small teams also need version history, permissions, approval paths, and clear ownership. When a tool affects customer-facing work, pricing, money movement, production systems, or brand promises, review controls matter.
+
+Good governance should be visible without slowing the team down. Look for practical controls: who can change settings, who can approve output, which data is retained, and how rollback works when a workflow creates the wrong result. If the product cannot explain these controls clearly, the team will carry hidden operational risk.
 
 ### Data and Reporting
 
 Useful reporting connects the tool's output to business results. Look for evidence that the product can track adoption, throughput, conversion, reliability, cost, or quality. If reporting stops at activity counts, the team may not know whether the tool is working.
 
+Reporting should also expose failure. Strong tools make it easy to see skipped tasks, stale data, failed syncs, and delayed approvals. This matters because automation failure is often silent. A daily or weekly review surface is more valuable than a glossy dashboard that only shows successful activity.
+
 ### Integration Cost
 
 Every integration creates maintenance work. Prioritize tools with stable APIs, clear exports, webhook reliability, and clean fallback paths. A tool should make the core workflow simpler, not more fragile.
+
+The practical test is a one-day outage. If the integration fails for a day, the team should still know what work is blocked, what can continue manually, and what data must be reconciled afterward. Products that provide exports, audit logs, and predictable retries are safer choices for small teams.
+
+## Implementation Playbook
+
+Use a short pilot before changing the whole operating model. Pick one team, one workflow, one metric, and one failure mode to watch. Write down the baseline before the pilot starts, then compare the result after the same volume of work has passed through the new process.
+
+A useful pilot includes:
+
+- One owner who can decide whether the tool stays or goes.
+- One repeated workflow that happens at least weekly.
+- One measurable output such as cycle time, cost per task, lead quality, defect rate, or review time.
+- One rollback path if the tool creates extra work.
+
+Avoid pilots that only measure enthusiasm. A team can like a tool and still fail to use it when real deadlines arrive. The better signal is whether the tool survives a busy week without creating support load.
 
 ## Recommended Stack Pattern
 
@@ -271,6 +292,21 @@ For early teams, the default pattern should be:
 The most common mistake is buying a tool for output volume. More output is not useful when the team cannot review it, route it, measure it, or maintain it.
 
 Another failure mode is ignoring the handoff. A tool can create a strong draft, report, or recommendation, but the business value appears only when the next owner can act on it without rebuilding the context.
+
+The third failure mode is tool sprawl. Teams add a specialized product for every pain point, then lose the ability to understand where the source of truth lives. If a new product does not replace a manual step, reduce review time, or improve a decision, it is probably adding surface area rather than leverage.
+
+## Metrics to Track
+
+Track a small number of metrics that connect directly to operating quality:
+
+- Time from request to reviewed output.
+- Number of manual handoffs per workflow.
+- Percentage of work that needs rework after review.
+- Cost per completed workflow.
+- Adoption by the workflow owner after the pilot period.
+- Number of incidents, failed syncs, or stale records.
+
+These metrics are intentionally simple. The point is not to build a perfect attribution model. The point is to know whether the tool made the workflow more reliable and whether the team can keep using it without creating another maintenance burden.
 
 ## Buying Checklist
 
