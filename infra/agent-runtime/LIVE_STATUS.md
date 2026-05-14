@@ -5,7 +5,7 @@
 > Regenerate with `python scripts/sync_agent_context.py`
 
 ## Runtime Revision
-- ssotRevision: `06840d30fc676bdf`
+- ssotRevision: `fad3434e0ce8c61c`
 
 ## Live Snapshot
 - `claude-code`: status=active, version=2.1.88, model=claude-opus-4-7, plan=claude-max

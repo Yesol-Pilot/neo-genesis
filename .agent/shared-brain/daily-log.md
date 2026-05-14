@@ -6,6 +6,89 @@
 
 ---
 
+## 2026-05-12 - Codex D00.test Deferred Cleanup First Run
+
+- Ran `D:\00.test\007.infra-tools\006.directory-maintenance\Invoke-D00TestDeferredCleanup.ps1` with `HandleTimeoutSeconds 180`.
+- Moved `D:\00.test\portfolio` to `D:\00.test\003.portfolio-career\006.portfolio`; preserved `D:\00.test\portfolio` as a hidden junction alias.
+- Deferred `neo-genesis`, `project_yesol`, and `PAPER` because open handles remain. No unrelated user/agent process was stopped and no copy-delete fallback was used.
+- Wrote summary manifest `D:\00.test\009.archive\001.reorg-manifests\20260512-phase15-deferred-cleanup-first-run.json` and run manifest `D:\00.test\009.archive\001.reorg-manifests\deferred-cleanup-runs\20260512-114952-d00test-deferred-cleanup.json`.
+- Tightened the deferred cleanup script so future handle-owner output is stored as plain strings in manifests.
+- Sanitized the first run manifest from 159MB to about 8KB; the raw verbose evidence is compressed at `D:\00.test\009.archive\001.reorg-manifests\deferred-cleanup-runs\20260512-114952-d00test-deferred-cleanup.raw-large.zip`.
+- Second cleanup retry wrote `D:\00.test\009.archive\001.reorg-manifests\deferred-cleanup-runs\20260512-122052-d00test-deferred-cleanup.json`: `portfolio` was already alias, `neo-genesis` still had 30 open handles, and `project_yesol`/`PAPER` deferred because handle scan timed out.
+- Moved stray root `docs\reports\20260512_KOTT_Search_Index_Recovery_Plan_v1.md` to `D:\00.test\010.tmp-output\006.root-docs-reports\reports\...`; kept `D:\00.test\docs` as a hidden junction alias and wrote `D:\00.test\009.archive\001.reorg-manifests\20260512-phase16-root-docs-cleanup.json`.
+- Pinpointed remaining hidden-root blockers: `project_yesol` is held by Explorer and Claude `.claude`; `PAPER` is held by Claude `.claude`; `neo-genesis` remains held by the previously recorded Explorer/Claude/Python/Node-class handles. Wrote `D:\00.test\009.archive\001.reorg-manifests\20260512-phase17-remaining-root-handle-pinpoint.json`.
+- Hardened deferred cleanup script: per-root timeouts, compact handle summaries, command-line truncation, handle64 self-exclusion, and timeout floors. A 5-second dry-run produced a false `dry_run_would_move` for `neo-genesis`, so the script now rejects `HandleTimeoutSeconds < 60` and `SlowHandleTimeoutSeconds < 180`. Wrote `D:\00.test\009.archive\001.reorg-manifests\20260512-phase18-deferred-cleanup-script-hardening.json`.
+- Ran hardened deferred cleanup in live mode with `HandleTimeoutSeconds 240` and `SlowHandleTimeoutSeconds 600`. No moves were performed: `neo-genesis` was blocked by ToolPick Next build/jest-worker Node processes, `project_yesol` by Explorer/Claude handles, and `PAPER` by Claude handles. Wrote `D:\00.test\009.archive\001.reorg-manifests\20260512-phase19-deferred-cleanup-live-rerun.json`.
+
+## 2026-05-12 - Codex UR WRONG GSC Service Account Ownership
+
+- Owner requested direct GSC OAuth recovery through the logged-in Chrome extension path.
+- Initial attempt mistakenly used the Codex in-app browser surface, which did not carry the logged-in Google session.
+- Re-ran through the actual Chrome extension browser context, opened Search Console with the logged-in `dpthf1537@gmail.com` account, selected the owner account, passed the Google OAuth consent flow, and exchanged the code for a new refresh token.
+- Root `.env.local` now has an active `GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN`; final GSC automation token source is `refresh_token`.
+- Also completed the more durable owner path: Google Site Verification API + service account ownership.
+- Requested a service-account verification token through Site Verification API, initially tested FILE verification, then rejected it because Vercel `cleanUrls: true` redirects `.html` verification URLs.
+- Added service-account META verification token to `src/sbu/ur-wrong/index.html` instead, keeping clean URL behavior intact.
+- Commits pushed to `Yesol-Pilot/https-ur-wrong.com-`: `26a2f6b` (temporary FILE token) and `a3fe94c` (META verification final state).
+- Deployed Vercel production alias `https://ur-wrong.com`.
+- Live verification: home page 200 and contains the service-account verification meta.
+- Site Verification API `insert` succeeded for `https://ur-wrong.com/`; service account is included as owner.
+- Search Console API `sites.add` succeeded; service-account permission is `siteOwner`.
+- Final GSC automation runs: service-account path passed with sitemap submit `204`; Chrome-OAuth refresh-token path passed with properties listed `1/1`, permission `siteOwner`, live sitemap `200/73`, GSC sitemap `200`, Search Analytics `200`, total rows `0`.
+- Follow-up owner request: proceed with Chrome extension indexing loop.
+- GSC URL Inspection API with refreshed OAuth token reported:
+  - `https://ur-wrong.com/`: `PASS`, `Submitted and indexed`, last crawl `2026-05-07T15:24:54Z`.
+  - `https://ur-wrong.com/benchmark`: `PASS`, `Submitted and indexed`, last crawl `2026-05-12T01:29:21Z`.
+  - `https://ur-wrong.com/leaderboard`: `PASS`, `Submitted and indexed`, last crawl `2026-05-12T01:29:21Z`.
+  - `https://ur-wrong.com/launch`: `PASS`, `Submitted and indexed`, last crawl `2026-05-12T01:29:21Z`.
+  - `https://ur-wrong.com/topic/ai`: `PASS`, `Submitted and indexed`, last crawl `2026-05-12T01:29:21Z`.
+  - `https://ur-wrong.com/sitemap.xml`: neutral / unknown as a URL, but sitemap report itself is known.
+- Chrome extension UI check for `/benchmark` showed `URL is on Google` and `Page is indexed`; clicking `Request indexing` returned the GSC quota dialog: daily quota exceeded, submit again tomorrow.
+- Ran `scripts/sbu_gsc_all.mjs --sites ur-wrong --all`; pass true, refresh_token source, sitemap submit ok, Search Analytics ok, total rows still `0`.
+
+## 2026-05-11 - Codex UR WRONG GSC Redirect Indexing Fix
+
+- Owner reported a new Search Console indexing reason: `Page with redirect`.
+- Investigated UR WRONG first because it was the active recent platform work.
+- Confirmed Google guidance: redirected URLs are not indexed; sitemap should include the preferred canonical URLs, not URLs that redirect.
+- Found live issue: sitemap submitted `/about.html`, `/privacy.html`, and `/terms.html`, while Vercel `cleanUrls: true` 308-redirected them to `/about`, `/privacy`, and `/terms`.
+- Fixed sitemap, canonical URLs, OG URL, JSON-LD URL, and internal legal/footer links to use clean URLs.
+- Added `/contact` to sitemap and changed contact canonical/internal links to clean URL.
+- Commit pushed: `6e0abb6 fix: remove redirected legal urls from sitemap`.
+- Deployed Vercel production alias `https://ur-wrong.com`.
+- Verification: `npm run build`, `node --check` for touched API files, `git diff --check`, live sitemap 323 locs, 0 `.html` locs, 0 redirects, 0 non-200 URLs.
+- Resubmitted `https://ur-wrong.com/sitemap.xml` through GSC API; submission ok.
+- Added daily Codex app automation `ur-wrong-gsc` for UR WRONG GSC performance/indexing and sitemap redirect monitoring.
+
+## 2026-05-11 - Codex UR WRONG Search Exposure Repair
+
+- Owner noted Search Console impressions are effectively absent, not merely low.
+- Latest GSC fetch window `2026-04-11..2026-05-09`: 4 impressions, 0 clicks, 2 query/page rows, average position 69.5.
+- Found live indexability weakness: `/benchmark` and `/leaderboard` returned 200 but rewrote to the home shell with home title/canonical, so Google could treat them as duplicate home routes rather than independent pages.
+- Added `api/seo-page.js` and rewired `/benchmark`, `/leaderboard`, and `/launch` to return unique server-rendered HTML shells with page-specific title, description, canonical, robots, OG/Twitter metadata, JSON-LD, crawlable content, and SPA assets.
+- Added `/leaderboard` and `/launch` to sitemap; sitemap now has 325 URLs.
+- Added minimal noscript internal-link fallback to home and restored growth structure gate copy: `Crowd split open`, `AI baseline is separated`.
+- Commit pushed: `6ee5d51 fix: make growth routes indexable`.
+- Deployed Vercel production alias `https://ur-wrong.com`.
+- Verification: `node --check api/seo-page.js api/sitemap.xml.js`, `npm run build`, `npm run verify:growth-indexing`, `npm run verify:growth-structure`, `git diff --check`, live `/benchmark` `/leaderboard` `/launch` 200 with unique canonicals, live sitemap 325 locs, 0 redirects, 0 non-200 URLs.
+- Resubmitted `https://ur-wrong.com/sitemap.xml` through GSC API; submission ok.
+
+## 2026-05-11 - Codex UR WRONG Chrome GSC Indexing Attempt
+
+- Owner asked Codex to use the Chrome extension path instead of waiting.
+- Connected through the installed Codex Chrome extension to the logged-in Search Console property for `https://ur-wrong.com/`.
+- Ran URL Inspection for `https://ur-wrong.com/benchmark`.
+- GSC indexed-state result: `URL is not on Google`; reason: Google does not yet know the URL.
+- Clicked `Request indexing`; GSC returned quota dialog: daily quota exceeded, submit again tomorrow.
+- Ran live URL test for `/benchmark`; result: URL can be indexed / page can be indexed.
+- Implemented non-quota remediation:
+  - Changed sitemap battle selection from broad 300 recent battle URLs to quality-focused candidates ranked by real activity, engagement, heat, status, and recency.
+  - Default live cap is 48 battle URLs plus core pages and topic hubs.
+  - Commit pushed: `746c6bc fix: focus sitemap on indexable pages`.
+  - Deployed Vercel production alias `https://ur-wrong.com`.
+  - Live sitemap now has 73 URLs: core pages, 17 topic URLs, legal pages, and 48 battle URLs.
+  - Verification: live sitemap 200, 0 redirects, 0 non-200 URLs; GSC sitemap resubmission ok.
+
 ## 2026-05-10 - Codex K-OTT Growth Performance Monitoring
 
 - Owner requested "성과 모니터링".
@@ -291,7 +374,7 @@
   - 현재 로컬에는 `quant-bot-live` 관련 Node 프로세스가 없음
   - `portfolio/public/quant/data.json` 마지막 갱신은 `2026-04-02T10:35:23.317Z`, `neo-genesis/logs/quant_cron.log` 마지막 실행은 `2026-04-03 12:15:38`
   - 대시보드 스냅샷이 실운영 로그보다 오래되어 모니터링 화면과 실제 거래 상태가 분리된 것으로 판단
-  - `neo-genesis/auto-trading` 테스트 18개 스위트는 모두 통과했지만, 최근 오류 로그에는 Binance `-2019`, `-4045`, `-4164`와 Supabase ledger 실패가 남아 있음
+  - `002.products-sbu/quant-bot` 테스트 18개 스위트는 모두 통과했지만, 최근 오류 로그에는 Binance `-2019`, `-4045`, `-4164`와 Supabase ledger 실패가 남아 있음
 
 ### 🟠 Claude Code (~14:49, 토큰 소진)
 - 마지막 세션(a5ba70d5): 마스터 규칙 작업 추정
@@ -2160,6 +2243,30 @@
 - GSC displayed `색인 생성 요청됨` for all four requested URLs.
 - Next: re-run `npm run inspect:gsc` after Google processes the queue; do not infer keyword expansion until pages are indexed or impressions appear.
 
+## 2026-05-11 - Codex K-OTT Performance Report
+
+- Ran live K-OTT growth monitor and p0 GSC URL Inspection.
+- Current business result remains zero:
+  - GSC Search Analytics rows: `0`
+  - impressions: `0`
+  - clicks: `0`
+- Operational health remains green:
+  - monitor score: `92`
+  - verdict: `green`
+  - blockers: `0`
+  - live critical URLs: all `200`
+  - GA script, GA layout wiring, PostHog provider, and growth events detected.
+- Indexing progress changed materially after manual GSC requests:
+  - `/`: still indexed.
+  - `/compare`: now crawled, currently not indexed, last crawl `2026-05-10T07:30:09Z`.
+  - `/compare/ott-subscription-rotation`: now crawled, currently not indexed, last crawl `2026-05-10T07:30:58Z`.
+  - `/plans`: now crawled, currently not indexed, last crawl `2026-05-10T07:30:58Z`.
+  - `/rotation`: now crawled, currently not indexed, last crawl `2026-05-10T07:30:58Z`.
+- Interpretation:
+  - Manual GSC request worked at the discovery/crawl stage.
+  - Google has not accepted the new pages into the index yet.
+  - Next growth lever is quality/uniqueness/internal authority, not more guessed pages.
+
 ## 2026-05-10 - Codex C Drive Management Policy
 
 - Owner clarified that C drive cleanup should not mean unconditional deletion; valuable large artifacts should be moved/re-homed to D drive first.
@@ -2182,3 +2289,1451 @@
   - `D:\models\ollama\`
   - `D:\models\huggingface\`
 - No C-drive files were moved or deleted in this pass.
+
+## 2026-05-11 - Codex ToolPick AdSense Review Request Logged
+
+- Owner confirmed the AdSense review request was submitted for `toolpick.dev`.
+- Ran live verification after the request:
+  - AdSense page script: pass.
+  - `google-adsense-account` meta: pass.
+  - Search Console verification meta: pass.
+  - `ads.txt` publisher line: pass.
+  - `Mediapartners-Google` and `AdsBot-Google` robots access: pass.
+  - Consumer/off-topic legacy URL 404: pass.
+  - `npm run audit:live`: pass, 0 failed checks.
+- Added ToolPick operation records:
+  - `docs/operations/adsense-review-request-latest.md`
+  - `docs/operations/adsense-review-request-latest.json`
+- Pushed commit `d3acd82` to `Yesol-Pilot/https-www.toolpick.dev-`.
+- Next: wait for AdSense status changes, check Sites/Policy center daily, and avoid repeated review requests unless Google returns a concrete issue.
+
+## 2026-05-10 - Codex ToolPick AdSense Remediation
+
+- Owner reported AdSense rejection for `toolpick.dev`: site ownership check, policy violation, and low value content.
+- Implemented ToolPick remediation in `neo-genesis/src/sbu/toolpick`:
+  - Added AdSense page script with `ca-pub-5874227298630347`.
+  - Kept Search Console verification meta and `google-adsense-account` meta.
+  - Confirmed live `ads.txt` publisher line.
+  - Explicitly allowed `Mediapartners-Google` and `AdsBot-Google` in robots output.
+  - Removed pre-approval ad placeholders.
+  - Blocked consumer/off-topic legacy blog URLs with 404 instead of 200/noindex.
+  - Rewrote About, Contact, Privacy, and Terms pages for cleaner ownership, editorial, privacy, affiliate, and advertising disclosures.
+  - Updated live growth smoke audit to require off-topic URL blocking.
+- Verification:
+  - `npm run lint`: PASS.
+  - `npm run build`: PASS.
+  - Chrome/local checks for About, Privacy, and off-topic 404: PASS.
+  - Vercel production deploy completed and aliased to `https://www.toolpick.dev`.
+  - Live checks: AdSense script/meta PASS, Search Console verification meta PASS, `ads.txt` PASS, AdSense crawler robots PASS, off-topic URL 404 PASS.
+  - `npm run audit:live`: PASS, 0 failed checks.
+- Commits pushed to `Yesol-Pilot/https-www.toolpick.dev-`:
+  - `59a2f2e` fix: harden ToolPick AdSense readiness
+  - `901302b` docs: record ToolPick AdSense production smoke
+- Residual risk:
+  - AdSense approval is not guaranteed; Google must recrawl and review the site.
+  - Next owner action is requesting AdSense review after a short propagation window.
+
+## 2026-05-10 - Codex Osaka Couple Calendar Monthly View
+
+- Owner clarified the calendar should be a real couple calendar, not only a travel-period calendar.
+- Updated `work/osaka-food-trip`:
+  - Replaced the fixed 5/31~6/3 calendar list with a 7-column monthly couple calendar.
+  - Added previous/next month navigation and date-cell event creation with the selected date prefilled.
+  - Changed Google Calendar sync from fixed trip dates to selected `YYYY-MM` month windows.
+  - Preserved Google events from other months while refreshing the selected month.
+- Verification:
+  - `npm run build`: PASS.
+  - Local mobile Playwright smoke: PASS, 42 month cells, no console errors.
+  - Production deploy completed and aliased to `https://osaka-food-trip.vercel.app`.
+  - Live smoke: page 200, monthly calendar 42 cells, Google month sync API PASS for `2026-05` and `2026-06`.
+
+## 2026-05-10 - Codex Osaka Couple App PWA Install Mode
+
+- Owner chose option 1: use the app as a PWA without an Apple Developer account.
+- Updated `work/osaka-food-trip`:
+  - Added web app manifest with standalone display, portrait orientation, start URL, theme/background colors, and icons.
+  - Added iPhone home-screen support via Apple mobile web app meta tags and `apple-touch-icon.png`.
+  - Added a service worker that caches the app shell and same-origin static assets while excluding `/api/*` so shared calendar/budget data stays live.
+  - Generated warm couple-app home-screen icons from `public/app-icon.svg`.
+- Verification:
+  - `npm run build`: PASS via bundled Node 20 npm.
+  - Local PWA smoke: manifest/apple icon/theme meta present, service worker registered.
+  - Production deploy completed and aliased to `https://osaka-food-trip.vercel.app`.
+  - Live PWA smoke: page 200, manifest 200, `sw.js` 200, `apple-touch-icon.png` 200, service worker registered, no browser console errors.
+
+## 2026-05-10 - Codex C Drive Migration And Cleanup
+
+- Owner approved full C drive cleanup with a move-first policy rather than blind deletion.
+- Applied C drive management policy already recorded in `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`.
+- Moved or re-homed agent/runtime state from C to D with junctions and user env vars:
+  - Ollama models -> `D:\models\ollama`
+  - HuggingFace cache -> `D:\models\huggingface`
+  - npm/pip/uv/Playwright/Puppeteer/Codex runtime caches -> `D:\agent-cache\...`
+  - WSL `Ubuntu-24.04` VHDX -> `D:\wsl\Ubuntu-24.04\ext4.vhdx`
+  - Docker Desktop WSL data -> `D:\docker\wsl`
+  - Gemini agent state -> `D:\agent-state\gemini`
+  - Miniconda runtime -> `D:\agent-runtime\miniconda3`
+- Moved `Downloads` contents to `D:\output\downloads-archive\20260510`.
+- Cleared regenerable C caches: NVIDIA DXCache, user Temp, CrashDumps, and C temp directories.
+- Final C free space: about `450.6 GiB`, up from about `112.1 GiB` before migration.
+- Verification passed:
+  - Junctions point to D for Ollama, HuggingFace, npm cache, Playwright, Docker, Gemini, and Miniconda.
+  - `ollama list` works and shows local models from migrated model store.
+  - `wsl -d Ubuntu-24.04` works after D import.
+  - `conda 25.9.1` and Python import checks pass through the original C path junction.
+- Residual:
+  - `C:\pagefile.sys` is still custom configured at 96 GiB initial / 192 GiB max and needs elevated Windows settings plus reboot to shrink.
+  - `C:\Users\yesol\miniconda3._old_20260510` has about `3.75 GiB` of locked old DLL files; HKCU RunOnce `DeleteOldMiniconda20260510` is registered to retry deletion after next login.
+  - Google DriveFS, Chrome, Claude, and Codex live state were left untouched while running; move only through app-supported settings or a stopped-agent maintenance window.
+
+## 2026-05-10 - Codex D Drive Root Hygiene
+
+- Owner noted that `D:\` itself was visually messy after C-drive migration.
+- Added canonical D root policy: `.agent/knowledge/20260510_D_DRIVE_ROOT_POLICY.md`.
+- Applied low-risk root cleanup:
+  - `D:\.playwright-cli` -> `D:\00.test\009.archive\legacy-root-archive\root-cleanup-20260510\tool-logs\.playwright-cli`
+  - `D:\app` -> `D:\00.test\009.archive\legacy-root-archive\root-cleanup-20260510\misc\app`
+  - `D:\google_calendar_tool` -> `D:\00.test\009.archive\legacy-root-archive\root-cleanup-20260510\misc\google_calendar_tool`
+  - `D:\AntiGravity` -> `D:\00.test\009.archive\legacy-root-archive\root-cleanup-20260510\drive-shortcuts\AntiGravity`
+  - Loose root Korean `.txt` file -> `D:\00.test\009.archive\legacy-root-archive\root-cleanup-20260510\loose-root-files\`
+  - `D:\llama.cpp` -> `D:\local-dev\tools\llama.cpp`
+- Intentionally left app-managed roots in place:
+  - `D:\KakaoTalk` and `D:\Telegram Desktop` are active app execution paths.
+  - `D:\Creative App` is used by running service `Creative.VADMonitorService`.
+  - `D:\Launcher` is referenced by Rockstar service.
+  - `D:\steam`, `D:\mods`, and `D:\.claude` require app/config-aware maintenance.
+- `D:\agenttest` move was attempted but blocked by an active Windows file handle. Retry after reboot/stopped-agent maintenance if root cleanup continues.
+
+## 2026-05-11 - Codex D00.test Subdirectory Hygiene Batch 1
+
+- Owner clarified that not only `D:\` but also `D:\00.test` and its subdirectories are visually messy, with duplicate projects, similar split projects, and uncontrolled backup/archive folders.
+- Added canonical subdirectory reorganization policy:
+  - `.agent/knowledge/20260510_D00TEST_DIRECTORY_REORGANIZATION_POLICY.md`
+- Applied low-risk move-only cleanup under the existing `root-cleanup-20260510` archive:
+  - Root `acl_*` and `devices*.json` snapshots -> `00-loose-root-files\acl-device-snapshots`
+  - `cts_slides` -> `01-duplicate-folders\cts_slides__duplicate_of_cts-presentation_slides`
+  - `source` WSL venv -> `02-legacy-runtime\source__wsl-venv`
+  - Empty root `scripts` -> `03-empty-root-dirs\scripts`
+  - Root `test-results` -> `04-tool-results\test-results`
+- Verification:
+  - `cts_slides` was SHA256-identical to `cts-presentation\slides` before move.
+  - `cts-presentation\slides` still has 17 files, 8.8 MB.
+  - Removed root paths are absent and archive targets are present.
+- Left untouched due to side effects:
+  - `neo-genesis_untracked_backup_20260505_083608` because master data marks its `auto-trading` subdir as active SSOT.
+  - `why-engine-proxy`, `sora-android`, `_tmp`, `tmp`, Google Drive temp roots, and app/agent state paths.
+
+## 2026-05-11 - Codex D00.test Full Reorganization Analysis
+
+- Owner requested detailed analysis and design before full subdirectory reorganization.
+- Added full plan:
+  - `.agent/knowledge/20260511_D00TEST_FULL_REORGANIZATION_PLAN.md`
+- Scope covered:
+  - `D:\` root state
+  - all current `D:\00.test` root directories
+  - size/logical-size split
+  - large subdirectory hotspots
+  - duplicate git origin clusters
+  - active absolute-path references
+  - RAG bootstrap and credential-loader path side effects
+  - active process references to `D:\00.test`
+- Main conclusion:
+  - Target should be numbered buckets, but active roots must not be moved in one batch.
+  - High-risk roots: `neo-genesis`, `project_yesol`, `PAPER`, `portfolio`, `jobsearch`, `neo-genesis_untracked_backup_20260505_083608`.
+  - First real migration should address generated caches/output and active SSOT extraction from the backup-looking quant path.
+
+## 2026-05-11 - Codex D00.test Numbered Migration Phase 1
+
+- Owner said to proceed after the full reorganization plan.
+- Created numbered buckets under `D:\00.test`:
+  - `001.ssot-agent-runtime`, `002.products-sbu`, `003.portfolio-career`, `004.research-paper`, `005.client-work`, `006.games-labs`, `007.infra-tools`, `008.mirrors-external`, `009.archive`, `010.tmp-output`.
+- Moved generated outputs and low/medium-risk roots with no deletion:
+  - product/prototype roots to `002.products-sbu`
+  - profile/career/application outputs to `003.portfolio-career`
+  - CTS/work roots to `005.client-work`
+  - game/lab roots to `006.games-labs`
+  - WebPilot/security/analytics/IR/CRO roots to `007.infra-tools`
+  - `github_repos` to `008.mirrors-external`
+  - generated QA outputs to `010.tmp-output`
+- Wrote move manifests under `D:\00.test\009.archive\reorg-manifests`.
+- Updated RAG/bootstrap, credential inventory, portfolio data, and project_yesol master-data path references before moving referenced roots.
+- Verification:
+  - All 2026-05-11 phase1 manifests parse as JSON.
+  - Sora context JSON validates in both `neo-genesis` and `neo-genesis__sbu_autogrowth`.
+  - Exact old-path scans for moved roots return zero matches.
+- Incident handled:
+  - PowerShell text rewriting corrupted UTF-8-sensitive tracked JSON surfaces; repaired Sora and portfolio tracked files from git HEAD plus path replacements.
+  - `project_yesol/master-data/*.json` still has parser-invalid control characters and needs a separate master-data encoding repair pass.
+- Still intentionally left at root:
+  - `neo-genesis`, `project_yesol`, `portfolio`, `PAPER`, `jobsearch`, `sora-app`, `sora-android`, `neo-genesis__sbu_autogrowth`, `neo-genesis_untracked_backup_20260505_083608`, `tmp`, app-managed/no-touch roots.
+
+## 2026-05-11 - Codex D00.test Master-data Repair And Quant SSOT Extraction
+
+- Repaired malformed `project_yesol/master-data` JSON after the numbered path migration exposed parser-invalid control characters.
+  - `projects.json` restored from valid `portfolio/data/projects-database.json` with moved-root path mappings reapplied.
+  - `project-ref-triage.json` rebuilt from extractable structural fields; unreliable long free-text notes were not preserved.
+  - `master-asset-verified.json` restored from valid `master-asset-verified-v3.json` with moved-root path mappings reapplied.
+  - Corrupt originals are preserved under `D:\00.test\009.archive\master-data-json-repair-20260511`.
+  - Manifest: `D:\00.test\009.archive\reorg-manifests\20260511-master-data-json-repair.json`.
+- Promoted active quant SSOT:
+  - `D:\00.test\neo-genesis_untracked_backup_20260505_083608\auto-trading` -> `D:\00.test\002.products-sbu\quant-bot`.
+  - Preserved Yesol-Pilot git origin, branch `master`, head `1ca0a57`, `.env` presence, and dirty working tree state.
+  - Secret values were not read or printed.
+  - Duplicate clean mirror archived to `D:\00.test\009.archive\reviewed-clones\github_repos_quant-bot_clean_mirror_20260511`.
+  - Remaining reviewed wrapper archived to `D:\00.test\009.archive\reviewed-clones\neo-genesis_untracked_backup_20260505_083608__reviewed_after_quant_extract`.
+  - Manifest: `D:\00.test\009.archive\reorg-manifests\20260511-phase2-quant-bot-ssot-extraction.json`.
+- Verification:
+  - All 23 root JSON files under `project_yesol/master-data` parse.
+  - New repair/extraction manifests parse as UTF-8 no-BOM JSON.
+  - Old active `neo-genesis/auto-trading` path scans return zero matches outside `009.archive`.
+
+## 2026-05-11 - Codex D00.test 001 Numbering And Legacy Root Consolidation
+
+- Owner requested visible numbering to use `001~` instead of the earlier `00/10/20/...` buckets.
+- Renamed active numbered buckets:
+  - `00.ssot-agent-runtime` -> `001.ssot-agent-runtime`
+  - `10.products-sbu` -> `002.products-sbu`
+  - `20.portfolio-career` -> `003.portfolio-career`
+  - `30.research-paper` -> `004.research-paper`
+  - `40.client-work` -> `005.client-work`
+  - `50.games-labs` -> `006.games-labs`
+  - `60.infra-tools` -> `007.infra-tools`
+  - `70.mirrors-external` -> `008.mirrors-external`
+  - `90.archive` -> `009.archive`
+  - `99.tmp-output` -> `010.tmp-output`
+- Consolidated remaining visual clutter:
+  - `_archive` -> `009.archive\legacy-root-archive`
+  - `_extracted` -> `003.portfolio-career\extracted-assets`
+  - `tmp\interview_supergent_20260430` -> `010.tmp-output\interview_supergent_20260430`
+- Recovery/verification:
+  - `006.games-labs` and `_archive` hit read-only descendant issues during rename; both were recovered by verified copy-then-remove, not blind deletion.
+  - `tmp\interview_supergent_20260430` hardcoded paths were updated before the move.
+  - Manifests:
+    - `D:\00.test\009.archive\reorg-manifests\20260511-phase3-three-digit-bucket-renames.json`
+    - `D:\00.test\009.archive\reorg-manifests\20260511-phase4-legacy-root-folder-consolidation.json`
+
+## 2026-05-11 - Codex D Root Agenttest Classification
+
+- Classified `D:\agenttest` as the `Yesol-Pilot/game-pipeline` git repo.
+- Moved the canonical copy to `D:\00.test\006.games-labs\game-pipeline` with verified file-length matching and preserved git dirty state.
+- The old `D:\agenttest` source root is now empty but still locked by Windows, so immediate removal failed.
+- Registered HKCU RunOnce `RemoveEmptyAgenttest20260511` to remove the old root only if it remains empty at next login.
+- Manifest: `D:\00.test\009.archive\reorg-manifests\20260511-phase5-d-root-agenttest-game-pipeline-move.json`.
+
+## 2026-05-11 - Codex D Root Status Recheck
+
+- Rechecked `D:\` root after the `D:\00.test` 001-bucket migration.
+- Current conclusion: `D:\00.test` is organized, but `D:\` still has live compatibility-bound roots and should not be hard-renamed while agents/apps are running.
+- Largest roots observed:
+  - `D:\wsl` ~110.6 GB
+  - `D:\mods` ~104.3 GB
+  - `D:\models` ~98.8 GB
+  - `D:\00.test` ~84.5 GB
+  - `D:\steam` ~50.2 GB
+  - `D:\agent-cache` ~26.5 GB
+  - `D:\output` ~26.1 GB
+  - `D:\agent-runtime` ~17.9 GB
+  - `D:\ComfyUI_models` ~17.3 GB
+  - `D:\agent-state` ~15.0 GB
+  - `D:\docker` ~12.1 GB
+- Live blockers:
+  - KakaoTalk and Telegram run directly from D root app folders.
+  - Multiple Node/MCP/http-server processes run through `D:\agent-cache` and serve `D:\00.test` paths.
+  - Codex kernels are active with working directory `D:\00.test`.
+- Updated D root policy with a target `001~` taxonomy and migration rule: stop processes first, move one category at a time, update env/app/WSL/Docker settings, and write a manifest for every root move.
+
+## 2026-05-11 - Codex D Root 001 Category Migration
+
+- Created D root category folders:
+  - `D:\001.workspace`
+  - `D:\002.models-ai`
+  - `D:\003.agent-runtime`
+  - `D:\004.local-dev`
+  - `D:\005.output`
+  - `D:\006.virtualization`
+  - `D:\007.apps-managed`
+  - `D:\009.archive`
+- Moved low-risk/non-running roots and kept old paths as hidden junctions:
+  - `D:\models` -> `D:\002.models-ai\models`
+  - `D:\ComfyUI_models` -> `D:\002.models-ai\ComfyUI_models`
+  - `D:\automations` -> `D:\003.agent-runtime\automations`
+  - `D:\local-dev` -> `D:\004.local-dev`
+  - `D:\output` -> `D:\005.output`
+  - `D:\tmp` -> `D:\005.output\tmp`
+- Recovery:
+  - `D:\tmp` hit a read-only `.git` descendant during `Move-Item`; recovered with `robocopy` copy-then-verify, then replaced old `D:\tmp` with a hidden junction.
+- Deferred:
+  - `D:\00.test`, `D:\agent-cache`, `D:\agent-runtime`, `D:\agent-state`, `D:\wsl`, `D:\docker`, app-managed roots, and running messenger paths.
+- Manifest: `D:\00.test\009.archive\reorg-manifests\20260511-phase6-d-root-001-category-migration.json`.
+
+## 2026-05-11 - Codex D Root Apps Runtime Migration
+
+- Moved additional non-running D root categories and kept old paths as hidden junctions:
+  - `D:\mods` -> `D:\007.apps-managed\mods`
+  - `D:\steam` -> `D:\007.apps-managed\steam`
+  - `D:\agent-runtime` -> `D:\003.agent-runtime\runtime`
+  - `D:\agent-state` -> `D:\003.agent-runtime\state`
+- Verification:
+  - `python --version` and `conda --version` passed after moving `D:\agent-runtime`.
+  - All four old paths are hidden junctions pointing to the new canonical paths.
+- Deferred:
+  - `D:\agent-cache` remains because active Node/MCP/http-server processes use it.
+  - `D:\00.test` remains because Codex/MCP processes use it as active workspace/cwd.
+  - `D:\wsl` and `D:\docker` require supported platform migration.
+  - `D:\Creative App`, `D:\KakaoTalk`, and `D:\Telegram Desktop` are running app paths.
+  - `D:\Launcher` move was denied at filesystem permission level even though Rockstar Service is stopped/manual.
+  - `D:\agenttest` remains as an empty locked root pending RunOnce cleanup.
+- Manifest: `D:\00.test\009.archive\reorg-manifests\20260511-phase7-d-root-app-runtime-migration.json`.
+
+## 2026-05-11 - Codex D Root Agent Cache Migration
+
+- Stopped 18 Node processes whose command lines ran from `D:\agent-cache`:
+  - local `http-server` / `serve` preview servers
+  - MCP servers for GitHub, filesystem, memory, and sequential-thinking
+- Moved `D:\agent-cache` -> `D:\003.agent-runtime\cache`.
+- Recreated `D:\agent-cache` as a hidden junction to preserve existing npm/pip/uv/browser/cache environment references.
+- Verification:
+  - remaining Node processes referencing `D:\agent-cache`: 0 before move
+  - `D:\agent-cache\npm-cache` resolves after the move
+- Deferred:
+  - `D:\00.test`, `D:\wsl`, `D:\docker`, `D:\Creative App`, `D:\KakaoTalk`, `D:\Telegram Desktop`, `D:\Launcher`, and empty locked `D:\agenttest`.
+- Manifest: `D:\00.test\009.archive\reorg-manifests\20260511-phase8-d-root-agent-cache-migration.json`.
+
+## 2026-05-11 - Codex D Root Visual Hygiene
+
+- `D:\agenttest` is still empty, but immediate removal still fails because another process holds the directory handle.
+- HKCU RunOnce `RemoveEmptyAgenttest20260511` remains the safe deletion path and only removes the folder if it is still empty at next login.
+- Set `Hidden` attribute on:
+  - `D:\.claude` (path unchanged; Claude settings were not moved)
+  - `D:\agenttest` (path unchanged; pending RunOnce cleanup)
+- Manifest: `D:\00.test\009.archive\reorg-manifests\20260511-phase9-d-root-visual-hide-residuals.json`.
+
+## 2026-05-11 - Codex D00.test Visible Root Numbering
+
+- Owner asked to clean `D:\00.test` subdirectories, not just D root.
+- Moved non-running roots with hidden junction compatibility:
+  - `.claude` -> `001.ssot-agent-runtime\.claude`
+  - `.codex_tmp` -> `010.tmp-output\codex_tmp`
+  - `jobsearch` -> `003.portfolio-career\jobsearch`
+  - `sora-app` -> `002.products-sbu\sora-app`
+  - `sora-android` -> `002.products-sbu\sora-android`
+  - `neo-genesis__sbu_autogrowth` -> `001.ssot-agent-runtime\neo-genesis__sbu_autogrowth`
+- Move attempts that were safely deferred at this point:
+  - `project_yesol`: path locked
+  - `portfolio`: deferred at this point; superseded by 2026-05-12 deferred cleanup first run
+  - `PAPER`: path locked
+- Hidden in place for root readability at this point:
+  - `neo-genesis`, `project_yesol`, `portfolio`, `PAPER`, `_secrets`, `personal`
+- Left untouched:
+  - `.tmp.drivedownload`, `.tmp.driveupload`
+- Verification:
+  - default `Get-ChildItem D:\00.test -Directory` shows only `001~010` buckets.
+- Manifest: `D:\00.test\009.archive\reorg-manifests\20260511-phase10-d00test-root-visible-numbered-migration.json`.
+
+## 2026-05-11 - Codex D00.test Bucket Child Numbering
+
+- Numbered first visible child directories inside the numbered buckets.
+- Examples:
+  - `002.products-sbu\sora-app` -> `002.products-sbu\005.sora-app`
+  - `003.portfolio-career\jobsearch` -> `003.portfolio-career\003.jobsearch`
+  - `009.archive\reorg-manifests` -> `009.archive\001.reorg-manifests`
+  - `010.tmp-output\codex_tmp` -> `010.tmp-output\001.codex-tmp`
+- Old child names remain hidden junction aliases for compatibility.
+- Verification:
+  - visible first-level children under all default-visible buckets have `001.*` style prefixes.
+  - `D:\00.test\009.archive\reorg-manifests` still resolves.
+- Manifest: `D:\00.test\009.archive\reorg-manifests\20260511-phase11-d00test-bucket-child-numbering.json`.
+
+## 2026-05-12 - Codex D00.test Locked Root Recheck and Index
+
+- Rechecked hidden real roots. This section records the pre-deferred-cleanup state; the later 2026-05-12 first run moved `portfolio`.
+  - `neo-genesis`: still referenced by `start_pc_agent.bat` and `next start -p 4041`.
+  - `project_yesol`: move still fails with path-in-use.
+  - `portfolio`: deferred at this point; superseded by the later deferred cleanup first run.
+  - `PAPER`: move still fails with path-in-use.
+- Restart Manager reported no direct lockers for `project_yesol`, `portfolio`, or `PAPER`; this means a deeper handle/ACL issue remains.
+- Did not use copy-delete fallback.
+- Created `D:\00.test\DIRECTORY_INDEX.md` for quick human/agent navigation.
+- Manifest: `D:\00.test\009.archive\reorg-manifests\20260512-phase12-locked-root-recheck-and-directory-index.json`.
+
+## 2026-05-11 - Codex NeoGenesis SBU Hub Strategy
+
+- Owner asked whether subdomain blogs are meaningful and then approved full execution.
+- Implemented `neogenesis.app` vertical hub layer in `src/landing`:
+  - `/tools`, `/sales`, `/devops`, `/finance`, `/ai`, `/ops`, `/kr`, `/labs`.
+  - Korea-targeted hub: ReviewLab + K-OTT under `/kr`; global hubs for other commercial categories.
+  - Lab/trust hub: WhyLab, EthicaAI, UR WRONG under `/labs`.
+- Added `src/lib/data/sbu-strategy.json` and typed wrapper as the canonical strategy map for hub, market, indexing mode, publish rule, and internal link rule.
+- Added `scripts/generate-sbu-url-inventory.mjs` and public outputs:
+  - `/data/sbu-url-inventory.json`
+  - `/data/sbu-canonical-owner-map.json`
+  - `/data/sbu-url-inventory.md`
+- Inventory result: 11 sitemap fetches all 200, 4,970 total URLs in the latest run.
+- Updated `sitemap.xml`, `/llms.txt`, and `/llms-full.txt` to expose hub and canonical-owner surfaces.
+- Verification:
+  - `npm run sbu:inventory`: pass, 11 sites / 4,970 URLs.
+  - `npm run lint`: pass with two existing layout warnings.
+  - `npm run build`: pass, 115 static pages including 8 new hubs.
+  - Playwright desktop/mobile QA caught and fixed a `nav` global CSS collision.
+  - Live `https://neogenesis.app` checks: 8 hubs, sitemap, llms, robots, and public data JSON all 200.
+- Deployment:
+  - Landing commits pushed: `180fa21 feat: add SBU vertical hub strategy`, `d521b03 chore: include SBU hubs in IndexNow ping`.
+  - Vercel production aliased to `https://neogenesis.app`.
+- Residual:
+  - IndexNow postbuild still returns 403 for `api.indexnow.org` and Bing; Yandex accepts. Needs key verification cleanup separately.
+
+## 2026-05-12 - Codex SBU Performance Monitoring
+
+- Owner requested performance monitoring.
+- Refreshed PostHog via `scripts/posthog_traffic.py --days 7`:
+  - 9 tracked subdomain SBUs all had events.
+  - Total 7d events: 665.
+  - Total 7d pageviews: 276.
+  - Strongest pageview rows among those 9: K-OTT 61, ReviewLab 56, CraftDesk 55, DeployStack 39.
+- Ran broader host-level PostHog query including `neogenesis.app`, ToolPick, and UR WRONG:
+  - 7d: NeoGenesis 257 pageviews / 246 users, ToolPick 446 / 429, UR WRONG 53 / 57.
+  - 1d: NeoGenesis 15 pageviews / 18 users, ToolPick 58 / 50, K-OTT 15 / 5.
+- Live checks across 12 sites:
+  - Home route: 12/12 200.
+  - Key route: 12/12 200.
+  - robots.txt: 12/12 200.
+  - sitemap.xml: 12/12 200.
+  - GA surface detected: 12/12.
+  - PostHog surface detected: 11/12; UR WRONG uses a different tracking mode and was not detected by static HTML scan.
+- Sitemap counts:
+  - neogenesis 82, ToolPick 910, UR WRONG 73, AIForge 646, CraftDesk 501, DeployStack 451, FinStack 443, SellKit 459, ReviewLab 1003, K-OTT 457, WhyLab 14, EthicaAI 14.
+- Blockers:
+  - GSC live refresh failed: `refresh_token_failed_400_invalid_grant`.
+  - GA4 report failed because `GA4_SERVICE_ACCOUNT_PATH` points to a missing service account JSON under Downloads.
+- Interpretation:
+  - Live/indexability infrastructure is healthy.
+  - Current traffic is still concentrated in ToolPick, NeoGenesis main, K-OTT, ReviewLab, CraftDesk, and DeployStack.
+  - SellKit, FinStack, AIForge, WhyLab, and EthicaAI remain low-traffic despite healthy live surfaces.
+
+## 2026-05-11 - Codex ToolPick Performance Report
+
+- Owner requested ToolPick performance reporting.
+- Refreshed ToolPick audits:
+  - `audit-live-analytics-data.mjs`: PostHog pass, GA4 failed due insufficient property permission.
+  - `live-growth-smoke.mjs`: pass, 0 failed checks.
+  - `search-console-opportunities.mjs --fetch`: pass, 14 current opportunities.
+  - `audit-100k-mau-readiness.mjs`: foundation 90/100 grade A, 100k MAU proof false.
+- Added:
+  - `src/sbu/toolpick/docs/operations/performance-report-latest.md`
+  - `src/sbu/toolpick/docs/operations/performance-report-latest.json`
+- Key findings:
+  - Last complete PostHog day 2026-05-10: 46 events, 44 persons, 44 pageviews, 2 action events.
+  - Cleaner PostHog window 2026-05-08 to 2026-05-10: 90 events, 78 persons, 80 pageviews, 8 action events.
+  - Content foundation: 306 indexable posts, 305 promotion-ready posts, average score 96, consumer/thin leaks 0.
+  - Indexing sample: 20 inspected P0 URLs, 4 submitted/indexed, 16 not indexed.
+  - Best query-backed rewrite opportunities: Netlify, Railway, tldraw vs Excalidraw, Fly.io, Penpot.
+- Commit pushed to ToolPick repo: `68ef220 docs: add ToolPick performance report`.
+- Next: restore GA4 reporting permission, then execute query-backed snippet rewrites and P0 indexing follow-up.
+
+## 2026-05-11 - Codex TikTok AiNo Content Pipeline Upgrade
+
+- Owner requested full implementation of the `@leftaino` / `올바른 AI Bot` TikTok automation pipeline.
+- Added format routing for three daily slots:
+  - `growth_short`: 25-45s follower acquisition short.
+  - `reward_deep`: 65-95s one-minute-plus Creator Rewards candidate.
+  - `debate_followup`: 45-75s comment/rebuttal reactivation format.
+- Added visual beat planning, safer TikTok text layout, format-aware policy/readability gates, and format-aware monetization review.
+- Added Chrome Extension scaffold plus local bridge:
+  - `src/core/tiktok_aino/extension/local_bridge.py`
+  - `src/core/tiktok_aino/extension/chrome/*`
+  - Bridge returns latest package, MP4 stream URL, caption, hashtags, AIGC requirement, and operator checks.
+  - Extension does not bypass CAPTCHA/security checks and does not click the final public post button.
+- Added daily runner: `python -m src.core.tiktok_aino.daily_runner --slot all --image-mode auto --real-image-limit 9`.
+- Tightened mobile typography planning:
+  - Headline minimum now maps to 19.5px on a 390px mobile preview.
+  - Body minimum now maps to 14.44px on a 390px mobile preview.
+  - Critical text keeps 104px horizontal margins and body text is capped at 84 chars.
+  - Added automatic scene copy normalization: short text is expanded with context, long text is sentence-compressed before render.
+  - Added TikTok app overlay mobile preview gate: right-side button rail, bottom caption UI, 390px preview storyboard, and `mobile_visual_checks.json`.
+  - Added mobile typography gate coverage to tests.
+- Corrected channel naming and on-video disclosure:
+  - Canonical display name is `올바른 AiNo`.
+  - Removed visible `올바른 AI Bot` / `올바른AIBot` copy from generated pipeline content.
+  - Replaced defensive footer copy with `해당 이미지는 생성된 이미지입니다`.
+
+## 2026-05-12 - Codex TikTok AiNo Full Pipeline Live Test
+
+- Ran the full daily content pipeline from topic selection through render and bridge readiness:
+  - `python -m src.core.tiktok_aino.daily_runner --slot all --image-mode auto --real-image-limit 9`
+- Initial all-slot run generated three publish-ready packages:
+  - `leftaino_20260512_101616`: `growth_short`, 6 scenes, Codex image CLI visuals, ElevenLabs audio.
+  - `leftaino_20260512_101906`: `reward_deep`, 9 scenes, 88s synced duration, Codex image CLI visuals, ElevenLabs audio.
+  - `leftaino_20260512_102313`: `debate_followup`, 7 scenes, 64s synced duration, Codex image CLI visuals, ElevenLabs audio.
+- Test surfaced a real gate flaw: `growth_short` script target was 45s but post-TTS synced duration became 57s.
+- Fixed the flaw:
+  - Added format-specific body text budgets, with `growth_short` capped at 52 chars per scene.
+  - Added final synced-duration gate so post-TTS MP4 duration must still match the selected format.
+- Re-ran `growth_short` end-to-end:
+  - `leftaino_20260512_103217`: `publish_ready`, 45s exact synced duration, 6/6 Codex image CLI visuals, ElevenLabs audio, mobile visual checks pass, bridge latest job pass.
+- Verification after fix:
+  - `pytest tests\core\test_tiktok_aino_tts.py -q`: 12/12 PASS.
+  - MP4: 1080x1920, 45s, H.264 video, AAC mono audio.
+- Added design doc: `src/core/tiktok_aino/PIPELINE_DESIGN.md`.
+- Verification:
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 9/9 PASS.
+  - `python -m compileall src\core\tiktok_aino\pipeline.py src\core\tiktok_aino\extension\local_bridge.py tests\core\test_tiktok_aino_tts.py`: PASS.
+  - `node --check` for extension `content.js`, `background.js`, `popup.js`: PASS.
+  - Generated publish-ready reward sample: `output\tiktok_aino\leftaino_20260511_122939`.
+  - Sample result: `publish_ready`, 9 scenes, 85s synced MP4, 24 visual beats, 9/9 generated images via Gemini fallback, ElevenLabs scene-synced audio.
+- Constraint:
+  - Codex image CLI exists but OpenAI image generation returned organization verification 403 for `gpt-image-2`; Gemini image API fallback succeeded for all scenes.
+
+## 2026-05-11 - Codex K-OTT Recommendation Remodel
+
+- Owner asked to pivot K-OTT from low-value generic OTT pages into recommendation content and proceed end-to-end.
+- Implemented recommendation information architecture:
+  - New hub: `https://kott.kr/recommend`.
+  - New static recommendation reports: `/recommend/2026-05`, `/recommend/korean-drama`, `/recommend/korean-variety`, `/recommend/family`, `/recommend/movie-night`, `/recommend/anime`, `/recommend/cancel-or-keep`, `/recommend/one-month-only`.
+  - Added recommendation data SSOT, Article/Breadcrumb/FAQ JSON-LD, provider official-source links, keep/cancel criteria, and internal links to watch/compare/plans/rotation.
+- Updated acquisition surfaces:
+  - Home hero and homepage section now point to recommendation reports.
+  - Global nav, footer, compare/plans/rotation CTAs, `sitemap.xml`, `llms.txt`, GSC indexing queue, growth verify script, and growth monitor script now include recommendation pages.
+- Verification:
+  - `npm run lint`: pass with existing warnings.
+  - `npm run build`: pass, 83 static pages generated including `/recommend/[slug]`.
+  - Local `verify:growth-indexing`: pass, 51 expected pages and queue entries.
+  - Browser QA: desktop and mobile recommendation hub/detail checked; mobile H1 line breaks fixed.
+  - Vercel production deploy: aliased to `https://kott.kr`.
+  - Live `verify:growth-indexing`: pass.
+  - Live `monitor:growth`: score 92 green, blockers 0, GSC rows 0.
+- Search Console sitemap submit API: 204 success.
+- URL Inspection P0: `/` indexed; old comparison/plans/rotation are crawled but not indexed; new recommendation P0 URLs are unknown to Google immediately after deploy; blockers 0.
+- Created daily automation: `k-ott-growth-monitor`.
+
+## 2026-05-12 - Codex UR WRONG GSC Performance and Indexing Follow-up
+
+- Owner requested UR WRONG performance reporting after Search Console redirect/indexing repairs.
+- Refreshed live UR WRONG surfaces:
+  - `https://ur-wrong.com/sitemap.xml`: status 200, 73 URLs, redirects 0, non-200 0.
+  - Sitemap buckets: home 1, benchmark 1, leaderboard 1, launch 1, topic 17, legal/contact 4, battle 48.
+  - Core URLs present: `/`, `/benchmark`, `/leaderboard`, `/launch`, `/topic`, `/topic/ai`.
+- Search Console UI state:
+  - Overview: total web search clicks 1, not indexed pages 66, indexed pages 286.
+  - Page indexing reasons: alternate page with proper canonical tag 60, page with redirect 1, crawled currently not indexed 5.
+  - Remaining redirect URL is stale `https://ur-wrong.com/privacy.html`, last crawled 2026-05-08.
+- Search Console actions completed through logged-in Chrome:
+  - Requested indexing/re-crawl for `/benchmark`, `/leaderboard`, `/launch`, and `/topic/ai`.
+  - `/benchmark` and `/topic/ai` were not registered yet because Google had not discovered them.
+  - `/leaderboard` and `/launch` were already registered; re-crawl requests were accepted.
+  - Started validation for the redirect issue; validation state is now started on 2026-05-12.
+  - Removed stale failed sitemap submission `/api/sitemap.xml`; current `/sitemap.xml` remains submitted, successful, and has 73 discovered pages.
+- Product growth metrics:
+  - 30d visitors 209, vote intents 12, vote saves 8, share modal opens 9, share actions 4, external-source visitors 22.
+  - Rates: battle interest 10.0%, vote intent 5.7%, share 1.9%, ordered activation 4.3%, confidence not_yet.
+  - Blocker remains `argument_submit_no_save`; next product action is argument persistence debugging.
+- Automation blocker:
+  - GSC API fetch failed with `refresh_token_failed_400_invalid_grant`; Chrome UI was used for live Search Console confirmation and actions.
+
+## 2026-05-12 - Codex UR WRONG Rebuttal Funnel Guard Fix
+
+- Owner asked Codex to proceed directly after the UR WRONG performance report.
+- Root cause diagnosis:
+  - Supabase `growth_events` showed the lone 30d `argument_submit_attempt` came from `share_modal_quick_rebuttal` on 2026-05-07.
+  - The associated battle `abb5fe9a-5c79-4047-9f12-66c8d40827b6` was already `ended`.
+  - No `comment_api_request`, `comment_api_saved`, or `comment_api_failed` existed, so this was not a DB persistence failure. It was a closed-battle quick-rebuttal CTA / metric classification issue.
+- Implemented:
+  - `ShareModal.jsx`: hide quick rebuttal actions unless the battle status is in `ONGOING_BATTLE_STATUSES`; next-battle suggestions now include all ongoing statuses, not only `active`.
+  - `BattleDetail.jsx`: defensive guard prevents share-modal quick rebuttal from recording a save attempt on closed battles, records `argument_submit_failed` with `battle_closed`, and shows an error toast.
+  - `CommentSection.jsx`: closed/unavailable battle submissions are blocked before `argument_submit_attempt`.
+  - `BattleDetail.jsx`: archived battle hero CTA now says `Review the final result. This battle is closed.` and `View result` instead of `Vote now`.
+  - `monitor-growth-effect.mjs`: persistence blockers now use `comment_api_request` / `comment_api_saved` / `comment_api_failed`, so stale pre-API events no longer masquerade as DB save failures.
+  - `verify-growth-report.mjs` and `verify-growth-analytics.mjs`: added comment API metric guards.
+- Commits pushed to UR WRONG repo:
+  - `0ed01a8 fix: guard closed battle rebuttal metrics`
+  - `108e1d5 fix: close archived battle call to action`
+- Vercel production deploy completed and aliased to `https://ur-wrong.com`.
+- Verification:
+  - `npm run build`: PASS.
+  - `npm run verify:growth-analytics`: PASS.
+  - `npm run verify:growth-report`: PASS.
+  - `npm run monitor:growth-effect`: PASS, blockers none, next action `keep_monitoring`.
+  - Live smoke: `/`, archived battle URL, and `/sitemap.xml` all HTTP 200 with no redirects.
+  - Browser QA on archived battle: app content rendered, no framework overlay, console errors 0, quick-rebuttal section absent, `Vote now` absent, archived copy present.
+
+## 2026-05-12 - Codex Neo Genesis Handle-Level Recheck
+
+- Tried to proceed with moving hidden real root `D:\00.test\neo-genesis` to `001.ssot-agent-runtime\003.neo-genesis`.
+- Stopped safe direct blockers first:
+  - `start_pc_agent.bat`
+  - local `next start -p 4041`
+  - ToolPick Next build and jest-worker processes
+  - several D:/00.test MCP filesystem processes
+- Waited for a running image generation process writing to `neo-genesis\output\tiktok_aino` to finish naturally.
+- `Directory.Move` still failed with path-in-use.
+- Ran Sysinternals `handle64.exe`; remaining handles were owned by Explorer, Claude worktrees, Python, Node, node_repl, and cmd.
+- Did not stop Claude/Explorer or force copy-delete. `neo-genesis` remains hidden in place until a maintenance window.
+- Manifest: `D:\00.test\009.archive\reorg-manifests\20260512-phase13-neo-genesis-handle-blockers.json`.
+
+## 2026-05-12 - Codex Deferred Cleanup Handoff Setup
+
+- Owner noted many agents are likely holding the directories and asked to set things so those agents finish work then clean up automatically.
+- Added deferred cleanup script outside locked roots:
+  - `D:\00.test\007.infra-tools\006.directory-maintenance\Invoke-D00TestDeferredCleanup.ps1`
+- Script behavior:
+  - checks process command lines/executable paths
+  - checks Sysinternals `handle64.exe`
+  - moves only with same-volume `Directory.Move`
+  - preserves old paths as hidden junctions
+  - writes run manifests to `009.archive\001.reorg-manifests\deferred-cleanup-runs`
+  - never copy-deletes high-risk roots
+- Added agent exit handoff to `active-tasks.md` and directory/policy docs.
+- Created automation `d00test-deferred-cleanup` to retry the script every 2 hours from `D:\00.test`.
+- Manifest: `D:\00.test\009.archive\reorg-manifests\20260512-phase14-deferred-cleanup-handoff.json`.
+## 2026-05-12 - Codex ToolPick SERP Intent Deployment
+
+- Owner asked to continue the 100k MAU improvement loop for ToolPick.
+- Refreshed the highest Search Console opportunity pages:
+  - `reviews/fly-io-review`: added pricing machines, rootfs, volume, bandwidth, Managed Postgres, support, and ease-of-use checks.
+  - `reviews/netlify-review`: sharpened free-plan/credits/pause-risk positioning for `netlify pricing free plan 2026`.
+  - `alternatives/railway`: clarified Free resources, Trial credit, Hobby/Pro production fit, and alternatives.
+  - `reviews/penpot-review`: strengthened Professional/Unlimited/free-plan pros-cons and Figma migration risk.
+  - `blog/excalidraw-vs-tldraw-2026`: updated first-answer copy and official tldraw pricing/license links.
+- Moved review-page SERP refresh content directly below the page header so query intent is answered before source/meta sections.
+- Verified:
+  - `npm run lint`: pass.
+  - `npm run build`: pass, 1319 static pages, `llms.json` regenerated.
+  - `audit:content-quality-ledger`: pass, readiness 100, acquisition eligible 308.
+  - `audit:money-evidence`: pass, weak pages 0.
+  - `audit:growth`: pass, confidence 100.
+  - `audit:analytics-loader`: pass.
+  - `audit:100k-mau`: foundation 100/100 A, `mauProof=false`.
+  - Focused official-link check for Fly.io, Netlify, Railway, Penpot, Excalidraw+, and tldraw: 10/10 OK.
+  - Production deploy aliased to `https://www.toolpick.dev`.
+  - Live route checks for all 5 target URLs: 200 and intent copy present.
+  - `audit:live`: pass, sitemap 910 URLs, qualified SaaS guides 308, consumer leak 0.
+- Commits pushed:
+  - `307724c feat: improve ToolPick SERP intent pages`
+  - `0340e45 docs: refresh ToolPick live audit reports`
+- Residual blocker: GA4 daily sessions remain far below 100k MAU proof; next loop needs indexing retry and external distribution, not more generic content polish.
+
+## 2026-05-12 - Codex ToolPick Manual Indexing Quota
+
+- Owner asked to continue the next ToolPick growth step.
+- Used the Chrome extension browser with the logged-in Search Console account for `sc-domain:toolpick.dev`.
+- Opened URL Inspection for `https://www.toolpick.dev/blog/monday-alternatives-for-ops-2026`.
+- Search Console confirmed `URL is not on Google` with `Discovered - currently not indexed`.
+- Clicked `Request indexing`; Search Console returned `Quota exceeded` and said the daily quota was exceeded and to submit again tomorrow.
+- Stopped further manual clicks for the quota window.
+- Added and pushed ToolPick report:
+  - `docs/operations/search-console-manual-indexing-latest.md`
+  - commit `f6f873c docs: record ToolPick manual indexing quota`
+- Created heartbeat automation `toolpick-gsc-indexing-retry` for 2026-05-13 09:10 KST to retry the 8 remaining P0 URLs.
+
+## 2026-05-12 - Codex ToolPick Search Console OAuth Refresh
+
+- Owner requested direct token issuance through the Chrome extension browser.
+- Opened the Google OAuth consent flow in the connected Chrome extension session and selected `dpthf1537@gmail.com`.
+- Granted full Search Console `webmasters` scope for ToolPick automation.
+- Saved the new refresh token to the private environment/token store; no token value was printed or committed.
+- Updated the private authorized-user token file used by `GOOGLE_OAUTH_TOKEN_PATH`; created a local backup of the previous secret file.
+- Fixed `scripts/lib/google-search-console-auth.mjs` to tolerate a UTF-8 BOM in JSON credential files.
+- Validation:
+  - `npm run search:submit-sitemap:submit`: pass, HTTP 204 for `sc-domain:toolpick.dev` and `https://www.toolpick.dev/sitemap.xml`.
+  - `npm run search:opportunities:fetch`: pass, 387 rows.
+  - `npm run search:inspect-indexing`: pass, 20 inspected, 12 indexed, 0 unknown to Google, 8 manual request candidates remain.
+  - `npm run lint`: pass.
+  - `npm run audit:100k-mau`: foundation 100/100 A, `mauProof=false`.
+- Commit pushed:
+  - `c182a69 fix: refresh ToolPick Search Console write token`
+
+## 2026-05-12 - Codex ToolPick Indexing Distribution Loop
+
+- Owner asked to continue ToolPick 100k MAU growth execution.
+- Refreshed Search Console opportunity data: 387 rows for `sc-domain:toolpick.dev` covering 2026-04-12 to 2026-05-10.
+- Re-ran P0 URL Inspection:
+  - 20 inspected.
+  - 12 submitted/indexed.
+  - 8 still need manual Search Console request-indexing action.
+  - Remaining states: 6 discovered not indexed, 1 URL unknown to Google, 1 crawled not indexed.
+- Submitted IndexNow priority queue:
+  - Accepted with HTTP 200 for 100 priority URLs.
+- Strengthened ToolPick distribution automation:
+  - `scripts/generate-indexing-priority-queue.mjs` now creates channel-specific UTM URLs for external launch packs.
+  - `scripts/generate-indexing-action-plan.mjs` now surfaces first canonical/tracked URLs plus campaign measurement rules.
+  - Search Console credential source lists now include authorized-user token path variants.
+- Current campaign: `toolpick_100k_mau_indexing_20260512`.
+- Verification:
+  - `node -c` on changed scripts: pass.
+  - `npm run lint`: pass.
+  - `npm run audit:live`: pass, sitemap 910 URLs, qualified SaaS guides 308.
+  - `npm run audit:100k-mau`: foundation 100/100 A, `mauProof=false`.
+  - `npm run search:submit-sitemap:submit`: blocked by OAuth scope, 403 `ACCESS_TOKEN_SCOPE_INSUFFICIENT`; existing sitemap submission in GSC remains separate from this API write-scope failure.
+- Commit pushed:
+  - `2bf977b ops: strengthen ToolPick indexing distribution loop`
+- Residual blocker: actual traffic proof is still far below 100k MAU. Next loop should execute Search Console UI requests for the 8 P0 URLs and place 1-3 external posts using the tracked URLs, then re-check GA4/PostHog/GSC after 7 days.
+
+## 2026-05-12 - Codex CraftDesk/DeployStack Growth Deployment
+
+- Owner asked to continue performance monitoring and growth work; ToolPick, UR WRONG, and NeoGenesis main were excluded from this pass.
+- Hardened root monitoring scripts:
+  - `scripts/sbu_gsc_all.mjs`: refresh-token failures now fall back to service account and fetch/submit failures make the run fail closed.
+  - `scripts/ga4_traffic_report.py`: loads `.env.local`, falls back from missing GA4 key path to `GOOGLE_APPLICATION_CREDENTIALS`, and treats GA4 API errors as non-zero failures.
+- Current blocker exposed instead of hidden:
+  - GSC service account can mint a token but is not authorized for the Search Console properties.
+  - GA4 service account can mint a token but receives GA4 API `PERMISSION_DENIED`.
+- CraftDesk:
+  - Added `content/blog/v0-vs-lovable-vs-bolt-ai-app-builders-2026.mdx`.
+  - Commit pushed: `22bdaf9 content: add ai app builders comparison`.
+  - Production deploy ready: `https://craftdesk-8k0dfm3a9-yesol-pilots-projects.vercel.app`, aliased to `https://craftdesk.neogenesis.app`.
+  - Live checks passed: article 200, sitemap 200 with new slug, robots 200, GA/PostHog surface present on article.
+  - IndexNow submit accepted by both endpoints; evidence commit pushed: `dce05b1 ops: record IndexNow submission`.
+- DeployStack:
+  - Added `content/blog/vercel-vs-cloudflare-pages-saas-2026.mdx`.
+  - Commit pushed: `c50cae7 content: add Vercel Cloudflare SaaS comparison`.
+  - Production deploy ready: `https://deploystack-9cj0dxsbk-yesol-pilots-projects.vercel.app`, aliased to `https://deploystack.neogenesis.app`.
+  - Live checks passed: article 200, sitemap 200 with new slug, robots 200, GA/PostHog surface present on article.
+  - IndexNow submit accepted by both endpoints; evidence commit pushed: `c39d86d ops: record IndexNow submission`.
+- Root commit pushed: `01a95f3 fix: make analytics monitors fail closed`.
+
+## 2026-05-12 - Codex AiNo Hot Topic Pipeline Upgrade
+
+- Owner challenged the TikTok pipeline topic selection and static-looking video motion.
+- Added `--topic-mode hot` to `src/core/tiktok_aino/pipeline.py` and `daily_runner.py`.
+  - Google News RSS recent Korean issue discovery now scores recency, target fit, source trust, hard-news terms, left-audience terms, opinion/promotional penalties, and trend term frequency.
+  - Hot discovery stores selected/candidate sources in `manifest.topic_discovery`.
+  - Static reference mode remains the default for backward compatibility.
+- Blocked Reboxschool-specific script variants from being applied to hot topics.
+- Added hot-topic hook generation, shorter mobile hook headlines, and broader quality scoring terms for current political/social issues.
+- Reduced constant in-scene panning and added scene transitions: wipe, push, flash, dip, crossfade.
+- Aligned the Chrome Extension local bridge publish status with mobile visual and synced-duration gates.
+- Ran a real hot-topic generation:
+  - run: `leftaino_20260512_110913`
+  - topic: `김건희 의혹, 끝난 걸까?`
+  - selected news cluster: 한겨레/KBS/경향신문/연합뉴스/YTN Google News RSS candidates around 윤석열·김건희 의혹
+  - status: `publish_ready`
+  - duration: 43s, visual beats: 14, audio: ElevenLabs, visuals: Codex CLI 6/6
+  - outputs: `output/tiktok_aino/leftaino_20260512_110913/preview_1080x1920.mp4`, `mobile_preview_storyboard.png`, `transition_contact_sheet_boundaries.png`
+- Verified:
+  - `pytest tests/core/test_tiktok_aino_tts.py -q`: 15 passed.
+  - `compileall` for pipeline, daily runner, bridge, tests: pass.
+  - `node --check` for extension background/content/popup: pass.
+  - Bridge latest job resolves to `leftaino_20260512_110913`, `publish_ready`, final post click disabled.
+
+## 2026-05-12 - Codex AiNo Visual Brief Upgrade
+
+- Owner pushed back that generic cinematic backgrounds make image generation meaningless.
+- Added deterministic `VisualBrief` generation before image provider calls.
+  - Each scene now gets role, issue_type, visual_intent, visual_anchor, location, camera, emotion, palette, relevance_terms, diversity_tags, and safety constraints.
+  - Issue profiles cover court_case, investigation, national_assembly, education, labor, and civic_fact_check.
+  - Role profiles cover hook, why_now, evidence, criteria, responsibility, verification, and cta.
+- Reworked image prompts so Codex/Gemini receives scene-specific visual anchors instead of only generic documentary background instructions.
+- Added `visual_quality` gate to manifest and review:
+  - topic_relevance, scene_relevance, visual_variety, text_safe_space, policy_safety, cinematic_quality.
+  - Upload candidate is blocked if visual brief relevance/variety/safety thresholds fail.
+- Added visual quality details to the verification HTML and asset manifest.
+- Added tests for VisualBrief topic/card binding and visual quality thresholds.
+- Ran real hot-topic generation:
+  - run: `leftaino_20260512_114251`
+  - status: `publish_ready`
+  - topic: `김건희 의혹, 끝난 걸까?`
+  - visual_quality: all gates 100, no blockers
+  - visuals: Codex CLI 6/6, with court-case and investigation-specific briefs
+  - outputs: `output/tiktok_aino/leftaino_20260512_114251/preview_1080x1920.mp4`, `mobile_preview_storyboard.png`, `transition_contact_sheet_boundaries.png`
+- Verified:
+  - `pytest tests/core/test_tiktok_aino_tts.py -q`: 17 passed.
+  - `compileall` for pipeline, daily runner, bridge, tests: pass.
+  - `node --check` for extension background/content/popup: pass.
+  - Bridge latest job resolves to `leftaino_20260512_114251`, `publish_ready`, final post click disabled.
+
+## 2026-05-12 - Codex UR WRONG Search Intent Expansion
+
+- Owner asked to improve UR WRONG after GSC showed zero search exposure despite indexed priority pages.
+- Expanded `api/_growth-topics.js` with search-intent metadata plus 16 long-tail topic hubs:
+  - `ai-homework`, `ai-jobs`, `ai-art`, `deepfakes`, `algorithmic-surveillance`, `privacy-vs-security`, `real-name-online`, `teen-social-media`, `social-media-ban`, `remote-work-productivity`, `return-to-office`, `renting-vs-buying`, `student-phone-ban`, `college-worth-it`, `nuclear-energy`, `cancel-culture`.
+- Upgraded `api/topic-page.js` crawler-visible topic pages with `Search Intent Map`, `Argument Map`, and `Debate Prompts You Can Use` sections.
+- Updated `scripts/verify-growth-indexing.mjs` so long-tail sitemap and topic-page contracts are part of the live gate.
+- Commit pushed:
+  - `7a8560b feat: expand search-intent debate topic hubs`
+- Production deployed:
+  - `https://ur-wrong.com`
+- Verification:
+  - `npm run build`: pass.
+  - `npm run verify:growth-indexing`: pass, including long-tail topic page and sitemap checks.
+  - Live sitemap returns 89 URLs and includes `https://ur-wrong.com/topic/ai-homework`, `https://ur-wrong.com/topic/remote-work-productivity`, and `https://ur-wrong.com/topic/cancel-culture`.
+  - Chrome extension browser QA confirmed `AI Homework Debate`, `Search Intent Map`, `Argument Map`, and `Debate Prompts You Can Use` render on production.
+  - GSC sitemap submit succeeds; Search Analytics still has 0 rows.
+  - URL Inspection for new long-tail pages shows `Discovered - currently not indexed` for several URLs and `URL is unknown to Google` for `cancel-culture`.
+- Updated heartbeat automation `ur-wrong-gsc-indexing-retry` to retry priority URLs after the Search Console daily request-indexing quota resets.
+
+## 2026-05-12 - Codex K-OTT Search Index Recovery
+
+- Owner asked for deeper research and execution after K-OTT had no search exposure months after launch.
+- Diagnosis:
+  - GSC Search Analytics still returns 0 rows.
+  - URL Inspection: home indexed, P0 decision URLs crawled but not indexed.
+  - Root problem is not a robots/blocking issue; it is likely weak unique value plus thin `/contents/*` URL quality dilution.
+- Added execution report:
+  - `src/sbu/k-ott/frontend/docs/reports/20260512_KOTT_Search_Index_Recovery_Plan_v1.md`.
+- Code changes:
+  - Root sitemap now defaults to curated decision/watch/recommend/compare URLs and excludes `/contents/*` unless `KOTT_INCLUDE_CONTENT_SITEMAP=1`.
+  - `/contents/[id]` now emits canonical plus `noindex, follow` until server-rendered detail pages are strong enough for indexing.
+  - `media_master` sitemap path now uses `tmdb_id` instead of internal `id` when content sitemap is explicitly enabled.
+  - Added Article/Breadcrumb JSON-LD to compare, watch, plans, and rotation pages.
+  - Added recommendation decision tables and research notes to recommendation detail pages.
+- Deployed:
+  - Production: `https://kott.kr`
+  - Vercel deployment: `https://kott-qhpfmfx0f-yesol-pilots-projects.vercel.app`
+  - Commit pushed: `d77467b fix: improve K-OTT index recovery signals`
+- Verification:
+  - `npm run lint`: pass with existing warnings only.
+  - `npm run build`: pass.
+  - Local and live `npm run verify:growth-indexing`: pass, 51 expected pages.
+  - Live sitemap: 57 URLs, `/contents/*` count 0, pre-2000 lastmod count 0.
+  - Live `/recommend/2026-05`, `/compare/netflix-vs-tving`, and `/watch/moving` expose expected JSON-LD and decision sections.
+  - Search Console Sitemap API resubmission returned HTTP 204 for `https://kott.kr/sitemap.xml`.
+  - `npm run monitor:growth`: score 92 green, no blockers, GSC rows 0.
+  - `npm run inspect:gsc -- --priority p0 --limit 9`: 9 ok, 1 indexed, 8 known-not-indexed, 0 blocked.
+- Next:
+  - After GSC daily indexing quota resets, request indexing for `/compare`, `/plans`, `/rotation`, `/watch/moving`, and remaining P0 URLs.
+  - Phase 2 should server-render `/contents/[id]` with unique watch/decision content before re-enabling content sitemap indexing.
+
+## 2026-05-12 - Codex AiNo Tight Production Gate
+
+- Owner asked to proceed from research into implementation for a more provocative and monetization-oriented TikTok content pipeline.
+- Added script quality gates:
+  - `safe_provocation`: rewards question/contrast/responsibility hooks while penalizing unsafe definitive attack language.
+  - `search_value`: requires topic/search keywords to survive into title, caption, hashtags, body, and source-backed scenes.
+  - Format-aware threshold: Creator Rewards candidates require higher search value than growth shorts.
+- Strengthened hot-topic hook generation:
+  - 김건희/무혐의 cluster now prefers question-frame hooks such as `무혐의면 끝인가?`.
+  - 공천개입 cluster uses `공천개입 의혹, 끝난 걸까?`.
+  - Pinned comment and CTA now include follow conversion without enabling final auto-post.
+- Added visual metaphor gate:
+  - `visual_metaphor` and `scene_visual_metaphor` are now checked so a weak CTA/verification scene cannot hide behind a good average.
+  - CTA/criteria/responsibility briefs no longer inherit courthouse-corridor anchors that caused repeated generic visuals.
+- Updated docs and source registry with Creator Rewards how-rewards-work, Creator Search Insights, and AIGC support references.
+- Verification:
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 20 passed.
+  - `python -m compileall src\core\tiktok_aino\pipeline.py tests\core\test_tiktok_aino_tts.py`: pass.
+  - `node --check` for extension background/content/popup: pass.
+- Real generation test:
+  - run: `leftaino_20260512_125227`
+  - status: `publish_ready`
+  - format: `growth_short`, synced duration 44s, visual beats 15
+  - topic: `‘윤석열·김건희 공천개입 의혹’ 관련 김영선·명태균 항소심 시작`
+  - quality score: 93; safe_provocation 100, search_value 100, readability 100
+  - visual_quality: topic_relevance 100, scene_relevance 100, visual_metaphor 86, scene_visual_metaphor 82, visual_variety 100
+  - audio: ElevenLabs generated
+  - visuals: Codex CLI 6/6 generated
+  - mobile preview: all scenes passed, headline 19.5px equivalent, body 14.44px equivalent
+  - Bridge latest job resolves to `leftaino_20260512_125227`, `publish_ready`, `aigc_required=true`, `final_post_click_allowed=false`.
+- Follow-up static-still fix:
+  - Owner flagged that generated images looked like they were shaking/moving throughout the video.
+  - Root cause was intra-scene visual beat pan/zoom/overlay motion.
+  - Changed all scene visual beats to static hold; transitions remain between scenes only.
+  - Added test asserting static beat frames remain pixel-identical.
+  - New run: `leftaino_20260512_130459`, `publish_ready`, visual beats 14, overlays `hold`, motion_count 0, inner-scene frame diff approximately 0.
+
+## 2026-05-12 - Codex UR WRONG Full Exposure Research and P0 Fix
+
+- Owner asked what to do if exposure stays near-zero for months and requested research to improve the whole platform.
+- Re-checked official Google guidance against UR WRONG live data:
+  - Google does not guarantee indexing from sitemap submission alone.
+  - Discovery depends on crawlable links, useful people-first content, and promotion/external discovery signals.
+  - Internal links and descriptive anchor text are required for pages the site cares about.
+- Refreshed UR WRONG 90-day Search Console report:
+  - `totalRows=6`, clicks `0`.
+  - Existing opportunities: `/` for `ur wrong` and `u r wrong`; `/topic/tech` for `tech debates`, `current technology debates`, and `controversial topics about technology`.
+- Refreshed product metrics:
+  - 28-day visitors `210`.
+  - Ordered funnel: landing `209`, surface ready `164`, battle interest `21`, vote intent `12`, confirmed vote `9`, share/argue `5`.
+  - 7-day PostHog page views `56`, battle views `4`, vote submits `11`, share clicks `0`.
+- Found P0 indexability gap:
+  - `/blog` and `/archive` were live `200` but missing from sitemap.
+  - URL Inspection initially showed both as `URL is unknown to Google`.
+  - `/topic/tech` was indexed but did not include the exact GSC-reactive query variants.
+- Shipped P0 fix:
+  - Added `/blog` and `/archive` to sitemap.
+  - Added GSC-reactive query variants to `tech`.
+  - Updated `llms.txt` high-value URLs.
+  - Extended `verify-growth-indexing` with sitemap and `tech` query-coverage checks.
+- Commit pushed:
+  - `20e37c6 fix: expose proven search surfaces`
+- Production deployed:
+  - `https://ur-wrong.com`
+- Verification:
+  - `npm run build`: pass.
+  - `npm run verify:growth-indexing`: pass, 10 live checks.
+  - Live sitemap now has 91 URLs and includes `/blog` and `/archive`.
+  - Live `/topic/tech` contains `tech debates`, `current technology debates`, and `controversial topics about technology`.
+  - GSC sitemap submission ok.
+  - URL Inspection after deploy: `/topic/tech` remains submitted/indexed; `/blog`, `/archive`, `/topic/ai-homework`, and `/topic/remote-work-productivity` are `Discovered - currently not indexed`.
+- Next high-impact work:
+  - Convert `/topic/tech` into a stronger query-specific landing page.
+  - Add stronger homepage/internal-link modules to push long-tail pages.
+  - Build external, crawlable distribution artifacts instead of relying on manual posting.
+  - Fix zero share-click loop and post-vote sharing visibility.
+
+## 2026-05-12 - Codex UR WRONG Search Exposure and Share Surface Deploy
+
+- Owner asked to proceed with all improvements after the exposure research.
+- Shipped the next UR WRONG index/distribution loop:
+  - Added `/distribution` as a crawlable owned distribution artifact and wired it through `vercel.json`, sitemap, `llms.txt`, homepage noscript, and app footer links.
+  - Reinforced `/topic/tech` with exact GSC-observed queries: `tech debates`, `current technology debates`, and `controversial topics about technology`.
+  - Strengthened `/blog` and `/archive` with indexable intent panels, schema, robots meta, and topic-hub links.
+  - Added post-vote share CTA on battle detail and converted feed post-vote sharing to the primary action.
+  - Added `share_click` tracking to feed challenge copy and battle detail copy-link paths.
+  - Extended `verify:growth-indexing` and `verify:growth-analytics` gates.
+- Commit pushed:
+  - `a39acee feat: expand UR WRONG search and share surfaces`
+- Production deployed:
+  - `https://ur-wrong.com`
+  - Vercel deployment: `https://ur-wrong-9a4ax3fn6-yesol-pilots-projects.vercel.app`
+- Verification:
+  - `node --check` on changed API/scripts: pass.
+  - `npm run build`: pass.
+  - `npm run verify:growth-analytics`: pass.
+  - `npm run verify:share`: pass.
+  - `npm run verify:performance-budget`: pass.
+  - Local render smoke for `/distribution` and `/topic/tech`: pass.
+  - Live `npm run verify:growth-indexing`: pass, 11 checks.
+  - Live smoke: `/distribution`, `/topic/tech`, `/blog`, `/archive`, `/sitemap.xml`, `/llms.txt` all HTTP 200.
+  - Browser QA: `/distribution` rendered, `/topic/tech` navigation worked, home footer links rendered, no browser console errors captured.
+  - Growth monitor: visitors 210, vote intents 12, vote saves 8, share actions 4, blockers none, next action `keep_monitoring`.
+  - GSC sitemap resubmission for `https://ur-wrong.com/sitemap.xml`: HTTP 204, live sitemap 92 URLs.
+  - URL Inspection: `/` and `/topic/tech` indexed; `/distribution`, `/blog`, `/archive`, `/topic/ai-homework`, and `/topic/remote-work-productivity` discovered via sitemap but not indexed yet.
+- Next:
+  - Wait for fresh crawl and real traffic, then re-run GSC inspection and `monitor:growth-effect`.
+  - If the newly discovered pages remain not indexed after crawl, add stronger unique content blocks and more internal links from indexed pages before requesting manual indexing in GSC UI.
+
+## 2026-05-12 - Codex UR WRONG GSC Manual Request Attempt
+
+- Owner asked to proceed with the next Search Console indexing step.
+- Used the Chrome extension browser context, not the in-app browser, because the in-app browser was not logged into Google.
+- Opened UR WRONG Search Console URL Inspection for `https://ur-wrong.com/distribution`.
+- Result before request:
+  - UI showed `URL이 Google에 등록되어 있음`.
+  - Crawled HTML contained the new `Crawlable Distribution Pack` page content.
+- Clicked `색인 생성 요청`.
+- GSC returned:
+  - `할당량 초과`
+  - `일일 할당량을 초과하여 이 요청을 처리할 수 없습니다. 내일 다시 제출해 주세요.`
+- Post-attempt verification:
+  - `node scripts\sbu_gsc_all.mjs --sites ur-wrong --all --days 90 --row-limit 50`: pass, sitemap submit 204, live sitemap 92 URLs, search rows 6.
+  - `npm run monitor:growth-effect`: blockers none, visitors 210, vote intents 12, vote saves 8, share actions 4.
+  - URL Inspection API report written:
+    - `data/sbu-growth/ur-wrong-gsc-indexing-request-latest.json`
+    - `data/sbu-growth/ur-wrong-gsc-indexing-request-latest.md`
+  - Latest priority status:
+    - Indexed/submitted: `/`, `/distribution`, `/topic/tech`, `/topic/ai-homework`, `/topic/remote-work-productivity`, `/benchmark`, `/leaderboard`, `/launch`.
+    - Remaining discovered-not-indexed: `/blog`, `/archive`.
+- Automation update:
+  - `ur-wrong-gsc-indexing-retry` heartbeat priority queue reduced to `/blog` and `/archive` after the daily quota resets.
+
+## 2026-05-12 - Codex AiNo Visual Diversity Hardening
+
+- Owner flagged that generated AiNo images were still too visually similar.
+- Tightened hot-topic source clustering:
+  - Supporting news sources now require same specific sub-issue tokens, not just a broad shared entity name.
+  - Current Kim Geonhee/Yoon topic keeps the `공천개입/김영선/명태균/항소심` cluster separate from `선상파티/무혐의` coverage.
+- Tightened visual production:
+  - Role-first visual prompts now force hook, why_now, evidence, criteria, responsibility, verification, and CTA to use different location/camera/palette/dominant object patterns.
+  - Added actual generated-image checks for hash/layout similarity plus separate palette diversity over brightness, saturation, and RGB distance.
+  - Static-still behavior remains unchanged: all visual beats are `hold`, with no pan/zoom shake.
+- Verification:
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 26 passed.
+  - Real generation run `leftaino_20260512_133046`: `publish_ready`.
+  - Topic: `‘윤석열·김건희 공천개입 의혹’ 관련 김영선·명태균 항소심 시작`.
+  - Supporting source count: 0, because no same specific sub-issue support was found.
+  - Visual providers: Codex CLI generated 6/6 images.
+  - Visual scores: topic_relevance 100, scene_relevance 100, visual_metaphor 98, visual_variety 100, actual_visual_diversity 85, actual_palette_diversity 99.
+  - Audio: ElevenLabs generated scene-synced narration, zero-retention requested.
+  - Mobile visual checks passed; synced duration 43s; final review `upload_candidate`.
+
+## 2026-05-12 - Codex ToolPick 100k DAU Growth Research
+
+- Owner asked for a serious 100k DAU research pass, not only 100k MAU readiness.
+- Rechecked ToolPick local evidence:
+  - 100k MAU readiness foundation: 100/100 A, but `mauProof=false`.
+  - Latest GA4 evidence: 2026-05-12 sessions `17`.
+  - Latest PostHog evidence: 2026-05-12 persons/events `27`.
+  - Search Console opportunity scale remains small: Fly.io 44 impressions, Netlify 25, Railway 27, Excalidraw/tldraw 132 in the 2026-04-12 to 2026-05-10 window.
+- Rechecked current public guidance and distribution constraints:
+  - Google helpful content guidance favors unique, people-first, expert content.
+  - URL Inspection/request indexing is quota-bound and not a guarantee.
+  - AI Overviews/AI Mode require normal SEO fundamentals, indexed/snippet-eligible pages, textual content, internal links, and page quality.
+  - Product Hunt should be used for launchable products/artifacts, not article bundles.
+  - Reddit distribution must avoid repetitive self-promotion; the 10% self-promotion norm is a useful guardrail.
+- Delivered research artifact:
+  - `src/sbu/toolpick/docs/operations/100k-dau-growth-research-latest.md`
+  - ToolPick commit pushed: `634a90e docs: add ToolPick 100k DAU growth research`
+- Conclusion:
+  - Current ToolPick is not yet on a 100k DAU trajectory.
+  - 100k DAU requires product-retention loops: vendor/category follow, alerts, watchlists, public data assets, shareable comparison workspace, and a DAU dashboard.
+- Next work:
+  - Finish Search Console quota retry on 2026-05-13 KST.
+  - Implement vendor/category follow CTA and alert MVP before treating ToolPick as a 100k DAU candidate.
+
+## 2026-05-12 - Codex AiNo Strategy Config SSOT Refactor
+
+- Owner correctly objected that hardcoded content strategy makes the TikTok pipeline hard to operate.
+- Refactored AiNo pipeline strategy into JSON SSOT under `src/core/tiktok_aino/config/`:
+  - `hot_topic_strategy.json`: RSS queries, source trust, topic keywords, hook headline rules, scoring weights.
+  - `publish_quality_strategy.json`: search value, safe provocation, publish quality weights and minimums.
+  - `visual_strategy.json`: role/issue detection, visual role profiles, role palette map, color grades, visual quality gates.
+- `pipeline.py` now loads strategy configs and keeps only rendering/engine constants such as canvas, safe zones, and font minimums in code.
+- Added role color grading after image generation to prevent generated cards from collapsing into the same dark gray palette.
+- Added role issue-anchor overrides so CTA/criteria/responsibility cards do not inherit courthouse corridor/file-stack anchors unnecessarily.
+- Verification:
+  - `python -m compileall src\core\tiktok_aino\pipeline.py`: pass.
+  - `python -m json.tool` for all three strategy configs: pass.
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 27 passed.
+  - Real hot-topic generation `leftaino_20260512_140953`: `publish_ready`.
+  - Topic: `‘윤석열·김건희 공천개입 의혹’ 관련 김영선·명태균 항소심 시작`.
+  - Visual providers: Codex CLI generated 6/6 images, role color grades applied.
+  - Visual scores: topic_relevance 100, scene_relevance 100, visual_metaphor 98, visual_variety 100, actual_visual_diversity 100, actual_palette_diversity 100.
+  - Audio: ElevenLabs generated scene-synced narration, synced duration 44s.
+  - Mobile visual checks passed for all 6 scenes at headline 19.5px and body 14.44px preview equivalents.
+
+## 2026-05-12 - Codex AiNo Documentary Realism Upgrade
+
+- Owner pushed the AiNo image direction toward realistic, cinematic scene description rather than symbolic/generic visuals.
+- Added documentary realism SSOT to `src/core/tiktok_aino/config/visual_strategy.json`:
+  - `realism_principles` now require plausible photographed civic moments, practical lights, physical imperfections, paper texture, rain/fingerprints/cables/worn furniture, and clean negative space for overlays.
+  - `role_reality_beats` now gives each card role a concrete real-world moment.
+  - Criteria/fact-check scenes were tightened away from flat boards toward editor desks, cropped hands, paper packets, recorders, and blurred background boards.
+- `pipeline.py` now injects the real-world moment and realism principles into every cinematic prompt and blocks upload candidates if `documentary_realism` falls below the configured threshold.
+- Verification:
+  - `python -m compileall src\core\tiktok_aino\pipeline.py`: pass.
+  - `python -m json.tool src\core\tiktok_aino\config\visual_strategy.json`: pass.
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 27 passed.
+  - Real hot-topic generation `leftaino_20260512_142717`: `publish_ready`.
+  - Topic: `‘윤석열·김건희 공천개입 의혹’ 관련 김영선·명태균 항소심 시작`.
+  - Visual providers: Codex CLI generated 6/6 images.
+  - Visual scores: topic_relevance 100, scene_relevance 100, visual_metaphor 91, scene_visual_metaphor 84, visual_variety 100, actual_visual_diversity 92, actual_palette_diversity 100, documentary_realism 100.
+  - Audio: ElevenLabs generated scene-synced narration, synced duration 44s.
+  - Mobile visual storyboard checked; legal hallway/newsroom/source-packet desk/accountability room/rainy harbor/editor desk scenes read more photographic, and all visual beats stayed static hold with motion_count 0.
+
+## 2026-05-12 - Codex AiNo Visual Intensity Upgrade
+
+- Owner asked why generated images were too passive and requested improvement.
+- Diagnosis: prior gates over-weighted policy safety, overlay negative space, and quiet documentary stills, which made images safe but too polite for follower acquisition.
+- Added visual intensity SSOT to `src/core/tiktok_aino/config/visual_strategy.json`:
+  - `drama_principles` now require dominant foreground objects, hard shadows/reflections/doorway frames, first-second readability, and public-accountability pressure.
+  - `role_intensity_beats` gives each card role a concrete tension beat.
+  - `foreground_tension` and `thumbnail_drama` quality gates now block weak visual prompts.
+- Updated `pipeline.py` so hot visuals and final image prompts include foreground tension, thumbnail drama, one dominant foreground object, and overlay lanes that do not turn into empty dead backgrounds.
+- Verification:
+  - `python -m json.tool src\core\tiktok_aino\config\visual_strategy.json`: pass.
+  - `python -m compileall src\core\tiktok_aino\pipeline.py`: pass.
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 28 passed.
+  - Real hot-topic generation `leftaino_20260512_154222`: `publish_ready`.
+  - Visual scores: visual_metaphor 100, scene_visual_metaphor 100, actual_visual_diversity 91, actual_palette_diversity 100, documentary_realism 100, foreground_tension 100, thumbnail_drama 100.
+  - Audio: ElevenLabs generated scene-synced narration, synced duration 43s.
+  - Mobile storyboard checked; first card now uses a close foreground sealed folder with compressed press line, source packet and vacant-chair scenes are more active, and motion_count remains 0.
+
+## 2026-05-12 - Codex AiNo No-Hardcoding Guard
+
+- Owner clarified that hardcoding is absolutely forbidden.
+- Moved remaining image prompt language and quality marker strings out of `pipeline.py` into `src/core/tiktok_aino/config/visual_strategy.json`:
+  - `prompting.hot_visual` owns the hot-topic visual prompt template and style/safety phrases.
+  - `prompting.cinematic.lines` owns the final image prompt template.
+  - `prompting.codex_cli` owns Codex image CLI style/composition/lighting/constraint/negative arguments.
+  - `quality_markers` and `quality_scoring` own marker strings and marker pass/fail scores.
+- `pipeline.py` now renders configured templates and evaluates configured markers instead of embedding visual strategy wording.
+- Added a unit guard proving key prompt language is config-owned and absent from `pipeline.py`.
+- Verification:
+  - `python -m json.tool src\core\tiktok_aino\config\visual_strategy.json`: pass.
+  - `python -m compileall src\core\tiktok_aino\pipeline.py`: pass.
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 29 passed.
+  - `rg` check for prompt phrases in `pipeline.py` and tests returned no matches.
+
+## 2026-05-12 - Codex ToolPick 100k DAU Retention Loop Deployment
+
+- Implemented ToolPick retention product loop from the 100k DAU design:
+  - Follow alert CTA and `/api/follow` persistence path.
+  - Supabase retention tables for subscribers, targets, subscriptions, change events, and saved stacks.
+  - `/watch`, vendor watch pages, category watch pages, JSON feed, RSS feed.
+  - `/stack-builder` local stack workspace and Add to stack controls on review/pricing/comparison surfaces.
+  - PostHog event taxonomy for follow, alert, watch, stack add/save/share, digest return.
+- Verification:
+  - `npx tsc --noEmit --pretty false`: pass.
+  - `npm run lint`: pass.
+  - `npm run build`: pass, 1324 static pages generated.
+  - Local production browser smoke passed for `/watch`, `/reviews/notion-review`, `/stack-builder`.
+  - Vercel production deploy succeeded and aliased to `https://www.toolpick.dev`.
+  - Live smoke passed for `/watch`, `/stack-builder`, `/reviews/notion-review`, `/watch/feed.json`, `/watch/rss.xml`.
+  - Supabase migration `toolpick_retention` applied to project `zdfvfisfcocttrfsznwd`.
+  - Live `/api/follow` success path returned 200; smoke subscriber row was deleted afterward.
+- ToolPick commit pushed: `932de66 feat: add ToolPick retention loops`.
+
+## 2026-05-12 - Codex ToolPick Retention Loop Operationalization
+
+- Operationalized the retention loop deployed earlier:
+  - Persistent stack sharing via `/api/stacks` and `/stacks/[token]`.
+  - Watch event database sync via `/api/retention/sync-watch`.
+  - Weekly digest run/delivery logging via `/api/retention/digest`, dry-run by default and Resend-enabled only when provider env is configured.
+  - Aggregate retention summary endpoint via `/api/retention/summary`.
+  - Noindex retention control dashboard at `/growth/retention`.
+- Supabase migration `toolpick_retention_loop_v2` applied to project `zdfvfisfcocttrfsznwd`.
+- Verification:
+  - `npx tsc --noEmit --pretty false`: pass.
+  - `npm run lint`: pass.
+  - `npm run build`: pass, 1328 static pages generated.
+  - Local production smoke passed for retention dashboard, stack share save, shared stack page, sync-watch, digest dry-run, and summary endpoint.
+  - Vercel production deploy succeeded and aliased to `https://www.toolpick.dev`.
+  - Live smoke passed for `/growth/retention`, `/api/retention/summary`, `/api/retention/sync-watch`, `/api/retention/digest`, `/api/stacks`, and `/stacks/[token]`.
+  - Live smoke stack rows were deleted after verification; active subscribers remained 0 at verification time.
+- ToolPick commit pushed: `1a665ad feat: operationalize ToolPick retention loop`.
+
+## 2026-05-12 - Codex ToolPick Digest Retention Automation
+
+- Closed the next ToolPick 100k DAU retention step:
+  - Added unsubscribe compliance: `unsubscribe_token`, `unsubscribed_at`, `/unsubscribe/[token]`, and List-Unsubscribe headers for digest mail.
+  - Added production send endpoint `/api/retention/digest/send`.
+  - Added Vercel cron config for daily watch sync and Monday weekly digest send.
+  - Added homepage `ToolPick Watch` signup CTA to convert anonymous search traffic into owned subscribers.
+- Supabase migration `toolpick_retention_unsubscribe_cron` applied to project `zdfvfisfcocttrfsznwd`.
+- Verification:
+  - `npx tsc --noEmit --pretty false`: pass.
+  - `npm run lint`: pass.
+  - `git diff --check` and `git diff --cached --check`: pass.
+  - Secret scan across changed retention/app files: no matches.
+  - `npm run build`: pass, 1329 static pages generated.
+  - Local production browser smoke passed for homepage watch signup CTA.
+  - Local API smoke passed: unauth digest send 401; authenticated digest dry-run/send 200.
+  - Vercel production deploy `dpl_EFfk6Hkj2grGuUqgr6YbasQPy6o6` reached READY and aliased to `https://www.toolpick.dev`.
+  - Live smoke passed: homepage status 200 with ToolPick Watch CTA, `/api/retention/summary`, `/api/retention/sync-watch`, and `/api/retention/digest/send`.
+  - Temporary unsubscribe QA subscriber was deleted; active subscribers remained 0 at verification time.
+- Residual risk:
+  - `RESEND_API_KEY` is not configured in current verification, so weekly digest send returns `provider=none` and sends no email until the provider is configured.
+- ToolPick commit pushed: `0efb723 feat: automate ToolPick digest retention`.
+## 2026-05-12 Codex: Personal context routing registered
+
+- Owner flagged that agents repeatedly missed the already-organized personal/legal folder and asked for the same rehabilitation context again.
+- Added `.agent/knowledge/PERSONAL_CONTEXT_ROUTING.md` as a routing-only SSOT for `D:\00.test\personal`, preserving the default no-touch policy unless the owner explicitly asks about personal legal/finance/court/law-firm context.
+- Updated `.agent/knowledge/AGENT_SHARED_MEMORY.md`, root `D:\00.test\AGENTS.md`, and `scripts/sync_agent_context.py` so generated runtime adapters can surface the routing document without copying sensitive contents into shared prompts.
+
+## 2026-05-12 - Codex AiNo Full No-Hardcoding Pass + Real Generation
+
+- Owner clarified that hardcoding is absolutely forbidden across the AiNo TikTok pipeline.
+- Extended strategy SSOT under `src/core/tiktok_aino/config/`:
+  - `hot_topic_strategy.json`: hot-topic claim/angle/slot/duration candidate wording.
+  - `script_strategy.json`: default topic, hot-topic script scenes, captions, pinned comments, variants, copy normalization.
+  - `publish_quality_strategy.json`: policy gate terms, content review messages, rendering disclosure label.
+  - `tts_strategy.json`: Korean TTS number/counter/symbol/url/hashtag/mention pronunciation rules.
+- `pipeline.py` now keeps production Korean generation/review/TTS wording out of code; remaining Korean text search in production code returns no matches except regex ranges when applicable.
+- Verification:
+  - `python -m json.tool` for `hot_topic_strategy.json`, `script_strategy.json`, `visual_strategy.json`, `publish_quality_strategy.json`, `tts_strategy.json`: pass.
+  - `python -m compileall src\core\tiktok_aino\pipeline.py`: pass.
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 30 passed.
+  - `rg` guard for key script/image/TTS hardcoded phrases in `pipeline.py` and tests: no matches.
+  - Real hot-topic generation `leftaino_20260512_162151`: `publish_ready`.
+  - Topic: `‘윤석열·김건희 공천개입 의혹’ 관련 김영선·명태균 항소심 시작`.
+  - Visual providers: Codex CLI generated 6/6 images; no local fallback.
+  - Visual scores: topic_relevance 100, scene_relevance 100, visual_metaphor 100, scene_visual_metaphor 100, actual_visual_diversity 100, actual_palette_diversity 100, documentary_realism 100, foreground_tension 100, thumbnail_drama 100.
+  - Audio: ElevenLabs generated scene-synced narration with zero-retention note, total synced duration 42s.
+  - Mobile preview checks passed for all 6 scenes at headline 19.5px and body 14.44px equivalents; visual beats count 14 and motion_count 0.
+
+## 2026-05-12 - Codex AiNo TikTok Login Credential Update
+
+- Owner provided TikTok login credentials for the `@leftaino` / AiNo publishing account and asked to update master credentials.
+- Added redacted/presence-only entries to:
+  - `D:/00.test/neo-genesis/.env.local`
+  - `C:/Users/yesol/.neo-genesis/credentials.env`
+  - `D:/00.test/CREDENTIAL_BIBLE.md` inventory
+  - `.agent/shared-brain/credential_audit.jsonl`
+- Keys added: `TIKTOK_LEFTAINO_HANDLE`, `TIKTOK_LEFTAINO_LOGIN_EMAIL`, `TIKTOK_LEFTAINO_LOGIN_PASSWORD`.
+- Browser upload attempt:
+  - In-app TikTok QR login was not useful because the owner could not see the QR surface.
+  - Email/password login reached TikTok's login form but TikTok returned `internal server error; try again later` twice.
+  - Opened the system default browser to `https://www.tiktok.com/upload` so an existing Chrome login session can be used manually if present.
+  - No TikTok post was published.
+
+## 2026-05-12 - Codex AiNo TikTok Upload Attempt
+
+- Owner asked to proceed through upload.
+- Started local bridge on `127.0.0.1:8757`; latest job resolves to generated MP4 `leftaino_20260512_162151`.
+- Launched an isolated Chrome CDP profile with the AiNo TikTok extension loaded and attempted upload flow.
+- Login attempts:
+  - TikTok email login with owner-provided email returned `user does not exist`.
+  - Google OAuth with owner-provided email led to Google account creation screen, not login.
+  - TikTok ID login with `leftaino` returned `wrong account or password`.
+  - Default Chrome could open TikTok upload manually, but not with remote debugging control, so Codex could not drive an existing user session.
+- Result: upload could not proceed because no valid authenticated TikTok web session was available. No post was uploaded or published.
+
+## 2026-05-12 - Codex AiNo TikTok Upload Ready
+
+- Owner supplied a corrected TikTok login identifier for the `@leftaino` publishing account.
+- Rotated local credential entries for `TIKTOK_LEFTAINO_LOGIN_EMAIL` while keeping password output suppressed.
+- Reused the isolated Chrome CDP profile and reached an authenticated TikTok Studio upload form.
+- Uploaded generated MP4 `output/tiktok_aino_nohardcode_test/leftaino_20260512_162151/preview_1080x1920.mp4`.
+- Filled the generated caption/hashtags from the local bridge manifest.
+- Enabled TikTok's `AI generated content` label after TikTok showed the disclosure modal.
+- TikTok checks passed in the UI:
+  - music copyright check: no problem found.
+  - content check lite: no problem found.
+- Evidence artifacts:
+  - `output/tiktok_aino_nohardcode_test/leftaino_20260512_162151/tiktok_upload_ready_state.json`
+  - `output/tiktok_aino_nohardcode_test/leftaino_20260512_162151/tiktok_upload_ready_screenshot.png`
+  - `output/tiktok_aino_nohardcode_test/leftaino_20260512_162151/tiktok_upload_ready_fullpage.png`
+- Final public `Post` button was intentionally not clicked; upload form is ready for owner approval.
+
+## 2026-05-12 - Codex AiNo TikTok Public Post
+
+- Owner explicitly approved proceeding from upload-ready state to final public post.
+- Clicked TikTok Studio `Post` button for generated MP4 `leftaino_20260512_162151`.
+- TikTok Studio redirected to the content management page and showed `video posted`.
+- New video URL: `https://www.tiktok.com/@leftaino/video/7638922522691456263`.
+- Initial row briefly showed review/private state, then refreshed to privacy `Everyone`.
+- Final evidence artifacts:
+  - `output/tiktok_aino_nohardcode_test/leftaino_20260512_162151/tiktok_post_published_content_list.png`
+  - `output/tiktok_aino_nohardcode_test/leftaino_20260512_162151/tiktok_post_published_content_list_state.json`
+- Residual quality gap:
+  - Caption/hashtag generation is publishable but too shallow for sustained growth; it needs stronger title, description, keyword, CTA, and variant logic before one-week scheduling.
+
+## 2026-05-12 - Codex AiNo Metadata Gate + Rolling Schedule Plan
+
+- Owner challenged whether one-week scheduling and current title/description/hashtag quality were strong enough.
+- Added config-owned post metadata strategy under `src/core/tiktok_aino/config/script_strategy.json`:
+  - title target length, caption body/total limits, hashtag min/max, no-ellipsis rule.
+  - hashtag groups and conditional topic tags.
+  - caption body, post body, pinned comment, CTA, and title templates.
+- Updated `src/core/tiktok_aino/pipeline.py`:
+  - full hot-news titles are preserved for metadata; no `김영...` style caption loss.
+  - post metadata is enriched before scoring and manifest generation.
+  - quality gate blocks weak metadata, duplicate hashtags, short captions, and overflow markers.
+  - hot-topic template now supports 9 scenes so `reward_deep` can pass one-minute planning gates.
+- Added `src/core/tiktok_aino/schedule_planner.py`:
+  - builds a local 3-day rolling plan without uploading/scheduling externally.
+  - assigns slots at 08:10, 19:30, 22:40 KST using `growth_short`, `reward_deep`, and `debate_followup`.
+  - ranks current Google News RSS candidates and suppresses obvious duplicate clusters before filling slots.
+- Verification:
+  - `python -m json.tool src\core\tiktok_aino\config\script_strategy.json`: pass.
+  - `python -m compileall src\core\tiktok_aino\pipeline.py src\core\tiktok_aino\schedule_planner.py`: pass.
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 31 passed.
+  - `python -m src.core.tiktok_aino.schedule_planner --days 3 --output-dir output\tiktok_aino_schedule_plans`: generated `rolling_plan_20260512_180021.json`, ready_count=9.
+- Operational decision:
+  - Do not bulk schedule a full week from today's hot-news queue.
+  - Use a 3-day rolling queue, but only lock the next-day 3 posts after fresh topic verification; keep days 2-3 as replaceable candidates.
+
+## 2026-05-12 - Codex AiNo Schedule Package Generator
+
+- Added `src/core/tiktok_aino/generate_from_schedule.py`.
+  - Reads a rolling schedule plan and rebuilds topic/source payloads for each selected slot.
+  - Generates local MP4/TTS/visual packages through `pipeline.run_for_topic`.
+  - Records `planned_publish_at_local` and `schedule_status=planned_not_scheduled` in generated manifests.
+  - Does not upload, schedule, or publish externally.
+- Updated schedule plan rows to include `topic_candidate` so future generation does not have to reconstruct claims from metadata.
+- Added manifest-level visual motion summary for future renders:
+  - `camera_motion_count`
+  - `overlay_effect_count`
+  - `all_static_hold`
+- Verification:
+  - `python -m compileall src\core\tiktok_aino\pipeline.py src\core\tiktok_aino\schedule_planner.py src\core\tiktok_aino\generate_from_schedule.py`: pass.
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 34 passed.
+  - `python -m src.core.tiktok_aino.schedule_planner --days 3 --output-dir output\tiktok_aino_schedule_plans`: generated `rolling_plan_20260512_181001.json`, ready_count=9.
+  - `python -m src.core.tiktok_aino.generate_from_schedule --plan output\tiktok_aino_schedule_plans\rolling_plan_20260512_181001.json --date 2026-05-13 --limit 1 --output-dir output\tiktok_aino_scheduled_packages --image-mode auto --real-image-limit 9`: generated `leftaino_20260512_181016`, status=`publish_ready`.
+- Generated package evidence:
+  - MP4: `output/tiktok_aino_scheduled_packages/leftaino_20260512_181016/preview_1080x1920.mp4`
+  - Manifest: `output/tiktok_aino_scheduled_packages/leftaino_20260512_181016/manifest.json`
+  - Mobile storyboard: `output/tiktok_aino_scheduled_packages/leftaino_20260512_181016/mobile_preview_storyboard.png`
+  - TTS: ElevenLabs, status=`generated`.
+  - Visuals: Codex CLI, 6/6 generated.
+  - Mobile visual checks: pass.
+  - Manual motion check on generated `visual_beats`: camera motion count 0, overlay effect count 0.
+- Updated extension local bridge:
+  - Added exact package endpoint `GET /job?run_id=<run_id>` for scheduled batches.
+  - Video URLs now preserve `run_id` so browser automation does not accidentally upload the newest wrong package.
+  - Bridge verification for `leftaino_20260512_181016`: ok=true, status=`publish_ready`, planned publish time preserved.
+
+## 2026-05-12 - Codex AiNo Performance Monitoring Loop
+
+- Owner requested performance monitoring, analysis, and response planning.
+- Added config-owned monitoring strategy:
+  - `src/core/tiktok_aino/config/monitoring_strategy.json`
+  - Windows: `early_2h`, `first_24h`, `day_3`.
+  - Metrics: views, engagement rate, comment rate, share rate, average watch ratio, completion rate, follower conversion.
+  - Response rules: strong performer, low views, low retention, weak comment signal, weak share signal, no data.
+- Added `src/core/tiktok_aino/monitoring.py`:
+  - Reads local TikTok Studio metrics JSONL from extension bridge output.
+  - Normalizes English/Korean metric labels and compact values such as `1.2K`, `%`, `만`.
+  - Joins metrics with local `manifest.json` by `run_id`.
+  - Outputs score, diagnoses, and next-content response actions.
+  - Does not call TikTok API and does not modify published posts.
+- Updated Chrome extension background metrics path:
+  - `collect_metrics` now attaches loaded package `run_id`, manifest path, planned publish time, and schedule status.
+- Updated docs:
+  - `src/core/tiktok_aino/README.md`
+  - `src/core/tiktok_aino/PIPELINE_DESIGN.md`
+- Verification:
+  - `python -m compileall src\core\tiktok_aino\monitoring.py src\core\tiktok_aino\pipeline.py src\core\tiktok_aino\generate_from_schedule.py src\core\tiktok_aino\schedule_planner.py src\core\tiktok_aino\extension\local_bridge.py`: pass.
+  - `python -m json.tool src\core\tiktok_aino\config\monitoring_strategy.json`: pass.
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 36 passed.
+  - `python -m src.core.tiktok_aino.monitoring --output-dir output\tiktok_aino_scheduled_packages --run-id leftaino_20260512_181016 --report-dir output\tiktok_aino_performance_reports`: generated `performance_report_20260512_182831.json`, status=`needs_metrics` because no Studio metrics have been captured yet.
+
+## 2026-05-12 - Codex AiNo Growth Feedback + Reward Deep Upgrade
+
+- Owner asked to proceed with advanced optimization.
+- Added performance feedback into `schedule_planner.py`:
+  - reads latest `performance_report_*.json` from `output/tiktok_aino_performance_reports`.
+  - strong-performing terms/formats can boost next candidates.
+  - weak-performing terms/formats can suppress next candidates until reframed.
+  - no captured Studio metrics means `sample_count=0`, so default planning remains unchanged.
+- Upgraded `reward_deep`:
+  - `src/core/tiktok_aino/config/script_strategy.json` now has `reward_deep_format`.
+  - reward slots require at least 2 sources.
+  - schedule planner attaches same-query or same-cluster support sources for reward candidates.
+  - reward script framing now uses one-minute explainer language, fact/claim/responsibility separation, and numbered CTA.
+- Enhanced monitoring reports:
+  - `monitoring.py` now emits `feedback` for the scheduler.
+  - local HTML dashboard is generated next to JSON reports.
+- Docs updated:
+  - `src/core/tiktok_aino/README.md`
+  - `src/core/tiktok_aino/PIPELINE_DESIGN.md`
+- Verification:
+  - `python -m compileall src\core\tiktok_aino\pipeline.py src\core\tiktok_aino\schedule_planner.py src\core\tiktok_aino\monitoring.py`: pass.
+  - `python -m json.tool src\core\tiktok_aino\config\script_strategy.json`: pass.
+  - `python -m json.tool src\core\tiktok_aino\config\monitoring_strategy.json`: pass.
+  - `python -m pytest tests\core\test_tiktok_aino_tts.py -q`: 38 passed.
+  - `python -m src.core.tiktok_aino.monitoring --output-dir output\tiktok_aino_scheduled_packages --run-id leftaino_20260512_181016 --report-dir output\tiktok_aino_performance_reports`: generated JSON and HTML dashboard, current status still `needs_metrics`.
+  - `python -m src.core.tiktok_aino.schedule_planner --days 3 --output-dir output\tiktok_aino_schedule_plans`: generated `rolling_plan_20260512_183945.json`, ready_count=9; reward slots now have source_count 2+.
+
+## 2026-05-12 - Codex ToolPick Resend Credential Application
+
+- Issued ToolPick Resend API key through Chrome + Resend Google OAuth with owner Google account.
+- Applied without printing raw secret:
+  - `D:\00.test\neo-genesis\src\sbu\toolpick\.env.production.local`
+  - `D:\00.test\neo-genesis\src\sbu\toolpick\.env.local`
+  - Vercel `toolpick.dev` Production env: `RESEND_API_KEY`, `TOOLPICK_DIGEST_FROM`
+  - `D:\00.test\CREDENTIAL_BIBLE.md` inventory rows for Resend.
+- Redeployed production after env update:
+  - deployment URL `https://toolpick-5p00zanpu-yesol-pilots-projects.vercel.app`
+  - aliased to `https://www.toolpick.dev`
+- Verification:
+  - `vercel env ls production` shows `RESEND_API_KEY` and `TOOLPICK_DIGEST_FROM` encrypted in Production.
+  - Live `/api/retention/digest/send` returned ok=true, dryRun=false, provider=`resend`, subscribers=0, sent=0, failed=0.
+  - Transient secret staging files under `D:\00.test\010.tmp-output\toolpick-secret-staging` were deleted.
+- Resend domain state:
+  - `toolpick.dev` domain created in Resend dashboard, id `77892b29-1a4b-4524-8a6d-5297f904c033`.
+  - DNS verification is not complete. Authoritative NS is `ns1.whoisdomain.kr` through `ns4.whoisdomain.kr`, and no whoisdomain.kr login/API credential was found in `CREDENTIAL_BIBLE.md`.
+  - Current DNS check found no `resend._domainkey.toolpick.dev` TXT, `send.toolpick.dev` TXT, or `send.toolpick.dev` MX records.
+
+## 2026-05-14 - Codex K-OTT GSC Remaining Indexing Requests
+
+- Used the Chrome extension Search Console UI for `https://kott.kr/`.
+- Request-indexing submissions succeeded for `https://kott.kr/compare`, `https://kott.kr/plans`, `https://kott.kr/rotation`, `https://kott.kr/compare/ott-subscription-rotation`, and `https://kott.kr/`.
+- No Search Console daily quota limit appeared during the remaining P0 queue.
+- Post-request live checks:
+  - `npm run monitor:growth`: score 92, verdict green, blockers 0, sitemap HTTP 200, GSC Search Analytics connected but rows/clicks/impressions still 0.
+  - GSC sitemap API submit: HTTP 204; sitemap fetch: HTTP 200, pending=true, warnings=0, errors=0, submitted=60, indexed=0.
+  - `npm run inspect:gsc -- --priority p0 --limit 9`: 1 indexed P0 (`/`) and 8 `known_not_indexed`; no robots/indexing/fetch blockers.
+
+## 2026-05-14 - Codex ToolPick GSC Manual Indexing Retry
+
+- Used the Chrome extension Search Console UI with the logged-in owner Google account for `sc-domain:toolpick.dev`.
+- Submitted request-indexing for all 8 URLs listed in `D:\00.test\neo-genesis\src\sbu\toolpick\docs\operations\search-console-manual-indexing-latest.md`.
+- Search Console showed `색인 생성 요청됨` for each URL; no daily quota exceeded message appeared.
+- Updated ToolPick operation records:
+  - `docs/operations/search-console-manual-indexing-latest.md`
+  - `docs/operations/search-console-manual-indexing-latest.json`
+- Verification:
+  - `python -m json.tool docs\operations\search-console-manual-indexing-latest.json`: pass.
+  - `git diff --check` and `git diff --cached --check`: pass.
+  - Secret scan of updated ToolPick indexing docs: no matches.
+- ToolPick repo commit pushed: `b9cf848 docs: record ToolPick GSC manual indexing success`.
+
+## 2026-05-14 - Codex ToolPick Post-Indexing Live Validation
+
+- Ran a post-request live indexability gate for the 8 ToolPick URLs manually submitted through Search Console.
+- Result: pass.
+  - All 8 URLs returned HTTP 200.
+  - All 8 kept self-referencing canonicals.
+  - All 8 exposed `index, follow`.
+  - All 8 appeared in `https://www.toolpick.dev/sitemap.xml`.
+  - Sitemap returned HTTP 200 with 912 URLs.
+  - Robots returned HTTP 200 and declared the canonical sitemap.
+- Refreshed `npm run audit:live`: pass, indexablePosts=308, totalPosts=576, sitemap locCount=912.
+- Updated ToolPick operation records:
+  - `docs/operations/search-console-manual-indexing-latest.md`
+  - `docs/operations/search-console-manual-indexing-latest.json`
+  - `docs/operations/live-growth-smoke-latest.md`
+  - `docs/operations/live-growth-smoke-latest.json`
+- Verification:
+  - `node -e` JSON parse checks for updated operation JSON files: pass.
+  - `git diff --check`: pass with line-ending warnings only.
+  - Secret scan of updated operation docs: no matches.
+- ToolPick repo commit pushed: `861fa79 docs: record ToolPick post-indexing validation`.
+- Heartbeat automation created: `toolpick-gsc-post-indexing-recheck`.
+
+## 2026-05-14 - Codex ToolPick Content Quality Hardening
+
+- Continued the ToolPick 100k MAU quality loop after GSC manual indexing.
+- Re-ran evidence gates:
+  - `npm run audit:growth`: pass, indexablePosts=308, averageIndexableScore=98.
+  - `npm run audit:100k-mau`: foundationPass=true, grade=A, mauProof=false because GA4 daily session proof remains too low.
+  - `npm run audit:money-evidence`: pass, weakMoneyPages=0.
+  - `npm run audit:internal-links`: pass, orphanPosts=0.
+  - `npm run search:opportunities:fetch`: pass, fetchedRows=446.
+  - `npm run growth:serp-plan`: pass.
+- Found and fixed one real content quality defect:
+  - `content/blog/excalidraw-vs-tldraw-2026.mdx` had two generated `Search Intent Update` blocks.
+  - Removed the duplicate lower-value repeated block and kept the more complete first update.
+- Added recurrence guards:
+  - `scripts/audit-growth-readiness.mjs` now tracks `searchIntentUpdates` and blocks indexability when a post has repeated Search Intent Update sections.
+  - `scripts/lib/growth-utils.mjs` exposes `searchIntentUpdates`.
+  - `scripts/generate-content-quality-ledger.mjs` records the metric and adds `duplicate_search_intent_isolated`.
+- Validation:
+  - Duplicate scan: pass, duplicateCount=0.
+  - `npx tsc --noEmit`: pass.
+  - JSON parse checks for operation docs and `public/llms.json`: pass.
+  - `git diff --check`: pass with line-ending warnings only.
+  - Secret scan of touched content/scripts/docs: no matches.
+  - `npm run build`: pass, 1330 static pages generated.
+  - `npm run audit:live`: pass after deploy.
+- Deployment:
+  - Vercel deployment `dpl_EEM2TxjDd15DH1AtFMCbeUhX3a5F` ready.
+  - Production aliases include `https://www.toolpick.dev` and `https://toolpick.dev`.
+  - Live page check for `https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026`: HTTP 200, self-canonical, `index, follow`, one rendered Search Intent Update heading.
+- ToolPick repo commits pushed:
+  - `7cf5dcb fix: guard ToolPick duplicated intent blocks`
+  - `372f17f docs: refresh ToolPick live smoke evidence`
+
+## 2026-05-14 - Codex K-OTT Performance Monitoring
+
+- Reran K-OTT live growth/indexing monitoring from `D:\00.test\neo-genesis\src\sbu\k-ott\frontend`.
+- Current live score: `monitor:growth` 92/green, blockers 0, all monitored critical pages HTTP 200, GA and PostHog wiring detected.
+- GSC page-level Search Analytics now shows 5 pages with 7 impressions and 0 clicks for 2026-04-14 to 2026-05-12; query-level rows remain hidden/below threshold.
+- P0 URL Inspection remains 1 indexed (`/`) and 8 `known_not_indexed`; no robots/indexing/fetch blockers.
+- Sitemap API status: HTTP 200, `isPending=false`, warnings 0, errors 0, submitted 60, indexed 0.
+- Fixed the monitoring script so page-level impressions are no longer misreported as zero when query-level rows are suppressed.
+- K-OTT commit pushed: `d9b7c42 fix: capture page-level GSC impressions`.
+
+## 2026-05-14 - Codex K-OTT P0 Decision-Path Remodel
+
+- Added reusable `P0DecisionTrail` sections to K-OTT home, compare hub, plans, rotation, recommend hub, comparison detail pages, and recommendation detail pages.
+- Updated sitemap static lastmod and K-OTT growth queue generated date to `2026-05-14`.
+- Updated recommendation report `updatedAt` values and comparison/plans/rotation structured-data modified dates to `2026-05-14`.
+- Verification:
+  - targeted ESLint: pass.
+  - `git diff --check`: pass.
+  - `npm run build`: pass.
+  - `npm run verify:growth-indexing`: pass.
+- Pushed K-OTT commit `d896e98 feat: strengthen K-OTT P0 decision paths`.
+- Production deployment is ready: `https://kott-bxwcbuedt-yesol-pilots-projects.vercel.app`, aliased to `https://kott.kr`.
+- Live checks confirmed the new decision-trail section on `/`, `/compare`, `/plans`, `/rotation`, `/recommend`, `/compare/ott-subscription-rotation`, and `/recommend/2026-05`.
+- Live `monitor:growth`: 92/green, blockers 0; GSC page-level remains 5 pages / 7 impressions / 0 clicks, query-level hidden.
+- GSC sitemap API resubmitted `https://kott.kr/sitemap.xml`: HTTP 204, status now `isPending=true`, warnings 0, errors 0.
+- Immediate P0 URL Inspection remains 1 indexed plus 8 `known_not_indexed`; expected because Google has not reprocessed the new deployment yet.
+- Created heartbeat automation `k-ott-post-remodel-indexing-recheck` for daily follow-up checks over the next 3 days.
+
+## 2026-05-14 - Codex Non-Excluded SBU Analytics and Indexing Recovery
+
+- Excluded ToolPick and UR WRONG per owner instruction.
+- Aligned GA4 live measurement for AIForge, CraftDesk, DeployStack, FinStack, SellKit, ReviewLab, WhyLab, and EthicaAI to shared NeoGenesis measurement ID `G-0GVNYZLEMX`.
+- Removed duplicate service-layout GA scripts from AIForge, FinStack, and SellKit so service routes no longer emit old measurement IDs or duplicate page views.
+- Added static IndexNow key files for WhyLab and EthicaAI.
+- Added `staticPageGenerationTimeout: 180` to large Next SBU builds where the default 60s static generation timeout caused false build failures under load.
+- Built, committed, pushed, and deployed AIForge, CraftDesk, DeployStack, FinStack, SellKit, ReviewLab, WhyLab, and EthicaAI to production aliases.
+- Live verification: all 8 checked domains returned HTTP 200, exposed only `G-0GVNYZLEMX`, had PostHog present, and served the IndexNow key file.
+- GSC sitemap submission: 9 non-excluded SBU properties attempted, 9 succeeded; Search Analytics fetch succeeded for all 9.
+- IndexNow: submitted 18 priority URLs across AIForge, CraftDesk, DeployStack, FinStack, ReviewLab, SellKit, K-OTT, WhyLab, and EthicaAI to both IndexNow and Bing; all responses were 200 or 202.
+- Acquisition surface monitor: pass 9/9, average score 100.
+- Full live SEO/GEO/PostHog audit: pass 10/10 after excluding ToolPick, UR WRONG, and NeoGenesis.
+- PostHog 7d evidence: 9/9 non-excluded SBU sites have events, 240 users, 259 pageviews.
+- Root evidence commits pushed: `f3e0a4d` and `e88249c`.

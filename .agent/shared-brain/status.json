@@ -14,8 +14,8 @@
     "codex": {
       "status": "active",
       "model": "gpt-5-codex",
-      "lastSession": "2026-05-14T10:12:00+09:00",
-      "lastWork": "ToolPick post-indexing live validation completed after the GSC manual request loop. The 8 requested URLs all returned HTTP 200, self-canonical, index/follow, and sitemap inclusion. Updated ToolPick operations docs, refreshed live-growth smoke evidence, pushed 861fa79 to Yesol-Pilot/https-www.toolpick.dev-, and scheduled heartbeat automation toolpick-gsc-post-indexing-recheck for follow-up coverage inspection."
+      "lastSession": "2026-05-14T11:41:10+09:00",
+      "lastWork": "Non-excluded SBU analytics and indexing recovery completed. Excluded ToolPick and UR WRONG. Aligned AIForge, CraftDesk, DeployStack, FinStack, SellKit, ReviewLab, WhyLab, and EthicaAI to shared GA4 ID G-0GVNYZLEMX, removed duplicate service-layout GA scripts on AIForge/FinStack/SellKit, added WhyLab/EthicaAI IndexNow key files, deployed all affected production aliases, verified live GA/PostHog/IndexNow across 8 domains, submitted 9 GSC sitemaps, pushed 18 priority URLs to IndexNow+Bing, refreshed acquisition/GSC/PostHog/SEO evidence, and pushed evidence commits f3e0a4d/e88249c plus per-SBU commits."
     },
     "sora": {
       "status": "active",
@@ -62,8 +62,8 @@
       "D:\\00.test\\neo-genesis\\GEMINI.md",
       "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "06840d30fc676bdf",
-    "lastSyncedAt": "2026-05-14T10:47:24+09:00",
-    "lastSyncedBy": "claude"
+    "ssotRevision": "fad3434e0ce8c61c",
+    "lastSyncedAt": "2026-05-14T11:41:38+09:00",
+    "lastSyncedBy": "codex"
   }
 }
