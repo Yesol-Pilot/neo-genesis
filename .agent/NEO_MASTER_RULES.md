@@ -170,6 +170,34 @@
 - 이 단계의 최상위 지표는 `7일 Returning Users`, `28일 Returning Users`, `Returning User Rate`다.
 - 총 방문자 수와 페이지뷰는 참고지표이며, 의사결정의 해석 중심은 `재방문`, `2페이지 이동`, `세션당 페이지수`, `허브 재진입`이다.
 
+### § 1.X Web Action Protocol (owner 2026-05-12 박제, "항상")
+
+owner 박제: "웹으로 해야하는건 니가 직접 익스텐션으로 해 항상"
+
+- **default rule**: 모든 web actions (외부 dashboard 조작, 외부 사이트 form 제출, 공개 글 게시, awesome-list PR 제출, 외부 계정 setting 변경 등) 는 **Claude Chrome extension MCP** (`mcp__Claude_in_Chrome__*` namespace) 로 직접 진행한다.
+- **owner action queue 박제 금지**: "owner 직접 진행 5분 action 박제" 와 같은 deferral 은 (단, prohibited actions 외에는) 안 됨. Claude 가 직접 chrome ext 로 처리한다.
+- **prohibited 그대로 유지 (safety override 불가)**:
+  - 신규 계정 생성 (예: ORCID, Hashnode, dev.to 가입)
+  - 비밀번호 입력 (login form 의 password field)
+  - Financial transaction (송금 / 신용카드 / 결제)
+  - Sensitive data form fill (SSN / passport / 의료기록 / 금융계좌)
+  - 약관 / 합의 사항 explicit accept (owner ack 필요, "OK" 한 줄로 unblock)
+- **explicit permission OK (이미 owner grant)**:
+  - 공개 콘텐츠 publish / modify (GitHub PR, awesome-list 등재, blog post, GSC indexing 요청)
+  - Cookie / consent banner: privacy-preserving option 자동 선택
+  - SSO / OAuth (existing account 로그인): explicit permission OK
+  - Dashboard settings 조정 (Cloudflare AI Crawl Control / Wikidata BotPassword UI / GSC sitemap submit)
+- **세션 별 첫 사용 시 verification**:
+  - `mcp__Claude_in_Chrome__list_connected_browsers` → 연결 확인
+  - 연결 안 됨 → 즉시 owner 에게 install / 연결 요청 (computer-use fallback 금지)
+- **action 로깅**: 모든 web action 후 결과 (URL / status / screenshot ref) `.agent/shared-brain/web_action_log.jsonl` append
+- **실패 핸들링**:
+  - 로그인 필요 + password field → owner 직접 로그인 후 재시도 박제
+  - 2FA / OTP → owner 직접 처리
+  - 그 외 모든 친화적 오류 (rate-limit, captcha, daily quota) → 재시도 spec 박제 후 cron 이관
+
+본 protocol 은 모든 Claude 세션 default 로 적용. 다음 sync_agent_context.py 실행 시 9 어댑터 propagate.
+
 ---
 
 ## § 2. 안전 실행 게이트
