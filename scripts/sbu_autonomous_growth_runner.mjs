@@ -204,7 +204,7 @@ function selectTopic(site, date) {
 
 function buildArticle(site, topic, date) {
   const year = date.slice(0, 4);
-  const title = `${topic.title} in ${year}`;
+  const title = /\b20\d{2}\b/.test(topic.title) ? topic.title : `${topic.title} in ${year}`;
   return `---
 title: "${yaml(title)}"
 date: "${date}"
