@@ -69,7 +69,7 @@ Priority order (highest leverage first):
 3. **Research assets without a /blog cross-link** — entries in `research-assets.ts` are 1st-party citation sources; the blog translates them into operator-facing engineering takeaways.
 4. **Evergreen rotation** — five fallback topics covering measurement methodology, deploy patterns, idempotent pipelines, IndexNow coverage, Schema.org best practices.
 
-The selector deduplicates against existing `BLOG_POSTS` slugs (parsed live from `sbus.ts`) and against any candidate already proposed in the same run.
+The selector deduplicates against existing `BLOG_POSTS` slugs (parsed live from `sbus.ts`) and against any candidate already proposed in the same run. GEO prompts also run a lightweight topic-coverage check against existing blog slug/title tokens, so a prompt such as "compare DevOps platforms like Vercel" is not repeatedly selected after a semantically matching article has shipped under a refined slug.
 
 Locale rotation: Mondays produce Korean posts (Asia/Seoul market), other days produce English. Override with `--locale ko|en`.
 
@@ -84,6 +84,8 @@ Locale rotation: Mondays produce Korean posts (Asia/Seoul market), other days pr
 | 5 | OpenAI GPT-4o-mini | $0.0006 | Last resort |
 
 The chain auto-falls-through on `HTTP 429`, `403`, JSON parse failure, or empty candidates. Cost cap is **$0.10 per run**, tracked from the `usage.completion_tokens` / `usageMetadata.candidatesTokenCount` fields. If any single attempt exceeds the cap, the pipeline aborts before commit.
+
+For GEO candidates, the draft prompt now treats `suggested_slug` as a required exact slug rather than a soft suggestion. This keeps future dedupe deterministic even when the model would otherwise invent a nearby slug.
 
 JSON output is enforced by:
 - Gemini: `responseMimeType: "application/json"` in `generationConfig`
@@ -116,7 +118,7 @@ Hard structural failures (any of these blocks publish, regardless of numeric sco
 - missing `title`, `summary`, `lead`, `category`, or `wordCount`
 - LLM returned `slug: "REJECT_INSUFFICIENT_SOURCES"`
 
-The pipeline retries up to 5 times. On each retry, the rejected post's errors are appended to the user prompt so the LLM can correct. This retry budget is intentional: the 2026-05-14 recovery run passed V-Score on attempt 4.
+The pipeline retries up to 5 times. On each retry, the rejected post's errors and actual validator counts are appended to the user prompt so the LLM can correct. If the actual body word count is below 1800, the repair prompt explicitly asks for 2000-2400 body words and 10-12 headings. This retry budget is intentional: the 2026-05-14 recovery run passed V-Score on attempt 4.
 
 ## 7. Citation HEAD verification
 

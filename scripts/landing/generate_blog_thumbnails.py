@@ -451,8 +451,77 @@ def _render_devops_evaluation_thumbnail(out_path: Path) -> None:
     _save_image_pair(img.convert("RGB"), out_path)
 
 
+def _render_causal_inference_thumbnail(out_path: Path) -> None:
+    from PIL import Image, ImageDraw, ImageFilter
+
+    img = Image.new("RGB", (TARGET_W, TARGET_H), (7, 10, 22)).convert("RGBA")
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(layer)
+    cyan = (61, 221, 235)
+    emerald = (82, 220, 155)
+    amber = (255, 178, 65)
+    violet = (155, 118, 255)
+
+    # Split counterfactual lanes: observed path vs. alternate path.
+    for y, color in [(210, cyan), (410, amber)]:
+        glow = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        gd = ImageDraw.Draw(glow)
+        gd.line([(120, y), (370, y - 70), (620, y), (880, y - 55), (1080, y)], fill=(*color, 180), width=8)
+        layer.alpha_composite(glow.filter(ImageFilter.GaussianBlur(18)))
+        draw.line([(120, y), (370, y - 70), (620, y), (880, y - 55), (1080, y)], fill=(*color, 230), width=4)
+
+    # DAG nodes and causal arrows, all geometric and unlabeled.
+    nodes = [
+        (145, 210, 28, cyan), (370, 140, 38, emerald), (620, 210, 46, cyan),
+        (880, 155, 34, violet), (1080, 210, 28, cyan),
+        (145, 410, 28, amber), (370, 340, 38, violet), (620, 410, 46, amber),
+        (880, 355, 34, emerald), (1080, 410, 28, amber),
+        (510, 300, 30, emerald), (745, 300, 30, cyan),
+    ]
+    for cx, cy, r, color in nodes:
+        glow = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        gd = ImageDraw.Draw(glow)
+        gd.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(*color, 80))
+        layer.alpha_composite(glow.filter(ImageFilter.GaussianBlur(14)))
+        draw.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(*color, 42), outline=(*color, 230), width=3)
+        draw.ellipse((cx - 5, cy - 5, cx + 5, cy + 5), fill=(*color, 240))
+
+    arrow_pairs = [((370, 140), (510, 300), emerald), ((510, 300), (620, 410), emerald),
+                   ((620, 210), (745, 300), cyan), ((745, 300), (880, 355), cyan),
+                   ((370, 340), (620, 210), violet), ((880, 155), (620, 410), violet)]
+    for (x1, y1), (x2, y2), color in arrow_pairs:
+        draw.line([(x1, y1), (x2, y2)], fill=(*color, 130), width=2)
+        mx = x1 * 0.25 + x2 * 0.75
+        my = y1 * 0.25 + y2 * 0.75
+        draw.polygon([(mx, my), (mx - 10, my - 4), (mx - 4, my + 10)], fill=(*color, 160))
+
+    # Tool-selection cards as blank glass panels with only geometric score bars.
+    for i, (x, color) in enumerate([(185, cyan), (445, emerald), (705, amber), (965, violet)]):
+        y = 500 + (i % 2) * 18
+        box = (x, y, x + 145, y + 72)
+        draw.rounded_rectangle(box, radius=16, fill=(*color, 28), outline=(*color, 160), width=2)
+        for j in range(3):
+            yy = y + 18 + j * 16
+            draw.rounded_rectangle((x + 22, yy, x + 52 + j * 22, yy + 6), radius=3, fill=(*color, 160))
+
+    # Background grid and vignette.
+    for x in range(0, TARGET_W, 80):
+        draw.line([(x, 0), (x, TARGET_H)], fill=(80, 130, 160, 18), width=1)
+    for y in range(0, TARGET_H, 70):
+        draw.line([(0, y), (TARGET_W, y)], fill=(80, 130, 160, 14), width=1)
+    img.alpha_composite(layer)
+    dark = Image.new("RGBA", img.size, (0, 0, 0, 70))
+    mask = Image.new("L", img.size, 0)
+    mdraw = ImageDraw.Draw(mask)
+    mdraw.ellipse((-120, -170, TARGET_W + 120, TARGET_H + 170), fill=230)
+    mask = mask.filter(ImageFilter.GaussianBlur(90))
+    img = Image.composite(img, Image.alpha_composite(img, dark), mask)
+    _save_image_pair(img.convert("RGB"), out_path)
+
+
 CUSTOM_RENDERERS = {
     "data-driven-devops-platform-evaluation-2026": _render_devops_evaluation_thumbnail,
+    "answer-i-need-a-causal-inference-tool-what-should-i-use-2026": _render_causal_inference_thumbnail,
 }
 
 

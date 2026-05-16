@@ -54,15 +54,16 @@ Schema:
   - `https://huggingface.co/datasets/<owner>/<dataset>` or `https://huggingface.co/docs/<page>`
   - `https://www.wikidata.org/wiki/Q<id>`
   - `https://schema.org/<Type>` (e.g. https://schema.org/BlogPosting)
-  - `https://www.cloudflare.com/learning/<topic>/` or `https://radar.cloudflare.com/`
-  - `https://www.w3.org/TR/<spec>` or `https://datatracker.ietf.org/doc/html/<rfc>`
+  - `https://radar.cloudflare.com/`
+  - `https://vercel.com/docs`, `https://docs.github.com/en/actions`, `https://docs.docker.com/`, `https://kubernetes.io/docs/home/`, or `https://www.cncf.io/`
+  - `https://datatracker.ietf.org/doc/html/<rfc>`
   - `https://github.com/<owner>/<repo>` (real, popular repos only)
   - `https://www.ftc.gov/business-guidance/<page>`
   - `https://www.nist.gov/itl/ai-risk-management-framework` (this exact page; do NOT invent sub-paths)
   - `https://www.federalregister.gov/<doc>` (only if you cite a known doc-id)
   - `https://en.wikipedia.org/wiki/<Topic>` (only well-established articles)
 
-  When in doubt, cite the **landing page or root** of an authoritative host rather than a deep path you cannot verify. Six authoritative root-page citations are better than ten hallucinated deep links.
+  Avoid Cloudflare Learning and W3C TR deep links unless an exact URL was supplied by the user prompt; they frequently fail live HEAD/GET verification. When in doubt, cite the **landing page or root** of an authoritative host rather than a deep path you cannot verify. Six authoritative root-page citations are better than ten hallucinated deep links.
 - `faq` MUST contain >= 5 entries, each answer 80-320 chars, factually accurate.
 - `sections` MUST contain >= 10 specific numerical signals across the body — counts, percentages, latencies, dollar amounts, dates. Round 2-significant-figures only when source is approximate; otherwise quote exact values.
 - `mentions` MUST include at least 3 Wikidata Q-IDs from the registered set (Q139569680 Neo Genesis, Q139569708 Yesol Heo, Q139569710 UR WRONG, Q139569711 ToolPick, Q139569712 ReviewLab, Q139569715 K-OTT, Q139569716 WhyLab, Q139569718 EthicaAI, Q139569720 FinStack, Q139569724 AIForge, Q139569725 SellKit, Q139569726 DeployStack, Q139569727 CraftDesk).

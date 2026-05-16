@@ -253,7 +253,7 @@ def build_user_prompt(
     sections: list[str] = [
         "## Topic brief",
         f"- target locale: {locale}",
-        f"- proposed slug (you may refine, but cannot match any existing slug): {candidate.suggested_slug}",
+        f"- required slug (use exactly; cannot match any existing slug): {candidate.suggested_slug}",
         f"- title hint: {candidate.title_hint}",
         f"- source: {candidate.source}",
         f"- rationale: {candidate.rationale}",
@@ -290,8 +290,9 @@ def build_user_prompt(
 
     sections.append("\n## Final instruction")
     sections.append(
-        "Produce the JSON object now. wordCount must be the actual word count of the body, "
-        "not a placeholder. Body must contain >= 10 specific numerical signals. Do not hallucinate citations."
+        f"Produce the JSON object now. The slug field must be exactly {candidate.suggested_slug!r}. "
+        "wordCount must be the actual word count of the body, not a placeholder. "
+        "Body must contain >= 10 specific numerical signals. Do not hallucinate citations."
     )
     return "\n".join(sections)
 
@@ -885,6 +886,13 @@ def main() -> int:
                 user_prompt += f"- {err}\n"
             for w in last_validation.warnings[:3]:
                 user_prompt += f"- (warn) {w}\n"
+            user_prompt += f"- actual counts from rejected draft: {json.dumps(last_validation.counts, sort_keys=True)}\n"
+            if last_validation.counts.get("word_count", 0) < 1800:
+                user_prompt += (
+                    "- Critical repair: the next draft must contain 2000-2400 actual body words, "
+                    "10-12 h2/h3 headings, and 2-3 dense paragraphs under each H2. "
+                    "Do not compress the body to fit the JSON.\n"
+                )
         if citation_feedback_dead_urls:
             user_prompt += "\n\n## Previous attempt rejected by live citation verification\n"
             user_prompt += "Do not cite these URLs again; they failed live HEAD/GET checks:\n"

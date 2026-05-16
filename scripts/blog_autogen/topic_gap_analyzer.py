@@ -35,6 +35,12 @@ BLOG_CONTENT_TS = REPO / "src" / "landing" / "src" / "lib" / "data" / "blog-cont
 SLUG_RE = re.compile(r'slug:\s*"([^"]+)"')
 TITLE_RE = re.compile(r'title:\s*"([^"]+)"')
 
+TOPIC_STOPWORDS = {
+    "a", "an", "and", "are", "as", "best", "for", "how", "in", "is",
+    "like", "of", "on", "or", "the", "to", "way", "what", "whats",
+    "when", "where", "why", "with",
+}
+
 
 @dataclass
 class TopicCandidate:
@@ -77,6 +83,55 @@ def load_existing_blog_slugs() -> set[str]:
         for m in SLUG_RE.finditer(scoped):
             blog_slugs.add(m.group(1))
     return blog_slugs
+
+
+def load_existing_blog_pairs() -> list[tuple[str, str]]:
+    text = SBUS_TS.read_text(encoding="utf-8") if SBUS_TS.exists() else ""
+    start = text.find("BLOG_POSTS")
+    if start < 0:
+        return []
+    end = text.find("];", start)
+    scoped = text[start:end if end > start else len(text)]
+    pairs: list[tuple[str, str]] = []
+    for item in re.finditer(r'\{\s*slug:\s*"([^"]+)"(?P<body>.*?)(?=\n\s*\},)', scoped, re.S):
+        body = item.group("body")
+        title_match = TITLE_RE.search(body)
+        pairs.append((item.group(1), title_match.group(1) if title_match else ""))
+    return pairs
+
+
+def _canonical_topic_token(token: str) -> str:
+    token = token.lower().strip()
+    if token in {"compare", "compared", "comparing", "comparison", "evaluate", "evaluating", "evaluation"}:
+        return "compare"
+    if token in {"platforms", "platform"}:
+        return "platform"
+    if token.endswith("ies") and len(token) > 4:
+        return token[:-3] + "y"
+    if token.endswith("s") and len(token) > 4:
+        return token[:-1]
+    return token
+
+
+def _topic_tokens(text: str) -> set[str]:
+    raw = re.findall(r"[a-zA-Z][a-zA-Z0-9]+", text.lower())
+    tokens = {_canonical_topic_token(t) for t in raw}
+    return {t for t in tokens if len(t) >= 3 and t not in TOPIC_STOPWORDS and not t.isdigit()}
+
+
+def geo_prompt_is_covered(prompt_text: str, existing_blog_pairs: list[tuple[str, str]]) -> bool:
+    prompt_tokens = _topic_tokens(prompt_text)
+    if not prompt_tokens:
+        return False
+    for slug, title in existing_blog_pairs:
+        blog_tokens = _topic_tokens(f"{slug} {title}")
+        overlap = prompt_tokens & blog_tokens
+        if {"compare", "devops", "platform"}.issubset(overlap):
+            return True
+        required = max(3, min(5, round(len(prompt_tokens) * 0.6)))
+        if len(overlap) >= required:
+            return True
+    return False
 
 
 def load_press_release_slugs() -> list[tuple[str, str]]:
@@ -142,6 +197,7 @@ def slugify(text: str, max_len: int = 75) -> str:
 def build_candidates() -> list[TopicCandidate]:
     """Compose a sorted candidate list."""
     existing_blog = load_existing_blog_slugs()
+    existing_blog_pairs = load_existing_blog_pairs()
     press = load_press_release_slugs()
     research = load_research_slugs()
     geo = analyze_geo_gaps(min_calls=2)
@@ -152,6 +208,8 @@ def build_candidates() -> list[TopicCandidate]:
     for g in geo:
         if g["mention_rate"] >= 0.5:
             continue  # already covered
+        if geo_prompt_is_covered(g["prompt_text"], existing_blog_pairs):
+            continue
         is_korean = bool(re.search(r"[가-힣]", g["prompt_text"]))
         slug = slugify(g["prompt_text"][:60]).replace("--", "-").strip("-")
         if not slug:
