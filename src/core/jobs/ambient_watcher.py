@@ -30,7 +30,7 @@ KST = timezone(timedelta(hours=9))
 
 STATE_DIR = Path("/app/data/state")
 STATE_FILE = STATE_DIR / "ambient_watcher.json"
-DEDUP_WINDOW_SEC = 30 * 60  # 30분
+DEDUP_WINDOW_SEC = 6 * 3600  # 2026-05-20: 30분 → 6시간 (노이즈 폭탄 차단)
 
 
 def _load_state() -> dict:
@@ -48,12 +48,28 @@ def _save_state(state: dict) -> None:
         logger.warning("[ambient_watcher] state save 실패: %s", e)
 
 
-def _sig(scenario: str, payload: str) -> str:
-    return hashlib.sha1(f"{scenario}|{payload}".encode()).hexdigest()[:12]
+# 2026-05-20: dedup scenario-only (payload 변동으로 인한 dedup 무력화 영구 fix).
+def _sig(scenario: str, payload: str = "") -> str:
+    return hashlib.sha1(f"{scenario}".encode()).hexdigest()[:12]
+
+
+# 2026-05-20: 만성 미가동 endpoint = 이미 알려진 정상 상태 (owner alert 불필요).
+# grafana/promtail/loki/tempo/cloudflare_tunnel = observability stack 미가동.
+# telegram_bot_activity = mtime probe (간헐 fail 정상). qdrant/chromadb = RAG 미상주.
+_KNOWN_DOWN_ENDPOINTS = {
+    "grafana", "promtail", "loki", "tempo", "cloudflare_tunnel",
+    "telegram_bot_activity", "qdrant_rag", "chromadb_legacy", "local_llm",
+}
 
 
 def _check_slo_spike() -> dict | None:
-    """slo_log.jsonl 최근 1h 의 fail event 개수 → 2건 이상이면 P1."""
+    """SLO 최근 1h fail 분석. 단 만성 미가동 endpoint 제외 + '항상 떠있어야 하는'
+    핵심 endpoint (brain_worker / redis_bus / dashboard_api) 가 fail 일 때만 P2.
+
+    2026-05-20: owner '불필요 메시지 너무 많이 와' 보고 후 전면 완화.
+    이전: 모든 fail 합산 → 매 10분 count 변동 → dedup 무력화 → 61 msg 폭탄.
+    이후: 핵심 endpoint 만 + scenario-only dedup 6h + P1→P2 (조용).
+    """
     try:
         path = "/app/data/logs/slo_log.jsonl"
         if not os.path.exists(path):
@@ -62,7 +78,7 @@ def _check_slo_spike() -> dict | None:
         cutoff = now_utc - timedelta(hours=1)
         fails = {}
         with open(path, encoding="utf-8") as f:
-            for line in f.readlines()[-2000:]:  # 최근 2000줄만 스캔
+            for line in f.readlines()[-2000:]:
                 try:
                     r = json.loads(line)
                     ts = r.get("ts") or r.get("timestamp")
@@ -77,16 +93,19 @@ def _check_slo_spike() -> dict | None:
                         success = not r.get("violation", False)
                     if not success:
                         ep = r.get("endpoint", "?")
+                        if ep in _KNOWN_DOWN_ENDPOINTS:
+                            continue  # 만성 미가동 제외
                         fails[ep] = fails.get(ep, 0) + 1
                 except Exception:
                     continue
-        total_fails = sum(fails.values())
-        if total_fails >= 2:
+        # 핵심 endpoint 만 남았고, 그것도 1h 내 30회+ (= 거의 상시 down) 일 때만 alert
+        critical_fails = {k: v for k, v in fails.items() if v >= 30}
+        if critical_fails:
             return {
-                "scenario": "slo_spike",
-                "severity": "P1",
-                "summary": f"SLO 최근 1h fail {total_fails}건 — {', '.join(f'{k}:{v}' for k,v in fails.items())}",
-                "sig_payload": f"{total_fails}|{','.join(sorted(fails.keys()))}",
+                "scenario": "slo_critical_down",
+                "severity": "P2",  # 조용한 알림 (disable_notification)
+                "summary": f"SLO 핵심 endpoint 지속 실패 — {', '.join(f'{k}:{v}회/h' for k, v in critical_fails.items())}",
+                "sig_payload": "",
             }
     except Exception as e:
         logger.debug("[ambient_watcher] slo check err: %s", e)
@@ -155,11 +174,13 @@ def _check_local_llm_tunnel() -> dict | None:
                 return None  # alive
     except Exception:
         pass
+    # 2026-05-20: P1 → P2 (조용). batch loop 가 10s 내 자동 재연결 + stale pool auto-recover
+    # 하므로 owner 가 일일이 알 필요 없음. 6h dedup 으로 진짜 장기 down 만 1회 알림.
     return {
         "scenario": "local_llm_tunnel_down",
-        "severity": "P1",
-        "summary": "Local LLM SSH tunnel 끊김 — Sora 응답 시간 1s → 18s 로 늘어날 수 있음. desktop-home 의 ssh_tunnel_ollama.bat 확인 필요.",
-        "sig_payload": "tunnel_down",
+        "severity": "P2",
+        "summary": "Local LLM SSH tunnel 일시 끊김 (자동 재연결 시도 중). 지속되면 desktop-home ssh_tunnel_ollama.bat 확인.",
+        "sig_payload": "",
     }
 
 
