@@ -783,19 +783,22 @@ class NeoGenesisDaemon:
 
         # [cross_sbu_sync] 제거됨: SBU 크로스 동기화 → 메모리 통계만, 영속화 없음
 
-        # ── 08:50 업무 개시 보고 ──
-        self.scheduler.add_job(
-            job_morning_report, "cron", hour=8, minute=50,
-            id="morning_report", name="🏢 업무 개시 보고",
-            misfire_grace_time=600,
-        )
-
-        # ── 17:50 업무 종료 보고 ──
-        self.scheduler.add_job(
-            job_evening_report, "cron", hour=17, minute=50,
-            id="evening_report", name="🏢 업무 종료 보고",
-            misfire_grace_time=600,
-        )
+        # ── 08:50 업무 개시 보고 / 17:50 업무 종료 보고 ──
+        # 2026-05-20 비활성: owner '불필요 메시지 너무 많이 와' 대응.
+        # morning_report 가 ReviewLab/ToolPick/UR WRONG/HIVE MIND/리워드 발행 스케줄을
+        # 매일 보고하지만 해당 job 들이 전부 scheduler 에서 commented out (비활성) 상태 →
+        # 매일 '안 도는 job 이 돌 것' 이라는 stale 보고. personal_brief 09:00 이 실 정보 커버.
+        # 복원: 아래 두 add_job 주석 해제.
+        # self.scheduler.add_job(
+        #     job_morning_report, "cron", hour=8, minute=50,
+        #     id="morning_report", name="🏢 업무 개시 보고",
+        #     misfire_grace_time=600,
+        # )
+        # self.scheduler.add_job(
+        #     job_evening_report, "cron", hour=17, minute=50,
+        #     id="evening_report", name="🏢 업무 종료 보고",
+        #     misfire_grace_time=600,
+        # )
 
         # ── 09:00 owner 개인 비서 brief (2026-05-12 STOP 해제 후 자비스 proactive 첫 도입) ──
         try:

@@ -161,27 +161,15 @@ def _check_quant_lease() -> dict | None:
 
 
 def _check_local_llm_tunnel() -> dict | None:
-    """SSH reverse tunnel (desktop-home Ollama → ysh-server:11434) 활성 확인.
+    """2026-05-20: owner alert 완전 제거 (DISABLED).
 
-    2026-05-12: tunnel 끊기면 owner Sora 응답 시간이 1초 → 18초 (Gemini fallback) 로 늘어남.
-    매 10분 ping → tunnel down 시 P1 alert.
+    이유: tunnel 이 끊겨도 Sora 는 Gemini fallback 으로 정상 작동 (응답만 느려짐, 동작 보장).
+    즉 owner 가 손쓸 일이 없는 internal ops 상태인데 P1/P2 alert 가 폰 스팸이 됨.
+    owner '이건 왜자꾸 오는거야' 보고 → tunnel 알림 자체를 owner 채널에서 제거.
+    tunnel 영속성은 Windows Task Scheduler keeper 가 desktop-home 측에서 자율 관리.
+    내부 진단이 필요하면 ssh ysh-server 'ss -tlnp | grep 11434' 로 직접 확인.
     """
-    try:
-        import urllib.request
-        with urllib.request.urlopen("http://172.17.0.1:11434/api/version", timeout=3) as r:
-            data = json.loads(r.read())
-            if data.get("version"):
-                return None  # alive
-    except Exception:
-        pass
-    # 2026-05-20: P1 → P2 (조용). batch loop 가 10s 내 자동 재연결 + stale pool auto-recover
-    # 하므로 owner 가 일일이 알 필요 없음. 6h dedup 으로 진짜 장기 down 만 1회 알림.
-    return {
-        "scenario": "local_llm_tunnel_down",
-        "severity": "P2",
-        "summary": "Local LLM SSH tunnel 일시 끊김 (자동 재연결 시도 중). 지속되면 desktop-home ssh_tunnel_ollama.bat 확인.",
-        "sig_payload": "",
-    }
+    return None  # owner alert 안 함 (영구 disable)
 
 
 def _check_sora_brain_alive() -> dict | None:
