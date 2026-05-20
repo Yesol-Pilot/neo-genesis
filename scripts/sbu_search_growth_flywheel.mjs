@@ -276,7 +276,6 @@ async function getAccessTokenFromRefreshToken(envFile, scopes) {
       client_secret: client.client_secret,
       refresh_token: refreshToken,
       grant_type: 'refresh_token',
-      scope: scopes.join(' '),
     }),
   });
   const text = await response.text();
