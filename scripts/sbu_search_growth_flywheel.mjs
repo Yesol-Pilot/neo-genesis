@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'data', 'sbu-growth');
+const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const DEFAULT_SITES =
   'toolpick,aiforge,craftdesk,deploystack,finstack,sellkit,reviewlab,ur-wrong,kott,ethicaai,whylab,portfolio,neogenesis';
 const CORE_SITES = ['toolpick', 'aiforge', 'craftdesk', 'deploystack', 'finstack', 'sellkit'];
@@ -228,6 +229,72 @@ function readEnvFiles() {
   return env;
 }
 
+function readJson(filePath) {
+  if (!filePath) return null;
+  const candidates = [
+    path.isAbsolute(filePath) ? filePath : path.resolve(ROOT, filePath),
+    path.resolve(filePath),
+  ];
+  const file = [...new Set(candidates)].find((candidate) => fs.existsSync(candidate));
+  if (!file) return null;
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function normalizeOAuthClient(rawClient) {
+  const client = rawClient?.installed || rawClient?.web || rawClient;
+  if (!client?.client_id || !client?.client_secret) return null;
+  return client;
+}
+
+async function getAccessTokenFromRefreshToken(envFile, scopes) {
+  const accessToken = process.env.GOOGLE_SEARCH_CONSOLE_ACCESS_TOKEN || envFile.GOOGLE_SEARCH_CONSOLE_ACCESS_TOKEN;
+  if (accessToken) {
+    return { ok: true, token: accessToken, source: 'GOOGLE_SEARCH_CONSOLE_ACCESS_TOKEN', accountHash: null };
+  }
+
+  const refreshToken = process.env.GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN || envFile.GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN;
+  if (!refreshToken) return { ok: false, error: 'refresh_token_missing' };
+
+  const clientSecretFile =
+    process.env.GOOGLE_OAUTH_CLIENT_SECRET_FILE || envFile.GOOGLE_OAUTH_CLIENT_SECRET_FILE;
+  const client =
+    normalizeOAuthClient(readJson(clientSecretFile)) ||
+    normalizeOAuthClient({
+      client_id: process.env.GOOGLE_OAUTH_CLIENT_ID || envFile.GOOGLE_OAUTH_CLIENT_ID,
+      client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET || envFile.GOOGLE_OAUTH_CLIENT_SECRET,
+    });
+
+  if (!client?.client_id || !client?.client_secret) {
+    return { ok: false, error: 'oauth_client_missing' };
+  }
+
+  const response = await fetch(TOKEN_URL, {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      client_id: client.client_id,
+      client_secret: client.client_secret,
+      refresh_token: refreshToken,
+      grant_type: 'refresh_token',
+      scope: scopes.join(' '),
+    }),
+  });
+  const text = await response.text();
+  let json = null;
+  try {
+    json = text ? JSON.parse(text) : null;
+  } catch {}
+  if (!response.ok) {
+    return { ok: false, status: response.status, error: `refresh_token_failed_${json?.error || 'unknown'}` };
+  }
+  return {
+    ok: true,
+    token: json.access_token,
+    source: 'GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN',
+    accountHash: safeHash(`${client.client_id}:${refreshToken.slice(-12)}`),
+  };
+}
+
 const SERVICE_ACCOUNT_KEYS = [
   'GSC_SERVICE_ACCOUNT_JSON',
   'GOOGLE_SERVICE_ACCOUNT_JSON',
@@ -327,8 +394,56 @@ async function getAccessTokenForCredentials(credentials, scopes) {
 }
 
 async function getSearchConsoleToken(scopes) {
+  const envFile = readEnvFiles();
   const candidates = discoverServiceAccounts();
   const attempts = [];
+
+  const refreshAttempt = {
+    source: 'GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN',
+    accountHash: null,
+    stage: 'load',
+    ok: false,
+    status: null,
+    siteCount: 0,
+  };
+  const refreshTokenResult = await getAccessTokenFromRefreshToken(envFile, scopes);
+  if (refreshTokenResult.ok) {
+    const headers = { authorization: `Bearer ${refreshTokenResult.token}`, 'content-type': 'application/json' };
+    const listResponse = await fetchJson('https://www.googleapis.com/webmasters/v3/sites', { headers }, 1);
+    const siteCount = Array.isArray(listResponse.json?.siteEntry) ? listResponse.json.siteEntry.length : 0;
+    const ok = listResponse.ok && Array.isArray(listResponse.json?.siteEntry);
+    attempts.push({
+      ...refreshAttempt,
+      source: refreshTokenResult.source,
+      accountHash: refreshTokenResult.accountHash,
+      stage: 'sites.list',
+      ok,
+      status: listResponse.status,
+      siteCount,
+      error: ok ? null : `sites_list_${listResponse.status || 'failed'}`,
+    });
+
+    if (ok) {
+      return {
+        ok: true,
+        token: refreshTokenResult.token,
+        listResponse,
+        credential: {
+          source: refreshTokenResult.source,
+          accountHash: refreshTokenResult.accountHash,
+        },
+        attempts,
+      };
+    }
+  } else if (refreshTokenResult.error !== 'refresh_token_missing') {
+    attempts.push({
+      ...refreshAttempt,
+      stage: 'oauth',
+      status: refreshTokenResult.status || null,
+      error: refreshTokenResult.error,
+    });
+  }
+
   if (!candidates.length) return { ok: false, error: 'service_account_missing', attempts };
 
   for (const candidate of candidates) {
