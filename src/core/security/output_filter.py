@@ -37,7 +37,7 @@ _SECRET_PATTERNS = [
     (re.compile(r'AKIA[0-9A-Z]{16}'), '[REDACTED:AWS_KEY]'),
     # Sora 내부 토큰 noise
     (re.compile(r'sora-pc-agent-2026-yesol'), '[REDACTED:PC_AGENT_TOKEN]'),
-    # Telegram Bot Token — 형식: <bot_id>:<auth_token>, 예) 8515122672:AAEr0GyfU3PFQ-FgFcRKRceS_fe4qqkK_9s
+    # Telegram Bot Token — 형식: <bot_id>:<auth_token>, 예) <auth_token_redacted>
     # bot_id 9~10자리 정수 + ':' + 35자 이상의 영숫자/_/- 토큰. 2026-04-29 NEO_ALERT_BOT_TOKEN 노출 사고 후 추가.
     (re.compile(r'\b\d{9,10}:[A-Za-z0-9_-]{35,}'), '[REDACTED:TELEGRAM_BOT_TOKEN]'),
     # 환경변수 leak 패턴

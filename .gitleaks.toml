@@ -1,0 +1,67 @@
+# Neo Genesis secret scanning rules (gitleaks)
+# Source: .agent/knowledge/20260518_P0_INCIDENT_71357012_KEY_ROTATION.md §6
+# Installation: scoop install gitleaks (Windows) / brew install gitleaks (macOS)
+# Use: gitleaks protect --staged --no-banner
+
+[allowlist]
+description = "False positives for Neo Genesis monorepo"
+paths = [
+    '''node_modules/.*''',
+    '''\.git/.*''',
+    '''.*\.bak-.*''',
+    '''.*\.bak-pre-rotate-.*''',
+    '''.*\.bak-20260\d{3}-.*''',
+    # generated docs that mention historical secrets in incident reports
+    '''\.agent/knowledge/20260518_P0_INCIDENT_71357012_.*\.md''',
+    '''\.agent/shared-brain/archive/.*''',
+    # synthetic secrets in adversarial test fixtures
+    '''tests/sora_adversarial/.*''',
+]
+
+[[rules]]
+id = "google-api-key"
+description = "Google API key (AIzaSy*)"
+regex = '''AIza[0-9A-Za-z\-_]{35}'''
+tags = ["key", "google"]
+
+[[rules]]
+id = "anthropic-api-key"
+description = "Anthropic API key"
+regex = '''sk-ant-api03-[A-Za-z0-9_\-]+'''
+tags = ["key", "anthropic"]
+
+[[rules]]
+id = "openai-api-key"
+description = "OpenAI API key"
+regex = '''sk-(proj-|None-)?[A-Za-z0-9_\-]{40,}'''
+tags = ["key", "openai"]
+
+[[rules]]
+id = "supabase-jwt"
+description = "Supabase JWT (anon or service_role)"
+regex = '''eyJhbGciOiJIUzI1NiJ9\.eyJpc3MiOiJzdXBhYmFzZSJ[A-Za-z0-9_\-\.]{40,}'''
+tags = ["key", "supabase"]
+
+[[rules]]
+id = "google-oauth-client-secret"
+description = "Google OAuth client secret (GOCSPX-)"
+regex = '''GOCSPX-[A-Za-z0-9_\-]{20,}'''
+tags = ["key", "google", "oauth"]
+
+[[rules]]
+id = "google-sa-private-key"
+description = "Google service account RSA private key block"
+regex = '''-----BEGIN PRIVATE KEY-----'''
+tags = ["key", "google", "service-account"]
+
+[[rules]]
+id = "telegram-bot-token"
+description = "Telegram bot token"
+regex = '''[0-9]{8,12}:[A-Za-z0-9_\-]{30,}'''
+tags = ["key", "telegram"]
+
+[[rules]]
+id = "vercel-oidc-token"
+description = "Vercel OIDC token (JWT issued by oidc.vercel.com)"
+regex = '''eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im[A-Za-z0-9_\-\.]+'''
+tags = ["token", "vercel"]
