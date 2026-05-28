@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">WhyLab causal driver diagnostics</title>
+  <desc id="desc">A diagnostics panel ranking causal drivers, uncertainty bands, and recommended next tests for a product experiment.</desc>
+  <rect width="1440" height="900" fill="#07110f"/>
+  <rect x="44" y="40" width="1352" height="820" rx="28" fill="#0c1f1a" stroke="#64f2ac" stroke-opacity=".28"/>
+  <text x="86" y="104" fill="#e9fff5" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800">Driver Diagnostics</text>
+  <text x="86" y="142" fill="#9ecbb9" font-family="Inter, Arial, sans-serif" font-size="18">Which signals are moving the causal verdict and where to test next</text>
+  <rect x="86" y="190" width="600" height="610" rx="18" fill="#071812" stroke="#64f2ac" stroke-opacity=".18"/>
+  <text x="124" y="242" fill="#e9fff5" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">Top causal drivers</text>
+  <g font-family="Inter, Arial, sans-serif" font-size="18">
+    <text x="124" y="316" fill="#9ecbb9">Activation depth</text>
+    <rect x="310" y="292" width="286" height="28" rx="14" fill="#64f2ac"/>
+    <text x="612" y="316" fill="#e9fff5">0.41</text>
+    <text x="124" y="392" fill="#9ecbb9">Prior usage</text>
+    <rect x="310" y="368" width="214" height="28" rx="14" fill="#6ba5ff"/>
+    <text x="540" y="392" fill="#e9fff5">0.31</text>
+    <text x="124" y="468" fill="#9ecbb9">Segment fit</text>
+    <rect x="310" y="444" width="166" height="28" rx="14" fill="#64f2ac"/>
+    <text x="492" y="468" fill="#e9fff5">0.24</text>
+    <text x="124" y="544" fill="#9ecbb9">Device mix</text>
+    <rect x="310" y="520" width="118" height="28" rx="14" fill="#ffcf6b"/>
+    <text x="444" y="544" fill="#e9fff5">0.17</text>
+    <text x="124" y="620" fill="#9ecbb9">Campaign overlap</text>
+    <rect x="310" y="596" width="88" height="28" rx="14" fill="#ff7a90"/>
+    <text x="414" y="620" fill="#e9fff5">0.12</text>
+  </g>
+  <rect x="730" y="190" width="624" height="290" rx="18" fill="#102a21" stroke="#64f2ac" stroke-opacity=".2"/>
+  <text x="770" y="244" fill="#e9fff5" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">Recommended next test</text>
+  <text x="770" y="306" fill="#64f2ac" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="800">Segmented rollout holdout</text>
+  <text x="770" y="356" fill="#b9d9cd" font-family="Inter, Arial, sans-serif" font-size="18">Keep a 10% holdout in high-activation cohorts and monitor guardrails for 7 days.</text>
+  <rect x="730" y="510" width="624" height="290" rx="18" fill="#071812" stroke="#64f2ac" stroke-opacity=".18"/>
+  <text x="770" y="564" fill="#e9fff5" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">Risk notes</text>
+  <g font-family="Inter, Arial, sans-serif" font-size="19" fill="#d9fff0">
+    <text x="770" y="626">• Watch novelty decay after day 3.</text>
+    <text x="770" y="680">• Re-check identity stitching before 50% rollout.</text>
+    <text x="770" y="734">• Separate paid traffic from organic cohorts.</text>
+  </g>
+</svg>

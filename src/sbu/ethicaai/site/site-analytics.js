@@ -17,6 +17,16 @@
 (function () {
   var key = 'phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO';
   var storageKey = 'neo_posthog_distinct_id';
+  var endpoint = 'https://us.i.posthog.com/i/v0/e/';
+  var baseProperties = {
+    site_id: 'ethicaai',
+    site_domain: location.hostname,
+    audience_locale: 'en-US',
+    market: 'global',
+    content_vertical: 'ai_ethics',
+    page_type: location.pathname === '/' ? 'research_hub' : 'guide',
+    intent_cluster: 'ai_ethics_risk_governance'
+  };
   var distinctId;
   try {
     distinctId = localStorage.getItem(storageKey);
@@ -28,32 +38,56 @@
     distinctId = Date.now() + '-' + Math.random().toString(36).slice(2);
   }
 
-  var body = JSON.stringify({
-    api_key: key,
-    event: '$pageview',
-    distinct_id: distinctId,
-    properties: {
-      site_id: 'ethicaai',
-      site_domain: location.hostname,
-      audience_locale: 'en-US',
-      market: 'global',
-      content_vertical: 'ai_ethics',
-      page_type: 'guide',
-      intent_cluster: 'ai_ethics_risk_governance',
+  function sendPosthog(eventName, properties) {
+    var body = JSON.stringify({
+      api_key: key,
+      event: eventName,
+      distinct_id: distinctId,
+      properties: Object.assign({}, baseProperties, {
       $current_url: location.href,
       $pathname: location.pathname,
       $process_person_profile: false,
       $lib: 'neo-sbu-direct'
-    }
-  });
-  var url = 'https://us.i.posthog.com/i/v0/e/';
-  try {
-    if (navigator.sendBeacon && navigator.sendBeacon(url, new Blob([body], { type: 'application/json' }))) return;
-  } catch (error) {}
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: body,
-    keepalive: true
-  }).catch(function () {});
+      }, properties || {})
+    });
+
+    try {
+      if (navigator.sendBeacon && navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }))) return;
+    } catch (error) {}
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: body,
+      keepalive: true
+    }).catch(function () {});
+  }
+
+  function ctaElement(target) {
+    if (!target || !target.closest) return null;
+    return target.closest('[data-cta], .cta, .cta-main, .cta-ghost, .cta-sm, .cite-link');
+  }
+
+  function ctaIdFor(el) {
+    if (el.getAttribute('data-cta')) return el.getAttribute('data-cta');
+    var href = el.getAttribute('href') || 'no-destination';
+    var label = (el.textContent || 'cta').replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 48);
+    return 'auto-' + label + '-' + href.replace(/[^a-z0-9]/gi, '').slice(0, 24).toLowerCase();
+  }
+
+  document.addEventListener('click', function (event) {
+    var el = ctaElement(event.target);
+    if (!el) return;
+    var href = el.getAttribute('href') || '';
+    var isExternal = href.indexOf('http') === 0 && href.indexOf(location.hostname) === -1;
+    var ctaId = ctaIdFor(el);
+    sendPosthog('cta_click', {
+      cta_id: ctaId,
+      cta_label: (el.textContent || ctaId).replace(/\s+/g, ' ').trim().slice(0, 120),
+      destination_url: href,
+      destination_type: isExternal ? 'external' : 'internal',
+      capture_source: 'site_analytics_delegate'
+    });
+  }, true);
+
+  sendPosthog('$pageview');
 })();
