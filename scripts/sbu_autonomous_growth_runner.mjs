@@ -202,9 +202,14 @@ function selectTopic(site, date) {
   return { slug, title, keyword };
 }
 
+function articleTitle(topic, date) {
+  const year = date.slice(0, 4);
+  return /\b20\d{2}\b/.test(topic.title) ? topic.title : `${topic.title} in ${year}`;
+}
+
 function buildArticle(site, topic, date) {
   const year = date.slice(0, 4);
-  const title = /\b20\d{2}\b/.test(topic.title) ? topic.title : `${topic.title} in ${year}`;
+  const title = articleTitle(topic, date);
   return `---
 title: "${yaml(title)}"
 date: "${date}"
@@ -360,7 +365,7 @@ async function processSite(site, args, date) {
   const siteDir = path.join(ROOT, 'src', 'sbu', site.id);
   const topic = selectTopic(site, date);
   const slug = `${date}-${topic.slug}`;
-  const title = `${topic.title} in ${date.slice(0, 4)}`;
+  const title = articleTitle(topic, date);
   const filePath = path.join(siteDir, 'content', 'blog', `${slug}.mdx`);
 
   if (args.verifyOnly) {
