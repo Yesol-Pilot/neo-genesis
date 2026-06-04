@@ -1,7 +1,39 @@
 # Active Tasks — 에이전트 공유 작업 목록
 
 > **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.
-> **최종 갱신:** 2026-05-20 by Strategy Lead Claude Opus 4.7 — **quant-poc-multi-asset W2 prep batch (Option B+C+D+E 전부진행) 5 commits + GitHub Telegram secrets 활성 + /research /design 21 페이지 라이브**
+> **최종 갱신:** 2026-06-04 by Claude Opus 4.8 — **neo-genesis 7일치 작업 master 통합 + CI green + 아래 ToolPick/TikTok 미커밋 작업 커밋(Codex 인지용)**
+
+---
+
+## 🔵 2026-06-04 [Codex 인지용] 미커밋 ToolPick/TikTok 작업 master 커밋 (Claude neo-genesis 통합 세션)
+
+owner 지시: "지금 codex는 작업안하고 있고 너가 작업 후 codex가 알수 있도록 해놔". 아래 ToolPick/TikTok 작업 산출물이 미커밋 상태로 단일 디스크에만 있어, neo-genesis 통합 세션(Claude)이 안전 확인 후 master 에 커밋.
+
+- **안전 검증**: gitleaks **no leaks** / `tiktok_aino_generate_with_credentials.py` 는 `infra/agent-runtime/credential_loader.py` 경유(하드코딩 secret 0).
+- **커밋 파일**: `src/core/tiktok_aino/pipeline.py`(AI생성이미지 고지 +8/-8) · `.agent/knowledge/20260604_TOOLPICK_DEEP_ANALYSIS_v1.md` · `scripts/tiktok_aino_generate_with_credentials.py`.
+- **🟡 Codex/담당 세션 주의**: origin/master 가 neo-genesis 통합 커밋들로 진행됨(`c582479` → 현재). 다음 작업 전 **`git pull --rebase`** 필요. 위 3파일은 이미 커밋됐으니 재커밋 불필요.
+
+👤 Claude Opus 4.8 (neo-genesis 통합 세션, Codex 인지 기록)
+
+---
+
+## 🟣 2026-06-04 ToolPick 심층분석 + 라이브 검증 + 유지모드 판정 (Claude Opus 4.8)
+
+owner "toolpick 프로젝트 분석" → "더 상세하게" → "정말 신중을 기해야해" → "너가 판단해". 2-phase 워크플로(28에이전트/~5.6M토큰) + 9건 라이브검증(Supabase/Vercel MCP, gh, git, lockfile, gitleaks, robots, npm audit).
+
+**판정**: 엔지니어링 A급 / 전략 범주오류. "대량 AI 콘텐츠 100k MAU"=Google 처벌(회복<1%)+범주 정점지남. → **100k 폐기, 자율 발행기 무장해제, 유지 모드. 에너지는 고수율 SBU로.** (C 웨지 피벗은 owner 사람-편집 약속 시만.)
+
+**라이브 검증이 교정한 repo-기반 과장 6건**: ①Next 16.2.6 패치됨(npm audit 0), react 19.2.3<19.2.6(DoS)만 P1 ②repo PRIVATE(GA4키 공개X) ③neogenesis-main 68테이블 RLS 전부 ON(5/20, 구멍아님) ④폭주는 dormant+Vercel이 HIVE-MIND배포 BLOCK(production 봉쇄, 마지막 prod 06-04) ⑤날조후기 1편 국한 ⑥100k 격차 230~5000배→실 66~71배.
+
+**라이브 사실**: ~47세션/일(하향), 매출$0/구독자0/실제휴링크1of83, financial_ledger 17,838행(전부cost). the open loop(seo-meeting이 GSC 0회 읽음)=760재발행 근원. gitleaks 8건/5파일(전부 PRIVATE repo).
+
+**G1 실행함**: ① SSOT 박제 ② 브랜치 `fix/toolpick-maintenance-disarm` 커밋 `2c632db` — A1 vercel.json hive-mind orchestrate cron 제거(자율 발행 정지) + A2 react/react-dom 19.2.7(RSC DoS) + A3 ai-cybersecurity-saas.mdx 날조 후기/케이스 제거. **미배포**(master 미머지=prod 무변경). 상세: `.agent/knowledge/20260604_TOOLPICK_DEEP_ANALYSIS_v1.md`.
+
+**남은 작업**: 배포 결정(브랜치→master 머지=Vercel prod 배포, owner) / stale-2024 12편 날짜 수정 / A4(G2) GA4키회전+미러삭제+history rewrite + 88쿠팡글 도메인이전 + KPI 재정의 + Vercel BLOCK 사유·GA4/AdSense env 확인(owner 콘솔).
+
+**Reversibility**: `git checkout .agent/knowledge/20260604_TOOLPICK_DEEP_ANALYSIS_v1.md .agent/shared-brain/active-tasks.md`
+
+👤 Claude Opus 4.8
 
 ---
 

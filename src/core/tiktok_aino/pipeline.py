@@ -5127,20 +5127,20 @@ def _reference_post_metadata_profile(
     profile = {
         "caption_body": (
             f"{post_title} {claim} 주장과 반론을 한 화면에 놓고 봅니다. "
-            f"{open_question} 댓글은 결론보다 기준으로 갈라봅시다."
+            f"{open_question} 해당 이미지는 생성 이미지이며, 공개 보도 기준으로 전말과 빈칸을 분리합니다."
         ),
         "post_body": f"{claim} 반론과 남은 빈칸까지 같이 봅니다.",
-        "pinned_comment": f"{default_question} 근거 기준으로 댓글 남겨주세요.",
+        "pinned_comment": f"{default_question} 댓글로 남겨주세요. 팔로우하면 다음 편에서 이어갑니다.",
     }
     if "김건희" in topic_text or "수사무마" in topic_text:
         profile.update(
             {
                 "caption_body": (
                     f"{post_title} 보도상 가장 센 지점은 '피해자'였던 인물이 왜 피의자로 뒤집혔는가입니다. "
-                    "특검, 허위공문서, 수사무마 의혹의 순서를 분리해서 봅니다."
+                    "특검, 허위공문서, 수사무마 의혹의 순서를 공개 보도 기준으로 분리합니다. 해당 이미지는 생성 이미지입니다."
                 ),
                 "post_body": "피해자에서 피의자로 바뀐 지점, 특검이 확인해야 할 빈칸, 반론의 위치를 나눕니다.",
-                "pinned_comment": "1 피해자→피의자 전환, 2 수사무마 의혹, 3 특검 범위 중 어디가 핵심인가요?",
+                "pinned_comment": "1 피해자→피의자 전환, 2 수사무마 의혹, 3 특검 범위. 댓글로 고르고 팔로우로 후속편 보세요.",
             }
         )
     elif "공소 취소" in topic_text or ("검찰" in topic_text and "한동훈" in topic_text):
@@ -5148,10 +5148,10 @@ def _reference_post_metadata_profile(
             {
                 "caption_body": (
                     f"{post_title} 이재명 대통령의 검찰 사과 요구와 한동훈의 '공소 취소 밑밥' 프레임이 충돌했습니다. "
-                    "말싸움보다 검찰 권한, 공소 취소, 책임선을 나눠 봅니다."
+                    "말싸움보다 검찰 권한, 공소 취소, 책임선을 공개 보도 기준으로 나눕니다. 해당 이미지는 생성 이미지입니다."
                 ),
                 "post_body": "사과 요구와 밑밥론 사이에서 실제로 남는 쟁점은 검찰 권한과 공소 취소 책임선입니다.",
-                "pinned_comment": "1 검찰 책임, 2 공소 취소 프레임, 3 사과 기준 중 먼저 봐야 할 건?",
+                "pinned_comment": "1 검찰 책임, 2 공소 취소 프레임, 3 사과 기준. 댓글로 고르고 팔로우로 후속편 보세요.",
             }
         )
     elif "조국" in topic_text and ("낙선" in topic_text or "민주당" in topic_text):
@@ -5159,10 +5159,10 @@ def _reference_post_metadata_profile(
             {
                 "caption_body": (
                     f"{post_title} 낙선 자체보다 더 큰 신호는 민주당 지지층이 어디에서 멈췄는가입니다. "
-                    "인물 호불호가 아니라 흡수 한계와 정치적 피로감을 봅니다."
+                    "인물 호불호가 아니라 흡수 한계와 정치적 피로감을 공개 보도 기준으로 봅니다. 해당 이미지는 생성 이미지입니다."
                 ),
                 "post_body": "조국 낙선은 한 인물의 패배보다 민주당 지지층 흡수 한계를 보여준 장면으로 읽을 수 있습니다.",
-                "pinned_comment": "조국 낙선의 핵심은 1 피로감, 2 전략 실패, 3 지지층 한계 중 무엇인가요?",
+                "pinned_comment": "조국 낙선의 핵심은 1 피로감, 2 전략 실패, 3 지지층 한계. 댓글로 고르고 팔로우로 후속편 보세요.",
             }
         )
     return {
