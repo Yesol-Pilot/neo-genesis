@@ -1,0 +1,401 @@
+# MCP Tool Policy v1.0
+# 작성일: 2026-05-08
+# 작성자: Claude Opus 4.7 (Strategy Lead)
+# 상위 SSOT: .agent/policies/mcp_curation_v1.md
+# owner 명령: "MCP 25→8 curation + callable tool hygiene"
+# 근거: HumanLayer "Excess tools degrade" + Anthropic tool selection accuracy guidance
+
+schema_version: "1.0"
+last_curated: "2026-05-08"
+applied_at_kst: "2026-05-10"
+strategy_lead_decision: "G2 자율 ACCEPT (D2 8 core / D3 thinking 승격 / D4 STRONG ACCEPT computer-use financial blast 격리 / D5 DEFER plugin_product-management)"
+rotation_cadence_days: 90
+next_review: "2026-08-08"
+settings_json_applied:
+  backup: "C:/Users/yesol/.claude/settings.json.bak-20260510-mcp-curation"
+  deny_added: 4
+  deny_patterns:
+    - "Bash(*pay*)"
+    - "Bash(*transfer*)"
+    - "Bash(*wire *)"
+    - "Bash(*withdraw*)"
+  allow_explicit: false  # default deferred 유지 (보수, 회귀 위험 0)
+  computer_use_mcp_deny:
+    rationale: "MCP rule schema 가 parentheses 미지원 (financial/trade/payment 키워드 deny 불가). computer-use 자체는 owner request_access 흐름으로 보호됨 (이미 manual approval 게이트). 본 deny 는 Bash 키워드 가드만 추가, MCP namespace 전체 deny 회피 (운영 영향 0)."
+
+# ============================================================
+# Curation Summary
+# ============================================================
+totals:
+  core_count: 8
+  deferred_count: 14
+  disabled_count: 5
+  owner_gate_count: 1
+
+avg_blast_radius_core: 2.5
+
+# ============================================================
+# CORE MCP (P0, default ON)
+# ============================================================
+# 일상 운영 의존도 + Tier S 페르소나 mcp_coupling.required 매핑 가능 + blast 적정선
+core_mcp:
+  - id: github
+    full_namespace: "mcp__github__*"
+    g_tier: G1
+    blast_radius_ceiling: 3
+    rationale: "Yesol-Pilot/* 11 SBU + RAG + quant repo. 일 commit 평균 3건+"
+    persona_dependencies:
+      - senior-backend-eng-korean
+      - multi-agent-orchestrator
+    forbidden_patterns:
+      - "merge_pull_request"  # owner G2 manual approval
+      - "force_push_to_main"
+      - "delete_repository"
+
+  - id: supabase
+    full_namespace: "mcp__8fe006b2-f57f-4a31-ad11-3f3576840b3b__*"
+    g_tier: G1
+    blast_radius_ceiling: 3
+    rationale: "라이브 데이터 SSOT. quant_*, rag_audit_log, assistant_memory, GEO measurements"
+    persona_dependencies:
+      - quant-strategy-lead
+      - sora-sre-ops
+      - senior-da-pm-korean
+    forbidden_patterns:
+      - "drop_table"
+      - "truncate_table"
+      - "delete_branch_main"
+
+  - id: filesystem
+    full_namespace: "mcp__filesystem__*"
+    g_tier: G1
+    blast_radius_ceiling: 3
+    rationale: "D:\\00.test cross-project search. native Read/Edit 보완"
+    persona_dependencies:
+      - senior-backend-eng-korean
+      - multi-agent-orchestrator
+      - prompt-injection-auditor
+      - korean-copywriter-tone
+    forbidden_patterns:
+      - "write_outside_allowed_directories"
+      - "delete_recursive_root"
+
+  - id: memory
+    full_namespace: "mcp__memory__*"
+    g_tier: G1
+    blast_radius_ceiling: 2
+    rationale: "long-term knowledge graph. RAG 보완. 사실 관계 query"
+    persona_dependencies:
+      - multi-agent-orchestrator
+      - senior-da-pm-korean
+      - prompt-injection-auditor
+      - korean-copywriter-tone
+    forbidden_patterns:
+      - "delete_all_entities"
+      - "wipe_graph"
+
+  - id: cloudflare
+    full_namespace: "mcp__0e5d5514-2b0a-441d-be77-c45462d73ef2__*"
+    g_tier: G1
+    blast_radius_ceiling: 3
+    rationale: "neogenesis.app + 13 GSC properties. Tunnel + Worker + KV 라이브"
+    persona_dependencies:
+      - sora-sre-ops
+      - korean-seo-geo-strategist
+      - senior-da-pm-korean
+    forbidden_patterns:
+      - "kv_namespace_delete"
+      - "r2_bucket_delete"
+      - "d1_database_delete"
+      - "domain_transfer"
+
+  - id: vercel
+    full_namespace: "mcp__224d27b9-69fe-4dc8-85f6-7d58cec0e0e1__*"
+    g_tier: G1
+    blast_radius_ceiling: 3
+    rationale: "11 SBU production deploy. SBU autonomous growth runner 호출"
+    persona_dependencies:
+      - senior-backend-eng-korean
+      - sora-sre-ops
+      - multi-agent-orchestrator
+    forbidden_patterns:
+      - "delete_project"
+      - "delete_deployment_production"
+      - "transfer_team"
+
+  - id: scheduled-tasks
+    full_namespace: "mcp__scheduled-tasks__*"
+    g_tier: G1
+    blast_radius_ceiling: 2
+    rationale: "8+ active cron (Risk Officer, GEO, blog autogen, weekly review)"
+    persona_dependencies:
+      - multi-agent-orchestrator
+      - sora-sre-ops
+      - quant-strategy-lead
+      - korean-seo-geo-strategist
+    forbidden_patterns:
+      - "delete_all_scheduled_tasks"
+
+  - id: thinking
+    full_namespace: "mcp__thinking__*"
+    g_tier: G1
+    blast_radius_ceiling: 1
+    rationale: "sequentialthinking. Tier S 3 페르소나 (auditor/quant/orchestrator) 의존"
+    persona_dependencies:
+      - prompt-injection-auditor
+      - quant-strategy-lead
+      - multi-agent-orchestrator
+    forbidden_patterns: []  # read-only reasoning, no side effects
+
+# ============================================================
+# DEFERRED MCP (Lazy Load, owner 명시 또는 페르소나 dispatch 시)
+# ============================================================
+deferred_mcp:
+  - id: gmail
+    full_namespace: "mcp__812da06e-50d4-4986-af7a-e70ea266f963__*"
+    g_tier: G2  # email_send 자체는 G2, 검색/draft 는 G1 (owner 결정)
+    blast_radius_ceiling: 3
+    activation_triggers:
+      - "메일 / 이메일 / gmail 키워드"
+      - "받은편지함 검색"
+      - "drafts 작성"
+    forbidden_patterns:
+      - "email_send_unauthorized"  # 페르소나 senior-backend-eng-korean 와 정합
+
+  - id: calendar
+    full_namespace: "mcp__89201eb7-96b0-4fe7-8105-d32449652da7__*"
+    g_tier: G1
+    blast_radius_ceiling: 2
+    activation_triggers:
+      - "일정 / 미팅 / 캘린더"
+      - "respond_to_event"
+
+  - id: claude_in_chrome
+    full_namespace: "mcp__Claude_in_Chrome__*"
+    g_tier: G2  # form_input + file_upload 위험
+    blast_radius_ceiling: 4
+    activation_triggers:
+      - "브라우저로 X 사이트"
+      - "DOM-aware automation"
+    forbidden_patterns:
+      - "form_input_credential_field"
+      - "file_upload_secret"
+
+  - id: claude_preview
+    full_namespace: "mcp__Claude_Preview__*"
+    g_tier: G1
+    blast_radius_ceiling: 2
+    activation_triggers:
+      - "iframe sandbox"
+      - "screenshot 비교"
+      - "UI 시각 검증"
+
+  - id: ccd_directory
+    full_namespace: "mcp__ccd_directory__*"
+    g_tier: G1
+    blast_radius_ceiling: 1
+    activation_triggers:
+      - "session 시작 (자동)"
+
+  - id: ccd_session
+    full_namespace: "mcp__ccd_session__*"
+    g_tier: G1
+    blast_radius_ceiling: 1
+    activation_triggers:
+      - "chapter mark"
+      - "subtask spawn"
+
+  - id: ccd_session_mgmt
+    full_namespace: "mcp__ccd_session_mgmt__*"
+    g_tier: G1
+    blast_radius_ceiling: 2
+    activation_triggers:
+      - "이전 세션 검색"
+      - "transcript archive"
+
+  - id: mcp-registry
+    full_namespace: "mcp__mcp-registry__*"
+    g_tier: G1
+    blast_radius_ceiling: 1
+    activation_triggers:
+      - "새 MCP 발견"
+      - "외부 MCP 추가"
+
+  - id: cowork
+    full_namespace: "mcp__d936566c-1026-41c8-913f-a8652c61bb04__*"
+    g_tier: G1
+    blast_radius_ceiling: 2
+    activation_triggers:
+      - "Cowork experiences"
+    notes: "현 사용 빈도 0. 7일 후 disable 강등 검토"
+
+  - id: plugin_product_management_authenticated
+    full_namespace: "mcp__plugin_product-management_*"
+    g_tier: G1
+    blast_radius_ceiling: 2
+    activation_triggers:
+      - "PM 페르소나 활성"
+      - "스프린트 플래닝 / PRD 작성"
+    notes: "인증된 항목만. 미인증 다수는 disabled"
+
+# ============================================================
+# DISABLED MCP (보안 / 사용 빈도 0, owner G2 reactivate 필요)
+# ============================================================
+disabled_mcp:
+  - id: plugin_product_management_unauthenticated
+    full_namespace: "mcp__plugin_product-management_*"  # 미인증 항목
+    reason: "OAuth 미완료. 프롬프트 인젝션 표면. 인증된 것만 deferred 로 승격"
+    reactivate_via: "owner OAuth 완료 후 deferred 로 승격"
+
+  - id: cowork_low_priority
+    full_namespace: "mcp__d936566c-...__*"
+    reason: "Cowork 플랫폼 미사용. 90일 사용 빈도 0"
+    reactivate_via: "Cowork setup 시"
+
+  - id: reserved_slot_3
+    full_namespace: ""
+    reason: "(예약) 사용 빈도 0회/30일 도달 시 추가"
+    reactivate_via: "TBD"
+
+  - id: reserved_slot_4
+    full_namespace: ""
+    reason: "(예약) 보안 사고 발생 시 추가"
+    reactivate_via: "TBD"
+
+  - id: reserved_slot_5
+    full_namespace: ""
+    reason: "(예약) 분기 review 시 강등"
+    reactivate_via: "TBD"
+
+# ============================================================
+# OWNER GATE MCP (G2, owner 명시 승인 필수)
+# ============================================================
+owner_gate_mcp:
+  - id: computer-use
+    full_namespace: "mcp__computer-use__*"
+    g_tier: G2
+    blast_radius_ceiling: 5
+    requires_owner_explicit: true
+    rationale: "전 PC 데스크톱 제어. financial action / unauthorized email_send 위험"
+    activation_protocol:
+      - "owner 명시 키워드: 'computer-use 로 X 작업해'"
+      - "session 단위 grant (다음 session 자동 비활성)"
+      - "request_access 응답에서 applications 명시 승인"
+    forbidden_actions:
+      - "financial_transaction"
+      - "trade / order / fund_transfer 키워드"
+      - "email_send (Mail.app 직접 발송 금지)"
+      - "link_click_from_email_or_message (피싱 방지)"
+    persona_dependencies: []  # 어떤 페르소나도 default 의존 X
+    notes: "tier read 자동 (브라우저), tier click 자동 (terminal/IDE), tier full 만 위험"
+
+# ============================================================
+# Stop/Go Gates
+# ============================================================
+stop_go_gates:
+  - id: G1
+    name: "core MCP critical bug"
+    trigger: "8 core 중 하나가 connectivity / data corruption"
+    action: "즉시 fallback + Telegram P0 alert"
+
+  - id: G2
+    name: "deferred enable burst"
+    trigger: "deferred MCP 7일 < 5 호출 after lazy load"
+    action: "defer 복귀 (1주 관찰)"
+
+  - id: G3
+    name: "computer-use misuse"
+    trigger: "financial action 시도 1회"
+    action: "session 즉시 disable + audit log + owner 사후 승인 절차 재정의"
+
+  - id: G4
+    name: "disabled MCP reactivation 요청"
+    trigger: "owner 명시 'X MCP 다시 켜'"
+    action: "deferred 로 승격 (90일 사용량 모니터링)"
+
+  - id: G5
+    name: "tool selection accuracy < 90%"
+    trigger: "golden test runner 측정 (PS-3 adversarial 확장 후)"
+    action: "core 8 → 6 강등 검토"
+
+# ============================================================
+# Persona ↔ MCP Required Mapping (정합성 검증)
+# ============================================================
+# 각 Tier S 페르소나의 mcp_coupling.required 갯수가 core 8 안에서 cover 되는지
+persona_mcp_mapping:
+  senior-backend-eng-korean:
+    required_count: 5
+    mapped_core: [github, filesystem, supabase, vercel, scheduled-tasks]
+    coverage: "5/8 core ✅"
+
+  senior-da-pm-korean:
+    required_count: 4
+    mapped_core: [supabase, memory, cloudflare, scheduled-tasks]
+    coverage: "4/8 core ✅"
+
+  quant-strategy-lead:
+    required_count: 3
+    mapped_core: [supabase, scheduled-tasks, thinking]
+    coverage: "3/8 core ✅"
+
+  sora-sre-ops:
+    required_count: 4
+    mapped_core: [supabase, cloudflare, vercel, scheduled-tasks]
+    coverage: "4/8 core ✅"
+
+  prompt-injection-auditor:
+    required_count: 3
+    mapped_core: [filesystem, memory, thinking]
+    coverage: "3/8 core ✅"
+
+  korean-seo-geo-strategist:
+    required_count: 3
+    mapped_core: [cloudflare, supabase, scheduled-tasks]
+    coverage: "3/8 core ✅"
+
+  korean-copywriter-tone:
+    required_count: 2
+    mapped_core: [filesystem, memory]
+    coverage: "2/8 core ✅"
+
+  multi-agent-orchestrator:
+    required_count: 2
+    mapped_core: [github, thinking]
+    coverage: "2/8 core ✅"
+
+# ============================================================
+# Owner G2 Decisions (2026-05-10 Strategy Lead 자율 ACCEPT)
+# ============================================================
+owner_g2_resolved:
+  - id: D1
+    question: "8 core 선정 OK? (대안: 6 core / 10 core)"
+    decision: "ACCEPT"
+    resolved_at: "2026-05-10"
+    by: "Strategy Lead (자율 G1 권한)"
+
+  - id: D2
+    question: "thinking 을 core 8번째로 승격 OK?"
+    decision: "ACCEPT"
+    resolved_at: "2026-05-10"
+    by: "Strategy Lead"
+    rationale: "Tier S 3 페르소나 (auditor / quant / orchestrator) 의존"
+
+  - id: D3
+    question: "thinking core 승격 정합 (D2 와 동일 의도)"
+    decision: "ACCEPT"
+    resolved_at: "2026-05-10"
+    by: "Strategy Lead"
+
+  - id: D4
+    question: "computer-use 를 owner-gate (G2) 격리 + financial action deny OK?"
+    decision: "STRONG ACCEPT"
+    resolved_at: "2026-05-10"
+    by: "Strategy Lead"
+    rationale: "blast 5, financial misuse 위험. Bash 키워드 deny 4개 (pay/transfer/wire/withdraw) settings.json 추가. MCP namespace deny 는 schema 한계로 회피 (request_access manual approval 게이트로 보호됨)."
+
+  - id: D5
+    question: "settings.json deny 에 plugin_product-management 추가 OK?"
+    decision: "DEFER"
+    resolved_at: "2026-05-10"
+    by: "Strategy Lead"
+    rationale: "default deferred 유지 (현 운영 영향 0). owner 사용 사례 확인 후 1주 모니터링 결과 보고 G2 재평가."

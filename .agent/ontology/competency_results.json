@@ -1,0 +1,107 @@
+{
+  "pass": 20,
+  "warn": 0,
+  "fail": 0,
+  "results": {
+    "CQ-01": {
+      "status": "PASS",
+      "row_count": 1,
+      "sample": "[('71296e23e9dc65fa2373a6b19f9454f60b1bad6e5fb5d47da21333e0a1a2a790',)]"
+    },
+    "CQ-02": {
+      "status": "PASS",
+      "row_count": 5,
+      "sample": "[('claude-opus-4-7',), ('claude-opus-4-7',)]"
+    },
+    "CQ-03": {
+      "status": "PASS",
+      "row_count": 10,
+      "sample": "[('.agent/personas/tier-s/sora-sre-ops.md',), ('.agent/personas/tier-s/korean-seo-geo-strategist.md',)]"
+    },
+    "CQ-04": {
+      "status": "PASS",
+      "row_count": 10,
+      "sample": "[('.agent/personas/tier-s/korean-copywriter-tone.md',), ('.agent/personas/tier-s/korean-seo-geo-strategist.md',)]"
+    },
+    "CQ-05": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    },
+    "CQ-06": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    },
+    "CQ-07": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    },
+    "CQ-08": {
+      "status": "PASS",
+      "row_count": 4,
+      "sample": "[('yesol-asus',), ('etribe-yesol',)]"
+    },
+    "CQ-09": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    },
+    "CQ-10": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    },
+    "CQ-11": {
+      "status": "PASS",
+      "row_count": 1,
+      "sample": "[('b8945eb6481d0b8c749c51593aa7b07926823a5252364bb58cd734ac698aced3',)]"
+    },
+    "CQ-12": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    },
+    "CQ-13": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    },
+    "CQ-14": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    },
+    "CQ-15": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    },
+    "CQ-16": {
+      "status": "PASS",
+      "row_count": 5,
+      "sample": "[('neo://action_run/extract-20260604T091302375615', 'extract'), ('neo://action_run/extract-20260604T091302375615', 'extract')]"
+    },
+    "CQ-17": {
+      "status": "PASS",
+      "row_count": 10,
+      "sample": "[(None,), (None,)]"
+    },
+    "CQ-18": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    },
+    "CQ-19": {
+      "status": "PASS",
+      "row_count": 1,
+      "sample": "[('Artifact', 58)]"
+    },
+    "CQ-20": {
+      "status": "PASS",
+      "row_count": 0,
+      "sample": "[]"
+    }
+  }
+}

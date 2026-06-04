@@ -1,0 +1,117 @@
+{
+  "version": "1.0",
+  "master": {
+    "id": "desktop-home",
+    "hostname": "desktop-home",
+    "platform": "windows",
+    "role": "master-control"
+  },
+  "priorityGroups": {
+    "primary": [
+      "desktop-home",
+      "etribe-yesol"
+    ],
+    "secondary": [
+      "yesol-asus",
+      "heejin"
+    ],
+    "decommissioning": [
+      "ysh-server"
+    ]
+  },
+  "devices": [
+    {
+      "id": "desktop-home",
+      "hostname": "desktop-home",
+      "platform": "windows",
+      "connection": "local",
+      "runtimePath": "D:\\00.test\\neo-genesis",
+      "codexGlobal": "C:\\Users\\yesol\\.codex\\AGENTS.md",
+      "role": "master",
+      "priorityTier": "primary",
+      "priorityRank": 1,
+      "priorityReason": "Owner designated this PC as the master and one of the most important devices.",
+      "note": "2026-05-29: owner decision — ysh-server 운영 종료, desktop-home 단일 운영 체제로 전환. sora daemon 이 이 PC WSL2 에서 실행됨.",
+      "specs": {
+        "cpu": "AMD Ryzen 7 7800X3D 8-Core Processor",
+        "ram": "64 GB DDR5",
+        "ssd": "Samsung SSD 990 PRO 1TB + Samsung SSD 990 PRO 2TB"
+      },
+      "online": true
+    },
+    {
+      "id": "yesol-asus",
+      "hostname": "yesol-asus",
+      "platform": "windows",
+      "connection": "ssh",
+      "runtimePath": "%USERPROFILE%\\neo-genesis-runtime",
+      "codexGlobal": "%USERPROFILE%\\.codex\\AGENTS.md",
+      "claudeGlobal": "%USERPROFILE%\\.claude\\CLAUDE.md",
+      "geminiGlobal": "%USERPROFILE%\\.gemini\\GEMINI.md",
+      "role": "worker",
+      "priorityTier": "secondary",
+      "knownLimitations": [
+        "Windows SSH session is user-level; Administrators group appears deny-only unless elevated separately.",
+        "SMB admin shares are not available from desktop-home."
+      ],
+      "online": false
+    },
+    {
+      "id": "etribe-yesol",
+      "hostname": "etribe-yesol",
+      "platform": "windows",
+      "connection": "ssh",
+      "runtimePath": "%USERPROFILE%\\neo-genesis-runtime",
+      "codexGlobal": "%USERPROFILE%\\.codex\\AGENTS.md",
+      "claudeGlobal": "%USERPROFILE%\\.claude\\CLAUDE.md",
+      "geminiGlobal": "%USERPROFILE%\\.gemini\\GEMINI.md",
+      "role": "primary-company-worker",
+      "priorityTier": "primary",
+      "priorityRank": 3,
+      "priorityReason": "Owner designated the company PC as one of the most important devices.",
+      "specs": {
+        "cpu": "AMD Ryzen 5 9600X 6-Core Processor",
+        "ram": "64 GB DDR5",
+        "gpu": "NVIDIA GeForce RTX 5060 Ti",
+        "ssd": "WD Green SN350 1TB NVMe SSD + Seagate 2TB HDD"
+      },
+      "knownLimitations": [
+        "Windows SSH session is user-level; Administrators group appears deny-only unless elevated separately.",
+        "SMB admin shares are not available from desktop-home."
+      ],
+      "online": false
+    },
+    {
+      "id": "heejin",
+      "hostname": "heejin",
+      "sshTarget": "user@heejin",
+      "platform": "windows",
+      "connection": "ssh",
+      "runtimePath": "%USERPROFILE%\\neo-genesis-runtime",
+      "codexGlobal": "%USERPROFILE%\\.codex\\AGENTS.md",
+      "claudeGlobal": "%USERPROFILE%\\.claude\\CLAUDE.md",
+      "geminiGlobal": "%USERPROFILE%\\.gemini\\GEMINI.md",
+      "role": "authorized-family-worker",
+      "priorityTier": "secondary",
+      "authorization": "Owner stated girlfriend approved remote control for this PC.",
+      "tailscaleIp": "100.65.188.7",
+      "online": false
+    },
+    {
+      "id": "ysh-server",
+      "hostname": "ysh-server",
+      "platform": "linux",
+      "connection": "ssh",
+      "runtimePath": "/home/ysh/neo-genesis-runtime",
+      "codexGlobal": "/home/ysh/.codex/AGENTS.md",
+      "claudeGlobal": "/home/ysh/.claude/CLAUDE.md",
+      "geminiGlobal": "/home/ysh/.gemini/GEMINI.md",
+      "role": "decommissioned-server",
+      "priorityTier": "decommissioning",
+      "priorityRank": null,
+      "priorityReason": "2026-05-29: owner 결정 — ysh-server 운영 종료. sora daemon 포함 모든 서비스를 desktop-home WSL2 로 이관 완료. sora-live rollback 안전망 용도로 며칠간 유지 후 최종 폐기 예정.",
+      "status": "decommissioning",
+      "online": false
+    }
+  ]
+}

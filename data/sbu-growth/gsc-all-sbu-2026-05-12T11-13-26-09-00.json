@@ -1,0 +1,60 @@
+{
+  "generatedAt": "2026-05-12T11:13:26+09:00",
+  "tokenSource": "service_account",
+  "args": {
+    "sites": "ur-wrong",
+    "days": 7,
+    "rowLimit": 5,
+    "submitSitemaps": false,
+    "fetch": true,
+    "minImpressions": 1
+  },
+  "window": {
+    "startDate": "2026-05-03",
+    "endDate": "2026-05-10"
+  },
+  "listedProperties": [],
+  "summary": {
+    "sites": 1,
+    "propertiesListed": 0,
+    "liveSitemapsOk": 1,
+    "gscSitemapsKnown": 0,
+    "sitemapSubmissionsAttempted": 0,
+    "sitemapSubmissionsOk": 0,
+    "searchAnalyticsAttempted": 1,
+    "searchAnalyticsOk": 0,
+    "totalRows": 0
+  },
+  "sites": [
+    {
+      "id": "ur-wrong",
+      "name": "UR WRONG",
+      "property": "https://ur-wrong.com/",
+      "domain": "https://ur-wrong.com",
+      "sitemap": "https://ur-wrong.com/sitemap.xml",
+      "propertyListed": false,
+      "permission": null,
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 73,
+        "finalUrl": "https://ur-wrong.com/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": false,
+        "status": 403,
+        "known": false,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://ur-wrong.com/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://ur-wrong.com/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": false,
+        "status": 403,
+        "rows": 0,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://ur-wrong.com/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://ur-wrong.com/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "opportunities": []
+    }
+  ]
+}

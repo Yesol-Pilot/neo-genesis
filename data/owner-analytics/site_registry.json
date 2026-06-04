@@ -1,0 +1,506 @@
+{
+  "version": "2026-05-14.registry.v1",
+  "generated_at": "2026-05-28T11:08:37.392+09:00",
+  "sites": [
+    {
+      "id": "neogenesis",
+      "name": "NeoGenesis",
+      "status": "active_live",
+      "type": "brand_hub",
+      "canonical_url": "https://neogenesis.app",
+      "canonical_host": "neogenesis.app",
+      "domain_aliases": [
+        "neogenesis.app"
+      ],
+      "blog_url": "https://neogenesis.app/blog",
+      "sitemap_url": "https://neogenesis.app/sitemap.xml",
+      "repo_path": "src/landing",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.neogenesis",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "NeoGenesis",
+      "ga4_property_kind": "shared_host_filtered",
+      "posthog_capture_mode": "expected",
+      "posthog_site_id": "neogenesis",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "neogenesis",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/ga4_traffic_report.py",
+        "scripts/sbu_gsc_all.mjs"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "toolpick",
+      "name": "ToolPick",
+      "status": "active_live",
+      "type": "flagship_sbu",
+      "canonical_url": "https://www.toolpick.dev",
+      "canonical_host": "toolpick.dev",
+      "domain_aliases": [
+        "toolpick.dev",
+        "www.toolpick.dev"
+      ],
+      "blog_url": "https://www.toolpick.dev/blog",
+      "sitemap_url": "https://www.toolpick.dev/sitemap.xml",
+      "repo_path": "src/sbu/toolpick",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.toolpick",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "ToolPick",
+      "ga4_property_kind": "dedicated",
+      "posthog_capture_mode": "expected",
+      "posthog_site_id": "toolpick",
+      "gsc_property_type": "domain",
+      "gsc_site_id": "toolpick",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "ur-wrong",
+      "name": "UR WRONG",
+      "status": "active_live",
+      "type": "ai_experience",
+      "canonical_url": "https://ur-wrong.com",
+      "canonical_host": "ur-wrong.com",
+      "domain_aliases": [
+        "ur-wrong.com"
+      ],
+      "blog_url": "https://ur-wrong.com/blog",
+      "sitemap_url": "https://ur-wrong.com/sitemap.xml",
+      "repo_path": "src/sbu/ur-wrong",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.ur_wrong",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "UR WRONG",
+      "ga4_property_kind": "dedicated",
+      "posthog_capture_mode": "expected",
+      "posthog_site_id": "ur-wrong",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "ur-wrong",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "reviewlab",
+      "name": "ReviewLab",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://review.neogenesis.app",
+      "canonical_host": "review.neogenesis.app",
+      "domain_aliases": [
+        "review.neogenesis.app"
+      ],
+      "blog_url": "https://review.neogenesis.app/posts",
+      "sitemap_url": "https://review.neogenesis.app/sitemap.xml",
+      "repo_path": "src/sbu/reviewlab",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.reviewlab",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "ReviewLab",
+      "ga4_property_kind": "shared_host_filtered",
+      "posthog_capture_mode": "site_id_or_host",
+      "posthog_site_id": "reviewlab",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "reviewlab",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs",
+        "scripts/posthog_traffic.py"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "kott",
+      "name": "K-OTT",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://kott.kr",
+      "canonical_host": "kott.kr",
+      "domain_aliases": [
+        "kott.kr"
+      ],
+      "blog_url": "https://kott.kr/blog",
+      "sitemap_url": "https://kott.kr/sitemap.xml",
+      "repo_path": "src/sbu/k-ott",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.kott",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "K-OTT",
+      "ga4_property_kind": "dedicated",
+      "posthog_capture_mode": "site_id_or_host",
+      "posthog_site_id": "kott",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "kott",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs",
+        "scripts/posthog_traffic.py"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "whylab",
+      "name": "WhyLab",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://whylab.neogenesis.app",
+      "canonical_host": "whylab.neogenesis.app",
+      "domain_aliases": [
+        "whylab.neogenesis.app"
+      ],
+      "blog_url": "https://whylab.neogenesis.app/blog",
+      "sitemap_url": "https://whylab.neogenesis.app/sitemap.xml",
+      "repo_path": "src/sbu/whylab",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.whylab",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "WhyLab",
+      "ga4_property_kind": "shared_host_filtered",
+      "posthog_capture_mode": "site_id_or_host",
+      "posthog_site_id": "whylab",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "whylab",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs",
+        "scripts/posthog_traffic.py"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "ethicaai",
+      "name": "EthicaAI",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://ethica.neogenesis.app",
+      "canonical_host": "ethica.neogenesis.app",
+      "domain_aliases": [
+        "ethica.neogenesis.app"
+      ],
+      "blog_url": "https://ethica.neogenesis.app/blog",
+      "sitemap_url": "https://ethica.neogenesis.app/sitemap.xml",
+      "repo_path": "src/sbu/ethicaai",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.ethicaai",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "EthicaAI",
+      "ga4_property_kind": "shared_host_filtered",
+      "posthog_capture_mode": "site_id_or_host",
+      "posthog_site_id": "ethicaai",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "ethicaai",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs",
+        "scripts/posthog_traffic.py"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "finstack",
+      "name": "FinStack",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://finstack.neogenesis.app",
+      "canonical_host": "finstack.neogenesis.app",
+      "domain_aliases": [
+        "finstack.neogenesis.app"
+      ],
+      "blog_url": "https://finstack.neogenesis.app/blog",
+      "sitemap_url": "https://finstack.neogenesis.app/sitemap.xml",
+      "repo_path": "src/sbu/finstack",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.finstack",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "FinStack",
+      "ga4_property_kind": "shared_host_filtered",
+      "posthog_capture_mode": "site_id_or_host",
+      "posthog_site_id": "finstack",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "finstack",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs",
+        "scripts/posthog_traffic.py"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "aiforge",
+      "name": "AIForge",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://aiforge.neogenesis.app",
+      "canonical_host": "aiforge.neogenesis.app",
+      "domain_aliases": [
+        "aiforge.neogenesis.app"
+      ],
+      "blog_url": "https://aiforge.neogenesis.app/blog",
+      "sitemap_url": "https://aiforge.neogenesis.app/sitemap.xml",
+      "repo_path": "src/sbu/aiforge",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.aiforge",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "AIForge",
+      "ga4_property_kind": "shared_host_filtered",
+      "posthog_capture_mode": "site_id_or_host",
+      "posthog_site_id": "aiforge",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "aiforge",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs",
+        "scripts/posthog_traffic.py"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "sellkit",
+      "name": "SellKit",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://sellkit.neogenesis.app",
+      "canonical_host": "sellkit.neogenesis.app",
+      "domain_aliases": [
+        "sellkit.neogenesis.app"
+      ],
+      "blog_url": "https://sellkit.neogenesis.app/blog",
+      "sitemap_url": "https://sellkit.neogenesis.app/sitemap.xml",
+      "repo_path": "src/sbu/sellkit",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.sellkit",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "SellKit",
+      "ga4_property_kind": "shared_host_filtered",
+      "posthog_capture_mode": "site_id_or_host",
+      "posthog_site_id": "sellkit",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "sellkit",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs",
+        "scripts/posthog_traffic.py"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "deploystack",
+      "name": "DeployStack",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://deploystack.neogenesis.app",
+      "canonical_host": "deploystack.neogenesis.app",
+      "domain_aliases": [
+        "deploystack.neogenesis.app"
+      ],
+      "blog_url": "https://deploystack.neogenesis.app/blog",
+      "sitemap_url": "https://deploystack.neogenesis.app/sitemap.xml",
+      "repo_path": "src/sbu/deploystack",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.deploystack",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "DeployStack",
+      "ga4_property_kind": "shared_host_filtered",
+      "posthog_capture_mode": "site_id_or_host",
+      "posthog_site_id": "deploystack",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "deploystack",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs",
+        "scripts/posthog_traffic.py"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "craftdesk",
+      "name": "CraftDesk",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://craftdesk.neogenesis.app",
+      "canonical_host": "craftdesk.neogenesis.app",
+      "domain_aliases": [
+        "craftdesk.neogenesis.app"
+      ],
+      "blog_url": "https://craftdesk.neogenesis.app/blog",
+      "sitemap_url": "https://craftdesk.neogenesis.app/sitemap.xml",
+      "repo_path": "src/sbu/craftdesk",
+      "deployment_provider": "vercel",
+      "deployment_project_id_ref": "vercel_project.craftdesk",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "CraftDesk",
+      "ga4_property_kind": "shared_host_filtered",
+      "posthog_capture_mode": "site_id_or_host",
+      "posthog_site_id": "craftdesk",
+      "gsc_property_type": "url_prefix",
+      "gsc_site_id": "craftdesk",
+      "registry_sources": [
+        ".agent/SSOT",
+        "scripts/sbu_gsc_all.mjs",
+        "scripts/posthog_traffic.py"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "heoyesol",
+      "name": "HeoYesol Portfolio",
+      "status": "active_live",
+      "type": "portfolio",
+      "canonical_url": "https://heoyesol.kr",
+      "canonical_host": "heoyesol.kr",
+      "domain_aliases": [
+        "heoyesol.kr",
+        "www.heoyesol.kr"
+      ],
+      "blog_url": null,
+      "sitemap_url": "https://heoyesol.kr/sitemap.xml",
+      "repo_path": "..\\portfolio",
+      "deployment_provider": "github_pages_or_vercel",
+      "deployment_project_id_ref": "deployment_project.heoyesol",
+      "expected_ga_measurement_id_ref": "env.GA_MEASUREMENT_ID",
+      "ga4_source_key": "HeoYesol Portfolio",
+      "ga4_property_kind": "dedicated",
+      "posthog_capture_mode": "not_configured",
+      "posthog_site_id": "heoyesol",
+      "gsc_property_type": "domain",
+      "gsc_site_id": "heoyesol",
+      "registry_sources": [
+        ".agent/SSOT",
+        "logs/ga4_result.json",
+        "scripts/sbu_gsc_all.mjs"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    },
+    {
+      "id": "koreanllm",
+      "name": "KoreanLLM",
+      "status": "candidate_decision",
+      "type": "candidate_site",
+      "canonical_url": null,
+      "canonical_host": null,
+      "domain_aliases": [],
+      "blog_url": null,
+      "sitemap_url": null,
+      "repo_path": null,
+      "deployment_provider": "unknown",
+      "deployment_project_id_ref": null,
+      "expected_ga_measurement_id_ref": null,
+      "ga4_source_key": null,
+      "ga4_property_kind": "none",
+      "posthog_capture_mode": "none",
+      "posthog_site_id": null,
+      "gsc_property_type": "none",
+      "gsc_site_id": null,
+      "registry_sources": [
+        "owner_request_candidate"
+      ],
+      "source_precedence": [
+        ".agent/SSOT",
+        "sbus.ts",
+        "collector_config",
+        "README"
+      ],
+      "generated_from": "owner_traffic_command.mjs",
+      "last_verified_at": null
+    }
+  ]
+}

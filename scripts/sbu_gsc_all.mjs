@@ -22,6 +22,7 @@ const DEFAULT_SITE_IDS = [
   'whylab',
   'ethicaai',
   'neogenesis',
+  'heoyesol',
 ];
 const DEFAULT_SITES = DEFAULT_SITE_IDS.join(',');
 
@@ -109,6 +110,13 @@ const SITES = {
     domain: 'https://neogenesis.app',
     host: 'neogenesis.app',
     sitemap: 'https://neogenesis.app/sitemap.xml',
+  },
+  heoyesol: {
+    name: 'HeoYesol Portfolio',
+    property: 'sc-domain:heoyesol.kr',
+    domain: 'https://heoyesol.kr',
+    host: 'heoyesol.kr',
+    sitemap: 'https://heoyesol.kr/sitemap.xml',
   },
 };
 
@@ -377,7 +385,19 @@ function summarizeRows(rows, minImpressions) {
     .slice(0, 10);
 }
 
-async function inspectSite(siteId, site, args, token, listedProperties) {
+function isScopeInsufficient(response) {
+  return response?.status === 403
+    && /ACCESS_TOKEN_SCOPE_INSUFFICIENT|insufficient authentication scopes|Insufficient Permission/i.test(response.text || '');
+}
+
+async function submitSitemap(encodedProperty, encodedSitemap, token) {
+  return fetchJson(`https://www.googleapis.com/webmasters/v3/sites/${encodedProperty}/sitemaps/${encodedSitemap}`, {
+    method: 'PUT',
+    headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+  });
+}
+
+async function inspectSite(siteId, site, args, token, listedProperties, resolveSubmitFallbackToken) {
   const headers = { authorization: `Bearer ${token}`, 'content-type': 'application/json' };
   const liveSitemap = await fetchText(site.sitemap);
   const liveLocCount = (liveSitemap.text.match(/<loc>/g) || []).length;
@@ -390,10 +410,17 @@ async function inspectSite(siteId, site, args, token, listedProperties) {
 
   let sitemapSubmit = null;
   if (args.submitSitemaps) {
-    sitemapSubmit = await fetchJson(`https://www.googleapis.com/webmasters/v3/sites/${encodedProperty}/sitemaps/${encodedSitemap}`, {
-      method: 'PUT',
-      headers,
-    });
+    sitemapSubmit = await submitSitemap(encodedProperty, encodedSitemap, token);
+    if (isScopeInsufficient(sitemapSubmit) && resolveSubmitFallbackToken) {
+      const fallback = await resolveSubmitFallbackToken();
+      if (fallback?.token) {
+        const retry = await submitSitemap(encodedProperty, encodedSitemap, fallback.token);
+        retry.primaryStatus = sitemapSubmit.status;
+        retry.primaryError = sitemapSubmit.text;
+        retry.fallbackTokenSource = fallback.source;
+        sitemapSubmit = retry;
+      }
+    }
     await sleep(350);
   }
 
@@ -452,6 +479,8 @@ async function inspectSite(siteId, site, args, token, listedProperties) {
           ok: sitemapSubmit.ok,
           status: sitemapSubmit.status,
           submitted: sitemapSubmit.status === 204,
+          primaryStatus: sitemapSubmit.primaryStatus || null,
+          fallbackTokenSource: sitemapSubmit.fallbackTokenSource || null,
           error: sitemapSubmit.ok ? null : sitemapSubmit.text,
         }
       : null,
@@ -528,6 +557,18 @@ async function main() {
 
   const tokenResult = await resolveToken();
   if (!tokenResult?.token) throw new Error('missing_search_console_oauth_token');
+  let submitFallbackTokenPromise = null;
+  const resolveSubmitFallbackToken = async () => {
+    if (tokenResult.source === 'service_account') return null;
+    if (!submitFallbackTokenPromise) {
+      submitFallbackTokenPromise = tokenFromServiceAccount(WEBMASTERS_SCOPE)
+        .catch((error) => {
+          console.warn(`[gsc] service account submit fallback unavailable: ${error.message}`);
+          return null;
+        });
+    }
+    return submitFallbackTokenPromise;
+  };
 
   const headers = { authorization: `Bearer ${tokenResult.token}`, 'content-type': 'application/json' };
   const list = await fetchJson('https://www.googleapis.com/webmasters/v3/sites', { headers });
@@ -536,7 +577,7 @@ async function main() {
 
   const sites = [];
   for (const siteId of siteIds) {
-    sites.push(await inspectSite(siteId, SITES[siteId], args, tokenResult.token, listedProperties));
+    sites.push(await inspectSite(siteId, SITES[siteId], args, tokenResult.token, listedProperties, resolveSubmitFallbackToken));
   }
 
   const attemptedSubmits = sites.filter((site) => site.sitemapSubmit).length;

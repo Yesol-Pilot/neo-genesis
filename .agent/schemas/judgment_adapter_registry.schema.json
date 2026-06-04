@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neogenesis.local/schemas/judgment_adapter_registry.schema.json",
+  "title": "Neo Genesis Judgment Adapter Registry",
+  "type": "object",
+  "required": ["schemaVersion", "adapters"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "ng.judgment.adapters.v1"
+    },
+    "adapters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "owner",
+          "purpose",
+          "sourceArtifacts",
+          "requiredEvidence",
+          "approvalRules",
+          "greenCriteria",
+          "yellowCriteria",
+          "redCriteria"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "kind": { "type": "string", "minLength": 1 },
+          "owner": { "type": "string", "minLength": 1 },
+          "purpose": { "type": "string", "minLength": 1 },
+          "sourceArtifacts": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "requiredEvidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "control_tower_json",
+                "regression_gate",
+                "live_smoke",
+                "policy_decision",
+                "sanitizer_result",
+                "delivery_state",
+                "source_citations",
+                "staleness_check",
+                "contradiction_check",
+                "desktop_screenshot",
+                "mobile_screenshot",
+                "console_check",
+                "overflow_check",
+                "accessibility_check",
+                "lockfile_diff",
+                "dependency_review",
+                "mcp_allowlist",
+                "secret_scan",
+                "rollback_path"
+              ]
+            }
+          },
+          "approvalRules": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/approvalRule" }
+          },
+          "greenCriteria": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "yellowCriteria": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "redCriteria": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "approvalRule": {
+      "type": "object",
+      "required": ["authorityTier", "action", "requiredWhen"],
+      "additionalProperties": false,
+      "properties": {
+        "authorityTier": { "enum": ["G0", "G1", "G2", "G3", "G4", "G5"] },
+        "action": { "type": "string", "minLength": 1 },
+        "requiredWhen": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

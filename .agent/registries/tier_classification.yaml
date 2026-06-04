@@ -1,0 +1,1152 @@
+generated_at: '2026-05-12T15:57:25+0900'
+repo_root: 'D:\00.test\neo-genesis'
+agent_root: 'D:\00.test\neo-genesis\.agent'
+total_files: 154
+total_bytes: 3172241
+estimated_tokens_total: 1258769
+tier_counts:
+  1: 7
+  2: 19
+  3: 99
+  4: 29
+tier_bytes:
+  1: 469812
+  2: 196210
+  3: 1964872
+  4: 541347
+tier_tokens:
+  1: 187922
+  2: 78476
+  3: 785907
+  4: 206464
+split_candidates:
+  - 'shared-brain/active-tasks.md'
+  - 'shared-brain/handoff.md'
+files:
+  - path: 'shared-brain/active-tasks.md'
+    size_bytes: 266404
+    age_days: 0.0
+    tier: 1
+    tier_reason: 'tier1_critical_ssot'
+    is_split_candidate: true
+    estimated_tokens: 106561
+    notes: 'split: recent/active section → tier 1, older → tier 4'
+  - path: 'shared-brain/handoff.md'
+    size_bytes: 123311
+    age_days: 0.0
+    tier: 1
+    tier_reason: 'tier1_critical_ssot'
+    is_split_candidate: true
+    estimated_tokens: 49324
+    notes: 'split: recent/active section → tier 1, older → tier 4'
+  - path: 'shared-brain/cross-agent-review.md'
+    size_bytes: 39667
+    age_days: 1.2
+    tier: 1
+    tier_reason: 'tier1_critical_ssot'
+    is_split_candidate: false
+    estimated_tokens: 15866
+  - path: 'NEO_MASTER_RULES.md'
+    size_bytes: 33396
+    age_days: 1.7
+    tier: 1
+    tier_reason: 'tier1_critical_ssot'
+    is_split_candidate: false
+    estimated_tokens: 13358
+  - path: 'shared-brain/device_inventory.json'
+    size_bytes: 3288
+    age_days: 1.1
+    tier: 1
+    tier_reason: 'tier1_critical_ssot'
+    is_split_candidate: false
+    estimated_tokens: 1315
+  - path: 'shared-brain/status.json'
+    size_bytes: 2371
+    age_days: 0.0
+    tier: 1
+    tier_reason: 'tier1_critical_ssot'
+    is_split_candidate: false
+    estimated_tokens: 948
+  - path: 'shared-brain/device_heartbeats.json'
+    size_bytes: 1375
+    age_days: 1.1
+    tier: 1
+    tier_reason: 'tier1_critical_ssot'
+    is_split_candidate: false
+    estimated_tokens: 550
+  - path: 'BIBLE.md'
+    size_bytes: 26812
+    age_days: 1.2
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 10724
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'knowledge/AGENT_SHARED_MEMORY.md'
+    size_bytes: 23419
+    age_days: 0.1
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 9367
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'contracts/GRILL_TOAST_PROTOCOL.md'
+    size_bytes: 22357
+    age_days: 6.2
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 8942
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'policies/mcp_tool_policy.yaml'
+    size_bytes: 13709
+    age_days: 1.7
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 5483
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'policies/mcp_curation_v1.md'
+    size_bytes: 13547
+    age_days: 1.7
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 5418
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'knowledge/AGENT_RUNTIME_OPTIMIZATION.md'
+    size_bytes: 12081
+    age_days: 18.1
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 4832
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'knowledge/CLAUDE_COLLABORATION.md'
+    size_bytes: 10581
+    age_days: 18.1
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 4232
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'knowledge/MASTER_CREDENTIAL_ACCESS_STANDARD.md'
+    size_bytes: 10214
+    age_days: 8.9
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 4085
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'policies/slo_definitions.yaml'
+    size_bytes: 9813
+    age_days: 13.0
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 3925
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'contracts/COLLABORATION_CONTRACT.md'
+    size_bytes: 8359
+    age_days: 6.3
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 3343
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'policies/pipa_data_retention.yaml'
+    size_bytes: 7270
+    age_days: 8.0
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 2908
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'policies/persona_safety.yaml'
+    size_bytes: 5738
+    age_days: 4.0
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 2295
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'policies/gitleaks-korean-rules.toml'
+    size_bytes: 5475
+    age_days: 15.1
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 2190
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'runbooks/chaos_drill_v1.md'
+    size_bytes: 5374
+    age_days: 8.0
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 2149
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'runbooks/chaos_drill_dryrun_2026-05-06.md'
+    size_bytes: 5140
+    age_days: 6.2
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 2056
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'contracts/AGENT_OUTPUT_ARTIFACT_CONTRACT.md'
+    size_bytes: 4639
+    age_days: 0.1
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 1855
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'runbooks/hook_audit_isolation.md'
+    size_bytes: 4278
+    age_days: 1.7
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 1711
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'knowledge/OWNER_PROFILE.md'
+    size_bytes: 4153
+    age_days: 35.7
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 1661
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'policies/rag_eval_baseline.yaml'
+    size_bytes: 3251
+    age_days: 8.8
+    tier: 2
+    tier_reason: 'tier2_important_path'
+    is_split_candidate: false
+    estimated_tokens: 1300
+    notes: 'lazy load 권장 (CLAUDE.md @import 제거)'
+  - path: 'personas/dispatcher/persona_embeddings.json'
+    size_bytes: 1042241
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 416896
+  - path: 'registries/tier_classification.json'
+    size_bytes: 54246
+    age_days: 0.0
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 21698
+  - path: 'knowledge/reports/2026-Q2-research-status-report.md'
+    size_bytes: 43729
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 17491
+  - path: 'registries/tier_classification.yaml'
+    size_bytes: 35340
+    age_days: 0.0
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 14136
+  - path: 'knowledge/20260511_D00TEST_FULL_REORGANIZATION_PLAN.md'
+    size_bytes: 32064
+    age_days: 0.2
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 12825
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/20260512_AGENT_DIR_OPTIMIZATION_EXTERNAL_RESEARCH_v1.md'
+    size_bytes: 24719
+    age_days: 0.0
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 9887
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/20260426_FINANCIAL_ADVISOR_SYSTEM_v1.md'
+    size_bytes: 24200
+    age_days: 15.9
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 9680
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/20260512_AGENT_DIR_OPTIMIZATION_MASTER_v1.md'
+    size_bytes: 19791
+    age_days: 0.0
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 7916
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/20260510_D00TEST_DIRECTORY_REORGANIZATION_POLICY.md'
+    size_bytes: 19399
+    age_days: 0.1
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 7759
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/20260424_Directory_Cleanup_Audit_v1.md'
+    size_bytes: 18247
+    age_days: 1.2
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 7298
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/persona_caching_cost_analysis_v1.md'
+    size_bytes: 17473
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 6989
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/20260424_AI_AGENT_ENVIRONMENT_OPTIMIZATION_BLUEPRINT.md'
+    size_bytes: 16094
+    age_days: 6.3
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 6437
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/wikipedia-drafts/yesol_heo_ko.md'
+    size_bytes: 15824
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 6329
+  - path: 'knowledge/persona_caching_integration_guide.md'
+    size_bytes: 15376
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 6150
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/wikipedia-drafts/neo_genesis_ko.md'
+    size_bytes: 15034
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 6013
+  - path: 'knowledge/wikipedia-drafts/yesol_heo_en.md'
+    size_bytes: 14719
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 5887
+  - path: 'knowledge/cross-publish/devto-running-11-saas-products.md'
+    size_bytes: 14289
+    age_days: 8.0
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 5715
+  - path: 'knowledge/wikipedia-drafts/neo_genesis_en.md'
+    size_bytes: 14069
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 5627
+  - path: 'knowledge/20260427_AI_TRAFFIC_MAXIMIZATION_MASTER_v1.md'
+    size_bytes: 13452
+    age_days: 15.0
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 5380
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/20260510_D_DRIVE_ROOT_POLICY.md'
+    size_bytes: 13104
+    age_days: 1.1
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 5241
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/blog_autogen_pipeline_v1.md'
+    size_bytes: 12436
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 4974
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/cross-publish/devto-inside-hive-mind.md'
+    size_bytes: 11600
+    age_days: 8.0
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 4640
+  - path: 'knowledge/agent-environment/framework-scorecard-v2.md'
+    size_bytes: 11467
+    age_days: 18.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 4586
+  - path: 'personas/tier-s/senior-backend-eng-korean.md'
+    size_bytes: 10431
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 4172
+  - path: 'knowledge/agent-environment/workflow-patterns-v1.md'
+    size_bytes: 10354
+    age_days: 18.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 4141
+  - path: 'personas/INDEX.md'
+    size_bytes: 9707
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3882
+  - path: 'personas/tier-a/research-synthesizer.md'
+    size_bytes: 9569
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3827
+  - path: 'shared-brain/codex-rag-bulk-indexing-task.md'
+    size_bytes: 9549
+    age_days: 2.0
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 3819
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'personas/tier-a/threat-modeler-saas.md'
+    size_bytes: 9459
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3783
+  - path: 'knowledge/agent-environment/ux-product-pattern-library-v2.md'
+    size_bytes: 9363
+    age_days: 18.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3745
+  - path: 'knowledge/agent-environment/security-governance-threat-model-v2.md'
+    size_bytes: 9349
+    age_days: 18.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3739
+  - path: 'personas/tier-a/financial-advisor-personal.md'
+    size_bytes: 9341
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3736
+  - path: 'knowledge/agent-environment/local-adoption-roadmap-v2.md'
+    size_bytes: 9237
+    age_days: 6.3
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3694
+  - path: 'personas/tier-a/growth-experiments-pm.md'
+    size_bytes: 9089
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3635
+  - path: 'personas/tier-a/database-architect-postgres.md'
+    size_bytes: 9040
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3616
+  - path: 'personas/tier-a/infrastructure-architect-cloud.md'
+    size_bytes: 8984
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3593
+  - path: 'knowledge/cross-publish/hashnode-running-11-saas-products.md'
+    size_bytes: 8865
+    age_days: 8.0
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3546
+  - path: 'knowledge/cross-publish/hn_warmup_strategy.md'
+    size_bytes: 8665
+    age_days: 6.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3466
+  - path: 'knowledge/20260510_PHASE_A_CLOSURE_PHASE_B_LAUNCH_v1.md'
+    size_bytes: 8483
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 3393
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/wikipedia-drafts/SUBMISSION_INSTRUCTIONS.md'
+    size_bytes: 8266
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3306
+  - path: 'knowledge/agent-environment/research-patterns-v2.md'
+    size_bytes: 8045
+    age_days: 18.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3218
+  - path: 'personas/tier-a/content-strategist-saas.md'
+    size_bytes: 7991
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3196
+  - path: 'personas/tier-a/api-design-restful.md'
+    size_bytes: 7973
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3189
+  - path: 'personas/tier-a/frontend-architect-react.md'
+    size_bytes: 7904
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 3161
+  - path: 'knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md'
+    size_bytes: 7776
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 3110
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'personas/tier-b/ai-safety-researcher-constitutional.md'
+    size_bytes: 7372
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2948
+  - path: 'knowledge/cross-publish/reddit_post_prep.md'
+    size_bytes: 7255
+    age_days: 6.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2902
+  - path: 'registries/judgment_adapter_registry.json'
+    size_bytes: 7241
+    age_days: 0.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2896
+  - path: 'knowledge/agent-environment/benchmark-eval-registry-v2.md'
+    size_bytes: 7216
+    age_days: 18.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2886
+  - path: 'knowledge/persona_adversarial_runbook_v1.md'
+    size_bytes: 7011
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 2804
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/cross-publish/hashnode-inside-hive-mind.md'
+    size_bytes: 6720
+    age_days: 8.0
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2688
+  - path: 'personas/_schema/framework_mapping_v1.2.md'
+    size_bytes: 6644
+    age_days: 4.0
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2657
+  - path: 'personas/tier-s/multi-agent-orchestrator.md'
+    size_bytes: 6592
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2636
+  - path: 'knowledge/indexnow_403_diagnosis.md'
+    size_bytes: 6577
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 2630
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'personas/tier-s/prompt-injection-auditor.md'
+    size_bytes: 6538
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2615
+  - path: 'personas/tier-s/senior-da-pm-korean.md'
+    size_bytes: 6023
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2409
+  - path: 'personas/tier-s/quant-strategy-lead.md'
+    size_bytes: 5969
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2387
+  - path: 'knowledge/wikidata-entities/quickstatements_v1.txt'
+    size_bytes: 5928
+    age_days: 14.9
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2371
+  - path: 'personas/tier-b/neo-orchestrator-magentic.md'
+    size_bytes: 5915
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2366
+  - path: 'personas/tier-b/devops-cicd-engineer.md'
+    size_bytes: 5807
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2322
+  - path: 'personas/tier-b/ml-ops-engineer.md'
+    size_bytes: 5805
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2322
+  - path: 'knowledge/routing_audit_first_week_20260510.md'
+    size_bytes: 5734
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 2293
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'personas/tier-s/korean-seo-geo-strategist.md'
+    size_bytes: 5709
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2283
+  - path: 'knowledge/wikipedia-drafts/notability_research_2026-05-04.md'
+    size_bytes: 5701
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2280
+  - path: 'knowledge/wikidata-entities/q-sbus.json'
+    size_bytes: 5661
+    age_days: 15.0
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2264
+  - path: 'knowledge/HIVE_MIND_GEO_INTEGRATION.md'
+    size_bytes: 5637
+    age_days: 15.0
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 2254
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'personas/tier-b/accessibility-auditor.md'
+    size_bytes: 5552
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2220
+  - path: 'personas/_schema/persona_schema_v1.2.yaml'
+    size_bytes: 5503
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2201
+  - path: 'knowledge/20260510_C_DRIVE_MIGRATION_RECORD.md'
+    size_bytes: 5418
+    age_days: 1.7
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 2167
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'personas/tier-b/i18n-l10n-specialist.md'
+    size_bytes: 5410
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2164
+  - path: 'personas/tier-b/mobile-app-architect.md'
+    size_bytes: 5347
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2138
+  - path: 'shared-brain/codex-saramin-jobkorea-scrape-task.md'
+    size_bytes: 5329
+    age_days: 2.0
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 2131
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'personas/tier-s/sora-sre-ops.md'
+    size_bytes: 5196
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2078
+  - path: 'personas/tier-b/technical-writer.md'
+    size_bytes: 5195
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2078
+  - path: 'personas/tier-b/data-engineer-pipeline.md'
+    size_bytes: 5150
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2060
+  - path: 'personas/tier-b/qa-test-strategist.md'
+    size_bytes: 5044
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 2017
+  - path: 'knowledge/schema_validation_2026-05-04.md'
+    size_bytes: 4997
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 1998
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'personas/dispatcher/keyword_rules.yaml'
+    size_bytes: 4897
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1958
+  - path: 'knowledge/geo_measurement_report_2026-05-03.md'
+    size_bytes: 4648
+    age_days: 8.8
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 1859
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/gsc_sitemap_submission_2026-05-04.md'
+    size_bytes: 4620
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 1848
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'schemas/decision_artifact.schema.json'
+    size_bytes: 4497
+    age_days: 0.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1798
+  - path: 'knowledge/wikidata-entities/zenodo_dois.json'
+    size_bytes: 4463
+    age_days: 8.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1785
+  - path: 'personas/tier-s/korean-copywriter-tone.md'
+    size_bytes: 4443
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1777
+  - path: 'knowledge/wikipedia-drafts/notability_research_2026-05-07_update.md'
+    size_bytes: 4383
+    age_days: 5.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1753
+  - path: 'knowledge/wikidata-entities/QUICKSTATEMENTS_GUIDE.md'
+    size_bytes: 3906
+    age_days: 14.9
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1562
+  - path: 'knowledge/20260426_SBU_AUTONOMOUS_GROWTH_RULE.md'
+    size_bytes: 3788
+    age_days: 15.7
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 1515
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'personas/tier-c/dockerfile-optimizer.md'
+    size_bytes: 3574
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1429
+  - path: 'personas/tier-c/sql-query-optimizer.md'
+    size_bytes: 3548
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1419
+  - path: 'knowledge/cross-publish/canonical_links.json'
+    size_bytes: 3484
+    age_days: 6.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1393
+  - path: 'knowledge/agent-environment/README.md'
+    size_bytes: 3449
+    age_days: 18.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1379
+  - path: 'knowledge/wikidata-entities/README.md'
+    size_bytes: 3179
+    age_days: 15.0
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1271
+  - path: 'personas/tier-c/git-commit-message-writer.md'
+    size_bytes: 3168
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1267
+  - path: 'personas/tier-c/json-schema-validator.md'
+    size_bytes: 3065
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1226
+  - path: 'personas/tier-c/regex-builder.md'
+    size_bytes: 3054
+    age_days: 4.2
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1221
+  - path: 'schemas/judgment_adapter_registry.schema.json'
+    size_bytes: 2949
+    age_days: 0.1
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1179
+  - path: 'knowledge/wikidata-entities/registered.json'
+    size_bytes: 2736
+    age_days: 14.9
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 1094
+  - path: 'knowledge/20260408_GA4_SHARED_PROPERTY_LEARNING.md'
+    size_bytes: 1960
+    age_days: 34.0
+    tier: 3
+    tier_reason: 'default_unclassified'
+    is_split_candidate: false
+    estimated_tokens: 784
+    notes: '분류 패턴 미매칭 — 수동 검토 권고'
+  - path: 'knowledge/wikidata-entities/q-neogenesis.json'
+    size_bytes: 1930
+    age_days: 14.9
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 772
+  - path: 'knowledge/wikidata-entities/q-yesolheo.json'
+    size_bytes: 1582
+    age_days: 15.0
+    tier: 3
+    tier_reason: 'tier3_reference_path'
+    is_split_candidate: false
+    estimated_tokens: 632
+  - path: 'shared-brain/daily-log.md'
+    size_bytes: 271301
+    age_days: 0.0
+    tier: 4
+    tier_reason: 'tier4_explicit_override'
+    is_split_candidate: false
+    estimated_tokens: 108520
+    notes: 'append-only / auto-generated, LLM 적재 가치 0'
+  - path: 'knowledge/wikidata-entities/statements_added_2026-05-03.jsonl'
+    size_bytes: 130207
+    age_days: 8.8
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 52082
+  - path: 'eval-runs/research_refresh_20260424T075701Z/summary.json'
+    size_bytes: 35340
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 14136
+  - path: 'knowledge/blog_autogen_log.jsonl'
+    size_bytes: 24617
+    age_days: 0.2
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 9846
+  - path: 'eval-runs/research_refresh_20260424T045224Z/summary.json'
+    size_bytes: 23125
+    age_days: 18.1
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 9250
+  - path: 'backups-ssot-merge-20260424-094951/NEO_MASTER_RULES.md.v14-backup'
+    size_bytes: 21174
+    age_days: 18.3
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 0
+  - path: 'knowledge/wikidata-entities/statements_added_2026-05-04.jsonl'
+    size_bytes: 14546
+    age_days: 8.1
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 5818
+  - path: 'eval-runs/run_collector_20260424T075708Z/summary.json'
+    size_bytes: 4356
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 1742
+  - path: 'backups-ssot-merge-20260424-094951/AGENTS.md.before-sync'
+    size_bytes: 3244
+    age_days: 18.3
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 0
+  - path: 'eval-runs/run_collector_20260424T075701Z/summary.json'
+    size_bytes: 2759
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 1103
+  - path: 'eval-runs/workflow_dry_run_20260424T073348Z/summary.json'
+    size_bytes: 2306
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 922
+  - path: 'shared-brain/claude-checkpoints/subagent_stop_2026-05-08.jsonl'
+    size_bytes: 1514
+    age_days: 4.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 605
+  - path: 'eval-runs/workflow_dry_run_20260424T073348Z/manifest.json'
+    size_bytes: 1461
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 584
+  - path: 'shared-brain/credential_audit.jsonl'
+    size_bytes: 671
+    age_days: 1.2
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 268
+  - path: 'backups-ssot-merge-20260424-094951/CLAUDE.md.before-sync'
+    size_bytes: 577
+    age_days: 18.3
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 0
+  - path: 'shared-brain/claude-checkpoints/subagent_stop_2026-05-10.jsonl'
+    size_bytes: 537
+    age_days: 1.7
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 214
+  - path: 'eval-runs/workflow_registry_20260424T050821Z/summary.json'
+    size_bytes: 515
+    age_days: 18.1
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 206
+  - path: 'eval-runs/schedule_bindings_20260424T073907Z/summary.json'
+    size_bytes: 489
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 195
+  - path: 'eval-runs/schedule_bindings_20260424T075701Z/summary.json'
+    size_bytes: 489
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 195
+  - path: 'eval-runs/alert_routes_20260424T075701Z/summary.json'
+    size_bytes: 457
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 182
+  - path: 'eval-runs/run_collector_20260424T075701Z/alert_candidates.json'
+    size_bytes: 402
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 160
+  - path: 'eval-runs/run_collector_20260424T075708Z/alert_candidates.json'
+    size_bytes: 402
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 160
+  - path: 'eval-runs/workflow_dry_run_20260424T073348Z/trace.jsonl'
+    size_bytes: 231
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 92
+  - path: 'shared-brain/auto_handoff_log.jsonl'
+    size_bytes: 227
+    age_days: 4.2
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 90
+  - path: 'backups-ssot-merge-20260424-094951/home-claude-CLAUDE.md.before-sync'
+    size_bytes: 130
+    age_days: 18.3
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 0
+  - path: 'eval-runs/run_collector_20260424T075701Z/trace.jsonl'
+    size_bytes: 118
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 47
+  - path: 'eval-runs/run_collector_20260424T075708Z/trace.jsonl'
+    size_bytes: 118
+    age_days: 18.0
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 47
+  - path: 'backups-ssot-merge-20260424-094951/SSOT_REVISION.txt.before-sync'
+    size_bytes: 18
+    age_days: 18.3
+    tier: 4
+    tier_reason: 'archive_path_pattern'
+    is_split_candidate: false
+    estimated_tokens: 0
+  - path: '.bible_hash'
+    size_bytes: 16
+    age_days: 7.1
+    tier: 4
+    tier_reason: 'tier4_explicit_override'
+    is_split_candidate: false
+    estimated_tokens: 0
+    notes: 'append-only / auto-generated, LLM 적재 가치 0'

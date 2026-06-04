@@ -12,6 +12,7 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -33,11 +34,16 @@ class Result:
 
 
 def _load_suite(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
+    # utf-8-sig 로 읽어 Windows PowerShell 의 UTF-8 BOM (Out-File 기본) 도 안전 파싱
+    return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
-def _run_hook(hook: str, stdin_payload: str, timeout_s: int = 15) -> subprocess.CompletedProcess[str]:
+def _run_hook(hook: str, stdin_payload: str, timeout_s: int = 30, env_overrides: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+    """Run a PowerShell hook with stdin. 30s timeout per test (prompt spec)."""
     hook_path = HOOK_DIR / hook
+    env = os.environ.copy()
+    if env_overrides:
+        env.update(env_overrides)
     return subprocess.run(
         ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(hook_path)],
         input=stdin_payload,
@@ -46,6 +52,7 @@ def _run_hook(hook: str, stdin_payload: str, timeout_s: int = 15) -> subprocess.
         encoding="utf-8",
         errors="replace",
         timeout=timeout_s,
+        env=env,
     )
 
 
@@ -88,24 +95,37 @@ def _case_hook_exit(case: dict[str, Any]) -> Result:
     else:
         stdin_payload = json.dumps(_expand_templates(case.get("stdin", {})), ensure_ascii=False)
 
-    try:
-        proc = _run_hook(case["hook"], stdin_payload)
-    except Exception as exc:  # pragma: no cover - failure detail for local runner
-        return Result(case["id"], "FAIL", case["severity"], f"{type(exc).__name__}: {exc}")
+    # 격리된 audit dir — 실 운영 ~/.claude/audit 무영향 보장
+    # CLAUDE_AUDIT_DIR env 가 모든 8 hooks 의 audit path 를 우선 결정 (fallback = USERPROFILE\.claude\audit)
+    with tempfile.TemporaryDirectory(prefix="hook_golden_audit_") as tmp_audit:
+        env_overrides = dict(case.get("env_overrides", {}))
+        env_overrides.setdefault("CLAUDE_AUDIT_DIR", tmp_audit)
 
-    expected_exit = int(case.get("expect_exit", 0))
-    stdout = proc.stdout or ""
-    stderr = proc.stderr or ""
-    ok = proc.returncode == expected_exit
-    for needle in case.get("stdout_contains", []):
-        ok = ok and needle in stdout
-    for needle in case.get("stdout_not_contains", []):
-        ok = ok and needle not in stdout
+        try:
+            proc = _run_hook(case["hook"], stdin_payload, env_overrides=env_overrides)
+        except Exception as exc:  # pragma: no cover - failure detail for local runner
+            return Result(case["id"], "FAIL", case["severity"], f"{type(exc).__name__}: {exc}")
 
-    detail = (
-        f"exit={proc.returncode}, expected_exit={expected_exit}, "
-        f"stdout={stdout[:180]!r}, stderr={stderr[:180]!r}"
-    )
+        expected_exit = int(case.get("expect_exit", 0))
+        stdout = proc.stdout or ""
+        stderr = proc.stderr or ""
+        ok = proc.returncode == expected_exit
+        for needle in case.get("stdout_contains", []):
+            ok = ok and needle in stdout
+        for needle in case.get("stdout_not_contains", []):
+            ok = ok and needle not in stdout
+
+        # 선택: expected_audit_files 검증 — case 가 audit log 파일 생성을 요구하면 검사
+        for expected_file_glob in case.get("expected_audit_files", []):
+            matches = list(Path(tmp_audit).glob(expected_file_glob))
+            if not matches:
+                ok = False
+                stderr = f"missing audit file matching '{expected_file_glob}' in {tmp_audit}\n" + stderr
+
+        detail = (
+            f"exit={proc.returncode}, expected_exit={expected_exit}, "
+            f"stdout={stdout[:180]!r}, stderr={stderr[:180]!r}"
+        )
     return Result(case["id"], "PASS" if ok else "FAIL", case["severity"], detail)
 
 

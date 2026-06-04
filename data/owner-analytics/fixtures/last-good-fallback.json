@@ -1,0 +1,13 @@
+{
+  "fixture": "last-good-fallback",
+  "snapshot_version": "2026-05-14.owner-traffic.v1",
+  "snapshot_id": "ots_fixture_last_good",
+  "is_last_good": true,
+  "source_errors": [
+    {
+      "source": "owner_traffic_command",
+      "error": "schema validation failed"
+    }
+  ],
+  "expectedBehavior": "serve previous snapshot while surfacing the validation error"
+}

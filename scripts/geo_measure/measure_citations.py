@@ -42,16 +42,31 @@ LOG_DIR = Path(__file__).resolve().parents[2] / "logs" / "geo_measure"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # Neo Genesis 브랜드 / 도메인 / SBU 패턴 (regex flag re.IGNORECASE)
+# v1.5 (2026-05-14): expanded to include HF/Wikidata/GitHub/heoyesol + all 11 SBU subdomains
 BRAND_PATTERNS = {
-    "neo_genesis": re.compile(r"\b(neo[\s-]?genesis|네오제네시스)\b", re.IGNORECASE),
-    "domain_root": re.compile(r"\bneogenesis\.app\b", re.IGNORECASE),
-    "domain_subs": re.compile(r"\b\w+\.neogenesis\.app\b", re.IGNORECASE),
-    "toolpick": re.compile(r"\btoolpick(\.dev)?\b", re.IGNORECASE),
-    "kott": re.compile(r"\bk[\s-]?ott(\.kr)?\b", re.IGNORECASE),
-    "ur_wrong": re.compile(r"\bur[\s-]?wrong(\.com)?\b", re.IGNORECASE),
-    "whylab": re.compile(r"\bwhylab\b", re.IGNORECASE),
-    "ethicaai": re.compile(r"\bethica[\s-]?ai\b", re.IGNORECASE),
-    "founder": re.compile(r"\b(yesol[\s-]?heo|허예솔|heo[\s-]?yesol)\b", re.IGNORECASE),
+    # Core brand
+    "neo_genesis":      re.compile(r"\b(neo[\s-]?genesis|네오제네시스)\b", re.IGNORECASE),
+    "neogenesislab":    re.compile(r"\bneogenesislab\b", re.IGNORECASE),  # HF/GitHub org
+    "domain_root":      re.compile(r"\bneogenesis\.app\b", re.IGNORECASE),
+    "domain_subs":      re.compile(r"\b\w+\.neogenesis\.app\b", re.IGNORECASE),
+    "heoyesol":         re.compile(r"\bheoyesol\.kr\b", re.IGNORECASE),
+    # Structured authority signals
+    "wikidata_qid":     re.compile(r"Q1395696[18]0|Q13956971[68]", re.IGNORECASE),
+    "hf_neogenesislab": re.compile(r"huggingface\.co/(?:datasets/)?neogenesislab/", re.IGNORECASE),
+    "github_yesol":     re.compile(r"github\.com/Yesol-Pilot\b", re.IGNORECASE),
+    # 11 SBU brand keywords
+    "toolpick":         re.compile(r"\btoolpick(\.dev)?\b", re.IGNORECASE),
+    "kott":             re.compile(r"\bk[\s-]?ott(\.kr)?\b", re.IGNORECASE),
+    "ur_wrong":         re.compile(r"\bur[\s-]?wrong(\.com)?\b", re.IGNORECASE),
+    "whylab":           re.compile(r"\bwhylab\b", re.IGNORECASE),
+    "ethicaai":         re.compile(r"\bethica[\s-]?ai\b", re.IGNORECASE),
+    "aiforge":          re.compile(r"\baiforge\b", re.IGNORECASE),
+    "craftdesk":        re.compile(r"\bcraftdesk\b", re.IGNORECASE),
+    "deploystack":      re.compile(r"\bdeploystack\b", re.IGNORECASE),
+    "finstack":         re.compile(r"\bfinstack\b", re.IGNORECASE),
+    "sellkit":          re.compile(r"\bsellkit\b", re.IGNORECASE),
+    "reviewlab":        re.compile(r"\b(reviewlab|review[\s-]?lab)\b", re.IGNORECASE),
+    "founder":          re.compile(r"\b(yesol[\s-]?heo|허예솔|heo[\s-]?yesol)\b", re.IGNORECASE),
 }
 
 
@@ -196,19 +211,46 @@ PROVIDERS = {
 # ──────────────────────────────────────────────
 
 URL_RE = re.compile(r"https?://[^\s\)\]\>\"]+")
+# v1.5: bare hostname (no protocol) — AI often writes "toolpick.dev" not "https://toolpick.dev"
+BARE_HOST_RE = re.compile(r"\b([a-z0-9][a-z0-9-]*\.)+(?:app|com|kr|dev|org|io|co)\b", re.IGNORECASE)
 
 NEGATIVE_TOKENS = ["unreliable", "scam", "avoid", "untrustworthy", "fraud", "사기", "비추천", "신뢰 어려"]
 POSITIVE_TOKENS = ["recommended", "trustworthy", "reliable", "best", "excellent", "추천", "신뢰", "우수"]
 
+# v1.5: URL keywords to capture (broader than v1.0)
+URL_BRAND_KEYWORDS = [
+    "neogenesis", "neogenesislab",
+    "toolpick.dev", "ur-wrong.com", "kott.kr",
+    "heoyesol.kr",
+    "huggingface.co/datasets/neogenesislab",
+    "huggingface.co/neogenesislab",
+    "wikidata.org/wiki/Q1395696",
+    "github.com/Yesol-Pilot",
+    "github.com/neogenesislab",
+]
+
 
 def analyze(text: str) -> dict[str, Any]:
     counts = {k: len(p.findall(text)) for k, p in BRAND_PATTERNS.items()}
+    # v1.5: expanded SBU coverage (was 5, now 11)
     sbu_total = sum(
-        counts[k] for k in ("toolpick", "kott", "ur_wrong", "whylab", "ethicaai")
+        counts[k] for k in (
+            "toolpick", "kott", "ur_wrong", "whylab", "ethicaai",
+            "aiforge", "craftdesk", "deploystack", "finstack", "sellkit", "reviewlab",
+        )
     )
-    urls = sorted({u for u in URL_RE.findall(text) if "neogenesis" in u or any(
-        s in u for s in ["toolpick.dev", "ur-wrong.com", "kott.kr"]
-    )})
+    # v1.5: broader URL match using URL_BRAND_KEYWORDS list
+    urls = sorted({u for u in URL_RE.findall(text)
+                   if any(kw.lower() in u.lower() for kw in URL_BRAND_KEYWORDS)})
+    # v1.5: also capture bare hostnames (no protocol)
+    bare_hosts = set()
+    for m in BARE_HOST_RE.finditer(text):
+        host = m.group(0).lower()
+        if any(kw.lower() in host for kw in
+               ["neogenesis", "toolpick.dev", "ur-wrong.com", "kott.kr", "heoyesol.kr"]):
+            bare_hosts.add(host)
+    if bare_hosts:
+        urls = sorted(set(urls) | bare_hosts)
     sentiment = "unknown"
     lowered = text.lower()
     has_neg = any(t.lower() in lowered for t in NEGATIVE_TOKENS)

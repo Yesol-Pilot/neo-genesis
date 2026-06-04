@@ -1,0 +1,1792 @@
+{
+  "schema_version": "1.0",
+  "scope": "neo_genesis_local_python_tools",
+  "generated_at": "2026-05-24T17:51:50+09:00",
+  "updated_by": "codex",
+  "project_root": "D:\\00.test\\neo-genesis",
+  "registry_paths": {
+    "json": "D:\\00.test\\neo-genesis\\.agent\\registries\\callable_tools.json",
+    "markdown": "D:\\00.test\\neo-genesis\\.agent\\registries\\callable_tools.md"
+  },
+  "source_paths": {
+    "tool_modules_dir": "D:\\00.test\\neo-genesis\\src\\core\\tools",
+    "agent_router": "D:\\00.test\\neo-genesis\\src\\core\\brain\\agent_router.py",
+    "execution_gate": "D:\\00.test\\neo-genesis\\src\\core\\governance\\execution_gate.py"
+  },
+  "tool_count": 54,
+  "agent_count": 9,
+  "tools": [
+    {
+      "name": "calendar_create_event",
+      "module": "src.core.brain.agent_router",
+      "qualname": "_get_agent_tools.<locals>._unavailable_tool.<locals>._tool",
+      "signature": "(*args, **kwargs) -> str",
+      "doc_summary": "calendar_tools is not installed",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\brain\\agent_router.py",
+        "line": 320
+      },
+      "origin": "agent_route:calendar",
+      "registered_in_tools_list": false,
+      "status": "unavailable_stub",
+      "policy": {
+        "authority_tier": "G4",
+        "action": "calendar external mutation",
+        "controls": [
+          "SEC-002",
+          "SEC-004",
+          "SEC-008"
+        ],
+        "external_side_effect": true,
+        "requires_approval": true,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "calendar_delete_event",
+      "module": "src.core.brain.agent_router",
+      "qualname": "_get_agent_tools.<locals>._unavailable_tool.<locals>._tool",
+      "signature": "(*args, **kwargs) -> str",
+      "doc_summary": "calendar_tools is not installed",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\brain\\agent_router.py",
+        "line": 320
+      },
+      "origin": "agent_route:calendar",
+      "registered_in_tools_list": false,
+      "status": "unavailable_stub",
+      "policy": {
+        "authority_tier": "G4",
+        "action": "calendar external mutation",
+        "controls": [
+          "SEC-002",
+          "SEC-004",
+          "SEC-008"
+        ],
+        "external_side_effect": true,
+        "requires_approval": true,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "calendar_list_events",
+      "module": "src.core.brain.agent_router",
+      "qualname": "_get_agent_tools.<locals>._unavailable_tool.<locals>._tool",
+      "signature": "(*args, **kwargs) -> str",
+      "doc_summary": "calendar_tools is not installed",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\brain\\agent_router.py",
+        "line": 320
+      },
+      "origin": "agent_route:calendar",
+      "registered_in_tools_list": false,
+      "status": "unavailable_stub",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "calendar_today",
+      "module": "src.core.brain.agent_router",
+      "qualname": "_get_agent_tools.<locals>._unavailable_tool.<locals>._tool",
+      "signature": "(*args, **kwargs) -> str",
+      "doc_summary": "calendar_tools is not installed",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\brain\\agent_router.py",
+        "line": 320
+      },
+      "origin": "agent_route:calendar",
+      "registered_in_tools_list": false,
+      "status": "unavailable_stub",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "check_environment",
+      "module": "src.core.tools.system_tools",
+      "qualname": "check_environment",
+      "signature": "(key_pattern: str = '') -> str",
+      "doc_summary": "환경변수 설정 상태를 확인합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 231
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "comfyui_generate_image",
+      "module": "src.core.tools.comfyui_tools",
+      "qualname": "comfyui_generate_image",
+      "signature": "(positive_prompt: 'str', negative_prompt: 'str' = '', width: 'int' = 512, height: 'int' = 768, steps: 'int' = 25, seed: 'int' = -1, send_telegram: 'bool' = False, keep_alive: 'bool' = False) -> 'str'",
+      "doc_summary": "Generate one image through ComfyUI, stopping the worker if this call started it.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\comfyui_tools.py",
+        "line": 368
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G4",
+        "action": "image generation/notification path",
+        "controls": [
+          "SEC-002",
+          "SEC-004",
+          "SEC-008"
+        ],
+        "external_side_effect": true,
+        "requires_approval": true,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "comfyui_list_models",
+      "module": "src.core.tools.comfyui_tools",
+      "qualname": "comfyui_list_models",
+      "signature": "() -> 'str'",
+      "doc_summary": "List available checkpoint names from ComfyUI.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\comfyui_tools.py",
+        "line": 273
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "comfyui_start",
+      "module": "src.core.tools.comfyui_tools",
+      "qualname": "comfyui_start",
+      "signature": "(timeout_sec: 'int' = 120) -> 'str'",
+      "doc_summary": "Start ComfyUI hidden on localhost if it is not already running.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\comfyui_tools.py",
+        "line": 250
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G3",
+        "action": "local GPU service start",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "comfyui_status",
+      "module": "src.core.tools.comfyui_tools",
+      "qualname": "comfyui_status",
+      "signature": "() -> 'str'",
+      "doc_summary": "Return local ComfyUI status, queue state, and listener PID.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\comfyui_tools.py",
+        "line": 224
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "comfyui_stop",
+      "module": "src.core.tools.comfyui_tools",
+      "qualname": "comfyui_stop",
+      "signature": "(force: 'bool' = False) -> 'str'",
+      "doc_summary": "Stop local ComfyUI if the queue is empty, or force-stop when requested.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\comfyui_tools.py",
+        "line": 260
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G3",
+        "action": "local GPU service stop",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "confirm_pending_command",
+      "module": "src.core.tools.system_tools",
+      "qualname": "confirm_pending_command",
+      "signature": "(confirm_id: str = '') -> str",
+      "doc_summary": "위험 명령 경고 후 owner가 '진행'하면, 보류된 명령을 실제로 실행합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 813
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G2",
+        "action": "registered local tool",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "edit_file",
+      "module": "src.core.tools.system_tools",
+      "qualname": "edit_file",
+      "signature": "(file_path: str, old_content: str, new_content: str) -> str",
+      "doc_summary": "파일의 특정 부분을 수정합니다. old_content가 파일 내에 정확히 존재해야 합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 348
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G2",
+        "action": "registered local tool",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "find_files",
+      "module": "src.core.tools.system_tools",
+      "qualname": "find_files",
+      "signature": "(directory: str, pattern: str, max_depth: int = 5) -> str",
+      "doc_summary": "파일명 패턴으로 파일을 검색합니다 (glob 방식).",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 418
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G2",
+        "action": "registered local tool",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "generate_image",
+      "module": "src.core.brain.agent_router",
+      "qualname": "_get_agent_tools.<locals>.generate_image",
+      "signature": "(prompt: str, *args, **kwargs) -> str",
+      "doc_summary": "",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\brain\\agent_router.py",
+        "line": 351
+      },
+      "origin": "agent_route:image",
+      "registered_in_tools_list": false,
+      "status": "unavailable_stub",
+      "policy": {
+        "authority_tier": "G4",
+        "action": "external image generation/notification path",
+        "controls": [
+          "SEC-002",
+          "SEC-004",
+          "SEC-008"
+        ],
+        "external_side_effect": true,
+        "requires_approval": true,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "get_system_status",
+      "module": "src.core.tools.system_tools",
+      "qualname": "get_system_status",
+      "signature": "() -> str",
+      "doc_summary": "전체 시스템 상태를 조회합니다. 헬스 모니터, 프로세스, 디스크 등.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 56
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "get_today_schedule",
+      "module": "src.core.tools.system_tools",
+      "qualname": "get_today_schedule",
+      "signature": "() -> str",
+      "doc_summary": "**SBU 데몬 운영 스케줄** 전체를 반환합니다 (owner 본인 일정 아님).",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 115
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "graph_add_knowledge",
+      "module": "src.core.tools.memory_tools",
+      "qualname": "graph_add_knowledge",
+      "signature": "(subject: str, relation: str, obj: str, subject_type: str = 'concept', object_type: str = 'concept') -> str",
+      "doc_summary": "지식 그래프에 관계를 추가합니다. (주어 --[관계]--> 목적어)",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\memory_tools.py",
+        "line": 63
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G2",
+        "action": "knowledge graph write",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "graph_search",
+      "module": "src.core.tools.memory_tools",
+      "qualname": "graph_search",
+      "signature": "(query: str, mode: str = 'entity') -> str",
+      "doc_summary": "지식 그래프를 검색합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\memory_tools.py",
+        "line": 89
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "graph_status",
+      "module": "src.core.tools.memory_tools",
+      "qualname": "graph_status",
+      "signature": "() -> str",
+      "doc_summary": "지식 그래프의 현재 상태(엔티티, 관계, 에피소드 수)를 반환합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\memory_tools.py",
+        "line": 120
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "grep_code",
+      "module": "src.core.tools.system_tools",
+      "qualname": "grep_code",
+      "signature": "(query: str, search_path: str, file_pattern: str = '') -> str",
+      "doc_summary": "코드에서 텍스트 패턴을 검색합니다 (줄 단위 매칭).",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 460
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G2",
+        "action": "registered local tool",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "list_agent_tool_capabilities",
+      "module": "src.core.tools.system_tools",
+      "qualname": "list_agent_tool_capabilities",
+      "signature": "(scope: str = 'all', agent_id: str = '', refresh: bool = False) -> str",
+      "doc_summary": "List local callable tools and external session capabilities together.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 1067
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "list_callable_tools",
+      "module": "src.core.tools.system_tools",
+      "qualname": "list_callable_tools",
+      "signature": "(agent_id: str = '', refresh: bool = False) -> str",
+      "doc_summary": "List tools from the shared callable-tools registry.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 897
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "list_connected_pcs",
+      "module": "src.core.tools.system_tools",
+      "qualname": "list_connected_pcs",
+      "signature": "() -> str",
+      "doc_summary": "현재 연결된 원격 PC 목록을 조회합니다. home-pc(집), work-pc(회사) 등.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 552
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "list_directory",
+      "module": "src.core.tools.system_tools",
+      "qualname": "list_directory",
+      "signature": "(dir_path: str) -> str",
+      "doc_summary": "디렉토리 내용을 나열합니다. 파일과 하위 디렉토리 목록을 반환합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 386
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "list_external_tool_capabilities",
+      "module": "src.core.tools.system_tools",
+      "qualname": "list_external_tool_capabilities",
+      "signature": "(namespace: str = '', capability_type: str = '', status: str = '', refresh: bool = False) -> str",
+      "doc_summary": "List Codex/session external tool capabilities.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 1002
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "rag_index",
+      "module": "src.core.tools.memory_tools",
+      "qualname": "rag_index",
+      "signature": "(directory: str, incremental: bool = True) -> str",
+      "doc_summary": "PC 디렉토리를 인덱싱합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\memory_tools.py",
+        "line": 130
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G2",
+        "action": "local RAG index write",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "rag_search",
+      "module": "src.core.tools.memory_tools",
+      "qualname": "rag_search",
+      "signature": "(query: str, n_results: int = 5, file_filter: str = '', backend: str = '') -> str",
+      "doc_summary": "저장된 지식에서 시맨틱 검색합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\memory_tools.py",
+        "line": 148
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "rag_status",
+      "module": "src.core.tools.memory_tools",
+      "qualname": "rag_status",
+      "signature": "() -> str",
+      "doc_summary": "RAG 인덱스 상태를 확인합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\memory_tools.py",
+        "line": 174
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "read_file",
+      "module": "src.core.tools.system_tools",
+      "qualname": "read_file",
+      "signature": "(file_path: str, start_line: int = 0, end_line: int = 0) -> str",
+      "doc_summary": "파일 내용을 읽어 반환합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 276
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "read_recent_logs",
+      "module": "src.core.tools.system_tools",
+      "qualname": "read_recent_logs",
+      "signature": "(lines: int = 40) -> str",
+      "doc_summary": "데몬 로그 파일의 최근 N줄을 읽습니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 150
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "recall_from_memory",
+      "module": "src.core.tools.memory_tools",
+      "qualname": "recall_from_memory",
+      "signature": "(query: str) -> str",
+      "doc_summary": "장기 기억에서 관련 정보를 검색합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\memory_tools.py",
+        "line": 49
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "refresh_callable_tools_registry",
+      "module": "src.core.tools.system_tools",
+      "qualname": "refresh_callable_tools_registry",
+      "signature": "(updated_by: str = 'agent') -> str",
+      "doc_summary": "Refresh the shared callable-tools registry for all agents.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 855
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G2",
+        "action": "local callable tools registry refresh",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "refresh_external_tool_capability_registry",
+      "module": "src.core.tools.system_tools",
+      "qualname": "refresh_external_tool_capability_registry",
+      "signature": "(updated_by: str = 'agent') -> str",
+      "doc_summary": "Refresh the shared external tool capability registry.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 961
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G2",
+        "action": "external capability registry refresh",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "remote_batch_exec",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_batch_exec",
+      "signature": "(pc_id: str, commands: list[str]) -> str",
+      "doc_summary": "원격 PC에서 여러 명령을 순차 실행합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 787
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G3",
+        "action": "remote batch execution",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "remote_claude_chat",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_claude_chat",
+      "signature": "(pc_id: str, message: str, session_id: str = '', cwd: str = '.') -> str",
+      "doc_summary": "원격 PC에서 Claude CLI 대화 세션에 메시지를 보냅니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 695
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G3",
+        "action": "remote agent execution",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "remote_claude_run",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_claude_run",
+      "signature": "(pc_id: str, prompt: str, cwd: str = '.') -> str",
+      "doc_summary": "원격 PC에서 Claude CLI를 실행합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 683
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G3",
+        "action": "remote agent execution",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "remote_docker_logs",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_docker_logs",
+      "signature": "(pc_id: str, container_name: str, tail: int = 30) -> str",
+      "doc_summary": "원격 Docker 컨테이너 로그를 조회합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 718
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "remote_docker_ps",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_docker_ps",
+      "signature": "(pc_id: str) -> str",
+      "doc_summary": "원격 PC/서버의 Docker 컨테이너 목록을 조회합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 708
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "remote_git_commit_push",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_git_commit_push",
+      "signature": "(pc_id: str, cwd: str, message: str) -> str",
+      "doc_summary": "원격 PC에서 Git commit + push합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 774
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G4",
+        "action": "remote git commit and push",
+        "controls": [
+          "SEC-002",
+          "SEC-004",
+          "SEC-008"
+        ],
+        "external_side_effect": true,
+        "requires_approval": true,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "remote_git_status",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_git_status",
+      "signature": "(pc_id: str, cwd: str = '.') -> str",
+      "doc_summary": "원격 PC의 Git 저장소 상태를 확인합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 730
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "remote_npm_build_deploy",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_npm_build_deploy",
+      "signature": "(pc_id: str, cwd: str) -> str",
+      "doc_summary": "원격 PC에서 npm build + Vercel 배포를 실행합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 837
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G5",
+        "action": "remote build and deploy",
+        "controls": [
+          "SEC-002",
+          "SEC-004",
+          "SEC-008"
+        ],
+        "external_side_effect": true,
+        "requires_approval": true,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "remote_pc_command",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_pc_command",
+      "signature": "(pc_id: str, command: str) -> str",
+      "doc_summary": "원격 PC에서 셸 명령을 실행합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 602
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G3",
+        "action": "remote command execution",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "remote_pc_file_read",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_pc_file_read",
+      "signature": "(pc_id: str, file_path: str) -> str",
+      "doc_summary": "원격 PC의 파일을 읽습니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 649
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "remote_pc_file_write",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_pc_file_write",
+      "signature": "(pc_id: str, file_path: str, content: str) -> str",
+      "doc_summary": "원격 PC에 파일을 생성/덮어씁니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 660
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G3",
+        "action": "remote file write",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "remote_pc_process_list",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_pc_process_list",
+      "signature": "(pc_id: str, filter_name: str = '') -> str",
+      "doc_summary": "원격 PC의 프로세스 목록을 조회합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 672
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "remote_pc_screenshot",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_pc_screenshot",
+      "signature": "(pc_id: str) -> str",
+      "doc_summary": "원격 PC의 스크린샷을 캡처합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 629
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "remote_pc_status",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_pc_status",
+      "signature": "(pc_id: str) -> str",
+      "doc_summary": "원격 PC의 시스템 상태(CPU, RAM, 디스크)를 조회합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 639
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "remote_vercel_deploy",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_vercel_deploy",
+      "signature": "(pc_id: str, cwd: str) -> str",
+      "doc_summary": "원격 PC에서 Vercel 프로덕션 배포합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 763
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G5",
+        "action": "remote production deploy",
+        "controls": [
+          "SEC-002",
+          "SEC-004",
+          "SEC-008"
+        ],
+        "external_side_effect": true,
+        "requires_approval": true,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "remote_web_crawl",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_web_crawl",
+      "signature": "(pc_id: str, url: str) -> str",
+      "doc_summary": "원격 PC/서버에서 웹페이지를 크롤링합니다 (Crawl4AI).",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 752
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "remote_web_search",
+      "module": "src.core.tools.system_tools",
+      "qualname": "remote_web_search",
+      "signature": "(pc_id: str, query: str) -> str",
+      "doc_summary": "원격 PC/서버에서 웹 검색합니다 (SearXNG).",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 741
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G1",
+        "action": "read-only inspection",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": true
+      }
+    },
+    {
+      "name": "run_daemon_job",
+      "module": "src.core.tools.system_tools",
+      "qualname": "run_daemon_job",
+      "signature": "(job_name: str) -> str",
+      "doc_summary": "데몬 Job을 즉시 실행합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 24
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G3",
+        "action": "daemon job execution",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "run_pc_command",
+      "module": "src.core.tools.system_tools",
+      "qualname": "run_pc_command",
+      "signature": "(command: str) -> str",
+      "doc_summary": "서버에서 셸 명령을 실행합니다. (Windows: PowerShell, Linux: bash)",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 172
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G3",
+        "action": "local PC command execution",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "save_to_memory",
+      "module": "src.core.tools.memory_tools",
+      "qualname": "save_to_memory",
+      "signature": "(category: str, content: str) -> str",
+      "doc_summary": "중요한 정보를 장기 기억에 저장합니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\memory_tools.py",
+        "line": 38
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G2",
+        "action": "memory write",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    },
+    {
+      "name": "write_file",
+      "module": "src.core.tools.system_tools",
+      "qualname": "write_file",
+      "signature": "(file_path: str, content: str) -> str",
+      "doc_summary": "파일을 생성하거나 덮어씁니다. 부모 디렉토리가 없으면 자동 생성됩니다.",
+      "source": {
+        "path": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+        "line": 325
+      },
+      "origin": "module_tools",
+      "registered_in_tools_list": true,
+      "status": "available",
+      "policy": {
+        "authority_tier": "G2",
+        "action": "registered local tool",
+        "controls": [
+          "SEC-002",
+          "SEC-004"
+        ],
+        "external_side_effect": false,
+        "requires_approval": false,
+        "readonly_by_prefix": false
+      }
+    }
+  ],
+  "indexes": {
+    "by_module": {
+      "src.core.brain.agent_router": {
+        "tool_count": 5,
+        "tool_names": [
+          "calendar_create_event",
+          "calendar_delete_event",
+          "calendar_list_events",
+          "calendar_today",
+          "generate_image"
+        ]
+      },
+      "src.core.tools.comfyui_tools": {
+        "tool_count": 5,
+        "tool_names": [
+          "comfyui_generate_image",
+          "comfyui_list_models",
+          "comfyui_start",
+          "comfyui_status",
+          "comfyui_stop"
+        ]
+      },
+      "src.core.tools.memory_tools": {
+        "tool_count": 8,
+        "tool_names": [
+          "graph_add_knowledge",
+          "graph_search",
+          "graph_status",
+          "rag_index",
+          "rag_search",
+          "rag_status",
+          "recall_from_memory",
+          "save_to_memory"
+        ]
+      },
+      "src.core.tools.system_tools": {
+        "tool_count": 36,
+        "tool_names": [
+          "check_environment",
+          "confirm_pending_command",
+          "edit_file",
+          "find_files",
+          "get_system_status",
+          "get_today_schedule",
+          "grep_code",
+          "list_agent_tool_capabilities",
+          "list_callable_tools",
+          "list_connected_pcs",
+          "list_directory",
+          "list_external_tool_capabilities",
+          "read_file",
+          "read_recent_logs",
+          "refresh_callable_tools_registry",
+          "refresh_external_tool_capability_registry",
+          "remote_batch_exec",
+          "remote_claude_chat",
+          "remote_claude_run",
+          "remote_docker_logs",
+          "remote_docker_ps",
+          "remote_git_commit_push",
+          "remote_git_status",
+          "remote_npm_build_deploy",
+          "remote_pc_command",
+          "remote_pc_file_read",
+          "remote_pc_file_write",
+          "remote_pc_process_list",
+          "remote_pc_screenshot",
+          "remote_pc_status",
+          "remote_vercel_deploy",
+          "remote_web_crawl",
+          "remote_web_search",
+          "run_daemon_job",
+          "run_pc_command",
+          "write_file"
+        ]
+      }
+    },
+    "by_authority_tier": {
+      "G1": [
+        "calendar_list_events",
+        "calendar_today",
+        "check_environment",
+        "comfyui_list_models",
+        "comfyui_status",
+        "get_system_status",
+        "get_today_schedule",
+        "graph_search",
+        "graph_status",
+        "list_agent_tool_capabilities",
+        "list_callable_tools",
+        "list_connected_pcs",
+        "list_directory",
+        "list_external_tool_capabilities",
+        "rag_search",
+        "rag_status",
+        "read_file",
+        "read_recent_logs",
+        "recall_from_memory",
+        "remote_docker_logs",
+        "remote_docker_ps",
+        "remote_git_status",
+        "remote_pc_file_read",
+        "remote_pc_process_list",
+        "remote_pc_screenshot",
+        "remote_pc_status",
+        "remote_web_crawl",
+        "remote_web_search"
+      ],
+      "G2": [
+        "confirm_pending_command",
+        "edit_file",
+        "find_files",
+        "graph_add_knowledge",
+        "grep_code",
+        "rag_index",
+        "refresh_callable_tools_registry",
+        "refresh_external_tool_capability_registry",
+        "save_to_memory",
+        "write_file"
+      ],
+      "G3": [
+        "comfyui_start",
+        "comfyui_stop",
+        "remote_batch_exec",
+        "remote_claude_chat",
+        "remote_claude_run",
+        "remote_pc_command",
+        "remote_pc_file_write",
+        "run_daemon_job",
+        "run_pc_command"
+      ],
+      "G4": [
+        "calendar_create_event",
+        "calendar_delete_event",
+        "comfyui_generate_image",
+        "generate_image",
+        "remote_git_commit_push"
+      ],
+      "G5": [
+        "remote_npm_build_deploy",
+        "remote_vercel_deploy"
+      ]
+    },
+    "by_status": {
+      "available": [
+        "check_environment",
+        "comfyui_generate_image",
+        "comfyui_list_models",
+        "comfyui_start",
+        "comfyui_status",
+        "comfyui_stop",
+        "confirm_pending_command",
+        "edit_file",
+        "find_files",
+        "get_system_status",
+        "get_today_schedule",
+        "graph_add_knowledge",
+        "graph_search",
+        "graph_status",
+        "grep_code",
+        "list_agent_tool_capabilities",
+        "list_callable_tools",
+        "list_connected_pcs",
+        "list_directory",
+        "list_external_tool_capabilities",
+        "rag_index",
+        "rag_search",
+        "rag_status",
+        "read_file",
+        "read_recent_logs",
+        "recall_from_memory",
+        "refresh_callable_tools_registry",
+        "refresh_external_tool_capability_registry",
+        "remote_batch_exec",
+        "remote_claude_chat",
+        "remote_claude_run",
+        "remote_docker_logs",
+        "remote_docker_ps",
+        "remote_git_commit_push",
+        "remote_git_status",
+        "remote_npm_build_deploy",
+        "remote_pc_command",
+        "remote_pc_file_read",
+        "remote_pc_file_write",
+        "remote_pc_process_list",
+        "remote_pc_screenshot",
+        "remote_pc_status",
+        "remote_vercel_deploy",
+        "remote_web_crawl",
+        "remote_web_search",
+        "run_daemon_job",
+        "run_pc_command",
+        "save_to_memory",
+        "write_file"
+      ],
+      "unavailable_stub": [
+        "calendar_create_event",
+        "calendar_delete_event",
+        "calendar_list_events",
+        "calendar_today",
+        "generate_image"
+      ]
+    }
+  },
+  "agent_routes": {
+    "calendar": {
+      "name": "캘린더 에이전트",
+      "description": "Google Calendar 일정 조회, 생성, 삭제",
+      "tools_module": "calendar_tools",
+      "tool_count": 4,
+      "tool_names": [
+        "calendar_list_events",
+        "calendar_create_event",
+        "calendar_delete_event",
+        "calendar_today"
+      ]
+    },
+    "chat": {
+      "name": "대화 에이전트",
+      "description": "일반 대화, 질문 답변, 조언",
+      "tools_module": null,
+      "tool_count": 0,
+      "tool_names": []
+    },
+    "dev_ops": {
+      "name": "개발/배포 에이전트",
+      "description": "코드 리뷰, 리팩토링, Git, Docker, npm, Vercel 배포, Claude CLI 자율 실행",
+      "tools_module": "devops_tools",
+      "tool_count": 18,
+      "tool_names": [
+        "remote_claude_run",
+        "remote_claude_chat",
+        "remote_docker_ps",
+        "remote_docker_logs",
+        "remote_git_status",
+        "remote_git_commit_push",
+        "remote_vercel_deploy",
+        "remote_npm_build_deploy",
+        "remote_batch_exec",
+        "rag_search",
+        "recall_from_memory",
+        "remote_pc_file_read",
+        "list_connected_pcs",
+        "list_callable_tools",
+        "refresh_callable_tools_registry",
+        "list_external_tool_capabilities",
+        "refresh_external_tool_capability_registry",
+        "list_agent_tool_capabilities"
+      ]
+    },
+    "governance": {
+      "name": "거버넌스 에이전트",
+      "description": "이사회, 회의록, 의사결정 관리",
+      "tools_module": "governance_tools",
+      "tool_count": 0,
+      "tool_names": []
+    },
+    "image": {
+      "name": "이미지 생성 에이전트",
+      "description": "일반: Gemini 이미지 API, NSFW/로컬: ComfyUI(집PC GPU)",
+      "tools_module": "image_tools",
+      "tool_count": 4,
+      "tool_names": [
+        "generate_image",
+        "comfyui_generate_image",
+        "comfyui_status",
+        "comfyui_stop"
+      ]
+    },
+    "knowledge": {
+      "name": "지식 에이전트",
+      "description": "RAG 파일 인덱싱/검색, 지식그래프, 장기 기억 저장/조회",
+      "tools_module": "memory_tools",
+      "tool_count": 8,
+      "tool_names": [
+        "save_to_memory",
+        "recall_from_memory",
+        "graph_add_knowledge",
+        "graph_search",
+        "graph_status",
+        "rag_index",
+        "rag_search",
+        "rag_status"
+      ]
+    },
+    "pc_control": {
+      "name": "PC 제어 에이전트",
+      "description": "연결된 PC 원격 제어 (명령 실행, 파일, 스크린샷, 프로세스)",
+      "tools_module": "pc_tools",
+      "tool_count": 7,
+      "tool_names": [
+        "list_connected_pcs",
+        "remote_pc_command",
+        "remote_pc_screenshot",
+        "remote_pc_status",
+        "remote_pc_file_read",
+        "remote_pc_file_write",
+        "remote_pc_process_list"
+      ]
+    },
+    "system_monitor": {
+      "name": "시스템 모니터 에이전트",
+      "description": "시스템 상태, 스케줄, 헬스체크, 환경변수, 현재 시각",
+      "tools_module": "monitor_tools",
+      "tool_count": 12,
+      "tool_names": [
+        "get_system_status",
+        "get_today_schedule",
+        "read_recent_logs",
+        "run_pc_command",
+        "check_environment",
+        "run_daemon_job",
+        "list_connected_pcs",
+        "list_callable_tools",
+        "refresh_callable_tools_registry",
+        "list_external_tool_capabilities",
+        "refresh_external_tool_capability_registry",
+        "list_agent_tool_capabilities"
+      ]
+    },
+    "web_search": {
+      "name": "웹 검색 에이전트",
+      "description": "웹 검색, 크롤링, URL 분석",
+      "tools_module": "web_tools",
+      "tool_count": 2,
+      "tool_names": [
+        "remote_web_search",
+        "remote_web_crawl"
+      ]
+    }
+  },
+  "module_imports": [
+    {
+      "module": "src.core.tools.comfyui_tools",
+      "source": "D:\\00.test\\neo-genesis\\src\\core\\tools\\comfyui_tools.py",
+      "status": "ok",
+      "tool_count": 5,
+      "tool_names": [
+        "comfyui_generate_image",
+        "comfyui_start",
+        "comfyui_stop",
+        "comfyui_status",
+        "comfyui_list_models"
+      ]
+    },
+    {
+      "module": "src.core.tools.memory_tools",
+      "source": "D:\\00.test\\neo-genesis\\src\\core\\tools\\memory_tools.py",
+      "status": "ok",
+      "tool_count": 8,
+      "tool_names": [
+        "save_to_memory",
+        "recall_from_memory",
+        "graph_add_knowledge",
+        "graph_search",
+        "graph_status",
+        "rag_index",
+        "rag_search",
+        "rag_status"
+      ]
+    },
+    {
+      "module": "src.core.tools.system_tools",
+      "source": "D:\\00.test\\neo-genesis\\src\\core\\tools\\system_tools.py",
+      "status": "ok",
+      "tool_count": 36,
+      "tool_names": [
+        "run_daemon_job",
+        "get_system_status",
+        "get_today_schedule",
+        "read_recent_logs",
+        "run_pc_command",
+        "check_environment",
+        "list_callable_tools",
+        "refresh_callable_tools_registry",
+        "list_external_tool_capabilities",
+        "refresh_external_tool_capability_registry",
+        "list_agent_tool_capabilities",
+        "read_file",
+        "write_file",
+        "edit_file",
+        "list_directory",
+        "find_files",
+        "grep_code",
+        "list_connected_pcs",
+        "remote_pc_command",
+        "remote_pc_screenshot",
+        "remote_pc_status",
+        "remote_pc_file_read",
+        "remote_pc_file_write",
+        "remote_pc_process_list",
+        "remote_claude_run",
+        "remote_claude_chat",
+        "remote_docker_ps",
+        "remote_docker_logs",
+        "remote_git_status",
+        "remote_git_commit_push",
+        "remote_web_search",
+        "remote_web_crawl",
+        "remote_vercel_deploy",
+        "remote_npm_build_deploy",
+        "remote_batch_exec",
+        "confirm_pending_command"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "failed_module_count": 0,
+    "failed_modules": [],
+    "route_error_count": 0,
+    "route_errors": []
+  },
+  "refresh_command": "python scripts/agent/update_callable_tools_registry.py --updated-by <agent>",
+  "policy_document": "D:\\00.test\\neo-genesis\\.agent\\knowledge\\CALLABLE_TOOLS_REGISTRY_POLICY.md",
+  "registry_revision": "e136d339100685db"
+}

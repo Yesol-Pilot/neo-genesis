@@ -1,0 +1,51 @@
+node_id: yesol-asus
+entity_type: EdgeNode
+tier: mobile-operator
+platform: windows
+tailscale_ip: 100.106.84.87
+rustdesk_id: "350360335"
+
+# 이 노드가 마스터에게 제공할 수 있는 역량
+capabilities:
+  - id: hitl-approval-gate
+    description: "인간 개입이 필요한 결정(배포, 삭제, 예산)에 대한 알림 수신 및 승인"
+  - id: lightweight-coding
+    description: "간단한 스크립트 작성, 마크다운 문서 검토, 어댑터 동기화"
+  - id: monitoring
+    description: "원격지 백그라운드 작업 및 에이전트 활동 상태 모니터링"
+  - id: mid-tier-ml
+    description: "RTX 4070 Laptop GPU를 활용한 로컬 중간 규모 추론 (단, 데스크탑만큼의 대규모 VRAM 요구 작업은 지양)"
+
+# 이 노드에 할당하면 안 되는 제약 사항
+constraints:
+  - id: avoid-heavy-ml
+    description: "GPU는 있으나(RTX 4070 Laptop) 노트북 쿨링 한계와 VRAM 제약으로 24시간 풀로드 대규모 학습은 데스크탑(desktop-home)으로 위임 권장"
+  - id: storage-limited
+    description: "C 드라이브 용량 부족. 1GB 이상의 로그나 자산 저장 금지"
+  - id: always-on-false
+    description: "노트북이므로 24/7 백그라운드 데몬 및 스케줄러 실행 불안정 (ysh-server로 위임 필요)"
+
+# 로컬 작업 공간
+workspaces:
+  - path: "B:\\agents\\"
+    type: "agent_workspace"
+    description: "로컬 에이전트 실행 및 엣지 온톨로지 루트"
+  - path: "C:\\Users\\yesol_asus\\neo-genesis-runtime\\"
+    type: "runtime"
+    description: "로컬 SSOT 런타임 어댑터"
+
+# 설치된 툴 체인
+agents:
+  - name: claude-cli
+    version: "2.1.140"
+    path: "claude"
+  - name: codex-cli
+    version: "0.130.0"
+    path: "codex"
+  - name: antigravity
+    model: "vgemini-opus-4.6-thinking"
+
+# 마스터가 실시간 상태를 확인할 방법
+telemetry:
+  script: "B:\\agents\\scripts\\local_telemetry.py"
+  output_format: "json"

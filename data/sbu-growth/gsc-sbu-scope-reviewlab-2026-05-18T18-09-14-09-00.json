@@ -1,0 +1,453 @@
+{
+  "generatedAt": "2026-05-18T18:09:14+09:00",
+  "tokenSource": "refresh_token",
+  "args": {
+    "sites": "reviewlab",
+    "days": 28,
+    "rowLimit": 2500,
+    "submitSitemaps": true,
+    "fetch": true,
+    "minImpressions": 1,
+    "writeDefaultLatest": false
+  },
+  "scope": {
+    "label": "scope-reviewlab",
+    "siteIds": [
+      "reviewlab"
+    ],
+    "isDefaultAll": false,
+    "filePrefix": "gsc-sbu-scope-reviewlab",
+    "writesDefaultLatest": false
+  },
+  "window": {
+    "startDate": "2026-04-18",
+    "endDate": "2026-05-16"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://finstack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:toolpick.dev",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://sellkit.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:review.neogenesis.app",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:heoyesol.kr",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://heoyesol.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://www.toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://whylab.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://craftdesk.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://kott.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ethica.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://deploystack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://review.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://aiforge.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 1,
+    "propertiesListed": 1,
+    "liveSitemapsOk": 1,
+    "gscSitemapsKnown": 1,
+    "sitemapSubmissionsAttempted": 1,
+    "sitemapSubmissionsOk": 1,
+    "searchAnalyticsAttempted": 1,
+    "searchAnalyticsOk": 1,
+    "totalRows": 55
+  },
+  "sites": [
+    {
+      "id": "reviewlab",
+      "name": "ReviewLab",
+      "property": "https://review.neogenesis.app/",
+      "domain": "https://review.neogenesis.app",
+      "sitemap": "https://review.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 200,
+        "finalUrl": "https://review.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 55,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://review.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 18,
+          "weightedPosition": 285,
+          "queries": [
+            {
+              "query": "6축 로봇의 정확도와 안전성 향상",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.1209
+            },
+            {
+              "query": "리뷰머신",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.1209
+            },
+            {
+              "query": "reviewlab",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 1,
+              "score": 0.08
+            },
+            {
+              "query": "가열식 가습기 소음",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            },
+            {
+              "query": "\"슬릭부스트\" -site:reddit.com -site:twitter.com -site:x.com -site:wykop.pl -site:tripadvisor.com -site:youtube.com -site:yelp.com -site:booking.com -site:facebook.com -site:instagram.com -site:tiktok.com",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 5,
+              "score": 0.0358
+            }
+          ],
+          "score": 0.5197,
+          "averagePosition": 15.83
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%94%84%EB%9E%91%EC%8A%A4-%ED%86%B0%EC%8A%A8-tbe-201b-%EB%B8%94%EB%A3%A8%ED%88%AC%EC%8A%A4-%EC%9D%B4%EC%96%B4%ED%8F%B0-%EB%A6%AC%EB%B7%B0-enc-%EB%85%B8%EC%9D%B4%EC%A6%88-%EC%BA%94%EC%8A%AC%EB%A7%81%EA%B3%BC-led%EC%9D%98-%EC%A1%B0%ED%99%94",
+          "clicks": 1,
+          "impressions": 10,
+          "weightedPosition": 151,
+          "queries": [
+            {
+              "query": "톰슨 이어폰 후기",
+              "clicks": 0,
+              "impressions": 9,
+              "ctr": 0,
+              "position": 11.11111111111111,
+              "score": 0.216
+            },
+            {
+              "query": "톰슨 이어폰",
+              "clicks": 1,
+              "impressions": 1,
+              "ctr": 1,
+              "position": 51,
+              "score": 0.0014
+            }
+          ],
+          "score": 0.2174,
+          "averagePosition": 15.1
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%ED%99%88%EC%B9%B4%ED%8E%98-%EC%99%84%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%84%A0%ED%83%9D",
+          "clicks": 0,
+          "impressions": 5,
+          "weightedPosition": 60,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 2.333333333333333,
+              "score": 0.1571
+            },
+            {
+              "query": "philips bar300/03 전자동 커피 메이커 () reviews",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 9,
+              "score": 0.0267
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 44,
+              "score": 0.0121
+            }
+          ],
+          "score": 0.1959,
+          "averagePosition": 12
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EC%A0%84%EC%9E%90%EB%8F%99-%EC%BB%A4%ED%94%BC%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%EA%B5%AC%EB%A7%A4-%EA%B0%80%EC%9D%B4%EB%93%9C",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 63,
+          "queries": [
+            {
+              "query": "philips bar300/03 전자동 커피 메이커 () reviews",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 6.333333333333333,
+              "score": 0.0954
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 11,
+              "score": 0.0241
+            },
+            {
+              "query": "필립스 바리스 티나 후기",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 16,
+              "score": 0.02
+            },
+            {
+              "query": "필립스 바리스티나 후기",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 17,
+              "score": 0.0194
+            }
+          ],
+          "score": 0.1589,
+          "averagePosition": 10.5
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%ED%99%88%EC%B9%B4%ED%8E%98-%EC%99%84%EB%B2%BD-%EC%86%94%EB%A3%A8%EC%85%98",
+          "clicks": 1,
+          "impressions": 8,
+          "weightedPosition": 87,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 9,
+              "score": 0.08
+            },
+            {
+              "query": "philips bar300/03 전자동 커피 메이커 () reviews",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0653
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 1,
+              "impressions": 3,
+              "ctr": 0.3333333333333333,
+              "position": 16,
+              "score": 0.0075
+            }
+          ],
+          "score": 0.1528,
+          "averagePosition": 10.88
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/hp-2026-%EB%85%B8%ED%8A%B8%EB%B6%81-15-%EB%9D%BC%EC%9D%B4%EC%A0%A0-7000-%EC%8B%9C%EB%A6%AC%EC%A6%88-%ED%83%91%EC%9E%AC-%EA%B0%80%EC%84%B1%EB%B9%84-%EB%85%B8%ED%8A%B8%EB%B6%81-%EB%A6%AC%EB%B7%B0",
+          "clicks": 0,
+          "impressions": 5,
+          "weightedPosition": 35,
+          "queries": [
+            {
+              "query": "hp 2026 노트북 15 () reviews",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7.25,
+              "score": 0.1188
+            },
+            {
+              "query": "hp 2026 노트북 15 라이젠5 () reviews",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0327
+            }
+          ],
+          "score": 0.1515,
+          "averagePosition": 7
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/tabwee-2026-%ED%83%9C%EB%B8%94%EB%A6%BF-%EB%A6%AC%EB%B7%B0-android-16-gemini-ai-11%EC%9D%B8%EC%B9%98-16gb-ram-%ED%83%91%EC%9E%AC",
+          "clicks": 2,
+          "impressions": 21,
+          "weightedPosition": 158,
+          "queries": [
+            {
+              "query": "tabwee 태블릿 후기",
+              "clicks": 2,
+              "impressions": 20,
+              "ctr": 0.1,
+              "position": 7.55,
+              "score": 0.0728
+            },
+            {
+              "query": "게임",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.0302
+            }
+          ],
+          "score": 0.103,
+          "averagePosition": 7.52
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EC%A0%84%EC%9E%90%EB%8F%99-%EC%BB%A4%ED%94%BC%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%EB%B0%8F-%EA%B5%AC%EB%A7%A4-%EA%B0%80%EC%9D%B4%EB%93%9C",
+          "clicks": 0,
+          "impressions": 4,
+          "weightedPosition": 70,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 5,
+              "score": 0.0716
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 30,
+              "score": 0.0292
+            }
+          ],
+          "score": 0.1008,
+          "averagePosition": 17.5
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%EC%97%90%EC%9D%B4%ED%88%AC-point-5-%EB%A7%88%EC%9A%B0%EC%8A%A4-%EB%A6%AC%EB%B7%B0-%EA%B2%8C%EC%9D%B4%EB%B0%8D%EA%B3%BC-%EC%82%AC%EB%AC%B4%EB%A5%BC-%EC%9E%87%EB%8A%94-rgb-%EC%9C%A0%EB%AC%B4%EC%84%A0-%EB%A7%88%EC%9A%B0%EC%8A%A4",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 16,
+          "queries": [
+            {
+              "query": "2 point 5",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0327
+            },
+            {
+              "query": "point 5",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 10,
+              "score": 0.0253
+            }
+          ],
+          "score": 0.058,
+          "averagePosition": 8
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/kospet-tank-t3-ultra-2-%EC%8A%A4%EB%A7%88%ED%8A%B8%EC%9B%8C%EC%B9%98-%EA%B0%95%EB%A0%A5%ED%95%9C-%EB%82%B4%EA%B5%AC%EC%84%B1%EA%B3%BC-%EC%B2%A8%EB%8B%A8-%EA%B8%B0%EB%8A%A5%EC%9D%98-%EC%99%84%EB%B2%BD%ED%95%9C-%EC%A1%B0%ED%99%94",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 4,
+          "queries": [
+            {
+              "query": "kospet tank t3 ultra 2",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            }
+          ],
+          "score": 0.04,
+          "averagePosition": 4
+        }
+      ]
+    }
+  ]
+}

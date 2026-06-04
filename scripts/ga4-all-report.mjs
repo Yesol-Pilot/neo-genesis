@@ -33,6 +33,7 @@ if (!saPath) {
 const credentials = JSON.parse(readFileSync(saPath, 'utf-8'));
 
 const SITES = [
+  { name: 'NeoGenesis', propertyId: '526345390', host: 'neogenesis.app' },
   { name: 'ToolPick', propertyId: '524659689' },
   { name: 'UR WRONG', propertyId: '524964770' },
   { name: 'K-OTT', propertyId: '525765817' },

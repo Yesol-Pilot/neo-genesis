@@ -1,10 +1,57 @@
 {
-  "generatedAt": "2026-05-14T11:39:23.536916+09:00",
-  "siteCount": 10,
-  "passedCount": 10,
+  "generatedAt": "2026-05-20T16:10:18.027828+09:00",
+  "siteCount": 13,
+  "passedCount": 13,
   "failedCount": 0,
   "passed": true,
   "sites": [
+    {
+      "id": "toolpick",
+      "name": "ToolPick",
+      "url": "https://www.toolpick.dev/",
+      "passed": true,
+      "issues": [],
+      "browser": {
+        "status": 200,
+        "title": "ToolPick — SaaS Decision Engine for Solo Devs & Small Teams",
+        "titleLen": 59,
+        "htmlLen": 131552,
+        "canonical": "https://www.toolpick.dev",
+        "description": "Deep tool profiles, cost calculators, and stack blueprints for solo developers, indie hackers, and small teams. Make smarter SaaS decisions with real data.",
+        "descriptionLen": 155,
+        "jsonLdCount": 2,
+        "gaRuntimeOk": true,
+        "posthogCaptureOk": true,
+        "networkEvents": [
+          {
+            "url": "https://www.googletagmanager.com/gtag/js?id=G-8YRD4KPHZN",
+            "status": 200
+          },
+          {
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-8YRD4KPHZN&gtm=45je65i2h1v9243579737za200zd9243579737&_p=1779260939950&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1293026304.1779260940&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938468&dp=%2F&dl=https%3A%2F%2Fwww.toolpick.dev%2F&dt=ToolPick%20%E2%80%94%20SaaS%20Decision%20Engine%20for%20Solo%20Devs%20%26%20Small%20Teams&sid=1779260940&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=www.toolpick.dev&tfd=357",
+            "status": 204
+          },
+          {
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1779260939956&ver=1.372.1",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
+          }
+        ],
+        "error": null
+      },
+      "static": {
+        "robotsStatus": 200,
+        "robotsHasSitemap": true,
+        "sitemapStatus": 200,
+        "sitemapUrlCount": 914,
+        "llmsStatus": 200,
+        "llmsLen": 29950,
+        "llmsWeak": false
+      }
+    },
     {
       "id": "aiforge",
       "name": "AIForge",
@@ -15,7 +62,7 @@
         "status": 200,
         "title": "AI Forge — AI Tools & Automation for Solo Devs",
         "titleLen": 46,
-        "htmlLen": 94794,
+        "htmlLen": 94884,
         "canonical": "https://aiforge.neogenesis.app",
         "description": "Compare AI writing tools, code assistants, image generators, and automation platforms. Real benchmarks, cost analysis, and honest reviews for solo devs and creators.",
         "descriptionLen": 165,
@@ -28,11 +75,11 @@
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65c0v9244911236za200zd9244911236&_p=1778726303589&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=249369234.1778726304&frm=0&pscdl=noapi&rcb=18&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938468~118167294~119013245&dp=%2F&dl=https%3A%2F%2Faiforge.neogenesis.app%2F&dt=AI%20Forge%20%E2%80%94%20AI%20Tools%20%26%20Automation%20for%20Solo%20Devs&sid=1778726303&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=aiforge.neogenesis.app&tfd=465",
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65i2v9244911236za200zd9244911236&_p=1779260948569&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=602660303.1779260949&frm=0&pscdl=noapi&rcb=15&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938468&dp=%2F&dl=https%3A%2F%2Faiforge.neogenesis.app%2F&dt=AI%20Forge%20%E2%80%94%20AI%20Tools%20%26%20Automation%20for%20Solo%20Devs&sid=1779260948&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=aiforge.neogenesis.app&tfd=346",
             "status": 204
           },
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778726303597&ver=1.358.0",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1779260948573&ver=1.358.0",
             "status": 200
           },
           {
@@ -54,9 +101,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 646,
+        "sitemapUrlCount": 649,
         "llmsStatus": 200,
-        "llmsLen": 9241,
+        "llmsLen": 9440,
         "llmsWeak": false
       }
     },
@@ -70,7 +117,7 @@
         "status": 200,
         "title": "CraftDesk — Design Tools for Solo Creators & Studios",
         "titleLen": 52,
-        "htmlLen": 99529,
+        "htmlLen": 99364,
         "canonical": "https://craftdesk.neogenesis.app",
         "description": "Compare design tools, video editors, prototyping platforms, and creative suites. Real workflow analysis and pricing for freelance designers and creators.",
         "descriptionLen": 153,
@@ -83,11 +130,31 @@
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65c0v9244911236za200zd9244911236&_p=1778726309470&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=632102847.1778726310&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938469~119013245&dp=%2F&dl=https%3A%2F%2Fcraftdesk.neogenesis.app%2F&dt=CraftDesk%20%E2%80%94%20Design%20Tools%20for%20Solo%20Creators%20%26%20Studios&sid=1778726309&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=craftdesk.neogenesis.app&tfd=909",
+            "url": "https://www.googletagmanager.com/a?id=G-0GVNYZLEMX&v=3&t=t&pid=1613409313&gtm=45je65i2v9244911236za200zd9244911236&cv=1&rv=65i2&tc=8&tag_exp=0~115938466~115938468~118128923&es=1&e=gtm.init&eid=2&u=AAAAAAAAAAAAAACA&h=Ag&tr=1ogt1pdatav2.1ccdgafirst.1setproductsettings.1ccdgaregscope.1ccdconversionmarking.1ccdautoredact.1ccdgalast&ti=2ogt1pdatav2.2ccdgafirst.2setproductsettings.2ccdgaregscope.2ccdconversionmarking.2ccdautoredact.2ccdgalast&z=0",
+            "status": 200
+          },
+          {
+            "url": "https://www.googletagmanager.com/a?id=G-0GVNYZLEMX&v=3&t=t&pid=1613409313&gtm=45je65i2v9244911236za200zd9244911236&cv=1&rv=65i2&tc=8&tag_exp=0~115938466~115938468~118128923&es=1&e=gtm.dom&eid=5&u=AAAAAAAAAAAAACCA&h=Ag&z=0",
+            "status": 200
+          },
+          {
+            "url": "https://www.googletagmanager.com/a?id=G-0GVNYZLEMX&v=3&t=t&pid=1613409313&gtm=45je65i2v9244911236za200zd9244911236&cv=1&rv=65i2&tc=8&tag_exp=0~115938466~115938468~118128923&es=1&e=gtag.config&eid=4&u=AAAAAAAAAAAAACCA&h=Ag&epr=1G.2G&z=0",
+            "status": 200
+          },
+          {
+            "url": "https://www.googletagmanager.com/a?id=G-0GVNYZLEMX&v=3&t=t&pid=1613409313&gtm=45je65i2v9244911236za200zd9244911236&cv=1&rv=65i2&tc=8&tag_exp=0~115938466~115938468~118128923&es=1&e=gtm.js&eid=3&u=AAAAAAAAAAAAAACA&h=Ag&tr=1gct&ti=2gct&z=0",
+            "status": 200
+          },
+          {
+            "url": "https://www.googletagmanager.com/a?id=G-0GVNYZLEMX&v=3&t=t&pid=1613409313&gtm=45je65i2v9244911236za200zd9244911236&cv=1&rv=65i2&tc=8&tag_exp=0~115938466~115938468~118128923&es=1&e=gtm.load&eid=6&u=AAAAAAAAAAAAACCA&h=Ag&z=0",
+            "status": 200
+          },
+          {
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65i2v9244911236za200zd9244911236&_p=1779260954208&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=85493416.1779260954&frm=0&pscdl=noapi&rcb=14&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938468~118128923&dp=%2F&dl=https%3A%2F%2Fcraftdesk.neogenesis.app%2F&dt=CraftDesk%20%E2%80%94%20Design%20Tools%20for%20Solo%20Creators%20%26%20Studios&sid=1779260954&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=craftdesk.neogenesis.app&tfd=648",
             "status": 204
           },
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778726309473&ver=1.353.0",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1779260954212&ver=1.353.0",
             "status": 200
           },
           {
@@ -109,9 +176,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 506,
+        "sitemapUrlCount": 509,
         "llmsStatus": 200,
-        "llmsLen": 7476,
+        "llmsLen": 7714,
         "llmsWeak": false
       }
     },
@@ -125,7 +192,7 @@
         "status": 200,
         "title": "DeployStack — DevOps Tools for Solo Devs & Small Teams",
         "titleLen": 54,
-        "htmlLen": 95148,
+        "htmlLen": 95096,
         "canonical": "https://deploystack.neogenesis.app",
         "description": "Compare hosting, CI/CD, monitoring, and infrastructure tools. Real performance benchmarks, pricing analysis, and deployment guides for indie developers.",
         "descriptionLen": 152,
@@ -138,11 +205,11 @@
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65c0v9244911236za200zd9244911236&_p=1778726313811&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1311930743.1778726314&frm=0&pscdl=noapi&rcb=6&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938468&dp=%2F&dl=https%3A%2F%2Fdeploystack.neogenesis.app%2F&dt=DeployStack%20%E2%80%94%20DevOps%20Tools%20for%20Solo%20Devs%20%26%20Small%20Teams&sid=1778726313&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=deploystack.neogenesis.app&tfd=333",
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65i2v9244911236za200zd9244911236&_p=1779260961801&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1522936047.1779260962&frm=0&pscdl=noapi&rcb=18&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115616986~115938465~115938468&dp=%2F&dl=https%3A%2F%2Fdeploystack.neogenesis.app%2F&dt=DeployStack%20%E2%80%94%20DevOps%20Tools%20for%20Solo%20Devs%20%26%20Small%20Teams&sid=1779260961&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=deploystack.neogenesis.app&tfd=319",
             "status": 204
           },
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778726313814&ver=1.358.0",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1779260961805&ver=1.358.0",
             "status": 200
           },
           {
@@ -164,9 +231,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 452,
+        "sitemapUrlCount": 455,
         "llmsStatus": 200,
-        "llmsLen": 8020,
+        "llmsLen": 8302,
         "llmsWeak": false
       }
     },
@@ -180,7 +247,7 @@
         "status": 200,
         "title": "FinStack — Fintech Tools for Freelancers & Solo Businesses",
         "titleLen": 58,
-        "htmlLen": 96563,
+        "htmlLen": 96728,
         "canonical": "https://finstack.neogenesis.app",
         "description": "Compare payment processors, invoicing tools, expense trackers, and business banking for freelancers, solopreneurs, and small teams. Real cost breakdowns and honest reviews.",
         "descriptionLen": 172,
@@ -193,12 +260,12 @@
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778726318365&ver=1.353.0",
-            "status": 200
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65i2v9244911236za200zd9244911236&_p=1779260967108&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=2071761136.1779260967&frm=0&pscdl=noapi&rcb=15&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938468&dp=%2F&dl=https%3A%2F%2Ffinstack.neogenesis.app%2F&dt=FinStack%20%E2%80%94%20Fintech%20Tools%20for%20Freelancers%20%26%20Solo%20Businesses&sid=1779260967&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=finstack.neogenesis.app&tfd=440",
+            "status": 204
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65c0v9244911236za200zd9244911236&_p=1778726318361&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=380537133.1778726318&frm=0&pscdl=noapi&rcb=13&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115616986~115938465~115938469~118128922&dp=%2F&dl=https%3A%2F%2Ffinstack.neogenesis.app%2F&dt=FinStack%20%E2%80%94%20Fintech%20Tools%20for%20Freelancers%20%26%20Solo%20Businesses&sid=1778726318&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=finstack.neogenesis.app&tfd=340",
-            "status": 204
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1779260967112&ver=1.353.0",
+            "status": 200
           },
           {
             "url": "https://us.i.posthog.com/i/v0/e/",
@@ -219,9 +286,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 443,
+        "sitemapUrlCount": 446,
         "llmsStatus": 200,
-        "llmsLen": 15337,
+        "llmsLen": 15271,
         "llmsWeak": false
       }
     },
@@ -235,7 +302,7 @@
         "status": 200,
         "title": "SellKit — E-commerce Tools for Solo Sellers",
         "titleLen": 43,
-        "htmlLen": 94505,
+        "htmlLen": 94473,
         "canonical": "https://sellkit.neogenesis.app",
         "description": "Compare e-commerce platforms, dropshipping tools, email marketing, and analytics for solo sellers. Real cost breakdowns and conversion rate data.",
         "descriptionLen": 145,
@@ -248,12 +315,12 @@
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778726323454&ver=1.353.0",
-            "status": 200
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65i2v9244911236za200zd9244911236&_p=1779260972443&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1891931814.1779260972&frm=0&pscdl=noapi&rcb=1&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938468&dp=%2F&dl=https%3A%2F%2Fsellkit.neogenesis.app%2F&dt=SellKit%20%E2%80%94%20E-commerce%20Tools%20for%20Solo%20Sellers&sid=1779260972&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=sellkit.neogenesis.app&tfd=364",
+            "status": 204
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65c1h2v9244911236za200zd9244911236&_p=1778726323450&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=138978302.1778726324&frm=0&pscdl=noapi&rcb=10&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938469&dp=%2F&dl=https%3A%2F%2Fsellkit.neogenesis.app%2F&dt=SellKit%20%E2%80%94%20E-commerce%20Tools%20for%20Solo%20Sellers&sid=1778726323&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=sellkit.neogenesis.app&tfd=934",
-            "status": 204
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1779260972447&ver=1.353.0",
+            "status": 200
           },
           {
             "url": "https://us.i.posthog.com/i/v0/e/",
@@ -266,7 +333,7 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 460,
+        "sitemapUrlCount": 463,
         "llmsStatus": 200,
         "llmsLen": 10955,
         "llmsWeak": false
@@ -282,7 +349,7 @@
         "status": 200,
         "title": "ReviewLab: 한국 쇼핑 리뷰·가격·단점 비교",
         "titleLen": 28,
-        "htmlLen": 136054,
+        "htmlLen": 138044,
         "canonical": "https://review.neogenesis.app",
         "description": "ReviewLab은 한국 사용자가 많이 찾는 가전, 노트북, 이어폰, 커피머신 리뷰를 가격·후기·단점·대체 상품 기준으로 비교해 살지 말지 빠르게 판단하게 돕습니다.",
         "descriptionLen": 92,
@@ -295,11 +362,90 @@
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65c0v9244911236za200zd9244911236&_p=1778726328899&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=567121281.1778726329&frm=0&pscdl=noapi&rcb=9&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115616986~115938465~115938469~119013245&dp=%2F&dl=https%3A%2F%2Freview.neogenesis.app%2F&dt=ReviewLab%3A%20%ED%95%9C%EA%B5%AD%20%EC%87%BC%ED%95%91%20%EB%A6%AC%EB%B7%B0%C2%B7%EA%B0%80%EA%B2%A9%C2%B7%EB%8B%A8%EC%A0%90%20%EB%B9%84%EA%B5%90&sid=1778726328&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=review.neogenesis.app&tfd=1137",
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1779260977732&ver=1.353.0",
+            "status": 200
+          },
+          {
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65j0h2v9244911236za200zd9244911236&_p=1779260977729&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=2012107291.1779260978&frm=0&pscdl=noapi&rcb=14&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938468&dp=%2F&dl=https%3A%2F%2Freview.neogenesis.app%2F&dt=ReviewLab%3A%20%ED%95%9C%EA%B5%AD%20%EC%87%BC%ED%95%91%20%EB%A6%AC%EB%B7%B0%C2%B7%EA%B0%80%EA%B2%A9%C2%B7%EB%8B%A8%EC%A0%90%20%EB%B9%84%EA%B5%90&sid=1779260977&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=review.neogenesis.app&tfd=359",
             "status": 204
           },
           {
-            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config?ip=0&_=1778726328905&ver=1.353.0",
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
+          }
+        ],
+        "error": null
+      },
+      "static": {
+        "robotsStatus": 200,
+        "robotsHasSitemap": true,
+        "sitemapStatus": 200,
+        "sitemapUrlCount": 200,
+        "llmsStatus": 200,
+        "llmsLen": 853,
+        "llmsWeak": false
+      }
+    },
+    {
+      "id": "ur-wrong",
+      "name": "UR WRONG",
+      "url": "https://ur-wrong.com/",
+      "passed": true,
+      "issues": [],
+      "browser": {
+        "status": 200,
+        "title": "UR WRONG - AI opens the debate. Humans decide the benchmark.",
+        "titleLen": 60,
+        "htmlLen": 48152,
+        "canonical": "https://ur-wrong.com/",
+        "description": "A no-signup debate benchmark platform where AI frames both sides and verified human votes decide the public signal in under 20 seconds.",
+        "descriptionLen": 135,
+        "jsonLdCount": 1,
+        "gaRuntimeOk": true,
+        "posthogCaptureOk": true,
+        "networkEvents": [
+          {
+            "url": "https://www.googletagmanager.com/gtag/js?id=G-MHJ96JLHT2",
+            "status": 200
+          },
+          {
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-MHJ96JLHT2&gtm=45je65j0h2v9243862531za200zd9243862531&_p=1779260982704&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=2134932229.1779260983&frm=0&pscdl=noapi&rcb=5&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115616985~115938465~115938468&sid=s_dd18ff55-8d54-4681-9d5d-9a64e6724fdc&dp=%2F&dl=https%3A%2F%2Fur-wrong.com%2F&dt=UR%20WRONG%20-%20AI%20opens%20the%20debate.%20Humans%20decide%20the%20benchmark.&sct=1&seg=0&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.site_id=ur-wrong&ep.site_domain=ur-wrong.com&ep.schema_version=2026-04-25.real-user-growth&ep.visitor_id=v_827334d5-4cf9-42ee-9a12-da0975af5749&ep.referrer=%24direct&ep.landing_url=https%3A%2F%2Fur-wrong.com%2F&ep.initial_referrer=%24direct&ep.utm_source=&ep.utm_medium=&ep.utm_campaign=&ep.utm_content=&ep.utm_term=&ep.route=feed&ep.battle_id=&ep.route_path=%2F&ep.%24current_url=https%3A%2F%2Fur-wrong.com%2F&ep.%24pathname=%2F&ep.actor_type=human&ep.source_type=client&ep.analytics_mode=production&ep.is_test_traffic=false&tfd=345",
+            "status": 204
+          },
+          {
+            "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config.js",
+            "status": 200
+          },
+          {
+            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.353.0",
+            "status": 200
+          },
+          {
+            "url": "https://us-assets.i.posthog.com/static/surveys.js?v=1.353.0",
+            "status": 200
+          },
+          {
+            "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.353.0",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1779260983242&ver=1.353.0&compression=base64",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
             "status": 200
           },
           {
@@ -313,9 +459,9 @@
         "robotsStatus": 200,
         "robotsHasSitemap": true,
         "sitemapStatus": 200,
-        "sitemapUrlCount": 1006,
+        "sitemapUrlCount": 135,
         "llmsStatus": 200,
-        "llmsLen": 853,
+        "llmsLen": 3044,
         "llmsWeak": false
       }
     },
@@ -329,7 +475,7 @@
         "status": 200,
         "title": "OTT 추천: 이번 달 볼 작품 기준으로 넷플릭스·티빙·디즈니+ 고르기 | K-OTT",
         "titleLen": 47,
-        "htmlLen": 402982,
+        "htmlLen": 418702,
         "canonical": "https://kott.kr",
         "description": "Netflix, TVING, Wavve, Disney+, Coupang Play, Watcha 중 이번 달 볼 작품과 유지/해지할 구독 조합을 한국 사용자 기준으로 빠르게 좁혀보세요.",
         "descriptionLen": 102,
@@ -342,15 +488,11 @@
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-E8RGGHZG23&gtm=45je65c0v9244480845za200zd9244480845&_p=1778726333441&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=318160749.1778726333&frm=0&pscdl=noapi&rcb=18&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938468&sid=1778726333&sct=1&seg=0&dl=https%3A%2F%2Fkott.kr%2F&dt=OTT%20%EC%B6%94%EC%B2%9C%3A%20%EC%9D%B4%EB%B2%88%20%EB%8B%AC%20%EB%B3%BC%20%EC%9E%91%ED%92%88%20%EA%B8%B0%EC%A4%80%EC%9C%BC%EB%A1%9C%20%EB%84%B7%ED%94%8C%EB%A6%AD%EC%8A%A4%C2%B7%ED%8B%B0%EB%B9%99%C2%B7%EB%94%94%EC%A6%88%EB%8B%88%2B%20%EA%B3%A0%EB%A5%B4%EA%B8%B0%20%7C%20K-OTT&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=848",
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-E8RGGHZG23&gtm=45je65i2v9244480845za200zd9244480845&_p=1779260989347&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=408402322.1779260989&frm=0&pscdl=noapi&rcb=15&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938468&sid=1779260989&sct=1&seg=0&dl=https%3A%2F%2Fkott.kr%2F&dt=OTT%20%EC%B6%94%EC%B2%9C%3A%20%EC%9D%B4%EB%B2%88%20%EB%8B%AC%20%EB%B3%BC%20%EC%9E%91%ED%92%88%20%EA%B8%B0%EC%A4%80%EC%9C%BC%EB%A1%9C%20%EB%84%B7%ED%94%8C%EB%A6%AD%EC%8A%A4%C2%B7%ED%8B%B0%EB%B9%99%C2%B7%EB%94%94%EC%A6%88%EB%8B%88%2B%20%EA%B3%A0%EB%A5%B4%EA%B8%B0%20%7C%20K-OTT&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=332",
             "status": 204
           },
           {
             "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config.js",
-            "status": 200
-          },
-          {
-            "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.353.0",
             "status": 200
           },
           {
@@ -362,7 +504,11 @@
             "status": 200
           },
           {
-            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1778726333738&ver=1.353.0&compression=base64",
+            "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.353.0",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1779260989618&ver=1.353.0&compression=base64",
             "status": 200
           },
           {
@@ -392,7 +538,7 @@
         "status": 200,
         "title": "EthicaAI | AI Ethics Risk Governance Research",
         "titleLen": 45,
-        "htmlLen": 87920,
+        "htmlLen": 87768,
         "canonical": "https://ethica.neogenesis.app",
         "description": "EthicaAI is an AI ethics, compliance, and risk governance research hub built from 560+ multi-agent reinforcement learning experiments and 70+ figures.",
         "descriptionLen": 150,
@@ -401,15 +547,15 @@
         "posthogCaptureOk": true,
         "networkEvents": [
           {
-            "url": "https://us-assets.i.posthog.com/static/array.js",
-            "status": 200
-          },
-          {
             "url": "https://www.googletagmanager.com/gtag/js?id=G-0GVNYZLEMX",
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65c0v9244911236za200zd9244911236&_p=1778726346257&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1151873273.1778726347&frm=0&pscdl=noapi&rcb=15&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938468~118128923&dp=%2F&sid=1778726346&sct=1&seg=0&dl=https%3A%2F%2Fethica.neogenesis.app%2F&dt=EthicaAI%20%7C%20AI%20Ethics%20Risk%20Governance%20Research&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=ethica.neogenesis.app&tfd=603",
+            "url": "https://us-assets.i.posthog.com/static/array.js",
+            "status": 200
+          },
+          {
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65i2v9244911236za200zd9244911236&_p=1779260994425&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1839405239.1779260995&frm=0&pscdl=noapi&rcb=1&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115616986~115938466~115938469~118128923&dp=%2F&sid=1779260994&sct=1&seg=0&dl=https%3A%2F%2Fethica.neogenesis.app%2F&dt=EthicaAI%20%7C%20AI%20Ethics%20Risk%20Governance%20Research&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=ethica.neogenesis.app&tfd=324",
             "status": 204
           },
           {
@@ -417,11 +563,11 @@
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.373.4",
+            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.374.2",
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.373.4",
+            "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.374.2",
             "status": 200
           },
           {
@@ -460,15 +606,15 @@
         "posthogCaptureOk": true,
         "networkEvents": [
           {
-            "url": "https://us-assets.i.posthog.com/static/array.js",
-            "status": 200
-          },
-          {
             "url": "https://www.googletagmanager.com/gtag/js?id=G-0GVNYZLEMX",
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65c0v9244911236za200zd9244911236&_p=1778726352198&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=406899767.1778726352&frm=0&pscdl=noapi&rcb=9&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938468&sid=1778726352&sct=1&seg=0&dl=https%3A%2F%2Fwhylab.neogenesis.app%2F&dt=WhyLab%20-%20Causal%20Inference%20Platform%20and%20Causality%20Lab&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=346",
+            "url": "https://us-assets.i.posthog.com/static/array.js",
+            "status": 200
+          },
+          {
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65j0h2v9244911236za200zd9244911236&_p=1779261000078&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1424449153.1779261000&frm=0&pscdl=noapi&rcb=13&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115616986~115938465~115938468&sid=1779261000&sct=1&seg=0&dl=https%3A%2F%2Fwhylab.neogenesis.app%2F&dt=WhyLab%20-%20Causal%20Inference%20Platform%20and%20Causality%20Lab&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=388",
             "status": 204
           },
           {
@@ -476,19 +622,19 @@
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.373.4",
+            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.374.2",
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.373.4",
+            "url": "https://us-assets.i.posthog.com/static/surveys.js?v=1.374.2",
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/static/surveys.js?v=1.373.4",
+            "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.374.2",
             "status": 200
           },
           {
-            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1778726352715&ver=1.373.4&compression=base64",
+            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1779261000671&ver=1.374.2&compression=base64",
             "status": 200
           },
           {
@@ -531,35 +677,31 @@
             "status": 200
           },
           {
-            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-SPPMR6QS9B&gtm=45je65c0v9243864104za200zd9243864104&_p=1778726357349&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=855401283.1778726358&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938469&sid=1778726357&sct=1&seg=0&dl=https%3A%2F%2Fheoyesol.kr%2F&dt=heoyesol%20%E2%80%94%20I%20build%20to%20find%20out&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=835",
-            "status": 204
-          },
-          {
-            "url": "https://www.googletagmanager.com/td?id=G-SPPMR6QS9B&v=3&t=t&pid=212848808&gtm=45je65c0v9243864104za200zd9243864104&seq=1&exp=0~115938466~115938469&dl=heoyesol.kr%2F&tdp=G-SPPMR6QS9B;243864104;0;0;0&frm=0&rtg=243864104&slo=0&hlo=0&lst=3&bt=0&ct=3&z=0",
-            "status": 204
-          },
-          {
             "url": "https://us-assets.i.posthog.com/static/array.js",
             "status": 200
+          },
+          {
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-SPPMR6QS9B&gtm=45je65i2v9243864104za200zd9243864104&_p=1779261005763&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1603558742.1779261006&frm=0&pscdl=noapi&rcb=11&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938465~115938468&sid=1779261006&sct=1&seg=0&dl=https%3A%2F%2Fheoyesol.kr%2F&dt=heoyesol%20%E2%80%94%20I%20build%20to%20find%20out&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=853",
+            "status": 204
           },
           {
             "url": "https://us-assets.i.posthog.com/array/phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO/config.js",
             "status": 200
           },
           {
-            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1778726358209&ver=1.373.4&compression=base64",
+            "url": "https://us.i.posthog.com/flags/?v=2&ip=0&_=1779261006425&ver=1.374.2&compression=base64",
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.373.4",
+            "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.374.2",
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.373.4",
+            "url": "https://us-assets.i.posthog.com/static/surveys.js?v=1.374.2",
             "status": 200
           },
           {
-            "url": "https://us-assets.i.posthog.com/static/surveys.js?v=1.373.4",
+            "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.374.2",
             "status": 200
           },
           {
@@ -576,6 +718,53 @@
         "sitemapUrlCount": 9,
         "llmsStatus": 200,
         "llmsLen": 2467,
+        "llmsWeak": false
+      }
+    },
+    {
+      "id": "neogenesis",
+      "name": "NeoGenesis",
+      "url": "https://neogenesis.app/",
+      "passed": true,
+      "issues": [],
+      "browser": {
+        "status": 200,
+        "title": "Neo Genesis (NeoGenesis) - AI-Native Automation Company",
+        "titleLen": 55,
+        "htmlLen": 202745,
+        "canonical": "https://neogenesis.app",
+        "description": "Neo Genesis, also written NeoGenesis, is an AI-native automation company running 11 business units with a single autonomous AI system. Built by one, powered by AI.",
+        "descriptionLen": 163,
+        "jsonLdCount": 22,
+        "gaRuntimeOk": true,
+        "posthogCaptureOk": true,
+        "networkEvents": [
+          {
+            "url": "https://www.googletagmanager.com/gtag/js?id=G-0GVNYZLEMX",
+            "status": 200
+          },
+          {
+            "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-0GVNYZLEMX&gtm=45je65i2v9244911236za200zd9244911236&_p=1779261012444&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1070946400.1779261013&frm=0&pscdl=noapi&rcb=11&sr=1280x720&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CHeadlessChrome%3B145.0.7632.6%7CChromium%3B145.0.7632.6&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=ko&_s=1&tag_exp=0~115938466~115938468~118806961&dp=%2F&sid=1779261012&sct=1&seg=0&dl=https%3A%2F%2Fneogenesis.app%2F&dt=Neo%20Genesis%20(NeoGenesis)%20-%20AI-Native%20Automation%20Company&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.website_name=neogenesis.app&tfd=455",
+            "status": 204
+          },
+          {
+            "url": "https://www.googletagmanager.com/a?v=3&t=l&pid=413129427&rv=65i2&tag_exp=0~115938466~115938468~118806961&u=AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAF&h=Ag&gtm=45je65i2v9244911236za200zd9244911236&cl=3.1.0&ccid=244911236&cid=G-0GVNYZLEMX&l=L64.S3.Y3.B14.E301.I354.TC8.HTC0.F384.C4~gtm.init_consent.S1.V1.E14~gtm.init.S0.E17.TS5ogt1pdatav2.TI4.TE0.TS5setproductsettings.TI10.TE0.TS5ccdgaregscope.TI9.TE0.TS5ccdconversionmarking.TI8.TE0.TS5ccdautoredact.TI7.TE0.TS5ccdgafirst.TI11.TE11.TS5ccdgalast.TI6.TE10~gtm.js.S0.V0.E14.TS5gct.TI1.TE0~gtm.dom.S0.V0.E4~gtm.load.S0.V0.E0~GA392",
+            "status": 200
+          },
+          {
+            "url": "https://us.i.posthog.com/i/v0/e/",
+            "status": 200
+          }
+        ],
+        "error": null
+      },
+      "static": {
+        "robotsStatus": 200,
+        "robotsHasSitemap": true,
+        "sitemapStatus": 200,
+        "sitemapUrlCount": 92,
+        "llmsStatus": 200,
+        "llmsLen": 32117,
         "llmsWeak": false
       }
     }

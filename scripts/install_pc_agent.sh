@@ -1,18 +1,34 @@
 #!/bin/bash
-# ============================================
-# Sora PC Agent 설치 및 실행 (Linux/Mac)
-#
-# 사용법:
-#   bash scripts/install_pc_agent.sh home-pc
-#   bash scripts/install_pc_agent.sh work-pc
-# ============================================
-set -e
+# Linux/macOS installer for Sora PC Agent.
+# Token handling rule: keep PC_AGENT_TOKEN in the environment or an
+# EnvironmentFile, never in ExecStart or process arguments.
+set -euo pipefail
 
-ID="${1:?사용법: $0 <pc-id> [server-url]}"
-SERVER="${2:-wss://neo.heoyesol.kr/ws/pc-agent}"
-TOKEN="${PC_AGENT_TOKEN:-sora-pc-agent-2026-yesol}"
+if [ "$#" -lt 1 ]; then
+  echo "Usage: $0 <pc-id> [server-url]" >&2
+  exit 1
+fi
+
+ID="$1"
+SERVER="${2:-${SORA_PC_AGENT_SERVER:-}}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+if [ -z "$SERVER" ]; then
+  echo "ERROR: SORA_PC_AGENT_SERVER is not set and no server URL was provided." >&2
+  exit 1
+fi
+
+if [ -z "${PC_AGENT_TOKEN:-}" ]; then
+  echo "ERROR: PC_AGENT_TOKEN is not set." >&2
+  exit 1
+fi
+
+PYTHON_BIN="$(command -v python3 || command -v python)"
+if [ -z "$PYTHON_BIN" ]; then
+  echo "ERROR: python3/python not found." >&2
+  exit 1
+fi
 
 echo ""
 echo "========================================"
@@ -20,16 +36,23 @@ echo "  Sora PC Agent Installer"
 echo "========================================"
 echo "  PC ID:   $ID"
 echo "  Server:  $SERVER"
+echo "  Token:   present (not printed)"
 echo ""
 
-# 1. 패키지 설치
-echo "[1/2] Python 패키지 설치..."
+echo "[1/2] Installing Python packages..."
 pip install websockets psutil pyperclip mss Pillow --quiet 2>/dev/null || pip3 install websockets psutil --quiet
 
-# 2. systemd 서비스 생성 (Linux only)
-if [ "$(uname)" = "Linux" ] && command -v systemctl &>/dev/null; then
-    echo "[2/2] systemd 서비스 등록..."
-    sudo tee /etc/systemd/system/sora-pc-agent.service > /dev/null << EOF
+if [ "$(uname)" = "Linux" ] && command -v systemctl >/dev/null 2>&1; then
+  echo "[2/2] Registering systemd service..."
+  sudo mkdir -p /etc/neo-genesis
+  sudo tee /etc/neo-genesis/sora-pc-agent.env >/dev/null <<EOF
+PC_AGENT_TOKEN=$PC_AGENT_TOKEN
+SORA_PC_AGENT_SERVER=$SERVER
+PYTHONUTF8=1
+PYTHONIOENCODING=utf-8
+EOF
+  sudo chmod 600 /etc/neo-genesis/sora-pc-agent.env
+  sudo tee /etc/systemd/system/sora-pc-agent.service >/dev/null <<EOF
 [Unit]
 Description=Sora PC Agent ($ID)
 After=network-online.target
@@ -37,28 +60,29 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=$(which python3 || which python) $PROJECT_ROOT/scripts/sora_pc_agent.py --id $ID --server $SERVER --token $TOKEN
+WorkingDirectory=$PROJECT_ROOT
+EnvironmentFile=/etc/neo-genesis/sora-pc-agent.env
+ExecStart=$PYTHON_BIN $PROJECT_ROOT/scripts/sora_pc_agent.py --id $ID --server $SERVER
 Restart=always
 RestartSec=5
-Environment=PC_AGENT_TOKEN=$TOKEN
 
 [Install]
 WantedBy=multi-user.target
 EOF
-    sudo systemctl daemon-reload
-    sudo systemctl enable sora-pc-agent
-    echo "  -> systemd 서비스 등록 완료 (sudo systemctl start sora-pc-agent)"
+  sudo systemctl daemon-reload
+  sudo systemctl enable sora-pc-agent
+  echo "  -> systemd service registered: sudo systemctl start sora-pc-agent"
 else
-    echo "[2/2] systemd 없음 — 수동 실행 필요"
+  echo "[2/2] systemd unavailable. Run manually when needed."
 fi
 
 echo ""
 echo "========================================"
-echo "  설치 완료!"
+echo "  Install complete"
 echo "========================================"
 echo ""
-echo "실행: python $PROJECT_ROOT/scripts/sora_pc_agent.py --id $ID --server $SERVER"
+echo "Run:"
+echo "  python \"$PROJECT_ROOT/scripts/sora_pc_agent.py\" --id \"$ID\" --server \"$SERVER\""
 echo ""
 
-# 바로 실행
-python3 "$PROJECT_ROOT/scripts/sora_pc_agent.py" --id "$ID" --server "$SERVER" --token "$TOKEN"
+python3 "$PROJECT_ROOT/scripts/sora_pc_agent.py" --id "$ID" --server "$SERVER"

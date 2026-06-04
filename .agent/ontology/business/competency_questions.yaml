@@ -1,0 +1,85 @@
+# Neo Genesis Business Ontology -- Competency Questions (acceptance gate)
+#
+# "기업 온톨로지"가 진짜로 회사를 모델링하는지의 시험. 메타층 competency_questions.yaml
+# (20Q) 의 business 대응. 각 Q 는 SQL + expect (min_rows or exact) 로 자동 검증.
+#
+# Run: python scripts/ontology/business/query.py --competency
+# Gate: 모든 P0 PASS 여야 "operating business ontology" 주장 가능.
+
+questions:
+  - id: BQ01
+    severity: P0
+    question: "Neo Genesis 의 founder 는 누구이고 몇 개 제품을 소유하나?"
+    sql: "SELECT count(*) AS n FROM edges WHERE type='biz:owns'"
+    expect_min_rows: 1
+    expect_min_value: 10   # founder owns >= 10 products
+
+  - id: BQ02
+    severity: P0
+    question: "어느 제품이 매출 경로에 연결돼 있나? (Product→RevenueStream)"
+    sql: |
+      SELECT count(DISTINCT e."from") AS n FROM edges e
+      WHERE e.type = 'biz:generates_revenue_via'
+    expect_min_value: 11
+
+  - id: BQ03
+    severity: P0
+    question: "recommended 매출 경로는 몇 개인가?"
+    sql: "SELECT count(*) AS n FROM nodes WHERE rdf_type='biz:RevenueStream' AND status='recommended'"
+    expect_min_value: 4
+
+  - id: BQ04
+    severity: P0
+    question: "각 제품은 어떤 KPI 로 측정되나? (Product↔KPI 연결)"
+    sql: "SELECT count(*) AS n FROM edges WHERE type='biz:measures'"
+    expect_min_value: 10
+
+  - id: BQ05
+    severity: P0
+    question: "live KPI 값이 실제 관측에서 오나? (observed_from_live_source)"
+    sql: "SELECT count(*) AS n FROM nodes WHERE rdf_type='biz:KPI' AND provenance='observed_from_live_source'"
+    expect_min_value: 1
+
+  - id: BQ06
+    severity: P0
+    question: "어느 제품이 어느 리스크에 노출됐나? (Product→Risk)"
+    sql: "SELECT count(*) AS n FROM edges WHERE type='biz:threatened_by'"
+    expect_min_value: 1
+
+  - id: BQ07
+    severity: P1
+    question: "active 상태 P0 리스크는?"
+    sql: "SELECT count(*) AS n FROM nodes WHERE rdf_type='biz:Risk' AND status='active' AND severity='P0'"
+    expect_min_value: 1
+
+  - id: BQ08
+    severity: P1
+    question: "Decision 거버넌스: G1 자율 vs G2 owner 분포?"
+    sql: "SELECT count(*) AS n FROM nodes WHERE rdf_type='biz:Decision' AND g_level='G1'"
+    expect_min_value: 1
+
+  - id: BQ09
+    severity: P1
+    question: "biz:Product 가 meta:Project 와 cross-link 되나? (양 layer 정합)"
+    sql: "SELECT count(*) AS n FROM edges WHERE type='biz:cross_ref_meta'"
+    expect_min_value: 10
+
+  - id: BQ10
+    severity: P1
+    question: "월 burn rate 구성요소 (MonthlyCost) 가 모델링됐나?"
+    sql: "SELECT count(*) AS n FROM nodes WHERE rdf_type='biz:MonthlyCost'"
+    expect_min_value: 3
+
+  - id: BQ11
+    severity: P2
+    question: "founder 역량이 제품을 enable 하는 연결이 있나? (Capability→Product)"
+    sql: "SELECT count(*) AS n FROM edges WHERE type='biz:enables'"
+    expect_min_value: 1
+
+  - id: BQ12
+    severity: P2
+    question: "personal-forbidden marking 이 biz 그래프에 누출됐나? (0 이어야)"
+    sql: |
+      SELECT count(*) AS n FROM nodes
+      WHERE list_contains(COALESCE(markings, []), 'personal-forbidden')
+    expect_exact_value: 0

@@ -1,0 +1,446 @@
+{
+  "generatedAt": "2026-05-16T14:12:12+09:00",
+  "tokenSource": "refresh_token",
+  "args": {
+    "sites": "toolpick,aiforge,craftdesk,deploystack,finstack,sellkit,reviewlab,ur-wrong,kott,whylab,ethicaai,neogenesis,heoyesol",
+    "days": 28,
+    "rowLimit": 2500,
+    "submitSitemaps": false,
+    "fetch": false,
+    "minImpressions": 1,
+    "writeDefaultLatest": false
+  },
+  "scope": {
+    "label": "all-sbu",
+    "siteIds": [
+      "toolpick",
+      "aiforge",
+      "craftdesk",
+      "deploystack",
+      "finstack",
+      "sellkit",
+      "reviewlab",
+      "ur-wrong",
+      "kott",
+      "whylab",
+      "ethicaai",
+      "neogenesis",
+      "heoyesol"
+    ],
+    "isDefaultAll": true,
+    "filePrefix": "gsc-all-sbu",
+    "writesDefaultLatest": true
+  },
+  "window": {
+    "startDate": "2026-04-16",
+    "endDate": "2026-05-14"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "sc-domain:toolpick.dev",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:review.neogenesis.app",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://deploystack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://www.toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://sellkit.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://aiforge.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://review.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://craftdesk.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:heoyesol.kr",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://heoyesol.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://whylab.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://finstack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://kott.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ethica.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 13,
+    "propertiesListed": 13,
+    "liveSitemapsOk": 13,
+    "gscSitemapsKnown": 13,
+    "sitemapSubmissionsAttempted": 0,
+    "sitemapSubmissionsOk": 0,
+    "searchAnalyticsAttempted": 0,
+    "searchAnalyticsOk": 0,
+    "totalRows": 0
+  },
+  "sites": [
+    {
+      "id": "toolpick",
+      "name": "ToolPick",
+      "property": "sc-domain:toolpick.dev",
+      "domain": "https://www.toolpick.dev",
+      "sitemap": "https://www.toolpick.dev/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 914,
+        "finalUrl": "https://www.toolpick.dev/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "aiforge",
+      "name": "AIForge",
+      "property": "https://aiforge.neogenesis.app/",
+      "domain": "https://aiforge.neogenesis.app",
+      "sitemap": "https://aiforge.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 647,
+        "finalUrl": "https://aiforge.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "craftdesk",
+      "name": "CraftDesk",
+      "property": "https://craftdesk.neogenesis.app/",
+      "domain": "https://craftdesk.neogenesis.app",
+      "sitemap": "https://craftdesk.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 507,
+        "finalUrl": "https://craftdesk.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "deploystack",
+      "name": "DeployStack",
+      "property": "https://deploystack.neogenesis.app/",
+      "domain": "https://deploystack.neogenesis.app",
+      "sitemap": "https://deploystack.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 453,
+        "finalUrl": "https://deploystack.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "finstack",
+      "name": "FinStack",
+      "property": "https://finstack.neogenesis.app/",
+      "domain": "https://finstack.neogenesis.app",
+      "sitemap": "https://finstack.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 444,
+        "finalUrl": "https://finstack.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "sellkit",
+      "name": "SellKit",
+      "property": "https://sellkit.neogenesis.app/",
+      "domain": "https://sellkit.neogenesis.app",
+      "sitemap": "https://sellkit.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 461,
+        "finalUrl": "https://sellkit.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "reviewlab",
+      "name": "ReviewLab",
+      "property": "https://review.neogenesis.app/",
+      "domain": "https://review.neogenesis.app",
+      "sitemap": "https://review.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 219,
+        "finalUrl": "https://review.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "ur-wrong",
+      "name": "UR WRONG",
+      "property": "https://ur-wrong.com/",
+      "domain": "https://ur-wrong.com",
+      "sitemap": "https://ur-wrong.com/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 92,
+        "finalUrl": "https://ur-wrong.com/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "kott",
+      "name": "K-OTT",
+      "property": "https://kott.kr/",
+      "domain": "https://kott.kr",
+      "sitemap": "https://kott.kr/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 60,
+        "finalUrl": "https://kott.kr/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "whylab",
+      "name": "WhyLab",
+      "property": "https://whylab.neogenesis.app/",
+      "domain": "https://whylab.neogenesis.app",
+      "sitemap": "https://whylab.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 14,
+        "finalUrl": "https://whylab.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "ethicaai",
+      "name": "EthicaAI",
+      "property": "https://ethica.neogenesis.app/",
+      "domain": "https://ethica.neogenesis.app",
+      "sitemap": "https://ethica.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 14,
+        "finalUrl": "https://ethica.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "neogenesis",
+      "name": "NeoGenesis",
+      "property": "https://neogenesis.app/",
+      "domain": "https://neogenesis.app",
+      "sitemap": "https://neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 90,
+        "finalUrl": "https://neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    },
+    {
+      "id": "heoyesol",
+      "name": "HeoYesol Portfolio",
+      "property": "sc-domain:heoyesol.kr",
+      "domain": "https://heoyesol.kr",
+      "sitemap": "https://heoyesol.kr/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 9,
+        "finalUrl": "https://heoyesol.kr/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": null,
+      "opportunities": []
+    }
+  ]
+}

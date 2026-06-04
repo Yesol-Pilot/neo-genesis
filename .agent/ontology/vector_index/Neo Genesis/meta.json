@@ -1,0 +1,356 @@
+{
+  "sbu_slug": "Neo Genesis",
+  "n_artifacts": 58,
+  "n_features": 10000,
+  "vectorizer_type": "tfidf_char_wb_2-4",
+  "items": [
+    {
+      "id": "neo://artifact/4811f80b7848",
+      "path": ".agent/personas/tier-s/korean-copywriter-tone.md",
+      "title": "korean-copywriter-tone",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/3839b4f1b07d",
+      "path": ".agent/personas/tier-s/korean-seo-geo-strategist.md",
+      "title": "korean-seo-geo-strategist",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/1eb1c1e03a22",
+      "path": ".agent/personas/tier-s/multi-agent-orchestrator.md",
+      "title": "multi-agent-orchestrator",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/f3d53dc37d8c",
+      "path": ".agent/personas/tier-s/prompt-injection-auditor.md",
+      "title": "prompt-injection-auditor",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/18a08d6612aa",
+      "path": ".agent/personas/tier-s/quant-strategy-lead.md",
+      "title": "quant-strategy-lead",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/d5d140cebc8f",
+      "path": ".agent/personas/tier-s/senior-backend-eng-korean.md",
+      "title": "senior-backend-eng-korean",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/6a0863b8057e",
+      "path": ".agent/personas/tier-s/senior-da-pm-korean.md",
+      "title": "senior-da-pm-korean",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/6a664a813882",
+      "path": ".agent/personas/tier-s/sora-sre-ops.md",
+      "title": "sora-sre-ops",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/15f7026b2458",
+      "path": ".agent/personas/tier-a/api-design-restful.md",
+      "title": "api-design-restful",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/874d6aa38164",
+      "path": ".agent/personas/tier-a/content-strategist-saas.md",
+      "title": "content-strategist-saas",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/5b5a73e643d0",
+      "path": ".agent/personas/tier-a/database-architect-postgres.md",
+      "title": "database-architect-postgres",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/972ee7b9d495",
+      "path": ".agent/personas/tier-a/financial-advisor-personal.md",
+      "title": "financial-advisor-personal",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/3982454ca0b6",
+      "path": ".agent/personas/tier-a/frontend-architect-react.md",
+      "title": "frontend-architect-react",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/dbf04ddfffe9",
+      "path": ".agent/personas/tier-a/growth-experiments-pm.md",
+      "title": "growth-experiments-pm",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/1b4f21892199",
+      "path": ".agent/personas/tier-a/infrastructure-architect-cloud.md",
+      "title": "infrastructure-architect-cloud",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/112108b20b5c",
+      "path": ".agent/personas/tier-a/research-synthesizer.md",
+      "title": "research-synthesizer",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/d831e364bf2f",
+      "path": ".agent/personas/tier-a/threat-modeler-saas.md",
+      "title": "threat-modeler-saas",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/eac2d8e46abe",
+      "path": ".agent/personas/tier-b/accessibility-auditor.md",
+      "title": "accessibility-auditor",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/54efab726370",
+      "path": ".agent/personas/tier-b/ai-safety-researcher-constitutional.md",
+      "title": "ai-safety-researcher-constitutional",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/79d968d07fdb",
+      "path": ".agent/personas/tier-b/data-engineer-pipeline.md",
+      "title": "data-engineer-pipeline",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/feb03e58a664",
+      "path": ".agent/personas/tier-b/devops-cicd-engineer.md",
+      "title": "devops-cicd-engineer",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/3f5b8c3e9317",
+      "path": ".agent/personas/tier-b/i18n-l10n-specialist.md",
+      "title": "i18n-l10n-specialist",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/dcec53907f21",
+      "path": ".agent/personas/tier-b/ml-ops-engineer.md",
+      "title": "ml-ops-engineer",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/46a97fab0117",
+      "path": ".agent/personas/tier-b/mobile-app-architect.md",
+      "title": "mobile-app-architect",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/133901acb593",
+      "path": ".agent/personas/tier-b/neo-orchestrator-magentic.md",
+      "title": "neo-orchestrator-magentic",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/b270c2c2d10a",
+      "path": ".agent/personas/tier-b/qa-test-strategist.md",
+      "title": "qa-test-strategist",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/a5af3df24921",
+      "path": ".agent/personas/tier-b/technical-writer.md",
+      "title": "technical-writer",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/6ef7b247fe27",
+      "path": ".agent/personas/tier-c/dockerfile-optimizer.md",
+      "title": "dockerfile-optimizer",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/db67aa9ed370",
+      "path": ".agent/personas/tier-c/git-commit-message-writer.md",
+      "title": "git-commit-message-writer",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/62df2596dc0b",
+      "path": ".agent/personas/tier-c/json-schema-validator.md",
+      "title": "json-schema-validator",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/f8f07ef8fd75",
+      "path": ".agent/personas/tier-c/regex-builder.md",
+      "title": "regex-builder",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/77fcf69dbecc",
+      "path": ".agent/personas/tier-c/sql-query-optimizer.md",
+      "title": "sql-query-optimizer",
+      "kind": "persona"
+    },
+    {
+      "id": "neo://artifact/b47115b4dc07",
+      "path": ".agent/policies/mcp_tool_policy.yaml",
+      "title": "mcp_tool_policy",
+      "kind": "policy"
+    },
+    {
+      "id": "neo://artifact/9f0efb72577c",
+      "path": ".agent/policies/persona_safety.yaml",
+      "title": "persona_safety",
+      "kind": "policy"
+    },
+    {
+      "id": "neo://artifact/d06ddd109f4b",
+      "path": ".agent/policies/pipa_data_retention.yaml",
+      "title": "pipa_data_retention",
+      "kind": "policy"
+    },
+    {
+      "id": "neo://artifact/7f3d17cb2aa8",
+      "path": ".agent/policies/rag_eval_baseline.yaml",
+      "title": "rag_eval_baseline",
+      "kind": "policy"
+    },
+    {
+      "id": "neo://artifact/15a51d395c9f",
+      "path": ".agent/policies/slo_definitions.yaml",
+      "title": "slo_definitions",
+      "kind": "policy"
+    },
+    {
+      "id": "neo://artifact/62b391f60595",
+      "path": ".agent/policies/gitleaks-korean-rules.toml",
+      "title": "gitleaks-korean-rules",
+      "kind": "policy"
+    },
+    {
+      "id": "neo://artifact/dbe76cbc6709",
+      "path": ".agent/knowledge/20260529_JARVIS_OWNER_COMMANDS_100.md",
+      "title": "20260529_JARVIS_OWNER_COMMANDS_100",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/56f045dc5652",
+      "path": ".agent/knowledge/20260520_JARVIS_ARCHITECTURE_v1.md",
+      "title": "20260520_JARVIS_ARCHITECTURE_v1",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/938d532e28e3",
+      "path": ".agent/knowledge/20260528_AI_TRAFFIC_LEADERSHIP_DEEP_RESEARCH_GPT_STANDALONE_v1.md",
+      "title": "20260528_AI_TRAFFIC_LEADERSHIP_DEEP_RESEARCH_GPT_STANDALONE_v1",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/5fb8a59d1dfb",
+      "path": ".agent/knowledge/20260528_AI_VISIBILITY_DEEP_RESEARCH_GPT_STANDALONE_v1.md",
+      "title": "20260528_AI_VISIBILITY_DEEP_RESEARCH_GPT_STANDALONE_v1",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/b1287c2bce30",
+      "path": ".agent/knowledge/20260528_AI_VISIBILITY_FEASIBILITY_DEEP_RESEARCH_REQUEST_v1.md",
+      "title": "20260528_AI_VISIBILITY_FEASIBILITY_DEEP_RESEARCH_REQUEST_v1",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/ede35ca7b429",
+      "path": ".agent/knowledge/20260524_JARVIS_ARCHITECTURE_v2.md",
+      "title": "20260524_JARVIS_ARCHITECTURE_v2",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/3f4550636df2",
+      "path": ".agent/knowledge/CALLABLE_TOOLS_REGISTRY_POLICY.md",
+      "title": "CALLABLE_TOOLS_REGISTRY_POLICY",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/de76fbd55d6f",
+      "path": ".agent/knowledge/20260516_IMAGE_GENERATION_ROUTING_POLICY.md",
+      "title": "20260516_IMAGE_GENERATION_ROUTING_POLICY",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/636696104e2d",
+      "path": ".agent/knowledge/20260514_AI_CORPUS_CITATION_STRATEGY_v1.5.md",
+      "title": "20260514_AI_CORPUS_CITATION_STRATEGY_v1.5",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/14f03be185d7",
+      "path": ".agent/knowledge/20260514_weekly_perplexity_protocol.md",
+      "title": "20260514_weekly_perplexity_protocol",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/996acacbce5c",
+      "path": ".agent/knowledge/20260516_blog_performance_audit.md",
+      "title": "20260516_blog_performance_audit",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/9e1f54fc9bf9",
+      "path": ".agent/knowledge/20260520_AGENT_READABILITY_AUDIT_v1.md",
+      "title": "20260520_AGENT_READABILITY_AUDIT_v1",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/6cca4f37baba",
+      "path": ".agent/knowledge/20260518_supabase_rls_write_hardening.md",
+      "title": "20260518_supabase_rls_write_hardening",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/5e8a118b49b6",
+      "path": ".agent/knowledge/20260518_P0_INCIDENT_71357012_KEY_ROTATION.md",
+      "title": "20260518_P0_INCIDENT_71357012_KEY_ROTATION",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/dfa0b5ac7bc7",
+      "path": ".agent/knowledge/20260517_HERMES_WSL2_POC_STAGE0_v1.md",
+      "title": "20260517_HERMES_WSL2_POC_STAGE0_v1",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/6f8df9eca60d",
+      "path": ".agent/knowledge/20260516_neogenesis_app_site_audit.md",
+      "title": "20260516_neogenesis_app_site_audit",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/63f8ca235014",
+      "path": ".agent/knowledge/blog_autogen_pipeline_v1.md",
+      "title": "blog_autogen_pipeline_v1",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/418004f72e34",
+      "path": ".agent/knowledge/20260514_phase2_g2_drafts.md",
+      "title": "20260514_phase2_g2_drafts",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/123d0911886a",
+      "path": ".agent/knowledge/20260514_web_ui_measurement_poc_results.md",
+      "title": "20260514_web_ui_measurement_poc_results",
+      "kind": "knowledge"
+    },
+    {
+      "id": "neo://artifact/836bfce141b4",
+      "path": ".agent/knowledge/20260510_D00TEST_DIRECTORY_REORGANIZATION_POLICY.md",
+      "title": "20260510_D00TEST_DIRECTORY_REORGANIZATION_POLICY",
+      "kind": "knowledge"
+    }
+  ]
+}

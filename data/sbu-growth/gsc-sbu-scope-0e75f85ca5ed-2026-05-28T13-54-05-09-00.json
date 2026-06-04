@@ -1,0 +1,348 @@
+{
+  "generatedAt": "2026-05-28T13:54:05+09:00",
+  "tokenSource": "service_account",
+  "args": {
+    "sites": "aiforge,craftdesk,deploystack,finstack,sellkit,reviewlab,whylab,ethicaai",
+    "days": 28,
+    "rowLimit": 10,
+    "submitSitemaps": true,
+    "fetch": true,
+    "minImpressions": 1,
+    "writeDefaultLatest": false
+  },
+  "scope": {
+    "label": "scope-0e75f85ca5ed",
+    "siteIds": [
+      "aiforge",
+      "craftdesk",
+      "deploystack",
+      "finstack",
+      "sellkit",
+      "reviewlab",
+      "whylab",
+      "ethicaai"
+    ],
+    "isDefaultAll": false,
+    "filePrefix": "gsc-sbu-scope-0e75f85ca5ed",
+    "writesDefaultLatest": false
+  },
+  "window": {
+    "startDate": "2026-04-28",
+    "endDate": "2026-05-26"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 8,
+    "propertiesListed": 0,
+    "liveSitemapsOk": 8,
+    "gscSitemapsKnown": 0,
+    "sitemapSubmissionsAttempted": 8,
+    "sitemapSubmissionsOk": 0,
+    "searchAnalyticsAttempted": 8,
+    "searchAnalyticsOk": 0,
+    "totalRows": 0
+  },
+  "sites": [
+    {
+      "id": "aiforge",
+      "name": "AIForge",
+      "property": "https://aiforge.neogenesis.app/",
+      "domain": "https://aiforge.neogenesis.app",
+      "sitemap": "https://aiforge.neogenesis.app/sitemap.xml",
+      "propertyListed": false,
+      "permission": null,
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 650,
+        "finalUrl": "https://aiforge.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": false,
+        "status": 403,
+        "known": false,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://aiforge.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://aiforge.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "sitemapSubmit": {
+        "ok": false,
+        "status": 403,
+        "submitted": false,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://aiforge.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://aiforge.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "searchAnalytics": {
+        "ok": false,
+        "status": 403,
+        "rows": 0,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://aiforge.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://aiforge.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "opportunities": []
+    },
+    {
+      "id": "craftdesk",
+      "name": "CraftDesk",
+      "property": "https://craftdesk.neogenesis.app/",
+      "domain": "https://craftdesk.neogenesis.app",
+      "sitemap": "https://craftdesk.neogenesis.app/sitemap.xml",
+      "propertyListed": false,
+      "permission": null,
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 510,
+        "finalUrl": "https://craftdesk.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": false,
+        "status": 403,
+        "known": false,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://craftdesk.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://craftdesk.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "sitemapSubmit": {
+        "ok": false,
+        "status": 403,
+        "submitted": false,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://craftdesk.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://craftdesk.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "searchAnalytics": {
+        "ok": false,
+        "status": 403,
+        "rows": 0,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://craftdesk.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://craftdesk.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "opportunities": []
+    },
+    {
+      "id": "deploystack",
+      "name": "DeployStack",
+      "property": "https://deploystack.neogenesis.app/",
+      "domain": "https://deploystack.neogenesis.app",
+      "sitemap": "https://deploystack.neogenesis.app/sitemap.xml",
+      "propertyListed": false,
+      "permission": null,
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 456,
+        "finalUrl": "https://deploystack.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": false,
+        "status": 403,
+        "known": false,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://deploystack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://deploystack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "sitemapSubmit": {
+        "ok": false,
+        "status": 403,
+        "submitted": false,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://deploystack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://deploystack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "searchAnalytics": {
+        "ok": false,
+        "status": 403,
+        "rows": 0,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://deploystack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://deploystack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "opportunities": []
+    },
+    {
+      "id": "finstack",
+      "name": "FinStack",
+      "property": "https://finstack.neogenesis.app/",
+      "domain": "https://finstack.neogenesis.app",
+      "sitemap": "https://finstack.neogenesis.app/sitemap.xml",
+      "propertyListed": false,
+      "permission": null,
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 447,
+        "finalUrl": "https://finstack.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": false,
+        "status": 403,
+        "known": false,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://finstack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://finstack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "sitemapSubmit": {
+        "ok": false,
+        "status": 403,
+        "submitted": false,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://finstack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://finstack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "searchAnalytics": {
+        "ok": false,
+        "status": 403,
+        "rows": 0,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://finstack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://finstack.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "opportunities": []
+    },
+    {
+      "id": "sellkit",
+      "name": "SellKit",
+      "property": "https://sellkit.neogenesis.app/",
+      "domain": "https://sellkit.neogenesis.app",
+      "sitemap": "https://sellkit.neogenesis.app/sitemap.xml",
+      "propertyListed": false,
+      "permission": null,
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 464,
+        "finalUrl": "https://sellkit.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": false,
+        "status": 403,
+        "known": false,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://sellkit.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://sellkit.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "sitemapSubmit": {
+        "ok": false,
+        "status": 403,
+        "submitted": false,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://sellkit.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://sellkit.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "searchAnalytics": {
+        "ok": false,
+        "status": 403,
+        "rows": 0,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://sellkit.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://sellkit.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "opportunities": []
+    },
+    {
+      "id": "reviewlab",
+      "name": "ReviewLab",
+      "property": "https://review.neogenesis.app/",
+      "domain": "https://review.neogenesis.app",
+      "sitemap": "https://review.neogenesis.app/sitemap.xml",
+      "propertyListed": false,
+      "permission": null,
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 200,
+        "finalUrl": "https://review.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": false,
+        "status": 403,
+        "known": false,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://review.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://review.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "sitemapSubmit": {
+        "ok": false,
+        "status": 403,
+        "submitted": false,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://review.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://review.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "searchAnalytics": {
+        "ok": false,
+        "status": 403,
+        "rows": 0,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://review.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://review.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "opportunities": []
+    },
+    {
+      "id": "whylab",
+      "name": "WhyLab",
+      "property": "https://whylab.neogenesis.app/",
+      "domain": "https://whylab.neogenesis.app",
+      "sitemap": "https://whylab.neogenesis.app/sitemap.xml",
+      "propertyListed": false,
+      "permission": null,
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 14,
+        "finalUrl": "https://whylab.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": false,
+        "status": 403,
+        "known": false,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://whylab.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://whylab.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "sitemapSubmit": {
+        "ok": false,
+        "status": 403,
+        "submitted": false,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://whylab.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://whylab.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "searchAnalytics": {
+        "ok": false,
+        "status": 403,
+        "rows": 0,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://whylab.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://whylab.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "opportunities": []
+    },
+    {
+      "id": "ethicaai",
+      "name": "EthicaAI",
+      "property": "https://ethica.neogenesis.app/",
+      "domain": "https://ethica.neogenesis.app",
+      "sitemap": "https://ethica.neogenesis.app/sitemap.xml",
+      "propertyListed": false,
+      "permission": null,
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 14,
+        "finalUrl": "https://ethica.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": false,
+        "status": 403,
+        "known": false,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://ethica.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://ethica.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "sitemapSubmit": {
+        "ok": false,
+        "status": 403,
+        "submitted": false,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://ethica.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://ethica.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "searchAnalytics": {
+        "ok": false,
+        "status": 403,
+        "rows": 0,
+        "error": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"User does not have sufficient permission for site 'https://ethica.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n    \"errors\": [\n      {\n        \"message\": \"User does not have sufficient permission for site 'https://ethica.neogenesis.app/'. See also: https://support.google.com/webmasters/answer/2451999.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ]\n  }\n}\n"
+      },
+      "opportunities": []
+    }
+  ]
+}

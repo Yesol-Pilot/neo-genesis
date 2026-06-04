@@ -1,0 +1,260 @@
+{
+  "generated_at": "2026-06-04T00:14:04+00:00",
+  "ontology_state": {
+    "meta_nodes": 322,
+    "biz_nodes": 253,
+    "biz_classes": 21
+  },
+  "urgent_d30": [
+    {
+      "label": "auradb-trial-expiry",
+      "kind": "infra_critical",
+      "target_date": "2026-05-26",
+      "days_until": -9,
+      "impact": "D-12 from 2026-05-14. 만료 후 결정: (A) $65/월 paid Professional 유지 (B) Free 다운그레이드 (C) Docker self-host 전환. burn rate $448 + $65 = $513 권고 또는 owner G2."
+    },
+    {
+      "label": "revenue-path-30day-review",
+      "kind": "strategy_review",
+      "target_date": "2026-06-08",
+      "days_until": 4,
+      "impact": "B1/D2/C2/B3 path 진척 확인 + 자본 추가 투입 결정 (G2)."
+    },
+    {
+      "label": "koreanllm-w0-launch",
+      "kind": "product_launch",
+      "target_date": "2026-06-10",
+      "days_until": 6,
+      "impact": "D-27 from 2026-05-14. AO-1 SBU live trigger."
+    }
+  ],
+  "active_risks": [
+    {
+      "label": "blind-review-hold",
+      "severity": "P0",
+      "kind": "publication_compliance",
+      "status": "active",
+      "description": "EthicaAI + WhyLab manuscript double-blind venue 심사 중 → arXiv 업로드 금지"
+    },
+    {
+      "label": "financial-advisor-charter",
+      "severity": "P0",
+      "kind": "self-imposed-policy",
+      "status": "active",
+      "description": "Strategy Lead = 재무책임자 헌장 — G1 자본 위험 0 / personal 0 / 영구 비가역 0 시만"
+    },
+    {
+      "label": "koreanllm-w0-readiness",
+      "severity": "P0",
+      "kind": "product_launch_risk",
+      "status": "active",
+      "description": "D-27 (2026-06-10) W0 launch — Cloudflare bind + DNS + dashboard ready 필요"
+    },
+    {
+      "label": "personal-context-leak",
+      "severity": "P0",
+      "kind": "data_governance",
+      "status": "active",
+      "description": "personal/ 디렉토리 (법무·금융·개인회생) ontology / chat / agent context 절대 외"
+    },
+    {
+      "label": "cts-employer-double-loyalty",
+      "severity": "P1",
+      "kind": "career_risk",
+      "status": "monitoring",
+      "description": "owner = CTS-AI 직원 + Neo Genesis 대표 ← 시간 / IP / 의무 충돌 가능"
+    },
+    {
+      "label": "ga4-sa-permission-gap",
+      "severity": "P1",
+      "kind": "observability_gap",
+      "status": "active",
+      "description": "GA4 Data API 403 'User does not have sufficient permissions for this property' — 14 GA4 property 에 SA email Viewer 권한 미부여. kpi_fetch.py GA4 live current_value 갱신 차단. owner action: GA4 → Admin → Property Access → Add (SA email, Viewer)."
+    },
+    {
+      "label": "llm-subscription-dependency",
+      "severity": "P1",
+      "kind": "infra_risk",
+      "status": "monitoring",
+      "description": "월 $330 LLM 구독 (Anthropic / OpenAI / Google) — 1+ 종료 시 capability 감소"
+    },
+    {
+      "label": "pipa-data-retention",
+      "severity": "P1",
+      "kind": "regulatory_compliance",
+      "status": "active",
+      "description": "한국 개인정보보호법 (PIPA) — owner_facts / cron probe / Telegram chat 90-day retention"
+    },
+    {
+      "label": "posthog-api-permission-gap",
+      "severity": "P1",
+      "kind": "observability_gap",
+      "status": "active",
+      "description": "PostHog REST API 403 Forbidden — POSTHOG_PERSONAL_API_KEY 가 project insights 권한 미보유 OR endpoint mismatch. kpi_fetch.py PostHog live current_value 갱신 차단. owner action: PostHog → Personal API Keys → Permissions → project_read or scope 확장."
+    },
+    {
+      "label": "sa-business-tax",
+      "severity": "P1",
+      "kind": "tax_compliance",
+      "status": "monitoring",
+      "description": "개인사업자 일반과세자 — 매출 발생 시 부가세 신고 + 종합소득세 5월 신고"
+    }
+  ],
+  "burn_runway": {
+    "monthly_burn_usd": 448,
+    "is_estimate": true,
+    "provenance": "hardcoded_strategy_lead_seed",
+    "monthly_burn_usd_per_year": 5376,
+    "runway_months_conservative_1000man": 16.7,
+    "runway_months_optimistic_8000man": 133.9,
+    "caveat": "⚠️ 본 burn 은 추정. 실 invoice 0. 의사결정 시 owner 가 신용카드 / 구독 영수증 fact-check 필수."
+  },
+  "w0_capability_gap": {
+    "w0_required_domains": [
+      "data_pm",
+      "orchestration",
+      "research",
+      "sre"
+    ],
+    "covered_by_tier_s": [
+      {
+        "label": "founder: korean-llm-research",
+        "domain": "research",
+        "evidence": "KoreanLLM Phase 1-9 (287K words)"
+      },
+      {
+        "label": "AI: claude-senior-da-pm",
+        "domain": "data_pm",
+        "evidence": "JTBD + AARRR + Pre-mortem"
+      },
+      {
+        "label": "AI: claude-sora-sre-ops",
+        "domain": "sre",
+        "evidence": "OODA + Google SRE Postmortem"
+      },
+      {
+        "label": "AI: claude-multi-agent-orchestrator",
+        "domain": "orchestration",
+        "evidence": "Magentic Dual-Ledger + LATS"
+      }
+    ],
+    "missing_domains": []
+  },
+  "product_attention": [
+    {
+      "slug": "koreanllm",
+      "stage": "idea",
+      "kind": "sbu_saas",
+      "label": "koreanllm.org AO-1 (W0 = 2026-06-10, D-27)",
+      "suggested_action": "W0 launch (D-27) — 자율 가동 plan 검증"
+    },
+    {
+      "slug": "2dlivegame",
+      "stage": "paused",
+      "kind": "game",
+      "label": "NEO-GENESIS: Antigravity 2D live game",
+      "suggested_action": "stage transition 결정 — owner G2"
+    }
+  ],
+  "decision_velocity": {
+    "all_time": {
+      "g1": 27,
+      "g2": 3,
+      "ratio": 9.0
+    },
+    "last_7_days": {
+      "g1": 0,
+      "g2": 0,
+      "ratio": 0.0
+    },
+    "caveat": "all_time = ontology 자체 박제 (session-local). last_7_days = 시점 의존. real velocity 측정은 ActionRun audit log (kind:ontology_mutation, decision-related) 기반 별도 분석 필요."
+  },
+  "decision_outcomes": {
+    "total": 30,
+    "validated": 30,
+    "failed": 0,
+    "unmeasurable": 0,
+    "coverage_pct": 100.0,
+    "success_rate_pct": 100.0,
+    "failed_decisions": [],
+    "unmeasurable_decisions": [],
+    "validated_sample": [
+      {
+        "g_id": "G1-1",
+        "label": "G1-1: Memory MCP 경계",
+        "evidence": "exists .agent/ontology/nodes.jsonl; exists .agent/ontology/edges.jsonl; rdf_type=Artifact count=94 (94 >= 50 = True)",
+        "checks": "3/3"
+      },
+      {
+        "g_id": "G1-2",
+        "label": "G1-2: SBU 별도 클래스 vs Project subtype",
+        "evidence": "rdf_type=Project count=15 (15 >= 5 = True)",
+        "checks": "1/1"
+      },
+      {
+        "g_id": "G1-3",
+        "label": "G1-3: OWL reasoning 활성 시점",
+        "evidence": "all 2 keywords present",
+        "checks": "1/1"
+      }
+    ]
+  },
+  "outcome_stability": {
+    "total_decisions_tracked": 30,
+    "stable": 30,
+    "unstable": 0,
+    "total_snapshots": 30,
+    "recent_status_changes": []
+  },
+  "agent_load_balance": {
+    "source": "observed_from_live_source",
+    "contributions_by_agent": {
+      "claude-opus-4-7": 100.0
+    },
+    "observed_action_count": 20,
+    "hardcoded_count": 0,
+    "interpretation": "ActionRun audit log 기반 실 측정 (cron 누적 시 더 정확)"
+  },
+  "workflows_ready": [
+    {
+      "workflow": "ontology-daily-maintain",
+      "id": "neo://biz/workflow/ontology-daily-maintain",
+      "kind": "ontology_ops",
+      "command": "python scripts/ontology/daily_maintain.py",
+      "precondition": "(always)",
+      "note": "Windows Task Scheduler. 10-step orchestrator"
+    },
+    {
+      "workflow": "kpi-auto-fetch",
+      "id": "neo://biz/workflow/kpi-auto-fetch",
+      "kind": "kpi_collection",
+      "command": "python scripts/ontology/business/kpi_fetch.py",
+      "precondition": "(always)",
+      "note": "GA4 / GSC / PostHog 일일 자동 fetch → KPI.current_value 갱신"
+    },
+    {
+      "workflow": "ontology-daily-digest",
+      "id": "neo://biz/workflow/ontology-daily-digest",
+      "kind": "decision_surfacing",
+      "command": "python scripts/ontology/business/daily_digest.py --save-as-decision",
+      "precondition": "(always)",
+      "note": "ontology state → owner attention digest 자동 생성"
+    },
+    {
+      "workflow": "auradb-heartbeat",
+      "id": "neo://biz/workflow/auradb-heartbeat",
+      "kind": "infra_keep_alive",
+      "command": "python scripts/ontology/migrate_to_neo4j.py --verify",
+      "precondition": "(always)",
+      "note": "AuraDB Free 3-day auto-pause 회피용 heartbeat"
+    },
+    {
+      "workflow": "graphrag-rebuild",
+      "id": "neo://biz/workflow/graphrag-rebuild",
+      "kind": "rag_refresh",
+      "command": "python scripts/ontology/graphrag.py --rebuild",
+      "precondition": "(always)",
+      "note": "Louvain community detection 재계산"
+    }
+  ]
+}

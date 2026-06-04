@@ -1,6 +1,6 @@
 # SBU Growth Control Tower
 
-- generatedAt: 2026-05-09T11:35:46+09:00
+- generatedAt: 2026-05-28T12:21:42+09:00
 - targetMauPerSite: 100000
 - modeledMonthlyVisitsPerReadyPost: 350
 - requiredReadyPostsFor100k: 286
@@ -9,96 +9,85 @@
 
 | Site | Status | Score | Posts | Ready | Modeled MAU | MAU Gap | Latest | Live | Top Action |
 |---|---:|---:|---:|---:|---:|---:|---|---|---|
-| ToolPick | green | 88 | 426 | 426 | 149100 | 0 | 2026-05-09 / 2026-05-09-ai-agent-evaluation-platforms | ok | none |
-| AIForge | green | 87 | 440 | 432 | 151200 | 0 | 2026-05-09 / 2026-05-09-llm-observability-tools | ok | none |
-| CraftDesk | green | 88 | 377 | 369 | 129150 | 0 | 2026-05-09 / 2026-05-09-creative-automation-workflow-tools | ok | none |
-| DeployStack | green | 87 | 321 | 313 | 109550 | 0 | 2026-05-09 / 2026-05-09-serverless-cost-monitoring-tools | ok | none |
-| FinStack | green | 87 | 316 | 308 | 107800 | 0 | 2026-05-09 / 2026-05-09-fintech-risk-monitoring-platforms | ok | none |
-| SellKit | green | 88 | 300 | 292 | 102200 | 0 | 2026-05-09 / 2026-05-09-ai-product-description-tools | ok | none |
+| AIForge | yellow | 72 | 444 | 435 | 152250 | 0 | 2026-05-20 / 2026-05-20-ai-agent-evaluation-platforms | ok | Run autonomous publisher: latest MDX is older than daily freshness gate. |
+| CraftDesk | yellow | 73 | 382 | 373 | 130550 | 0 | 2026-05-20 / 2026-05-20-ai-design-qa-tools | ok | Run autonomous publisher: latest MDX is older than daily freshness gate. |
+| DeployStack | yellow | 72 | 326 | 317 | 110950 | 0 | 2026-05-20 / 2026-05-20-deployment-preview-workflows | ok | Run autonomous publisher: latest MDX is older than daily freshness gate. |
+| FinStack | yellow | 72 | 320 | 311 | 108850 | 0 | 2026-05-20 / 2026-05-20-payment-reconciliation-tools | ok | Run autonomous publisher: latest MDX is older than daily freshness gate. |
+| SellKit | yellow | 73 | 304 | 295 | 103250 | 0 | 2026-05-20 / 2026-05-20-ecommerce-conversion-analytics-tools | ok | Run autonomous publisher: latest MDX is older than daily freshness gate. |
 
 ## Site Details
-
-### ToolPick
-
-- domain: https://toolpick.dev
-- status: green (88/100)
-- latestPost: 2026-05-09 / 2026-05-09-ai-agent-evaluation-platforms
-- freshnessDays: 0
-- posts: 426 total, 426 promotion-ready
-- modeledMau: 149100, gap: 0
-- quality: frontmatter 1, CTA 0.754, internalLinks 0.791, avgWords 1338
-- ops: build=true, vercel=true, remote=true, email=true, dirty=false
-- live: blog=true, detail=true, sitemap=true, robots=true
-- actions:
-  - none
 
 ### AIForge
 
 - domain: https://aiforge.neogenesis.app
-- status: green (87/100)
-- latestPost: 2026-05-09 / 2026-05-09-llm-observability-tools
-- freshnessDays: 0
-- posts: 440 total, 432 promotion-ready
-- modeledMau: 151200, gap: 0
-- quality: frontmatter 1, CTA 0.736, internalLinks 0.732, avgWords 1687
-- ops: build=true, vercel=true, remote=true, email=true, dirty=false
+- status: yellow (72/100)
+- latestPost: 2026-05-20 / 2026-05-20-ai-agent-evaluation-platforms
+- freshnessDays: 8
+- posts: 444 total, 435 promotion-ready
+- modeledMau: 152250, gap: 0
+- quality: frontmatter 1, CTA 0.739, internalLinks 0.725, avgWords 1680
+- ops: build=true, vercel=true, remote=true, email=true, dirty=true
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
-  - none
+  - Run autonomous publisher: latest MDX is older than daily freshness gate.
+  - Review dirty working tree before automated publish/deploy.
 
 ### CraftDesk
 
 - domain: https://craftdesk.neogenesis.app
-- status: green (88/100)
-- latestPost: 2026-05-09 / 2026-05-09-creative-automation-workflow-tools
-- freshnessDays: 0
-- posts: 377 total, 369 promotion-ready
-- modeledMau: 129150, gap: 0
-- quality: frontmatter 1, CTA 0.838, internalLinks 0.684, avgWords 1605
-- ops: build=true, vercel=true, remote=true, email=true, dirty=false
+- status: yellow (73/100)
+- latestPost: 2026-05-20 / 2026-05-20-ai-design-qa-tools
+- freshnessDays: 8
+- posts: 382 total, 373 promotion-ready
+- modeledMau: 130550, gap: 0
+- quality: frontmatter 1, CTA 0.838, internalLinks 0.683, avgWords 1591
+- ops: build=true, vercel=true, remote=true, email=true, dirty=true
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
-  - none
+  - Run autonomous publisher: latest MDX is older than daily freshness gate.
+  - Review dirty working tree before automated publish/deploy.
 
 ### DeployStack
 
 - domain: https://deploystack.neogenesis.app
-- status: green (87/100)
-- latestPost: 2026-05-09 / 2026-05-09-serverless-cost-monitoring-tools
-- freshnessDays: 0
-- posts: 321 total, 313 promotion-ready
-- modeledMau: 109550, gap: 0
-- quality: frontmatter 1, CTA 0.735, internalLinks 0.679, avgWords 1617
-- ops: build=true, vercel=true, remote=true, email=true, dirty=false
+- status: yellow (72/100)
+- latestPost: 2026-05-20 / 2026-05-20-deployment-preview-workflows
+- freshnessDays: 8
+- posts: 326 total, 317 promotion-ready
+- modeledMau: 110950, gap: 0
+- quality: frontmatter 1, CTA 0.739, internalLinks 0.672, avgWords 1608
+- ops: build=true, vercel=true, remote=true, email=true, dirty=true
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
-  - none
+  - Run autonomous publisher: latest MDX is older than daily freshness gate.
+  - Review dirty working tree before automated publish/deploy.
 
 ### FinStack
 
 - domain: https://finstack.neogenesis.app
-- status: green (87/100)
-- latestPost: 2026-05-09 / 2026-05-09-fintech-risk-monitoring-platforms
-- freshnessDays: 0
-- posts: 316 total, 308 promotion-ready
-- modeledMau: 107800, gap: 0
-- quality: frontmatter 1, CTA 0.747, internalLinks 0.668, avgWords 1175
-- ops: build=true, vercel=true, remote=true, email=true, dirty=false
+- status: yellow (72/100)
+- latestPost: 2026-05-20 / 2026-05-20-payment-reconciliation-tools
+- freshnessDays: 8
+- posts: 320 total, 311 promotion-ready
+- modeledMau: 108850, gap: 0
+- quality: frontmatter 1, CTA 0.75, internalLinks 0.659, avgWords 1172
+- ops: build=true, vercel=true, remote=true, email=true, dirty=true
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
-  - none
+  - Run autonomous publisher: latest MDX is older than daily freshness gate.
+  - Review dirty working tree before automated publish/deploy.
 
 ### SellKit
 
 - domain: https://sellkit.neogenesis.app
-- status: green (88/100)
-- latestPost: 2026-05-09 / 2026-05-09-ai-product-description-tools
-- freshnessDays: 0
-- posts: 300 total, 292 promotion-ready
-- modeledMau: 102200, gap: 0
-- quality: frontmatter 1, CTA 0.88, internalLinks 0.75, avgWords 1023
+- status: yellow (73/100)
+- latestPost: 2026-05-20 / 2026-05-20-ecommerce-conversion-analytics-tools
+- freshnessDays: 8
+- posts: 304 total, 295 promotion-ready
+- modeledMau: 103250, gap: 0
+- quality: frontmatter 1, CTA 0.882, internalLinks 0.743, avgWords 1022
 - ops: build=true, vercel=true, remote=true, email=true, dirty=false
 - live: blog=true, detail=true, sitemap=true, robots=true
 - actions:
-  - none
+  - Run autonomous publisher: latest MDX is older than daily freshness gate.
 

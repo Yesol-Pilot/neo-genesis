@@ -1,0 +1,369 @@
+{
+  "generatedAt": "2026-06-02T07:53:50+09:00",
+  "tokenSource": "refresh_token",
+  "args": {
+    "sites": "ur-wrong",
+    "days": 90,
+    "rowLimit": 50,
+    "submitSitemaps": true,
+    "fetch": true,
+    "minImpressions": 1,
+    "writeDefaultLatest": false
+  },
+  "scope": {
+    "label": "scope-ur-wrong",
+    "siteIds": [
+      "ur-wrong"
+    ],
+    "isDefaultAll": false,
+    "filePrefix": "gsc-sbu-scope-ur-wrong",
+    "writesDefaultLatest": false
+  },
+  "window": {
+    "startDate": "2026-03-02",
+    "endDate": "2026-05-31"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "https://sellkit.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://daysleft.io/",
+      "permissionLevel": "siteUnverifiedUser"
+    },
+    {
+      "siteUrl": "https://aiforge.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://deploystack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://finstack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://kott.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://whylab.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://heoyesol.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://www.toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:toolpick.dev",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:heoyesol.kr",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://review.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://craftdesk.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:review.neogenesis.app",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ethica.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 1,
+    "propertiesListed": 1,
+    "liveSitemapsOk": 1,
+    "gscSitemapsKnown": 1,
+    "sitemapSubmissionsAttempted": 1,
+    "sitemapSubmissionsOk": 1,
+    "searchAnalyticsAttempted": 1,
+    "searchAnalyticsOk": 1,
+    "totalRows": 17
+  },
+  "sites": [
+    {
+      "id": "ur-wrong",
+      "name": "UR WRONG",
+      "property": "https://ur-wrong.com/",
+      "domain": "https://ur-wrong.com",
+      "sitemap": "https://ur-wrong.com/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 170,
+        "finalUrl": "https://ur-wrong.com/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 17,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://ur-wrong.com/",
+          "clicks": 0,
+          "impressions": 23,
+          "weightedPosition": 385,
+          "queries": [
+            {
+              "query": "ur wrong",
+              "clicks": 0,
+              "impressions": 17,
+              "ctr": 0,
+              "position": 7.117647058823529,
+              "score": 0.5098
+            },
+            {
+              "query": "u r wrong",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 44,
+              "score": 0.0724
+            }
+          ],
+          "score": 0.5822,
+          "averagePosition": 16.74
+        },
+        {
+          "page": "https://ur-wrong.com/social-media-debate-topics",
+          "clicks": 0,
+          "impressions": 8,
+          "weightedPosition": 598,
+          "queries": [
+            {
+              "query": "social media controversial topics",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 58,
+              "score": 0.021
+            },
+            {
+              "query": "social media topics for debate",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 85,
+              "score": 0.0174
+            },
+            {
+              "query": "social media debates",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 66,
+              "score": 0.0098
+            },
+            {
+              "query": "debate topics social media",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 68,
+              "score": 0.0097
+            },
+            {
+              "query": "social media debate topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 88,
+              "score": 0.0085
+            }
+          ],
+          "score": 0.0748,
+          "averagePosition": 74.75
+        },
+        {
+          "page": "https://ur-wrong.com/topic/tech",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 4,
+          "queries": [
+            {
+              "query": "current technology debates",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            }
+          ],
+          "score": 0.04,
+          "averagePosition": 4
+        },
+        {
+          "page": "https://ur-wrong.com/money-debate-topics",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 6,
+          "queries": [
+            {
+              "query": "money debate topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0327
+            }
+          ],
+          "score": 0.0327,
+          "averagePosition": 6
+        },
+        {
+          "page": "https://ur-wrong.com/topic/ai",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 107,
+          "queries": [
+            {
+              "query": "artificial intelligence debate topics",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 53.5,
+              "score": 0.0219
+            }
+          ],
+          "score": 0.0219,
+          "averagePosition": 53.5
+        },
+        {
+          "page": "https://ur-wrong.com/ai-debate-topics",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 153,
+          "queries": [
+            {
+              "query": "ai debate topic",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 76,
+              "score": 0.0092
+            },
+            {
+              "query": "artificial intelligence debate topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 77,
+              "score": 0.0091
+            }
+          ],
+          "score": 0.0183,
+          "averagePosition": 76.5
+        },
+        {
+          "page": "https://ur-wrong.com/debate-topics",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 156,
+          "queries": [
+            {
+              "query": "agree or disagree topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 74,
+              "score": 0.0093
+            },
+            {
+              "query": "agree and disagree topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 82,
+              "score": 0.0088
+            }
+          ],
+          "score": 0.0181,
+          "averagePosition": 78
+        },
+        {
+          "page": "https://ur-wrong.com/relationship-debate-topics",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 44,
+          "queries": [
+            {
+              "query": "relationship debate topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 44,
+              "score": 0.0121
+            }
+          ],
+          "score": 0.0121,
+          "averagePosition": 44
+        },
+        {
+          "page": "https://ur-wrong.com/topics/social-media",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 88,
+          "queries": [
+            {
+              "query": "social media debate topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 88,
+              "score": 0.0085
+            }
+          ],
+          "score": 0.0085,
+          "averagePosition": 88
+        }
+      ]
+    }
+  ]
+}

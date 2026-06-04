@@ -1,0 +1,278 @@
+# Neo Genesis Decision Outcome Rules (declarative DSL)
+#
+# 각 rule = decision_id + checks (list) + success_policy.
+# decision_outcome_tracker.py 가 매일 평가 → biz:Decision.outcome_status 갱신.
+#
+# Check types (대문자 = required field):
+#
+# 1. file_exists
+#    PATH: relative to neo-genesis repo root
+#    optional: within_hours (last modified)
+#
+# 2. file_contains_all
+#    PATH + KEYWORDS (list, all must appear)
+#
+# 3. node_count
+#    RDF_TYPE: "Artifact" / "biz:Product" / "*" (any)
+#    optional: where (dict — node prop equality)
+#    optional: marking_contains
+#    SUCCESS_IF: ">= N" / "<= N" / "== N" / "> 0"
+#
+# 4. node_property
+#    NODE_ID: full URI
+#    PROPERTY: field name
+#    SUCCESS_IF: "== value" / "!= value" / "contains value"
+#
+# 5. windows_task_state
+#    TASK_NAME: schtasks 등록 이름
+#    optional: expected_states (default ["Ready", "Running"])
+#
+# 6. dir_exists
+#    PATH: directory must exist
+#
+# success_policy: all_pass (default) | any_pass | min_pct: N
+
+version: "0.1"
+locked_at: "2026-05-14"
+
+rules:
+  # ============================================================
+  # G1-1 Memory MCP 경계 (옵션 A — 파일 원본 + MCP 캐시)
+  # ============================================================
+  - decision_id: "G1-1"
+    description: "Memory MCP 경계 옵션 A — 파일 원본"
+    checks:
+      - type: file_exists
+        path: ".agent/ontology/nodes.jsonl"
+      - type: file_exists
+        path: ".agent/ontology/edges.jsonl"
+      - type: node_count
+        rdf_type: "Artifact"
+        success_if: ">= 50"
+    success_policy: all_pass
+
+  # G1-2 SBU = Project subtype
+  - decision_id: "G1-2"
+    description: "SBU 별도 클래스 vs Project subtype = Project subtype"
+    checks:
+      - type: node_count
+        rdf_type: "Project"
+        where:
+          kind: "sbu"
+        success_if: ">= 5"
+    success_policy: all_pass
+
+  # G1-3 OWL reasoning v0.5 EL profile
+  - decision_id: "G1-3"
+    description: "OWL reasoning v0.5 EL profile (currently deferred, not yet active)"
+    checks:
+      - type: file_contains_all
+        path: ".agent/ontology/DESIGN_v0.1.md"
+        keywords: ["OWL EL", "v0.5"]
+    success_policy: all_pass
+
+  # G1-4 Action 자동 실행 v0.3 scaffolding + v0.4 owner G2
+  - decision_id: "G1-4"
+    description: "Action 자동 실행 — v0.3 scaffolding 라이브"
+    checks:
+      - type: file_exists
+        path: "scripts/ontology/business/workflow_runner.py"
+      - type: node_count
+        rdf_type: "biz:Workflow"
+        success_if: ">= 5"
+    success_policy: all_pass
+
+  # G1-5 personal/ in-scope = NEVER
+  - decision_id: "G1-5"
+    description: "personal/ ontology in-scope = NEVER (절대 금지)"
+    checks:
+      - type: node_count
+        rdf_type: "*"
+        marking_contains: "personal-forbidden"
+        success_if: "== 0"
+    success_policy: all_pass
+
+  # G1-6 객체 9개 → 11 (Skill + Reflection 신설)
+  - decision_id: "G1-6"
+    description: "11 classes — Skill + Reflection 신설"
+    checks:
+      - type: node_count
+        rdf_type: "Skill"
+        success_if: ">= 30"
+      - type: node_count
+        rdf_type: "Reflection"
+        success_if: ">= 20"
+    success_policy: all_pass
+
+  # G1-7 Decision = Artifact subtype OR biz:Decision
+  - decision_id: "G1-7"
+    description: "Decision = Artifact subtype (or biz:Decision class)"
+    checks:
+      - type: node_count
+        rdf_type: "biz:Decision"
+        success_if: ">= 10"
+    success_policy: all_pass
+
+  # G1-9 Methodology = LOT + OntoClean + NeOn Scenario 1+4
+  - decision_id: "G1-9"
+    description: "Methodology = LOT + OntoClean + NeOn"
+    checks:
+      - type: file_contains_all
+        path: ".agent/ontology/DESIGN_v0.1.md"
+        keywords: ["LOT", "OntoClean", "NeOn"]
+    success_policy: all_pass
+
+  # G1-13 Opaque IRI (v0.2~ migration)
+  - decision_id: "G1-13"
+    description: "Opaque IRI 전환 (v0.2~, path-based v0.5 까지 alias)"
+    checks:
+      - type: file_contains_all
+        path: ".agent/ontology/DESIGN_v0.1.md"
+        keywords: ["neo://A001", "opaque", "alias"]
+    success_policy: all_pass
+
+  # G1-14 v0.1 ACK
+  - decision_id: "G1-14"
+    description: "v0.1 (DESIGN + RESEARCH) 자체 ACK"
+    checks:
+      - type: file_exists
+        path: ".agent/ontology/DESIGN_v0.1.md"
+      - type: file_exists
+        path: ".agent/ontology/RESEARCH_v0.1.md"
+    success_policy: all_pass
+
+  # G1-15 extract 스크립트 자율
+  - decision_id: "G1-15"
+    description: "extract 스크립트 G1 자율 진행"
+    checks:
+      - type: file_exists
+        path: "scripts/ontology/extract_minimal.py"
+      - type: file_exists
+        path: "scripts/ontology/business/extract_business.py"
+    success_policy: all_pass
+
+  # G1-16 monitoring = daily + weekly
+  - decision_id: "G1-16"
+    description: "monitoring = daily status + weekly reflection"
+    checks:
+      - type: file_exists
+        path: "scripts/ontology/daily_maintain.py"
+      - type: file_exists
+        path: "scripts/ontology/business/strategy_lead_weekly_review.py"
+      - type: windows_task_state
+        task_name: "NeoGenesisOntologyDailyMaintain"
+      - type: windows_task_state
+        task_name: "NeoGenesisStrategyWeeklyReview"
+    success_policy: all_pass
+
+  # G1-17 competency Q 20개 final
+  - decision_id: "G1-17"
+    description: "competency Q 20개 § final"
+    checks:
+      - type: file_exists
+        path: ".agent/ontology/competency_questions.yaml"
+      - type: file_exists
+        path: ".agent/ontology/competency_results.json"
+    success_policy: all_pass
+
+  # G1-18 DuckDB 마이그레이션 자율
+  - decision_id: "G1-18"
+    description: "DuckDB 마이그레이션 G1 자율 진행"
+    checks:
+      - type: file_exists
+        path: "scripts/ontology/validate_competency.py"
+      - type: file_contains_all
+        path: "scripts/ontology/validate_competency.py"
+        keywords: ["import duckdb", "read_ndjson_auto"]
+    success_policy: all_pass
+
+  # G1-20 Skill / Reflection 클래스 박제
+  - decision_id: "G1-20"
+    description: "Skill / Reflection 클래스 §3.10 / §3.11 박제"
+    checks:
+      - type: node_count
+        rdf_type: "Skill"
+        success_if: ">= 1"
+      - type: node_count
+        rdf_type: "Reflection"
+        success_if: ">= 1"
+      - type: file_contains_all
+        path: ".agent/ontology/DESIGN_v0.1.md"
+        keywords: ["Skill", "Reflection"]
+    success_policy: all_pass
+
+  # G2-1 (legacy persona G2 from older session)
+  - decision_id: "G2-1"
+    description: "citation_required persona별 차등"
+    checks:
+      - type: file_exists
+        path: ".agent/personas/_schema/persona_schema_v1.2.yaml"
+    success_policy: all_pass
+
+  # G2-2 pre_mortem blast_radius >= 3 자동 ON
+  - decision_id: "G2-2"
+    description: "pre_mortem blast_radius >= 3 자동 ON"
+    checks:
+      - type: file_exists
+        path: ".agent/personas/_schema/persona_schema_v1.2.yaml"
+    success_policy: all_pass
+
+  # G2-3 Tier C v1.2 schema 적용
+  - decision_id: "G2-3"
+    description: "Tier C v1.2 schema 적용 + enforcement 최소화"
+    checks:
+      - type: dir_exists
+        path: ".agent/personas/tier-c"
+    success_policy: all_pass
+
+  # G1-22 SHACL v0.3 deferred
+  - decision_id: "G1-22"
+    description: "SHACL v0.3 deferred → v0.4 trigger"
+    checks:
+      - type: file_contains_all
+        path: ".agent/ontology/external_standards_eval_v0.3.md"
+        keywords: ["SHACL", "DEFER", "v0.4"]
+    success_policy: all_pass
+
+  # G1-23 SKOS v0.3 deferred
+  - decision_id: "G1-23"
+    description: "SKOS v0.3 deferred → v0.5 trigger"
+    checks:
+      - type: file_contains_all
+        path: ".agent/ontology/external_standards_eval_v0.3.md"
+        keywords: ["SKOS", "DEFER"]
+    success_policy: all_pass
+
+  # G1-24 RML v0.3 강한 deferred
+  - decision_id: "G1-24"
+    description: "RML v0.3 강한 deferred → v1.0 trigger"
+    checks:
+      - type: file_contains_all
+        path: ".agent/ontology/external_standards_eval_v0.3.md"
+        keywords: ["RML", "DEFER"]
+    success_policy: all_pass
+
+  # G1-33 CTS / JD / personal 분리
+  - decision_id: "G1-33"
+    description: "CTS-AI / JD / personal 본 ontology 외"
+    checks:
+      - type: node_count
+        rdf_type: "*"
+        marking_contains: "personal-forbidden"
+        success_if: "== 0"
+      - type: file_contains_all
+        path: ".agent/ontology/business/DESIGN_business_v0.1.md"
+        keywords: ["CTS", "JD", "Out-of-scope", "personal"]
+    success_policy: all_pass
+
+  # G1-34 Customer 어휘 회피, Lead 만 사용
+  - decision_id: "G1-34"
+    description: "Customer 어휘 회피, Lead/LeadCategory 만 사용"
+    checks:
+      - type: node_count
+        rdf_type: "biz:Customer"
+        success_if: "== 0"
+      - type: node_count
+        rdf_type: "biz:LeadCategory"
+        success_if: ">= 1"
+    success_policy: all_pass

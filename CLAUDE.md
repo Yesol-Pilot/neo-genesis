@@ -15,6 +15,9 @@
 - .agent/knowledge/AGENT_SHARED_MEMORY.md
 - .agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md
 - .agent/knowledge/CLAUDE_COLLABORATION.md
+- .agent/knowledge/CALLABLE_TOOLS_REGISTRY_POLICY.md
+- .agent/registries/callable_tools.json
+- .agent/registries/external_tool_capabilities.json
 - .agent/shared-brain/cross-agent-review.md
 - infra/agent-runtime/FLEET_STATUS.md
 -->

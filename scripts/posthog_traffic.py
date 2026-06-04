@@ -131,13 +131,27 @@ def fetch_traffic(days: int = 7) -> list[tuple[str, int, int]]:
     ]
 
 
-def fetch_site_events(days: int = 7) -> list[dict[str, Any]]:
-    results: list[dict[str, Any]] = []
-    allowlist_version, allowed_events = decision_events()
-    allowed_sql = ", ".join(hogql_string(event) for event in allowed_events)
-    for site_id, host in SITES:
-        query = f"""
+def _daily_zero(day: str) -> dict[str, Any]:
+    return {
+        "date": day,
+        "events": 0,
+        "pageviews": 0,
+        "decisionEvents": 0,
+        "legacyActionEvents": 0,
+        "users": 0,
+        "lastSeen": None,
+    }
+
+
+def _date_window(days: int) -> list[str]:
+    today = datetime.now(KST).date()
+    return [(today - timedelta(days=offset)).isoformat() for offset in reversed(range(days))]
+
+
+def fetch_site_daily(site_id: str, host: str, allowed_sql: str, days: int = 14) -> list[dict[str, Any]]:
+    query = f"""
 SELECT
+  toDate(timestamp) AS day,
   count() AS events,
   countIf(event = '$pageview') AS pageviews,
   countIf(event IN ({allowed_sql})) AS decision_events,
@@ -152,8 +166,53 @@ WHERE timestamp >= now() - INTERVAL {int(days)} DAY
     OR properties.$host = '{host}'
     OR properties.$current_url LIKE '%{host}%'
   )
+GROUP BY day
+ORDER BY day ASC
+"""
+    rows = run_hogql(query)
+    by_day = {day: _daily_zero(day) for day in _date_window(days)}
+    for row in rows:
+        day = str(row[0])
+        by_day[day] = {
+            "date": day,
+            "events": int(row[1] or 0),
+            "pageviews": int(row[2] or 0),
+            "decisionEvents": int(row[3] or 0),
+            "legacyActionEvents": int(row[4] or 0),
+            "users": int(row[5] or 0),
+            "lastSeen": row[6],
+        }
+    return [by_day[day] for day in sorted(by_day)]
+
+
+def fetch_site_events(days: int = 7) -> list[dict[str, Any]]:
+    results: list[dict[str, Any]] = []
+    allowlist_version, allowed_events = decision_events()
+    allowed_sql = ", ".join(hogql_string(event) for event in allowed_events)
+    for site_id, host in SITES:
+        query = f"""
+SELECT
+  countIf(timestamp >= now() - INTERVAL {int(days)} DAY) AS events,
+  countIf(timestamp >= now() - INTERVAL {int(days)} DAY AND event = '$pageview') AS pageviews,
+  countIf(timestamp >= now() - INTERVAL {int(days)} DAY AND event IN ({allowed_sql})) AS decision_events,
+  countIf(timestamp >= now() - INTERVAL {int(days)} DAY AND event != '$pageview') AS legacy_action_events,
+  uniqIf(distinct_id, timestamp >= now() - INTERVAL {int(days)} DAY) AS users,
+  maxIf(timestamp, timestamp >= now() - INTERVAL {int(days)} DAY) AS last_seen,
+  countIf(timestamp >= now() - INTERVAL {int(days * 2)} DAY AND timestamp < now() - INTERVAL {int(days)} DAY) AS previous_events,
+  countIf(timestamp >= now() - INTERVAL {int(days * 2)} DAY AND timestamp < now() - INTERVAL {int(days)} DAY AND event = '$pageview') AS previous_pageviews,
+  countIf(timestamp >= now() - INTERVAL {int(days * 2)} DAY AND timestamp < now() - INTERVAL {int(days)} DAY AND event IN ({allowed_sql})) AS previous_decision_events,
+  uniqIf(distinct_id, timestamp >= now() - INTERVAL {int(days * 2)} DAY AND timestamp < now() - INTERVAL {int(days)} DAY) AS previous_users
+FROM events
+WHERE timestamp >= now() - INTERVAL {int(days * 2)} DAY
+  AND (
+    trim(toString(properties.site_id)) = '{site_id}'
+    OR properties.site_domain = '{host}'
+    OR properties.$host = '{host}'
+    OR properties.$current_url LIKE '%{host}%'
+  )
 """
         rows = run_hogql(query)
+        daily = fetch_site_daily(site_id, host, allowed_sql, days=max(days * 2, 14))
         if rows:
             row = rows[0]
             results.append({
@@ -165,6 +224,11 @@ WHERE timestamp >= now() - INTERVAL {int(days)} DAY
                 "legacyActionEvents": int(row[3] or 0),
                 "users": int(row[4] or 0),
                 "lastSeen": row[5],
+                "previousEvents": int(row[6] or 0),
+                "previousPageviews": int(row[7] or 0),
+                "previousDecisionEvents": int(row[8] or 0),
+                "previousUsers": int(row[9] or 0),
+                "daily": daily,
                 "allowlistVersion": allowlist_version,
             })
         else:
@@ -177,6 +241,11 @@ WHERE timestamp >= now() - INTERVAL {int(days)} DAY
                 "legacyActionEvents": 0,
                 "users": 0,
                 "lastSeen": None,
+                "previousEvents": 0,
+                "previousPageviews": 0,
+                "previousDecisionEvents": 0,
+                "previousUsers": 0,
+                "daily": daily,
                 "allowlistVersion": allowlist_version,
             })
     return results
@@ -193,6 +262,10 @@ def write_report(days: int, rows: list[dict[str, Any]]) -> dict[str, Any]:
         "totalPageviews": sum(row["pageviews"] for row in rows),
         "totalDecisionEvents": sum(row["decisionEvents"] for row in rows),
         "totalLegacyActionEvents": sum(row["legacyActionEvents"] for row in rows),
+        "totalPreviousEvents": sum(row["previousEvents"] for row in rows),
+        "totalPreviousPageviews": sum(row["previousPageviews"] for row in rows),
+        "totalPreviousDecisionEvents": sum(row["previousDecisionEvents"] for row in rows),
+        "totalPreviousUsers": sum(row["previousUsers"] for row in rows),
         "decisionEventAllowlist": rows[0].get("allowlistVersion") if rows else None,
         "rows": rows,
     }

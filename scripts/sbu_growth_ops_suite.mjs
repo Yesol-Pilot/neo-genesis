@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'data', 'sbu-growth');
+const PYTHON = process.platform === 'win32' ? 'python' : 'python3';
 const DEFAULT_SITES = 'toolpick,aiforge,craftdesk,deploystack,finstack,sellkit';
 
 const SITES = {
@@ -18,9 +19,19 @@ const SITES = {
 };
 
 function parseArgs(argv) {
-  const args = { sites: DEFAULT_SITES };
+  const args = {
+    sites: DEFAULT_SITES,
+    noJudgment: false,
+    judgmentOutputDir: process.env.NG_JUDGMENT_OUTPUT_DIR
+      ? path.resolve(process.env.NG_JUDGMENT_OUTPUT_DIR)
+      : OUT_DIR,
+  };
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === '--sites') args.sites = argv[++i] || args.sites;
+    else if (argv[i] === '--no-judgment') args.noJudgment = true;
+    else if (argv[i] === '--judgment-output-dir') {
+      args.judgmentOutputDir = path.resolve(argv[++i] || args.judgmentOutputDir);
+    }
   }
   return args;
 }
@@ -62,6 +73,48 @@ async function fetchText(url, options = {}) {
 
 function readIfExists(filePath) {
   return fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
+}
+
+function relPath(file) {
+  const resolved = path.resolve(file);
+  return resolved.startsWith(ROOT) ? path.relative(ROOT, resolved) : resolved;
+}
+
+function renderJudgmentReport(outputDir) {
+  fs.mkdirSync(outputDir, { recursive: true });
+  const decisionPath = path.join(outputDir, 'judgment-control-latest.json');
+  const htmlPath = path.join(outputDir, 'judgment-control-latest.html');
+  const renderArgs = [
+    'scripts/render_judgment_report.py',
+    '--from-sbu-control-tower',
+    path.join('data', 'sbu-growth', 'control-tower-latest.json'),
+    '--decision-output',
+    decisionPath,
+    '--output',
+    htmlPath,
+  ];
+  const growthLoopPath = path.join(ROOT, 'data', 'sbu-growth', 'growth-loop-latest.json');
+  if (fs.existsSync(growthLoopPath)) {
+    renderArgs.splice(3, 0, '--growth-loop', path.join('data', 'sbu-growth', 'growth-loop-latest.json'));
+  }
+
+  const result = spawnSync(PYTHON, renderArgs, {
+    cwd: ROOT,
+    encoding: 'utf8',
+    shell: false,
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+
+  return {
+    generatedAt: nowKst(),
+    ok: result.status === 0,
+    status: result.status,
+    cmd: [PYTHON, ...renderArgs].join(' '),
+    decisionArtifact: relPath(decisionPath),
+    htmlReport: relPath(htmlPath),
+    stdoutTail: (result.stdout || '').trim().split(/\r?\n/).slice(-20).join('\n'),
+    stderrTail: (result.stderr || '').trim().split(/\r?\n/).slice(-20).join('\n'),
+  };
 }
 
 function configuredEnvKeys() {
@@ -453,6 +506,10 @@ function markdown(report) {
   lines.push(`- Cannibalization unresolved clusters: ${report.cannibalization.unresolvedClusterCount}`);
   lines.push(`- Measurement yellow sites: ${report.weeklyReport.warnings.measurementYellow}`);
   lines.push(`- Event taxonomy yellow sites: ${report.weeklyReport.warnings.eventTaxonomyYellow}`);
+  if (report.judgment) {
+    lines.push(`- Judgment decision artifact: ${report.judgment.decisionArtifact}`);
+    lines.push(`- Judgment HTML report: ${report.judgment.htmlReport}`);
+  }
   return `${lines.join('\n')}\n`;
 }
 
@@ -474,6 +531,11 @@ async function main() {
     report.cannibalization.passed &&
     report.cronSmoke.passed &&
     report.weeklyReport.passed;
+
+  if (!args.noJudgment) {
+    report.judgment = renderJudgmentReport(args.judgmentOutputDir);
+    report.passed = report.passed && report.judgment.ok;
+  }
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const stamp = report.generatedAt.replace(/[:+]/g, '-');

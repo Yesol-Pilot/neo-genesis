@@ -89,8 +89,18 @@ adversarial_baseline:
 review_cadence_days: 30  # 보안은 자주 갱신
 cost_cap_monthly_usd: 12.0
 cache_strategy:
-  ttl: "5m"  # 보안 정보는 짧게 (빠른 갱신)
+  ttl: "1h"  # Updated 2026-05-10: cost_analysis_v1 §7 권고 (G2 detection burst 대응)
   priority: P0
+  cache_breakpoints:
+    - location: "system_prompt"
+      ttl: "1h"
+      ephemeral: true
+  estimated_monthly_savings_usd: 0.53
+  break_even_calls_per_hour: 0.08
+  caching_path: "sora_engine"
+  rollout_phase: "phase_2"
+  model_note: "Opus 4.7, G2 키워드 감지 시 5분 내 3+ 호출 패턴 → 1h cache 적합"
+  invalidation_policy: "STRIDE/DREAD framework 변경 시 cache miss 1회 허용"
 conflicts_with: []
 related_personas:
   - sora-sre-ops

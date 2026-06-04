@@ -1,0 +1,1172 @@
+{
+  "timestamp_utc": "2026-05-14T04:44:47.430521+00:00",
+  "source_account_id": "8f22c351c93d878aacb918d9ee36a9c2",
+  "token_id_redacted": "...d67865b2",
+  "zones": {
+    "neogenesis.app": {
+      "zone_id_old": "85380cbe940510fc1cf2620b1f24c707",
+      "zone_info": {
+        "id": "85380cbe940510fc1cf2620b1f24c707",
+        "name": "neogenesis.app",
+        "status": "active",
+        "paused": false,
+        "type": "full",
+        "development_mode": 0,
+        "name_servers": [
+          "jerome.ns.cloudflare.com",
+          "robin.ns.cloudflare.com"
+        ],
+        "original_name_servers": null,
+        "original_registrar": null,
+        "original_dnshost": null,
+        "modified_on": "2026-02-19T10:08:47.082927Z",
+        "created_on": "2026-02-19T10:08:40.345550Z",
+        "activated_on": "2026-02-19T10:08:46.750099Z",
+        "vanity_name_servers": [],
+        "vanity_name_servers_ips": null,
+        "meta": {
+          "step": 4,
+          "custom_certificate_quota": 0,
+          "page_rule_quota": 3,
+          "phishing_detected": false
+        },
+        "owner": {
+          "id": null,
+          "type": "user",
+          "email": null
+        },
+        "account": {
+          "id": "8f22c351c93d878aacb918d9ee36a9c2",
+          "name": "Neogenesis.research@gmail.com's Account"
+        },
+        "tenant": {
+          "id": null,
+          "name": null
+        },
+        "tenant_unit": {
+          "id": null
+        },
+        "permissions": [
+          "#zone:read",
+          "#domain:read",
+          "#organization:read",
+          "#zone_settings:edit",
+          "#zone_settings:read",
+          "#dns_records:edit",
+          "#dns_records:read",
+          "#waf:read",
+          "#waf:edit",
+          "#page_shield:read",
+          "#zone_versioning:read",
+          "#zone_versioning:edit",
+          "#api_gateway:read",
+          "#zaraz:read",
+          "#ssl:read",
+          "#page_shield:edit",
+          "#zone:edit",
+          "#analytics:read",
+          "#worker:edit",
+          "#worker:read",
+          "#app:edit"
+        ],
+        "plan": {
+          "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "name": "Free Website",
+          "price": 0,
+          "currency": "USD",
+          "frequency": "",
+          "is_subscribed": false,
+          "can_subscribe": false,
+          "legacy_id": "free",
+          "legacy_discount": false,
+          "externally_managed": false
+        }
+      },
+      "dns_records": [
+        {
+          "id": "f184c354016926e7bd9de874de80a352",
+          "name": "neogenesis.app",
+          "type": "A",
+          "content": "76.76.21.21",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {},
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-19T12:04:33.473056Z",
+          "modified_on": "2026-02-21T13:37:32.643323Z"
+        },
+        {
+          "id": "71afc603426bbad42d34b50031a90118",
+          "name": "aiforge.neogenesis.app",
+          "type": "CNAME",
+          "content": "cname.vercel-dns.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-23T02:25:57.969818Z",
+          "modified_on": "2026-02-23T02:25:57.969818Z"
+        },
+        {
+          "id": "d332aecb9ad100fd7deec09ed955e15f",
+          "name": "craftdesk.neogenesis.app",
+          "type": "CNAME",
+          "content": "cname.vercel-dns.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-23T02:25:59.007998Z",
+          "modified_on": "2026-02-23T02:25:59.007998Z"
+        },
+        {
+          "id": "c48719875eaa138fdf956518378fa95f",
+          "name": "dash.neogenesis.app",
+          "type": "CNAME",
+          "content": "neo.heoyesol.kr",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": "Neo Genesis Dashboard",
+          "tags": [],
+          "created_on": "2026-02-19T10:14:04.637065Z",
+          "modified_on": "2026-02-19T10:14:04.637065Z",
+          "comment_modified_on": "2026-02-19T10:14:04.637065Z"
+        },
+        {
+          "id": "4f3d8bbcb0e07ff61a5eba8fd0beb4a8",
+          "name": "deploystack.neogenesis.app",
+          "type": "CNAME",
+          "content": "cname.vercel-dns.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-23T02:25:58.64979Z",
+          "modified_on": "2026-02-23T02:25:58.64979Z"
+        },
+        {
+          "id": "0c933d420e198282ac3c5a1aa28bd056",
+          "name": "ethica.neogenesis.app",
+          "type": "CNAME",
+          "content": "248dbe94501bde76.vercel-dns-017.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 600,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-21T11:17:36.812072Z",
+          "modified_on": "2026-02-21T11:17:36.812072Z"
+        },
+        {
+          "id": "29fd690acc50d8d92c85c2988f2ce112",
+          "name": "finstack.neogenesis.app",
+          "type": "CNAME",
+          "content": "cname.vercel-dns.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-23T02:25:57.701518Z",
+          "modified_on": "2026-02-23T02:25:57.701518Z"
+        },
+        {
+          "id": "6a6fd2c4b9d798140e2af323e8560e6e",
+          "name": "profit.neogenesis.app",
+          "type": "CNAME",
+          "content": "cname.vercel-dns.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": "Coupang Profit Dashboard",
+          "tags": [],
+          "created_on": "2026-02-21T00:07:09.312285Z",
+          "modified_on": "2026-02-21T00:07:09.312285Z",
+          "comment_modified_on": "2026-02-21T00:07:09.312285Z"
+        },
+        {
+          "id": "19bdf5c8ff6abdc8579ed4496de65b8c",
+          "name": "review.neogenesis.app",
+          "type": "CNAME",
+          "content": "cname.vercel-dns.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": "ReviewLab coupang blog",
+          "tags": [],
+          "created_on": "2026-02-19T10:14:04.123887Z",
+          "modified_on": "2026-02-19T10:14:04.123887Z",
+          "comment_modified_on": "2026-02-19T10:14:04.123887Z"
+        },
+        {
+          "id": "452823eceb366e37279d852df3334128",
+          "name": "sellkit.neogenesis.app",
+          "type": "CNAME",
+          "content": "cname.vercel-dns.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-23T02:25:58.226581Z",
+          "modified_on": "2026-02-23T02:25:58.226581Z"
+        },
+        {
+          "id": "80b5919ebfec0e1c1a7dac89b9fc19f6",
+          "name": "whylab.neogenesis.app",
+          "type": "CNAME",
+          "content": "cname.vercel-dns.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": "WhyLab Research Lab",
+          "tags": [],
+          "created_on": "2026-02-21T00:07:08.753846Z",
+          "modified_on": "2026-02-21T00:07:08.753846Z",
+          "comment_modified_on": "2026-02-21T00:07:08.753846Z"
+        },
+        {
+          "id": "132aa5b565bd9770d4627462734409bb",
+          "name": "www.neogenesis.app",
+          "type": "CNAME",
+          "content": "cname.vercel-dns.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": "www redirect",
+          "tags": [],
+          "created_on": "2026-02-19T12:04:33.990966Z",
+          "modified_on": "2026-02-19T12:04:33.990966Z",
+          "comment_modified_on": "2026-02-19T12:04:33.990966Z"
+        },
+        {
+          "id": "88334e9a8c19e1b534b0255e54fecf04",
+          "name": "neogenesis.app",
+          "type": "TXT",
+          "content": "\"google-site-verification=ToqjqeHF5YDoqmmQitcEtALmOkGezikhYnqP_-FLT2Q\"",
+          "proxiable": false,
+          "proxied": false,
+          "ttl": 3600,
+          "settings": {},
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-21T03:26:29.456926Z",
+          "modified_on": "2026-02-21T03:26:29.456926Z"
+        },
+        {
+          "id": "313798b1688243393fdff87d78a08af0",
+          "name": "_vercel.neogenesis.app",
+          "type": "TXT",
+          "content": "\"vc-domain-verify=ethica.neogenesis.app,a9d07e2eab04cac4559d,dc\"",
+          "proxiable": false,
+          "proxied": false,
+          "ttl": 600,
+          "settings": {},
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-21T11:17:36.803722Z",
+          "modified_on": "2026-02-21T11:17:36.803722Z"
+        }
+      ],
+      "settings": [
+        {
+          "id": "0rtt",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "advanced_ddos",
+          "value": "on",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "always_online",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "always_use_https",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "automatic_https_rewrites",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "brotli",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "browser_cache_ttl",
+          "value": 14400,
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "browser_check",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "cache_level",
+          "value": "aggressive",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "challenge_ttl",
+          "value": 1800,
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "ciphers",
+          "value": [],
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "cname_flattening",
+          "value": "flatten_at_root",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "development_mode",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "early_hints",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "ech",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "edge_cache_ttl",
+          "value": 7200,
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "email_obfuscation",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "filter_logs_to_cloudflare",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "hotlink_protection",
+          "modified_on": null,
+          "value": "off",
+          "editable": true
+        },
+        {
+          "id": "http2",
+          "value": "on",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "http3",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "ip_geolocation",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "ipv6",
+          "value": "on",
+          "modified_on": "2026-02-19T10:08:40.345550Z",
+          "editable": true
+        },
+        {
+          "id": "log_to_cloudflare",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "long_lived_grpc",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "max_upload",
+          "value": 100,
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "min_tls_version",
+          "value": "1.0",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "minify",
+          "value": {
+            "css": "off",
+            "html": "off",
+            "js": "off"
+          },
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "mirage",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "mobile_redirect",
+          "value": {
+            "status": "off",
+            "mobile_subdomain": null,
+            "strip_uri": false
+          },
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "opportunistic_encryption",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "opportunistic_onion",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "orange_to_orange",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "origin_error_page_pass_thru",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "polish",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "pq_keyex",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "prefetch_preload",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "privacy_pass",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "proxy_read_timeout",
+          "value": "100",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "pseudo_ipv4",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "replace_insecure_js",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "response_buffering",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "rocket_loader",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "security_header",
+          "modified_on": null,
+          "value": {
+            "strict_transport_security": {
+              "enabled": false,
+              "max_age": 0,
+              "include_subdomains": false,
+              "preload": false,
+              "nosniff": false
+            }
+          },
+          "editable": true
+        },
+        {
+          "id": "security_level",
+          "value": "medium",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "server_side_exclude",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "sort_query_string_for_cache",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "ssl",
+          "value": "full",
+          "modified_on": null,
+          "certificate_status": "active",
+          "validation_errors": [],
+          "editable": true
+        },
+        {
+          "id": "tls_1_2_only",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "tls_1_3",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "tls_client_auth",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "true_client_ip_header",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "visitor_ip",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "waf",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "webp",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "websockets",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        }
+      ],
+      "settings_error": null
+    },
+    "kott.kr": {
+      "zone_id_old": "e3bf6fd20046edb36a2c4bd8060c63cc",
+      "zone_info": {
+        "id": "e3bf6fd20046edb36a2c4bd8060c63cc",
+        "name": "kott.kr",
+        "status": "active",
+        "paused": false,
+        "type": "full",
+        "development_mode": 0,
+        "name_servers": [
+          "jerome.ns.cloudflare.com",
+          "robin.ns.cloudflare.com"
+        ],
+        "original_name_servers": [
+          "ns1.whoisdomain.kr",
+          "ns2.whoisdomain.kr"
+        ],
+        "original_registrar": null,
+        "original_dnshost": null,
+        "modified_on": "2026-02-22T09:08:10.391574Z",
+        "created_on": "2026-02-22T09:03:13.289013Z",
+        "activated_on": "2026-02-22T09:08:10.391574Z",
+        "vanity_name_servers": [],
+        "vanity_name_servers_ips": null,
+        "meta": {
+          "step": 2,
+          "custom_certificate_quota": 0,
+          "page_rule_quota": 3,
+          "phishing_detected": false
+        },
+        "owner": {
+          "id": null,
+          "type": "user",
+          "email": null
+        },
+        "account": {
+          "id": "8f22c351c93d878aacb918d9ee36a9c2",
+          "name": "Neogenesis.research@gmail.com's Account"
+        },
+        "tenant": {
+          "id": null,
+          "name": null
+        },
+        "tenant_unit": {
+          "id": null
+        },
+        "permissions": [
+          "#zone:read",
+          "#domain:read",
+          "#organization:read",
+          "#zone_settings:edit",
+          "#zone_settings:read",
+          "#dns_records:edit",
+          "#dns_records:read",
+          "#waf:read",
+          "#waf:edit",
+          "#page_shield:read",
+          "#zone_versioning:read",
+          "#zone_versioning:edit",
+          "#api_gateway:read",
+          "#zaraz:read",
+          "#ssl:read",
+          "#page_shield:edit",
+          "#zone:edit",
+          "#analytics:read",
+          "#worker:edit",
+          "#worker:read",
+          "#app:edit"
+        ],
+        "plan": {
+          "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "name": "Free Website",
+          "price": 0,
+          "currency": "USD",
+          "frequency": "",
+          "is_subscribed": false,
+          "can_subscribe": false,
+          "legacy_id": "free",
+          "legacy_discount": false,
+          "externally_managed": false
+        }
+      },
+      "dns_records": [
+        {
+          "id": "1151ae7cf8d8fe92058b6e2df44dcddb",
+          "name": "kott.kr",
+          "type": "A",
+          "content": "216.150.1.1",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 600,
+          "settings": {},
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-22T09:14:32.318755Z",
+          "modified_on": "2026-02-22T09:14:32.318755Z"
+        },
+        {
+          "id": "a5eb898ddc37d8417d407c025930858d",
+          "name": "www.kott.kr",
+          "type": "CNAME",
+          "content": "cname.vercel-dns.com",
+          "proxiable": true,
+          "proxied": false,
+          "ttl": 1,
+          "settings": {
+            "flatten_cname": false
+          },
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-22T09:12:41.134589Z",
+          "modified_on": "2026-02-22T09:12:41.134589Z"
+        },
+        {
+          "id": "f753b40d8a3eb9b6174163f694b4f890",
+          "name": "_vercel.kott.kr",
+          "type": "TXT",
+          "content": "\"vc-domain-verify=kott.kr,5e81d5b89e193233cacd,dc\"",
+          "proxiable": false,
+          "proxied": false,
+          "ttl": 600,
+          "settings": {},
+          "meta": {},
+          "comment": null,
+          "tags": [],
+          "created_on": "2026-02-22T09:14:32.493148Z",
+          "modified_on": "2026-02-22T09:14:32.493148Z"
+        }
+      ],
+      "settings": [
+        {
+          "id": "0rtt",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "advanced_ddos",
+          "value": "on",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "always_online",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "always_use_https",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "automatic_https_rewrites",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "brotli",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "browser_cache_ttl",
+          "value": 14400,
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "browser_check",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "cache_level",
+          "value": "aggressive",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "challenge_ttl",
+          "value": 1800,
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "ciphers",
+          "value": [],
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "cname_flattening",
+          "value": "flatten_at_root",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "development_mode",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "early_hints",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "ech",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "edge_cache_ttl",
+          "value": 7200,
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "email_obfuscation",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "filter_logs_to_cloudflare",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "hotlink_protection",
+          "modified_on": null,
+          "value": "off",
+          "editable": true
+        },
+        {
+          "id": "http2",
+          "value": "on",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "http3",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "ip_geolocation",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "ipv6",
+          "value": "on",
+          "modified_on": "2026-02-22T09:03:13.289013Z",
+          "editable": true
+        },
+        {
+          "id": "log_to_cloudflare",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "long_lived_grpc",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "max_upload",
+          "value": 100,
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "min_tls_version",
+          "value": "1.0",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "minify",
+          "value": {
+            "css": "off",
+            "html": "off",
+            "js": "off"
+          },
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "mirage",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "mobile_redirect",
+          "value": {
+            "status": "off",
+            "mobile_subdomain": null,
+            "strip_uri": false
+          },
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "opportunistic_encryption",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "opportunistic_onion",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "orange_to_orange",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "origin_error_page_pass_thru",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "polish",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "pq_keyex",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "prefetch_preload",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "privacy_pass",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "proxy_read_timeout",
+          "value": "100",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "pseudo_ipv4",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "replace_insecure_js",
+          "value": "on",
+          "modified_on": "2026-02-22T09:03:19.404735Z",
+          "editable": true
+        },
+        {
+          "id": "response_buffering",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "rocket_loader",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "security_header",
+          "modified_on": null,
+          "value": {
+            "strict_transport_security": {
+              "enabled": false,
+              "max_age": 0,
+              "include_subdomains": false,
+              "preload": false,
+              "nosniff": false
+            }
+          },
+          "editable": true
+        },
+        {
+          "id": "security_level",
+          "value": "medium",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "server_side_exclude",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "sort_query_string_for_cache",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "ssl",
+          "value": "full",
+          "modified_on": null,
+          "certificate_status": "active",
+          "validation_errors": [],
+          "editable": true
+        },
+        {
+          "id": "tls_1_2_only",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "tls_1_3",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "tls_client_auth",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "true_client_ip_header",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "visitor_ip",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "waf",
+          "value": "off",
+          "modified_on": null,
+          "editable": true
+        },
+        {
+          "id": "webp",
+          "value": "off",
+          "modified_on": null,
+          "editable": false
+        },
+        {
+          "id": "websockets",
+          "value": "on",
+          "modified_on": null,
+          "editable": true
+        }
+      ],
+      "settings_error": null
+    }
+  }
+}

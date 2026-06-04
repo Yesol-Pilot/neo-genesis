@@ -1,0 +1,43 @@
+{
+  "version": "2026-05-14.decision-events.v1",
+  "owner_goal": "Count only events that can change an owner decision. Do not treat every non-pageview as a business action.",
+  "numerator_events": [
+    "cta_click",
+    "signup_intent",
+    "pricing_view",
+    "signup_click",
+    "demo_request",
+    "lead_submit",
+    "subscribe_submit",
+    "tool_submit",
+    "search_submit",
+    "filter_apply",
+    "compare_select",
+    "calculator_run",
+    "download_click",
+    "outbound_click",
+    "outbound_official_click",
+    "affiliate_click",
+    "copy_link"
+  ],
+  "denominator_event": "$pageview",
+  "excluded_events": [
+    "$pageview",
+    "$autocapture",
+    "$pageleave",
+    "$screen",
+    "$web_vitals"
+  ],
+  "dedupe_key": "distinct_id + content_id + event + yyyy-mm-dd",
+  "session_rule": "30m inactivity window; do not assume identity merge unless PostHog provides it.",
+  "conversion_windows": {
+    "same_session": "30m",
+    "content_to_action": "7d"
+  },
+  "internal_traffic_exclusions": [
+    "localhost",
+    "127.0.0.1",
+    "preview deployments",
+    "owner QA routes"
+  ]
+}

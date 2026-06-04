@@ -1,0 +1,3921 @@
+{
+  "snapshot_version": "2026-05-14.owner-traffic.v1",
+  "snapshot_id": "ots_a00524dbb731",
+  "generated_at": "2026-05-28T11:08:37.392+09:00",
+  "timezone": "Asia/Seoul",
+  "source_runs": [
+    {
+      "source": "ga4",
+      "path": "logs\\ga4_result.json",
+      "ok": true,
+      "generated_at": "2026-05-28T11:07:23.469+09:00",
+      "rows": 13,
+      "stale_seconds": 74,
+      "error": null
+    },
+    {
+      "source": "posthog",
+      "path": "data\\sbu-growth\\posthog-traffic-latest.json",
+      "ok": true,
+      "generated_at": "2026-05-28T11:08:08+09:00",
+      "days": 7,
+      "rows": 12,
+      "stale_seconds": 29,
+      "error": null
+    },
+    {
+      "source": "live_tag_probe",
+      "path": "data\\owner-analytics\\live-tag-probe-latest.json",
+      "ok": true,
+      "generated_at": "2026-05-28T11:08:37.321+09:00",
+      "rows": 13,
+      "stale_seconds": 0,
+      "error": null
+    },
+    {
+      "source": "acquisition_model",
+      "path": "data\\sbu-growth\\acquisition-dashboard-latest.json",
+      "ok": true,
+      "generated_at": "2026-05-20T15:46:29+09:00",
+      "rows": 9,
+      "stale_seconds": 674528,
+      "error": null
+    },
+    {
+      "source": "gsc",
+      "path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+      "ok": true,
+      "generated_at": "2026-05-20T15:46:55+09:00",
+      "sites": 13,
+      "stale_seconds": 674502
+    }
+  ],
+  "source_errors": [],
+  "stale_seconds": 674528,
+  "data_trust_state": "degraded",
+  "is_last_good": false,
+  "supersedes_snapshot_id": "ots_bcc896eb2b15",
+  "registry_version": "2026-05-14.registry.v1",
+  "redaction": {
+    "applied": true,
+    "rules": [
+      "no raw secrets",
+      "no credential file paths",
+      "no raw GA property numeric ids in owner snapshot",
+      "API error bodies are summarized only"
+    ]
+  },
+  "performance_summary": {
+    "primary_source": "posthog",
+    "trust_state": "degraded",
+    "today_visitors": 76,
+    "yesterday_visitors": 201,
+    "visitors_7d": 950,
+    "visitors_prev_7d": 917,
+    "visitors_7d_delta_pct": 0.03598691384950927,
+    "pageviews_7d": 952,
+    "pageviews_prev_7d": 947,
+    "pageviews_7d_delta_pct": 0.005279831045406547,
+    "decision_events_7d": 0,
+    "decision_events_prev_7d": 4,
+    "decision_events_delta_pct": -1,
+    "decision_rate_7d": 0,
+    "top_site_by_visitors": "toolpick",
+    "top_site_by_visitors_name": "ToolPick",
+    "top_site_by_growth": "finstack",
+    "top_site_by_drop": "ur-wrong",
+    "top_conversion_leak": "toolpick",
+    "top_conversion_leak_name": "ToolPick",
+    "headline": "최근 7일 방문자는 950명, 성과 이벤트는 0건입니다."
+  },
+  "summary": {
+    "active_sites": 13,
+    "candidate_sites": 1,
+    "blocked_by_measurement": 0,
+    "top_actions": [
+      "action_4e1c9199074b",
+      "action_79ab353e9d8a",
+      "action_a1941ec69d7d"
+    ],
+    "findings_by_severity": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 16,
+      "P3": 15
+    }
+  },
+  "sites": [
+    {
+      "id": "neogenesis",
+      "name": "NeoGenesis",
+      "status": "active_live",
+      "type": "brand_hub",
+      "canonical_url": "https://neogenesis.app",
+      "canonical_host": "neogenesis.app",
+      "repo_path": "src/landing",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "shared_host_filtered",
+          "host_filter": "neogenesis.app"
+        },
+        "posthog": {
+          "events": 391,
+          "pageviews": 216,
+          "users": 220,
+          "decision_events": 0,
+          "legacy_action_events": 175,
+          "last_seen": "2026-05-28T10:51:40.221000+09:00",
+          "previous_events": 547,
+          "previous_pageviews": 259,
+          "previous_decision_events": 1,
+          "previous_users": 256,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 130,
+              "pageviews": 73,
+              "decision_events": 1,
+              "legacy_action_events": 57,
+              "users": 55,
+              "last_seen": "2026-05-14T23:24:50.893000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 28,
+              "pageviews": 20,
+              "decision_events": 0,
+              "legacy_action_events": 8,
+              "users": 23,
+              "last_seen": "2026-05-15T23:48:53.856000+09:00"
+            },
+            {
+              "date": "2026-05-16",
+              "events": 62,
+              "pageviews": 18,
+              "decision_events": 0,
+              "legacy_action_events": 44,
+              "users": 20,
+              "last_seen": "2026-05-16T22:16:40.846000+09:00"
+            },
+            {
+              "date": "2026-05-17",
+              "events": 20,
+              "pageviews": 14,
+              "decision_events": 0,
+              "legacy_action_events": 6,
+              "users": 19,
+              "last_seen": "2026-05-17T22:59:29.314000+09:00"
+            },
+            {
+              "date": "2026-05-18",
+              "events": 19,
+              "pageviews": 10,
+              "decision_events": 0,
+              "legacy_action_events": 9,
+              "users": 9,
+              "last_seen": "2026-05-18T23:18:14.695000+09:00"
+            },
+            {
+              "date": "2026-05-19",
+              "events": 105,
+              "pageviews": 24,
+              "decision_events": 0,
+              "legacy_action_events": 81,
+              "users": 28,
+              "last_seen": "2026-05-19T21:03:29.950000+09:00"
+            },
+            {
+              "date": "2026-05-20",
+              "events": 148,
+              "pageviews": 77,
+              "decision_events": 0,
+              "legacy_action_events": 71,
+              "users": 82,
+              "last_seen": "2026-05-20T23:43:58.050000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 46,
+              "pageviews": 30,
+              "decision_events": 0,
+              "legacy_action_events": 16,
+              "users": 34,
+              "last_seen": "2026-05-21T21:35:18.826000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 57,
+              "pageviews": 32,
+              "decision_events": 0,
+              "legacy_action_events": 25,
+              "users": 36,
+              "last_seen": "2026-05-22T22:00:12.753000+09:00"
+            },
+            {
+              "date": "2026-05-23",
+              "events": 41,
+              "pageviews": 36,
+              "decision_events": 0,
+              "legacy_action_events": 5,
+              "users": 39,
+              "last_seen": "2026-05-23T23:27:38.984000+09:00"
+            },
+            {
+              "date": "2026-05-24",
+              "events": 42,
+              "pageviews": 34,
+              "decision_events": 0,
+              "legacy_action_events": 8,
+              "users": 24,
+              "last_seen": "2026-05-24T23:50:12.937000+09:00"
+            },
+            {
+              "date": "2026-05-25",
+              "events": 64,
+              "pageviews": 20,
+              "decision_events": 0,
+              "legacy_action_events": 44,
+              "users": 21,
+              "last_seen": "2026-05-25T22:51:44.050000+09:00"
+            },
+            {
+              "date": "2026-05-26",
+              "events": 54,
+              "pageviews": 27,
+              "decision_events": 0,
+              "legacy_action_events": 27,
+              "users": 29,
+              "last_seen": "2026-05-26T22:48:24.839000+09:00"
+            },
+            {
+              "date": "2026-05-27",
+              "events": 103,
+              "pageviews": 47,
+              "decision_events": 0,
+              "legacy_action_events": 56,
+              "users": 50,
+              "last_seen": "2026-05-27T23:22:57.571000+09:00"
+            },
+            {
+              "date": "2026-05-28",
+              "events": 18,
+              "pageviews": 12,
+              "decision_events": 0,
+              "legacy_action_events": 6,
+              "users": 12,
+              "last_seen": "2026-05-28T10:51:40.221000+09:00"
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 92,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 5,
+          "opportunity_count": 1,
+          "opportunity_impressions": 22,
+          "opportunity_clicks": 0,
+          "top_opportunity": {
+            "page": "https://neogenesis.app/",
+            "impressions": 22,
+            "clicks": 0,
+            "average_position": 50.45,
+            "top_query": "neogenesis"
+          },
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-0GVNYZLEMX"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 198707
+        },
+        "acquisition_model": null
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "degraded",
+        "posthog_visitors_7d": 220,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 12,
+        "yesterday_visitors": 50,
+        "visitors_7d": 220,
+        "visitors_prev_7d": 256,
+        "visitors_delta_pct": -0.140625,
+        "pageviews_7d": 216,
+        "pageviews_prev_7d": 259,
+        "pageviews_delta_pct": -0.16602316602316602,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 1,
+        "decision_delta_pct": -1,
+        "decision_rate_7d": 0,
+        "signals": [
+          "conversion_leak"
+        ],
+        "stage": "conversion_leak",
+        "primary_issue": "방문자는 있지만 성과 이벤트가 없습니다.",
+        "next_action": "NeoGenesis의 상위 유입 페이지에 CTA와 decision event를 심습니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 53.5,
+        "traffic": 100,
+        "conversion": 0,
+        "modeled": null
+      },
+      "owner_score": 64.1,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "toolpick",
+      "name": "ToolPick",
+      "status": "active_live",
+      "type": "flagship_sbu",
+      "canonical_url": "https://www.toolpick.dev",
+      "canonical_host": "toolpick.dev",
+      "repo_path": "src/sbu/toolpick",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "dedicated",
+          "host_filter": null
+        },
+        "posthog": {
+          "events": 765,
+          "pageviews": 503,
+          "users": 496,
+          "decision_events": 0,
+          "legacy_action_events": 262,
+          "last_seen": "2026-05-28T10:28:43.089000+09:00",
+          "previous_events": 663,
+          "previous_pageviews": 423,
+          "previous_decision_events": 1,
+          "previous_users": 404,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 39,
+              "pageviews": 26,
+              "decision_events": 0,
+              "legacy_action_events": 13,
+              "users": 26,
+              "last_seen": "2026-05-14T23:59:33.657000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 149,
+              "pageviews": 98,
+              "decision_events": 0,
+              "legacy_action_events": 51,
+              "users": 98,
+              "last_seen": "2026-05-15T23:47:02.402000+09:00"
+            },
+            {
+              "date": "2026-05-16",
+              "events": 61,
+              "pageviews": 39,
+              "decision_events": 0,
+              "legacy_action_events": 22,
+              "users": 39,
+              "last_seen": "2026-05-16T22:40:01.932000+09:00"
+            },
+            {
+              "date": "2026-05-17",
+              "events": 58,
+              "pageviews": 33,
+              "decision_events": 0,
+              "legacy_action_events": 25,
+              "users": 27,
+              "last_seen": "2026-05-17T23:59:52.617000+09:00"
+            },
+            {
+              "date": "2026-05-18",
+              "events": 75,
+              "pageviews": 48,
+              "decision_events": 0,
+              "legacy_action_events": 27,
+              "users": 49,
+              "last_seen": "2026-05-18T22:06:45.346000+09:00"
+            },
+            {
+              "date": "2026-05-19",
+              "events": 92,
+              "pageviews": 58,
+              "decision_events": 0,
+              "legacy_action_events": 34,
+              "users": 54,
+              "last_seen": "2026-05-19T22:08:33.550000+09:00"
+            },
+            {
+              "date": "2026-05-20",
+              "events": 143,
+              "pageviews": 93,
+              "decision_events": 1,
+              "legacy_action_events": 50,
+              "users": 89,
+              "last_seen": "2026-05-20T22:47:50.171000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 129,
+              "pageviews": 81,
+              "decision_events": 0,
+              "legacy_action_events": 48,
+              "users": 81,
+              "last_seen": "2026-05-21T22:14:39.622000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 63,
+              "pageviews": 40,
+              "decision_events": 0,
+              "legacy_action_events": 23,
+              "users": 38,
+              "last_seen": "2026-05-22T19:56:11.654000+09:00"
+            },
+            {
+              "date": "2026-05-23",
+              "events": 55,
+              "pageviews": 36,
+              "decision_events": 0,
+              "legacy_action_events": 19,
+              "users": 35,
+              "last_seen": "2026-05-23T22:49:23.901000+09:00"
+            },
+            {
+              "date": "2026-05-24",
+              "events": 148,
+              "pageviews": 103,
+              "decision_events": 0,
+              "legacy_action_events": 45,
+              "users": 103,
+              "last_seen": "2026-05-24T23:29:19.203000+09:00"
+            },
+            {
+              "date": "2026-05-25",
+              "events": 94,
+              "pageviews": 58,
+              "decision_events": 0,
+              "legacy_action_events": 36,
+              "users": 57,
+              "last_seen": "2026-05-25T23:55:11.763000+09:00"
+            },
+            {
+              "date": "2026-05-26",
+              "events": 106,
+              "pageviews": 72,
+              "decision_events": 0,
+              "legacy_action_events": 34,
+              "users": 72,
+              "last_seen": "2026-05-26T23:59:09.067000+09:00"
+            },
+            {
+              "date": "2026-05-27",
+              "events": 146,
+              "pageviews": 91,
+              "decision_events": 0,
+              "legacy_action_events": 55,
+              "users": 88,
+              "last_seen": "2026-05-27T23:47:32.502000+09:00"
+            },
+            {
+              "date": "2026-05-28",
+              "events": 70,
+              "pageviews": 50,
+              "decision_events": 0,
+              "legacy_action_events": 20,
+              "users": 50,
+              "last_seen": "2026-05-28T10:28:43.089000+09:00"
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 914,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 748,
+          "opportunity_count": 10,
+          "opportunity_impressions": 2458,
+          "opportunity_clicks": 5,
+          "top_opportunity": {
+            "page": "https://www.toolpick.dev/reviews/fly-io-review",
+            "impressions": 895,
+            "clicks": 1,
+            "average_position": 11.81,
+            "top_query": "fly.io pricing machines 2026"
+          },
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-8YRD4KPHZN"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 125654
+        },
+        "acquisition_model": null
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "degraded",
+        "posthog_visitors_7d": 496,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 50,
+        "yesterday_visitors": 88,
+        "visitors_7d": 496,
+        "visitors_prev_7d": 404,
+        "visitors_delta_pct": 0.22772277227722773,
+        "pageviews_7d": 503,
+        "pageviews_prev_7d": 423,
+        "pageviews_delta_pct": 0.18912529550827423,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 1,
+        "decision_delta_pct": -1,
+        "decision_rate_7d": 0,
+        "signals": [
+          "conversion_leak"
+        ],
+        "stage": "conversion_leak",
+        "primary_issue": "방문자는 있지만 성과 이벤트가 없습니다.",
+        "next_action": "ToolPick의 상위 유입 페이지에 CTA와 decision event를 심습니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 100,
+        "traffic": 100,
+        "conversion": 0,
+        "modeled": null
+      },
+      "owner_score": 85,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "ur-wrong",
+      "name": "UR WRONG",
+      "status": "active_live",
+      "type": "ai_experience",
+      "canonical_url": "https://ur-wrong.com",
+      "canonical_host": "ur-wrong.com",
+      "repo_path": "src/sbu/ur-wrong",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "dedicated",
+          "host_filter": null
+        },
+        "posthog": {
+          "events": 19,
+          "pageviews": 5,
+          "users": 5,
+          "decision_events": 0,
+          "legacy_action_events": 14,
+          "last_seen": "2026-05-27T17:19:19.003000+09:00",
+          "previous_events": 149,
+          "previous_pageviews": 31,
+          "previous_decision_events": 0,
+          "previous_users": 21,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 2,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 1,
+              "last_seen": "2026-05-14T21:35:03.273000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-16",
+              "events": 67,
+              "pageviews": 12,
+              "decision_events": 0,
+              "legacy_action_events": 55,
+              "users": 2,
+              "last_seen": "2026-05-16T01:30:29.065000+09:00"
+            },
+            {
+              "date": "2026-05-17",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-18",
+              "events": 17,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 14,
+              "users": 3,
+              "last_seen": "2026-05-18T18:05:56.710000+09:00"
+            },
+            {
+              "date": "2026-05-19",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-20",
+              "events": 63,
+              "pageviews": 15,
+              "decision_events": 0,
+              "legacy_action_events": 48,
+              "users": 15,
+              "last_seen": "2026-05-20T21:26:39.314000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-22",
+              "events": 2,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 1,
+              "last_seen": "2026-05-22T12:37:33.518000+09:00"
+            },
+            {
+              "date": "2026-05-23",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-24",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-25",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-26",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-27",
+              "events": 17,
+              "pageviews": 4,
+              "decision_events": 0,
+              "legacy_action_events": 13,
+              "users": 4,
+              "last_seen": "2026-05-27T17:19:19.003000+09:00"
+            },
+            {
+              "date": "2026-05-28",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 135,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 2,
+          "opportunity_count": 2,
+          "opportunity_impressions": 4,
+          "opportunity_clicks": 0,
+          "top_opportunity": {
+            "page": "https://ur-wrong.com/",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 80.67,
+            "top_query": "u r wrong"
+          },
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-MHJ96JLHT2"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 6806
+        },
+        "acquisition_model": null
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "trusted",
+        "posthog_visitors_7d": 5,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 0,
+        "yesterday_visitors": 4,
+        "visitors_7d": 5,
+        "visitors_prev_7d": 21,
+        "visitors_delta_pct": -0.7619047619047619,
+        "pageviews_7d": 5,
+        "pageviews_prev_7d": 31,
+        "pageviews_delta_pct": -0.8387096774193549,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 0,
+        "decision_delta_pct": null,
+        "decision_rate_7d": 0,
+        "signals": [
+          "traffic_drop"
+        ],
+        "stage": "traffic_drop",
+        "primary_issue": "전주 대비 방문자가 크게 줄었습니다.",
+        "next_action": "UR WRONG의 최근 배포, 색인, 주요 유입 페이지를 확인합니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 27.5,
+        "traffic": 40.6,
+        "conversion": 0,
+        "modeled": null
+      },
+      "owner_score": 28.6,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "reviewlab",
+      "name": "ReviewLab",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://review.neogenesis.app",
+      "canonical_host": "review.neogenesis.app",
+      "repo_path": "src/sbu/reviewlab",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "shared_host_filtered",
+          "host_filter": "review.neogenesis.app"
+        },
+        "posthog": {
+          "events": 120,
+          "pageviews": 95,
+          "users": 89,
+          "decision_events": 0,
+          "legacy_action_events": 25,
+          "last_seen": "2026-05-28T07:24:40.314000+09:00",
+          "previous_events": 103,
+          "previous_pageviews": 66,
+          "previous_decision_events": 1,
+          "previous_users": 60,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 45,
+              "pageviews": 17,
+              "decision_events": 1,
+              "legacy_action_events": 28,
+              "users": 11,
+              "last_seen": "2026-05-14T21:36:34.400000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 8,
+              "pageviews": 7,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 7,
+              "last_seen": "2026-05-15T16:31:45.399000+09:00"
+            },
+            {
+              "date": "2026-05-16",
+              "events": 8,
+              "pageviews": 6,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 6,
+              "last_seen": "2026-05-16T17:28:56.619000+09:00"
+            },
+            {
+              "date": "2026-05-17",
+              "events": 6,
+              "pageviews": 5,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 5,
+              "last_seen": "2026-05-17T22:59:29.314000+09:00"
+            },
+            {
+              "date": "2026-05-18",
+              "events": 4,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 3,
+              "last_seen": "2026-05-18T18:31:51.206000+09:00"
+            },
+            {
+              "date": "2026-05-19",
+              "events": 19,
+              "pageviews": 15,
+              "decision_events": 0,
+              "legacy_action_events": 4,
+              "users": 15,
+              "last_seen": "2026-05-19T18:25:34.873000+09:00"
+            },
+            {
+              "date": "2026-05-20",
+              "events": 10,
+              "pageviews": 10,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 10,
+              "last_seen": "2026-05-20T18:16:34.059000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 7,
+              "pageviews": 6,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 6,
+              "last_seen": "2026-05-21T15:03:55.934000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 20,
+              "pageviews": 18,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 18,
+              "last_seen": "2026-05-22T21:40:03.064000+09:00"
+            },
+            {
+              "date": "2026-05-23",
+              "events": 15,
+              "pageviews": 13,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 13,
+              "last_seen": "2026-05-23T19:58:50.978000+09:00"
+            },
+            {
+              "date": "2026-05-24",
+              "events": 9,
+              "pageviews": 8,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 8,
+              "last_seen": "2026-05-24T10:43:56.702000+09:00"
+            },
+            {
+              "date": "2026-05-25",
+              "events": 13,
+              "pageviews": 11,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 11,
+              "last_seen": "2026-05-25T22:51:44.050000+09:00"
+            },
+            {
+              "date": "2026-05-26",
+              "events": 18,
+              "pageviews": 14,
+              "decision_events": 0,
+              "legacy_action_events": 4,
+              "users": 12,
+              "last_seen": "2026-05-26T22:48:24.839000+09:00"
+            },
+            {
+              "date": "2026-05-27",
+              "events": 35,
+              "pageviews": 22,
+              "decision_events": 0,
+              "legacy_action_events": 13,
+              "users": 18,
+              "last_seen": "2026-05-27T22:50:47.667000+09:00"
+            },
+            {
+              "date": "2026-05-28",
+              "events": 6,
+              "pageviews": 6,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 6,
+              "last_seen": "2026-05-28T07:24:40.314000+09:00"
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 200,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 53,
+          "opportunity_count": 10,
+          "opportunity_impressions": 79,
+          "opportunity_clicks": 4,
+          "top_opportunity": {
+            "page": "https://review.neogenesis.app/",
+            "impressions": 17,
+            "clicks": 0,
+            "average_position": 15.24,
+            "top_query": "6축 로봇의 정확도와 안전성 향상"
+          },
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-0GVNYZLEMX"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 150719
+        },
+        "acquisition_model": {
+          "stage": "distribution-validation",
+          "score": 151,
+          "strategy": [
+            "Rewrite Korean title/description/H1 for comparison and purchase-review intent.",
+            "Prioritize Naver Search Advisor checks and Korean FAQ/pros-cons/spec tables."
+          ],
+          "measurement_warnings": [
+            "PostHog shows recent users but GA4 7d is zero; verify property/hostname filtering and data freshness.",
+            "Traffic exists without search opportunity; validate referral/direct source and bot filtering."
+          ]
+        }
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "degraded",
+        "posthog_visitors_7d": 89,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 6,
+        "yesterday_visitors": 18,
+        "visitors_7d": 89,
+        "visitors_prev_7d": 60,
+        "visitors_delta_pct": 0.48333333333333334,
+        "pageviews_7d": 95,
+        "pageviews_prev_7d": 66,
+        "pageviews_delta_pct": 0.4393939393939394,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 1,
+        "decision_delta_pct": -1,
+        "decision_rate_7d": 0,
+        "signals": [
+          "conversion_leak"
+        ],
+        "stage": "conversion_leak",
+        "primary_issue": "방문자는 있지만 성과 이벤트가 없습니다.",
+        "next_action": "ReviewLab의 상위 유입 페이지에 CTA와 decision event를 심습니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 86.6,
+        "traffic": 97.8,
+        "conversion": 0,
+        "modeled": 151
+      },
+      "owner_score": 78.1,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "kott",
+      "name": "K-OTT",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://kott.kr",
+      "canonical_host": "kott.kr",
+      "repo_path": "src/sbu/k-ott",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "dedicated",
+          "host_filter": null
+        },
+        "posthog": {
+          "events": 88,
+          "pageviews": 36,
+          "users": 32,
+          "decision_events": 0,
+          "legacy_action_events": 52,
+          "last_seen": "2026-05-28T10:58:05.161000+09:00",
+          "previous_events": 82,
+          "previous_pageviews": 47,
+          "previous_decision_events": 1,
+          "previous_users": 30,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 2,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 2,
+              "last_seen": "2026-05-14T22:21:04.859000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 24,
+              "pageviews": 3,
+              "decision_events": 1,
+              "legacy_action_events": 21,
+              "users": 3,
+              "last_seen": "2026-05-15T21:11:10.618000+09:00"
+            },
+            {
+              "date": "2026-05-16",
+              "events": 17,
+              "pageviews": 8,
+              "decision_events": 0,
+              "legacy_action_events": 9,
+              "users": 8,
+              "last_seen": "2026-05-16T15:06:47.521000+09:00"
+            },
+            {
+              "date": "2026-05-17",
+              "events": 2,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 2,
+              "last_seen": "2026-05-17T13:18:26.308000+09:00"
+            },
+            {
+              "date": "2026-05-18",
+              "events": 3,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 2,
+              "last_seen": "2026-05-18T13:17:25.796000+09:00"
+            },
+            {
+              "date": "2026-05-19",
+              "events": 1,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 1,
+              "last_seen": "2026-05-19T21:14:27.281000+09:00"
+            },
+            {
+              "date": "2026-05-20",
+              "events": 8,
+              "pageviews": 8,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 8,
+              "last_seen": "2026-05-20T18:16:39.230000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 25,
+              "pageviews": 21,
+              "decision_events": 0,
+              "legacy_action_events": 4,
+              "users": 4,
+              "last_seen": "2026-05-21T09:28:57.205000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 3,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 2,
+              "last_seen": "2026-05-22T15:20:32.679000+09:00"
+            },
+            {
+              "date": "2026-05-23",
+              "events": 21,
+              "pageviews": 6,
+              "decision_events": 0,
+              "legacy_action_events": 15,
+              "users": 6,
+              "last_seen": "2026-05-23T19:19:39.530000+09:00"
+            },
+            {
+              "date": "2026-05-24",
+              "events": 2,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 2,
+              "last_seen": "2026-05-24T21:04:49.018000+09:00"
+            },
+            {
+              "date": "2026-05-25",
+              "events": 28,
+              "pageviews": 7,
+              "decision_events": 0,
+              "legacy_action_events": 21,
+              "users": 5,
+              "last_seen": "2026-05-25T23:18:51.328000+09:00"
+            },
+            {
+              "date": "2026-05-26",
+              "events": 7,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 4,
+              "users": 3,
+              "last_seen": "2026-05-26T05:01:45.205000+09:00"
+            },
+            {
+              "date": "2026-05-27",
+              "events": 23,
+              "pageviews": 13,
+              "decision_events": 0,
+              "legacy_action_events": 10,
+              "users": 11,
+              "last_seen": "2026-05-27T15:26:24.490000+09:00"
+            },
+            {
+              "date": "2026-05-28",
+              "events": 4,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 3,
+              "last_seen": "2026-05-28T10:58:05.161000+09:00"
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 60,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 3,
+          "opportunity_count": 1,
+          "opportunity_impressions": 3,
+          "opportunity_clicks": 0,
+          "top_opportunity": {
+            "page": "https://kott.kr/",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 45.67,
+            "top_query": "ott 순위"
+          },
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-E8RGGHZG23"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 126425
+        },
+        "acquisition_model": {
+          "stage": "productize-before-growth",
+          "score": 52.5,
+          "strategy": [
+            "Build OTT price, plan, and monthly-watch decision hubs in Korean.",
+            "Track Naver/Google Korean queries separately from owned/direct traffic."
+          ],
+          "measurement_warnings": [
+            "PostHog shows recent users but GA4 7d is zero; verify property/hostname filtering and data freshness."
+          ]
+        }
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "degraded",
+        "posthog_visitors_7d": 32,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 3,
+        "yesterday_visitors": 11,
+        "visitors_7d": 32,
+        "visitors_prev_7d": 30,
+        "visitors_delta_pct": 0.06666666666666667,
+        "pageviews_7d": 36,
+        "pageviews_prev_7d": 47,
+        "pageviews_delta_pct": -0.23404255319148937,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 1,
+        "decision_delta_pct": -1,
+        "decision_rate_7d": 0,
+        "signals": [
+          "conversion_leak"
+        ],
+        "stage": "conversion_leak",
+        "primary_issue": "방문자는 있지만 성과 이벤트가 없습니다.",
+        "next_action": "K-OTT의 상위 유입 페이지에 CTA와 decision event를 심습니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 23.7,
+        "traffic": 77,
+        "conversion": 0,
+        "modeled": 52.5
+      },
+      "owner_score": 41.5,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "whylab",
+      "name": "WhyLab",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://whylab.neogenesis.app",
+      "canonical_host": "whylab.neogenesis.app",
+      "repo_path": "src/sbu/whylab",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "shared_host_filtered",
+          "host_filter": "whylab.neogenesis.app"
+        },
+        "posthog": {
+          "events": 7,
+          "pageviews": 3,
+          "users": 3,
+          "decision_events": 0,
+          "legacy_action_events": 4,
+          "last_seen": "2026-05-28T08:05:32.057000+09:00",
+          "previous_events": 9,
+          "previous_pageviews": 9,
+          "previous_decision_events": 0,
+          "previous_users": 9,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 2,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 2,
+              "last_seen": "2026-05-14T17:48:03.700000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-16",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-17",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-18",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-19",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-20",
+              "events": 6,
+              "pageviews": 6,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 6,
+              "last_seen": "2026-05-20T18:16:50.752000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 1,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 1,
+              "last_seen": "2026-05-21T09:24:58.283000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-23",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-24",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-25",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-26",
+              "events": 3,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 1,
+              "last_seen": "2026-05-26T11:46:12.657000+09:00"
+            },
+            {
+              "date": "2026-05-27",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-28",
+              "events": 4,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 2,
+              "last_seen": "2026-05-28T08:05:32.057000+09:00"
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 14,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 4,
+          "opportunity_count": 2,
+          "opportunity_impressions": 7,
+          "opportunity_clicks": 0,
+          "top_opportunity": {
+            "page": "https://whylab.neogenesis.app/",
+            "impressions": 6,
+            "clicks": 0,
+            "average_position": 23.5,
+            "top_query": "whylab"
+          },
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-0GVNYZLEMX"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 50156
+        },
+        "acquisition_model": {
+          "stage": "productize-before-growth",
+          "score": 7.5,
+          "strategy": [
+            "Treat current pages as credibility assets until a concrete user job is defined.",
+            "Avoid broad MAU acquisition spend before a repeatable tool or decision workflow exists."
+          ],
+          "measurement_warnings": []
+        }
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "trusted",
+        "posthog_visitors_7d": 3,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 2,
+        "yesterday_visitors": 0,
+        "visitors_7d": 3,
+        "visitors_prev_7d": 9,
+        "visitors_delta_pct": -0.6666666666666666,
+        "pageviews_7d": 3,
+        "pageviews_prev_7d": 9,
+        "pageviews_delta_pct": -0.6666666666666666,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 0,
+        "decision_delta_pct": null,
+        "decision_rate_7d": 0,
+        "signals": [
+          "traffic_drop"
+        ],
+        "stage": "traffic_drop",
+        "primary_issue": "전주 대비 방문자가 크게 줄었습니다.",
+        "next_action": "WhyLab의 최근 배포, 색인, 주요 유입 페이지를 확인합니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 35.5,
+        "traffic": 31.8,
+        "conversion": 0,
+        "modeled": 7.5
+      },
+      "owner_score": 28.7,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "ethicaai",
+      "name": "EthicaAI",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://ethica.neogenesis.app",
+      "canonical_host": "ethica.neogenesis.app",
+      "repo_path": "src/sbu/ethicaai",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "shared_host_filtered",
+          "host_filter": "ethica.neogenesis.app"
+        },
+        "posthog": {
+          "events": 22,
+          "pageviews": 6,
+          "users": 6,
+          "decision_events": 0,
+          "legacy_action_events": 16,
+          "last_seen": "2026-05-28T02:20:49.902000+09:00",
+          "previous_events": 35,
+          "previous_pageviews": 14,
+          "previous_decision_events": 0,
+          "previous_users": 14,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 2,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 2,
+              "last_seen": "2026-05-14T17:48:28.266000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-16",
+              "events": 5,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 4,
+              "users": 1,
+              "last_seen": "2026-05-16T02:18:29.697000+09:00"
+            },
+            {
+              "date": "2026-05-17",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-18",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-19",
+              "events": 1,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 1,
+              "last_seen": "2026-05-19T19:57:11.719000+09:00"
+            },
+            {
+              "date": "2026-05-20",
+              "events": 26,
+              "pageviews": 9,
+              "decision_events": 0,
+              "legacy_action_events": 17,
+              "users": 9,
+              "last_seen": "2026-05-20T18:16:44.932000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 1,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 1,
+              "last_seen": "2026-05-21T09:24:52.285000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 5,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 4,
+              "users": 1,
+              "last_seen": "2026-05-22T04:59:29.658000+09:00"
+            },
+            {
+              "date": "2026-05-23",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-24",
+              "events": 2,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 2,
+              "last_seen": "2026-05-24T23:50:12.937000+09:00"
+            },
+            {
+              "date": "2026-05-25",
+              "events": 5,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 4,
+              "users": 1,
+              "last_seen": "2026-05-25T01:54:53.836000+09:00"
+            },
+            {
+              "date": "2026-05-26",
+              "events": 5,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 4,
+              "users": 1,
+              "last_seen": "2026-05-26T11:48:31.973000+09:00"
+            },
+            {
+              "date": "2026-05-27",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-28",
+              "events": 5,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 4,
+              "users": 1,
+              "last_seen": "2026-05-28T02:20:49.902000+09:00"
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 14,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 1,
+          "opportunity_count": 1,
+          "opportunity_impressions": 1,
+          "opportunity_clicks": 0,
+          "top_opportunity": {
+            "page": "https://ethica.neogenesis.app/",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 46,
+            "top_query": "ethica ai"
+          },
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-0GVNYZLEMX"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 81856
+        },
+        "acquisition_model": {
+          "stage": "productize-before-growth",
+          "score": 20,
+          "strategy": [
+            "Productize one practical artifact such as an AI risk checklist or model evaluation worksheet.",
+            "Use research pages for authority, not direct MAU scaling, until activation is measurable."
+          ],
+          "measurement_warnings": []
+        }
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "trusted",
+        "posthog_visitors_7d": 6,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 1,
+        "yesterday_visitors": 0,
+        "visitors_7d": 6,
+        "visitors_prev_7d": 14,
+        "visitors_delta_pct": -0.5714285714285714,
+        "pageviews_7d": 6,
+        "pageviews_prev_7d": 14,
+        "pageviews_delta_pct": -0.5714285714285714,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 0,
+        "decision_delta_pct": null,
+        "decision_rate_7d": 0,
+        "signals": [
+          "traffic_drop"
+        ],
+        "stage": "traffic_drop",
+        "primary_issue": "전주 대비 방문자가 크게 줄었습니다.",
+        "next_action": "EthicaAI의 최근 배포, 색인, 주요 유입 페이지를 확인합니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 11.8,
+        "traffic": 43.9,
+        "conversion": 0,
+        "modeled": 20
+      },
+      "owner_score": 22.9,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "finstack",
+      "name": "FinStack",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://finstack.neogenesis.app",
+      "canonical_host": "finstack.neogenesis.app",
+      "repo_path": "src/sbu/finstack",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "shared_host_filtered",
+          "host_filter": "finstack.neogenesis.app"
+        },
+        "posthog": {
+          "events": 54,
+          "pageviews": 42,
+          "users": 33,
+          "decision_events": 0,
+          "legacy_action_events": 12,
+          "last_seen": "2026-05-28T02:43:43.664000+09:00",
+          "previous_events": 39,
+          "previous_pageviews": 18,
+          "previous_decision_events": 0,
+          "previous_users": 19,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 10,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 7,
+              "users": 4,
+              "last_seen": "2026-05-14T15:50:49.317000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-16",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-17",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-18",
+              "events": 2,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 2,
+              "last_seen": "2026-05-18T23:18:14.695000+09:00"
+            },
+            {
+              "date": "2026-05-19",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-20",
+              "events": 18,
+              "pageviews": 6,
+              "decision_events": 0,
+              "legacy_action_events": 12,
+              "users": 6,
+              "last_seen": "2026-05-20T18:16:21.658000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 10,
+              "pageviews": 8,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 8,
+              "last_seen": "2026-05-21T15:16:39.108000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 6,
+              "pageviews": 4,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 4,
+              "last_seen": "2026-05-22T21:06:30.497000+09:00"
+            },
+            {
+              "date": "2026-05-23",
+              "events": 6,
+              "pageviews": 6,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 6,
+              "last_seen": "2026-05-23T11:32:55.759000+09:00"
+            },
+            {
+              "date": "2026-05-24",
+              "events": 23,
+              "pageviews": 16,
+              "decision_events": 0,
+              "legacy_action_events": 7,
+              "users": 7,
+              "last_seen": "2026-05-24T23:43:19.055000+09:00"
+            },
+            {
+              "date": "2026-05-25",
+              "events": 6,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 3,
+              "users": 4,
+              "last_seen": "2026-05-25T10:53:31.663000+09:00"
+            },
+            {
+              "date": "2026-05-26",
+              "events": 2,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 2,
+              "last_seen": "2026-05-26T22:13:03.054000+09:00"
+            },
+            {
+              "date": "2026-05-27",
+              "events": 9,
+              "pageviews": 9,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 9,
+              "last_seen": "2026-05-27T23:22:57.571000+09:00"
+            },
+            {
+              "date": "2026-05-28",
+              "events": 1,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 1,
+              "last_seen": "2026-05-28T02:43:43.664000+09:00"
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 446,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 0,
+          "opportunity_count": 0,
+          "opportunity_impressions": 0,
+          "opportunity_clicks": 0,
+          "top_opportunity": null,
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-0GVNYZLEMX"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 90712
+        },
+        "acquisition_model": {
+          "stage": "productize-before-growth",
+          "score": 16.5,
+          "strategy": [
+            "Narrow the product promise to Stripe reconciliation, invoice ops, or SaaS finance templates.",
+            "Publish one practical calculator/template before adding more generic finance posts."
+          ],
+          "measurement_warnings": []
+        }
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "degraded",
+        "posthog_visitors_7d": 33,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 1,
+        "yesterday_visitors": 9,
+        "visitors_7d": 33,
+        "visitors_prev_7d": 19,
+        "visitors_delta_pct": 0.7368421052631579,
+        "pageviews_7d": 42,
+        "pageviews_prev_7d": 18,
+        "pageviews_delta_pct": 1.3333333333333333,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 0,
+        "decision_delta_pct": null,
+        "decision_rate_7d": 0,
+        "signals": [
+          "conversion_leak"
+        ],
+        "stage": "conversion_leak",
+        "primary_issue": "방문자는 있지만 성과 이벤트가 없습니다.",
+        "next_action": "FinStack의 상위 유입 페이지에 CTA와 decision event를 심습니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 0,
+        "traffic": 78.1,
+        "conversion": 0,
+        "modeled": 16.5
+      },
+      "owner_score": 31.3,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "aiforge",
+      "name": "AIForge",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://aiforge.neogenesis.app",
+      "canonical_host": "aiforge.neogenesis.app",
+      "repo_path": "src/sbu/aiforge",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "shared_host_filtered",
+          "host_filter": "aiforge.neogenesis.app"
+        },
+        "posthog": {
+          "events": 79,
+          "pageviews": 6,
+          "users": 9,
+          "decision_events": 0,
+          "legacy_action_events": 73,
+          "last_seen": "2026-05-28T10:38:25.907000+09:00",
+          "previous_events": 108,
+          "previous_pageviews": 13,
+          "previous_decision_events": 0,
+          "previous_users": 14,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 11,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 8,
+              "users": 3,
+              "last_seen": "2026-05-14T11:38:23.651000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-16",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-17",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-18",
+              "events": 3,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 1,
+              "last_seen": "2026-05-18T02:16:26.951000+09:00"
+            },
+            {
+              "date": "2026-05-19",
+              "events": 73,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 71,
+              "users": 3,
+              "last_seen": "2026-05-19T15:27:42.722000+09:00"
+            },
+            {
+              "date": "2026-05-20",
+              "events": 18,
+              "pageviews": 6,
+              "decision_events": 0,
+              "legacy_action_events": 12,
+              "users": 6,
+              "last_seen": "2026-05-20T18:16:04.904000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 3,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 1,
+              "last_seen": "2026-05-21T09:23:57.074000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 1,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 1,
+              "last_seen": "2026-05-22T02:21:16.536000+09:00"
+            },
+            {
+              "date": "2026-05-23",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-24",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-25",
+              "events": 36,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 35,
+              "users": 1,
+              "last_seen": "2026-05-25T19:04:50.693000+09:00"
+            },
+            {
+              "date": "2026-05-26",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-27",
+              "events": 41,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 38,
+              "users": 6,
+              "last_seen": "2026-05-27T15:43:04.624000+09:00"
+            },
+            {
+              "date": "2026-05-28",
+              "events": 1,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 1,
+              "last_seen": "2026-05-28T10:38:25.907000+09:00"
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 649,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 0,
+          "opportunity_count": 0,
+          "opportunity_impressions": 0,
+          "opportunity_clicks": 0,
+          "top_opportunity": null,
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-0GVNYZLEMX"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 88913
+        },
+        "acquisition_model": {
+          "stage": "productize-before-growth",
+          "score": 19,
+          "strategy": [
+            "Ship an agent stack selector or evaluation checklist as a tryable tool.",
+            "Distribute through GitHub, AI builder communities, and Product Hunt only after the demo is usable."
+          ],
+          "measurement_warnings": []
+        }
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "trusted",
+        "posthog_visitors_7d": 9,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 1,
+        "yesterday_visitors": 6,
+        "visitors_7d": 9,
+        "visitors_prev_7d": 14,
+        "visitors_delta_pct": -0.35714285714285715,
+        "pageviews_7d": 6,
+        "pageviews_prev_7d": 13,
+        "pageviews_delta_pct": -0.5384615384615384,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 0,
+        "decision_delta_pct": null,
+        "decision_rate_7d": 0,
+        "signals": [
+          "traffic_drop"
+        ],
+        "stage": "traffic_drop",
+        "primary_issue": "전주 대비 방문자가 크게 줄었습니다.",
+        "next_action": "AIForge의 최근 배포, 색인, 주요 유입 페이지를 확인합니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 0,
+        "traffic": 50.4,
+        "conversion": 0,
+        "modeled": 19
+      },
+      "owner_score": 20.2,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "sellkit",
+      "name": "SellKit",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://sellkit.neogenesis.app",
+      "canonical_host": "sellkit.neogenesis.app",
+      "repo_path": "src/sbu/sellkit",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "shared_host_filtered",
+          "host_filter": "sellkit.neogenesis.app"
+        },
+        "posthog": {
+          "events": 6,
+          "pageviews": 4,
+          "users": 6,
+          "decision_events": 0,
+          "legacy_action_events": 2,
+          "last_seen": "2026-05-27T20:06:41.764000+09:00",
+          "previous_events": 12,
+          "previous_pageviews": 10,
+          "previous_decision_events": 0,
+          "previous_users": 12,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 3,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 3,
+              "last_seen": "2026-05-14T11:38:43.456000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-16",
+              "events": 2,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 2,
+              "last_seen": "2026-05-16T12:08:02.816000+09:00"
+            },
+            {
+              "date": "2026-05-17",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-18",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-19",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-20",
+              "events": 6,
+              "pageviews": 6,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 6,
+              "last_seen": "2026-05-20T18:16:27.738000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 2,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 2,
+              "last_seen": "2026-05-21T14:33:17.466000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-23",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-24",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-25",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-26",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-27",
+              "events": 5,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 5,
+              "last_seen": "2026-05-27T20:06:41.764000+09:00"
+            },
+            {
+              "date": "2026-05-28",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 463,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 227,
+          "opportunity_count": 10,
+          "opportunity_impressions": 420,
+          "opportunity_clicks": 0,
+          "top_opportunity": {
+            "page": "https://sellkit.neogenesis.app/alternatives/printful",
+            "impressions": 117,
+            "clicks": 0,
+            "average_position": 74.98,
+            "top_query": "printful alternatives"
+          },
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-0GVNYZLEMX"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 88550
+        },
+        "acquisition_model": {
+          "stage": "productize-before-growth",
+          "score": 13,
+          "strategy": [
+            "Exploit proven GSC intent: Printful alternatives, Stripe pricing, Printful pricing, and Gumroad review.",
+            "Add Stripe fee and POD margin calculators, then seed ecommerce/POD communities with tracked URLs."
+          ],
+          "measurement_warnings": []
+        }
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "trusted",
+        "posthog_visitors_7d": 6,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 0,
+        "yesterday_visitors": 5,
+        "visitors_7d": 6,
+        "visitors_prev_7d": 12,
+        "visitors_delta_pct": -0.5,
+        "pageviews_7d": 4,
+        "pageviews_prev_7d": 10,
+        "pageviews_delta_pct": -0.6,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 0,
+        "decision_delta_pct": null,
+        "decision_rate_7d": 0,
+        "signals": [
+          "traffic_drop"
+        ],
+        "stage": "traffic_drop",
+        "primary_issue": "전주 대비 방문자가 크게 줄었습니다.",
+        "next_action": "SellKit의 최근 배포, 색인, 주요 유입 페이지를 확인합니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 100,
+        "traffic": 42.8,
+        "conversion": 0,
+        "modeled": 13
+      },
+      "owner_score": 62.1,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "deploystack",
+      "name": "DeployStack",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://deploystack.neogenesis.app",
+      "canonical_host": "deploystack.neogenesis.app",
+      "repo_path": "src/sbu/deploystack",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "shared_host_filtered",
+          "host_filter": "deploystack.neogenesis.app"
+        },
+        "posthog": {
+          "events": 43,
+          "pageviews": 11,
+          "users": 17,
+          "decision_events": 0,
+          "legacy_action_events": 32,
+          "last_seen": "2026-05-27T23:14:03.887000+09:00",
+          "previous_events": 59,
+          "previous_pageviews": 19,
+          "previous_decision_events": 0,
+          "previous_users": 27,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 11,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 8,
+              "users": 5,
+              "last_seen": "2026-05-14T18:37:00.969000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 7,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 5,
+              "users": 4,
+              "last_seen": "2026-05-15T23:48:53.856000+09:00"
+            },
+            {
+              "date": "2026-05-16",
+              "events": 5,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 3,
+              "users": 2,
+              "last_seen": "2026-05-16T22:16:40.846000+09:00"
+            },
+            {
+              "date": "2026-05-17",
+              "events": 1,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 1,
+              "last_seen": "2026-05-17T13:00:05.819000+09:00"
+            },
+            {
+              "date": "2026-05-18",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-19",
+              "events": 7,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 5,
+              "users": 4,
+              "last_seen": "2026-05-19T18:33:08.717000+09:00"
+            },
+            {
+              "date": "2026-05-20",
+              "events": 21,
+              "pageviews": 7,
+              "decision_events": 0,
+              "legacy_action_events": 14,
+              "users": 8,
+              "last_seen": "2026-05-20T23:36:02.264000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 10,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 7,
+              "users": 5,
+              "last_seen": "2026-05-21T21:35:18.826000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 12,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 11,
+              "users": 1,
+              "last_seen": "2026-05-22T01:41:01.796000+09:00"
+            },
+            {
+              "date": "2026-05-23",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-24",
+              "events": 1,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 1,
+              "last_seen": "2026-05-24T10:53:31.669000+09:00"
+            },
+            {
+              "date": "2026-05-25",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            },
+            {
+              "date": "2026-05-26",
+              "events": 20,
+              "pageviews": 4,
+              "decision_events": 0,
+              "legacy_action_events": 16,
+              "users": 7,
+              "last_seen": "2026-05-26T11:01:57.722000+09:00"
+            },
+            {
+              "date": "2026-05-27",
+              "events": 7,
+              "pageviews": 4,
+              "decision_events": 0,
+              "legacy_action_events": 3,
+              "users": 6,
+              "last_seen": "2026-05-27T23:14:03.887000+09:00"
+            },
+            {
+              "date": "2026-05-28",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 455,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 1,
+          "opportunity_count": 1,
+          "opportunity_impressions": 1,
+          "opportunity_clicks": 0,
+          "top_opportunity": {
+            "page": "https://deploystack.neogenesis.app/pricing/railway",
+            "impressions": 1,
+            "clicks": 0,
+            "average_position": 3,
+            "top_query": "railway pricing 2026 developer plan"
+          },
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-0GVNYZLEMX"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 89124
+        },
+        "acquisition_model": {
+          "stage": "productize-before-growth",
+          "score": 39,
+          "strategy": [
+            "Ship a CI/CD YAML generator or preview-environment cost checklist.",
+            "Distribute via DEV, GitHub templates, and HN only when the artifact is directly usable."
+          ],
+          "measurement_warnings": []
+        }
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "degraded",
+        "posthog_visitors_7d": 17,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 0,
+        "yesterday_visitors": 6,
+        "visitors_7d": 17,
+        "visitors_prev_7d": 27,
+        "visitors_delta_pct": -0.37037037037037035,
+        "pageviews_7d": 11,
+        "pageviews_prev_7d": 19,
+        "pageviews_delta_pct": -0.42105263157894735,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 0,
+        "decision_delta_pct": null,
+        "decision_rate_7d": 0,
+        "signals": [
+          "traffic_drop"
+        ],
+        "stage": "traffic_drop",
+        "primary_issue": "전주 대비 방문자가 크게 줄었습니다.",
+        "next_action": "DeployStack의 최근 배포, 색인, 주요 유입 페이지를 확인합니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 11.8,
+        "traffic": 62.7,
+        "conversion": 0,
+        "modeled": 39
+      },
+      "owner_score": 30.4,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "craftdesk",
+      "name": "CraftDesk",
+      "status": "active_live",
+      "type": "sbu",
+      "canonical_url": "https://craftdesk.neogenesis.app",
+      "canonical_host": "craftdesk.neogenesis.app",
+      "repo_path": "src/sbu/craftdesk",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "shared_host_filtered",
+          "host_filter": "craftdesk.neogenesis.app"
+        },
+        "posthog": {
+          "events": 36,
+          "pageviews": 25,
+          "users": 34,
+          "decision_events": 0,
+          "legacy_action_events": 11,
+          "last_seen": "2026-05-27T21:44:25.276000+09:00",
+          "previous_events": 110,
+          "previous_pageviews": 38,
+          "previous_decision_events": 0,
+          "previous_users": 51,
+          "daily": [
+            {
+              "date": "2026-05-14",
+              "events": 7,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 5,
+              "users": 3,
+              "last_seen": "2026-05-14T11:38:29.547000+09:00"
+            },
+            {
+              "date": "2026-05-15",
+              "events": 4,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 2,
+              "users": 3,
+              "last_seen": "2026-05-15T19:03:31.907000+09:00"
+            },
+            {
+              "date": "2026-05-16",
+              "events": 39,
+              "pageviews": 5,
+              "decision_events": 0,
+              "legacy_action_events": 34,
+              "users": 6,
+              "last_seen": "2026-05-16T21:08:29.053000+09:00"
+            },
+            {
+              "date": "2026-05-17",
+              "events": 10,
+              "pageviews": 5,
+              "decision_events": 0,
+              "legacy_action_events": 5,
+              "users": 10,
+              "last_seen": "2026-05-17T22:39:22.915000+09:00"
+            },
+            {
+              "date": "2026-05-18",
+              "events": 9,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 6,
+              "users": 2,
+              "last_seen": "2026-05-18T22:32:08.084000+09:00"
+            },
+            {
+              "date": "2026-05-19",
+              "events": 3,
+              "pageviews": 2,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 3,
+              "last_seen": "2026-05-19T21:03:29.950000+09:00"
+            },
+            {
+              "date": "2026-05-20",
+              "events": 32,
+              "pageviews": 16,
+              "decision_events": 0,
+              "legacy_action_events": 16,
+              "users": 20,
+              "last_seen": "2026-05-20T23:43:58.050000+09:00"
+            },
+            {
+              "date": "2026-05-21",
+              "events": 9,
+              "pageviews": 5,
+              "decision_events": 0,
+              "legacy_action_events": 4,
+              "users": 7,
+              "last_seen": "2026-05-21T19:39:14.050000+09:00"
+            },
+            {
+              "date": "2026-05-22",
+              "events": 13,
+              "pageviews": 7,
+              "decision_events": 0,
+              "legacy_action_events": 6,
+              "users": 11,
+              "last_seen": "2026-05-22T22:00:12.753000+09:00"
+            },
+            {
+              "date": "2026-05-23",
+              "events": 7,
+              "pageviews": 4,
+              "decision_events": 0,
+              "legacy_action_events": 3,
+              "users": 7,
+              "last_seen": "2026-05-23T07:41:01.242000+09:00"
+            },
+            {
+              "date": "2026-05-24",
+              "events": 3,
+              "pageviews": 3,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 3,
+              "last_seen": "2026-05-24T17:54:43.545000+09:00"
+            },
+            {
+              "date": "2026-05-25",
+              "events": 1,
+              "pageviews": 1,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 1,
+              "last_seen": "2026-05-25T08:02:53.321000+09:00"
+            },
+            {
+              "date": "2026-05-26",
+              "events": 5,
+              "pageviews": 4,
+              "decision_events": 0,
+              "legacy_action_events": 1,
+              "users": 5,
+              "last_seen": "2026-05-26T22:31:00.155000+09:00"
+            },
+            {
+              "date": "2026-05-27",
+              "events": 4,
+              "pageviews": 4,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 4,
+              "last_seen": "2026-05-27T21:44:25.276000+09:00"
+            },
+            {
+              "date": "2026-05-28",
+              "events": 0,
+              "pageviews": 0,
+              "decision_events": 0,
+              "legacy_action_events": 0,
+              "users": 0,
+              "last_seen": null
+            }
+          ]
+        },
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 509,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 2,
+          "opportunity_count": 1,
+          "opportunity_impressions": 3,
+          "opportunity_clicks": 0,
+          "top_opportunity": {
+            "page": "https://craftdesk.neogenesis.app/blog/uiux-tools-rapid-prototyping",
+            "impressions": 3,
+            "clicks": 0,
+            "average_position": 96.33,
+            "top_query": "rapid prototyping user interface"
+          },
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-0GVNYZLEMX"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 93462
+        },
+        "acquisition_model": {
+          "stage": "distribution-validation",
+          "score": 81,
+          "strategy": [
+            "Publish a Figma Community template or UX rapid-prototyping checklist.",
+            "Create search pages around rapid prototyping, UI review, and design QA workflows."
+          ],
+          "measurement_warnings": [
+            "PostHog shows recent users but GA4 7d is zero; verify property/hostname filtering and data freshness.",
+            "Traffic exists without search opportunity; validate referral/direct source and bot filtering."
+          ]
+        }
+      },
+      "performance": {
+        "primary_source": "posthog",
+        "trust_state": "degraded",
+        "posthog_visitors_7d": 34,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 0,
+        "yesterday_visitors": 4,
+        "visitors_7d": 34,
+        "visitors_prev_7d": 51,
+        "visitors_delta_pct": -0.3333333333333333,
+        "pageviews_7d": 25,
+        "pageviews_prev_7d": 38,
+        "pageviews_delta_pct": -0.34210526315789475,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": 0,
+        "decision_delta_pct": null,
+        "decision_rate_7d": 0,
+        "signals": [
+          "traffic_drop",
+          "conversion_leak"
+        ],
+        "stage": "traffic_drop",
+        "primary_issue": "전주 대비 방문자가 크게 줄었습니다.",
+        "next_action": "CraftDesk의 최근 배포, 색인, 주요 유입 페이지를 확인합니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": true,
+        "posthog_latest": true,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 23.7,
+        "traffic": 76.9,
+        "conversion": 0,
+        "modeled": 81
+      },
+      "owner_score": 41.4,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "heoyesol",
+      "name": "HeoYesol Portfolio",
+      "status": "active_live",
+      "type": "portfolio",
+      "canonical_url": "https://heoyesol.kr",
+      "canonical_host": "heoyesol.kr",
+      "repo_path": "..\\portfolio",
+      "data": {
+        "ga4": {
+          "users_7d": 0,
+          "views_7d": 0,
+          "sessions_7d": 0,
+          "users_28d": 0,
+          "views_28d": 0,
+          "sessions_28d": 0,
+          "users_today": 0,
+          "property_kind": "dedicated",
+          "host_filter": null
+        },
+        "posthog": null,
+        "gsc": {
+          "property_listed": true,
+          "permission": "siteOwner",
+          "sitemap_known": true,
+          "live_sitemap_ok": true,
+          "live_sitemap_status": 200,
+          "live_sitemap_loc_count": 9,
+          "search_analytics_ok": true,
+          "search_analytics_rows": 0,
+          "opportunity_count": 0,
+          "opportunity_impressions": 0,
+          "opportunity_clicks": 0,
+          "top_opportunity": null,
+          "source_generated_at": "2026-05-20T15:46:55+09:00",
+          "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json",
+          "mojibake_samples": []
+        },
+        "live": {
+          "ok": true,
+          "status": 200,
+          "ga4_tag_present": true,
+          "ga4_measurement_ids": [
+            "G-SPPMR6QS9B"
+          ],
+          "posthog_tag_present": true,
+          "html_bytes": 23261
+        },
+        "acquisition_model": null
+      },
+      "performance": {
+        "primary_source": "ga4",
+        "trust_state": "trusted",
+        "posthog_visitors_7d": null,
+        "ga4_visitors_7d": 0,
+        "source_conflict": false,
+        "today_visitors": 0,
+        "yesterday_visitors": null,
+        "visitors_7d": 0,
+        "visitors_prev_7d": null,
+        "visitors_delta_pct": null,
+        "pageviews_7d": 0,
+        "pageviews_prev_7d": null,
+        "pageviews_delta_pct": null,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": null,
+        "decision_delta_pct": null,
+        "decision_rate_7d": null,
+        "signals": [],
+        "stage": "no_traffic",
+        "primary_issue": "최근 방문자 신호가 약합니다.",
+        "next_action": "HeoYesol Portfolio의 배포/인덱싱/유입 경로를 확인합니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": true,
+        "ga4_latest": true,
+        "posthog_mapping": false,
+        "posthog_latest": false,
+        "posthog_explicitly_not_configured": true,
+        "gsc_mapping": true,
+        "gsc_latest": true,
+        "live_sitemap_latest": true
+      },
+      "score_components": {
+        "demand": 0,
+        "traffic": 0,
+        "conversion": 0,
+        "modeled": null
+      },
+      "owner_score": 0,
+      "blocked_by_measurement": false
+    },
+    {
+      "id": "koreanllm",
+      "name": "KoreanLLM",
+      "status": "candidate_decision",
+      "type": "candidate_site",
+      "canonical_url": null,
+      "canonical_host": null,
+      "repo_path": null,
+      "data": {
+        "ga4": null,
+        "posthog": null,
+        "gsc": null,
+        "live": null,
+        "acquisition_model": null
+      },
+      "performance": {
+        "primary_source": "none",
+        "trust_state": "degraded",
+        "posthog_visitors_7d": null,
+        "ga4_visitors_7d": null,
+        "source_conflict": false,
+        "today_visitors": 0,
+        "yesterday_visitors": null,
+        "visitors_7d": 0,
+        "visitors_prev_7d": null,
+        "visitors_delta_pct": null,
+        "pageviews_7d": 0,
+        "pageviews_prev_7d": null,
+        "pageviews_delta_pct": null,
+        "decision_events_7d": 0,
+        "decision_events_prev_7d": null,
+        "decision_delta_pct": null,
+        "decision_rate_7d": null,
+        "signals": [],
+        "stage": "candidate",
+        "primary_issue": "아직 라이브 운영 대상이 아닙니다.",
+        "next_action": "라이브 후보로 유지할지 결정합니다."
+      },
+      "measurement": {
+        "registry": true,
+        "ga4_mapping": false,
+        "ga4_latest": false,
+        "posthog_mapping": false,
+        "posthog_latest": false,
+        "posthog_explicitly_not_configured": false,
+        "gsc_mapping": false,
+        "gsc_latest": false,
+        "live_sitemap_latest": false
+      },
+      "score_components": {
+        "demand": 0,
+        "traffic": 0,
+        "conversion": 0,
+        "modeled": null
+      },
+      "owner_score": 0,
+      "blocked_by_measurement": false
+    }
+  ],
+  "findings": [
+    {
+      "id": "finding_73427bdbd455",
+      "code": "GA4_COLLECTION_LAG_OR_BLOCKED",
+      "severity": "P2",
+      "site_id": "neogenesis",
+      "site_name": "NeoGenesis",
+      "title": "GA4 tag is present but GA4 current-window users are still zero while PostHog has traffic.",
+      "evidence": {
+        "posthog_users_7d": 220,
+        "posthog_pageviews_7d": 216,
+        "ga4_users_7d": 0,
+        "ga4_users_today": 0,
+        "ga4_measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "host_filter": "neogenesis.app"
+      },
+      "recommended_action": "Keep the site visible, then recheck GA4 after data latency; if it remains zero, inspect ad blockers, consent, and duplicate static analytics."
+    },
+    {
+      "id": "finding_4aad68e60b41",
+      "code": "POSTHOG_DECISION_EVENT_ZERO",
+      "severity": "P2",
+      "site_id": "neogenesis",
+      "site_name": "NeoGenesis",
+      "title": "Traffic exists but no allowlisted decision event was captured.",
+      "evidence": {
+        "pageviews": 216,
+        "decision_events": 0
+      },
+      "recommended_action": "Instrument one primary owner decision event for this site before optimizing conversion."
+    },
+    {
+      "id": "finding_13991490b7fa",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "neogenesis",
+      "site_name": "NeoGenesis",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_76c7e354f2c6",
+      "code": "GA4_COLLECTION_LAG_OR_BLOCKED",
+      "severity": "P2",
+      "site_id": "toolpick",
+      "site_name": "ToolPick",
+      "title": "GA4 tag is present but GA4 current-window users are still zero while PostHog has traffic.",
+      "evidence": {
+        "posthog_users_7d": 496,
+        "posthog_pageviews_7d": 503,
+        "ga4_users_7d": 0,
+        "ga4_users_today": 0,
+        "ga4_measurement_ids": [
+          "G-8YRD4KPHZN"
+        ],
+        "host_filter": null
+      },
+      "recommended_action": "Keep the site visible, then recheck GA4 after data latency; if it remains zero, inspect ad blockers, consent, and duplicate static analytics."
+    },
+    {
+      "id": "finding_fe4f391eed61",
+      "code": "POSTHOG_DECISION_EVENT_ZERO",
+      "severity": "P2",
+      "site_id": "toolpick",
+      "site_name": "ToolPick",
+      "title": "Traffic exists but no allowlisted decision event was captured.",
+      "evidence": {
+        "pageviews": 503,
+        "decision_events": 0
+      },
+      "recommended_action": "Instrument one primary owner decision event for this site before optimizing conversion."
+    },
+    {
+      "id": "finding_474fa1d25155",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "toolpick",
+      "site_name": "ToolPick",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_01bb602ea713",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "ur-wrong",
+      "site_name": "UR WRONG",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_44d39a60fa7e",
+      "code": "GA4_COLLECTION_LAG_OR_BLOCKED",
+      "severity": "P2",
+      "site_id": "reviewlab",
+      "site_name": "ReviewLab",
+      "title": "GA4 tag is present but GA4 current-window users are still zero while PostHog has traffic.",
+      "evidence": {
+        "posthog_users_7d": 89,
+        "posthog_pageviews_7d": 95,
+        "ga4_users_7d": 0,
+        "ga4_users_today": 0,
+        "ga4_measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "host_filter": "review.neogenesis.app"
+      },
+      "recommended_action": "Keep the site visible, then recheck GA4 after data latency; if it remains zero, inspect ad blockers, consent, and duplicate static analytics."
+    },
+    {
+      "id": "finding_6088e60e20a6",
+      "code": "POSTHOG_DECISION_EVENT_ZERO",
+      "severity": "P2",
+      "site_id": "reviewlab",
+      "site_name": "ReviewLab",
+      "title": "Traffic exists but no allowlisted decision event was captured.",
+      "evidence": {
+        "pageviews": 95,
+        "decision_events": 0
+      },
+      "recommended_action": "Instrument one primary owner decision event for this site before optimizing conversion."
+    },
+    {
+      "id": "finding_f5c8a64c7a61",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "reviewlab",
+      "site_name": "ReviewLab",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_fb01c6700a6b",
+      "code": "GA4_COLLECTION_LAG_OR_BLOCKED",
+      "severity": "P2",
+      "site_id": "kott",
+      "site_name": "K-OTT",
+      "title": "GA4 tag is present but GA4 current-window users are still zero while PostHog has traffic.",
+      "evidence": {
+        "posthog_users_7d": 32,
+        "posthog_pageviews_7d": 36,
+        "ga4_users_7d": 0,
+        "ga4_users_today": 0,
+        "ga4_measurement_ids": [
+          "G-E8RGGHZG23"
+        ],
+        "host_filter": null
+      },
+      "recommended_action": "Keep the site visible, then recheck GA4 after data latency; if it remains zero, inspect ad blockers, consent, and duplicate static analytics."
+    },
+    {
+      "id": "finding_c0dddb53b4e3",
+      "code": "POSTHOG_DECISION_EVENT_ZERO",
+      "severity": "P2",
+      "site_id": "kott",
+      "site_name": "K-OTT",
+      "title": "Traffic exists but no allowlisted decision event was captured.",
+      "evidence": {
+        "pageviews": 36,
+        "decision_events": 0
+      },
+      "recommended_action": "Instrument one primary owner decision event for this site before optimizing conversion."
+    },
+    {
+      "id": "finding_dbeded5a2c35",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "kott",
+      "site_name": "K-OTT",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_6672af4359f2",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "whylab",
+      "site_name": "WhyLab",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_5eb0318c1ef1",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "ethicaai",
+      "site_name": "EthicaAI",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_859adda63bd0",
+      "code": "GA4_COLLECTION_LAG_OR_BLOCKED",
+      "severity": "P2",
+      "site_id": "finstack",
+      "site_name": "FinStack",
+      "title": "GA4 tag is present but GA4 current-window users are still zero while PostHog has traffic.",
+      "evidence": {
+        "posthog_users_7d": 33,
+        "posthog_pageviews_7d": 42,
+        "ga4_users_7d": 0,
+        "ga4_users_today": 0,
+        "ga4_measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "host_filter": "finstack.neogenesis.app"
+      },
+      "recommended_action": "Keep the site visible, then recheck GA4 after data latency; if it remains zero, inspect ad blockers, consent, and duplicate static analytics."
+    },
+    {
+      "id": "finding_e8500f87e4ed",
+      "code": "POSTHOG_DECISION_EVENT_ZERO",
+      "severity": "P2",
+      "site_id": "finstack",
+      "site_name": "FinStack",
+      "title": "Traffic exists but no allowlisted decision event was captured.",
+      "evidence": {
+        "pageviews": 42,
+        "decision_events": 0
+      },
+      "recommended_action": "Instrument one primary owner decision event for this site before optimizing conversion."
+    },
+    {
+      "id": "finding_8c036e96f12a",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "finstack",
+      "site_name": "FinStack",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_c75794514a5d",
+      "code": "GSC_PARTIAL_DETAIL_DATA",
+      "severity": "P2",
+      "site_id": "finstack",
+      "site_name": "FinStack",
+      "title": "GSC property is available but detailed search rows are empty for the current window.",
+      "evidence": {
+        "property_listed": true,
+        "sitemap_known": true,
+        "search_analytics_rows": 0
+      },
+      "recommended_action": "Keep the site visible, but do not infer that search demand is zero without a wider window."
+    },
+    {
+      "id": "finding_3e8ce29fa891",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "aiforge",
+      "site_name": "AIForge",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_70868f1ec735",
+      "code": "GSC_PARTIAL_DETAIL_DATA",
+      "severity": "P2",
+      "site_id": "aiforge",
+      "site_name": "AIForge",
+      "title": "GSC property is available but detailed search rows are empty for the current window.",
+      "evidence": {
+        "property_listed": true,
+        "sitemap_known": true,
+        "search_analytics_rows": 0
+      },
+      "recommended_action": "Keep the site visible, but do not infer that search demand is zero without a wider window."
+    },
+    {
+      "id": "finding_636cd5adf580",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "sellkit",
+      "site_name": "SellKit",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_1e5aa442ba3b",
+      "code": "GA4_COLLECTION_LAG_OR_BLOCKED",
+      "severity": "P2",
+      "site_id": "deploystack",
+      "site_name": "DeployStack",
+      "title": "GA4 tag is present but GA4 current-window users are still zero while PostHog has traffic.",
+      "evidence": {
+        "posthog_users_7d": 17,
+        "posthog_pageviews_7d": 11,
+        "ga4_users_7d": 0,
+        "ga4_users_today": 0,
+        "ga4_measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "host_filter": "deploystack.neogenesis.app"
+      },
+      "recommended_action": "Keep the site visible, then recheck GA4 after data latency; if it remains zero, inspect ad blockers, consent, and duplicate static analytics."
+    },
+    {
+      "id": "finding_d05a9f400a6c",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "deploystack",
+      "site_name": "DeployStack",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_4a32a01253e3",
+      "code": "GA4_COLLECTION_LAG_OR_BLOCKED",
+      "severity": "P2",
+      "site_id": "craftdesk",
+      "site_name": "CraftDesk",
+      "title": "GA4 tag is present but GA4 current-window users are still zero while PostHog has traffic.",
+      "evidence": {
+        "posthog_users_7d": 34,
+        "posthog_pageviews_7d": 25,
+        "ga4_users_7d": 0,
+        "ga4_users_today": 0,
+        "ga4_measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "host_filter": "craftdesk.neogenesis.app"
+      },
+      "recommended_action": "Keep the site visible, then recheck GA4 after data latency; if it remains zero, inspect ad blockers, consent, and duplicate static analytics."
+    },
+    {
+      "id": "finding_3c79193dfa28",
+      "code": "POSTHOG_DECISION_EVENT_ZERO",
+      "severity": "P2",
+      "site_id": "craftdesk",
+      "site_name": "CraftDesk",
+      "title": "Traffic exists but no allowlisted decision event was captured.",
+      "evidence": {
+        "pageviews": 25,
+        "decision_events": 0
+      },
+      "recommended_action": "Instrument one primary owner decision event for this site before optimizing conversion."
+    },
+    {
+      "id": "finding_2bdf328493c5",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "craftdesk",
+      "site_name": "CraftDesk",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_022d8574ecc1",
+      "code": "POSTHOG_EXPLICITLY_NOT_CONFIGURED",
+      "severity": "P3",
+      "site_id": "heoyesol",
+      "site_name": "HeoYesol Portfolio",
+      "title": "PostHog is explicitly not configured for this site.",
+      "evidence": {
+        "posthog_capture_mode": "not_configured"
+      },
+      "recommended_action": "Use GA4 and GSC for this site unless product behavior analytics becomes necessary."
+    },
+    {
+      "id": "finding_656ab4c2cfca",
+      "code": "GSC_DELAYED_DATA",
+      "severity": "P3",
+      "site_id": "heoyesol",
+      "site_name": "HeoYesol Portfolio",
+      "title": "Search Console data is delayed by design and should not be read as live traffic.",
+      "evidence": {
+        "source_generated_at": "2026-05-20T15:46:55+09:00",
+        "source_path": "data\\sbu-growth\\gsc-all-sbu-latest.json"
+      },
+      "recommended_action": "Use GSC for search demand/opportunity, not same-day live decisions."
+    },
+    {
+      "id": "finding_d94292698174",
+      "code": "GSC_PARTIAL_DETAIL_DATA",
+      "severity": "P2",
+      "site_id": "heoyesol",
+      "site_name": "HeoYesol Portfolio",
+      "title": "GSC property is available but detailed search rows are empty for the current window.",
+      "evidence": {
+        "property_listed": true,
+        "sitemap_known": true,
+        "search_analytics_rows": 0
+      },
+      "recommended_action": "Keep the site visible, but do not infer that search demand is zero without a wider window."
+    },
+    {
+      "id": "finding_dba830242267",
+      "code": "SITE_CANDIDATE_UNDECIDED",
+      "severity": "P3",
+      "site_id": "koreanllm",
+      "site_name": "KoreanLLM",
+      "title": "Candidate site is visible but not counted as active live traffic.",
+      "evidence": {
+        "status": "candidate_decision"
+      },
+      "recommended_action": "Decide whether to promote, exclude, or archive this site."
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_4e1c9199074b",
+      "priority": 3,
+      "impact": 496,
+      "site_id": "toolpick",
+      "site_name": "ToolPick",
+      "action_class": "IMPROVE_CONVERSION",
+      "title": "ToolPick의 상위 유입 페이지에 CTA와 decision event를 심습니다.",
+      "rationale": "496 visitors and 503 pageviews produced 0 decision events in the latest 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_79ab353e9d8a",
+      "priority": 3,
+      "impact": 220,
+      "site_id": "neogenesis",
+      "site_name": "NeoGenesis",
+      "action_class": "IMPROVE_CONVERSION",
+      "title": "NeoGenesis의 상위 유입 페이지에 CTA와 decision event를 심습니다.",
+      "rationale": "220 visitors and 216 pageviews produced 0 decision events in the latest 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_a1941ec69d7d",
+      "priority": 3,
+      "impact": 89,
+      "site_id": "reviewlab",
+      "site_name": "ReviewLab",
+      "action_class": "IMPROVE_CONVERSION",
+      "title": "ReviewLab의 상위 유입 페이지에 CTA와 decision event를 심습니다.",
+      "rationale": "89 visitors and 95 pageviews produced 0 decision events in the latest 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_bd89a17be537",
+      "priority": 3,
+      "impact": 34,
+      "site_id": "craftdesk",
+      "site_name": "CraftDesk",
+      "action_class": "RECOVER_TRAFFIC",
+      "title": "CraftDesk의 최근 배포, 색인, 주요 유입 페이지를 확인합니다.",
+      "rationale": "CraftDesk visitors moved -33.3% versus the previous 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_ae9854f3cccb",
+      "priority": 3,
+      "impact": 34,
+      "site_id": "craftdesk",
+      "site_name": "CraftDesk",
+      "action_class": "IMPROVE_CONVERSION",
+      "title": "CraftDesk의 최근 배포, 색인, 주요 유입 페이지를 확인합니다.",
+      "rationale": "34 visitors and 25 pageviews produced 0 decision events in the latest 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_3c979471b917",
+      "priority": 3,
+      "impact": 33,
+      "site_id": "finstack",
+      "site_name": "FinStack",
+      "action_class": "IMPROVE_CONVERSION",
+      "title": "FinStack의 상위 유입 페이지에 CTA와 decision event를 심습니다.",
+      "rationale": "33 visitors and 42 pageviews produced 0 decision events in the latest 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_cebc064c9afc",
+      "priority": 3,
+      "impact": 32,
+      "site_id": "kott",
+      "site_name": "K-OTT",
+      "action_class": "IMPROVE_CONVERSION",
+      "title": "K-OTT의 상위 유입 페이지에 CTA와 decision event를 심습니다.",
+      "rationale": "32 visitors and 36 pageviews produced 0 decision events in the latest 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_3e33e75d6cb8",
+      "priority": 3,
+      "impact": 17,
+      "site_id": "deploystack",
+      "site_name": "DeployStack",
+      "action_class": "RECOVER_TRAFFIC",
+      "title": "DeployStack의 최근 배포, 색인, 주요 유입 페이지를 확인합니다.",
+      "rationale": "DeployStack visitors moved -37% versus the previous 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_55a978e888b6",
+      "priority": 3,
+      "impact": 9,
+      "site_id": "aiforge",
+      "site_name": "AIForge",
+      "action_class": "RECOVER_TRAFFIC",
+      "title": "AIForge의 최근 배포, 색인, 주요 유입 페이지를 확인합니다.",
+      "rationale": "AIForge visitors moved -35.7% versus the previous 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_4447bb507726",
+      "priority": 3,
+      "impact": 6,
+      "site_id": "ethicaai",
+      "site_name": "EthicaAI",
+      "action_class": "RECOVER_TRAFFIC",
+      "title": "EthicaAI의 최근 배포, 색인, 주요 유입 페이지를 확인합니다.",
+      "rationale": "EthicaAI visitors moved -57.1% versus the previous 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_6a71f5978e1b",
+      "priority": 3,
+      "impact": 6,
+      "site_id": "sellkit",
+      "site_name": "SellKit",
+      "action_class": "RECOVER_TRAFFIC",
+      "title": "SellKit의 최근 배포, 색인, 주요 유입 페이지를 확인합니다.",
+      "rationale": "SellKit visitors moved -50% versus the previous 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_759caebadc4a",
+      "priority": 3,
+      "impact": 5,
+      "site_id": "ur-wrong",
+      "site_name": "UR WRONG",
+      "action_class": "RECOVER_TRAFFIC",
+      "title": "UR WRONG의 최근 배포, 색인, 주요 유입 페이지를 확인합니다.",
+      "rationale": "UR WRONG visitors moved -76.2% versus the previous 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_c467d35681d2",
+      "priority": 3,
+      "impact": 3,
+      "site_id": "whylab",
+      "site_name": "WhyLab",
+      "action_class": "RECOVER_TRAFFIC",
+      "title": "WhyLab의 최근 배포, 색인, 주요 유입 페이지를 확인합니다.",
+      "rationale": "WhyLab visitors moved -66.7% versus the previous 7d window.",
+      "source": "performance"
+    },
+    {
+      "id": "action_339014b05ee9",
+      "priority": 6,
+      "impact": 0,
+      "site_id": "heoyesol",
+      "site_name": "HeoYesol Portfolio",
+      "action_class": "DISTRIBUTION_TEST",
+      "title": "No urgent data issue; run the next distribution test.",
+      "rationale": "The site is visible but lacks a stronger traffic or search opportunity signal in current sources.",
+      "source": "owner_score"
+    }
+  ]
+}

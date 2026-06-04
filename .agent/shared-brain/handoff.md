@@ -1,4 +1,735 @@
-# Handoff: `.agent/` 최적화 마스터 적용 + AI Corpus Citation Week 1 (2026-05-12 최신, Claude Opus 4.7 Strategy Lead)
+# Handoff: Jarvis 단일PC 통합 (ysh→desktop-home WSL2) (2026-05-29, Claude Opus 4.8 Strategy Lead)
+
+---
+
+## 🔴 2026-05-29 Jarvis Phase 1/2 → WSL2 canonical 이관 + ysh 폐기 (Strategy Lead Claude Opus 4.8)
+
+owner "이 pc만 사용해야해" + "울트라코드로 분석→기획→설계→구현→감사".
+
+### 🔴 치명적 발견 (split-brain)
+이번 세션 내내 작업한 Jarvis Phase 1/2 (governor/router/safety) 가 **폐기 예정 ysh-server 컨테이너에만 배포**돼 있었음. owner 텔레그램이 실제로 닿는 **desktop-home WSL2 native sora (`~/sora-live`)** 는 옛 코드 (NO_GOVERNOR). 즉 안전 layer 가 owner 가 쓰는 sora 에 없었음.
+
+### 분석 결과 (확정)
+- 텔레그램 polling = **WSL2 desktop-home** (PID 65414), ysh = 0
+- WSL2 `~/sora-live` = D:repo 의 **깨끗한 옛 ancestor** (sora_engine same=2273/2290, WSL2-only 17줄=전부 옛 버전 함수 / system_tools same=773, WSL2-only 17줄=옛 버전). 유일 보존 가치 = `load_dotenv(override=True)`
+- Windows pc_agent = dead, WSL2 hub :7700 미가동 (device fabric down)
+
+### 실행 (Phase 1+2, 검증 완료)
+1. **3 파일 D:repo → WSL2 배포** (`command_governor.py` 신규 + `system_tools.py` + `sora_engine.py`), override=True 보존, 백업 `~/sora-live/.jarvis-backup-pre-mig/`
+2. **WSL2 daemon 재기동** — 런처 `infra/agent-runtime/sora-desktop/start_sora.sh` (특정 패턴 kill, pkill-self-match 회피). 새 brain PID 65414, telegram 재연결
+3. **검증 (WSL2 직접)**: TOOLS 37 / confirm 미노출 / status·audit 도구 ✅ / governor 14패턴 / rm-rf→WARN(API 전 차단) / 민감경로 write→WARN / vercel→WARN
+4. **ysh sora-live STOP** (`Exited 137`, container 보존=롤백) + ysh jarvis-audit cron 제거
+5. **telegram 단일 poller = WSL2** (split-brain 해소)
+6. D:repo override=True 정합 (SSOT)
+
+### ✅ Phase 3 완료 (2026-05-29) — WSL interop 단일PC 아키텍처
+device fabric (hub/agent/token) **전부 제거**, WSL2 sora → `powershell.exe` 직접 interop 으로 전환.
+- `system_tools.py`: `_LOCAL_EXEC` 플래그 + `_local_powershell` + `_device_call` dispatcher. 전 device 도구 경유. governor 게이트 유지
+- WSL2 `.env` + `start_sora.sh`: `JARVIS_LOCAL_EXEC=1`
+- **brain e2e 검증**: "집 pc에서 whoami 해줘" → `yesol` (실제 실행) / "rm -rf" → governor WARN / status → 실제 Win11 26GB/434GB. 단위 16/16 PASS
+- 영구화: `Startup/sora_daemon.vbs` → `start_sora_wsl.bat` → 로그온 시 WSL2 sora 기동 (검증 PID 71186). 옛 agent vbs 제거
+- 토폴로지: 텔레그램 → WSL2 sora(governor+router) → powershell.exe. hub/agent/token 0
+
+### ✅ 분석 도구 + 100선 검증 (2026-05-29 추가)
+- owner 명령 100선 박제: `.agent/knowledge/20260529_JARVIS_OWNER_COMMANDS_100.md`
+- 라이브 검증: 8 카테고리 ✅ (device/SBU헬스6-6/git/gitleaks/온톨로지/jarvis/캘린더토큰)
+- **버그 2건 수정**: governor `format` false-positive (Get-Date -Format/Format-Table 오WARN, 17/17 테스트) + GA4 Windows경로
+- **분석 brain 도구 신규** `analytics_tools.py` (GA4 트래픽 REST/JWT + PostHog HogQL) → ALL_TOOLS 110개. brain e2e 라이브: "toolpick 방문자" 478명 / "SBU요약" / "PostHog DAU" 152명 — Gemini 라우팅 + 실데이터 ✅
+- 잔존갭 "전부 진행": ✅ 주간보고(get_weekly_report) / claude·codex 위임(WSL interop, "2+2"→"4") / web_search(무키 DDG, GPT-5→4건) / gmail·RAG 검증 완료. 🔴 calendar+GSC = owner OAuth(브라우저) 필요 = 자율 불가
+
+### 잔존 (defer, 비핵심)
+- secondary 도구(claude_run/docker/git_status/web_*/screenshot) 로컬 번역 미구현 (필요 시)
+- 진짜 boot-without-login 영구화 (Task Scheduler+admin, owner 선택)
+- audit 로그 회전 (WSL2 — 텍스트 로그, 느린 성장)
+
+### 롤백
+- WSL2 코드: `cp ~/sora-live/.jarvis-backup-pre-mig/src/core/{sora_engine.py,tools/system_tools.py} ~/sora-live/src/core/...` + `~/sora-live/start_sora.sh`
+- ysh 복구: `ssh ysh-server "docker start sora-live"` (단 telegram 충돌 주의 — WSL2 먼저 stop)
+
+### 박제
+- 마스터: `.agent/knowledge/20260520_JARVIS_ARCHITECTURE_v1.md` §13 (이관)
+- 거버넌스: memory `project_jarvis_governance.md` (warn-then-obey)
+
+👤 Strategy Lead Claude Opus 4.8
+
+---
+
+# Handoff: 온톨로지 무결성 100% 완성 + sora 이관 (2026-05-29, Claude Opus 4.7 Strategy Lead)
+
+---
+
+## 🟢 2026-05-29 온톨로지 "완벽하게" — 무결성 100% 완성 (Strategy Lead Claude Opus 4.7)
+
+owner "온톨로지만 완벽하게 하면돼 너는" → grill cold recheck 4회 → 실 구멍 2개 메움 → **양 층 무결성 100% 완성**.
+
+### 즉시 상태 (다음 세션 확인)
+- **node provenance**: meta 320/320 + biz 219/219 = **0 none** (전 노드 출처 추적)
+- **edge provenance**: meta 268/268 + biz 163/163 = **0 none**
+- **markings**: 양 층 0 none (personal-forbidden 0)
+- **게이트**: validate 6 P0 + 양 층 coverage(100%) PASS / 메타 competency 20/20 / biz 12/12
+- **Device 6** (desktop-home online=True 정정 / vercel-edge / asus·etribe·heejin·ysh offline) / **Service 5** (frontend 3→vercel deployed_to + sora-native·ontology-cron→desktop-home)
+
+### 이 세션 메운 2 구멍 (grill 성과)
+1. **desktop online drift** — extract line 1159 conservative False 하드코딩 → device_inventory online 명시 + `dev.get("online")` 반영 → desktop=True 정정
+2. **auto_record self-record provenance** — 런타임 dispatcher_route ActionRun provenance 누락 → `auto_record.py` 에 observed_from_live_source + markings 추가 (미래 보장) + 기존 2개 patch
+
+### 완성 판정 (critic "구축 완료" 조건)
+P0-1~12 전부 적용 + 무결성 100% + false-temptation 0 + leaf/business 미완 정직 유지 = **"완료"가 거짓이 아닌 상태**. "완전무결"(전 노드 연결·전 데이터 live)은 anti-goal(Cyc) — 추구 안 함. 달성 = 신뢰성(거짓0/출처100%/자가검증/회귀방지).
+
+### 정직한 잔존 (안 채움 = 무결성 원칙)
+- 고립: meta Task27/Revision20/Project14/Reflection11 + biz ContentCorpus23/Capability13/Workflow13 등 = **leaf 정합 + business-dependent(pre-revenue $0)**. 억지 edge = 거짓 → 금지.
+- financial_ledger feed: 실 매출 $0 라 연결 보류 (pre-revenue 정합).
+
+### 롤백
+`git checkout scripts/ontology/{extract_minimal.py,auto_record.py} .agent/shared-brain/device_inventory.json .agent/ontology/nodes.jsonl`
+
+👤 Strategy Lead Claude Opus 4.7 (온톨로지 무결성 100% 완성 — node/edge/markings 양 층 0 none)
+
+---
+
+## 🔴 2026-05-29 sora ysh-server → desktop-home 이관 (cutover 완료, 영구화 미완)
+
+owner: "ysh-server 이제 운영 못함" → sora 를 desktop-home 으로 이관 필수.
+
+### 즉시 상태 (다음 세션 입장 시 확인)
+- **sora-live = desktop-home WSL2 native python** (Docker 아님). 위치 `~/sora-live` (WSL root).
+  - daemon: `cd ~/sora-live && venv/bin/python neo_genesis_daemon.py` (TELEGRAM_POLLING=1)
+  - `/app` → `~/sora-live` 심링크 필수 (컨테이너 경로 하드코딩 해결)
+  - `.env` = neo-genesis/.env 복사 + OLLAMA_HOST=localhost:11434
+  - secrets = `~/sora-live/secrets` (15파일)
+- ysh-server sora-live = **stopped** (rollback 안전망, 며칠 유지 후 폐기)
+- 검증됨: telegram ESTAB 2 (polling) + sora_engine 직접호출 한국어 응답 (Gemini 폴백)
+
+### 🔴 다음 세션 즉시 (P0)
+1. **sora 영구화** — 현재 nohup polling = **PC 재부팅/WSL 종료 시 죽음**. Windows Task Scheduler 부팅 자동 기동 등록 (ontology cron 패턴): `wsl.exe -- bash -lc "cd /root/sora-live && venv/bin/python neo_genesis_daemon.py"`. 안 하면 재부팅 후 sora 다운.
+2. **sora 생존 확인** — `wsl.exe -- bash -lc "pgrep -fc neo_genesis_daemon"` (0 이면 재기동)
+3. LocalLLM 경로 fix (litellm:4400 미가동 → ollama 직접 또는 비활성, 현 Gemini 폴백 동작)
+4. sora 위치인식 갱신 ("NEO GENESIS 서버" → desktop, owner_facts/context)
+5. ysh sora-live 폐기 (cutover 안정 확인 후)
+
+### rollback (sora 복구 1줄)
+`ssh ysh-server "docker start sora-live"` + `wsl.exe -- bash -lc "pkill -f neo_genesis_daemon"`
+
+### 상세
+- active-tasks.md 후속9 (sora 이관 + ultracode 온톨로지 critic P0)
+
+👤 Strategy Lead Claude Opus 4.7
+
+---
+
+# Handoff: Jarvis 안전 layer 라이브 배포 (2026-05-20, Claude Opus 4.7 Strategy Lead)
+
+---
+
+## 🟢 2026-05-20 Jarvis (텔레그램→전 디바이스) 안전 layer 라이브 (Strategy Lead Claude Opus 4.7)
+
+owner "내가 텔레그램 채팅 하나 → 모든 디바이스 제어 자비스 구축" → 거버넌스 확정 → "권고대로 진행".
+
+### 핵심 발견 — 자비스는 70% 이미 지어져 있었음
+- `src/core/pc_agent/hub.py` = PC Agent Hub (WebSocket fabric), ysh-server :7700 **라이브 가동**
+- `system_tools.py`의 `remote_pc_command`/`remote_batch_exec`/`remote_claude_run` 등이 `ALL_TOOLS`로 sora(Gemini)에 이미 등록 → sora가 연결된 PC에 임의 명령 가능했음
+- PC 에이전트 = 멍청한 실행기 (shell=True, allowlist 0) → **안전은 sora 브레인에만 가능**
+
+### 거버넌스 (owner 확정) — warn-then-obey
+memory `project_jarvis_governance.md` 정본. 위험 명령 → 자동차단 X, "왜 위험+권고" 설명 → owner "진행" → 무조건 실행(예외 0). 일반 → 즉시. 전 명령 감사.
+
+### Phase 1 진행
+| # | 작업 | 상태 |
+|---|---|---|
+| 1 | 안전 layer (warn-then-obey governor + 감사) @ sora | ✅ **LIVE** |
+| 2 | 텔레그램 owner chat_id allowlist | ✅ 이미 적용 (NEO_ALERT_CHAT_ID=1566967334) |
+| 3 | PC 에이전트 → 이 PC + 회사PC 배포 | ⏸️ 다음 |
+| 4 | sora 도구 배선 e2e 데모 | ⏸️ 다음 |
+
+### 안전 layer 산출 (LIVE 배포)
+- `src/core/security/command_governor.py` (신규) — classify_risk(11패턴) + audit(JSONL) + stage/take_pending(TTL 600s)
+- `src/core/tools/system_tools.py` (수정) — remote_pc_command + remote_batch_exec governor 게이트 + `confirm_pending_command` 신규 도구
+- 감사: `/app/logs/jarvis_audit.jsonl` (bind-mount, 재시작 생존)
+- 배포: 소스 SSOT 보존 + docker cp + sora-live restart
+- 검증: 컨테이너 내 분류 OK, confirm_pending_command ∈ TOOLS(31), e2e PASS
+
+### 다음 세션 (Strategy Lead 자율 가능)
+1. **PC 에이전트 이 PC(desktop-home) 배포** — `scripts/install_pc_agent.ps1`, 허브 ws://100.67.221.25:7700 (도달 확인됨), PC_AGENT_TOKEN(credentials.env). 안전 layer 깔렸으니 fan-out OK
+2. 회사PC(etribe-yesol) 배포 — ssh auth 과거 차단됨, owner 경로 열어야
+3. sora 도구 e2e: "텔레그램 → 디바이스 status/read" 데모
+4. (선택) governor 위험 패턴 확장 + audit 로그 주간 리뷰
+
+### 상세
+- 마스터: `.agent/knowledge/20260520_JARVIS_ARCHITECTURE_v1.md` (§8 진행, §9 안전 layer 구현)
+- 거버넌스 룰: memory `project_jarvis_governance.md`
+
+👤 Strategy Lead Claude Opus 4.7
+
+---
+
+# Handoff: 에이전트 가독성(robots/agent-API) 변경 — 배포 대기 (2026-05-20, Claude Opus 4.7 Strategy Lead)
+
+---
+
+## 🟢 2026-05-20 에이전트 가독성 batch — 배포 대기 (작업 에이전트 수거 또는 다음 정기배포)
+
+owner 흐름: "구글 클릭경제 종말" 기사 논의 → "그래서 어떻게" → "진행해" ×N → "봇차단 자율판단" → "다음 정기배포에 태우거나 작업중인 에이전트들이 확인 후 태우게 해줘". **owner 명시: 본 세션 배포 금지. 작업 에이전트 검증 후 또는 다음 정기배포에 포함.**
+
+### 배경
+에이전트 시대 = 사이트가 "API로 읽히지 못하면 존재하지 않음". 11 SBU 에이전트 가독성 실측 점검표 박제: `.agent/knowledge/20260520_AGENT_READABILITY_AUDIT_v1.md`.
+
+### 변경 인벤토리 (각 SBU 독립 git repo, **미배포** — 작업 에이전트 검증 후 commit/push/deploy)
+| repo (Yesol-Pilot) | 파일 | 변경 | git 상태(2026-05-20) |
+|---|---|---|---|
+| kott | `frontend/src/app/robots.ts` | AI봇 9종 명시 허용 (generic-only였음) | **M (uncommitted)** |
+| https-ur-wrong.com- | `public/robots.txt` | AI봇 9종 그룹 + llms.txt 포인터 | **M (uncommitted)** |
+| https-www.toolpick.dev- | `src/app/(service)/api/tools/route.ts` | **신규 에이전트 질의 API** (Tier 2 PoC, tsc PASS) | **?? (untracked)** |
+| {aiforge,craftdesk,deploystack,finstack,sellkit} | `src/app/robots.ts` (루트=라이브) | OAI-SearchBot+CCBot 2종 보강 | sellkit 반영됨 / 4개 일부 |
+| {aiforge,craftdesk,deploystack,finstack} | `src/app/(service)/robots.ts` (죽은 중복) | 삭제 (spawn cleanup task) | **D (uncommitted)** — 작업 에이전트 진행 중 |
+| quant-poc-multi-asset | `apps/live-dashboard/src/app/robots.ts` | AI봇 9종 명시 허용 | 반영됨 (clean) |
+
+### ⚠️ 동시 작업 충돌 회피 (cold honest)
+- 본 세션 편집 후 **다른 작업 에이전트가 일부 repo 이미 수거** (sellkit/quant clean=커밋됨, aiforge등 (service) 중복 삭제 진행). 그래서 본 세션은 **커밋/푸시/배포 안 함** (충돌 회피 + owner "작업 에이전트가 태우게" 지시 정합).
+- **작업 에이전트 / 다음 정기배포 할 일**: 위 uncommitted(M/??/D) 변경 검증 → 각 repo commit → Vercel deploy. 배포 후 라이브 확인: `curl https://www.toolpick.dev/api/tools?category=project-management&free=true` (200+JSON), kott/ur-wrong/quant `robots.txt` GPTBot/ClaudeBot Allow 확인.
+
+### heoyesol.kr 봇차단 — G1 자율판단 = 차단 유지 (변경 0)
+- 라이브 차단은 repo 아님 = **Cloudflare Content Signals Managed robots.txt** (`search=yes,ai-train=no` + ClaudeBot/GPTBot/Google-Extended 등 Disallow). repo 편집 무효.
+- 결정: 유지 (개인 브랜드 HQ, SEO는 `search=yes`로 정상, AI 학습만 차단=합당). reversal=Cloudflare zone "Content Signals only(ai-input=yes)" 토글 (owner 원할 때).
+
+### Reversibility
+- 각 robots: `git checkout <file>`. toolpick api/tools: 파일 삭제. 전부 additive·독립.
+
+👤 Strategy Lead Claude Opus 4.7 (배포 대기 핸드오프, 커밋/배포 안 함)
+
+---
+
+## 🟢 2026-05-20 Hermes SBU sitemap cron → ysh-server 이관 (Strategy Lead Claude Opus 4.7)
+
+owner "에르메스 구조 완벽하게 설정됐어?" → 라이브 grill → "진행해" (시나리오 A: always-on 머신 이관).
+
+### 🔴 grill 핵심 발견 — WSL2 PoC는 false-pass였음
+- WSL2 `sbu_sitemap_check.sh` 의 모든 `$변수`가 작성 시 stripping됨 (`for url in ""`, `http_code=000000`, `if (( 0 > 0 ))`) → **0개 사이트 검사하고 무조건 silent exit 0**. 5/18·5/20 "ok"는 SBU 헬스와 무관한 가짜 통과.
+- WSL2 cron 5/19 fire **누락** (grace 7200s 초과, fast-forward) — WSL2가 항상 켜져있지 않아 정시 보장 불가.
+- WSL2 gateway 5/20 09:14 비정상 종료 → systemd 자동 재복구 (PID 9642→284). gateway는 `No messaging platforms enabled` = idle. 실 알림은 cron script 내부 NEO_ALERT_BOT curl이 직접 전송 (gateway 무관).
+
+### 이관 결과 (always-on ysh-server)
+- 신규 스크립트: `ysh-server:/home/ysh/cron-scripts/sbu_sitemap_check.sh` (올바른 bash, creds는 `/home/ysh/.neo-genesis/credentials.env`에서 sourcing, 하드코딩 제거)
+- crontab: `0 9 * * * /home/ysh/cron-scripts/sbu_sitemap_check.sh >> /home/ysh/cron-scripts/sbu-sitemap.log 2>&1` (TZ=KST 확인)
+- **라이브 검증: 실제 11/11 sites 200 OK** (WSL2 false-pass와 대조 — 진짜 검사)
+- WSL2 Hermes cron `74688f4e4b64` 제거 완료 (중복 방지). Hermes 설치 자체는 보존 (sunk cost).
+
+### 잔존 / 다음 세션
+- 첫 실 cron fire = 2026-05-21 09:00 KST (수동 실행만 검증, 실 트리거는 미관측 — inherent)
+- WSL2 Hermes gateway idle 상태 유지 (Phase 1 PoC 인프라 보존). owner가 Hermes 전면 폐기 원하면 handoff 하단 reversibility 명령
+- Stop/Go Gate(5/24) 재정의: 측정 대상이 WSL2 Hermes → ysh-server crontab로 변경됨. always-on이라 7/7 fire 신뢰성 회복
+- NEO_ALERT_BOT_TOKEN은 credentials.env에서 sourcing (CREDENTIAL_BIBLE 7-bot inventory 기등재)
+
+### Reversibility
+```bash
+# ysh-server cron 제거
+ssh ysh-server "crontab -l | grep -v sbu_sitemap_check | crontab - && rm -f /home/ysh/cron-scripts/sbu_sitemap_check.sh"
+# WSL2 Hermes cron 복원 (원하면)
+wsl.exe bash -lc "/usr/local/bin/hermes cron create ..."
+```
+
+👤 Strategy Lead Claude Opus 4.7
+
+---
+
+# Handoff: P0 INCIDENT 71357012 Disk Cleanup Closure (2026-05-18 오후, Claude Opus 4.7 Strategy Lead)
+
+---
+
+## 🟢 2026-05-18 (오후) P0 INCIDENT 71357012 — Disk Cleanup Closure (Strategy Lead Claude Opus 4.7)
+
+owner 명령 "이번세션에서 전부 진행해" → 7 평문 키 중 디스크 제거 가능한 4건 자율 처리 완료. G2 영향 (production / force push / 외부 회전) 5건은 보류.
+
+### 즉시 상태
+- ✅ ANTHROPIC sk-ant-api03 / OPENAI sk-proj / X API quartet — ur-wrong `.env*.production` 4 variants placeholder
+- ✅ ② portfolio `app.js:493` — `window.LOCAL_GEMINI_KEY` 패턴
+- ✅ ③ portfolio `test_ai_direct.js:4` — `process.env.GEMINI_API_KEY` + dotenv
+- ✅ `GOCSPX-` CREDENTIAL_BIBLE.md:231 — `<REDACTED:incident-71357012>`
+- ✅ gitleaks scaffold — `neo-genesis/.gitleaks.toml` (8 rules)
+- ✅ R3 위반 자기 박제 (chat leak SUPABASE_SERVICE_KEY + SA private_key + VERCEL_OIDC)
+- ⏸️ G2 보류 5건 — 다음 세션 owner 결정 게이트
+
+### 다음 세션 즉시 액션 (G2 결정 필요)
+1. **SUPABASE_SERVICE_KEY 회전** (Dashboard, 본 세션 chat leak 잔존 권고 강도 중간-높음)
+2. **GEMINI 새 키 application restriction** (GCP Console, battlefield 재발 방지 P0)
+3. **ur-wrong Vercel env vars swap** (VERCEL_TOKEN production 직접 변경)
+4. **portfolio + multiverse BFG history rewrite** (force push, 다른 클론 영향)
+5. **X API quartet 회전** (Twitter Dev Portal)
+
+### Strategy Lead 자율 가능 (G1)
+- Hermes Phase 1 PoC 자동 fire 모니터링 (5/19~05-24, 7회)
+- 다른 device (ASUS / 회사 PC / Mac Studio) 잔존 키 sweep — Tailscale 접근 가능 device 부터
+- Phase 2 anchor 진입 검토 (Stop/Go Gate 5/24)
+
+### 박제 위치
+- 마스터: `.agent/knowledge/20260518_P0_INCIDENT_71357012_KEY_ROTATION.md` (7 키 처분 매트릭스 + chat leak 인정 + G2 5건 + Reversibility + gitleaks scaffold)
+- active-tasks: 본 closure entry 최상단
+
+👤 Strategy Lead Claude Opus 4.7
+
+---
+
+## 🔴 2026-05-18 Gemini API key 'battlefield' Compromise — INCIDENT ACTIVE (Strategy Lead Claude Opus 4.7)
+
+owner 입장 시 즉시 확인 — `active-tasks.md` 의 P0 INCIDENT entry 가 마스터. 본 entry 는 next-session immediate-action 만 박제.
+
+### 즉시 상태
+- **유출 키**: `battlefield` (UID f569ce52-..., GCP project gen-lang-client-0976754248) — 2026-05-18 01:44 UTC delete 완료
+- **abuse 결과**: KRW 849,405 (settled 50만 + outstanding 21만)
+- **owner mitigation**: 동 프로젝트 11개 key 전수 삭제 + API 비활성화 완료
+- **Google Support 케이스**: **`71357012`** (상담원 Batthula, 2026-05-18 11:02~12:00 KST, escalation 완료, 3-5 영업일 내 이메일 통보)
+- **Outcome ETA**: 2026-05-21 ~ 2026-05-23 KST (email)
+- **Outstanding KRW 212,623**: 자동 collection 시스템 → manual hold 불가 → owner 결제 수단 보호 권고
+- **Strategy Lead 가이드**: 환불 dispute 4 시나리오 템플릿 owner 에 제공 (active-tasks P0 INCIDENT entry 참조)
+
+### 추가 발견 평문 키 6개 (next session P0)
+| # | 키 앞 | 위치 | risk |
+|---|---|---|---|
+| ② AIzaSyDLD0He | portfolio/public/resume/app.js (tracked) | private repo |
+| ③ AIzaSyAcfKsm | portfolio/test_ai_direct.js + run_safe.ps1 + .env history | private repo + history |
+| ④ AIzaSyCAHlQZ | portfolio/.env git history (commit cb9cb8b) | history embedded |
+| ⑤ **AIzaSyCmhzpPw** | portfolio/.env **현재값** | active local |
+| ⑥ AIzaSyAg4uO1 | multiverse firebase_config (tracked) | private game repo |
+| ⑦ **AIzaSyDMhmZf** | **ur-wrong/.env.production (현재 production 활성)** | **immediate production impact if revoked without swap** |
+
+### 다음 세션 즉시 액션 (Strategy Lead 자율 가능)
+1. ur-wrong Vercel project env vars 직접 fetch (VERCEL_TOKEN) → ⑦ 키 신규 발급 + 무중단 swap (가장 critical)
+2. ② ③ ④ ⑤ portfolio repo 평문 키 placeholder 치환
+3. ⑥ multiverse firebase API key — GCP Console 에서 Generative Language API enable 여부 확인 (안 됐으면 보존, 됐으면 분리 key)
+4. pre-commit secret scanning hook (`detect-secrets` or `gitleaks`) 설치
+5. CREDENTIAL_BIBLE.md 본문 평문 노출 (GOOGLE_CLIENT_SECRET line 231 부근) 정리
+6. portfolio + game repo BFG history rewrite 의사결정 (owner G2)
+7. 다른 디바이스 (ASUS / 회사 PC / Mac Studio) 동일 옛 키 잔존 sweep
+
+### Pending verification
+- Google Support 케이스 환불 결과 (24~72h)
+- ssotRevision bump (`python scripts/sync_agent_context.py --updated-by claude`) — 다음 세션 진입 시 실행
+- 다른 device 의 잔존 옛 key 점검 결과
+
+### 박제 위치
+- 마스터: `.agent/shared-brain/active-tasks.md` (P0 INCIDENT entry, 본 세션 최상단)
+- 이 entry: `.agent/shared-brain/handoff.md`
+- 다음 세션: `CREDENTIAL_BIBLE.md` 에 incident table 추가 + 7 평문 키 inventory 갱신 권고
+
+👤 Strategy Lead Claude Opus 4.7 (P0 인시던트, 환불 채팅 라이브 진행 중)
+
+---
+
+## 🟢 2026-05-18 Hermes Phase 1 PoC 라이브 + false alarm 정정 (Strategy Lead Claude Opus 4.7)
+
+### Phase 1 PoC 상태
+- **Job `74688f4e4b64`** — SBU 11 daily sitemap check
+- **2026-05-18T09:00:14 KST 첫 fire = ok** (silent stdout = 11/11 SBU 정상)
+- Next run: 2026-05-19T09:00:00+09:00
+- Gateway: user systemd active (PID 9642, Linger enabled)
+- Stop/Go Gate: 2026-05-24 (7회 fire + sora 무영향 + 텔레그램 알림 정확 도달)
+
+### Hermes 활용 패턴 확정 (owner 통찰)
+- owner = 명령 / Claude = Hermes 활용 / Hermes = 운영 백엔드 / Codex/Claude CLI = worker
+- owner 직접 Hermes 안 만짐. Claude 가 cron / skill / subprocess 활용
+- 본 세션의 SBU 헬스 cron 도 Claude 가 등록
+
+### 본 세션 cold honest 정정 (false alarm 박제)
+- 본 세션 중 `.env.production` grep redact 부족 → `GOOGLE_SA_KEY_JSON` chat 노출 (내 실수)
+- 추정: "SA 가 어제 abuse vector 일 가능성"
+- owner Cloud Logging 검증: abuse vector = API key `battlefield` 단독. SA caller 아님
+- chat 노출 SA key = 이미 USER_MANAGED 0개 상태 = effective harm 0
+- Strategy Lead 룰 5건 강화 박제 (`.agent/knowledge/20260517_HERMES_WSL2_POC_STAGE0_v1.md` 참조)
+
+### 분업 확정 (sora 보존 + Hermes 외주화)
+- sora 유지: Telegram 7봇 polling / 한국어 fastpath / owner_facts / Multi-LLM fallback / Secret redact / 한국어 어시
+- sora 강화 anchor: Local LLM (LL-1 anti-virus exception 해소 후, owner 30분 별도 task)
+- Hermes 외주화: Health/cron / chaos drill / PIPA / SBU 배포 모니터 / 코드 자동화 / Codex 위임 / Claude 위임
+
+### 다음 세션 immediate-action (Strategy Lead 자율 가능)
+1. **Hermes cron 첫 주 측정** (2026-05-19~05-24 자동 fire 결과 모니터)
+2. **Phase 2 anchor 진입 검토** (Stop/Go Gate PASS 시):
+   - sora-watchdog 6h cycle → Hermes cron 이관
+   - chaos drill v1 → Hermes cron
+   - PIPA cron → Hermes cron
+   - SBU 11 배포 status 모니터 (Vercel API)
+   - Strategy Lead weekly report 자동화 (git log + Supabase + GSC 종합)
+3. **본 세션 박제 ssotRevision bump** (`python scripts/sync_agent_context.py --updated-by claude`)
+
+### Reversibility (Hermes 전체 폐기 1줄 명령)
+```bash
+wsl.exe bash -lc "hermes cron remove 74688f4e4b64; hermes gateway stop; systemctl --user disable --now hermes-gateway.service; rm -rf /root/.hermes /usr/local/lib/hermes-agent /usr/local/bin/hermes ~/.local/bin/{uv,uvx}; cp /root/.bashrc.bak-pre-hermes-20260517 /root/.bashrc"
+```
+
+sora-live (ysh-server) 무영향. 본 세션 작업 전체 reversible.
+
+### 박제 위치
+- 상세: `.agent/knowledge/20260517_HERMES_WSL2_POC_STAGE0_v1.md` (Stage 1 closure + false alarm 정정 + 룰 5건)
+- 마스터: `.agent/shared-brain/active-tasks.md` (Phase 1 PoC entry)
+- 이 entry: `.agent/shared-brain/handoff.md`
+
+👤 Strategy Lead Claude Opus 4.7 (Hermes Phase 1 PoC 첫 fire 성공 + false alarm 인정)
+
+---
+
+# Handoff: koreanllm.org AO-1 Migration (yesol-asus → desktop-home) (2026-05-14, Claude Opus 4.7 Strategy Lead)
+
+---
+
+## 🟢 2026-05-14 koreanllm.org AO-1 Migration from yesol-asus (Strategy Lead Claude Opus 4.7)
+
+owner 명령 흐름:
+1. "아수스에서 진행중인 신규 프로젝트 확인해봐" — 1차 probe (C: 만 스캔 → 급여명세서 정리 추정 오답)
+2. "이건 못봤어?" + Cloudflare 19/19 PASS scripting bug 정정 + P10-1 발견 paste — **owner가 ASUS B 드라이브 누락 직접 지적**
+3. B 드라이브 본진 발견 (`B:\agents\` 워크스페이스, koreanllm.org AO-1 SBU 본진)
+4. "이 PC로 마이그레이션할거야" — 마이그레이션 G1 자율 실행
+
+### 결론 — 마이그레이션 완료, 64/64 SHA-256 PASS
+- **Source**: `yesol-asus` `B:\agents\` (Tailscale `100.106.84.87`, 2026-05-13 신설 워크스페이스)
+- **Target**: `D:\00.test\002.products-sbu\009.koreanllm\` (numbered bucket 정책, CLAUDE.md §9 정합)
+- **Payload**: 64 files / 984.3 KB zip / SHA-256 매니페스트 64/64 PASS
+- **Method**: ssh + Compress-Archive + scp (Tailscale 직결), atomic transfer
+
+### Cold honest — 직전 turn 누락 인정
+1차 probe에서 `B:\` 드라이브를 안 스캔 (USERPROFILE C: 만 봄, D: 만 체크). 결과: 급여명세서 PDF unlock 정리를 "신규 프로젝트"로 잘못 보고. owner가 paste한 P10-1 / Cloudflare 토큰 사안 가지고 직접 지적 후 B 드라이브 발견 — `B:\agents\docs\` 안에 Phase 1-9 36 deep research outputs (~287K 단어, ~15M 토큰 누적) + Phase 10 4 agents 가동 중.
+
+### 마이그레이션 매핑
+| ASUS 원본 (B:\agents) | 본 PC 처리 |
+|---|---|
+| `docs/` (40 research + design notes + 9 handoff) | ✅ `009.koreanllm/docs/` (42 research + 4 design-notes + 9 handoff) |
+| `scripts/` (sync-credentials.ps1/sh + sync-to-mac-studio.ps1) | ✅ `009.koreanllm/scripts/` |
+| `sora-data/secrets-mirror/business_domain_inventory.md` (8.9 KB) | ✅ 동일 경로, .gitignore `sora-data/` 으로 자동 보호 |
+| `README.md` (5.8 KB) / `DEVICE_NOTES.md` (5.2 KB) / `.gitignore` (0.9 KB) | ✅ pull |
+| `B:\WORKSPACE_RULES.md` (B 루트, 9.9 KB) | ✅ pull (참고용) |
+| `neo-genesis/` (10.21 MB / 564 files — Yesol-Pilot/neo-genesis clone) | ❌ SKIP — 본 PC `D:\00.test\neo-genesis\` master 본존 |
+| `runtime/` (README.md only) | ❌ SKIP — master 어댑터 본존 |
+| `sbu-repos/` (.gitkeep) | ❌ SKIP — empty placeholder |
+| `scratch/test_push_tainted/` (secret_test.md + ok.txt) | ❌ SKIP — sync-to-mac-studio.ps1 의 의도된 secret leak test fixture |
+| `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` (워크스페이스 어댑터) | ❌ SKIP — 본 PC `D:\00.test\CLAUDE.md` 가 master |
+
+### SBU 정체 (요약)
+- **Product**: `koreanllm.org` — Korean+English+Japanese Trilingual LLM/Embedding/Reranker Leaderboard with Academic Citation Backbone (AO-1 신규 SBU)
+- **Domain**: Cloudflare 2026-05-14 등록 (W-4 즉시 확보, plan v3 W3-W4 대비 +4주 여유)
+  - Zone ID: `4c2dadf65c0d5538e3fd41c72256b873`
+  - Account ID: `b3fa19c512029d0e847f77ea4d9b1fa2`
+  - NS: savanna/trevor.ns.cloudflare.com, Expires 2027-05-14
+- **W0 launch anchor**: 2026-06-10 (D-27)
+- **24mo KPI**: 1M MAU + $350-650K ARR Base / $700K-$1.5M Aggressive
+- **Stack**: Cloudflare Workers+Pages+R2+D1+KV (OpEx M3 $58 → M24 $400-450/mo, plan v3 "$7" framing은 35x under-count)
+- **Monetization**: B2B Enterprise primary ($30-80K × 6-12 customers)
+- **사업자등록**: 네오 제네시스 / 630-17-***** / 2026-01-27 (개인사업자, 일반과세자)
+
+### Cloudflare 토큰 reconciliation P0 (owner 확인 필요)
+ASUS `business_domain_inventory.md` §2는 `master-dns` 토큰 (2026-04-04) 이 Zone DNS records edit **403 (code=9109)** 으로 차단됨을 박제 — owner action 대기.
+
+본 PC `D:\00.test\CREDENTIAL_BIBLE.md` line 108은 별도 신규 토큰 박제:
+- `CF_API_TOKEN` (2026-05-14, `cfut_` format, id 끝 `...548a29c9`)
+- Accessible zones: **heoyesol.kr + koreanllm.org ONLY**
+- status=active, no expiry, 저장: `D:\00.test\neo-genesis\.env.local`
+
+→ **이 신규 토큰의 Zone:DNS:Edit 권한 포함 여부 검증 필요**. 포함 시 ASUS `master-dns` P0 차단 이슈는 본 PC 컨텍스트에서 이미 해소된 상태.
+
+### Phase 10 4 agents (ASUS B 드라이브 기준 가동, 본 PC 이관됨)
+- ✅ P10-1 Co-author Engagement Plan (70.6 KB, 10,583 words) — Hwaran=Sogang HAILO / Jaehyung=Yonsei / Guijin=OneLine AI co-founder. Reply rate Guijin 25-40% (최고) > Hwaran > Stella > Jaehyung
+- ⏳ P10-2 KNTQ-Redux Build + Law RFP (52.3 KB)
+- ⏳ P10-3 11 SBU Passive + AO-1 Capacity Protection (53.3 KB)
+- ⏳ P10-4 Wikipedia M27+ + Media Seed + arXiv Unhold (60.5 KB)
+
+### SSOT 갱신 완료 (4건)
+1. `D:\00.test\FOLDER_BIBLE.md` — `002.products-sbu/009.koreanllm/` 등록
+2. `D:\00.test\002.products-sbu\009.koreanllm\MIGRATION_NOTE.md` 신규 박제
+3. `D:\00.test\neo-genesis\.agent\shared-brain\active-tasks.md` — 신규 SBU entry 추가
+4. `D:\00.test\neo-genesis\.agent\shared-brain\handoff.md` (이 entry)
+
+### Reversibility (롤백)
+- **1줄 롤백**: `Remove-Item -Recurse -Force 'D:\00.test\002.products-sbu\009.koreanllm'`
+- ASUS source `B:\agents\` **유지** (read-only operation, 변경 0건)
+- 본 PC 마이그레이션 zip 보존: `D:\00.test\010.tmp-output\koreanllm_migration_20260514.zip` (1.0 MB)
+- 본 PC manifest: `D:\00.test\002.products-sbu\009.koreanllm\MIGRATION_MANIFEST.txt` (64 SHA-256)
+
+### 보안 (chat 노출 0)
+- 어떤 API 토큰 / credential / 사업자 등록번호 전체 / 주민번호 / 도메인 secret 도 chat 노출 없음
+- business_domain_inventory.md는 `sora-data/` gitignore 경로에 배치, git commit 자동 차단
+- ASUS B 드라이브 사업자 PDF (`OneDrive/사업자등록증_네오 제네시스.pdf`)는 이관 대상 아님
+
+### 다음 세션 우선순위
+1. **CF_API_TOKEN Zone:DNS:Edit 권한 검증** (G1 자율 가능)
+2. **CREDENTIAL_BIBLE.md 에 토큰 reconciliation 노트 추가**
+3. **W0 (2026-06-10) Day 1 자율 바인딩 plan 사전 검증** (D1/KV/R2/Workers/Pages 생성 dry-run)
+4. **ASUS `B:\agents\` 와의 향후 동기화 정책 결정** (G2: master를 본 PC로 단일화 vs 양방향 sync)
+5. **Phase 10 P10-2/P10-3/P10-4 가동 중 → 결과 monitor + 본 PC에서 진행 받기**
+
+### Pending verification (다음 세션 입장 시)
+- `D:\00.test\002.products-sbu\009.koreanllm\` 64 파일 디스크 잔존 확인
+- ASUS `B:\agents\` touched 0 file 확인 (read-only operation 정합)
+- `D:\00.test\010.tmp-output\koreanllm_migration_20260514.zip` (1.0 MB) 보존 확인
+
+👤 Strategy Lead Claude Opus 4.7
+
+---
+
+## 🟣 2026-05-14 Neo Genesis Ontology v0.1 박제 + v0.2 라이브 closure (Strategy Lead Claude Opus 4.7)
+
+owner 명령 흐름: "온톨로지화 진행" → "상세설계 안 해도 되겠어?" → "심층 연구도 안 해도 되겠어?" → "**너가 책임지고 직접 판단해 — 의견 묻는 이유는 제대로 파악 못함**" → "**이번 세션에서 전부 진행해**". 4 차 명령 = v0.2 전체 closure 의무.
+
+### 메타-진단 박제 (`feedback_decision_authority.md` 신규 memory)
+같은 패턴 3회 = role 인식 결함. Strategy Lead 역할에서 G2 질문 누적 = owner 인지 비용 전가. 충분히 이해하면 G1 자율 박제 + 한 줄 reversible. **본 세션부터 G1 박제 21건 + G2 0건 유지.**
+
+### v0.1 산출 (9 파일)
+| 파일 | 분량 | 역할 |
+|---|---|---|
+| `.agent/ontology/DESIGN_v0.1.md` | ~4,500 단어 | 11 클래스 / 17 관계 / URI 스킴 / anti-patterns 10 / G1 21건 |
+| `.agent/ontology/RESEARCH_v0.1.md` | ~6,500 단어 | 6 영역 prior art 종합, 90+ citations |
+| `.agent/ontology/ontology.schema.json` | - | JSON Schema 검증 |
+| `.agent/ontology/competency_questions.yaml` | - | 20 Q + SQL 패턴 |
+| `.agent/ontology/ontoclean_metaproperties_v0.1.md` | - | G1-21 박제, 4 위반 클래스 |
+| `.agent/ontology/README.md` | - | 포지셔닝 |
+| `.agent/ontology/nodes.jsonl` | 178 노드 | PoC 추출 결과 |
+| `.agent/ontology/edges.jsonl` | 91 엣지 | 관계 박제 |
+| `scripts/ontology/extract_minimal.py` | ~430 lines | self-recording PoC |
+
+### 6 병렬 research agent (Sonnet, WebSearch + WebFetch)
+1. W3C 표준 → PROV-O 즉시 (Activity 필수), R2RML 영구 거부, 나머지 deferred
+2. Palantir Foundry → 빼놓은 5 흡수, over-engineering 5 거부
+3. KG 학술 + 비교 시스템 → Wikidata qualifier+rank + Schema.org pending tier 흡수, Cyc 5 실패 패턴 위험 평가
+4. LLM Agent Memory + Graph RAG → CoALA 4-tier + Skill+Reflection 신설
+5. Ontology Engineering → LOT primary + OntoClean Tier S + NeOn 1+4
+6. Store / Query Paradigm → DuckDB → Neo4j → +n10s, Full Triple Store 거부
+
+### 10 P0 findings → DESIGN_v0.1 patch
+F1 PROV-O Activity 위반 / F2 OntoClean 4 클래스 / F3 markings / F4 Link Properties / F5 ActionRun transaction / F6 Opaque IRI / F7 Single Writer Queue / F8 Skill+Reflection / F9 Store paradigm / F10 LOT methodology
+
+### v0.2 라이브 closure 결과 (325 nodes / 161 edges, 11/11 클래스)
+```
+nodes_by_type:
+  ActionRun: 1, Agent: 37, Artifact: 94, Revision: 52, Device: 11
+  Policy: 6, Project: 14, Service: 13, Skill: 36, Reflection: 31, Task: 30
+
+edges_by_type:
+  prov:wasGeneratedBy: 32, prov:wasAssociatedWith: 1, deployed_to: 13
+  references: 35, owned_by: 58, depends_on: 4, governs: 18
+```
+
+### v0.2 acceptance gates (모두 PASS)
+- **validate.py**: P0 6/6 PASS (URI uniqueness / format / required fields / edge integrity / markings / secret redaction)
+- **validate_competency.py**: **20/20 PASS** (DuckDB SQL 라이브)
+- 11/11 클래스 populated (Skill + Reflection + Task 신규)
+- Personal 절대 금지 ✅ (personal-forbidden count = 0)
+- OntoClean Critical 0건 (4 위반 클래스 doc 박제 + subtype evaluation v0.2 DEFER 박제)
+
+### 라이브 산출 파일 (13건)
+| 파일 | 용도 |
+|---|---|
+| `.agent/ontology/DESIGN_v0.1.md` | 11 클래스 / 17 관계 contract |
+| `.agent/ontology/RESEARCH_v0.1.md` | 6 영역 prior art (90+ citations) |
+| `.agent/ontology/README.md` | 포지셔닝 |
+| `.agent/ontology/ontology.schema.json` | JSON Schema 검증 |
+| `.agent/ontology/competency_questions.yaml` | 20 Q + SQL 패턴 |
+| `.agent/ontology/competency_results.json` | 20/20 PASS 결과 |
+| `.agent/ontology/ontoclean_metaproperties_v0.1.md` | OntoClean 위반 4 클래스 식별 |
+| `.agent/ontology/ontoclean_subtype_evaluation_v0.2.md` | subtype 분리 평가 (모두 v0.3~v0.5 DEFER) |
+| `.agent/ontology/nodes.jsonl` | 325 노드 |
+| `.agent/ontology/edges.jsonl` | 161 엣지 |
+| `.agent/ontology/extract_report.json` | 추출 통계 |
+| `.agent/ontology/write_queue/README.md` | Single Writer Queue 아키텍처 |
+| `scripts/ontology/extract_minimal.py` | 추출기 (12 sub-extractor + relation 추론) |
+| `scripts/ontology/validate.py` | 6 P0 gate validator |
+| `scripts/ontology/validate_competency.py` | DuckDB 20 Q runner |
+| `scripts/ontology/write_queue.py` | propose / consume / status |
+
+### ssotRevision propagate
+`06840d30fc676bdf` — sync_agent_context.py 자동 hook 실행 (AGENTS.md / CLAUDE.md / LIVE_STATUS.md 갱신).
+
+### v0.3 OAG governed execution 라이브 closure (✅ 본 세션 추가 마감)
+
+owner 명령: "직접 분석하고 판단해서 해" → G1 자율 + OAG 3 P0 (query/mutate/write_queue apply) 즉시 실행.
+
+**라이브 산출 (4 파일)**:
+| 파일 | 역할 |
+|---|---|
+| `scripts/ontology/query.py` | OAG Data Tool — Object Set / impact / staleness / markings enforcement |
+| `scripts/ontology/mutate.py` | OAG Action Tool — add_task / modify_status / add_edge / diff_file + validation + 자동 ActionRun |
+| `scripts/ontology/write_queue.py` (패치) | consume() 실 mutation apply + ActionRun 자동 박제 + atomic rewrite |
+| `.agent/ontology/object_sets.yaml` | 10 named queries (Foundry Object Set pattern) |
+
+**E2E smoke test**:
+```
+1. Task count: 30
+2. mutate.py --add-task "v0.3 E2E smoke test" --priority P3 --apply
+   → write_queue propose → consume → nodes.jsonl + edges.jsonl 갱신
+   → ActionRun{prov:Activity, kind:ontology_mutation, status:committed} 자동 박제
+3. Task count: 31 ✅
+4. ActionRun count: 1 → 3 ✅ (add + modify 각 1건)
+5. mutate.py --modify-status <new-task> done --apply
+6. status pending → done ✅
+7. validate.py 6/6 P0 gates PASS ✅
+8. validate_competency.py 20/20 PASS 유지 ✅
+```
+
+**검증된 Object Set 예시 (10건)**:
+- `neo://object-set/personas-tier-s` → 8 Tier S 페르소나
+- `neo://object-set/services-by-status` → {running:8, stopped:5}
+- `neo://object-set/fleet-online` → 4 online Device
+- impact("neo://service/ysh-server/supabase-api") → 3 services depend on it (depth 1: quant-bot-live, neo_genesis_daemon / depth 2: sora-live)
+
+**dispatcher matched_layer patch**: 5/12 hook 박제로 이미 라이브 (`~/.claude/hooks/user_prompt_submit.ps1:174-210` 검증 완료).
+
+### v0.3 +2 closure (✅ 본 세션 추가 마감)
+
+**auto_record.py + dispatcher 통합** (P0):
+- `scripts/ontology/auto_record.py` — fast-path ActionRun append, file-locked (msvcrt/fcntl 호환), SHA 기반 idempotent ID, write_queue 우회 (단일 append 는 lock 만으로 충분)
+- `scripts/persona/dispatcher.py` 통합 — `--query` 호출 끝에 `record_action(kind="dispatcher_route", ...)` 자동 박제. best-effort (failure non-fatal).
+- E2E: dispatcher 2회 호출 → ActionRun 2건 자동 박제 ✅
+- 회귀: validate 6/6 P0 PASS + competency 20/20 PASS 유지
+
+**external_standards_eval_v0.3.md** (W3C P1 closure):
+- SHACL: v0.4 trigger (Neo4j + n10s + constraint 5건 이상)
+- SKOS: v0.5 trigger (controlled vocabulary 8-tier+ / 다국어 / hierarchical markings)
+- RML: v1.0 trigger 강한 DEFER (Unofficial Draft + YAML 미지원)
+- G1-22/23/24 자율 박제 (한 줄 reversible)
+
+**ActionRun kind 3종 라이브**:
+- dispatcher_route: 2 (자동 박제)
+- ontology_mutation: 2 (mutate.py 경유)
+- extract: 1 (extract_minimal.py self-record)
+
+### v0.3 final closure (✅ 본 세션 추가 마감 — owner "전부진행해")
+
+**1. Event hooks** (`scripts/ontology/hooks/`):
+- `killswitch_hook.py` → ActionRun{kind:killswitch_fire}
+- `deploy_hook.py` → ActionRun{kind:deploy}
+- README: PM2 / Vercel / GitHub Actions wiring 3 example
+- E2E smoke PASS
+
+**2. nano-graphrag PoC** (`scripts/ontology/graphrag.py`):
+- NetworkX Louvain community detection (resolution=1.0, seed=42)
+- 한국어 cluster summary (rule-based, no LLM)
+- `communities.json` 박제
+- Top 3 cluster 의미 검증:
+  - c000 (59 nodes): persona+knowledge+policy Artifact 통합
+  - c001 (33 nodes): Revision provenance chain (prov:wasGeneratedBy:32)
+  - c002 (17 nodes): Service infra (deployed_to:13 / governs:13 / depends_on:4)
+- Query 검증: "toolpick" → c080 / "persona" → c012+c000
+
+**3. MCP server** (`scripts/ontology/mcp_server.py`):
+- FastMCP 13 tools (read 6 + write 4 + stats 3)
+- Claude / Codex / Sora native MCP protocol 호출 가능
+- subprocess wrap 패턴 (기존 CLI 스크립트 재사용)
+- Claude Desktop / Code config snippet 박제
+- Direct call smoke PASS (stats / graphrag_query / record_action)
+
+**4. arXiv preprint Blind Review unhold** (passive):
+owner 외부 변경 대기 — 본 세션 처리 없음
+
+### 전체 회귀 (모두 PASS)
+```
+validate.py: 6/6 P0 gates PASS
+validate_competency.py: 20/20 PASS
+11/11 classes populated:
+  Artifact:94, Revision:52, Agent:37, Skill:36, Reflection:31, Task:31,
+  Project:14, Service:13, Device:11, ActionRun:8, Policy:6
+
+ActionRun kind 6종 라이브:
+  dispatcher_route:2, ontology_mutation:2, extract:1, deploy:1, heartbeat:1, killswitch_fire:1
+```
+
+### 누적 산출 22 파일
+**`.agent/ontology/`** (14): DESIGN_v0.1 / RESEARCH_v0.1 / README / schema / competency_questions + results / ontoclean (×2) / external_standards_eval / object_sets / nodes.jsonl / edges.jsonl / **communities.json** ⭐ / write_queue/
+
+**`scripts/ontology/`** (8): extract_minimal / validate / validate_competency / write_queue / query / mutate / auto_record / **graphrag** ⭐ / **mcp_server** ⭐ / **hooks/{killswitch,deploy}.py + README.md** ⭐
+
+### v0.4 진입 5건 라이브 closure (✅ 본 세션 추가 마감, owner "전부 진행해")
+
+**1. HippoRAG PPR** (`graphrag.py --hipporag`):
+NetworkX `pagerank()` personalization. seed URI 들의 1.0/len 초기 확률 → multi-hop traversal.
+검증: seed=`neo://service/ysh-server/sora-live` → top 8 PPR (ysh-server 0.106 / neo_genesis_daemon 0.099 / supabase-api 0.026 / quant-bot-live 0.017 / desktop-home 0.014 / liquidation-stream 0.014 / ...)
+"sora-live 가 stop 되면 어디 영향?" 같은 multi-hop question single-step 해소.
+
+**2. LightRAG dual-level** (`graphrag.py --dual-level`):
+- Low-level: node label/path/title substring match
+- High-level: community summary substring match
+- Edge type pattern match
+검증: "depends_on" → c002 (Service infra) + 3 edges / "kott" → 3 entity (Project + Service + Task)
+
+**3. Neo4j migration scaffold** (`.agent/ontology/neo4j/`):
+- `docker-compose.yml` (neo4j:5-community + apoc + n10s plugins + healthcheck)
+- `cypher_schema.cql` (13 unique constraints + 11 indexes + n10s prep)
+- `scripts/ontology/migrate_to_neo4j.py` (UNWIND batch MERGE pattern, idempotent, parity check)
+- `README.md` (bootstrap 6 step / dual-write / n10s / rollback)
+- dry-run: 333 nodes / 161 edges import-ready
+- 실 가동은 owner Docker + NEO4J_PASSWORD 설정 후
+
+**4. SBU vector index** (`scripts/ontology/vector_index.py`):
+- TF-IDF char_wb (2,4) n-gram — Korean morphology friendly, no network download
+- 2 SBU bucket 라이브:
+  - Neo Genesis: 58 artifacts × 10K features
+  - unowned: 36 artifacts × 1.2K features (Skill 미러)
+- 글로벌 query "persona dispatcher 라우팅" → top 5 cosine sim 0.11~0.16
+- KURE-v1 통합은 service 재가동 후 (현재 stop 상태)
+
+**5. OntoClean v0.4 재평가** (`ontoclean_reeval_v0.4.md`):
+4 subtype trigger 재검토:
+- Artifact split: competency Q 정상 → DEFER 유지
+- Service split: Neo4j scaffold 단계 → DEFER 유지
+- Task split: ActionRun 으로 충분 → DEFER 유지
+- Agent (G1-12 해소): 유지
+G1-25 자율 박제.
+
+### 전체 회귀 (모두 PASS)
+```
+validate.py: 6/6 P0 gates PASS
+validate_competency.py: 20/20 PASS
+11/11 classes populated 유지 (333 nodes / 161 edges)
+ActionRun kind 6종 유지 (dispatcher_route:2, ontology_mutation:2, extract:1, deploy:1, heartbeat:1, killswitch_fire:1)
+G1 누적 25건 박제 (owner 한 줄 reversible)
+```
+
+### 누적 산출 30+ 파일
+
+**`.agent/ontology/`** (18):
+- 기존 14 + **neo4j/{docker-compose.yml, cypher_schema.cql, README.md}** ⭐ + **ontoclean_reeval_v0.4.md** ⭐ + **vector_index/{Neo Genesis, unowned}/** ⭐ (matrix.npz / vectorizer.pkl / meta.json × 2 = 6 파일)
+
+**`scripts/ontology/`** (11):
+- 기존 8 + **graphrag.py** (HippoRAG + LightRAG 확장) ⭐ + **migrate_to_neo4j.py** ⭐ + **vector_index.py** ⭐
+
+### v0.5 진입 게이트 (다음 세션)
+1. Neo4j 실 가동 (owner Docker + NEO4J_PASSWORD + schema 적용 + migrate 실행)
+2. KURE-v1 service 재가동 → vector_index KURE 통합 (현 TF-IDF fallback)
+3. OWL EL profile transitive 추론 활성 (depends_on/blocks/supersedes closure)
+4. RDF-star (`rdf:reifies`) 안정화 후 평가
+5. LightRAG → KURE-v1 embedding 결합 (현 substring match)
+
+### Pending verification (다음 세션)
+- 30+ 파일 디스크 잔존
+- ActionRun 누적 (현재 8건, 다음 dispatcher 호출 시 +1)
+- vector_index regen (extract → vector_index.py --rebuild 체인)
+- Neo4j 실 가동 시 migrate_to_neo4j.py --verify PASS
+
+👤 Strategy Lead Claude Opus 4.7 (v0.3 trigger 조건 발생 시)
+
+### Pending verification (다음 세션)
+- 22 파일 디스크 잔존
+- ActionRun 누적 8건 (다음 dispatcher 호출 시 +1)
+- communities.json regen (extract 후 graphrag --rebuild 권장)
+- MCP server registration in Claude config (owner action 권고)
+
+👤 Strategy Lead Claude Opus 4.7
+
+---
+
+### Pending verification (다음 세션 입장 시)
+- 17 파일 디스크 잔존 (v0.1 13개 + v0.3 4개)
+- E2E mutate→write_queue→nodes/edges 갱신 chain 재확인
+- ActionRun 누적 (3건+ 추가 mutation 마다 자동 박제 검증)
+
+👤 Strategy Lead Claude Opus 4.7
+
+---
+
+### Pending verification (다음 세션)
+- 13 파일 디스크 잔존 (extract 재실행 시 nodes.jsonl/edges.jsonl 자동 갱신 OK)
+- ssotRevision `06840d30fc676bdf` 가 다음 sync 까지 유지
+- write queue PoC 의 v0.3 실 mutation 패치 시 ActionRun integration 검증
+
+👤 Strategy Lead Claude Opus 4.7
+
+---
+
+# Handoff: `.agent/` 최적화 마스터 적용 + AI Corpus Citation Week 1 (2026-05-12)
 
 ---
 

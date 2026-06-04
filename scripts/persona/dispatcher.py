@@ -188,12 +188,120 @@ def match_keyword(query: str) -> Optional[dict[str, Any]]:
 
 
 # ============================================================
-# Layer 3: Embedding Cosine (stub, Phase B 본격 구현)
+# Layer 3: Embedding Cosine (KURE-v1)
 # ============================================================
-def match_embedding(query: str) -> Optional[dict[str, Any]]:
-    """KURE-v1 cosine similarity vs 32 페르소나 (Phase B)"""
-    # TODO Phase B: KURE-v1 embedding via embedding_service:7702
+PERSONA_EMBEDDINGS_CACHE = PERSONAS_DIR / "dispatcher" / "persona_embeddings.json"
+EMBEDDING_SERVICE_URLS = [
+    "http://localhost:7702",
+    "http://desktop-sol01:7702",
+    "http://172.17.0.1:7702",
+]
+EMBEDDING_TIMEOUT_S = 2.0
+COSINE_PRIMARY_CUTOFF = 0.5
+COSINE_SECONDARY_CUTOFF = 0.6
+EMBEDDING_CONFIDENCE_CAP = 0.92
+
+# In-process cache (loaded once per process)
+_embedding_cache: Optional[dict[str, Any]] = None
+
+
+def _load_embedding_cache() -> Optional[dict[str, Any]]:
+    """persona_embeddings.json 1회 로드 (in-process cache)."""
+    global _embedding_cache
+    if _embedding_cache is not None:
+        return _embedding_cache
+    if not PERSONA_EMBEDDINGS_CACHE.exists():
+        return None
+    try:
+        _embedding_cache = json.loads(PERSONA_EMBEDDINGS_CACHE.read_text(encoding="utf-8"))
+        return _embedding_cache
+    except Exception:
+        return None
+
+
+def _embed_query(query: str) -> Optional[list[float]]:
+    """KURE-v1 service 호출. graceful fail (None on error)."""
+    try:
+        import httpx  # type: ignore
+    except ImportError:
+        return None
+
+    for url in EMBEDDING_SERVICE_URLS:
+        try:
+            r = httpx.post(
+                f"{url.rstrip('/')}/embed",
+                json={"texts": [query], "model": "kure-v1"},
+                timeout=EMBEDDING_TIMEOUT_S,
+            )
+            if r.status_code != 200:
+                continue
+            embs = r.json().get("embeddings")
+            if embs and len(embs) == 1 and isinstance(embs[0], list):
+                return embs[0]
+        except Exception:
+            continue
     return None
+
+
+def _cosine_similarity(a: list[float], b: list[float]) -> float:
+    """Normalized vectors → dot product = cosine. graceful for length mismatch."""
+    if not a or not b or len(a) != len(b):
+        return 0.0
+    return sum(x * y for x, y in zip(a, b))
+
+
+def match_embedding(query: str) -> Optional[dict[str, Any]]:
+    """KURE-v1 cosine similarity vs 32 페르소나.
+
+    Workflow:
+      1. persona_embeddings.json 로드 (없으면 None → fallback)
+      2. KURE-v1 service 호출 (미가용 → None → fallback)
+      3. 32 페르소나 cosine similarity (normalized vectors)
+      4. top-1 cosine >= 0.5 → primary, secondaries cosine >= 0.6 (top 3)
+    """
+    cache = _load_embedding_cache()
+    if not cache:
+        return None
+    personas = cache.get("personas") or {}
+    if not personas:
+        return None
+
+    query_emb = _embed_query(query)
+    if not query_emb:
+        return None
+
+    similarities: list[tuple[str, float]] = []
+    for persona_id, data in personas.items():
+        emb = data.get("embedding")
+        if not isinstance(emb, list):
+            continue
+        sim = _cosine_similarity(query_emb, emb)
+        similarities.append((persona_id, sim))
+
+    if not similarities:
+        return None
+
+    similarities.sort(key=lambda x: x[1], reverse=True)
+    top_id, top_sim = similarities[0]
+
+    if top_sim < COSINE_PRIMARY_CUTOFF:
+        return None  # confidence too low → fallback layer
+
+    secondaries = [
+        pid for pid, sim in similarities[1:4] if sim >= COSINE_SECONDARY_CUTOFF
+    ]
+
+    framework = personas.get(top_id, {}).get("framework")
+
+    return {
+        "matched_layer": "L3_embedding",
+        "persona_id": top_id,
+        "secondary_personas": secondaries,
+        "matched_pattern": f"cosine_similarity={top_sim:.4f}",
+        "confidence": min(EMBEDDING_CONFIDENCE_CAP, top_sim),
+        "ensemble_pattern": "single" if not secondaries else "cascade",
+        "framework": framework,
+    }
 
 
 # ============================================================
@@ -261,10 +369,12 @@ def dispatch(query: str) -> dict[str, Any]:
         result["framework"] = lookup_framework(result["persona_id"])
         return result
 
-    # Layer 3: Embedding (stub)
+    # Layer 3: Embedding (KURE-v1 cosine)
     result = match_embedding(query)
     if result:
         result["g2_detected"] = detect_g2(query)
+        if not result.get("framework"):
+            result["framework"] = lookup_framework(result["persona_id"])
         return result
 
     # Fallback
@@ -315,6 +425,38 @@ def main() -> int:
 
     result = dispatch(query)
     print(json.dumps(result, ensure_ascii=False, indent=2))
+
+    # 2026-05-14: ontology v0.3 자동 ActionRun 박제 (fast-path, write_queue 우회)
+    # 실패는 dispatcher 결과에 영향 없음 (best-effort)
+    try:
+        import sys as _sys
+        from pathlib import Path as _Path
+        _ar_path = _Path(__file__).resolve().parents[1] / "ontology"
+        if _ar_path.exists():
+            _sys.path.insert(0, str(_ar_path))
+        from auto_record import record_action  # type: ignore
+        primary = result.get("persona_id")
+        secondary = result.get("secondary_personas") or []
+        affected = []
+        if primary:
+            affected.append(f"neo://agent/{primary}")
+        affected.extend([f"neo://agent/{s}" for s in secondary])
+        record_action(
+            kind="dispatcher_route",
+            agent_id="neo://agent/claude-opus-4-7",
+            affected=affected,
+            meta={
+                "matched_layer": result.get("matched_layer"),
+                "matched_pattern": result.get("matched_pattern"),
+                "ensemble_pattern": result.get("ensemble_pattern"),
+                "g2_detected": result.get("g2_detected"),
+                "query_hash": __import__("hashlib").sha256(query.encode("utf-8")).hexdigest()[:12],
+            },
+            confidence=float(result.get("confidence") or 0.0) if result.get("confidence") is not None else None,
+            label=f"dispatch {result.get('matched_layer','?')} -> {primary}",
+        )
+    except Exception:
+        pass  # auto-record failure is non-fatal
     return 0
 
 

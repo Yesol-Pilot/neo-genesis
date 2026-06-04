@@ -1,14 +1,14 @@
 # SBU Search Growth Flywheel
 
-- generatedAt: 2026-05-09T11:36:38+09:00
+- generatedAt: 2026-05-20T15:51:09+09:00
 - scope: full-13-sites
 - passed: true
 - pipelinePassed: true
-- gscRange: 2026-04-09..2026-05-07
-- gscCredentialSource: GA4_SERVICE_ACCOUNT_PATH@env-file
+- gscRange: 2026-04-20..2026-05-18
+- gscCredentialSource: GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN
 - gscPropertiesListed: 13/13
 - gscSitemapsKnown: 13/13
-- gscOpportunityTotal: 83
+- gscOpportunityTotal: 112
 - contentApplyEnabled: false
 - contentChangedFiles: 0
 - liveCoverageMissing: 0
@@ -17,36 +17,36 @@
 
 | Site | Owner | Sitemap | Rows | Opportunities | No Data Yet |
 |---|---:|---:|---:|---:|---:|
-| toolpick | siteOwner | true | 442 | 50 | false |
-| aiforge | siteOwner | true | 3 | 1 | false |
-| craftdesk | siteOwner | true | 7 | 0 | false |
-| deploystack | siteOwner | true | 10 | 3 | false |
-| finstack | siteOwner | true | 1 | 0 | false |
-| sellkit | siteOwner | true | 37 | 19 | false |
-| reviewlab | siteOwner | true | 36 | 7 | false |
+| toolpick | siteOwner | true | 756 | 50 | false |
+| aiforge | siteOwner | true | 0 | 0 | true |
+| craftdesk | siteOwner | true | 2 | 0 | false |
+| deploystack | siteOwner | true | 1 | 0 | false |
+| finstack | siteOwner | true | 0 | 0 | true |
+| sellkit | siteOwner | true | 227 | 50 | false |
+| reviewlab | siteOwner | true | 53 | 9 | false |
 | ur-wrong | siteOwner | true | 2 | 1 | false |
-| kott | siteOwner | true | 0 | 0 | true |
-| ethicaai | siteOwner | true | 0 | 0 | true |
-| whylab | siteOwner | true | 3 | 1 | false |
-| portfolio | siteOwner | true | 1 | 0 | false |
-| neogenesis | siteOwner | true | 2 | 1 | false |
+| kott | siteOwner | true | 3 | 0 | false |
+| ethicaai | siteOwner | true | 1 | 0 | false |
+| whylab | siteOwner | true | 4 | 1 | false |
+| portfolio | siteOwner | true | 0 | 0 | true |
+| neogenesis | siteOwner | true | 5 | 1 | false |
 
 ## GSC Credential Attempts
 
 | Source | Stage | Status | OK | Site Count |
 |---|---:|---:|---:|---:|
-| GA4_SERVICE_ACCOUNT_PATH@env-file | sites.list | 200 | true | 13 |
+| GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN | sites.list | 200 | true | 17 |
 
 ## Pipeline Gate
 
 | Site | Status | Latest | Live Blog | Detail | Sitemap | Cron | Issues |
 |---|---:|---|---:|---:|---:|---:|---|
-| toolpick | green | 2026-05-09-ai-agent-evaluation-platforms | true | true | true | true |  |
-| aiforge | green | 2026-05-09-llm-observability-tools | true | true | true | true |  |
-| craftdesk | green | 2026-05-09-creative-automation-workflow-tools | true | true | true | true |  |
-| deploystack | green | 2026-05-09-serverless-cost-monitoring-tools | true | true | true | true |  |
-| finstack | green | 2026-05-09-fintech-risk-monitoring-platforms | true | true | true | true |  |
-| sellkit | green | 2026-05-09-ai-product-description-tools | true | true | true | true |  |
+| toolpick | green | best-ai-coding-tools-in-2026 | true | true | true | true |  |
+| aiforge | green | 2026-05-20-ai-agent-evaluation-platforms | true | true | true | true |  |
+| craftdesk | green | 2026-05-20-ai-design-qa-tools | true | true | true | true |  |
+| deploystack | green | 2026-05-20-deployment-preview-workflows | true | true | true | true |  |
+| finstack | green | 2026-05-20-payment-reconciliation-tools | true | true | true | true |  |
+| sellkit | green | 2026-05-20-ecommerce-conversion-analytics-tools | true | true | true | true |  |
 
 ## PostHog Taxonomy
 

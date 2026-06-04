@@ -147,6 +147,9 @@ class PCAgent:
             # Claude CLI 제어
             "claude_run": self._cmd_claude_run,
             "claude_chat": self._cmd_claude_chat,
+            # Codex / Antigravity CLI 제어
+            "codex_run": self._cmd_codex_run,
+            "antigravity_run": self._cmd_antigravity_run,
             # Docker 관리
             "docker_ps": self._cmd_docker_ps,
             "docker_logs": self._cmd_docker_logs,
@@ -511,6 +514,75 @@ class PCAgent:
         except subprocess.TimeoutExpired:
             return {"error": f"타임아웃 ({timeout}초)"}
 
+    # ── Codex / Antigravity CLI 제어 ──
+
+    @staticmethod
+    def _build_cli_cmd(exe: str, args: list[str]) -> list[str]:
+        """OS/확장자에 맞게 CLI 실행 커맨드를 구성한다 (.cmd/.ps1/.bat 해석)."""
+        low = exe.lower()
+        if IS_WINDOWS and low.endswith((".cmd", ".bat")):
+            return ["cmd", "/c", exe, *args]
+        if IS_WINDOWS and low.endswith(".ps1"):
+            return ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", exe, *args]
+        return [exe, *args]
+
+    def _cmd_codex_run(self, payload: dict) -> dict:
+        """OpenAI Codex CLI 비대화형 실행 (codex exec)."""
+        import shutil
+        prompt = payload.get("prompt", "")
+        cwd = payload.get("cwd", ".")
+        timeout = min(payload.get("timeout", 300), 600)
+        if not prompt:
+            return {"error": "prompt 필수"}
+        exe = shutil.which("codex")
+        if not exe:
+            return {"error": "codex CLI 미설치 (npm i -g @openai/codex)"}
+        cmd = self._build_cli_cmd(exe, ["exec", prompt])
+        try:
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=timeout,
+                cwd=cwd, encoding="utf-8", errors="replace",
+            )
+            return {
+                "cli": "codex", "exit_code": result.returncode,
+                "stdout": result.stdout[-MAX_OUTPUT_SIZE:],
+                "stderr": result.stderr[-2000:],
+            }
+        except subprocess.TimeoutExpired:
+            return {"error": f"타임아웃 ({timeout}초)"}
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _cmd_antigravity_run(self, payload: dict) -> dict:
+        """Google Antigravity CLI 비대화형 실행 (실험적 — 호출 규약 환경 의존)."""
+        import shutil
+        prompt = payload.get("prompt", "")
+        cwd = payload.get("cwd", ".")
+        timeout = min(payload.get("timeout", 300), 600)
+        if not prompt:
+            return {"error": "prompt 필수"}
+        exe = shutil.which("antigravity")
+        if not exe:
+            return {"error": "antigravity CLI 미설치"}
+        # Antigravity CLI 비대화형 서브커맨드는 버전마다 다를 수 있음. 환경변수로 override 가능.
+        sub = os.getenv("ANTIGRAVITY_EXEC_SUBCMD", "exec")
+        cmd = self._build_cli_cmd(exe, ([sub, prompt] if sub else [prompt]))
+        try:
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=timeout,
+                cwd=cwd, encoding="utf-8", errors="replace",
+            )
+            return {
+                "cli": "antigravity", "exit_code": result.returncode,
+                "stdout": result.stdout[-MAX_OUTPUT_SIZE:],
+                "stderr": result.stderr[-2000:],
+                "note": "experimental — 출력이 비었거나 에러면 ANTIGRAVITY_EXEC_SUBCMD 조정 필요",
+            }
+        except subprocess.TimeoutExpired:
+            return {"error": f"타임아웃 ({timeout}초)"}
+        except Exception as e:
+            return {"error": str(e)}
+
     # ── Docker 관리 ──
 
     def _cmd_docker_ps(self, payload: dict) -> dict:
@@ -823,12 +895,7 @@ def main():
     parser.add_argument("--id", required=True, help="PC 식별자 (예: home-pc, work-pc)")
     parser.add_argument("--server", default="wss://neo.heoyesol.kr/ws/pc-agent",
                         help="소라 클라우드 WebSocket URL")
-    parser.add_argument("--token", default=None, help="인증 토큰 (기본: 환경변수 PC_AGENT_TOKEN)")
     args = parser.parse_args()
-
-    if args.token:
-        global AGENT_TOKEN
-        AGENT_TOKEN = args.token
 
     agent = PCAgent(agent_id=args.id, server_url=args.server)
 
@@ -844,5 +911,68 @@ def main():
         print("\n소라 PC Agent 종료.")
 
 
+def _send_crash_alert(error_msg: str) -> None:
+    """Best-effort telegram crash alert (M9 — agent silent crash 가시화).
+
+    NEO_ALERT_BOT_TOKEN + OWNER_TELEGRAM_CHAT_ID 를 env 또는 credentials.env 에서 sourcing.
+    네트워크/토큰 없으면 무음 실패 (메인 흐름 영향 X).
+    """
+    token = os.getenv("NEO_ALERT_BOT_TOKEN", "")
+    chat_id = os.getenv("OWNER_TELEGRAM_CHAT_ID", "")
+    if not token or not chat_id:
+        cred_paths = [
+            "/home/ysh/.neo-genesis/credentials.env",
+            os.path.expanduser("~/.neo-genesis/credentials.env"),
+            "/mnt/d/00.test/neo-genesis/.env",
+            "D:\\00.test\\neo-genesis\\.env",
+        ]
+        for path in cred_paths:
+            try:
+                p = Path(path)
+                if not p.exists():
+                    continue
+                for line in p.read_text(encoding="utf-8").splitlines():
+                    line = line.strip()
+                    if line.startswith("NEO_ALERT_BOT_TOKEN=") and not token:
+                        token = line.split("=", 1)[1].strip().strip('"\'')
+                    elif line.startswith("OWNER_TELEGRAM_CHAT_ID=") and not chat_id:
+                        chat_id = line.split("=", 1)[1].strip().strip('"\'')
+                if token and chat_id:
+                    break
+            except Exception:
+                continue
+    if not token or not chat_id:
+        return
+    try:
+        import urllib.request
+        import urllib.parse
+        hostname = platform.node()
+        text = (f"🚨 sora_pc_agent 크래시\nhost: {hostname}\n"
+                f"ts: {datetime.now().isoformat()}\n\n{error_msg[:600]}")
+        data = urllib.parse.urlencode({"chat_id": chat_id, "text": text}).encode("utf-8")
+        req = urllib.request.Request(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            data=data, method="POST")
+        urllib.request.urlopen(req, timeout=10)
+    except Exception:
+        pass
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
+    except Exception as _crash_e:
+        import traceback
+        _crash_msg = f"{type(_crash_e).__name__}: {_crash_e}\n{traceback.format_exc()[-600:]}"
+        _send_crash_alert(_crash_msg)
+        # 로컬 crash log (재현/디버깅용)
+        try:
+            _log_dir = Path.home() / ".neo-genesis"
+            _log_dir.mkdir(exist_ok=True)
+            with open(_log_dir / "agent_crash.log", "a", encoding="utf-8") as _f:
+                _f.write(f"\n--- crash at {datetime.now().isoformat()} ---\n{_crash_msg}\n")
+        except Exception:
+            pass
+        raise

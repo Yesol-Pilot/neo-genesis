@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neo.genesis/ontology/v0.1/schema",
+  "title": "Neo Genesis Ontology v0.1 Schema",
+  "description": "JSON Schema for nodes.jsonl + edges.jsonl. Per DESIGN_v0.1.md §3 (11 classes) + §4 (17 relations).",
+  "definitions": {
+    "uri": {
+      "type": "string",
+      "pattern": "^neo://[a-z_]+/[A-Za-z0-9_./:-]+$",
+      "description": "neo:// scheme URI per DESIGN §5"
+    },
+    "iso8601": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "markings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["public", "internal", "confidential", "personal-forbidden", "restricted"]
+      },
+      "description": "Mandatory restrictive (AND-logic). All markings must be satisfied to read."
+    },
+    "node_common": {
+      "type": "object",
+      "required": ["id", "rdf_type", "created_at"],
+      "properties": {
+        "id": { "$ref": "#/definitions/uri" },
+        "rdf_type": {
+          "type": "string",
+          "enum": [
+            "Artifact", "Revision", "Project", "Service", "Device",
+            "Agent", "Task", "Policy", "ActionRun", "Skill", "Reflection"
+          ]
+        },
+        "label": { "type": "string" },
+        "aliases": { "type": "array", "items": { "type": "string" } },
+        "created_at": { "$ref": "#/definitions/iso8601" },
+        "updated_at": { "$ref": "#/definitions/iso8601" },
+        "provenance": {
+          "type": "object",
+          "description": "PROV-O metadata: agent that extracted, source, confidence"
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$comment": "Artifact (§3.1)",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["kind", "path", "title", "markings"],
+          "properties": {
+            "rdf_type": { "const": "Artifact" },
+            "kind": {
+              "type": "string",
+              "enum": ["knowledge", "persona", "policy", "runbook", "contract", "decision", "code", "data", "report", "doc", "log"]
+            },
+            "path": { "type": "string" },
+            "current_revision": { "$ref": "#/definitions/uri" },
+            "title": { "type": "string" },
+            "language": { "type": "string" },
+            "tags": { "type": "array", "items": { "type": "string" } },
+            "markings": { "$ref": "#/definitions/markings" },
+            "allowedAgents": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/uri" }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "Revision (§3.2) = prov:Entity",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["artifact", "content_hash"],
+          "properties": {
+            "rdf_type": { "const": "Revision" },
+            "prov_type": { "const": "prov:Entity" },
+            "artifact": { "$ref": "#/definitions/uri" },
+            "content_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "git_commit": { "type": "string" },
+            "prov_wasGeneratedBy": { "$ref": "#/definitions/uri" },
+            "prov_wasDerivedFrom": { "type": "array", "items": { "$ref": "#/definitions/uri" } },
+            "slsa_level": { "type": "integer", "minimum": 0, "maximum": 3 }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "Project (§3.3)",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {
+            "rdf_type": { "const": "Project" },
+            "kind": { "type": "string", "enum": ["sbu", "paper", "infra", "personal_career", "org_root"] },
+            "repo": { "type": "string" },
+            "domain": { "type": "array", "items": { "type": "string" } },
+            "stage": { "type": "string", "enum": ["idea", "mvp", "live", "paused", "archived"] }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "Service (§3.4)",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["kind", "name", "status", "last_observed_at", "host_device"],
+          "properties": {
+            "rdf_type": { "const": "Service" },
+            "kind": { "type": "string", "enum": ["pm2", "container", "vercel_deploy", "cron", "systemd", "cloudflare_worker"] },
+            "name": { "type": "string" },
+            "current_artifact_revision": { "$ref": "#/definitions/uri" },
+            "status": { "type": "string", "enum": ["running", "stopped", "unknown", "draining"] },
+            "last_observed_at": { "$ref": "#/definitions/iso8601" },
+            "host_device": { "$ref": "#/definitions/uri" }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "Device (§3.5)",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["hostname", "kind", "online", "last_heartbeat_at"],
+          "properties": {
+            "rdf_type": { "const": "Device" },
+            "hostname": { "type": "string" },
+            "kind": { "type": "string", "enum": ["pc_desktop", "pc_laptop", "server", "mobile", "cloud_vm"] },
+            "online": { "type": "boolean" },
+            "last_heartbeat_at": { "$ref": "#/definitions/iso8601" },
+            "tailscale_ip": { "type": "string" }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "Agent (§3.6) = prov:Agent",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["agent_kind", "label"],
+          "properties": {
+            "rdf_type": { "const": "Agent" },
+            "prov_type": { "const": "prov:Agent" },
+            "agent_kind": { "type": "string", "enum": ["model_instance", "persona_spec", "human"] },
+            "model": { "type": "string" },
+            "tier": { "type": "string", "enum": ["S", "A", "B", "C"] },
+            "frontmatter_revision": { "$ref": "#/definitions/uri" }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "Task (§3.7)",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["title", "status", "priority"],
+          "properties": {
+            "rdf_type": { "const": "Task" },
+            "title": { "type": "string" },
+            "status": { "type": "string", "enum": ["pending", "in_progress", "blocked", "done", "cancelled"] },
+            "priority": { "type": "string", "enum": ["P0", "P1", "P2", "P3"] },
+            "due_at": { "$ref": "#/definitions/iso8601" },
+            "source_artifact": { "$ref": "#/definitions/uri" }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "Policy (§3.8)",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["kind", "enforcement", "source_artifact"],
+          "properties": {
+            "rdf_type": { "const": "Policy" },
+            "kind": { "type": "string", "enum": ["deny_list", "threshold", "gate", "governance", "safety", "mcp_curation"] },
+            "enforcement": { "type": "string", "enum": ["hard_block", "soft_warn", "log_only"] },
+            "source_artifact": { "$ref": "#/definitions/uri" },
+            "owl_versionInfo": { "type": "string" }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "ActionRun (§3.9) = prov:Activity",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["kind", "triggered_by", "affectedObjects", "status", "result", "started_at"],
+          "properties": {
+            "rdf_type": { "const": "ActionRun" },
+            "prov_type": { "const": "prov:Activity" },
+            "kind": { "type": "string", "enum": ["dispatcher_route", "killswitch_fire", "deploy", "commit", "mcp_tool_call", "persona_invocation", "external_api_call", "ontology_mutation", "extract"] },
+            "triggered_by": { "$ref": "#/definitions/uri" },
+            "affectedObjects": { "type": "array", "items": { "$ref": "#/definitions/uri" } },
+            "status": { "type": "string", "enum": ["pending", "committed", "failed"] },
+            "sideEffects": { "type": "array", "items": { "type": "object" } },
+            "policy_decisions": { "type": "array", "items": { "$ref": "#/definitions/uri" } },
+            "result": { "type": "string", "enum": ["success", "failure", "partial", "blocked"] },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+            "trace_id": { "type": "string" },
+            "span_id": { "type": "string" },
+            "started_at": { "$ref": "#/definitions/iso8601" },
+            "finished_at": { "$ref": "#/definitions/iso8601" }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "Skill (§3.10)",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["kind", "source_artifact"],
+          "properties": {
+            "rdf_type": { "const": "Skill" },
+            "kind": { "type": "string", "enum": ["subagent_spec", "function", "persona_instance", "pipeline_step"] },
+            "source_artifact": { "$ref": "#/definitions/uri" },
+            "success_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+            "last_used_at": { "$ref": "#/definitions/iso8601" },
+            "composed_of": { "type": "array", "items": { "$ref": "#/definitions/uri" } }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "Reflection (§3.11)",
+      "allOf": [
+        { "$ref": "#/definitions/node_common" },
+        {
+          "type": "object",
+          "required": ["trigger", "reflects_on", "insight_text", "generated_by"],
+          "properties": {
+            "rdf_type": { "const": "Reflection" },
+            "trigger": { "type": "string", "enum": ["scheduled", "importance_threshold", "manual"] },
+            "reflects_on": { "type": "array", "items": { "$ref": "#/definitions/uri" } },
+            "insight_text": { "type": "string" },
+            "generated_by": { "$ref": "#/definitions/uri" }
+          }
+        }
+      ]
+    }
+  ],
+  "edges": {
+    "$comment": "Schema for edges.jsonl per DESIGN §4 (17 relations). Each edge is one of:",
+    "type": "object",
+    "required": ["id", "type", "from", "to", "observed_at"],
+    "properties": {
+      "id": { "type": "string", "pattern": "^neo://relation/.+" },
+      "type": {
+        "type": "string",
+        "enum": [
+          "current_revision",
+          "prov:wasGeneratedBy",
+          "prov:wasAssociatedWith",
+          "prov:wasDerivedFrom",
+          "supersedes",
+          "owned_by",
+          "deployed_to",
+          "depends_on",
+          "governs",
+          "allowed_by",
+          "denied_by",
+          "affects",
+          "assigned_to",
+          "blocks",
+          "references",
+          "instantiates",
+          "composed_of",
+          "reflects_on"
+        ]
+      },
+      "from": { "$ref": "#/definitions/uri" },
+      "to": { "$ref": "#/definitions/uri" },
+      "linkProperties": { "type": "object" },
+      "observed_at": { "$ref": "#/definitions/iso8601" }
+    }
+  }
+}

@@ -55,7 +55,7 @@ fi
 
 # ── 3. Cloudflare Tunnel 인증 정보 확인 ──
 export CF_TUNNEL_ENABLED=false
-if [ -f "/app/secrets/cloudflared-config.yml" ]; then
+if [ -f "/app/secrets/cloudflared-token.txt" ] || [ -f "/app/secrets/cloudflared-config.yml" ]; then
     export CF_TUNNEL_ENABLED=true
     echo "[Init] Cloudflare Tunnel 설정 감지 — 터널 활성화"
 else

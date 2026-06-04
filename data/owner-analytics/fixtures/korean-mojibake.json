@@ -1,0 +1,5 @@
+{
+  "fixture": "korean-mojibake",
+  "sample": "tabwee ?쒕툝由??꾧린",
+  "expectedFinding": "GSC_UTF8_BROKEN"
+}

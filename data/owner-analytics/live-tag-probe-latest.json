@@ -1,0 +1,337 @@
+{
+  "generatedAt": "2026-05-28T11:08:37.321+09:00",
+  "source": "owner_traffic_live_probe",
+  "sites": [
+    {
+      "site_id": "neogenesis",
+      "site_name": "NeoGenesis",
+      "url": "https://neogenesis.app",
+      "final_url": "https://neogenesis.app/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 1691,
+      "html_bytes": 198707,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": true,
+        "script_has_tag": false,
+        "scripts_checked": 0
+      },
+      "errors": []
+    },
+    {
+      "site_id": "toolpick",
+      "site_name": "ToolPick",
+      "url": "https://www.toolpick.dev",
+      "final_url": "https://www.toolpick.dev/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 4488,
+      "html_bytes": 125654,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-8YRD4KPHZN"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": false,
+        "script_has_tag": true,
+        "scripts_checked": 6
+      },
+      "errors": []
+    },
+    {
+      "site_id": "ur-wrong",
+      "site_name": "UR WRONG",
+      "url": "https://ur-wrong.com",
+      "final_url": "https://ur-wrong.com/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 433,
+      "html_bytes": 6806,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-MHJ96JLHT2"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": false,
+        "script_has_tag": true,
+        "scripts_checked": 2
+      },
+      "errors": []
+    },
+    {
+      "site_id": "reviewlab",
+      "site_name": "ReviewLab",
+      "url": "https://review.neogenesis.app",
+      "final_url": "https://review.neogenesis.app/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 604,
+      "html_bytes": 150719,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": false,
+        "script_has_tag": true,
+        "scripts_checked": 5
+      },
+      "errors": []
+    },
+    {
+      "site_id": "kott",
+      "site_name": "K-OTT",
+      "url": "https://kott.kr",
+      "final_url": "https://kott.kr/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 191,
+      "html_bytes": 126425,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-E8RGGHZG23"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": false,
+        "script_has_tag": true,
+        "scripts_checked": 7
+      },
+      "errors": []
+    },
+    {
+      "site_id": "whylab",
+      "site_name": "WhyLab",
+      "url": "https://whylab.neogenesis.app",
+      "final_url": "https://whylab.neogenesis.app/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 104,
+      "html_bytes": 50156,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": true,
+        "script_has_tag": false,
+        "scripts_checked": 0
+      },
+      "errors": []
+    },
+    {
+      "site_id": "ethicaai",
+      "site_name": "EthicaAI",
+      "url": "https://ethica.neogenesis.app",
+      "final_url": "https://ethica.neogenesis.app/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 302,
+      "html_bytes": 81856,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": true,
+        "script_has_tag": false,
+        "scripts_checked": 0
+      },
+      "errors": []
+    },
+    {
+      "site_id": "finstack",
+      "site_name": "FinStack",
+      "url": "https://finstack.neogenesis.app",
+      "final_url": "https://finstack.neogenesis.app/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 5442,
+      "html_bytes": 90712,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": false,
+        "script_has_tag": true,
+        "scripts_checked": 6
+      },
+      "errors": []
+    },
+    {
+      "site_id": "aiforge",
+      "site_name": "AIForge",
+      "url": "https://aiforge.neogenesis.app",
+      "final_url": "https://aiforge.neogenesis.app/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 5785,
+      "html_bytes": 88913,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": false,
+        "script_has_tag": true,
+        "scripts_checked": 6
+      },
+      "errors": []
+    },
+    {
+      "site_id": "sellkit",
+      "site_name": "SellKit",
+      "url": "https://sellkit.neogenesis.app",
+      "final_url": "https://sellkit.neogenesis.app/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 5429,
+      "html_bytes": 88550,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": false,
+        "script_has_tag": true,
+        "scripts_checked": 6
+      },
+      "errors": []
+    },
+    {
+      "site_id": "deploystack",
+      "site_name": "DeployStack",
+      "url": "https://deploystack.neogenesis.app",
+      "final_url": "https://deploystack.neogenesis.app/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 2209,
+      "html_bytes": 89124,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": false,
+        "script_has_tag": true,
+        "scripts_checked": 6
+      },
+      "errors": []
+    },
+    {
+      "site_id": "craftdesk",
+      "site_name": "CraftDesk",
+      "url": "https://craftdesk.neogenesis.app",
+      "final_url": "https://craftdesk.neogenesis.app/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 2029,
+      "html_bytes": 93462,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-0GVNYZLEMX"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": false,
+        "script_has_tag": true,
+        "scripts_checked": 6
+      },
+      "errors": []
+    },
+    {
+      "site_id": "heoyesol",
+      "site_name": "HeoYesol Portfolio",
+      "url": "https://heoyesol.kr",
+      "final_url": "https://heoyesol.kr/",
+      "ok": true,
+      "status": 200,
+      "elapsed_ms": 526,
+      "html_bytes": 23261,
+      "ga4": {
+        "has_tag": true,
+        "measurement_ids": [
+          "G-SPPMR6QS9B"
+        ],
+        "expected_id_present": true
+      },
+      "posthog": {
+        "has_tag": true,
+        "key_present_redacted": true,
+        "html_has_tag": true,
+        "script_has_tag": false,
+        "scripts_checked": 0
+      },
+      "errors": []
+    }
+  ],
+  "summary": {
+    "sites": 13,
+    "live_ok": 13,
+    "ga4_tag_present": 13,
+    "posthog_tag_present": 13
+  }
+}

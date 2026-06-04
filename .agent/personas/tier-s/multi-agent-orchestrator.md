@@ -84,8 +84,17 @@ adversarial_baseline:
 review_cadence_days: 60
 cost_cap_monthly_usd: 20.0  # opus + 다중 에이전트 spawn
 cache_strategy:
-  ttl: "30m"
+  ttl: "5m"  # Updated 2026-05-10: cost_analysis_v1 §7 권고 (단발 dispatch 주류)
   priority: P0
+  cache_breakpoints:
+    - location: "system_prompt"
+      ttl: "5m"
+      ephemeral: true
+  estimated_monthly_savings_usd: 0.73
+  break_even_calls_per_hour: 0.10
+  caching_path: "sora_engine"
+  rollout_phase: "phase_2"
+  model_note: "Opus 4.7, 더 큰 base 비용으로 5min cache ROI 더 큼"
 conflicts_with: []
 related_personas:
   - senior-da-pm-korean

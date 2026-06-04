@@ -1,0 +1,179 @@
+# Neo Genesis Ontology v0.1 — Competency Questions
+# 20 questions ontology must answer. 20/20 PASS is v0.2 acceptance gate.
+# Reference: DESIGN_v0.1.md §12. Final per G1-17 (2026-05-14).
+# Each question maps to a DuckDB SQL query (v0.1) or Cypher query (v0.4+).
+
+version: "0.1"
+acceptance_threshold: "20/20"
+locked_at: "2026-05-14"
+locked_by: "Strategy Lead Claude Opus 4.7"
+
+categories:
+  - artifact_provenance
+  - service_device
+  - agent_task_skill_policy
+  - audit_impact_reflection
+
+questions:
+  # Artifact / Provenance
+  - id: CQ-01
+    category: artifact_provenance
+    question: ".agent/knowledge/foo.md 의 현재 revision 의 sha256 은?"
+    sql_pattern: |
+      SELECT r.content_hash
+      FROM nodes a, nodes r
+      WHERE a.rdf_type = 'Artifact'
+        AND a.path = ?
+        AND r.id = a.current_revision
+    expected_count: 1
+
+  - id: CQ-02
+    category: artifact_provenance
+    question: "이 Artifact 의 최신 작성자 (Agent) 는?"
+    sql_pattern: |
+      SELECT ag.label
+      FROM nodes a, nodes r, edges e_gen, edges e_assoc, nodes ar, nodes ag
+      WHERE a.id = ?
+        AND r.id = a.current_revision
+        AND e_gen.type = 'prov:wasGeneratedBy' AND e_gen.from = r.id AND e_gen.to = ar.id
+        AND e_assoc.type = 'prov:wasAssociatedWith' AND e_assoc.from = ar.id AND e_assoc.to = ag.id
+    expected_count: ">=1"
+
+  - id: CQ-03
+    category: artifact_provenance
+    question: "이 Artifact 가 derive 한 출처 Artifact 들은?"
+    sql_pattern: |
+      WITH RECURSIVE derive_chain AS (
+        SELECT r.id, 0 AS depth FROM nodes r WHERE r.id = ? AND r.rdf_type = 'Revision'
+        UNION ALL
+        SELECT e.to, dc.depth + 1
+        FROM edges e, derive_chain dc
+        WHERE e.type = 'prov:wasDerivedFrom' AND e.from = dc.id AND dc.depth < 10
+      )
+      SELECT DISTINCT a.path FROM derive_chain dc, nodes r, nodes a WHERE r.id = dc.id AND a.current_revision = r.id
+
+  - id: CQ-04
+    category: artifact_provenance
+    question: "지난 7일간 변경된 Artifact 목록은?"
+    sql_pattern: |
+      SELECT path FROM nodes WHERE rdf_type = 'Artifact' AND updated_at >= NOW() - INTERVAL 7 DAY
+
+  - id: CQ-05
+    category: artifact_provenance
+    question: "markings 에 'confidential' 포함된 Artifact 목록은?"
+    sql_pattern: |
+      SELECT path FROM nodes WHERE rdf_type = 'Artifact' AND list_contains(markings, 'confidential')
+
+  # Service / Device
+  - id: CQ-06
+    category: service_device
+    question: "quant-bot-live 가 가동 중인 Device 는?"
+    sql_pattern: |
+      SELECT d.hostname FROM nodes s, nodes d
+      WHERE s.rdf_type = 'Service' AND s.name = 'quant-bot-live' AND s.status = 'running' AND d.id = s.host_device
+
+  - id: CQ-07
+    category: service_device
+    question: "ysh-server 에 떠 있는 모든 Service 는?"
+    sql_pattern: |
+      SELECT s.name, s.status FROM nodes s, nodes d
+      WHERE d.hostname = 'ysh-server' AND s.host_device = d.id
+
+  - id: CQ-08
+    category: service_device
+    question: "지난 24시간 heartbeat 없는 Device 는?"
+    sql_pattern: |
+      SELECT hostname FROM nodes WHERE rdf_type = 'Device' AND last_heartbeat_at < NOW() - INTERVAL 24 HOUR
+
+  - id: CQ-09
+    category: service_device
+    question: "sora-live 가 의존하는 다른 Service 들은?"
+    sql_pattern: |
+      SELECT s2.name FROM nodes s1, edges e, nodes s2
+      WHERE s1.name = 'sora-live' AND e.type = 'depends_on' AND e.from = s1.id AND s2.id = e.to
+
+  - id: CQ-10
+    category: service_device
+    question: "한 Service 가 stop 되면 영향받는 다른 Service 들은? (transitive depends_on)"
+    sql_pattern: |
+      WITH RECURSIVE impact AS (
+        SELECT id, 0 AS depth FROM nodes WHERE id = ?
+        UNION ALL
+        SELECT e.from, i.depth + 1 FROM edges e, impact i
+        WHERE e.type = 'depends_on' AND e.to = i.id AND i.depth < 10
+      )
+      SELECT DISTINCT s.name FROM impact i, nodes s WHERE s.id = i.id AND i.depth > 0
+
+  # Agent / Task / Skill / Policy
+  - id: CQ-11
+    category: agent_task_skill_policy
+    question: "senior-da-pm-korean persona 의 frontmatter 의 현재 revision 은?"
+    sql_pattern: |
+      SELECT r.content_hash FROM nodes ag, nodes r
+      WHERE ag.label = 'senior-da-pm-korean' AND ag.agent_kind = 'persona_spec' AND r.id = ag.frontmatter_revision
+
+  - id: CQ-12
+    category: agent_task_skill_policy
+    question: "P0 status=in_progress 인 Task 목록은?"
+    sql_pattern: |
+      SELECT title FROM nodes WHERE rdf_type = 'Task' AND priority = 'P0' AND status = 'in_progress'
+
+  - id: CQ-13
+    category: agent_task_skill_policy
+    question: "owner 결정 (Decision Artifact) 중 최근 7일치는?"
+    sql_pattern: |
+      SELECT title, path FROM nodes WHERE rdf_type = 'Artifact' AND kind = 'decision' AND updated_at >= NOW() - INTERVAL 7 DAY
+
+  - id: CQ-14
+    category: agent_task_skill_policy
+    question: "MCP curation policy 가 governs 하는 Service 목록은?"
+    sql_pattern: |
+      SELECT s.name FROM nodes p, edges e, nodes s
+      WHERE p.kind = 'mcp_curation' AND e.type = 'governs' AND e.from = p.id AND s.id = e.to AND s.rdf_type = 'Service'
+
+  - id: CQ-15
+    category: agent_task_skill_policy
+    question: "Killswitch 가 fire 됐을 때 affects 된 Artifact 들은?"
+    sql_pattern: |
+      SELECT a.path FROM nodes ar, edges e, nodes a
+      WHERE ar.kind = 'killswitch_fire' AND e.type = 'affects' AND e.from = ar.id AND a.id = e.to AND a.rdf_type = 'Artifact'
+
+  # Audit / Impact / Reflection
+  - id: CQ-16
+    category: audit_impact_reflection
+    question: "어떤 ActionRun 이 이 Artifact 의 마지막 revision 을 생성했나?"
+    sql_pattern: |
+      SELECT ar.id, ar.kind, ar.started_at FROM nodes a, nodes r, edges e, nodes ar
+      WHERE a.id = ? AND r.id = a.current_revision AND e.type = 'prov:wasGeneratedBy' AND e.from = r.id AND ar.id = e.to
+
+  - id: CQ-17
+    category: audit_impact_reflection
+    question: "한 Artifact 를 수정하면 references 로 영향받는 다른 Artifact 들은?"
+    sql_pattern: |
+      SELECT a2.path FROM nodes a1, edges e, nodes a2
+      WHERE a1.id = ? AND e.type = 'references' AND e.to = a1.id AND a2.id = e.from
+
+  - id: CQ-18
+    category: audit_impact_reflection
+    question: "지난 24시간 denied_by Policy 가 발생한 ActionRun 들은?"
+    sql_pattern: |
+      SELECT ar.id, ar.kind FROM nodes ar, edges e
+      WHERE ar.rdf_type = 'ActionRun' AND ar.started_at >= NOW() - INTERVAL 24 HOUR
+        AND e.type = 'denied_by' AND e.from = ar.id
+
+  - id: CQ-19
+    category: audit_impact_reflection
+    question: "한 Project 의 모든 (Service + Artifact + Task + Skill) 를 한 번에 조회 가능한가?"
+    sql_pattern: |
+      SELECT n.rdf_type, n.label, n.path FROM nodes n, edges e
+      WHERE e.type = 'owned_by' AND e.to = ? AND n.id = e.from
+
+  - id: CQ-20
+    category: audit_impact_reflection
+    question: "archive 됐던 Artifact 가 referenced_by 활성 Artifact 에 의해 참조되고 있나? (orphan 검출)"
+    sql_pattern: |
+      SELECT a1.path AS archived, a2.path AS still_referencing
+      FROM nodes a1, edges e, nodes a2
+      WHERE a1.rdf_type = 'Artifact' AND a1.path LIKE '%/archive/%'
+        AND e.type = 'references' AND e.to = a1.id
+        AND a2.id = e.from AND a2.path NOT LIKE '%/archive/%'

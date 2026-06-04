@@ -87,8 +87,17 @@ adversarial_baseline:
 review_cadence_days: 30  # 시장 변동 대응
 cost_cap_monthly_usd: 15.0  # opus model + WebSearch
 cache_strategy:
-  ttl: "30m"
+  ttl: "1h"  # Updated 2026-05-10: cost_analysis_v1 §7 권고 (cron routine + ad-hoc burst)
   priority: P0
+  cache_breakpoints:
+    - location: "system_prompt"
+      ttl: "1h"
+      ephemeral: true
+  estimated_monthly_savings_usd: 0.50
+  break_even_calls_per_hour: 0.08  # 1h cache: N≥3 호출 break-even
+  caching_path: "sora_engine"
+  rollout_phase: "phase_2"
+  model_note: "Opus 4.7, 매일 09:00 daily-strategy-briefing cron 으로 1h cache ROI 보장"
 conflicts_with: []
 related_personas:
   - sora-sre-ops

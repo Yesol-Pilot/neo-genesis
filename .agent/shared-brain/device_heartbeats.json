@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "lastCollectedAt": "2026-05-11T12:34:19+09:00",
+  "devices": {
+    "desktop-home": {
+      "connectivity": "local",
+      "rolloutState": "verified_installed_primary_latest_ssot",
+      "generatedAt": "2026-05-11T12:34:19+09:00",
+      "runtimeRevision": "efb4158933c50dc6",
+      "runtimeRevisionMatch": true
+    },
+    "ysh-server": {
+      "connectivity": "tailscale_ssh",
+      "rolloutState": "verified_installed_primary_latest_ssot",
+      "generatedAt": "2026-05-11T12:34:19+09:00",
+      "runtimeRevision": "efb4158933c50dc6",
+      "runtimeRevisionMatch": true
+    },
+    "etribe-yesol": {
+      "connectivity": "tailscale_ssh",
+      "rolloutState": "verified_installed_primary_latest_ssot",
+      "generatedAt": "2026-05-11T12:34:19+09:00",
+      "runtimeRevision": "efb4158933c50dc6",
+      "runtimeRevisionMatch": true
+    },
+    "yesol-asus": {
+      "connectivity": "tailscale_ssh",
+      "rolloutState": "secondary_not_refreshed_this_run",
+      "generatedAt": "2026-05-11T12:34:19+09:00",
+      "runtimeRevision": "b65dd81ca8e4bddf",
+      "runtimeRevisionMatch": false
+    },
+    "heejin": {
+      "connectivity": "tailscale_offline",
+      "rolloutState": "tailscale_offline_ssh_timeout",
+      "generatedAt": "2026-05-11T12:34:19+09:00",
+      "runtimeRevision": "b65dd81ca8e4bddf",
+      "runtimeRevisionMatch": false
+    }
+  }
+}

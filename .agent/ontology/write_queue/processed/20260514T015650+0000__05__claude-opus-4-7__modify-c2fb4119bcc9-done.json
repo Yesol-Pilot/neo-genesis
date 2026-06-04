@@ -1,0 +1,33 @@
+{
+  "proposed_at": "2026-05-14T01:56:50+00:00",
+  "agent_id": "claude-opus-4-7",
+  "name": "modify-c2fb4119bcc9-done",
+  "priority": 5,
+  "diff": {
+    "add_nodes": [],
+    "add_edges": [],
+    "modify_nodes": [
+      {
+        "id": "neo://task/5fe82e8e9684",
+        "set": {
+          "status": "done",
+          "updated_at": "2026-05-14T01:56:50+00:00"
+        }
+      }
+    ],
+    "remove_node_ids": [],
+    "remove_edge_ids": []
+  },
+  "status": "committed",
+  "committed_at": "2026-05-14T01:56:50+00:00",
+  "action_run_id": "neo://action_run/wq-20260514T015650+0000__05__claude-opus-4-7__modify-c2fb4119bcc9-done",
+  "apply_summary": {
+    "nodes_added": 0,
+    "edges_added": 0,
+    "nodes_modified": 1,
+    "nodes_removed": 0,
+    "edges_removed": 0,
+    "action_run_id": "neo://action_run/wq-20260514T015650+0000__05__claude-opus-4-7__modify-c2fb4119bcc9-done",
+    "affected_count": 1
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neogenesis.local/schemas/decision_artifact.schema.json",
+  "title": "Neo Genesis Decision Artifact",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schemaVersion",
+    "generatedAt",
+    "run",
+    "mission",
+    "verdict",
+    "summary",
+    "evidence",
+    "risks",
+    "approvals",
+    "nextActions"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "ng.judgment.v1"
+    },
+    "generatedAt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run": {
+      "type": "object",
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "type": "string", "minLength": 1 },
+        "sourceArtifacts": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "mission": {
+      "type": "object",
+      "required": ["goal"],
+      "properties": {
+        "goal": { "type": "string", "minLength": 1 },
+        "successCriteria": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "verdict": {
+      "type": "object",
+      "required": ["status", "decision", "label", "reason"],
+      "properties": {
+        "status": { "enum": ["green", "yellow", "red"] },
+        "decision": { "enum": ["proceed", "review", "block"] },
+        "label": { "type": "string", "minLength": 1 },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["conclusion", "topAction", "residualRisk"],
+      "properties": {
+        "conclusion": { "type": "string", "minLength": 1 },
+        "topAction": { "type": "string", "minLength": 1 },
+        "residualRisk": { "type": "string", "minLength": 1 }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/namedStatusValue" }
+    },
+    "lanes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/namedStatusValue" }
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidence" }
+    },
+    "risks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/risk" }
+    },
+    "approvals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/approval" }
+    },
+    "memory": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/namedStatusValue" }
+    },
+    "nextActions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/action" }
+    }
+  },
+  "$defs": {
+    "namedStatusValue": {
+      "type": "object",
+      "required": ["label", "value"],
+      "properties": {
+        "label": { "type": "string" },
+        "value": {},
+        "status": { "enum": ["green", "yellow", "red", "neutral"] },
+        "detail": { "type": "string" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["type", "label", "status", "reference"],
+      "properties": {
+        "type": {
+          "enum": ["file", "url", "command", "test", "diff", "screenshot", "log", "artifact"]
+        },
+        "label": { "type": "string" },
+        "status": { "enum": ["green", "yellow", "red", "neutral"] },
+        "reference": { "type": "string" },
+        "summary": { "type": "string" }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "required": ["severity", "label", "mitigation"],
+      "properties": {
+        "severity": { "enum": ["low", "medium", "high", "critical"] },
+        "label": { "type": "string" },
+        "mitigation": { "type": "string" },
+        "status": { "enum": ["open", "mitigated", "accepted"] }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "required": ["authorityTier", "action", "scope", "rollbackPath", "state"],
+      "properties": {
+        "authorityTier": { "enum": ["G0", "G1", "G2", "G3", "G4", "G5"] },
+        "action": { "type": "string" },
+        "scope": { "type": "string" },
+        "rollbackPath": { "type": "string" },
+        "state": { "enum": ["not_required", "pending", "approved", "rejected", "blocked"] }
+      }
+    },
+    "action": {
+      "type": "object",
+      "required": ["label", "owner", "status"],
+      "properties": {
+        "label": { "type": "string" },
+        "owner": { "type": "string" },
+        "status": { "enum": ["next", "pending", "blocked", "done"] },
+        "due": { "type": "string" }
+      }
+    }
+  }
+}

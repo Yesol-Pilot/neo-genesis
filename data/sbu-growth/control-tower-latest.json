@@ -1,99 +1,11 @@
 {
-  "generatedAt": "2026-05-09T11:35:46+09:00",
-  "today": "2026-05-09",
+  "generatedAt": "2026-05-28T12:21:42+09:00",
+  "today": "2026-05-28",
   "targetMau": 100000,
   "monthlyVisitsPerReadyPost": 350,
   "requiredReadyPosts": 286,
   "liveChecked": true,
   "sites": [
-    {
-      "id": "toolpick",
-      "name": "ToolPick",
-      "domain": "https://toolpick.dev",
-      "benchmark": true,
-      "targetMau": 100000,
-      "monthlyVisitsPerReadyPost": 350,
-      "score": 88,
-      "status": "green",
-      "local": {
-        "siteDir": "src\\sbu\\toolpick",
-        "exists": true,
-        "package": {
-          "hasBuild": true,
-          "hasPostbuild": true,
-          "name": "blog"
-        },
-        "vercel": {
-          "hasProject": true,
-          "projectId": "prj_rpONFbbcg3ZSoy1A0h94S8FeqBrq",
-          "orgId": "team_YQwNNAv4XjpyZALb2O8A67tL"
-        },
-        "git": {
-          "remoteOk": true,
-          "emailOk": true,
-          "dirty": false,
-          "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/https-www.toolpick.dev-.git (push)",
-          "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
-        },
-        "posts": {
-          "total": 426,
-          "ready": 426,
-          "requiredFor100k": 286,
-          "additionalReadyNeeded": 0,
-          "modeledMau": 149100,
-          "mauGap": 0,
-          "latest": {
-            "slug": "2026-05-09-ai-agent-evaluation-platforms",
-            "file": "src\\sbu\\toolpick\\content\\blog\\2026-05-09-ai-agent-evaluation-platforms.mdx",
-            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
-            "date": "2026-05-09",
-            "description": "AI agent evaluation platforms - A practical guide to choosing eval workflows, datasets, scoring, and guardrails for agentic products.",
-            "category": "AI Coding",
-            "draft": false,
-            "words": 903,
-            "completeFrontmatter": true,
-            "hasCta": true,
-            "hasInternalLink": true,
-            "hasExternalLink": true,
-            "ready": true
-          },
-          "daysSinceLatest": 0,
-          "fresh": true,
-          "categoryCount": 61,
-          "avgWords": 1338,
-          "frontmatterCoverage": 1,
-          "ctaCoverage": 0.754,
-          "internalLinkCoverage": 0.791,
-          "weakSamples": []
-        }
-      },
-      "live": {
-        "blog": {
-          "ok": true,
-          "status": 200,
-          "hasSlug": true,
-          "hasTitle": true
-        },
-        "detail": {
-          "ok": true,
-          "status": 200,
-          "hasTitle": true,
-          "hasDate": true
-        },
-        "sitemap": {
-          "ok": true,
-          "status": 200,
-          "hasLatestSlug": true
-        },
-        "robots": {
-          "ok": true,
-          "status": 200,
-          "hasSitemap": true
-        }
-      },
-      "actions": []
-    },
     {
       "id": "aiforge",
       "name": "AIForge",
@@ -101,8 +13,8 @@
       "benchmark": false,
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
-      "score": 87,
-      "status": "green",
+      "score": 72,
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\aiforge",
         "exists": true,
@@ -119,41 +31,48 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/aiforge.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 1
         },
         "posts": {
-          "total": 440,
-          "ready": 432,
+          "total": 444,
+          "ready": 435,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 151200,
+          "modeledMau": 152250,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-09-llm-observability-tools",
-            "file": "src\\sbu\\aiforge\\content\\blog\\2026-05-09-llm-observability-tools.mdx",
-            "title": "LLM Observability Tools for Lean AI Teams in 2026",
-            "date": "2026-05-09",
-            "description": "LLM observability tools - A practical evaluation guide for AI tools, agent platforms, model operations, and workflow automation.",
+            "slug": "2026-05-20-ai-agent-evaluation-platforms",
+            "file": "src\\sbu\\aiforge\\content\\blog\\2026-05-20-ai-agent-evaluation-platforms.mdx",
+            "title": "AI Agent Evaluation Platforms for Product Teams in 2026",
+            "date": "2026-05-20",
+            "description": "AI agent evaluation platforms - A practical evaluation guide for AI tools, agent platforms, model operations, and workflow automation.",
             "category": "AI Tools",
             "draft": false,
-            "words": 577,
+            "words": 1081,
             "completeFrontmatter": true,
             "hasCta": true,
             "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": false
+            "ready": true
           },
-          "daysSinceLatest": 0,
-          "fresh": true,
+          "daysSinceLatest": 8,
+          "fresh": false,
           "categoryCount": 14,
-          "avgWords": 1687,
+          "avgWords": 1680,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.736,
-          "internalLinkCoverage": 0.732,
+          "ctaCoverage": 0.739,
+          "internalLinkCoverage": 0.725,
           "weakSamples": [
+            {
+              "slug": "2026-05-10-ai-workflow-automation-stack",
+              "date": "2026-05-10",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-09-llm-observability-tools",
               "date": "2026-05-09",
@@ -181,13 +100,6 @@
               "words": 580,
               "completeFrontmatter": true,
               "draft": false
-            },
-            {
-              "slug": "2026-05-05-llm-observability-tools",
-              "date": "2026-05-05",
-              "words": 577,
-              "completeFrontmatter": true,
-              "draft": false
             }
           ]
         }
@@ -216,7 +128,10 @@
           "hasSitemap": true
         }
       },
-      "actions": []
+      "actions": [
+        "Run autonomous publisher: latest MDX is older than daily freshness gate.",
+        "Review dirty working tree before automated publish/deploy."
+      ]
     },
     {
       "id": "craftdesk",
@@ -225,8 +140,8 @@
       "benchmark": false,
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
-      "score": 88,
-      "status": "green",
+      "score": 73,
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\craftdesk",
         "exists": true,
@@ -243,41 +158,48 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/craftdesk.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 1
         },
         "posts": {
-          "total": 377,
-          "ready": 369,
+          "total": 382,
+          "ready": 373,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 129150,
+          "modeledMau": 130550,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-09-creative-automation-workflow-tools",
-            "file": "src\\sbu\\craftdesk\\content\\blog\\2026-05-09-creative-automation-workflow-tools.mdx",
-            "title": "Creative Automation Workflow Tools for Small Teams in 2026",
-            "date": "2026-05-09",
-            "description": "creative automation workflow tools - A practical evaluation guide for design tools, creative automation, UI systems, and product design workflows.",
+            "slug": "2026-05-20-ai-design-qa-tools",
+            "file": "src\\sbu\\craftdesk\\content\\blog\\2026-05-20-ai-design-qa-tools.mdx",
+            "title": "AI Design QA Tools for Product Teams in 2026",
+            "date": "2026-05-20",
+            "description": "AI design QA tools - A practical evaluation guide for design tools, creative automation, UI systems, and product design workflows.",
             "category": "Design Tools",
             "draft": false,
-            "words": 581,
+            "words": 1082,
             "completeFrontmatter": true,
             "hasCta": true,
             "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": false
+            "ready": true
           },
-          "daysSinceLatest": 0,
-          "fresh": true,
-          "categoryCount": 10,
-          "avgWords": 1605,
+          "daysSinceLatest": 8,
+          "fresh": false,
+          "categoryCount": 11,
+          "avgWords": 1591,
           "frontmatterCoverage": 1,
           "ctaCoverage": 0.838,
-          "internalLinkCoverage": 0.684,
+          "internalLinkCoverage": 0.683,
           "weakSamples": [
+            {
+              "slug": "2026-05-10-design-system-documentation-tools",
+              "date": "2026-05-10",
+              "words": 581,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-09-creative-automation-workflow-tools",
               "date": "2026-05-09",
@@ -305,13 +227,6 @@
               "words": 581,
               "completeFrontmatter": true,
               "draft": false
-            },
-            {
-              "slug": "2026-05-05-creative-automation-workflow-tools",
-              "date": "2026-05-05",
-              "words": 581,
-              "completeFrontmatter": true,
-              "draft": false
             }
           ]
         }
@@ -340,7 +255,10 @@
           "hasSitemap": true
         }
       },
-      "actions": []
+      "actions": [
+        "Run autonomous publisher: latest MDX is older than daily freshness gate.",
+        "Review dirty working tree before automated publish/deploy."
+      ]
     },
     {
       "id": "deploystack",
@@ -349,8 +267,8 @@
       "benchmark": false,
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
-      "score": 87,
-      "status": "green",
+      "score": 72,
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\deploystack",
         "exists": true,
@@ -367,41 +285,48 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/deploystack.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 1
         },
         "posts": {
-          "total": 321,
-          "ready": 313,
+          "total": 326,
+          "ready": 317,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 109550,
+          "modeledMau": 110950,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-09-serverless-cost-monitoring-tools",
-            "file": "src\\sbu\\deploystack\\content\\blog\\2026-05-09-serverless-cost-monitoring-tools.mdx",
-            "title": "Serverless Cost Monitoring Tools for 2026 in 2026",
-            "date": "2026-05-09",
-            "description": "serverless cost monitoring tools - A practical evaluation guide for deployment platforms, serverless infrastructure, observability, and DevOps workflows.",
+            "slug": "2026-05-20-deployment-preview-workflows",
+            "file": "src\\sbu\\deploystack\\content\\blog\\2026-05-20-deployment-preview-workflows.mdx",
+            "title": "Deployment Preview Workflows for Startup Teams in 2026",
+            "date": "2026-05-20",
+            "description": "deployment preview workflows - A practical evaluation guide for deployment platforms, serverless infrastructure, observability, and DevOps workflows.",
             "category": "DevOps",
             "draft": false,
-            "words": 579,
+            "words": 1077,
             "completeFrontmatter": true,
             "hasCta": true,
             "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": false
+            "ready": true
           },
-          "daysSinceLatest": 0,
-          "fresh": true,
+          "daysSinceLatest": 8,
+          "fresh": false,
           "categoryCount": 11,
-          "avgWords": 1617,
+          "avgWords": 1608,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.735,
-          "internalLinkCoverage": 0.679,
+          "ctaCoverage": 0.739,
+          "internalLinkCoverage": 0.672,
           "weakSamples": [
+            {
+              "slug": "2026-05-10-edge-deployment-platforms",
+              "date": "2026-05-10",
+              "words": 576,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-09-serverless-cost-monitoring-tools",
               "date": "2026-05-09",
@@ -429,13 +354,6 @@
               "words": 576,
               "completeFrontmatter": true,
               "draft": false
-            },
-            {
-              "slug": "2026-05-05-serverless-cost-monitoring-tools",
-              "date": "2026-05-05",
-              "words": 579,
-              "completeFrontmatter": true,
-              "draft": false
             }
           ]
         }
@@ -464,7 +382,10 @@
           "hasSitemap": true
         }
       },
-      "actions": []
+      "actions": [
+        "Run autonomous publisher: latest MDX is older than daily freshness gate.",
+        "Review dirty working tree before automated publish/deploy."
+      ]
     },
     {
       "id": "finstack",
@@ -473,8 +394,8 @@
       "benchmark": false,
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
-      "score": 87,
-      "status": "green",
+      "score": 72,
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\finstack",
         "exists": true,
@@ -491,41 +412,48 @@
         "git": {
           "remoteOk": true,
           "emailOk": true,
-          "dirty": false,
+          "dirty": true,
           "remoteSummary": "origin\thttps://github.com/Yesol-Pilot/finstack.git (push)",
           "email": "dpthf1537@gmail.com",
-          "statusLineCount": 0
+          "statusLineCount": 1
         },
         "posts": {
-          "total": 316,
-          "ready": 308,
+          "total": 320,
+          "ready": 311,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 107800,
+          "modeledMau": 108850,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-09-fintech-risk-monitoring-platforms",
-            "file": "src\\sbu\\finstack\\content\\blog\\2026-05-09-fintech-risk-monitoring-platforms.mdx",
-            "title": "Fintech Risk Monitoring Platforms for 2026 in 2026",
-            "date": "2026-05-09",
-            "description": "fintech risk monitoring platforms - A practical evaluation guide for fintech infrastructure, payments, banking workflows, and financial SaaS tools.",
+            "slug": "2026-05-20-payment-reconciliation-tools",
+            "file": "src\\sbu\\finstack\\content\\blog\\2026-05-20-payment-reconciliation-tools.mdx",
+            "title": "Payment Reconciliation Tools for SaaS Finance Teams in 2026",
+            "date": "2026-05-20",
+            "description": "payment reconciliation tools - A practical evaluation guide for fintech infrastructure, payments, banking workflows, and financial SaaS tools.",
             "category": "Fintech",
             "draft": false,
-            "words": 580,
+            "words": 1078,
             "completeFrontmatter": true,
             "hasCta": true,
             "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": false
+            "ready": true
           },
-          "daysSinceLatest": 0,
-          "fresh": true,
+          "daysSinceLatest": 8,
+          "fresh": false,
           "categoryCount": 13,
-          "avgWords": 1175,
+          "avgWords": 1172,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.747,
-          "internalLinkCoverage": 0.668,
+          "ctaCoverage": 0.75,
+          "internalLinkCoverage": 0.659,
           "weakSamples": [
+            {
+              "slug": "2026-05-10-invoice-automation-software",
+              "date": "2026-05-10",
+              "words": 577,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-09-fintech-risk-monitoring-platforms",
               "date": "2026-05-09",
@@ -553,13 +481,6 @@
               "words": 577,
               "completeFrontmatter": true,
               "draft": false
-            },
-            {
-              "slug": "2026-05-05-fintech-risk-monitoring-platforms",
-              "date": "2026-05-05",
-              "words": 580,
-              "completeFrontmatter": true,
-              "draft": false
             }
           ]
         }
@@ -588,7 +509,10 @@
           "hasSitemap": true
         }
       },
-      "actions": []
+      "actions": [
+        "Run autonomous publisher: latest MDX is older than daily freshness gate.",
+        "Review dirty working tree before automated publish/deploy."
+      ]
     },
     {
       "id": "sellkit",
@@ -597,8 +521,8 @@
       "benchmark": false,
       "targetMau": 100000,
       "monthlyVisitsPerReadyPost": 350,
-      "score": 88,
-      "status": "green",
+      "score": 73,
+      "status": "yellow",
       "local": {
         "siteDir": "src\\sbu\\sellkit",
         "exists": true,
@@ -621,35 +545,42 @@
           "statusLineCount": 0
         },
         "posts": {
-          "total": 300,
-          "ready": 292,
+          "total": 304,
+          "ready": 295,
           "requiredFor100k": 286,
           "additionalReadyNeeded": 0,
-          "modeledMau": 102200,
+          "modeledMau": 103250,
           "mauGap": 0,
           "latest": {
-            "slug": "2026-05-09-ai-product-description-tools",
-            "file": "src\\sbu\\sellkit\\content\\blog\\2026-05-09-ai-product-description-tools.mdx",
-            "title": "AI Product Description Tools for Online Stores in 2026",
-            "date": "2026-05-09",
-            "description": "AI product description tools - A practical evaluation guide for ecommerce growth, sales enablement, marketing automation, and conversion tools.",
+            "slug": "2026-05-20-ecommerce-conversion-analytics-tools",
+            "file": "src\\sbu\\sellkit\\content\\blog\\2026-05-20-ecommerce-conversion-analytics-tools.mdx",
+            "title": "Ecommerce Conversion Analytics Tools for 2026",
+            "date": "2026-05-20",
+            "description": "ecommerce conversion analytics tools - A practical evaluation guide for ecommerce growth, sales enablement, marketing automation, and conversion tools.",
             "category": "Sales Tools",
             "draft": false,
-            "words": 580,
+            "words": 1081,
             "completeFrontmatter": true,
             "hasCta": true,
             "hasInternalLink": false,
             "hasExternalLink": false,
-            "ready": false
+            "ready": true
           },
-          "daysSinceLatest": 0,
-          "fresh": true,
+          "daysSinceLatest": 8,
+          "fresh": false,
           "categoryCount": 10,
-          "avgWords": 1023,
+          "avgWords": 1022,
           "frontmatterCoverage": 1,
-          "ctaCoverage": 0.88,
-          "internalLinkCoverage": 0.75,
+          "ctaCoverage": 0.882,
+          "internalLinkCoverage": 0.743,
           "weakSamples": [
+            {
+              "slug": "2026-05-10-customer-review-mining-tools",
+              "date": "2026-05-10",
+              "words": 580,
+              "completeFrontmatter": true,
+              "draft": false
+            },
             {
               "slug": "2026-05-09-ai-product-description-tools",
               "date": "2026-05-09",
@@ -677,13 +608,6 @@
               "words": 580,
               "completeFrontmatter": true,
               "draft": false
-            },
-            {
-              "slug": "2026-05-05-ai-product-description-tools",
-              "date": "2026-05-05",
-              "words": 580,
-              "completeFrontmatter": true,
-              "draft": false
             }
           ]
         }
@@ -712,7 +636,9 @@
           "hasSitemap": true
         }
       },
-      "actions": []
+      "actions": [
+        "Run autonomous publisher: latest MDX is older than daily freshness gate."
+      ]
     }
   ]
 }

@@ -1,0 +1,1137 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:," />
+    <title>내 사이트 통계 관제</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f8fa;
+        --surface: #ffffff;
+        --surface-2: #eef2f6;
+        --text: #18202a;
+        --muted: #657184;
+        --line: #d9e0e8;
+        --blue: #2563eb;
+        --green: #138a55;
+        --amber: #b45309;
+        --red: #b91c1c;
+        --ink: #0f172a;
+        --shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter,
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Noto Sans KR",
+          sans-serif;
+        letter-spacing: 0;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+      }
+
+      .rail {
+        background: #172033;
+        color: #f8fafc;
+        padding: 22px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .brand {
+        display: grid;
+        gap: 6px;
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 22px;
+        line-height: 1.15;
+        font-weight: 760;
+      }
+
+      .brand small {
+        color: #b8c3d6;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .tabs {
+        display: grid;
+        gap: 8px;
+      }
+
+      .tab {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: transparent;
+        color: #dbe6f5;
+        text-align: left;
+        border-radius: 8px;
+        min-height: 42px;
+        padding: 10px 12px;
+        cursor: pointer;
+      }
+
+      .tab.active {
+        background: #f8fafc;
+        color: #172033;
+        border-color: #f8fafc;
+      }
+
+      .rail-meta {
+        margin-top: auto;
+        display: grid;
+        gap: 10px;
+        color: #c8d2e2;
+        font-size: 12px;
+      }
+
+      .content {
+        min-width: 0;
+        padding: 22px;
+        display: grid;
+        gap: 18px;
+        align-content: start;
+      }
+
+      .topbar {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .topbar h2 {
+        margin: 0;
+        font-size: 24px;
+        line-height: 1.2;
+      }
+
+      .status-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: var(--surface-2);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 680;
+        white-space: nowrap;
+      }
+
+      .pill.trusted,
+      .pill.P3 {
+        background: #e9f8f1;
+        color: var(--green);
+      }
+
+      .pill.degraded,
+      .pill.P2 {
+        background: #fff3df;
+        color: var(--amber);
+      }
+
+      .pill.blocked,
+      .pill.P0,
+      .pill.P1 {
+        background: #fdecec;
+        color: var(--red);
+      }
+
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      .panel-head {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .panel-head h3 {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.2;
+      }
+
+      .panel-body {
+        padding: 16px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .grid.metrics {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .metric {
+        min-height: 96px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 13px;
+        background: #fbfcfe;
+        display: grid;
+        align-content: space-between;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .metric strong {
+        font-size: 26px;
+        line-height: 1.1;
+      }
+
+      .metric.primary {
+        border-color: #b8d3ff;
+        background: #f3f7ff;
+      }
+
+      .metric.good strong {
+        color: var(--green);
+      }
+
+      .metric.warn strong {
+        color: var(--amber);
+      }
+
+      .metric.bad strong {
+        color: var(--red);
+      }
+
+      .headline {
+        margin: 0;
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .leaderboard {
+        display: grid;
+        gap: 9px;
+      }
+
+      .leader-row {
+        display: grid;
+        grid-template-columns: 26px minmax(0, 1fr) auto auto;
+        gap: 10px;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: #fff;
+      }
+
+      .leader-rank {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 760;
+      }
+
+      .leader-main {
+        display: grid;
+        gap: 2px;
+      }
+
+      .leader-main strong {
+        font-size: 14px;
+      }
+
+      .leader-main span,
+      .leader-value,
+      .leader-rate {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .command-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+        gap: 14px;
+      }
+
+      .action-list,
+      .finding-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .action-row,
+      .finding-row {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        display: grid;
+        gap: 7px;
+        background: #fff;
+      }
+
+      .row-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .row-title strong {
+        font-size: 14px;
+      }
+
+      .row-title span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .row-text {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .search {
+        width: min(360px, 100%);
+        min-height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 8px 10px;
+        background: #fff;
+        color: var(--text);
+      }
+
+      .segmented {
+        display: inline-flex;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .segmented button {
+        border: 0;
+        background: #fff;
+        min-height: 36px;
+        padding: 7px 10px;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .segmented button.active {
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .table-wrap {
+        overflow: auto;
+      }
+
+      .site-card-list {
+        display: none;
+        gap: 10px;
+        padding: 0 16px 16px;
+      }
+
+      .site-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        background: #fff;
+        display: grid;
+        gap: 10px;
+      }
+
+      .site-card-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .site-card-head strong {
+        display: block;
+        font-size: 14px;
+      }
+
+      .site-card-head span,
+      .site-card-next {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .site-card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .site-card-metric {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 8px;
+        background: #fbfcfe;
+      }
+
+      .site-card-metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .site-card-metric strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 16px;
+      }
+
+      table {
+        width: 100%;
+        min-width: 880px;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+        font-size: 13px;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 720;
+        background: #fbfcfe;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+
+      td.num,
+      th.num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .site-cell {
+        display: grid;
+        gap: 3px;
+      }
+
+      .site-cell strong {
+        font-size: 13px;
+      }
+
+      .site-cell span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .bar {
+        width: 100%;
+        height: 8px;
+        background: #e5eaf1;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .bar > span {
+        display: block;
+        height: 100%;
+        min-width: 2px;
+        background: linear-gradient(90deg, #138a55, #2563eb);
+      }
+
+      .empty,
+      .error {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--muted);
+      }
+
+      .error {
+        color: var(--red);
+        border-color: #f5b5b5;
+        background: #fff8f8;
+      }
+
+      .view {
+        display: none;
+      }
+
+      .view.active {
+        display: grid;
+        gap: 18px;
+      }
+
+      @media (max-width: 980px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+
+        .rail {
+          position: sticky;
+          top: 0;
+          z-index: 5;
+          padding: 14px;
+        }
+
+        .tabs {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .rail-meta {
+          display: none;
+        }
+
+        .command-grid,
+        .grid.metrics {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .content {
+          padding: 14px;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .tabs {
+          grid-template-columns: 1fr;
+        }
+
+        .sites-performance .table-wrap {
+          display: none;
+        }
+
+        .sites-performance .site-card-list {
+          display: grid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="rail">
+        <div class="brand">
+          <h1>내 사이트 통계 관제</h1>
+          <small id="railSnapshot">스냅샷 불러오는 중</small>
+        </div>
+        <nav class="tabs" aria-label="대시보드 보기">
+          <button class="tab active" data-view="command">관제</button>
+          <button class="tab" data-view="sites">사이트</button>
+          <button class="tab" data-view="integrity">측정상태</button>
+        </nav>
+        <div class="rail-meta">
+          <span id="railTrust">신뢰도: 확인 중</span>
+          <span id="railSources">정상 소스: 확인 중</span>
+        </div>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <h2 id="pageTitle">관제</h2>
+            <div class="status-strip" id="statusStrip"></div>
+          </div>
+          <div class="segmented" aria-label="사이트 필터">
+            <button class="filter active" data-filter="all">전체</button>
+            <button class="filter" data-filter="blocked">문제</button>
+            <button class="filter" data-filter="growth">성장</button>
+          </div>
+        </header>
+
+        <section class="view active" id="view-command"></section>
+        <section class="view" id="view-sites"></section>
+        <section class="view" id="view-integrity"></section>
+      </main>
+    </div>
+
+    <script>
+      const state = {
+        snapshot: null,
+        view: "command",
+        filter: "all",
+        query: "",
+      };
+
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+      const fmt = (value) => new Intl.NumberFormat("ko-KR").format(Number(value || 0));
+      const pct = (value) => `${Math.max(0, Math.min(100, Number(value || 0))).toFixed(0)}%`;
+      const fmtRate = (value) => (value === null || value === undefined ? "비교대기" : `${(Number(value) * 100).toFixed(1)}%`);
+      const signedPct = (value) => {
+        if (value === null || value === undefined || Number.isNaN(Number(value))) return "비교대기";
+        const numeric = Number(value) * 100;
+        return `${numeric > 0 ? "+" : ""}${numeric.toFixed(1)}%`;
+      };
+      const sourceLabel = (value) => ({ posthog: "PostHog 기준", ga4: "GA4 기준", none: "소스 없음" })[value] ?? String(value ?? "-");
+      const stageLabels = {
+        conversion_leak: "전환 누수",
+        traffic_drop: "방문 감소",
+        growing: "성장 중",
+        performing: "성과 발생",
+        early_signal: "초기 신호",
+        no_traffic: "유입 약함",
+        candidate: "후보",
+      };
+      const esc = (value) =>
+        String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      const viewLabels = {
+        command: "관제",
+        sites: "사이트",
+        integrity: "측정상태",
+      };
+      const trustLabels = {
+        Candidate: "후보",
+        Blocked: "문제",
+        "Needs event": "이벤트 필요",
+        Usable: "사용 가능",
+      };
+      const stateLabels = {
+        trusted: "신뢰 가능",
+        degraded: "주의",
+        blocked: "차단",
+        ok: "정상",
+        error: "오류",
+      };
+      const actionLabels = {
+        IMPROVE_CONVERSION: "전환 개선",
+        RECOVER_TRAFFIC: "방문 회복",
+        GROW_SEARCH_INTENT: "검색 수요 성장",
+        FIX_MEASUREMENT: "측정 복구",
+        REVIEW_DATA_TRUST: "측정 신뢰도 점검",
+      };
+      const textMap = new Map([
+        ["Broad non-pageview activity is much larger than allowlisted decision events.", "페이지뷰 외 활동이 허용된 의사결정 이벤트보다 훨씬 큽니다."],
+        ["Keep noisy PostHog events out of owner KPI cards and expose them only in diagnostics.", "잡음이 큰 PostHog 이벤트는 KPI 카드에서 제외하고 진단 화면에만 노출하세요."],
+        ["Search Console data is delayed by design and should not be read as live traffic.", "Search Console 데이터는 구조적으로 지연되므로 실시간 트래픽으로 읽으면 안 됩니다."],
+        ["Use GSC for search demand/opportunity, not same-day live decisions.", "GSC는 당일 판단이 아니라 검색 수요와 기회 판단에 사용하세요."],
+        ["Traffic exists but no allowlisted decision event was captured.", "트래픽은 있지만 허용된 의사결정 이벤트가 잡히지 않았습니다."],
+        ["Instrument one primary owner decision event for this site before optimizing conversion.", "전환 최적화 전에 이 사이트의 핵심 의사결정 이벤트 1개를 먼저 심으세요."],
+        ["GA4 tag is present but GA4 current-window users are still zero while PostHog has traffic.", "GA4 태그는 있지만 PostHog 트래픽 대비 GA4 현재 구간 사용자가 아직 0입니다."],
+        ["Keep the site visible, then recheck GA4 after data latency; if it remains zero, inspect ad blockers, consent, and duplicate static analytics.", "사이트는 노출 상태로 두고 지연 시간을 지난 뒤 GA4를 재확인하세요. 계속 0이면 광고 차단, 동의 설정, 중복 정적 분석 태그를 점검하세요."],
+        ["Rewrite Korean title/description/H1 for comparison and purchase-review intent.", "비교와 구매 검토 의도에 맞춰 한국어 title, description, H1을 다시 쓰세요."],
+        ["Measurement is incomplete.", "측정 구성이 불완전합니다."],
+      ]);
+
+      function koText(value) {
+        const text = String(value ?? "");
+        if (textMap.has(text)) return textMap.get(text);
+        const searchDemand = text.match(/^Exploit search demand: (.+)$/);
+        if (searchDemand) return `검색 수요 활용: ${searchDemand[1]}`;
+        const gscVisible = text.match(/^([0-9,]+) impressions and ([0-9,]+) opportunity pages are visible in GSC\.$/);
+        if (gscVisible) return `GSC에서 ${gscVisible[1]}회 노출과 ${gscVisible[2]}개 기회 페이지가 보입니다.`;
+        return text;
+      }
+
+      function koState(value) {
+        return stateLabels[value] ?? value;
+      }
+
+      function koAction(value) {
+        return actionLabels[value] ?? value;
+      }
+
+      function severityLabel(summary) {
+        if (!summary) return "";
+        return ["P0", "P1", "P2", "P3"]
+          .map((key) => `<span class="pill ${key}">${key} ${fmt(summary[key])}</span>`)
+          .join("");
+      }
+
+      function metric(label, value, detail = "", tone = "") {
+        return `<div class="metric ${esc(tone)}"><span>${esc(label)}</span><strong>${esc(value)}</strong><small>${esc(detail)}</small></div>`;
+      }
+
+      function siteTrust(site) {
+        if (site.status === "candidate_decision") return "Candidate";
+        if (site.blocked_by_measurement) return "Blocked";
+        if ((site.data?.posthog?.decision_events ?? 0) === 0 && (site.data?.posthog?.pageviews ?? 0) >= 20) return "Needs event";
+        return "Usable";
+      }
+
+      function trustClass(label) {
+        if (label === "Usable") return "trusted";
+        if (label === "Candidate" || label === "Needs event") return "degraded";
+        return "blocked";
+      }
+
+      function filteredSites() {
+        const sites = state.snapshot?.sites ?? [];
+        const query = state.query.trim().toLowerCase();
+        return sites
+          .filter((site) => {
+            if (state.filter === "blocked") return site.blocked_by_measurement;
+            if (state.filter === "growth") return !site.blocked_by_measurement && site.status === "active_live";
+            return true;
+          })
+          .filter((site) => {
+            if (!query) return true;
+            return [site.name, site.id, site.canonical_host].some((item) => String(item ?? "").toLowerCase().includes(query));
+          })
+          .sort((a, b) => Number(b.owner_score || 0) - Number(a.owner_score || 0));
+      }
+
+      function renderStatus() {
+        const snapshot = state.snapshot;
+        if (!snapshot) return;
+        $("#railSnapshot").textContent = snapshot.snapshot_id;
+        $("#railTrust").textContent = `신뢰도: ${koState(snapshot.data_trust_state)}`;
+        $("#railSources").textContent = `정상 소스: ${(snapshot.source_runs ?? []).filter((run) => run.ok).length}`;
+        $("#pageTitle").textContent = viewLabels[state.view] ?? state.view;
+        $("#statusStrip").innerHTML = [
+          `<span class="pill ${snapshot.data_trust_state}">${esc(koState(snapshot.data_trust_state))}</span>`,
+          `<span class="pill">생성 ${esc(snapshot.generated_at)}</span>`,
+          `<span class="pill">활성 ${fmt(snapshot.summary?.active_sites)}</span>`,
+          `<span class="pill blocked">측정 문제 ${fmt(snapshot.summary?.blocked_by_measurement)}</span>`,
+          severityLabel(snapshot.summary?.findings_by_severity),
+        ].join("");
+      }
+
+      function renderCommand() {
+        const snapshot = state.snapshot;
+        const sites = snapshot.sites ?? [];
+        const blocked = sites.filter((site) => site.blocked_by_measurement);
+        const active = sites.filter((site) => site.status === "active_live");
+        const actions = snapshot.actions ?? [];
+        const top = actions.slice(0, 3);
+        const decisionEvents = active.reduce((sum, site) => sum + Number(site.data?.posthog?.decision_events ?? 0), 0);
+        const pageviews = active.reduce((sum, site) => sum + Number(site.data?.posthog?.pageviews ?? 0), 0);
+        const gaUsers = active.reduce((sum, site) => sum + Number(site.data?.ga4?.users_7d ?? 0) + Number(site.data?.ga4?.users_today ?? 0), 0);
+        const gscOpps = active.reduce((sum, site) => sum + Number(site.data?.gsc?.opportunity_impressions ?? 0), 0);
+
+        $("#view-command").innerHTML = `
+          <section class="panel">
+            <div class="panel-head">
+              <h3>측정 신뢰 게이트</h3>
+              <span class="pill ${snapshot.data_trust_state}">${esc(koState(snapshot.data_trust_state))}</span>
+            </div>
+            <div class="panel-body grid metrics">
+              ${metric("PostHog 페이지뷰", fmt(pageviews), `${fmt(decisionEvents)}개 의사결정 이벤트`)}
+              ${metric("GA4 사용자 7일+오늘", fmt(gaUsers), "전용 속성 + 호스트 필터")}
+              ${metric("GSC 기회 노출", fmt(gscOpps), "Search Console 지연 반영")}
+              ${metric("측정 문제 사이트", fmt(blocked.length), `${fmt(active.length)}개 활성 사이트`)}
+            </div>
+          </section>
+
+          <div class="command-grid">
+            <section class="panel">
+              <div class="panel-head"><h3>다음 액션</h3><span class="pill">실행 대기 ${fmt(top.length)}</span></div>
+              <div class="panel-body action-list">
+                ${top
+                  .map(
+                    (action) => `
+                    <article class="action-row">
+                      <div class="row-title"><strong>${esc(action.site_name)}</strong><span>${esc(koAction(action.action_class))}</span></div>
+                      <p class="row-text">${esc(koText(action.title))}</p>
+                      <p class="row-text">${esc(koText(action.rationale))}</p>
+                    </article>`
+                  )
+                  .join("") || `<div class="empty">실행할 액션이 없습니다.</div>`}
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head"><h3>측정 불가 / 신뢰 낮은 사이트</h3><span class="pill blocked">${fmt(blocked.length)}</span></div>
+              <div class="panel-body finding-list">
+                ${blocked
+                  .slice(0, 8)
+                  .map((site) => {
+                    const related = (snapshot.findings ?? []).find((finding) => finding.site_id === site.id && ["P0", "P1"].includes(finding.severity));
+                    return `
+                    <article class="finding-row">
+                      <div class="row-title"><strong>${esc(site.name)}</strong><span>${esc(related?.code ?? "coverage")}</span></div>
+                      <p class="row-text">${esc(koText(related?.title ?? "Measurement is incomplete."))}</p>
+                    </article>`;
+                  })
+                  .join("") || `<div class="empty">측정 문제 사이트가 없습니다.</div>`}
+              </div>
+            </section>
+          </div>
+        `;
+      }
+
+      function renderCommandV2() {
+        const snapshot = state.snapshot;
+        const sites = snapshot.sites ?? [];
+        const active = sites.filter((site) => site.status === "active_live");
+        const blocked = sites.filter((site) => site.blocked_by_measurement);
+        const perf = snapshot.performance_summary ?? {};
+        const topSites = active
+          .slice()
+          .sort((a, b) => Number(b.performance?.visitors_7d ?? 0) - Number(a.performance?.visitors_7d ?? 0))
+          .slice(0, 5);
+        const conversionLeaks = active
+          .filter((site) => site.performance?.stage === "conversion_leak" || site.performance?.signals?.includes("conversion_leak"))
+          .sort((a, b) => Number(b.performance?.visitors_7d ?? 0) - Number(a.performance?.visitors_7d ?? 0));
+        const topActions = (snapshot.actions ?? []).slice(0, 3);
+        const trustDetail = `${sourceLabel(perf.primary_source)} · ${koState(perf.trust_state ?? snapshot.data_trust_state)}`;
+
+        $("#view-command").innerHTML = `
+          <section class="panel">
+            <div class="panel-head">
+              <h3>성과 요약</h3>
+              <span class="pill ${perf.trust_state ?? snapshot.data_trust_state}">${esc(trustDetail)}</span>
+            </div>
+            <div class="panel-body grid metrics">
+              ${metric("오늘 방문자", fmt(perf.today_visitors), trustDetail, "primary")}
+              ${metric("주간 방문자", fmt(perf.visitors_7d), `전주 대비 ${signedPct(perf.visitors_7d_delta_pct)}`, "primary")}
+              ${metric("주간 페이지뷰", fmt(perf.pageviews_7d), `전주 대비 ${signedPct(perf.pageviews_7d_delta_pct)}`)}
+              ${metric("성과 이벤트", fmt(perf.decision_events_7d), `전주 대비 ${signedPct(perf.decision_events_delta_pct)}`, Number(perf.decision_events_7d || 0) > 0 ? "good" : "warn")}
+              ${metric("전환율", fmtRate(perf.decision_rate_7d), "성과 이벤트 / 페이지뷰", Number(perf.decision_rate_7d || 0) > 0 ? "good" : "warn")}
+              ${metric("측정 문제", fmt(blocked.length), `${fmt(active.length)}개 활성 사이트`, blocked.length ? "bad" : "good")}
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h3>오늘의 판단</h3>
+              <span class="pill">${esc(snapshot.generated_at)}</span>
+            </div>
+            <div class="panel-body">
+              <p class="headline">${esc(perf.headline ?? "성과 요약을 계산하는 중입니다.")}</p>
+            </div>
+          </section>
+
+          <div class="command-grid">
+            <section class="panel">
+              <div class="panel-head"><h3>방문자 상위 사이트</h3><span class="pill">${fmt(topSites.length)}</span></div>
+              <div class="panel-body leaderboard">
+                ${topSites
+                  .map((site, index) => {
+                    const p = site.performance ?? {};
+                    return `
+                      <article class="leader-row">
+                        <span class="leader-rank">${index + 1}</span>
+                        <div class="leader-main">
+                          <strong>${esc(site.name)}</strong>
+                          <span>${esc(stageLabels[p.stage] ?? p.stage ?? "-")} · ${esc(p.primary_issue ?? "")}</span>
+                        </div>
+                        <span class="leader-value">${fmt(p.visitors_7d)}명</span>
+                        <span class="leader-rate">${fmt(p.decision_events_7d)}성과</span>
+                      </article>`;
+                  })
+                  .join("") || `<div class="empty">방문자 데이터가 없습니다.</div>`}
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head"><h3>전환 누수</h3><span class="pill ${conversionLeaks.length ? "degraded" : "trusted"}">${fmt(conversionLeaks.length)}</span></div>
+              <div class="panel-body action-list">
+                ${conversionLeaks
+                  .slice(0, 4)
+                  .map((site) => {
+                    const p = site.performance ?? {};
+                    return `
+                    <article class="action-row">
+                      <div class="row-title"><strong>${esc(site.name)}</strong><span>${fmt(p.visitors_7d)}명 · ${fmt(p.pageviews_7d)}PV</span></div>
+                      <p class="row-text">${esc(p.primary_issue ?? "")}</p>
+                      <p class="row-text">${esc(p.next_action ?? "")}</p>
+                    </article>`;
+                  })
+                  .join("") || `<div class="empty">큰 전환 누수 사이트가 없습니다.</div>`}
+              </div>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head"><h3>오늘 할 일</h3><span class="pill">상위 ${fmt(topActions.length)}</span></div>
+            <div class="panel-body action-list">
+              ${topActions
+                .map(
+                  (action) => `
+                  <article class="action-row">
+                    <div class="row-title"><strong>${esc(action.site_name)}</strong><span>${esc(koAction(action.action_class))}</span></div>
+                    <p class="row-text">${esc(koText(action.title))}</p>
+                    <p class="row-text">${esc(koText(action.rationale))}</p>
+                  </article>`
+                )
+                .join("") || `<div class="empty">실행할 액션이 없습니다.</div>`}
+            </div>
+          </section>
+        `;
+      }
+
+      function renderSites() {
+        $("#view-sites").innerHTML = `
+          <section class="panel">
+            <div class="panel-head toolbar">
+              <h3>사이트 목록</h3>
+              <input class="search" id="siteSearch" type="search" placeholder="사이트 검색" value="${esc(state.query)}" />
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>사이트</th>
+                    <th>신뢰도</th>
+                    <th class="num">점수</th>
+                    <th class="num">PH 사용자</th>
+                    <th class="num">PH 조회</th>
+                    <th class="num">의사결정</th>
+                    <th class="num">GA4 7일+오늘</th>
+                    <th class="num">GSC 기회</th>
+                    <th>상위 검색어</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${filteredSites()
+                    .map((site) => {
+                      const trust = siteTrust(site);
+                      const gsc = site.data?.gsc;
+                      const ph = site.data?.posthog;
+                      const ga4 = site.data?.ga4;
+                      return `
+                        <tr>
+                          <td><div class="site-cell"><strong>${esc(site.name)}</strong><span>${esc(site.canonical_host ?? site.status)}</span></div></td>
+                          <td><span class="pill ${trustClass(trust)}">${esc(trustLabels[trust] ?? trust)}</span></td>
+                          <td class="num"><div>${fmt(site.owner_score)}</div><div class="bar"><span style="width:${pct(site.owner_score)}"></span></div></td>
+                          <td class="num">${fmt(ph?.users)}</td>
+                          <td class="num">${fmt(ph?.pageviews)}</td>
+                          <td class="num">${ph?.decision_events === null || ph?.decision_events === undefined ? "-" : fmt(ph.decision_events)}</td>
+                          <td class="num">${fmt(Number(ga4?.users_7d ?? 0) + Number(ga4?.users_today ?? 0))}</td>
+                          <td class="num">${fmt(gsc?.opportunity_impressions)}</td>
+                          <td>${esc(gsc?.top_opportunity?.top_query ?? "-")}</td>
+                        </tr>`;
+                    })
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        `;
+        $("#siteSearch")?.addEventListener("input", (event) => {
+          state.query = event.target.value;
+          renderSites();
+        });
+      }
+
+      function renderSitesV2() {
+        const visibleSites = filteredSites().sort((a, b) => Number(b.performance?.visitors_7d ?? 0) - Number(a.performance?.visitors_7d ?? 0));
+        $("#view-sites").innerHTML = `
+          <section class="panel sites-performance">
+            <div class="panel-head toolbar">
+              <h3>사이트별 성과</h3>
+              <input class="search" id="siteSearch" type="search" placeholder="사이트 검색" value="${esc(state.query)}" />
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>사이트</th>
+                    <th>상태</th>
+                    <th class="num">오늘</th>
+                    <th class="num">7일 방문</th>
+                    <th class="num">전주 대비</th>
+                    <th class="num">PV</th>
+                    <th class="num">성과</th>
+                    <th class="num">전환율</th>
+                    <th>다음 액션</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${visibleSites
+                    .map((site) => {
+                      const p = site.performance ?? {};
+                      return `
+                        <tr>
+                          <td><div class="site-cell"><strong>${esc(site.name)}</strong><span>${esc(site.canonical_host ?? site.status)}</span></div></td>
+                          <td><span class="pill ${p.stage === "conversion_leak" ? "degraded" : p.stage === "traffic_drop" ? "blocked" : "trusted"}">${esc(stageLabels[p.stage] ?? p.stage ?? "-")}</span></td>
+                          <td class="num">${fmt(p.today_visitors)}</td>
+                          <td class="num">${fmt(p.visitors_7d)}</td>
+                          <td class="num">${signedPct(p.visitors_delta_pct)}</td>
+                          <td class="num">${fmt(p.pageviews_7d)}</td>
+                          <td class="num">${fmt(p.decision_events_7d)}</td>
+                          <td class="num">${fmtRate(p.decision_rate_7d)}</td>
+                          <td>${esc(p.next_action ?? "-")}</td>
+                        </tr>`;
+                    })
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+            <div class="site-card-list">
+              ${visibleSites
+                .map((site) => {
+                  const p = site.performance ?? {};
+                  return `
+                    <article class="site-card">
+                      <div class="site-card-head">
+                        <div><strong>${esc(site.name)}</strong><span>${esc(site.canonical_host ?? site.status)}</span></div>
+                        <span class="pill ${p.stage === "conversion_leak" ? "degraded" : p.stage === "traffic_drop" ? "blocked" : "trusted"}">${esc(stageLabels[p.stage] ?? p.stage ?? "-")}</span>
+                      </div>
+                      <div class="site-card-grid">
+                        <div class="site-card-metric"><span>오늘</span><strong>${fmt(p.today_visitors)}</strong></div>
+                        <div class="site-card-metric"><span>7일 방문</span><strong>${fmt(p.visitors_7d)}</strong></div>
+                        <div class="site-card-metric"><span>전주 대비</span><strong>${signedPct(p.visitors_delta_pct)}</strong></div>
+                        <div class="site-card-metric"><span>전환율</span><strong>${fmtRate(p.decision_rate_7d)}</strong></div>
+                      </div>
+                      <p class="site-card-next">${esc(p.next_action ?? "-")}</p>
+                    </article>`;
+                })
+                .join("")}
+            </div>
+          </section>
+        `;
+        $("#siteSearch")?.addEventListener("input", (event) => {
+          state.query = event.target.value;
+          renderSitesV2();
+        });
+      }
+
+      function renderIntegrity() {
+        const snapshot = state.snapshot;
+        const findings = snapshot.findings ?? [];
+        $("#view-integrity").innerHTML = `
+          <section class="panel">
+            <div class="panel-head"><h3>소스 실행 상태</h3><span class="pill">${fmt(snapshot.source_runs?.length)}</span></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>소스</th><th>경로</th><th>생성 시각</th><th class="num">지연 초</th><th>상태</th></tr></thead>
+                <tbody>
+                  ${(snapshot.source_runs ?? [])
+                    .map(
+                      (run) => `
+                      <tr>
+                        <td>${esc(run.source)}</td>
+                        <td>${esc(run.path)}</td>
+                        <td>${esc(run.generated_at ?? "-")}</td>
+                        <td class="num">${fmt(run.stale_seconds)}</td>
+                        <td><span class="pill ${run.ok ? "trusted" : "blocked"}">${run.ok ? "정상" : "오류"}</span></td>
+                      </tr>`
+                    )
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><h3>진단 항목</h3><span class="pill">${fmt(findings.length)}</span></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>심각도</th><th>코드</th><th>사이트</th><th>진단</th><th>조치</th></tr></thead>
+                <tbody>
+                  ${findings
+                    .map(
+                      (finding) => `
+                      <tr>
+                        <td><span class="pill ${esc(finding.severity)}">${esc(finding.severity)}</span></td>
+                        <td>${esc(finding.code)}</td>
+                        <td>${esc(finding.site_name ?? "-")}</td>
+                        <td>${esc(koText(finding.title))}</td>
+                        <td>${esc(koText(finding.recommended_action ?? "-"))}</td>
+                      </tr>`
+                    )
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        `;
+      }
+
+      function render() {
+        if (!state.snapshot) return;
+        renderStatus();
+        renderCommandV2();
+        renderSitesV2();
+        renderIntegrity();
+        $$(".view").forEach((view) => view.classList.toggle("active", view.id === `view-${state.view}`));
+        $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.view === state.view));
+        $$(".filter").forEach((button) => button.classList.toggle("active", button.dataset.filter === state.filter));
+      }
+
+      async function load() {
+        try {
+          const response = await fetch(`./owner-traffic-latest.json?t=${Date.now()}`);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          state.snapshot = await response.json();
+          render();
+        } catch (error) {
+          $(".content").innerHTML = `<div class="error">최신 통계 데이터를 불러오지 못했습니다: ${esc(error.message)}</div>`;
+        }
+      }
+
+      $$(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          state.view = tab.dataset.view;
+          render();
+        });
+      });
+
+      $$(".filter").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.filter = button.dataset.filter;
+          render();
+        });
+      });
+
+      load();
+    </script>
+  </body>
+</html>
