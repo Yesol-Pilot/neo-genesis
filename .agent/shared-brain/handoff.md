@@ -1,4 +1,39 @@
-# Handoff: Jarvis 단일PC 통합 (ysh→desktop-home WSL2) (2026-05-29, Claude Opus 4.8 Strategy Lead)
+# Handoff (2026-06-04, Claude Opus 4.8)
+
+---
+
+## 🟢 2026-06-04 7일치 미커밋 작업 master 통합 + CI 4-red→0 (Claude Opus 4.8)
+
+owner 흐름: "프로젝트 분석" → "개선계획(사이드이펙트)" → "확인·감사 후 진행" → "잠시 멈춤 OK, aftermath 없게" → "너가 판단·다른 에이전트 논의".
+
+### 결과 (검증)
+- **origin/master = `a96392f`**, working tree(내 변경분) 클린, 데몬 Running 무사, **데이터 손실 0**.
+- 7일간 단일 디스크에만 있던 작업(Jarvis 안전레이어 `command_governor` 최초 커밋 / 온톨로지 `scripts/ontology` 최초 커밋 / sora 런타임 `system_tools` +817 등)을 **5 logical 커밋**으로 통합: `d97ce0e`(CI+ontology) `597e0a4`(Jarvis) `0cca39d`(SSOT/data) `2efa4c3`(threat guard) `a96392f`(rag+trigger).
+- **SPOF 백업**: `wip/pre-cleanup-20260604`(`4a31846`) — rollback 안전망(며칠 후 폐기 가능).
+
+### Wave 0 (reversible)
+- 온톨로지 무결성 게이트 RED(30위반)→GREEN: `validate.py`에 `biz:OutcomeSnapshot` 등록.
+- 보안: `.gitignore` `.env*`+`output/`(실키 30개 staging 차단) / `active-tasks.md` incident dead-key 2건(L434 anthropic·L548 google) redact → gitleaks 클린.
+
+### CI 정합 (sora-quality-gate 4-red → 8/8 GREEN + persona green)
+- `sora-deploy.yml`→`.disabled`(폐기 ysh self-hosted + 기존부터 broken YAML).
+- golden-static missing-script guard / threat-model 부재 시 warn / **hardcode-audit owner 이름 allowlist**(owner 결정, 전화·이메일 차단 유지) / **push paths를 PR과 동일화**(보안코드 변경 미발화 갭, SRE 발견).
+- **rag_poisoning RED 근본원인**(4-렌즈 패널 라이브 재현): `run_sora_adversarial.py:313`이 `is_quarantined(risk_score:int)` 호출 = 하네스 시그니처 버그(시그니처 `is_quarantined(text:str)`). quarantine 로직 정상(role-hijack score=15 탐지) = **실보안구멍 아님**. local/CI 발산 = untracked `src/core/rag_v2/__init__.py`가 부재 모듈(`chunk_metadata`/`provenance_classifier`) import → local SKIP(false-green)/CI namespace-pkg→int버그 RED. → `:313` text 전달 1줄 fix로 **P0 11/11 PASS**.
+
+### 정직한 잔존 (다음 세션)
+- **A042/A043 P1 갭 보존**(base64/html-comment smuggling 미탐지) — fixture 약화로 거짓 green 안 만듦(보안 원칙). rag_v2 라이브 호출자 0 + 신뢰 디렉토리만 인덱싱 = 현 노출 0. 외부 문서 ingestion 붙이면 **P0 승격** (위협모델 박제 권장).
+- **rag_v2 scaffold 미정합**: `__init__.py`(untracked)가 부재 2모듈 import = 반쯤 제거된 scaffold. 정합화는 owner 의도 결정 필요.
+- **🔴 미커밋 별개 워크스트림**(동시 작업 가능성 — 내가 커밋 안 함): `src/core/tiktok_aino/pipeline.py`(M, AI생성이미지 고지) + `.agent/knowledge/20260604_TOOLPICK_DEEP_ANALYSIS_v1.md`(??) + `scripts/tiktok_aino_generate_with_credentials.py`(??). 담당/완결 확인 후 별도 커밋.
+- `sync_agent_context.py`: ssotRevision 일관(cosmetic), .agent 실변경 커밋 후에만.
+
+### Rollback
+`wip/pre-cleanup-20260604` 백업 / 각 커밋 `git revert` / `.disabled` rename 복원.
+
+👤 Claude Opus 4.8 (master 통합 + CI 완전 green, 4-렌즈 패널 판단)
+
+---
+
+## (이전) Jarvis 단일PC 통합 (ysh→desktop-home WSL2) (2026-05-29, Claude Opus 4.8 Strategy Lead)
 
 ---
 
