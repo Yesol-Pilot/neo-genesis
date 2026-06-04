@@ -1,0 +1,88 @@
+name: Persona Adversarial Gate
+
+# Manual + push (static contract only)
+# Live mode 는 CI 자동 trigger 안 함 — owner G2 수동 dispatch 만
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'tests/sora_adversarial/persona_v1.json'
+      - 'scripts/run_persona_adversarial.py'
+      - '.agent/personas/**'
+      - '.agent/policies/persona_safety.yaml'
+  pull_request:
+    paths:
+      - 'tests/sora_adversarial/persona_v1.json'
+      - 'scripts/run_persona_adversarial.py'
+      - '.agent/personas/**'
+      - '.agent/policies/persona_safety.yaml'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'static | live-sample (live = owner G2 + cost incurs)'
+        required: true
+        default: 'static'
+        type: choice
+        options:
+          - static
+          - live-sample
+      max_cost_usd:
+        description: 'Live mode hard cost cap (USD)'
+        required: false
+        default: '0.50'
+
+jobs:
+  static-contract:
+    name: Static Contract (180 cases)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run static contract validation
+        run: |
+          python scripts/run_persona_adversarial.py --report text --fail-on P0
+          echo "EXIT=$?"
+
+      - name: Run regression guard
+        run: |
+          python scripts/run_persona_adversarial.py --regression-check --fail-on P0
+
+  live-sample:
+    name: Live Sample (owner G2)
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'live-sample'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: static-contract
+    environment: live-adversarial-gate  # GitHub environment requires owner approval
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Anthropic SDK
+        run: pip install anthropic
+
+      - name: Run live sample (5 P0 cases, $0.50 cap)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python scripts/run_persona_adversarial.py \
+            --live --owner-approved \
+            --sample 5 --severity P0 \
+            --max-cost-usd ${{ github.event.inputs.max_cost_usd }} \
+            --report json --fail-on P0 \
+            > live-sample-result.json
+          cat live-sample-result.json | python -c "import sys, json; d=json.load(sys.stdin); print(f'cost=${d[\"total_cost_usd\"]:.4f} abort={d[\"abort_reason\"]}')"
+
+      - name: Upload result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-sample-result
+          path: live-sample-result.json
+          retention-days: 30

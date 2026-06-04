@@ -6,6 +6,8 @@
 .env
 .env.local
 .env.*.local
+.env*
+!.env.example
 
 # 의존성
 node_modules/
@@ -97,6 +99,8 @@ data/sbu-growth/search-growth-flywheel-core-*.json
 data/sbu-growth/search-growth-flywheel-core-*.md
 data/sbu-growth/seo-geo-live-*.json
 data/sbu-growth/seo-geo-live-*.md
+data/sbu-growth/judgment-control-*.json
+data/sbu-growth/judgment-control-*.html
 !data/sbu-growth/control-tower-latest.json
 !data/sbu-growth/control-tower-latest.md
 !data/sbu-growth/growth-loop-latest.json
@@ -109,8 +113,16 @@ data/sbu-growth/seo-geo-live-*.md
 !data/sbu-growth/search-growth-flywheel-core-latest.md
 !data/sbu-growth/seo-geo-live-latest.json
 !data/sbu-growth/seo-geo-live-latest.md
+!data/sbu-growth/judgment-control-latest.json
+!data/sbu-growth/judgment-control-latest.html
 scripts/geo_measure/citations*.sqlite3
 .env.fleet-sync-merged.tmp
 
 # Blog autogen run drafts (local artifacts)
 scripts/blog_autogen/runs/
+
+# Local browser/content verification artifacts
+output/playwright/
+output/tiktok_aino/
+
+output/
