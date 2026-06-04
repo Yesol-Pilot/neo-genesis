@@ -310,7 +310,7 @@ def _run_rag_poisoning(test: dict) -> TestResult:
         else:
             risk_score = _r
             hits = []
-        quarantined = is_quarantined(risk_score)
+        quarantined = is_quarantined(normalized)  # 2026-06-04 fix: is_quarantined(text:str) — int risk_score 전달 TypeError 버그 수정
         expect_quarantine = test.get("expect_pdf_sanitizer_quarantine") or test.get("expect_quarantine")
         if expect_quarantine:
             ok = quarantined

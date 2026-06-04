@@ -23,13 +23,20 @@ on:
   push:
     branches: [main, master]
     paths:
+      # 2026-06-04: push paths 를 pull_request 와 동일화 (보안 코드 변경이 게이트 미발화하던 갭 해소)
       - 'src/core/sora_engine.py'
       - 'src/core/brain/**'
       - 'src/core/hooks/**'
       - 'src/core/security/**'
       - 'src/core/governance/**'
       - 'src/core/observability/**'
+      - 'src/core/rag_v2/**'
       - '.agent/SORA_CONSTITUTION.md'
+      - '.agent/policies/**'
+      - 'tests/sora_golden/**'
+      - 'tests/sora_adversarial/**'
+      - 'scripts/run_sora_golden.py'
+      - 'scripts/run_sora_adversarial.py'
   workflow_dispatch:
     # owner manual trigger 가능
 
