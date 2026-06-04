@@ -16,12 +16,12 @@
 
 | # | 위치 | 처분 | 디스크 상태 |
 |---|---|---|---|
-| ② AIzaSyDLD0He | `003.portfolio-career/006.portfolio/public/resume/app.js:493` | ✅ `window.LOCAL_GEMINI_KEY \|\| null` 패턴 | 평문 제거 |
-| ③ AIzaSyAcfKsm | `003.portfolio-career/006.portfolio/test_ai_direct.js:4` | ✅ `process.env.GEMINI_API_KEY` + dotenv | 평문 제거 |
-| ④ AIzaSyCAHlQZ | `003.portfolio-career/006.portfolio/.env` git history (commit cb9cb8b) | ⏸️ G2 — BFG history rewrite (force push 영향) | history embedded |
-| ⑤ AIzaSyDOX93_m | `003.portfolio-career/006.portfolio/.env` 현재값 | ✅ Codex swap 완료 (5/18 이전 박제) | 활성 새 키 |
-| ⑥ AIzaSyAg4uO1 | `006.games-labs/004.multiverse-creature-lab/js/firebase_config.js` + `firebase/FirebaseService.js` | ⚠️ 설계상 안전 — Firebase Web SDK Spark plan / GCP Console 에서 Generative Language API enable 여부만 owner 점검 권고 | 평문 유지 (정상) |
-| ⑦ AIzaSyBWYnjP | `neo-genesis/src/sbu/ur-wrong/.env.production` (+ 3 variants) | ✅ Codex swap 완료 (5/18 이전) / Vercel env 측 swap 검증 ⏸️ G2 | 활성 새 키 |
+| ② <REDACTED-google-key> | `003.portfolio-career/006.portfolio/public/resume/app.js:493` | ✅ `window.LOCAL_GEMINI_KEY \|\| null` 패턴 | 평문 제거 |
+| ③ <REDACTED-google-key> | `003.portfolio-career/006.portfolio/test_ai_direct.js:4` | ✅ `process.env.GEMINI_API_KEY` + dotenv | 평문 제거 |
+| ④ <REDACTED-google-key> | `003.portfolio-career/006.portfolio/.env` git history (commit cb9cb8b) | ⏸️ G2 — BFG history rewrite (force push 영향) | history embedded |
+| ⑤ <REDACTED-google-key> | `003.portfolio-career/006.portfolio/.env` 현재값 | ✅ Codex swap 완료 (5/18 이전 박제) | 활성 새 키 |
+| ⑥ <REDACTED-google-key> | `006.games-labs/004.multiverse-creature-lab/js/firebase_config.js` + `firebase/FirebaseService.js` | ⚠️ 설계상 안전 — Firebase Web SDK Spark plan / GCP Console 에서 Generative Language API enable 여부만 owner 점검 권고 | 평문 유지 (정상) |
+| ⑦ <REDACTED-google-key> | `neo-genesis/src/sbu/ur-wrong/.env.production` (+ 3 variants) | ✅ Codex swap 완료 (5/18 이전) / Vercel env 측 swap 검증 ⏸️ G2 | 활성 새 키 |
 | ANTHROPIC sk-ant-api03 | ur-wrong .env*.production 4 variants | ✅ `<ROTATE_BEFORE_CREDIT_CHARGE_PER_INCIDENT_71357012>` placeholder | 평문 제거 |
 | OPENAI sk-proj | ur-wrong .env*.production 4 variants | ✅ `<ROTATE_BEFORE_CREDIT_CHARGE_PER_INCIDENT_71357012>` placeholder | 평문 제거 |
 | X_API_KEY / X_API_SECRET / X_ACCESS_TOKEN / X_ACCESS_SECRET | ur-wrong .env*.production 4 variants | ✅ `<ROTATE_PER_INCIDENT_71357012>` placeholder × 4 | 평문 제거 |
@@ -36,7 +36,7 @@
 |---|---|
 | `003.portfolio-career/006.portfolio/public/resume/app.js:493` | hardcoded `AIzaSy...` → `window.LOCAL_GEMINI_KEY \|\| null` |
 | `003.portfolio-career/006.portfolio/test_ai_direct.js:1-4` | hardcoded `AIzaSy...` → `import "dotenv/config"` + `process.env.GEMINI_API_KEY \|\| process.env.VITE_GEMINI_API_KEY` |
-| `D:/00.test/CREDENTIAL_BIBLE.md:231` | `GOCSPX-3_2uovt...` → `GOCSPX-<REDACTED:2026-05-18-incident-71357012>` + Dashboard 안내 |
+| `D:/00.test/CREDENTIAL_BIBLE.md:231` | `<REDACTED-google-oauth-secret>...` → `GOCSPX-<REDACTED:2026-05-18-incident-71357012>` + Dashboard 안내 |
 | ur-wrong `.env.production` / `.env.production.local` / `.env.production.pulled` / `.env.runtime-check` | 6 패턴 × 4 파일 = 24 placeholder 치환 |
 
 ### 3.2 백업 보존 (rollback 가능)
@@ -59,7 +59,7 @@
 - SUPABASE_ANON_KEY (public anyway, low impact)
 - VERCEL_OIDC_TOKEN (line 30, iat 1774414631 → 단명 만료 추정)
 - GOOGLE_SA_KEY_JSON RSA 2048 private_key (ur-wrong-indexing@..., 단 USER_MANAGED=0 verified per Hermes session)
-- GEMINI_API_KEY AIzaSyBWYnjP (Codex 5/18 swap 활성)
+- GEMINI_API_KEY <REDACTED-google-key> (Codex 5/18 swap 활성)
 
 ### Effective harm 평가
 | 키 | 활성도 | abuse risk |
