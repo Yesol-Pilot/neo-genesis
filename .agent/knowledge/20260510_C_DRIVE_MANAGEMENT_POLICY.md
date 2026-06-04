@@ -118,6 +118,25 @@ Applied on 2026-05-10:
 
 Do not replace these junctions with real C-drive directories. Treat them as compatibility shims for tools that still use old absolute paths.
 
+## 6-B. Google Drive Sync Boundary
+
+Google DriveFS must be treated as an app-managed sync system, not as a general-purpose backup daemon for active development trees.
+
+Policy:
+
+- Do not mirror `D:\00.test`, `D:\00.test\neo-genesis`, active git repositories, numbered workspace buckets, or build/runtime roots into Google Drive.
+- Keep `.git`, `.next`, `node_modules`, `.venv`, caches, logs, Playwright artifacts, browser dumps, generated media, and agent runtime state out of Google Drive sync.
+- Allowed Google Drive content is limited to curated documents, final reports, signed or approved deliverables, small manifests, and explicit export packages.
+- When Drive backup is needed, create a reviewed export snapshot under the owning project or `D:\output`, then copy that snapshot to Drive. Do not point Drive at the live workspace.
+- Do not manually delete DriveFS internal databases, `.tmp.driveupload`, `.tmp.drivedownload`, or app cache. Change sync scope through Google Drive settings or a stopped-app maintenance window.
+
+2026-05-14 diagnosis:
+
+- `GoogleDriveFS.exe` reached roughly 20GB working set and roughly 30GB private memory during live diagnosis.
+- DriveFS metadata was tracking `D:\00.test`; `mirror_sqlite.db` showed `00.test` as a root with 1,710,975 mirrored items and 31,967 queued uploads.
+- The queued uploads were almost entirely `neo-genesis`, especially SBU `.next` build outputs from ToolPick, CraftDesk, DeployStack, and SellKit.
+- The DriveFS issue was metadata/mirror-state pressure, not content-cache size; content cache was small while metadata DBs were multi-GB.
+
 Remaining known C-side work:
 
 - `C:\pagefile.sys` is still custom configured at `98304 MB` initial and `196608 MB` max. Changing this requires elevated Windows settings and reboot planning.
@@ -136,6 +155,7 @@ Remaining known C-side work:
 
 - Do not read, move, or delete `personal/` or legal/financial/private documents for disk cleanup.
 - Do not manually move/delete Google DriveFS `.tmp.driveupload`, `.tmp.drivedownload`, or internal DriveFS cache.
+- Do not configure Google Drive to sync active repos, `D:\00.test`, build output folders, caches, or runtime state.
 - Do not move WSL/Docker VHDX files by drag/drop or raw file move. Use export/import or official app settings.
 - Do not manually delete `C:\Windows`, `Program Files`, or `ProgramData` contents.
 - Do not change pagefile or hibernation without administrator context, reboot awareness, and rollback plan.

@@ -1,0 +1,29 @@
+{
+  "extracted_at": "2026-06-04T00:13:02+00:00",
+  "total_nodes": 325,
+  "total_edges": 270,
+  "nodes_by_type": {
+    "ActionRun": 1,
+    "Agent": 33,
+    "Artifact": 94,
+    "Revision": 52,
+    "Policy": 6,
+    "Project": 18,
+    "Device": 6,
+    "Service": 5,
+    "Skill": 36,
+    "Reflection": 44,
+    "Task": 30
+  },
+  "edges_by_type": {
+    "prov:wasAssociatedWith": 33,
+    "prov:wasGeneratedBy": 32,
+    "deployed_to": 5,
+    "references": 32,
+    "owned_by": 58,
+    "governs": 44,
+    "prov:wasDerivedFrom": 32,
+    "prov:wasAttributedTo": 31,
+    "belongs_to": 3
+  }
+}

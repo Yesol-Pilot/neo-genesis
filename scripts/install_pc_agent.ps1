@@ -1,28 +1,40 @@
-# ============================================
-# Sora PC Agent 설치 및 실행 (Windows PowerShell)
-#
-# 사용법:
-#   # 집 PC에서:
-#   .\scripts\install_pc_agent.ps1 -Id home-pc
-#
-#   # 회사 PC에서:
-#   .\scripts\install_pc_agent.ps1 -Id work-pc
-#
-#   # 자동 시작 등록:
-#   .\scripts\install_pc_agent.ps1 -Id home-pc -AutoStart
-# ============================================
+# Windows installer/launcher for Sora PC Agent.
+# Token handling rule: keep PC_AGENT_TOKEN in the user environment, never in a
+# process command line or scheduled-task action.
 param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     [string]$Id,
 
-    [string]$Server = "wss://neo.heoyesol.kr/ws/pc-agent",
-    [string]$Token = "sora-pc-agent-2026-yesol",
+    [string]$Server = "",
+    [string]$Token = "",
     [switch]$AutoStart
 )
 
 $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ProjectRoot = Split-Path -Parent $ScriptDir
+$AgentScript = Join-Path $ProjectRoot "scripts\sora_pc_agent.py"
+
+if (-not $Server) {
+    $Server = [Environment]::GetEnvironmentVariable("SORA_PC_AGENT_SERVER", "User")
+}
+if (-not $Server) {
+    $Server = $env:SORA_PC_AGENT_SERVER
+}
+if (-not $Server) {
+    throw "SORA_PC_AGENT_SERVER is required. Pass -Server or set the user environment variable."
+}
+
+$EffectiveToken = $Token
+if (-not $EffectiveToken) {
+    $EffectiveToken = [Environment]::GetEnvironmentVariable("PC_AGENT_TOKEN", "User")
+}
+if (-not $EffectiveToken) {
+    $EffectiveToken = $env:PC_AGENT_TOKEN
+}
+if (-not $EffectiveToken) {
+    throw "PC_AGENT_TOKEN is required. Pass -Token once or set the user environment variable."
+}
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
@@ -30,29 +42,39 @@ Write-Host "  Sora PC Agent Installer" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  PC ID:   $Id"
 Write-Host "  Server:  $Server"
+Write-Host "  Token:   present (not printed)"
 Write-Host ""
 
-# 1. 필수 패키지 설치
-Write-Host "[1/3] Python 패키지 설치..." -ForegroundColor Yellow
+Write-Host "[1/3] Installing Python packages..." -ForegroundColor Yellow
 pip install websockets psutil pyperclip mss Pillow --quiet
 
-# 2. 환경변수 설정
-[Environment]::SetEnvironmentVariable("PC_AGENT_TOKEN", $Token, "User")
-Write-Host "[2/3] 환경변수 PC_AGENT_TOKEN 설정 완료" -ForegroundColor Green
+if ($Token) {
+    [Environment]::SetEnvironmentVariable("PC_AGENT_TOKEN", $EffectiveToken, "User")
+    Write-Host "[2/3] PC_AGENT_TOKEN saved to the user environment" -ForegroundColor Green
+}
+else {
+    Write-Host "[2/3] PC_AGENT_TOKEN already available" -ForegroundColor Green
+}
+[Environment]::SetEnvironmentVariable("SORA_PC_AGENT_SERVER", $Server, "User")
+$env:PC_AGENT_TOKEN = $EffectiveToken
+$env:SORA_PC_AGENT_SERVER = $Server
+$env:PYTHONUTF8 = "1"
+$env:PYTHONIOENCODING = "utf-8"
 
-# 3. 시작 등록 (선택)
 if ($AutoStart) {
-    Write-Host "[3/3] 자동 시작 등록..." -ForegroundColor Yellow
+    Write-Host "[3/3] Registering scheduled task..." -ForegroundColor Yellow
 
-    $AgentScript = Join-Path $ProjectRoot "scripts\sora_pc_agent.py"
     $TaskName = "SoraPCAgent-$Id"
     $Action = New-ScheduledTaskAction `
         -Execute "python" `
-        -Argument "`"$AgentScript`" --id $Id --server $Server --token $Token"
+        -Argument "`"$AgentScript`" --id `"$Id`" --server `"$Server`""
     $Trigger = New-ScheduledTaskTrigger -AtLogon
-    $Settings = New-ScheduledTaskSettingsSet -RestartCount 999 -RestartInterval (New-TimeSpan -Minutes 1)
+    $Settings = New-ScheduledTaskSettingsSet `
+        -RestartCount 999 `
+        -RestartInterval (New-TimeSpan -Minutes 1) `
+        -MultipleInstances IgnoreNew `
+        -Hidden
 
-    # 기존 태스크 제거
     Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false -ErrorAction SilentlyContinue
 
     Register-ScheduledTask `
@@ -60,24 +82,23 @@ if ($AutoStart) {
         -Action $Action `
         -Trigger $Trigger `
         -Settings $Settings `
-        -Description "Sora PC Agent ($Id) - 클라우드 소라 원격 제어" `
-        -RunLevel Highest
+        -Description "Sora PC Agent ($Id) remote control bridge" `
+        -RunLevel Highest | Out-Null
 
-    Write-Host "  -> 작업 스케줄러 등록: $TaskName" -ForegroundColor Green
-    Write-Host "  -> 로그온 시 자동 시작됩니다" -ForegroundColor Green
-} else {
-    Write-Host "[3/3] 자동 시작 건너뜀 (-AutoStart 플래그로 활성화)" -ForegroundColor DarkGray
+    Write-Host "  -> Registered scheduled task: $TaskName" -ForegroundColor Green
+}
+else {
+    Write-Host "[3/3] Auto-start skipped. Use -AutoStart to register a scheduled task." -ForegroundColor DarkGray
 }
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green
-Write-Host "  설치 완료!" -ForegroundColor Green
+Write-Host "  Install complete" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "실행 명령:" -ForegroundColor Yellow
-Write-Host "  python $ProjectRoot\scripts\sora_pc_agent.py --id $Id --server $Server"
+Write-Host "Run command:" -ForegroundColor Yellow
+Write-Host "  python `"$AgentScript`" --id `"$Id`" --server `"$Server`""
 Write-Host ""
 
-# 바로 실행
-Write-Host "지금 바로 실행합니다..." -ForegroundColor Cyan
-python "$ProjectRoot\scripts\sora_pc_agent.py" --id $Id --server $Server --token $Token
+Write-Host "Starting now..." -ForegroundColor Cyan
+python "$AgentScript" --id $Id --server $Server

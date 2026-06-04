@@ -1,0 +1,36 @@
+{
+  "proposed_at": "2026-05-14T01:56:39+00:00",
+  "agent_id": "claude-opus-4-7",
+  "name": "add-task-5fe82e8e9684",
+  "priority": 5,
+  "diff": {
+    "add_nodes": [
+      {
+        "id": "neo://task/5fe82e8e9684",
+        "rdf_type": "Task",
+        "label": "v0.3 E2E smoke test - 자동 박제 검증",
+        "title": "v0.3 E2E smoke test - 자동 박제 검증",
+        "status": "pending",
+        "priority": "P3",
+        "created_at": "2026-05-14T01:56:39+00:00",
+        "updated_at": "2026-05-14T01:56:39+00:00"
+      }
+    ],
+    "add_edges": [],
+    "modify_nodes": [],
+    "remove_node_ids": [],
+    "remove_edge_ids": []
+  },
+  "status": "committed",
+  "committed_at": "2026-05-14T01:56:39+00:00",
+  "action_run_id": "neo://action_run/wq-20260514T015639+0000__05__claude-opus-4-7__add-task-5fe82e8e9684",
+  "apply_summary": {
+    "nodes_added": 1,
+    "edges_added": 0,
+    "nodes_modified": 0,
+    "nodes_removed": 0,
+    "edges_removed": 0,
+    "action_run_id": "neo://action_run/wq-20260514T015639+0000__05__claude-opus-4-7__add-task-5fe82e8e9684",
+    "affected_count": 1
+  }
+}

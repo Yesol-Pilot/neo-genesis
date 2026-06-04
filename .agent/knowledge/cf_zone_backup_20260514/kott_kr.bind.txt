@@ -1,0 +1,8 @@
+; Cloudflare zone backup — kott.kr
+; Exported 2026-05-14T04:44:47.430521+00:00
+; Source account: 8f22c351c93d878aacb918d9ee36a9c2
+; Total records: 3
+
+kott.kr.	600	IN	A	216.150.1.1 ; DNS-only
+www.kott.kr.	1	IN	CNAME	cname.vercel-dns.com ; DNS-only
+_vercel.kott.kr.	600	IN	TXT	"vc-domain-verify=kott.kr,5e81d5b89e193233cacd,dc" ; DNS-only

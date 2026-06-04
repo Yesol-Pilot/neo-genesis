@@ -39,6 +39,7 @@ class LLMProvider(ABC):
         image_paths: list[str] | None = None,
         max_tokens: int = 4096,
         temperature: float = 0.7,
+        persona_id: str | None = None,
     ) -> str:
         ...
 
@@ -81,6 +82,7 @@ class GeminiProvider(LLMProvider):
         image_paths: list[str] | None = None,
         max_tokens: int = 4096,
         temperature: float = 0.7,
+        persona_id: str | None = None,  # noqa: ARG002 — Gemini는 cache_control 미지원, signature 일치만 유지
     ) -> str:
         if not self.use_vertex and not self.api_key:
             return "[API Error] No API Key provided."
@@ -176,6 +178,7 @@ class ClaudeProvider(LLMProvider):
         image_paths: list[str] | None = None,
         max_tokens: int = 4096,
         temperature: float = 0.7,
+        persona_id: str | None = None,
     ) -> str:
         client = self._get_client()
         if not client:
@@ -205,6 +208,20 @@ class ClaudeProvider(LLMProvider):
         else:
             messages.append({"role": "user", "content": user_prompt})
 
+        # PT-1 prompt cache (D1 ACCEPT, owner G2 2026-05-10):
+        # persona_id 가 ALLOWED_CACHED_PERSONAS (5 Tier S) 에 해당하고
+        # frontmatter caching_path == "sora_engine" 일 때만 cache_control 활성.
+        # 그 외에는 원본 string system 으로 fallback (기존 호환).
+        system_value = system_prompt if system_prompt else (
+            "You are Sora, a helpful AI assistant. Respond in Korean."
+        )
+        if persona_id:
+            try:
+                from src.core.llm.cache_helper import build_system_with_cache
+                system_value = build_system_with_cache(persona_id, system_value)
+            except Exception as exc:  # pragma: no cover — graceful fallback
+                logger.warning(f"[Claude] cache_helper 실패, 원본 system 사용: {exc}")
+
         max_retries = 3
         for attempt in range(max_retries):
             try:
@@ -212,7 +229,7 @@ class ClaudeProvider(LLMProvider):
                     model=self.model,
                     max_tokens=max_tokens,
                     temperature=temperature,
-                    system=system_prompt if system_prompt else "You are Sora, a helpful AI assistant. Respond in Korean.",
+                    system=system_value,
                     messages=messages,
                 )
                 # 텍스트 추출
@@ -249,6 +266,7 @@ class OllamaProvider(LLMProvider):
         image_paths: list[str] | None = None,
         max_tokens: int = 4096,
         temperature: float = 0.7,
+        persona_id: str | None = None,  # noqa: ARG002 — Ollama는 cache_control 미지원
     ) -> str:
         try:
             payload = json.dumps({
@@ -326,6 +344,7 @@ class ModelRouter:
         image_paths: list[str] | None = None,
         max_tokens: int = 4096,
         temperature: float = 0.7,
+        persona_id: str | None = None,
     ) -> tuple[str, str]:
         """모델 호출 실패 시 폴백 체인을 따라 하위 티어로 자동 전환."""
         current_tier = tier
@@ -339,6 +358,7 @@ class ModelRouter:
                 image_paths=image_paths,
                 max_tokens=max_tokens,
                 temperature=temperature,
+                persona_id=persona_id,
             )
             # 에러 응답이 아니면 성공
             if not any(result.startswith(p) for p in ("[Gemini Error]", "[Claude Error]", "[Ollama Error]", "[API Error]", "[LLM Error]")):
@@ -395,13 +415,20 @@ class ModelRouter:
         temperature: float = 0.7,
         context: dict | None = None,
         tier: str | None = None,
+        persona_id: str | None = None,
     ) -> tuple[str, str]:
         """최적 모델로 텍스트 생성 (폴백 체인 포함).
+
+        Args:
+            persona_id: PT-1 prompt cache 활성용 (5 Tier S 페르소나만 동작).
+                컨텍스트에 들어 있는 경우 자동 추출도 지원.
 
         Returns:
             (response_text, used_tier)
         """
         used_tier = tier or self.select_tier(context)
+        # context.persona_id 가 있으면 명시 인자보다 우선순위 낮게 fallback 으로 사용
+        effective_persona = persona_id or (context.get("persona_id") if context else None)
         logger.info(f"LLM [{used_tier}:{self.MODELS[used_tier][1]}] prompt={len(user_prompt)} chars")
         return self._generate_with_fallback(
             tier=used_tier,
@@ -410,6 +437,7 @@ class ModelRouter:
             image_paths=image_paths,
             max_tokens=max_tokens,
             temperature=temperature,
+            persona_id=effective_persona,
         )
 
 
@@ -437,8 +465,9 @@ class GeminiClient:
         max_tokens: int = 4096,
         tier: str = "flash",
         context: dict = None,
+        persona_id: str | None = None,
     ) -> str:
-        """기존 인터페이스와 호환 + 모델 선택 추가."""
+        """기존 인터페이스와 호환 + 모델 선택 + persona-aware cache 추가."""
         response, _ = self._router.generate(
             user_prompt=user_prompt,
             system_prompt=system_prompt,
@@ -446,5 +475,6 @@ class GeminiClient:
             max_tokens=max_tokens,
             context=context,
             tier=tier,
+            persona_id=persona_id,
         )
         return response

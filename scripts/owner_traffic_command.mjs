@@ -18,6 +18,7 @@ const SNAPSHOT_VERSION = '2026-05-14.owner-traffic.v1';
 const REGISTRY_VERSION = '2026-05-14.registry.v1';
 const TIMEZONE = 'Asia/Seoul';
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 const DECISION_EVENT_ALLOWLIST = {
   version: '2026-05-14.decision-events.v1',
@@ -462,6 +463,47 @@ function asNumber(value) {
   return Number.isFinite(numeric) ? numeric : 0;
 }
 
+function optionalNumber(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : null;
+}
+
+function hasSourceConflict(primaryValue, secondaryValue) {
+  if (!Number.isFinite(primaryValue) || !Number.isFinite(secondaryValue)) return false;
+  if (primaryValue <= 0 || secondaryValue <= 0) return false;
+  const high = Math.max(primaryValue, secondaryValue);
+  const low = Math.min(primaryValue, secondaryValue);
+  return high >= 20 && (high - low) / high >= 0.5;
+}
+
+function kstDateKey(offsetDays = 0) {
+  return new Date(Date.now() + KST_OFFSET_MS - offsetDays * DAY_MS).toISOString().slice(0, 10);
+}
+
+function dailySum(daily, startOffset, days, field) {
+  if (!Array.isArray(daily)) return null;
+  let found = false;
+  let sum = 0;
+  const wanted = new Set(Array.from({ length: days }, (_item, index) => kstDateKey(startOffset + index)));
+  for (const row of daily) {
+    if (!wanted.has(String(row.date))) continue;
+    found = true;
+    sum += asNumber(row[field]);
+  }
+  return found ? sum : null;
+}
+
+function deltaPct(current, previous) {
+  if (!Number.isFinite(current) || !Number.isFinite(previous) || previous <= 0) return null;
+  return (current - previous) / previous;
+}
+
+function rate(numerator, denominator) {
+  if (!Number.isFinite(numerator) || !Number.isFinite(denominator) || denominator <= 0) return null;
+  return numerator / denominator;
+}
+
 function clamp(value, min = 0, max = 100) {
   return Math.max(min, Math.min(max, value));
 }
@@ -638,6 +680,92 @@ function summarizeGsc(siteData) {
   };
 }
 
+function buildPerformance(site, ga4, posthog) {
+  const posthogDaily = posthog?.daily ?? [];
+  const todayFromPosthog = dailySum(posthogDaily, 0, 1, 'users');
+  const yesterdayFromPosthog = dailySum(posthogDaily, 1, 1, 'users');
+  const todayVisitors = todayFromPosthog ?? ga4?.users_today ?? 0;
+  const yesterdayVisitors = yesterdayFromPosthog ?? null;
+  const posthogVisitors7d = optionalNumber(posthog?.users);
+  const ga4Visitors7d = optionalNumber(ga4?.users_7d);
+  const visitors7d = posthogVisitors7d ?? ga4Visitors7d ?? 0;
+  const visitorsPrevious7d = posthog?.previous_users ?? null;
+  const posthogPageviews7d = optionalNumber(posthog?.pageviews);
+  const ga4Pageviews7d = optionalNumber(ga4?.views_7d);
+  const pageviews7d = posthogPageviews7d ?? ga4Pageviews7d ?? 0;
+  const pageviewsPrevious7d = posthog?.previous_pageviews ?? null;
+  const decisionEvents7d = posthog?.decision_events ?? 0;
+  const decisionEventsPrevious7d = posthog?.previous_decision_events ?? null;
+  const visitorsDeltaPct = visitorsPrevious7d === null ? null : deltaPct(visitors7d, visitorsPrevious7d);
+  const pageviewsDeltaPct = pageviewsPrevious7d === null ? null : deltaPct(pageviews7d, pageviewsPrevious7d);
+  const decisionDeltaPct = decisionEventsPrevious7d === null ? null : deltaPct(decisionEvents7d, decisionEventsPrevious7d);
+  const decisionRate7d = rate(decisionEvents7d, pageviews7d);
+  const ga4WindowUsers = (ga4?.users_7d ?? 0) + (ga4?.users_today ?? 0);
+  const primarySource = posthog ? 'posthog' : ga4 ? 'ga4' : 'none';
+  const sourceConflict = hasSourceConflict(posthogVisitors7d, ga4Visitors7d);
+  const ga4MissingDespitePosthog = posthog && ga4 && visitors7d >= 5 && pageviews7d >= 10 && ga4WindowUsers === 0;
+  const trustState = primarySource === 'none' || ga4MissingDespitePosthog || sourceConflict ? 'degraded' : 'trusted';
+  const signals = [];
+  if (site.status === 'active_live') {
+    if (visitorsDeltaPct !== null && visitorsDeltaPct <= -0.25) signals.push('traffic_drop');
+    if (visitors7d >= 20 && decisionEvents7d === 0) signals.push('conversion_leak');
+  }
+
+  let stage = 'no_traffic';
+  let primaryIssue = '최근 방문자 신호가 약합니다.';
+  let nextAction = `${site.name}의 배포/인덱싱/유입 경로를 확인합니다.`;
+
+  if (site.status !== 'active_live') {
+    stage = 'candidate';
+    primaryIssue = '아직 라이브 운영 대상이 아닙니다.';
+    nextAction = '라이브 후보로 유지할지 결정합니다.';
+  } else if (signals.includes('traffic_drop')) {
+    stage = 'traffic_drop';
+    primaryIssue = '전주 대비 방문자가 크게 줄었습니다.';
+    nextAction = `${site.name}의 최근 배포, 색인, 주요 유입 페이지를 확인합니다.`;
+  } else if (signals.includes('conversion_leak')) {
+    stage = 'conversion_leak';
+    primaryIssue = '방문자는 있지만 성과 이벤트가 없습니다.';
+    nextAction = `${site.name}의 상위 유입 페이지에 CTA와 decision event를 심습니다.`;
+  } else if (visitorsDeltaPct !== null && visitorsDeltaPct >= 0.25 && visitors7d >= 10) {
+    stage = 'growing';
+    primaryIssue = '전주 대비 방문자가 늘고 있습니다.';
+    nextAction = `${site.name}의 성장 페이지를 확장하고 전환 경로를 강화합니다.`;
+  } else if (visitors7d >= 20 && decisionEvents7d > 0) {
+    stage = 'performing';
+    primaryIssue = '방문과 성과 이벤트가 모두 잡힙니다.';
+    nextAction = `${site.name}의 성과 이벤트 발생 페이지를 복제/확장합니다.`;
+  } else if (visitors7d > 0) {
+    stage = 'early_signal';
+    primaryIssue = '작은 방문자 신호가 있습니다.';
+    nextAction = `${site.name}에 작은 배포/콘텐츠 실험을 1개만 추가합니다.`;
+  }
+
+  return {
+    primary_source: primarySource,
+    trust_state: trustState,
+    posthog_visitors_7d: posthogVisitors7d,
+    ga4_visitors_7d: ga4Visitors7d,
+    source_conflict: sourceConflict,
+    today_visitors: todayVisitors,
+    yesterday_visitors: yesterdayVisitors,
+    visitors_7d: visitors7d,
+    visitors_prev_7d: visitorsPrevious7d,
+    visitors_delta_pct: visitorsDeltaPct,
+    pageviews_7d: pageviews7d,
+    pageviews_prev_7d: pageviewsPrevious7d,
+    pageviews_delta_pct: pageviewsDeltaPct,
+    decision_events_7d: decisionEvents7d,
+    decision_events_prev_7d: decisionEventsPrevious7d,
+    decision_delta_pct: decisionDeltaPct,
+    decision_rate_7d: decisionRate7d,
+    signals,
+    stage,
+    primary_issue: primaryIssue,
+    next_action: nextAction,
+  };
+}
+
 function buildSiteRow(site, sources) {
   const ga4Raw = site.ga4_source_key ? sources.ga4?.[site.ga4_source_key] : null;
   const posthogRaw = getPosthogRow(sources, site);
@@ -654,6 +782,21 @@ function buildSiteRow(site, sources) {
         decision_events: posthogRaw.decisionEvents === undefined ? null : asNumber(posthogRaw.decisionEvents),
         legacy_action_events: asNumber(posthogRaw.legacyActionEvents ?? posthogRaw.actionEvents),
         last_seen: posthogRaw.lastSeen ?? null,
+        previous_events: optionalNumber(posthogRaw.previousEvents),
+        previous_pageviews: optionalNumber(posthogRaw.previousPageviews),
+        previous_decision_events: optionalNumber(posthogRaw.previousDecisionEvents),
+        previous_users: optionalNumber(posthogRaw.previousUsers),
+        daily: Array.isArray(posthogRaw.daily)
+          ? posthogRaw.daily.map((row) => ({
+              date: String(row.date ?? ''),
+              events: asNumber(row.events),
+              pageviews: asNumber(row.pageviews),
+              decision_events: asNumber(row.decisionEvents),
+              legacy_action_events: asNumber(row.legacyActionEvents),
+              users: asNumber(row.users),
+              last_seen: row.lastSeen ?? null,
+            }))
+          : [],
       }
     : null;
 
@@ -670,6 +813,8 @@ function buildSiteRow(site, sources) {
         host_filter: ga4Raw.host ?? null,
       }
     : null;
+
+  const performance = buildPerformance(site, ga4, posthog);
 
   const measurement = {
     registry: true,
@@ -719,6 +864,7 @@ function buildSiteRow(site, sources) {
           }
         : null,
     },
+    performance,
     measurement,
     score_components: {
       demand: Math.round(demandScore * 10) / 10,
@@ -892,10 +1038,11 @@ function applyMeasurementBlocks(siteRows, findings) {
 
 function buildActions(siteRows, findings) {
   const actions = [];
-  const pushAction = (site, priority, action_class, title, rationale, source) => {
+  const pushAction = (site, priority, action_class, title, rationale, source, impact = null) => {
     actions.push({
       id: stableId('action', `${site.id}:${action_class}:${title}`),
       priority,
+      impact: impact ?? asNumber(site.performance?.visitors_7d),
       site_id: site.id,
       site_name: site.name,
       action_class,
@@ -931,10 +1078,40 @@ function buildActions(siteRows, findings) {
   for (const site of siteRows.filter((row) => row.status === 'active_live' && !row.blocked_by_measurement)) {
     const gsc = site.data.gsc;
     const ph = site.data.posthog;
-    if (gsc?.top_opportunity && gsc.opportunity_impressions >= 10) {
+    const performance = site.performance ?? {};
+    const signals = new Set(Array.isArray(performance.signals) ? performance.signals : [performance.stage].filter(Boolean));
+    let pushedPerformanceAction = false;
+    if (signals.has('traffic_drop')) {
       pushAction(
         site,
         3,
+        'RECOVER_TRAFFIC',
+        performance.next_action,
+        `${site.name} visitors moved ${Math.round(asNumber(performance.visitors_delta_pct) * 1000) / 10}% versus the previous 7d window.`,
+        'performance',
+        asNumber(performance.visitors_7d)
+      );
+      pushedPerformanceAction = true;
+    }
+    if (signals.has('conversion_leak')) {
+      pushAction(
+        site,
+        3,
+        'IMPROVE_CONVERSION',
+        performance.next_action,
+        `${performance.visitors_7d} visitors and ${performance.pageviews_7d} pageviews produced ${performance.decision_events_7d} decision events in the latest 7d window.`,
+        'performance',
+        asNumber(performance.visitors_7d)
+      );
+      pushedPerformanceAction = true;
+    }
+    if (pushedPerformanceAction) {
+      continue;
+    }
+    if (gsc?.top_opportunity && gsc.opportunity_impressions >= 10) {
+      pushAction(
+        site,
+        4,
         'GROW_SEARCH_INTENT',
         `Exploit search demand: ${gsc.top_opportunity.top_query ?? site.name}`,
         `${gsc.opportunity_impressions} impressions and ${gsc.opportunity_count} opportunity pages are visible in GSC.`,
@@ -945,7 +1122,7 @@ function buildActions(siteRows, findings) {
     if ((ph?.users ?? 0) >= 20) {
       pushAction(
         site,
-        4,
+        5,
         'IMPROVE_CONVERSION',
         'Recent users exist; add or review primary decision path.',
         `${ph.users} PostHog users and ${ph.pageviews} pageviews were seen in the latest 7d probe.`,
@@ -955,7 +1132,7 @@ function buildActions(siteRows, findings) {
     }
     pushAction(
       site,
-      5,
+      6,
       'DISTRIBUTION_TEST',
       'No urgent data issue; run the next distribution test.',
       'The site is visible but lacks a stronger traffic or search opportunity signal in current sources.',
@@ -964,7 +1141,7 @@ function buildActions(siteRows, findings) {
   }
 
   return actions
-    .sort((a, b) => a.priority - b.priority || a.site_name.localeCompare(b.site_name))
+    .sort((a, b) => a.priority - b.priority || asNumber(b.impact) - asNumber(a.impact) || a.site_name.localeCompare(b.site_name))
     .slice(0, 20);
 }
 
@@ -979,6 +1156,92 @@ function buildCoverage(siteRows) {
       canonical_host: row.canonical_host,
       ...row.measurement,
     })),
+  };
+}
+
+function buildPerformanceSummary(siteRows, dataTrustState) {
+  const active = siteRows.filter((row) => row.status === 'active_live');
+  const totals = active.reduce(
+    (acc, site) => {
+      const p = site.performance ?? {};
+      acc.today_visitors += asNumber(p.today_visitors);
+      acc.yesterday_visitors += asNumber(p.yesterday_visitors);
+      acc.visitors_7d += asNumber(p.visitors_7d);
+      acc.pageviews_7d += asNumber(p.pageviews_7d);
+      acc.decision_events_7d += asNumber(p.decision_events_7d);
+      if (p.visitors_prev_7d !== null && p.visitors_prev_7d !== undefined) {
+        acc.visitors_7d_comparable += asNumber(p.visitors_7d);
+        acc.visitors_prev_7d += asNumber(p.visitors_prev_7d);
+      }
+      if (p.pageviews_prev_7d !== null && p.pageviews_prev_7d !== undefined) {
+        acc.pageviews_7d_comparable += asNumber(p.pageviews_7d);
+        acc.pageviews_prev_7d += asNumber(p.pageviews_prev_7d);
+      }
+      if (p.decision_events_prev_7d !== null && p.decision_events_prev_7d !== undefined) {
+        acc.decision_events_7d_comparable += asNumber(p.decision_events_7d);
+        acc.decision_events_prev_7d += asNumber(p.decision_events_prev_7d);
+      }
+      return acc;
+    },
+    {
+      today_visitors: 0,
+      yesterday_visitors: 0,
+      visitors_7d: 0,
+      visitors_prev_7d: 0,
+      visitors_7d_comparable: 0,
+      pageviews_7d: 0,
+      pageviews_prev_7d: 0,
+      pageviews_7d_comparable: 0,
+      decision_events_7d: 0,
+      decision_events_prev_7d: 0,
+      decision_events_7d_comparable: 0,
+    }
+  );
+
+  const topByVisitors = active
+    .slice()
+    .sort((a, b) => asNumber(b.performance?.visitors_7d) - asNumber(a.performance?.visitors_7d))[0] ?? null;
+  const topGrowth = active
+    .filter((site) => site.performance?.visitors_delta_pct !== null && site.performance?.visitors_delta_pct !== undefined)
+    .sort((a, b) => asNumber(b.performance?.visitors_delta_pct) - asNumber(a.performance?.visitors_delta_pct))[0] ?? null;
+  const topDrop = active
+    .filter((site) => site.performance?.visitors_delta_pct !== null && site.performance?.visitors_delta_pct !== undefined)
+    .sort((a, b) => asNumber(a.performance?.visitors_delta_pct) - asNumber(b.performance?.visitors_delta_pct))[0] ?? null;
+  const topConversionLeak = active
+    .filter((site) => site.performance?.stage === 'conversion_leak' || site.performance?.signals?.includes('conversion_leak'))
+    .sort((a, b) => asNumber(b.performance?.visitors_7d) - asNumber(a.performance?.visitors_7d))[0] ?? null;
+  const primarySource = active.some((site) => site.performance?.primary_source === 'posthog') ? 'posthog' : 'ga4';
+  const decisionRate = rate(totals.decision_events_7d, totals.pageviews_7d);
+  const visitorsDelta = totals.visitors_prev_7d > 0 ? deltaPct(totals.visitors_7d_comparable, totals.visitors_prev_7d) : null;
+  const pageviewsDelta = totals.pageviews_prev_7d > 0 ? deltaPct(totals.pageviews_7d_comparable, totals.pageviews_prev_7d) : null;
+  const decisionDelta = totals.decision_events_prev_7d > 0 ? deltaPct(totals.decision_events_7d_comparable, totals.decision_events_prev_7d) : null;
+  const headline =
+    totals.visitors_7d > 0
+      ? `최근 7일 방문자는 ${totals.visitors_7d.toLocaleString('ko-KR')}명, 성과 이벤트는 ${totals.decision_events_7d.toLocaleString('ko-KR')}건입니다.`
+      : '최근 7일 방문자 신호가 약합니다.';
+
+  return {
+    primary_source: primarySource,
+    trust_state: dataTrustState,
+    today_visitors: totals.today_visitors,
+    yesterday_visitors: totals.yesterday_visitors,
+    visitors_7d: totals.visitors_7d,
+    visitors_prev_7d: totals.visitors_prev_7d > 0 ? totals.visitors_prev_7d : null,
+    visitors_7d_delta_pct: visitorsDelta,
+    pageviews_7d: totals.pageviews_7d,
+    pageviews_prev_7d: totals.pageviews_prev_7d > 0 ? totals.pageviews_prev_7d : null,
+    pageviews_7d_delta_pct: pageviewsDelta,
+    decision_events_7d: totals.decision_events_7d,
+    decision_events_prev_7d: totals.decision_events_prev_7d > 0 ? totals.decision_events_prev_7d : null,
+    decision_events_delta_pct: decisionDelta,
+    decision_rate_7d: decisionRate,
+    top_site_by_visitors: topByVisitors?.id ?? null,
+    top_site_by_visitors_name: topByVisitors?.name ?? null,
+    top_site_by_growth: topGrowth?.id ?? null,
+    top_site_by_drop: topDrop?.id ?? null,
+    top_conversion_leak: topConversionLeak?.id ?? null,
+    top_conversion_leak_name: topConversionLeak?.name ?? null,
+    headline,
   };
 }
 
@@ -999,6 +1262,8 @@ function buildSnapshot() {
   );
   const hasP0 = findings.some((entry) => entry.severity === 'P0');
   const hasP1OrP2 = findings.some((entry) => ['P1', 'P2'].includes(entry.severity));
+  const dataTrustState = hasP0 ? 'blocked' : hasP1OrP2 ? 'degraded' : 'trusted';
+  const performanceSummary = buildPerformanceSummary(siteRows, dataTrustState);
 
   return {
     snapshot_version: SNAPSHOT_VERSION,
@@ -1008,7 +1273,7 @@ function buildSnapshot() {
     source_runs: sources.sourceRuns,
     source_errors: sources.sourceErrors,
     stale_seconds: maxStale,
-    data_trust_state: hasP0 ? 'blocked' : hasP1OrP2 ? 'degraded' : 'trusted',
+    data_trust_state: dataTrustState,
     is_last_good: false,
     supersedes_snapshot_id: previous.json?.snapshot_id ?? null,
     registry_version: REGISTRY_VERSION,
@@ -1021,6 +1286,7 @@ function buildSnapshot() {
         'API error bodies are summarized only',
       ],
     },
+    performance_summary: performanceSummary,
     summary: {
       active_sites: siteRows.filter((row) => row.status === 'active_live').length,
       candidate_sites: siteRows.filter((row) => row.status === 'candidate_decision').length,
@@ -1039,7 +1305,7 @@ function buildSnapshot() {
 
 function validateSnapshot(snapshot) {
   const errors = [];
-  for (const key of ['snapshot_version', 'snapshot_id', 'generated_at', 'timezone', 'source_runs', 'source_errors', 'stale_seconds', 'data_trust_state', 'is_last_good', 'registry_version', 'sites', 'findings', 'actions']) {
+  for (const key of ['snapshot_version', 'snapshot_id', 'generated_at', 'timezone', 'source_runs', 'source_errors', 'stale_seconds', 'data_trust_state', 'is_last_good', 'registry_version', 'performance_summary', 'sites', 'findings', 'actions']) {
     if (!(key in snapshot)) errors.push(`missing snapshot key: ${key}`);
   }
   const activeIds = REGISTRY.filter((site) => site.status === 'active_live').map((site) => site.id);
@@ -1048,6 +1314,9 @@ function validateSnapshot(snapshot) {
     if (!snapshotIds.has(siteId)) errors.push(`active site missing from snapshot: ${siteId}`);
   }
   if (!Array.isArray(snapshot.actions) || snapshot.actions.length === 0) errors.push('actions must not be empty');
+  if (!Number.isFinite(Number(snapshot.performance_summary?.visitors_7d))) errors.push('performance_summary.visitors_7d must be numeric');
+  if (!Number.isFinite(Number(snapshot.performance_summary?.pageviews_7d))) errors.push('performance_summary.pageviews_7d must be numeric');
+  if (!Number.isFinite(Number(snapshot.performance_summary?.decision_events_7d))) errors.push('performance_summary.decision_events_7d must be numeric');
   return errors;
 }
 

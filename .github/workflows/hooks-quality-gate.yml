@@ -1,0 +1,66 @@
+name: Claude Hooks Quality Gate
+
+# Claude Code 9-hook 회귀 가드 (Phase A Closeout, 2026-05-08 박제)
+# Master: .agent/shared-brain/handoff.md → 5/8 Persona Phase A
+# 실행 환경: Windows runner 필요 (PowerShell hook). owner G2 게이트 통과 후 활성.
+#
+# 활성화 조건 (owner 결정 박제):
+#   - Windows GitHub Actions runner 가격 검토 (Linux 의 ~2배)
+#   - hook 변경 빈도 vs 자동화 ROI
+#   - 현 시점 (2026-05-10) 라이브 20/20 PASS 박제 → 활성 보류, 설계만 박제
+
+on:
+  workflow_dispatch:
+    # owner manual trigger only (현 시점 default)
+  # 향후 활성화 시 아래 주석 해제:
+  # pull_request:
+  #   paths:
+  #     - 'tests/hooks_golden/**'
+  #     - 'scripts/run_claude_hooks_golden.py'
+  #     - '.github/workflows/hooks-quality-gate.yml'
+  # push:
+  #   branches: [main, master]
+  #   paths:
+  #     - 'tests/hooks_golden/**'
+  #     - 'scripts/run_claude_hooks_golden.py'
+
+jobs:
+  hook-regression:
+    name: Claude Hook Golden Regression
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Verify suite JSON valid
+        shell: pwsh
+        run: |
+          python -c "import json; json.load(open('tests/hooks_golden/core_v1.json', encoding='utf-8'))"
+
+      - name: Verify runner syntax
+        shell: pwsh
+        run: |
+          python -m py_compile scripts/run_claude_hooks_golden.py
+
+      - name: Stage hooks into runner home
+        shell: pwsh
+        run: |
+          # CI runner 에는 ~/.claude/hooks/ 가 없음. tests/hooks_golden/ 에 mock hook 배치 또는
+          # 별도 디렉토리에서 owner 가 hook 사본 staging.
+          # 현재 hook 본체는 owner private (`~/.claude/hooks/`) 이므로 CI 가 직접 가져올 수 없음.
+          # 활성화 시 hook source repo (별도 private repo 또는 vendored 경로) 동기화 필요.
+          Write-Output "TODO: hook source vendoring before activation"
+          exit 0  # 현 시점 fail 차단 안 함 (workflow_dispatch only)
+
+      - name: Run hook golden tests
+        shell: pwsh
+        run: |
+          # 활성화 후: python scripts/run_claude_hooks_golden.py
+          # 현재는 stub (workflow_dispatch only)
+          Write-Output "Hook golden gate stub - activate when hooks vendored"

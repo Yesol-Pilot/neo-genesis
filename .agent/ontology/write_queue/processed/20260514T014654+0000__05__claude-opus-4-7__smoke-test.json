@@ -1,0 +1,24 @@
+{
+  "proposed_at": "2026-05-14T01:46:54+00:00",
+  "agent_id": "claude-opus-4-7",
+  "name": "smoke-test",
+  "priority": 5,
+  "diff": {
+    "add_nodes": [
+      {
+        "id": "neo://artifact/test-001",
+        "rdf_type": "Artifact",
+        "label": "test",
+        "kind": "data",
+        "path": "/tmp/test",
+        "title": "smoke test",
+        "markings": [
+          "internal"
+        ],
+        "created_at": "2026-05-14T10:50:00+00:00",
+        "updated_at": "2026-05-14T10:50:00+00:00"
+      }
+    ]
+  },
+  "status": "pending"
+}

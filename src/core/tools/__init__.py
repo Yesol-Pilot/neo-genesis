@@ -6,18 +6,34 @@
 파손된 도구(환경변수 미설정, docstring 없음 등)는 자동 제외됩니다.
 """
 import logging
+from importlib import import_module
 
 logger = logging.getLogger("neo.tools")
 
-from .system_tools import TOOLS as _system
-from .memory_tools import TOOLS as _memory
-from .deploy_tools import TOOLS as _deploy
-from .media_tools import TOOLS as _media
-from .skill_tools import TOOLS as _skill
-from .web_tools import TOOLS as _web
-from .security_tools import TOOLS as _security
-from .governance_tools import TOOLS as _governance
-from .planner_tools import TOOLS as _planner
+def _load_tools(module_name: str) -> list:
+    try:
+        module = import_module(f"{__name__}.{module_name}")
+        return list(getattr(module, "TOOLS", []))
+    except Exception as e:
+        logger.warning(f"[Tools] {module_name} load failed: {e}")
+        return []
+
+
+_system = _load_tools("system_tools")
+_memory = _load_tools("memory_tools")
+_deploy = _load_tools("deploy_tools")
+_media = _load_tools("media_tools")
+_skill = _load_tools("skill_tools")
+_web = _load_tools("web_tools")
+_security = _load_tools("security_tools")
+_governance = _load_tools("governance_tools")
+_planner = _load_tools("planner_tools")
+# 2026-05-29: 분석 도구 (GA4 SBU 트래픽 + PostHog DAU) — owner daily 사용
+try:
+    from .analytics_tools import ANALYTICS_TOOLS as _analytics
+except Exception as e:
+    logger.warning(f"[Tools] analytics_tools 로드 실패: {e}")
+    _analytics = []
 
 # Phase 3: 외부 서비스 연동 도구 (안전한 import)
 try:
@@ -64,6 +80,7 @@ _raw_tools = (
     _calendar     # 일정 (owner 직접 쓰는 #1)
     + _gmail      # 메일 (owner 직접 쓰는 #2)
     + _memory     # RAG/회상 (owner 직접 쓰는 #3)
+    + _analytics  # GA4 트래픽 + PostHog DAU (owner daily 방문자 조회)
     + _media      # 이미지 생성/처리
     + _skill      # skill 호출
     + _system     # PC ops (run_pc_command 등, owner 보다는 시스템)

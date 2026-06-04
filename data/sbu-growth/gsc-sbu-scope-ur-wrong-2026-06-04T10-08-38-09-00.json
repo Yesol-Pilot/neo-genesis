@@ -1,0 +1,367 @@
+{
+  "generatedAt": "2026-06-04T10:08:38+09:00",
+  "tokenSource": "service_account",
+  "args": {
+    "sites": "ur-wrong",
+    "days": 90,
+    "rowLimit": 50,
+    "submitSitemaps": true,
+    "fetch": true,
+    "minImpressions": 1,
+    "writeDefaultLatest": false
+  },
+  "scope": {
+    "label": "scope-ur-wrong",
+    "siteIds": [
+      "ur-wrong"
+    ],
+    "isDefaultAll": false,
+    "filePrefix": "gsc-sbu-scope-ur-wrong",
+    "writesDefaultLatest": false
+  },
+  "window": {
+    "startDate": "2026-03-04",
+    "endDate": "2026-06-02"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "https://ethica.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://aiforge.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://craftdesk.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://review.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://finstack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://deploystack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://heoyesol.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://kott.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://sellkit.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://whylab.neogenesis.app/",
+      "permissionLevel": "siteUnverifiedUser"
+    },
+    {
+      "siteUrl": "https://www.toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 1,
+    "propertiesListed": 1,
+    "liveSitemapsOk": 1,
+    "gscSitemapsKnown": 1,
+    "sitemapSubmissionsAttempted": 1,
+    "sitemapSubmissionsOk": 1,
+    "searchAnalyticsAttempted": 1,
+    "searchAnalyticsOk": 1,
+    "totalRows": 25
+  },
+  "sites": [
+    {
+      "id": "ur-wrong",
+      "name": "UR WRONG",
+      "property": "https://ur-wrong.com/",
+      "domain": "https://ur-wrong.com",
+      "sitemap": "https://ur-wrong.com/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 172,
+        "finalUrl": "https://ur-wrong.com/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 25,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://ur-wrong.com/",
+          "clicks": 0,
+          "impressions": 15,
+          "weightedPosition": 336,
+          "queries": [
+            {
+              "query": "ur wrong",
+              "clicks": 0,
+              "impressions": 12,
+              "ctr": 0,
+              "position": 7.833333333333333,
+              "score": 0.343
+            },
+            {
+              "query": "u r wrong",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 80.66666666666667,
+              "score": 0.0267
+            }
+          ],
+          "score": 0.3697,
+          "averagePosition": 22.4
+        },
+        {
+          "page": "https://ur-wrong.com/social-media-debate-topics",
+          "clicks": 0,
+          "impressions": 28,
+          "weightedPosition": 1929,
+          "queries": [
+            {
+              "query": "social media debates",
+              "clicks": 0,
+              "impressions": 5,
+              "ctr": 0,
+              "position": 58.6,
+              "score": 0.0523
+            },
+            {
+              "query": "social media controversial topics",
+              "clicks": 0,
+              "impressions": 5,
+              "ctr": 0,
+              "position": 63.2,
+              "score": 0.0503
+            },
+            {
+              "query": "social media debate topics",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 73,
+              "score": 0.0281
+            },
+            {
+              "query": "controversial topics about social media",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 82,
+              "score": 0.0265
+            },
+            {
+              "query": "debate topics on social media",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 64,
+              "score": 0.02
+            }
+          ],
+          "score": 0.2727,
+          "averagePosition": 68.89
+        },
+        {
+          "page": "https://ur-wrong.com/topic/tech",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 4,
+          "queries": [
+            {
+              "query": "current technology debates",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            }
+          ],
+          "score": 0.04,
+          "averagePosition": 4
+        },
+        {
+          "page": "https://ur-wrong.com/money-debate-topics",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 6,
+          "queries": [
+            {
+              "query": "money debate topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0327
+            }
+          ],
+          "score": 0.0327,
+          "averagePosition": 6
+        },
+        {
+          "page": "https://ur-wrong.com/ai-debate-topics",
+          "clicks": 0,
+          "impressions": 3,
+          "weightedPosition": 224,
+          "queries": [
+            {
+              "query": "artificial intelligence debate topics",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 74,
+              "score": 0.0186
+            },
+            {
+              "query": "ai debate topic",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 76,
+              "score": 0.0092
+            }
+          ],
+          "score": 0.0278,
+          "averagePosition": 74.67
+        },
+        {
+          "page": "https://ur-wrong.com/topic/ai",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 107,
+          "queries": [
+            {
+              "query": "artificial intelligence debate topics",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 53.5,
+              "score": 0.0219
+            }
+          ],
+          "score": 0.0219,
+          "averagePosition": 53.5
+        },
+        {
+          "page": "https://ur-wrong.com/debate-topics",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 156,
+          "queries": [
+            {
+              "query": "agree or disagree topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 74,
+              "score": 0.0093
+            },
+            {
+              "query": "agree and disagree topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 82,
+              "score": 0.0088
+            }
+          ],
+          "score": 0.0181,
+          "averagePosition": 78
+        },
+        {
+          "page": "https://ur-wrong.com/relationship-debate-topics",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 44,
+          "queries": [
+            {
+              "query": "relationship debate topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 44,
+              "score": 0.0121
+            }
+          ],
+          "score": 0.0121,
+          "averagePosition": 44
+        },
+        {
+          "page": "https://ur-wrong.com/topic",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 77,
+          "queries": [
+            {
+              "query": "internet debate topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 77,
+              "score": 0.0091
+            }
+          ],
+          "score": 0.0091,
+          "averagePosition": 77
+        },
+        {
+          "page": "https://ur-wrong.com/topics/social-media",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 88,
+          "queries": [
+            {
+              "query": "social media debate topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 88,
+              "score": 0.0085
+            }
+          ],
+          "score": 0.0085,
+          "averagePosition": 88
+        }
+      ]
+    }
+  ]
+}

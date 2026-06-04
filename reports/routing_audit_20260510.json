@@ -1,0 +1,96 @@
+{
+  "schema_version": "1",
+  "generated_at": "2026-05-10T22:42:41+09:00",
+  "audit_dir": "C:\\Users\\yesol\\.claude\\audit",
+  "window": {
+    "since": "2026-05-03T22:42:41+09:00",
+    "until": "2026-05-10T22:42:41+09:00"
+  },
+  "files_scanned": {
+    "persona_routing": [
+      "persona_routing_2026-05-10.jsonl"
+    ],
+    "agent_tool_use": [
+      "agent_tool_use_2026-05-10.jsonl"
+    ]
+  },
+  "persona_routing": {
+    "total_events": 3,
+    "events_per_day": {
+      "2026-05-10": 3
+    },
+    "top_personas": [
+      [
+        "prompt-injection-auditor",
+        2
+      ],
+      [
+        "senior-da-pm-korean",
+        1
+      ]
+    ],
+    "layer_distribution": {
+      "(unspecified)": 3
+    },
+    "fallback_rate": 0.0,
+    "fallback_count": 0,
+    "unspecified_layer_count": 3,
+    "classified_layer_total": 0,
+    "framework_distribution": {
+      "STRIDE + DREAD + AgentDojo": 2,
+      "JTBD + AARRR + Pre-mortem": 1
+    },
+    "secondary_personas_distribution": {
+      "0": 3
+    },
+    "g2_detected_count": 2,
+    "g2_detected_events": [
+      {
+        "ts": "2026-05-10T22:12:57+09:00",
+        "persona_id": "prompt-injection-auditor",
+        "framework": "STRIDE + DREAD + AgentDojo",
+        "query_hash": "257c554db37f0800a557233782f53689ede9a52f"
+      },
+      {
+        "ts": "2026-05-10T22:14:54+09:00",
+        "persona_id": "prompt-injection-auditor",
+        "framework": "STRIDE + DREAD + AgentDojo",
+        "query_hash": "257c554db37f0800a557233782f53689ede9a52f"
+      }
+    ],
+    "confidence": {
+      "count": 3.0,
+      "avg": 0.85,
+      "p50": 0.85,
+      "p95": 0.85,
+      "max": 0.85
+    }
+  },
+  "agent_tool_use": {
+    "total_events": 9,
+    "subagent_type_distribution": {
+      "(empty)": 4,
+      "fake-not-exists": 2,
+      "neo-architect": 1,
+      "senior-da-pm-korean": 1,
+      "general-purpose": 1
+    },
+    "tool_distribution": {
+      "Agent": 7,
+      "Task": 2
+    },
+    "general_purpose_count": 1,
+    "general_purpose_rate": 0.1111111111111111,
+    "persona_named_count": 4,
+    "persona_named_rate": 0.4444444444444444,
+    "is_persona_true_count": 0,
+    "agent_file_missing_count": 0,
+    "agent_file_unknown_count": 2,
+    "warnings": []
+  },
+  "data_quality": {
+    "persona_event_total": 3,
+    "agent_event_total": 9,
+    "honest_note": "Sample is small and skewed toward synthetic/regression probes if the hook integration is recent; treat percentages as directional, not statistical."
+  }
+}

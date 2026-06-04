@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:," />
+  <title>Judgment Control Tower - sbu_growth</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --line: #d9dee8;
+      --text: #172033;
+      --muted: #637083;
+      --green: #117a43;
+      --green-bg: #e8f6ee;
+      --yellow: #946200;
+      --yellow-bg: #fff3cf;
+      --red: #b42318;
+      --red-bg: #fee4e2;
+      --neutral: #475467;
+      --neutral-bg: #eef2f7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      line-height: 1.45;
+    }
+    main {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 24px 0 40px;
+    }
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 24px; line-height: 1.2; letter-spacing: 0; }
+    h2 { font-size: 16px; margin-bottom: 10px; letter-spacing: 0; }
+    h3 { font-size: 14px; margin-bottom: 6px; letter-spacing: 0; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 6px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 88px;
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      border: 1px solid currentColor;
+    }
+    .green { color: var(--green); background: var(--green-bg); }
+    .yellow { color: var(--yellow); background: var(--yellow-bg); }
+    .red { color: var(--red); background: var(--red-bg); }
+    .neutral { color: var(--neutral); background: var(--neutral-bg); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-width: 0;
+    }
+    .span-12 { grid-column: span 12; }
+    .span-8 { grid-column: span 8; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .summary-item {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px;
+      min-height: 86px;
+      background: #fbfcfe;
+    }
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .value { font-size: 14px; overflow-wrap: anywhere; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 8px;
+      border-bottom: 1px solid var(--line);
+      overflow-wrap: anywhere;
+    }
+    th { color: var(--muted); font-weight: 700; background: #fbfcfe; }
+    ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+    li + li { margin-top: 6px; }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #eef2f7;
+      border-radius: 4px;
+      padding: 1px 4px;
+      font-size: 12px;
+    }
+    .empty {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 860px) {
+      header, .summary { grid-template-columns: 1fr; }
+      .span-8, .span-6, .span-4 { grid-column: span 12; }
+      main { width: min(100vw - 20px, 1180px); padding-top: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Judgment Control Tower - sbu_growth</h1>
+        <p class="meta">2026-05-20T15:50:22+09:00 · sbu_growth · sbu-growth-control-tower</p>
+      </div>
+      <div class="badge green">Proceed</div>
+    </header>
+    <section class="grid">
+<div class="panel span-12"><div class="summary">
+<div class="summary-item"><div class="label">Conclusion</div><div class="value">Proceed: SBU control tower and live checks are green.</div></div>
+<div class="summary-item"><div class="label">Top Action</div><div class="value">Continue normal SBU loop.</div></div>
+<div class="summary-item"><div class="label">Residual Risk</div><div class="value">Warnings are review points; critical issues block external continuation.</div></div>
+</div></div>
+<div class="panel span-8"><h2>Mission</h2><p class="value">Judge whether the SBU growth loop is ready to proceed.</p><div style="height:10px"></div><h3>Success Criteria</h3><ul><li>Control tower generated.</li><li>Regression gate has zero critical issues.</li><li>Live blog, detail, and sitemap checks pass for each SBU.</li><li>Residual warnings are visible before external side effects.</li></ul></div>
+<div class="panel span-4"><h2>Verdict</h2><p><span class="badge green">proceed</span></p><p class="meta">SBU control tower and live checks are green.</p><div style="height:10px"></div><h3>Constraints</h3><ul><li>Do not print secrets.</li><li>Do not treat DB-only publish as success for file-based SBU blogs.</li><li>Keep live verification separate from local publish success.</li></ul></div>
+<div class="panel span-6"><h2>Metrics</h2>
+<table><thead><tr><th>Metric</th><th>Value</th><th>Status</th><th>Detail</th></tr></thead><tbody><tr><td>SBU sites</td><td>6</td><td><span class="badge neutral">neutral</span></td><td></td></tr><tr><td>Live OK</td><td>6/6</td><td><span class="badge green">green</span></td><td></td></tr><tr><td>Modeled MAU</td><td>755650</td><td><span class="badge neutral">neutral</span></td><td></td></tr><tr><td>Critical issues</td><td>0</td><td><span class="badge green">green</span></td><td></td></tr><tr><td>Warnings</td><td>0</td><td><span class="badge green">green</span></td><td></td></tr><tr><td>Dirty SBU worktrees</td><td>0</td><td><span class="badge green">green</span></td><td></td></tr></tbody></table>
+</div>
+<div class="panel span-6"><h2>Agent Lanes</h2>
+<table><thead><tr><th>Lane</th><th>Result</th><th>Status</th><th>Detail</th></tr></thead><tbody><tr><td>SBU Control Tower</td><td>generated</td><td><span class="badge green">green</span></td><td>data\sbu-growth\control-tower-latest.json</td></tr><tr><td>Regression Gate</td><td>passed</td><td><span class="badge green">green</span></td><td>data\sbu-growth\growth-loop-latest.json#regression-gate</td></tr><tr><td>publisher-verify</td><td>passed</td><td><span class="badge green">green</span></td><td>C:\Users\yesol\.gemini\tools\node22\node-v22.12.0-win-x64\node.exe scripts/sbu_autonomous_growth_runner.mjs --verify-only</td></tr><tr><td>control-tower</td><td>passed</td><td><span class="badge green">green</span></td><td>C:\Users\yesol\.gemini\tools\node22\node-v22.12.0-win-x64\node.exe scripts/sbu_growth_control_tower.mjs --json</td></tr><tr><td>search-growth-flywheel</td><td>passed</td><td><span class="badge green">green</span></td><td>C:\Users\yesol\.gemini\tools\node22\node-v22.12.0-win-x64\node.exe scripts/sbu_search_growth_flywheel.mjs --json</td></tr><tr><td>full-live-quality</td><td>passed</td><td><span class="badge green">green</span></td><td>python scripts/sbu_full_live_quality_audit.py --wait-ms 3000</td></tr><tr><td>regression-gate</td><td>passed</td><td><span class="badge green">green</span></td><td>C:\Users\yesol\.gemini\tools\node22\node-v22.12.0-win-x64\node.exe scripts/sbu_growth_regression_gate.mjs --json</td></tr><tr><td>posthog-7d</td><td>passed</td><td><span class="badge green">green</span></td><td>python scripts/posthog_traffic.py --days 7</td></tr><tr><td>ga4-report</td><td>passed</td><td><span class="badge green">green</span></td><td>python scripts/ga4_traffic_report.py</td></tr></tbody></table>
+</div>
+<div class="panel span-12"><h2>Evidence Board</h2>
+<table><thead><tr><th>Type</th><th>Label</th><th>Status</th><th>Reference</th><th>Summary</th></tr></thead><tbody><tr><td>file</td><td>Control tower JSON</td><td><span class="badge green">green</span></td><td>data\sbu-growth\control-tower-latest.json</td><td>SBU status, local checks, and live checks.</td></tr><tr><td>file</td><td>Regression gate output</td><td><span class="badge green">green</span></td><td>data\sbu-growth\growth-loop-latest.json#regression-gate</td><td>0 critical issues, 0 warnings.</td></tr><tr><td>url</td><td>ToolPick domain</td><td><span class="badge green">green</span></td><td>https://toolpick.dev</td><td>score=88 status=green</td></tr><tr><td>url</td><td>AIForge domain</td><td><span class="badge green">green</span></td><td>https://aiforge.neogenesis.app</td><td>score=87 status=green</td></tr><tr><td>url</td><td>CraftDesk domain</td><td><span class="badge green">green</span></td><td>https://craftdesk.neogenesis.app</td><td>score=88 status=green</td></tr><tr><td>url</td><td>DeployStack domain</td><td><span class="badge green">green</span></td><td>https://deploystack.neogenesis.app</td><td>score=87 status=green</td></tr><tr><td>url</td><td>FinStack domain</td><td><span class="badge green">green</span></td><td>https://finstack.neogenesis.app</td><td>score=87 status=green</td></tr><tr><td>url</td><td>SellKit domain</td><td><span class="badge green">green</span></td><td>https://sellkit.neogenesis.app</td><td>score=88 status=green</td></tr></tbody></table>
+</div>
+<div class="panel span-6"><h2>Risk Board</h2>
+<p class="empty">none</p>
+</div>
+<div class="panel span-6"><h2>Approval Queue</h2>
+<table><thead><tr><th>Tier</th><th>Action</th><th>State</th><th>Scope</th><th>Rollback</th></tr></thead><tbody><tr><td>G3</td><td>SBU routine continuation</td><td><span class="badge green">not_required</span></td><td>Existing standing approval for SBU growth operations</td><td>Per-SBU git revert or Vercel rollback if a later external action fails.</td></tr></tbody></table>
+</div>
+<div class="panel span-6"><h2>Memory Board</h2>
+<p class="empty">none</p>
+</div>
+<div class="panel span-6"><h2>Next Actions</h2>
+<table><thead><tr><th>Action</th><th>Owner</th><th>Status</th><th>Due</th></tr></thead><tbody><tr><td>Continue normal SBU loop.</td><td>Codex/SBU automation</td><td><span class="badge yellow">next</span></td><td></td></tr></tbody></table>
+</div>
+</section>
+  </main>
+  <script id="decision-artifact" type="application/json">{
+  "schemaVersion": "ng.judgment.v1",
+  "generatedAt": "2026-05-20T15:50:22+09:00",
+  "run": {
+    "id": "sbu-growth-control-tower",
+    "kind": "sbu_growth",
+    "sourceArtifacts": [
+      "data\\sbu-growth\\control-tower-latest.json",
+      "data\\sbu-growth\\growth-loop-latest.json"
+    ]
+  },
+  "mission": {
+    "goal": "Judge whether the SBU growth loop is ready to proceed.",
+    "successCriteria": [
+      "Control tower generated.",
+      "Regression gate has zero critical issues.",
+      "Live blog, detail, and sitemap checks pass for each SBU.",
+      "Residual warnings are visible before external side effects."
+    ],
+    "constraints": [
+      "Do not print secrets.",
+      "Do not treat DB-only publish as success for file-based SBU blogs.",
+      "Keep live verification separate from local publish success."
+    ]
+  },
+  "verdict": {
+    "status": "green",
+    "decision": "proceed",
+    "label": "Proceed",
+    "reason": "SBU control tower and live checks are green."
+  },
+  "summary": {
+    "conclusion": "Proceed: SBU control tower and live checks are green.",
+    "topAction": "Continue normal SBU loop.",
+    "residualRisk": "Warnings are review points; critical issues block external continuation."
+  },
+  "metrics": [
+    {
+      "label": "SBU sites",
+      "value": 6,
+      "status": "neutral"
+    },
+    {
+      "label": "Live OK",
+      "value": "6/6",
+      "status": "green"
+    },
+    {
+      "label": "Modeled MAU",
+      "value": 755650,
+      "status": "neutral"
+    },
+    {
+      "label": "Critical issues",
+      "value": 0,
+      "status": "green"
+    },
+    {
+      "label": "Warnings",
+      "value": 0,
+      "status": "green"
+    },
+    {
+      "label": "Dirty SBU worktrees",
+      "value": 0,
+      "status": "green"
+    }
+  ],
+  "lanes": [
+    {
+      "label": "SBU Control Tower",
+      "value": "generated",
+      "status": "green",
+      "detail": "data\\sbu-growth\\control-tower-latest.json"
+    },
+    {
+      "label": "Regression Gate",
+      "value": "passed",
+      "status": "green",
+      "detail": "data\\sbu-growth\\growth-loop-latest.json#regression-gate"
+    },
+    {
+      "label": "publisher-verify",
+      "value": "passed",
+      "status": "green",
+      "detail": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_autonomous_growth_runner.mjs --verify-only"
+    },
+    {
+      "label": "control-tower",
+      "value": "passed",
+      "status": "green",
+      "detail": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_growth_control_tower.mjs --json"
+    },
+    {
+      "label": "search-growth-flywheel",
+      "value": "passed",
+      "status": "green",
+      "detail": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_search_growth_flywheel.mjs --json"
+    },
+    {
+      "label": "full-live-quality",
+      "value": "passed",
+      "status": "green",
+      "detail": "python scripts/sbu_full_live_quality_audit.py --wait-ms 3000"
+    },
+    {
+      "label": "regression-gate",
+      "value": "passed",
+      "status": "green",
+      "detail": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_growth_regression_gate.mjs --json"
+    },
+    {
+      "label": "posthog-7d",
+      "value": "passed",
+      "status": "green",
+      "detail": "python scripts/posthog_traffic.py --days 7"
+    },
+    {
+      "label": "ga4-report",
+      "value": "passed",
+      "status": "green",
+      "detail": "python scripts/ga4_traffic_report.py"
+    }
+  ],
+  "evidence": [
+    {
+      "type": "file",
+      "label": "Control tower JSON",
+      "status": "green",
+      "reference": "data\\sbu-growth\\control-tower-latest.json",
+      "summary": "SBU status, local checks, and live checks."
+    },
+    {
+      "type": "file",
+      "label": "Regression gate output",
+      "status": "green",
+      "reference": "data\\sbu-growth\\growth-loop-latest.json#regression-gate",
+      "summary": "0 critical issues, 0 warnings."
+    },
+    {
+      "type": "url",
+      "label": "ToolPick domain",
+      "status": "green",
+      "reference": "https://toolpick.dev",
+      "summary": "score=88 status=green"
+    },
+    {
+      "type": "url",
+      "label": "AIForge domain",
+      "status": "green",
+      "reference": "https://aiforge.neogenesis.app",
+      "summary": "score=87 status=green"
+    },
+    {
+      "type": "url",
+      "label": "CraftDesk domain",
+      "status": "green",
+      "reference": "https://craftdesk.neogenesis.app",
+      "summary": "score=88 status=green"
+    },
+    {
+      "type": "url",
+      "label": "DeployStack domain",
+      "status": "green",
+      "reference": "https://deploystack.neogenesis.app",
+      "summary": "score=87 status=green"
+    },
+    {
+      "type": "url",
+      "label": "FinStack domain",
+      "status": "green",
+      "reference": "https://finstack.neogenesis.app",
+      "summary": "score=87 status=green"
+    },
+    {
+      "type": "url",
+      "label": "SellKit domain",
+      "status": "green",
+      "reference": "https://sellkit.neogenesis.app",
+      "summary": "score=88 status=green"
+    }
+  ],
+  "risks": [],
+  "approvals": [
+    {
+      "authorityTier": "G3",
+      "action": "SBU routine continuation",
+      "scope": "Existing standing approval for SBU growth operations",
+      "rollbackPath": "Per-SBU git revert or Vercel rollback if a later external action fails.",
+      "state": "not_required"
+    }
+  ],
+  "memory": [],
+  "nextActions": [
+    {
+      "label": "Continue normal SBU loop.",
+      "owner": "Codex/SBU automation",
+      "status": "next"
+    }
+  ]
+}</script>
+</body>
+</html>

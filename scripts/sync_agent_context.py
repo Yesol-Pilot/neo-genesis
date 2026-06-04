@@ -65,8 +65,13 @@ def _runtime_revision() -> str:
         AGENT_ROOT / "BIBLE.md",
         AGENT_ROOT / "contracts" / "COLLABORATION_CONTRACT.md",
         AGENT_ROOT / "knowledge" / "AGENT_SHARED_MEMORY.md",
+        AGENT_ROOT / "knowledge" / "PERSONAL_CONTEXT_ROUTING.md",
         AGENT_ROOT / "knowledge" / "AGENT_RUNTIME_OPTIMIZATION.md",
         AGENT_ROOT / "knowledge" / "CLAUDE_COLLABORATION.md",
+        AGENT_ROOT / "knowledge" / "CALLABLE_TOOLS_REGISTRY_POLICY.md",
+        AGENT_ROOT / "registries" / "callable_tools.json",
+        AGENT_ROOT / "registries" / "external_tool_capabilities.source.json",
+        AGENT_ROOT / "registries" / "external_tool_capabilities.json",
         AGENT_ROOT / "knowledge" / "20260510_C_DRIVE_MANAGEMENT_POLICY.md",
         AGENT_ROOT / "knowledge" / "20260510_D_DRIVE_ROOT_POLICY.md",
         AGENT_ROOT / "knowledge" / "OWNER_PROFILE.md",
@@ -186,14 +191,20 @@ def _render_repo_agents(status_payload: dict[str, Any]) -> str:
 - Do not hardcode paths, URLs, model names, or environment-specific values when SSOT or config already defines them.
 - For C drive storage/cleanup, follow `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`: move or re-home large agent-created state to `D:` before deleting.
 - For D drive root hygiene, follow `.agent/knowledge/20260510_D_DRIVE_ROOT_POLICY.md`: do not create ad hoc top-level folders under `D:\\`.
+- For Google Drive, do not sync active repos, `D:\\00.test`, build outputs, caches, logs, temp outputs, generated media, or agent runtime state; export curated deliverables only.
+- For owner-authorized personal legal/finance context, follow `.agent/knowledge/PERSONAL_CONTEXT_ROUTING.md` and do not copy sensitive contents into shared prompts.
 - Verify unstable or time-sensitive facts with official documentation before using them.
 - Treat `.agent/` as the source of truth. Treat root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `infra/agent-runtime/` as generated adapters.
+- For Neo Genesis business/runtime state (SBU, product, KPI, revenue path, decision, risk, agent, device), consult the ontology before acting and record material changes after: query `python scripts/ontology/business/query.py --object-set <name>` (business) or `scripts/ontology/query.py` (runtime); record via `scripts/ontology/mutate.py` / `auto_record.py`. The ontology auto-refreshes daily (Task Scheduler `NeoGenesisOntologyDailyMaintain`); every node/edge carries `provenance` and integrity is gated by `scripts/ontology/validate.py`.
 
 ## Shared Knowledge
+- Ontology (Neo Genesis operating graph): `.agent/ontology/` (runtime/meta) + `.agent/ontology/business/` (business). Tools: `query.py` / `mutate.py` / `validate.py` / MCP `neo-genesis-ontology`. Design: `.agent/ontology/DESIGN_v0.1.md`.
 - Collaboration contract: `.agent/contracts/COLLABORATION_CONTRACT.md`
 - Long-term memory: `.agent/knowledge/AGENT_SHARED_MEMORY.md`
+- Personal context routing: `.agent/knowledge/PERSONAL_CONTEXT_ROUTING.md`
 - Role optimization: `.agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md`
 - Claude collaboration: `.agent/knowledge/CLAUDE_COLLABORATION.md`
+- Tool registries: local `.agent/registries/callable_tools.json`, external `.agent/registries/external_tool_capabilities.json`, policy `.agent/knowledge/CALLABLE_TOOLS_REGISTRY_POLICY.md`
 - C drive management: `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`
 - D drive root policy: `.agent/knowledge/20260510_D_DRIVE_ROOT_POLICY.md`
 - Owner profile: `.agent/knowledge/OWNER_PROFILE.md`
@@ -248,9 +259,19 @@ def _render_fleet_status(status_payload: dict[str, Any], runtime_revision: str) 
         lines.append("- No device inventory found.")
         return "\n".join(lines) + "\n"
 
+    # Normalize list-form to dict-form (handles both schemas).
+    if isinstance(devices, list):
+        devices = {item.get("id", f"unknown_{idx}"): item for idx, item in enumerate(devices) if isinstance(item, dict)}
+
     for device_id, meta in devices.items():
         heartbeat = heartbeats.get(device_id, {})
-        roles = ", ".join(meta.get("roles", [])) or "none"
+        roles_value = meta.get("roles")
+        if isinstance(roles_value, list):
+            roles = ", ".join(str(role) for role in roles_value) or "none"
+        else:
+            roles = str(meta.get("role") or "none")
+        tier = meta.get("ownerTier") or meta.get("priorityTier") or "unknown"
+        transport = meta.get("transport") or meta.get("connection") or "unknown"
         connectivity = heartbeat.get("connectivity", "unknown")
         rollout_state = heartbeat.get("rolloutState") or status_payload.get("deviceRollout", {}).get(device_id, "unknown")
         seen_at = heartbeat.get("generatedAt") or "unknown"
@@ -258,7 +279,7 @@ def _render_fleet_status(status_payload: dict[str, Any], runtime_revision: str) 
         match = heartbeat.get("runtimeRevisionMatch")
         match_text = "match" if match is True else "mismatch" if match is False else "n/a"
         lines.append(
-            f"- `{device_id}`: tier={meta.get('ownerTier', 'unknown')}, transport={meta.get('transport', 'unknown')}, "
+            f"- `{device_id}`: tier={tier}, transport={transport}, "
             f"roles={roles}, connectivity={connectivity}, state={rollout_state}, revision={revision} ({match_text}), "
             f"seenAt={seen_at}"
         )
@@ -268,38 +289,50 @@ def _render_fleet_status(status_payload: dict[str, Any], runtime_revision: str) 
 
 def _render_claude_md() -> str:
     return f"""{MARKER}
-# Neo Genesis Claude Adapter
+# Neo Genesis Claude Adapter (v2 slim, 2026-05-12)
 
 > Root SSOT lives in `.agent/`
 > This file is an adapter for Claude Code memory loading.
+> v2 (2026-05-12): Tier 1 만 @import. Tier 2 (COLLABORATION_CONTRACT / AGENT_SHARED_MEMORY / AGENT_RUNTIME_OPTIMIZATION / CLAUDE_COLLABORATION / cross-agent-review) 는 lazy load (필요 시 Read).
 
 @./AGENTS.md
 @./infra/agent-runtime/LIVE_STATUS.md
-@./infra/agent-runtime/FLEET_STATUS.md
-@./.agent/contracts/COLLABORATION_CONTRACT.md
-@./.agent/knowledge/AGENT_SHARED_MEMORY.md
-@./.agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md
-@./.agent/knowledge/CLAUDE_COLLABORATION.md
 @./.agent/shared-brain/active-tasks.md
-@./.agent/shared-brain/cross-agent-review.md
 @./.agent/shared-brain/handoff.md
+
+<!-- Tier 2 lazy load (필요 시 Read):
+- .agent/contracts/COLLABORATION_CONTRACT.md
+- .agent/knowledge/AGENT_SHARED_MEMORY.md
+- .agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md
+- .agent/knowledge/CLAUDE_COLLABORATION.md
+- .agent/knowledge/CALLABLE_TOOLS_REGISTRY_POLICY.md
+- .agent/registries/callable_tools.json
+- .agent/registries/external_tool_capabilities.json
+- .agent/shared-brain/cross-agent-review.md
+- infra/agent-runtime/FLEET_STATUS.md
+-->
 """
 
 
 def _render_gemini_md() -> str:
     return f"""{MARKER}
-# Neo Genesis Gemini Adapter
+# Neo Genesis Gemini Adapter (v2 slim, 2026-05-12)
 
 This file keeps Gemini CLI aligned with the Neo Genesis SSOT.
 
 @./AGENTS.md
 @./infra/agent-runtime/LIVE_STATUS.md
-@./infra/agent-runtime/FLEET_STATUS.md
+@./.agent/shared-brain/active-tasks.md
+@./.agent/shared-brain/handoff.md
+
+<!-- Tier 2 lazy load: same list as CLAUDE.md -->
 @./.agent/contracts/COLLABORATION_CONTRACT.md
 @./.agent/knowledge/AGENT_SHARED_MEMORY.md
 @./.agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md
 @./.agent/knowledge/CLAUDE_COLLABORATION.md
-@./.agent/shared-brain/active-tasks.md
+@./.agent/knowledge/CALLABLE_TOOLS_REGISTRY_POLICY.md
+@./.agent/registries/callable_tools.json
+@./.agent/registries/external_tool_capabilities.json
 @./.agent/shared-brain/cross-agent-review.md
 @./.agent/shared-brain/handoff.md
 """
@@ -317,6 +350,7 @@ Core rules:
 - Put the conclusion first, then supporting details.
 - Follow `.agent/NEO_MASTER_RULES.md` as the canonical source of truth.
 - Treat `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, and `.agent/shared-brain/*` as supporting context.
+- Consult `.agent/registries/callable_tools.json` and `.agent/registries/external_tool_capabilities.json` before assuming tool availability.
 - Verify unstable facts with official documentation before relying on them.
 
 Runtime snapshot:
@@ -423,10 +457,13 @@ def _install_home_adapters() -> list[Path]:
         "neo-conflict-resolver.md",
     ):
         src = PROJECT_ROOT / ".claude" / "agents" / agent_name
-        dst = claude_agents_dir / agent_name
-        _backup_if_exists(dst)
-        dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
-        installed.append(dst)
+        if src.exists():
+            dst = claude_agents_dir / agent_name
+            _backup_if_exists(dst)
+            dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+            installed.append(dst)
+        else:
+            print(f"Warning: Agent blueprint not found at {src}, skipping home installation.")
     return installed
 
 

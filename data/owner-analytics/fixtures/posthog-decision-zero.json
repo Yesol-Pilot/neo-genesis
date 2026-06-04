@@ -1,0 +1,9 @@
+{
+  "fixture": "posthog-decision-zero",
+  "posthog": {
+    "pageviews": 38,
+    "decisionEvents": 0,
+    "legacyActionEvents": 105
+  },
+  "expectedFinding": "POSTHOG_DECISION_EVENT_ZERO"
+}

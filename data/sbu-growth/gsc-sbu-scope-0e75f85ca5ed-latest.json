@@ -1,0 +1,957 @@
+{
+  "generatedAt": "2026-06-02T07:44:08+09:00",
+  "tokenSource": "refresh_token",
+  "args": {
+    "sites": "aiforge,craftdesk,deploystack,finstack,sellkit,reviewlab,whylab,ethicaai",
+    "days": 28,
+    "rowLimit": 20,
+    "submitSitemaps": true,
+    "fetch": true,
+    "minImpressions": 1,
+    "writeDefaultLatest": false
+  },
+  "scope": {
+    "label": "scope-0e75f85ca5ed",
+    "siteIds": [
+      "aiforge",
+      "craftdesk",
+      "deploystack",
+      "finstack",
+      "sellkit",
+      "reviewlab",
+      "whylab",
+      "ethicaai"
+    ],
+    "isDefaultAll": false,
+    "filePrefix": "gsc-sbu-scope-0e75f85ca5ed",
+    "writesDefaultLatest": false
+  },
+  "window": {
+    "startDate": "2026-05-03",
+    "endDate": "2026-05-31"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "https://sellkit.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://whylab.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://daysleft.io/",
+      "permissionLevel": "siteUnverifiedUser"
+    },
+    {
+      "siteUrl": "https://toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://deploystack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://aiforge.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:heoyesol.kr",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:toolpick.dev",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://craftdesk.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ethica.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:review.neogenesis.app",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://kott.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://review.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://finstack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://www.toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://heoyesol.kr/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 8,
+    "propertiesListed": 8,
+    "liveSitemapsOk": 8,
+    "gscSitemapsKnown": 8,
+    "sitemapSubmissionsAttempted": 8,
+    "sitemapSubmissionsOk": 8,
+    "searchAnalyticsAttempted": 8,
+    "searchAnalyticsOk": 8,
+    "totalRows": 46
+  },
+  "sites": [
+    {
+      "id": "aiforge",
+      "name": "AIForge",
+      "property": "https://aiforge.neogenesis.app/",
+      "domain": "https://aiforge.neogenesis.app",
+      "sitemap": "https://aiforge.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 650,
+        "finalUrl": "https://aiforge.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 0,
+        "error": null
+      },
+      "opportunities": []
+    },
+    {
+      "id": "craftdesk",
+      "name": "CraftDesk",
+      "property": "https://craftdesk.neogenesis.app/",
+      "domain": "https://craftdesk.neogenesis.app",
+      "sitemap": "https://craftdesk.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 510,
+        "finalUrl": "https://craftdesk.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 1,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://craftdesk.neogenesis.app/blog/uiux-tools-rapid-prototyping",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 93,
+          "queries": [
+            {
+              "query": "rapid prototyping user interface",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 93,
+              "score": 0.0083
+            }
+          ],
+          "score": 0.0083,
+          "averagePosition": 93
+        }
+      ]
+    },
+    {
+      "id": "deploystack",
+      "name": "DeployStack",
+      "property": "https://deploystack.neogenesis.app/",
+      "domain": "https://deploystack.neogenesis.app",
+      "sitemap": "https://deploystack.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 456,
+        "finalUrl": "https://deploystack.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 0,
+        "error": null
+      },
+      "opportunities": []
+    },
+    {
+      "id": "finstack",
+      "name": "FinStack",
+      "property": "https://finstack.neogenesis.app/",
+      "domain": "https://finstack.neogenesis.app",
+      "sitemap": "https://finstack.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 447,
+        "finalUrl": "https://finstack.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 0,
+        "error": null
+      },
+      "opportunities": []
+    },
+    {
+      "id": "sellkit",
+      "name": "SellKit",
+      "property": "https://sellkit.neogenesis.app/",
+      "domain": "https://sellkit.neogenesis.app",
+      "sitemap": "https://sellkit.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 464,
+        "finalUrl": "https://sellkit.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 20,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/gumroad",
+          "clicks": 0,
+          "impressions": 51,
+          "weightedPosition": 4409,
+          "queries": [
+            {
+              "query": "alternatives to gumroad",
+              "clicks": 0,
+              "impressions": 25,
+              "ctr": 0,
+              "position": 87.72,
+              "score": 0.2135
+            },
+            {
+              "query": "alternative to gumroad",
+              "clicks": 0,
+              "impressions": 17,
+              "ctr": 0,
+              "position": 84.82352941176471,
+              "score": 0.1477
+            },
+            {
+              "query": "alternative gumroad",
+              "clicks": 0,
+              "impressions": 9,
+              "ctr": 0,
+              "position": 86,
+              "score": 0.0776
+            }
+          ],
+          "score": 0.4388,
+          "averagePosition": 86.45
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/printful",
+          "clicks": 0,
+          "impressions": 12,
+          "weightedPosition": 925,
+          "queries": [
+            {
+              "query": "alternatives to printful",
+              "clicks": 0,
+              "impressions": 12,
+              "ctr": 0,
+              "position": 77.08333333333333,
+              "score": 0.1093
+            }
+          ],
+          "score": 0.1093,
+          "averagePosition": 77.08
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/redbubble",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 337,
+          "queries": [
+            {
+              "query": "alternative to redbubble",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 49.25,
+              "score": 0.0456
+            },
+            {
+              "query": "alternative redbubble",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 70,
+              "score": 0.0191
+            }
+          ],
+          "score": 0.0647,
+          "averagePosition": 56.17
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/ai-e-commerce-analytics",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 442,
+          "queries": [
+            {
+              "query": "ai ecommerce analytics",
+              "clicks": 0,
+              "impressions": 5,
+              "ctr": 0,
+              "position": 74.6,
+              "score": 0.0463
+            },
+            {
+              "query": "ai ecommerce analytics software",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 69,
+              "score": 0.0096
+            }
+          ],
+          "score": 0.0559,
+          "averagePosition": 73.67
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/ai-marketing-automation-e-commerce",
+          "clicks": 0,
+          "impressions": 3,
+          "weightedPosition": 121,
+          "queries": [
+            {
+              "query": "ai-powered marketing automation platform with built-in marketplace for resellers",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 18.5,
+              "score": 0.0372
+            },
+            {
+              "query": "ai automation for ecommerce",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 84,
+              "score": 0.0087
+            }
+          ],
+          "score": 0.0459,
+          "averagePosition": 40.33
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-advanced-analytics",
+          "clicks": 0,
+          "impressions": 5,
+          "weightedPosition": 406,
+          "queries": [
+            {
+              "query": "advanced ecommerce analytics",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 90.66666666666667,
+              "score": 0.0252
+            },
+            {
+              "query": "advanced ecommerce",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 67,
+              "score": 0.0195
+            }
+          ],
+          "score": 0.0447,
+          "averagePosition": 81.2
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/woocommerce",
+          "clicks": 0,
+          "impressions": 4,
+          "weightedPosition": 322,
+          "queries": [
+            {
+              "query": "alternative of woocommerce",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 74,
+              "score": 0.0093
+            },
+            {
+              "query": "alternative woocommerce",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 80,
+              "score": 0.0089
+            },
+            {
+              "query": "alternative for woocommerce",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 83,
+              "score": 0.0088
+            },
+            {
+              "query": "alternative to woocommerce",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 85,
+              "score": 0.0087
+            }
+          ],
+          "score": 0.0357,
+          "averagePosition": 80.5
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/teespring",
+          "clicks": 0,
+          "impressions": 3,
+          "weightedPosition": 176,
+          "queries": [
+            {
+              "query": "alternative teespring",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 58.666666666666664,
+              "score": 0.0313
+            }
+          ],
+          "score": 0.0313,
+          "averagePosition": 58.67
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-subscription-management",
+          "clicks": 0,
+          "impressions": 3,
+          "weightedPosition": 222,
+          "queries": [
+            {
+              "query": "+ecommerce +subscription +management",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 74,
+              "score": 0.0279
+            }
+          ],
+          "score": 0.0279,
+          "averagePosition": 74
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/printify",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 130,
+          "queries": [
+            {
+              "query": "alternative to printify",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 65,
+              "score": 0.0198
+            }
+          ],
+          "score": 0.0198,
+          "averagePosition": 65
+        }
+      ]
+    },
+    {
+      "id": "reviewlab",
+      "name": "ReviewLab",
+      "property": "https://review.neogenesis.app/",
+      "domain": "https://review.neogenesis.app",
+      "sitemap": "https://review.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 200,
+        "finalUrl": "https://review.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 20,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%ED%99%88%EC%B9%B4%ED%8E%98-%EC%99%84%EB%B2%BD-%EA%B5%AC%ED%98%84",
+          "clicks": 0,
+          "impressions": 5,
+          "weightedPosition": 21,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 5,
+              "ctr": 0,
+              "position": 4.2,
+              "score": 0.1952
+            }
+          ],
+          "score": 0.1952,
+          "averagePosition": 4.2
+        },
+        {
+          "page": "https://review.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 42,
+          "queries": [
+            {
+              "query": "6축 로봇의 정확도와 안전성 향상",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.1209
+            },
+            {
+              "query": "\"슬릭부스트\" -site:reddit.com -site:twitter.com -site:x.com -site:wykop.pl -site:tripadvisor.com -site:youtube.com -site:yelp.com -site:booking.com -site:facebook.com -site:instagram.com -site:tiktok.com",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 5,
+              "score": 0.0358
+            },
+            {
+              "query": "\"tabwee\" -site:reddit.com -site:twitter.com -site:x.com -site:wykop.pl -site:tripadvisor.com -site:youtube.com -site:yelp.com -site:booking.com -site:facebook.com -site:instagram.com -site:tiktok.com",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 9,
+              "score": 0.0267
+            }
+          ],
+          "score": 0.1834,
+          "averagePosition": 7
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%EA%B0%80%EC%84%B1%EB%B9%84-%EB%81%9D%ED%8C%90%EC%99%95-%EB%B8%94%EB%9D%BC%EC%9A%B0%ED%92%8D%ED%8A%B8-%EC%8A%A4%EB%A7%88%ED%8A%B8-%EC%9B%8C%EC%B9%98-%EC%83%81%EC%84%B8-%EB%A6%AC%EB%B7%B0-%EB%B0%8F-%EA%B5%AC%EB%A7%A4-%EA%B0%80%EC%9D%B4%EB%93%9C",
+          "clicks": 1,
+          "impressions": 19,
+          "weightedPosition": 173,
+          "queries": [
+            {
+              "query": "블라우풍트 스마트워치 후기",
+              "clicks": 1,
+              "impressions": 19,
+              "ctr": 0.05263157894736842,
+              "position": 9.105263157894736,
+              "score": 0.1723
+            }
+          ],
+          "score": 0.1723,
+          "averagePosition": 9.11
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/tabwee-2026-%ED%83%9C%EB%B8%94%EB%A6%BF-%EB%A6%AC%EB%B7%B0-android-16-gemini-ai-11%EC%9D%B8%EC%B9%98-16gb-ram-%ED%83%91%EC%9E%AC",
+          "clicks": 5,
+          "impressions": 37,
+          "weightedPosition": 218,
+          "queries": [
+            {
+              "query": "tabwee 태블릿 후기",
+              "clicks": 5,
+              "impressions": 37,
+              "ctr": 0.13513513513513514,
+              "position": 5.891891891891892,
+              "score": 0.1524
+            }
+          ],
+          "score": 0.1524,
+          "averagePosition": 5.89
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EC%A0%84%EC%9E%90%EB%8F%99-%EC%BB%A4%ED%94%BC%EB%A8%B8%EC%8B%A0-bar30000-%EB%A6%AC%EB%B7%B0-%EC%99%84%EB%B2%BD%ED%95%9C-%ED%99%88%EC%B9%B4%ED%8E%98%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%84%A0%ED%83%9D",
+          "clicks": 0,
+          "impressions": 3,
+          "weightedPosition": 22,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 7.333333333333333,
+              "score": 0.0886
+            }
+          ],
+          "score": 0.0886,
+          "averagePosition": 7.33
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%ED%99%88%EC%B9%B4%ED%8E%98-%EC%99%84%EB%B2%BD-%EC%86%94%EB%A3%A8%EC%85%98",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 8,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.08
+            }
+          ],
+          "score": 0.08,
+          "averagePosition": 4
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EC%A0%84%EC%9E%90%EB%8F%99-%EC%BB%A4%ED%94%BC%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%EB%B0%8F-%EA%B5%AC%EB%A7%A4-%EA%B0%80%EC%9D%B4%EB%93%9C",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 4,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            }
+          ],
+          "score": 0.04,
+          "averagePosition": 4
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/richmagic-qm-cs10e-%EC%A0%9C%EC%8A%B5%EA%B8%B0-%EB%A6%AC%EB%B7%B0-%EC%A1%B0%EC%9A%A9%ED%95%98%EA%B3%A0-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9D%B8-%EA%B0%80%EC%A0%95%EC%9A%A9-%EC%8A%B5%EA%B8%B0-%EA%B4%80%EB%A6%AC-%EC%86%94%EB%A3%A8%EC%85%98",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 4,
+          "queries": [
+            {
+              "query": "cs10e",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            }
+          ],
+          "score": 0.04,
+          "averagePosition": 4
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/mchose-%EB%A7%88%EC%9D%B4%EC%BD%A9-a7-ultra-%EC%B4%88%EA%B2%BD%EB%9F%89-%EB%AC%B4%EC%84%A0-%EA%B2%8C%EC%9D%B4%EB%B0%8D-%EB%A7%88%EC%9A%B0%EC%8A%A4-%EB%A6%AC%EB%B7%B0-%EA%B5%AC%EB%A7%A4-%EA%B0%80%EC%9D%B4%EB%93%9C",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 42,
+          "queries": [
+            {
+              "query": "a7 ultra",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 21,
+              "score": 0.0349
+            }
+          ],
+          "score": 0.0349,
+          "averagePosition": 21
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/5%EC%84%B8%EB%8C%80-%EC%A0%80%EC%86%8C%EC%9D%8C-bldc-%EB%82%A0%EA%B0%9C%EC%97%86%EB%8A%94-%EC%84%A0%ED%92%8D%EA%B8%B0-%ED%83%80%EC%9B%8C%ED%98%95-%EB%A6%AC%EB%B7%B0-%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8-%EB%83%89%EB%B0%A9-%EA%B8%B0%EC%88%A0",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 61,
+          "queries": [
+            {
+              "query": "bldc 선풍기 단점",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 30.5,
+              "score": 0.029
+            }
+          ],
+          "score": 0.029,
+          "averagePosition": 30.5
+        }
+      ]
+    },
+    {
+      "id": "whylab",
+      "name": "WhyLab",
+      "property": "https://whylab.neogenesis.app/",
+      "domain": "https://whylab.neogenesis.app",
+      "sitemap": "https://whylab.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 14,
+        "finalUrl": "https://whylab.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 4,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://whylab.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 12,
+          "weightedPosition": 232,
+          "queries": [
+            {
+              "query": "whylab",
+              "clicks": 0,
+              "impressions": 9,
+              "ctr": 0,
+              "position": 7.777777777777778,
+              "score": 0.2582
+            },
+            {
+              "query": "causality lab",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 46.5,
+              "score": 0.0235
+            },
+            {
+              "query": "why lab",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 69,
+              "score": 0.0096
+            }
+          ],
+          "score": 0.2913,
+          "averagePosition": 19.33
+        },
+        {
+          "page": "https://whylab.neogenesis.app/dashboard?scenario=B",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 69,
+          "queries": [
+            {
+              "query": "whylab",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 69,
+              "score": 0.0096
+            }
+          ],
+          "score": 0.0096,
+          "averagePosition": 69
+        }
+      ]
+    },
+    {
+      "id": "ethicaai",
+      "name": "EthicaAI",
+      "property": "https://ethica.neogenesis.app/",
+      "domain": "https://ethica.neogenesis.app",
+      "sitemap": "https://ethica.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 14,
+        "finalUrl": "https://ethica.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 1,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://ethica.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 46,
+          "queries": [
+            {
+              "query": "ethica ai",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 46,
+              "score": 0.0118
+            }
+          ],
+          "score": 0.0118,
+          "averagePosition": 46
+        }
+      ]
+    }
+  ]
+}

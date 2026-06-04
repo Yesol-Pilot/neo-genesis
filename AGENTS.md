@@ -4,7 +4,7 @@
 > Canonical source: `.agent/NEO_MASTER_RULES.md`
 > Supporting sources: `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, `.agent/shared-brain/*`
 > Regenerate with `python scripts/sync_agent_context.py`
-> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-14T13:25:09+09:00`)
+> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-29T18:07:39+09:00`)
 
 ## SSOT Order
 1. `.agent/NEO_MASTER_RULES.md`
@@ -20,16 +20,20 @@
 - Do not hardcode paths, URLs, model names, or environment-specific values when SSOT or config already defines them.
 - For C drive storage/cleanup, follow `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`: move or re-home large agent-created state to `D:` before deleting.
 - For D drive root hygiene, follow `.agent/knowledge/20260510_D_DRIVE_ROOT_POLICY.md`: do not create ad hoc top-level folders under `D:\`.
+- For Google Drive, do not sync active repos, `D:\00.test`, build outputs, caches, logs, temp outputs, generated media, or agent runtime state; export curated deliverables only.
 - For owner-authorized personal legal/finance context, follow `.agent/knowledge/PERSONAL_CONTEXT_ROUTING.md` and do not copy sensitive contents into shared prompts.
 - Verify unstable or time-sensitive facts with official documentation before using them.
 - Treat `.agent/` as the source of truth. Treat root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `infra/agent-runtime/` as generated adapters.
+- For Neo Genesis business/runtime state (SBU, product, KPI, revenue path, decision, risk, agent, device), consult the ontology before acting and record material changes after: query `python scripts/ontology/business/query.py --object-set <name>` (business) or `scripts/ontology/query.py` (runtime); record via `scripts/ontology/mutate.py` / `auto_record.py`. The ontology auto-refreshes daily (Task Scheduler `NeoGenesisOntologyDailyMaintain`); every node/edge carries `provenance` and integrity is gated by `scripts/ontology/validate.py`.
 
 ## Shared Knowledge
+- Ontology (Neo Genesis operating graph): `.agent/ontology/` (runtime/meta) + `.agent/ontology/business/` (business). Tools: `query.py` / `mutate.py` / `validate.py` / MCP `neo-genesis-ontology`. Design: `.agent/ontology/DESIGN_v0.1.md`.
 - Collaboration contract: `.agent/contracts/COLLABORATION_CONTRACT.md`
 - Long-term memory: `.agent/knowledge/AGENT_SHARED_MEMORY.md`
 - Personal context routing: `.agent/knowledge/PERSONAL_CONTEXT_ROUTING.md`
 - Role optimization: `.agent/knowledge/AGENT_RUNTIME_OPTIMIZATION.md`
 - Claude collaboration: `.agent/knowledge/CLAUDE_COLLABORATION.md`
+- Tool registries: local `.agent/registries/callable_tools.json`, external `.agent/registries/external_tool_capabilities.json`, policy `.agent/knowledge/CALLABLE_TOOLS_REGISTRY_POLICY.md`
 - C drive management: `.agent/knowledge/20260510_C_DRIVE_MANAGEMENT_POLICY.md`
 - D drive root policy: `.agent/knowledge/20260510_D_DRIVE_ROOT_POLICY.md`
 - Owner profile: `.agent/knowledge/OWNER_PROFILE.md`
@@ -45,27 +49,4 @@
 - Sora reads `src/core/data/sora_context.json` for shared-brain and runtime paths.
 
 ## Runtime Revision
-- ssotRevision: `fc9b578119a671cd`
-
-## Live Snapshot
-- `claude-code`: status=active, version=2.1.88, model=claude-opus-4-7, plan=claude-max
-- `antigravity`: status=active, model=claude-opus-4.6-thinking
-- `codex`: status=active, model=gpt-5-codex
-- `sora`: status=active, version=v5.19, server=YSH-Server (100.67.221.25), container=sora-live (sora:v5.2)
-
-## Connected Devices
-- checkedAt: `2026-05-08T16:18:31+09:00`
-- online: `desktop-home`, `yesol-asus`, `etribe-yesol`, `ysh-server`
-- offline: `mx-macbuild-mac-studio`, `s26-ultra`, `tab-s10-ultra`
-
-## Device Rollout
-- `desktop-home`: verified_installed_local_codex_global_updated
-- `yesol-asus`: tailscale_online_remote_auth_blocked
-- `etribe-yesol`: verified_installed_primary_latest_ssot
-- `heejin`: tailscale_offline_ssh_timeout
-- `desktop-sol01`: verified_installed
-- `desktop-yesol`: verified_installed
-- `ysh-server`: verified_installed_primary_latest_ssot
-- `mx-macbuild-mac-studio`: offline
-- `s26-ultra`: mobile_operator_mode_offline
-- `tab-s10-ultra`: mobile_operator_mode_offline
+- ssotRevision: `09078b3e325629ed`

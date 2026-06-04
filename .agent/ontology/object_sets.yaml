@@ -1,0 +1,108 @@
+# Neo Genesis Ontology v0.3 -- Object Sets (Foundry pattern, DESIGN §9.2)
+# Named, versioned, shareable queries. First-class citizen of the ontology.
+# Locked by Strategy Lead Claude Opus 4.7 (G1 자율 박제).
+#
+# Usage: scripts/ontology/query.py --object-set <name> --agent <agent_id>
+
+version: "0.1"
+locked_at: "2026-05-14"
+
+sets:
+  - id: "neo://object-set/active-agents"
+    description: "현재 활성 model_instance Agent 들 (Claude / Codex / Sora / Antigravity / Ollama)"
+    sql: |
+      SELECT id, label, model
+      FROM nodes
+      WHERE rdf_type = 'Agent' AND agent_kind = 'model_instance'
+      ORDER BY label
+    cache_ttl_minutes: 30
+
+  - id: "neo://object-set/live-sbus"
+    description: "stage=live 인 SBU Project 들"
+    sql: |
+      SELECT id, label, repo, domain
+      FROM nodes
+      WHERE rdf_type = 'Project' AND kind = 'sbu' AND stage = 'live'
+      ORDER BY label
+    cache_ttl_minutes: 60
+
+  - id: "neo://object-set/fleet-online"
+    description: "online=true 인 Device 들"
+    sql: |
+      SELECT id, hostname, kind
+      FROM nodes
+      WHERE rdf_type = 'Device' AND online = true
+      ORDER BY hostname
+    cache_ttl_minutes: 5
+
+  - id: "neo://object-set/fleet-offline"
+    description: "online=false 인 Device 들 (staleness 검출)"
+    sql: |
+      SELECT id, hostname, last_heartbeat_at
+      FROM nodes
+      WHERE rdf_type = 'Device' AND online = false
+      ORDER BY last_heartbeat_at DESC
+    cache_ttl_minutes: 5
+
+  - id: "neo://object-set/pending-tasks"
+    description: "status != done 인 Task 들 (Strategy Lead 대시보드)"
+    sql: |
+      SELECT id, title, priority, status
+      FROM nodes
+      WHERE rdf_type = 'Task' AND status != 'done'
+      ORDER BY
+        CASE priority WHEN 'P0' THEN 0 WHEN 'P1' THEN 1 WHEN 'P2' THEN 2 ELSE 3 END,
+        created_at DESC
+    cache_ttl_minutes: 10
+
+  - id: "neo://object-set/recent-action-runs"
+    description: "최근 ActionRun audit (24h) — kind=ontology_mutation 우선"
+    sql: |
+      SELECT id, kind, triggered_by, status, started_at
+      FROM nodes
+      WHERE rdf_type = 'ActionRun'
+      ORDER BY started_at DESC
+      LIMIT 50
+    cache_ttl_minutes: 5
+
+  - id: "neo://object-set/personas-tier-s"
+    description: "Tier S 페르소나 8개 (Strategy Lead 핵심 라우팅 대상)"
+    sql: |
+      SELECT id, label, tier
+      FROM nodes
+      WHERE rdf_type = 'Agent' AND agent_kind = 'persona_spec' AND tier = 'S'
+      ORDER BY label
+    cache_ttl_minutes: 60
+
+  - id: "neo://object-set/services-by-status"
+    description: "Service status breakdown"
+    sql: |
+      SELECT status, COUNT(*) AS count
+      FROM nodes
+      WHERE rdf_type = 'Service'
+      GROUP BY status
+      ORDER BY count DESC
+    cache_ttl_minutes: 10
+
+  - id: "neo://object-set/orphan-artifacts"
+    description: "owned_by 가 없는 Artifact (orphan 검출)"
+    sql: |
+      SELECT n.id, n.path
+      FROM nodes n
+      WHERE n.rdf_type = 'Artifact'
+        AND NOT EXISTS (
+          SELECT 1 FROM edges e
+          WHERE e.type = 'owned_by' AND e."from" = n.id
+        )
+      LIMIT 20
+    cache_ttl_minutes: 60
+
+  - id: "neo://object-set/recent-reflections"
+    description: "최근 Reflection (handoff weekly review)"
+    sql: |
+      SELECT id, label, generated_at
+      FROM nodes
+      WHERE rdf_type = 'Reflection'
+      ORDER BY created_at DESC
+      LIMIT 10
+    cache_ttl_minutes: 30

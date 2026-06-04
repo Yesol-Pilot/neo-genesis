@@ -38,7 +38,7 @@
 - **`D:\00.test\personal\`** — 법무/금융 민감 서류. CLAUDE.md §1.4 금지
 - **`secrets/`, `.env*`, credentials / token 파일** — 이동만으로 경로 참조 깨짐
 - **PAPER/EthicaAI + WhyLab `submission-freeze/*` branches** — 2026-04-25 freeze anchor
-- **neo-genesis/auto-trading/ VM 참조 경로** — Phase -1 관측 창 진행 중
+- **002.products-sbu/quant-bot/ VM 참조 경로** — Phase -1 관측 창 진행 중
 - **`github_repos/`** (외부 레포 26개 클론) — 본인 소유 아닌 코드, 건드리지 않음
 
 ---
@@ -119,12 +119,12 @@
 - **예상 절약 214MB (전체 cleanup 의 93%)**
 - 리스크 없음 (루트 package.json 에 의존하는 스크립트 확인 필요 → grep 1회 권고)
 
-#### T2-4. `_archive/` (기존 의도적 archive)
+#### T2-4. `009.archive/legacy-root-archive/` (기존 의도적 archive)
 - 내용: `__bom_finstack`, `__d2_*`, `__dep_*`, `__temp_*`, `__verify`, `portfolio_backup_20260315_120517`
 - 명시적으로 SBU prefix 네이밍으로 저장된 의도적 보관
 - 권장 action: **유지**. 단 6개월+ 경과분은 압축 또는 외부 백업으로 이동 검토
 
-#### T2-5. `_extracted/` (개인 문서 12폴더)
+#### T2-5. `003.portfolio-career/extracted-assets/` (개인 문서 12폴더)
 - FOLDER_BIBLE.md 에 명시 ("정리된 콘텐츠")
 - 내용: career, metaverse, wellness, 1o1_coin_whitepaper, bukchon, itsjarvis 등
 - 권장 action: **유지**. `personal/` 과 역할 분담 명확화 필요 (문서 정비)
@@ -138,7 +138,7 @@
 | `personal/` | 법무/금융 민감자료 (CLAUDE.md §1.4) |
 | `secrets/`, `.env*`, credentials/token | 이동만으로 경로 참조 깨짐 |
 | `PAPER/EthicaAI/`, `PAPER/WhyLab/` | submission-freeze branches (20260414, 20260425) anchor |
-| `neo-genesis/auto-trading/` | Phase -1 관측 창 진행 중 (VM 참조 경로) |
+| `002.products-sbu/quant-bot/` | Phase -1 관측 창 진행 중 (VM 참조 경로) |
 | `neo-genesis/.agent/shared-brain/claude-checkpoints/` | 에이전트 학습 체크포인트 (삭제 시 이력 소실) |
 | `github_repos/` | 외부 레포 클론 (본인 소유 아님) |
 | 각 프로젝트의 `.git/` | git history 보존 |
@@ -161,16 +161,16 @@
 ## 5. 단계적 실행 계획 (Stage 3 batches)
 
 ### Batch 1 (저위험, 즉시 실행 가능) — ~1.3MB
-- Tier 0 전체 (86건) 을 `D:\00.test\_archive\root-cleanup-20260424\` 하위 group 별로 이동
-  - `_archive/root-cleanup-20260424/group-a-analysis-js/`
-  - `_archive/root-cleanup-20260424/group-b-analysis-results/`
-  - `_archive/root-cleanup-20260424/group-c-resume-interview/`
-  - `_archive/root-cleanup-20260424/group-d-tmp-backup/`
+- Tier 0 전체 (86건) 을 `D:\00.test\009.archive\legacy-root-archive\root-cleanup-20260424\` 하위 group 별로 이동
+  - `009.archive/legacy-root-archive/root-cleanup-20260424/group-a-analysis-js/`
+  - `009.archive/legacy-root-archive/root-cleanup-20260424/group-b-analysis-results/`
+  - `009.archive/legacy-root-archive/root-cleanup-20260424/group-c-resume-interview/`
+  - `009.archive/legacy-root-archive/root-cleanup-20260424/group-d-tmp-backup/`
 - neo-genesis 루트 런타임 아티팩트 (tmp_claude, boot_log, tools_out, pid, dump.rdb) 삭제 (재생성됨)
 - **실행 시간: ~10분**
 
 ### Batch 2 (중위험, 검증 후) — 229MB
-- `_alltree.json` → `_archive/root-cleanup-20260424/`
+- `_alltree.json` → `009.archive/legacy-root-archive/root-cleanup-20260424/`
 - 루트 `node_modules/` 삭제 (214MB 회수) — grep 선행 1회
 - `package.json` + `package-lock.json` → archive
 - `source/` venv 삭제 (15MB) — grep 선행 1회
@@ -187,8 +187,8 @@
 - CLAUDE.md 에 "루트 파일 생성 금지, 분석 스크립트는 `tmp/` 또는 프로젝트 하위로" 원칙 추가
 
 ### Batch 4 (선택, 나중)
-- 6개월+ 경과 `_archive/` 하위를 압축 또는 외부 백업으로 이전
-- `_extracted/` 내용 정리 (`personal/` 과 역할 분리)
+- 6개월+ 경과 `009.archive/legacy-root-archive/` 하위를 압축 또는 외부 백업으로 이전
+- `003.portfolio-career/extracted-assets/` 내용 정리 (`personal/` 과 역할 분리)
 
 ---
 
@@ -242,7 +242,7 @@
 2. **Batch 2 실행 승인** (중위험, 229MB 회수, grep 선행 필요 2건)
 3. **`C:Usersyesol/miniconda3/` 처리 결정** — 활성 conda 환경 유무 owner 확인
 4. **FOLDER_BIBLE v2.3 업데이트 착수 여부**
-5. **`_extracted/` 재편 여부** (`personal/` 과 역할 명확화)
+5. **`003.portfolio-career/extracted-assets/` 재편 여부** (`personal/` 과 역할 명확화)
 
 ---
 
@@ -271,7 +271,7 @@
 ## 11. 실행 기록 (2026-04-24, owner 승인 → 완료)
 
 ### Batch 1 완료 (Tier 0 archive + 런타임 artifact 삭제)
-- 79건 archive → `_archive/root-cleanup-20260424/group-{a,b,c,d}/`
+- 79건 archive → `009.archive/legacy-root-archive/root-cleanup-20260424/group-{a,b,c,d}/`
 - 16건 런타임 artifact 삭제 (neo-genesis 재생성됨)
 - 루트 `.tmp.driveupload/` 이동 사고 즉시 복구 (규칙 5 긴급 신설 계기)
 
@@ -339,5 +339,5 @@ v2.3 적용 후 첫 audit 수행 — 5대 규칙 대비:
 
 #### 남은 미결
 - **`D:\agenttest/`** — 195MB, 1월 "게임 에이전트 실험" 프로젝트로 추정 (create_first_game.py). owner 가 폐기 / FOLDER_BIBLE 정식 등록 / `00.test` 로 이동 중 택일
-- **`_extracted/`** 재편 (`personal/` 과 역할 분리)
-- **`_archive/`** 6개월+ 경과분 외부 백업 이전
+- **`003.portfolio-career/extracted-assets/`** 재편 (`personal/` 과 역할 분리)
+- **`009.archive/legacy-root-archive/`** 6개월+ 경과분 외부 백업 이전

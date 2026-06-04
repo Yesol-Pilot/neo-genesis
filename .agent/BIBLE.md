@@ -209,7 +209,7 @@ ga4_traffic_out.txt
 #### 2.X.3 `.agent/backups-ssot-merge-*/` 보관 정책
 - 생성일 기준 **7일 경과 시 자동 archive 대상**
 - `python scripts/sync_agent_context.py --cleanup-backups` (향후 추가 예정) 또는 수동 이동
-- 이동 위치: `_archive/ssot-merge-backups-YYYYMM/`
+- 이동 위치: `009.archive/legacy-root-archive/ssot-merge-backups-YYYYMM/`
 
 #### 2.X.4 임시 Claude 체크포인트 파일
 - `.agent/shared-brain/claude-checkpoints/ccr-*.md` 는 **영구 보존** (감사 증거)

@@ -1,0 +1,19 @@
+; Cloudflare zone backup — neogenesis.app
+; Exported 2026-05-14T04:44:47.430521+00:00
+; Source account: 8f22c351c93d878aacb918d9ee36a9c2
+; Total records: 14
+
+neogenesis.app.	1	IN	A	76.76.21.21 ; DNS-only
+aiforge.neogenesis.app.	1	IN	CNAME	cname.vercel-dns.com ; DNS-only
+craftdesk.neogenesis.app.	1	IN	CNAME	cname.vercel-dns.com ; DNS-only
+dash.neogenesis.app.	1	IN	CNAME	neo.heoyesol.kr ; DNS-only
+deploystack.neogenesis.app.	1	IN	CNAME	cname.vercel-dns.com ; DNS-only
+ethica.neogenesis.app.	600	IN	CNAME	248dbe94501bde76.vercel-dns-017.com ; DNS-only
+finstack.neogenesis.app.	1	IN	CNAME	cname.vercel-dns.com ; DNS-only
+profit.neogenesis.app.	1	IN	CNAME	cname.vercel-dns.com ; DNS-only
+review.neogenesis.app.	1	IN	CNAME	cname.vercel-dns.com ; DNS-only
+sellkit.neogenesis.app.	1	IN	CNAME	cname.vercel-dns.com ; DNS-only
+whylab.neogenesis.app.	1	IN	CNAME	cname.vercel-dns.com ; DNS-only
+www.neogenesis.app.	1	IN	CNAME	cname.vercel-dns.com ; DNS-only
+neogenesis.app.	3600	IN	TXT	"google-site-verification=ToqjqeHF5YDoqmmQitcEtALmOkGezikhYnqP_-FLT2Q" ; DNS-only
+_vercel.neogenesis.app.	600	IN	TXT	"vc-domain-verify=ethica.neogenesis.app,a9d07e2eab04cac4559d,dc" ; DNS-only

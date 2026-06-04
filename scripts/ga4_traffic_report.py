@@ -33,6 +33,7 @@ def resolve_oauth_client_path() -> str:
     return os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET_FILE", "").strip()
 
 SITES = [
+    {"name": "NeoGenesis", "property": "properties/526345390", "host": "neogenesis.app"},
     {"name": "ToolPick", "property": "properties/524659689"},
     {"name": "UR WRONG", "property": "properties/524964770"},
     {"name": "K-OTT", "property": "properties/525765817"},

@@ -1,92 +1,1819 @@
 {
+  "generatedAt": "2026-06-02T07:44:53+09:00",
   "days": 7,
   "scope": [
+    "neogenesis",
+    "toolpick",
     "aiforge",
     "craftdesk",
     "deploystack",
     "finstack",
     "sellkit",
     "reviewlab",
+    "ur-wrong",
     "kott",
     "whylab",
     "ethicaai"
   ],
   "passed": true,
-  "sitesWithEvents": 9,
-  "totalEvents": 676,
-  "totalPageviews": 259,
+  "sitesWithEvents": 12,
+  "totalEvents": 3160,
+  "totalPageviews": 2117,
+  "totalDecisionEvents": 1,
+  "totalLegacyActionEvents": 1043,
+  "totalPreviousEvents": 1858,
+  "totalPreviousPageviews": 1002,
+  "totalPreviousDecisionEvents": 1,
+  "totalPreviousUsers": 992,
+  "decisionEventAllowlist": "2026-05-14.decision-events.v1",
   "rows": [
     {
+      "site": "neogenesis",
+      "events": 501,
+      "pageviews": 273,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 228,
+      "users": 267,
+      "lastSeen": "2026-06-02T05:50:29.528000+09:00",
+      "previousEvents": 507,
+      "previousPageviews": 253,
+      "previousDecisionEvents": 0,
+      "previousUsers": 265,
+      "daily": [
+        {
+          "date": "2026-05-19",
+          "events": 100,
+          "pageviews": 19,
+          "decisionEvents": 0,
+          "legacyActionEvents": 81,
+          "users": 23,
+          "lastSeen": "2026-05-19T21:03:29.950000+09:00"
+        },
+        {
+          "date": "2026-05-20",
+          "events": 148,
+          "pageviews": 77,
+          "decisionEvents": 0,
+          "legacyActionEvents": 71,
+          "users": 82,
+          "lastSeen": "2026-05-20T23:43:58.050000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 46,
+          "pageviews": 30,
+          "decisionEvents": 0,
+          "legacyActionEvents": 16,
+          "users": 34,
+          "lastSeen": "2026-05-21T21:35:18.826000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 57,
+          "pageviews": 32,
+          "decisionEvents": 0,
+          "legacyActionEvents": 25,
+          "users": 36,
+          "lastSeen": "2026-05-22T22:00:12.753000+09:00"
+        },
+        {
+          "date": "2026-05-23",
+          "events": 41,
+          "pageviews": 36,
+          "decisionEvents": 0,
+          "legacyActionEvents": 5,
+          "users": 39,
+          "lastSeen": "2026-05-23T23:27:38.984000+09:00"
+        },
+        {
+          "date": "2026-05-24",
+          "events": 42,
+          "pageviews": 34,
+          "decisionEvents": 0,
+          "legacyActionEvents": 8,
+          "users": 24,
+          "lastSeen": "2026-05-24T23:50:12.937000+09:00"
+        },
+        {
+          "date": "2026-05-25",
+          "events": 64,
+          "pageviews": 20,
+          "decisionEvents": 0,
+          "legacyActionEvents": 44,
+          "users": 21,
+          "lastSeen": "2026-05-25T22:51:44.050000+09:00"
+        },
+        {
+          "date": "2026-05-26",
+          "events": 54,
+          "pageviews": 27,
+          "decisionEvents": 0,
+          "legacyActionEvents": 27,
+          "users": 29,
+          "lastSeen": "2026-05-26T22:48:24.839000+09:00"
+        },
+        {
+          "date": "2026-05-27",
+          "events": 103,
+          "pageviews": 47,
+          "decisionEvents": 0,
+          "legacyActionEvents": 56,
+          "users": 50,
+          "lastSeen": "2026-05-27T23:22:57.571000+09:00"
+        },
+        {
+          "date": "2026-05-28",
+          "events": 42,
+          "pageviews": 28,
+          "decisionEvents": 0,
+          "legacyActionEvents": 14,
+          "users": 28,
+          "lastSeen": "2026-05-28T22:34:58.246000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 76,
+          "pageviews": 61,
+          "decisionEvents": 0,
+          "legacyActionEvents": 15,
+          "users": 64,
+          "lastSeen": "2026-05-29T23:36:29.522000+09:00"
+        },
+        {
+          "date": "2026-05-30",
+          "events": 60,
+          "pageviews": 34,
+          "decisionEvents": 0,
+          "legacyActionEvents": 26,
+          "users": 36,
+          "lastSeen": "2026-05-30T23:22:52.547000+09:00"
+        },
+        {
+          "date": "2026-05-31",
+          "events": 57,
+          "pageviews": 40,
+          "decisionEvents": 0,
+          "legacyActionEvents": 17,
+          "users": 30,
+          "lastSeen": "2026-05-31T22:04:27.322000+09:00"
+        },
+        {
+          "date": "2026-06-01",
+          "events": 107,
+          "pageviews": 34,
+          "decisionEvents": 0,
+          "legacyActionEvents": 73,
+          "users": 32,
+          "lastSeen": "2026-06-01T23:44:13.877000+09:00"
+        },
+        {
+          "date": "2026-06-02",
+          "events": 11,
+          "pageviews": 7,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 7,
+          "lastSeen": "2026-06-02T05:50:29.528000+09:00"
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
+    },
+    {
+      "site": "toolpick",
+      "events": 689,
+      "pageviews": 450,
+      "decisionEvents": 1,
+      "actionEvents": 1,
+      "legacyActionEvents": 239,
+      "users": 433,
+      "lastSeen": "2026-06-02T06:22:13.396000+09:00",
+      "previousEvents": 721,
+      "previousPageviews": 467,
+      "previousDecisionEvents": 1,
+      "previousUsers": 451,
+      "daily": [
+        {
+          "date": "2026-05-19",
+          "events": 71,
+          "pageviews": 44,
+          "decisionEvents": 0,
+          "legacyActionEvents": 27,
+          "users": 40,
+          "lastSeen": "2026-05-19T22:08:33.550000+09:00"
+        },
+        {
+          "date": "2026-05-20",
+          "events": 143,
+          "pageviews": 93,
+          "decisionEvents": 1,
+          "legacyActionEvents": 50,
+          "users": 89,
+          "lastSeen": "2026-05-20T22:47:50.171000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 129,
+          "pageviews": 81,
+          "decisionEvents": 0,
+          "legacyActionEvents": 48,
+          "users": 81,
+          "lastSeen": "2026-05-21T22:14:39.622000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 63,
+          "pageviews": 40,
+          "decisionEvents": 0,
+          "legacyActionEvents": 23,
+          "users": 38,
+          "lastSeen": "2026-05-22T19:56:11.654000+09:00"
+        },
+        {
+          "date": "2026-05-23",
+          "events": 55,
+          "pageviews": 36,
+          "decisionEvents": 0,
+          "legacyActionEvents": 19,
+          "users": 35,
+          "lastSeen": "2026-05-23T22:49:23.901000+09:00"
+        },
+        {
+          "date": "2026-05-24",
+          "events": 148,
+          "pageviews": 103,
+          "decisionEvents": 0,
+          "legacyActionEvents": 45,
+          "users": 103,
+          "lastSeen": "2026-05-24T23:29:19.203000+09:00"
+        },
+        {
+          "date": "2026-05-25",
+          "events": 94,
+          "pageviews": 58,
+          "decisionEvents": 0,
+          "legacyActionEvents": 36,
+          "users": 57,
+          "lastSeen": "2026-05-25T23:55:11.763000+09:00"
+        },
+        {
+          "date": "2026-05-26",
+          "events": 106,
+          "pageviews": 72,
+          "decisionEvents": 0,
+          "legacyActionEvents": 34,
+          "users": 72,
+          "lastSeen": "2026-05-26T23:59:09.067000+09:00"
+        },
+        {
+          "date": "2026-05-27",
+          "events": 146,
+          "pageviews": 91,
+          "decisionEvents": 0,
+          "legacyActionEvents": 55,
+          "users": 88,
+          "lastSeen": "2026-05-27T23:47:32.502000+09:00"
+        },
+        {
+          "date": "2026-05-28",
+          "events": 137,
+          "pageviews": 93,
+          "decisionEvents": 0,
+          "legacyActionEvents": 44,
+          "users": 92,
+          "lastSeen": "2026-05-28T23:45:02.640000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 77,
+          "pageviews": 53,
+          "decisionEvents": 0,
+          "legacyActionEvents": 24,
+          "users": 44,
+          "lastSeen": "2026-05-29T23:46:48.868000+09:00"
+        },
+        {
+          "date": "2026-05-30",
+          "events": 88,
+          "pageviews": 57,
+          "decisionEvents": 1,
+          "legacyActionEvents": 31,
+          "users": 57,
+          "lastSeen": "2026-05-30T22:25:54.582000+09:00"
+        },
+        {
+          "date": "2026-05-31",
+          "events": 58,
+          "pageviews": 37,
+          "decisionEvents": 0,
+          "legacyActionEvents": 21,
+          "users": 35,
+          "lastSeen": "2026-05-31T20:21:47.683000+09:00"
+        },
+        {
+          "date": "2026-06-01",
+          "events": 70,
+          "pageviews": 44,
+          "decisionEvents": 0,
+          "legacyActionEvents": 26,
+          "users": 44,
+          "lastSeen": "2026-06-01T22:10:16.879000+09:00"
+        },
+        {
+          "date": "2026-06-02",
+          "events": 25,
+          "pageviews": 15,
+          "decisionEvents": 0,
+          "legacyActionEvents": 10,
+          "users": 15,
+          "lastSeen": "2026-06-02T06:22:13.396000+09:00"
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
+    },
+    {
       "site": "aiforge",
-      "events": 86,
-      "pageviews": 6,
-      "actionEvents": 80,
-      "users": 6,
-      "lastSeen": "2026-05-14T11:28:07.551000+09:00"
+      "events": 98,
+      "pageviews": 9,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 89,
+      "users": 12,
+      "lastSeen": "2026-06-01T18:10:17.679000+09:00",
+      "previousEvents": 131,
+      "previousPageviews": 11,
+      "previousDecisionEvents": 0,
+      "previousUsers": 12,
+      "daily": [
+        {
+          "date": "2026-05-19",
+          "events": 73,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 71,
+          "users": 3,
+          "lastSeen": "2026-05-19T15:27:42.722000+09:00"
+        },
+        {
+          "date": "2026-05-20",
+          "events": 18,
+          "pageviews": 6,
+          "decisionEvents": 0,
+          "legacyActionEvents": 12,
+          "users": 6,
+          "lastSeen": "2026-05-20T18:16:04.904000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 3,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 1,
+          "lastSeen": "2026-05-21T09:23:57.074000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 1,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 1,
+          "lastSeen": "2026-05-22T02:21:16.536000+09:00"
+        },
+        {
+          "date": "2026-05-23",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-24",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-25",
+          "events": 36,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 35,
+          "users": 1,
+          "lastSeen": "2026-05-25T19:04:50.693000+09:00"
+        },
+        {
+          "date": "2026-05-26",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-27",
+          "events": 41,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 38,
+          "users": 6,
+          "lastSeen": "2026-05-27T15:43:04.624000+09:00"
+        },
+        {
+          "date": "2026-05-28",
+          "events": 4,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 2,
+          "lastSeen": "2026-05-28T12:19:47.459000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 1,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 1,
+          "lastSeen": "2026-05-29T09:50:19.556000+09:00"
+        },
+        {
+          "date": "2026-05-30",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-31",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-06-01",
+          "events": 52,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 49,
+          "users": 3,
+          "lastSeen": "2026-06-01T18:10:17.679000+09:00"
+        },
+        {
+          "date": "2026-06-02",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
     },
     {
       "site": "craftdesk",
-      "events": 149,
-      "pageviews": 42,
-      "actionEvents": 107,
-      "users": 43,
-      "lastSeen": "2026-05-14T11:28:14.772000+09:00"
+      "events": 30,
+      "pageviews": 23,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 7,
+      "users": 27,
+      "lastSeen": "2026-06-01T02:39:36.074000+09:00",
+      "previousEvents": 68,
+      "previousPageviews": 38,
+      "previousDecisionEvents": 0,
+      "previousUsers": 52,
+      "daily": [
+        {
+          "date": "2026-05-19",
+          "events": 3,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 3,
+          "lastSeen": "2026-05-19T21:03:29.950000+09:00"
+        },
+        {
+          "date": "2026-05-20",
+          "events": 32,
+          "pageviews": 16,
+          "decisionEvents": 0,
+          "legacyActionEvents": 16,
+          "users": 20,
+          "lastSeen": "2026-05-20T23:43:58.050000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 9,
+          "pageviews": 5,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 7,
+          "lastSeen": "2026-05-21T19:39:14.050000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 13,
+          "pageviews": 7,
+          "decisionEvents": 0,
+          "legacyActionEvents": 6,
+          "users": 11,
+          "lastSeen": "2026-05-22T22:00:12.753000+09:00"
+        },
+        {
+          "date": "2026-05-23",
+          "events": 7,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 3,
+          "users": 7,
+          "lastSeen": "2026-05-23T07:41:01.242000+09:00"
+        },
+        {
+          "date": "2026-05-24",
+          "events": 3,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 3,
+          "lastSeen": "2026-05-24T17:54:43.545000+09:00"
+        },
+        {
+          "date": "2026-05-25",
+          "events": 1,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 1,
+          "lastSeen": "2026-05-25T08:02:53.321000+09:00"
+        },
+        {
+          "date": "2026-05-26",
+          "events": 5,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 5,
+          "lastSeen": "2026-05-26T22:31:00.155000+09:00"
+        },
+        {
+          "date": "2026-05-27",
+          "events": 4,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 4,
+          "lastSeen": "2026-05-27T21:44:25.276000+09:00"
+        },
+        {
+          "date": "2026-05-28",
+          "events": 6,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 4,
+          "lastSeen": "2026-05-28T16:13:18.019000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 5,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 5,
+          "lastSeen": "2026-05-29T23:18:29.123000+09:00"
+        },
+        {
+          "date": "2026-05-30",
+          "events": 3,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 3,
+          "lastSeen": "2026-05-30T22:48:32.148000+09:00"
+        },
+        {
+          "date": "2026-05-31",
+          "events": 5,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 4,
+          "lastSeen": "2026-05-31T20:03:24.965000+09:00"
+        },
+        {
+          "date": "2026-06-01",
+          "events": 2,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 2,
+          "lastSeen": "2026-06-01T02:39:36.074000+09:00"
+        },
+        {
+          "date": "2026-06-02",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
     },
     {
       "site": "deploystack",
-      "events": 119,
-      "pageviews": 33,
-      "actionEvents": 86,
-      "users": 37,
-      "lastSeen": "2026-05-14T11:28:22.684000+09:00"
+      "events": 40,
+      "pageviews": 8,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 32,
+      "users": 13,
+      "lastSeen": "2026-05-30T04:51:28.830000+09:00",
+      "previousEvents": 58,
+      "previousPageviews": 17,
+      "previousDecisionEvents": 0,
+      "previousUsers": 24,
+      "daily": [
+        {
+          "date": "2026-05-19",
+          "events": 7,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 5,
+          "users": 4,
+          "lastSeen": "2026-05-19T18:33:08.717000+09:00"
+        },
+        {
+          "date": "2026-05-20",
+          "events": 21,
+          "pageviews": 7,
+          "decisionEvents": 0,
+          "legacyActionEvents": 14,
+          "users": 8,
+          "lastSeen": "2026-05-20T23:36:02.264000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 10,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 7,
+          "users": 5,
+          "lastSeen": "2026-05-21T21:35:18.826000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 12,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 11,
+          "users": 1,
+          "lastSeen": "2026-05-22T01:41:01.796000+09:00"
+        },
+        {
+          "date": "2026-05-23",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-24",
+          "events": 1,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 1,
+          "lastSeen": "2026-05-24T10:53:31.669000+09:00"
+        },
+        {
+          "date": "2026-05-25",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-26",
+          "events": 20,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 16,
+          "users": 7,
+          "lastSeen": "2026-05-26T11:01:57.722000+09:00"
+        },
+        {
+          "date": "2026-05-27",
+          "events": 7,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 3,
+          "users": 6,
+          "lastSeen": "2026-05-27T23:14:03.887000+09:00"
+        },
+        {
+          "date": "2026-05-28",
+          "events": 3,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 1,
+          "lastSeen": "2026-05-28T12:20:05.288000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 4,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 3,
+          "users": 2,
+          "lastSeen": "2026-05-29T01:48:48.928000+09:00"
+        },
+        {
+          "date": "2026-05-30",
+          "events": 13,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 12,
+          "users": 2,
+          "lastSeen": "2026-05-30T04:51:28.830000+09:00"
+        },
+        {
+          "date": "2026-05-31",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-06-01",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-06-02",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
     },
     {
       "site": "finstack",
-      "events": 45,
-      "pageviews": 5,
-      "actionEvents": 40,
-      "users": 6,
-      "lastSeen": "2026-05-14T11:28:28.975000+09:00"
+      "events": 37,
+      "pageviews": 35,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 2,
+      "users": 35,
+      "lastSeen": "2026-06-01T15:00:54.836000+09:00",
+      "previousEvents": 69,
+      "previousPageviews": 43,
+      "previousDecisionEvents": 0,
+      "previousUsers": 34,
+      "daily": [
+        {
+          "date": "2026-05-20",
+          "events": 18,
+          "pageviews": 6,
+          "decisionEvents": 0,
+          "legacyActionEvents": 12,
+          "users": 6,
+          "lastSeen": "2026-05-20T18:16:21.658000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 10,
+          "pageviews": 8,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 8,
+          "lastSeen": "2026-05-21T15:16:39.108000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 6,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 4,
+          "lastSeen": "2026-05-22T21:06:30.497000+09:00"
+        },
+        {
+          "date": "2026-05-23",
+          "events": 6,
+          "pageviews": 6,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 6,
+          "lastSeen": "2026-05-23T11:32:55.759000+09:00"
+        },
+        {
+          "date": "2026-05-24",
+          "events": 23,
+          "pageviews": 16,
+          "decisionEvents": 0,
+          "legacyActionEvents": 7,
+          "users": 7,
+          "lastSeen": "2026-05-24T23:43:19.055000+09:00"
+        },
+        {
+          "date": "2026-05-25",
+          "events": 6,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 3,
+          "users": 4,
+          "lastSeen": "2026-05-25T10:53:31.663000+09:00"
+        },
+        {
+          "date": "2026-05-26",
+          "events": 2,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 2,
+          "lastSeen": "2026-05-26T22:13:03.054000+09:00"
+        },
+        {
+          "date": "2026-05-27",
+          "events": 9,
+          "pageviews": 9,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 9,
+          "lastSeen": "2026-05-27T23:22:57.571000+09:00"
+        },
+        {
+          "date": "2026-05-28",
+          "events": 5,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 3,
+          "lastSeen": "2026-05-28T12:20:13.506000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 3,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 3,
+          "lastSeen": "2026-05-29T23:36:29.522000+09:00"
+        },
+        {
+          "date": "2026-05-30",
+          "events": 9,
+          "pageviews": 9,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 9,
+          "lastSeen": "2026-05-30T23:22:52.547000+09:00"
+        },
+        {
+          "date": "2026-05-31",
+          "events": 5,
+          "pageviews": 5,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 5,
+          "lastSeen": "2026-05-31T22:04:27.322000+09:00"
+        },
+        {
+          "date": "2026-06-01",
+          "events": 4,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 4,
+          "lastSeen": "2026-06-01T15:00:54.836000+09:00"
+        },
+        {
+          "date": "2026-06-02",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
     },
     {
       "site": "sellkit",
-      "events": 25,
-      "pageviews": 16,
-      "actionEvents": 9,
-      "users": 17,
-      "lastSeen": "2026-05-14T11:29:09.004000+09:00"
+      "events": 15,
+      "pageviews": 7,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 8,
+      "users": 11,
+      "lastSeen": "2026-06-01T02:35:12.649000+09:00",
+      "previousEvents": 8,
+      "previousPageviews": 8,
+      "previousDecisionEvents": 0,
+      "previousUsers": 8,
+      "daily": [
+        {
+          "date": "2026-05-20",
+          "events": 6,
+          "pageviews": 6,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 6,
+          "lastSeen": "2026-05-20T18:16:27.738000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 2,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 2,
+          "lastSeen": "2026-05-21T14:33:17.466000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-23",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-24",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-25",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-26",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-27",
+          "events": 5,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 5,
+          "lastSeen": "2026-05-27T20:06:41.764000+09:00"
+        },
+        {
+          "date": "2026-05-28",
+          "events": 1,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 1,
+          "lastSeen": "2026-05-28T12:20:24.036000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 4,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 3,
+          "users": 2,
+          "lastSeen": "2026-05-29T17:15:56.512000+09:00"
+        },
+        {
+          "date": "2026-05-30",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-31",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-06-01",
+          "events": 5,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 3,
+          "users": 3,
+          "lastSeen": "2026-06-01T02:35:12.649000+09:00"
+        },
+        {
+          "date": "2026-06-02",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
     },
     {
       "site": "reviewlab",
-      "events": 80,
-      "pageviews": 62,
-      "actionEvents": 18,
-      "users": 51,
-      "lastSeen": "2026-05-14T11:29:10.003000+09:00"
+      "events": 179,
+      "pageviews": 127,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 52,
+      "users": 105,
+      "lastSeen": "2026-06-02T05:50:29.528000+09:00",
+      "previousEvents": 89,
+      "previousPageviews": 77,
+      "previousDecisionEvents": 0,
+      "previousUsers": 77,
+      "daily": [
+        {
+          "date": "2026-05-19",
+          "events": 14,
+          "pageviews": 10,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 10,
+          "lastSeen": "2026-05-19T18:25:34.873000+09:00"
+        },
+        {
+          "date": "2026-05-20",
+          "events": 10,
+          "pageviews": 10,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 10,
+          "lastSeen": "2026-05-20T18:16:34.059000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 7,
+          "pageviews": 6,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 6,
+          "lastSeen": "2026-05-21T15:03:55.934000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 20,
+          "pageviews": 18,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 18,
+          "lastSeen": "2026-05-22T21:40:03.064000+09:00"
+        },
+        {
+          "date": "2026-05-23",
+          "events": 15,
+          "pageviews": 13,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 13,
+          "lastSeen": "2026-05-23T19:58:50.978000+09:00"
+        },
+        {
+          "date": "2026-05-24",
+          "events": 9,
+          "pageviews": 8,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 8,
+          "lastSeen": "2026-05-24T10:43:56.702000+09:00"
+        },
+        {
+          "date": "2026-05-25",
+          "events": 13,
+          "pageviews": 11,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 11,
+          "lastSeen": "2026-05-25T22:51:44.050000+09:00"
+        },
+        {
+          "date": "2026-05-26",
+          "events": 18,
+          "pageviews": 14,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 12,
+          "lastSeen": "2026-05-26T22:48:24.839000+09:00"
+        },
+        {
+          "date": "2026-05-27",
+          "events": 35,
+          "pageviews": 22,
+          "decisionEvents": 0,
+          "legacyActionEvents": 13,
+          "users": 18,
+          "lastSeen": "2026-05-27T22:50:47.667000+09:00"
+        },
+        {
+          "date": "2026-05-28",
+          "events": 9,
+          "pageviews": 9,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 9,
+          "lastSeen": "2026-05-28T20:58:12.091000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 25,
+          "pageviews": 17,
+          "decisionEvents": 0,
+          "legacyActionEvents": 8,
+          "users": 17,
+          "lastSeen": "2026-05-29T23:04:22.800000+09:00"
+        },
+        {
+          "date": "2026-05-30",
+          "events": 18,
+          "pageviews": 13,
+          "decisionEvents": 0,
+          "legacyActionEvents": 5,
+          "users": 13,
+          "lastSeen": "2026-05-30T21:58:20.518000+09:00"
+        },
+        {
+          "date": "2026-05-31",
+          "events": 38,
+          "pageviews": 28,
+          "decisionEvents": 0,
+          "legacyActionEvents": 10,
+          "users": 18,
+          "lastSeen": "2026-05-31T21:33:14.455000+09:00"
+        },
+        {
+          "date": "2026-06-01",
+          "events": 26,
+          "pageviews": 18,
+          "decisionEvents": 0,
+          "legacyActionEvents": 8,
+          "users": 14,
+          "lastSeen": "2026-06-01T23:44:13.877000+09:00"
+        },
+        {
+          "date": "2026-06-02",
+          "events": 11,
+          "pageviews": 7,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 7,
+          "lastSeen": "2026-06-02T05:50:29.528000+09:00"
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
+    },
+    {
+      "site": "ur-wrong",
+      "events": 28,
+      "pageviews": 10,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 18,
+      "users": 10,
+      "lastSeen": "2026-05-31T17:06:23.326000+09:00",
+      "previousEvents": 65,
+      "previousPageviews": 16,
+      "previousDecisionEvents": 0,
+      "previousUsers": 16,
+      "daily": [
+        {
+          "date": "2026-05-20",
+          "events": 63,
+          "pageviews": 15,
+          "decisionEvents": 0,
+          "legacyActionEvents": 48,
+          "users": 15,
+          "lastSeen": "2026-05-20T21:26:39.314000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-22",
+          "events": 2,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 1,
+          "lastSeen": "2026-05-22T12:37:33.518000+09:00"
+        },
+        {
+          "date": "2026-05-23",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-24",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-25",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-26",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-27",
+          "events": 17,
+          "pageviews": 4,
+          "decisionEvents": 0,
+          "legacyActionEvents": 13,
+          "users": 4,
+          "lastSeen": "2026-05-27T17:19:19.003000+09:00"
+        },
+        {
+          "date": "2026-05-28",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-29",
+          "events": 7,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 3,
+          "lastSeen": "2026-05-29T20:46:49.108000+09:00"
+        },
+        {
+          "date": "2026-05-30",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-31",
+          "events": 4,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 3,
+          "lastSeen": "2026-05-31T17:06:23.326000+09:00"
+        },
+        {
+          "date": "2026-06-01",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-06-02",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
     },
     {
       "site": "kott",
-      "events": 76,
-      "pageviews": 55,
-      "actionEvents": 21,
-      "users": 40,
-      "lastSeen": "2026-05-12T18:25:14.956000+09:00"
+      "events": 1492,
+      "pageviews": 1162,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 330,
+      "users": 107,
+      "lastSeen": "2026-06-01T22:22:03.536000+09:00",
+      "previousEvents": 95,
+      "previousPageviews": 50,
+      "previousDecisionEvents": 0,
+      "previousUsers": 31,
+      "daily": [
+        {
+          "date": "2026-05-19",
+          "events": 1,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 1,
+          "lastSeen": "2026-05-19T21:14:27.281000+09:00"
+        },
+        {
+          "date": "2026-05-20",
+          "events": 8,
+          "pageviews": 8,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 8,
+          "lastSeen": "2026-05-20T18:16:39.230000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 25,
+          "pageviews": 21,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 4,
+          "lastSeen": "2026-05-21T09:28:57.205000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 3,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 1,
+          "users": 2,
+          "lastSeen": "2026-05-22T15:20:32.679000+09:00"
+        },
+        {
+          "date": "2026-05-23",
+          "events": 21,
+          "pageviews": 6,
+          "decisionEvents": 0,
+          "legacyActionEvents": 15,
+          "users": 6,
+          "lastSeen": "2026-05-23T19:19:39.530000+09:00"
+        },
+        {
+          "date": "2026-05-24",
+          "events": 2,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 2,
+          "lastSeen": "2026-05-24T21:04:49.018000+09:00"
+        },
+        {
+          "date": "2026-05-25",
+          "events": 28,
+          "pageviews": 7,
+          "decisionEvents": 0,
+          "legacyActionEvents": 21,
+          "users": 5,
+          "lastSeen": "2026-05-25T23:18:51.328000+09:00"
+        },
+        {
+          "date": "2026-05-26",
+          "events": 7,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 3,
+          "lastSeen": "2026-05-26T05:01:45.205000+09:00"
+        },
+        {
+          "date": "2026-05-27",
+          "events": 23,
+          "pageviews": 13,
+          "decisionEvents": 0,
+          "legacyActionEvents": 10,
+          "users": 11,
+          "lastSeen": "2026-05-27T15:26:24.490000+09:00"
+        },
+        {
+          "date": "2026-05-28",
+          "events": 113,
+          "pageviews": 59,
+          "decisionEvents": 0,
+          "legacyActionEvents": 54,
+          "users": 12,
+          "lastSeen": "2026-05-28T21:30:38.297000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 611,
+          "pageviews": 500,
+          "decisionEvents": 0,
+          "legacyActionEvents": 111,
+          "users": 69,
+          "lastSeen": "2026-05-29T23:58:51.520000+09:00"
+        },
+        {
+          "date": "2026-05-30",
+          "events": 729,
+          "pageviews": 577,
+          "decisionEvents": 0,
+          "legacyActionEvents": 152,
+          "users": 4,
+          "lastSeen": "2026-05-30T16:48:23.160000+09:00"
+        },
+        {
+          "date": "2026-05-31",
+          "events": 6,
+          "pageviews": 6,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 6,
+          "lastSeen": "2026-05-31T17:08:33.397000+09:00"
+        },
+        {
+          "date": "2026-06-01",
+          "events": 10,
+          "pageviews": 7,
+          "decisionEvents": 0,
+          "legacyActionEvents": 3,
+          "users": 7,
+          "lastSeen": "2026-06-01T22:22:03.536000+09:00"
+        },
+        {
+          "date": "2026-06-02",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
     },
     {
       "site": "whylab",
-      "events": 28,
-      "pageviews": 15,
-      "actionEvents": 13,
-      "users": 15,
-      "lastSeen": "2026-05-11T05:14:31.204000+09:00"
+      "events": 12,
+      "pageviews": 6,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 6,
+      "users": 6,
+      "lastSeen": "2026-06-01T04:32:44.059000+09:00",
+      "previousEvents": 7,
+      "previousPageviews": 7,
+      "previousDecisionEvents": 0,
+      "previousUsers": 7,
+      "daily": [
+        {
+          "date": "2026-05-20",
+          "events": 6,
+          "pageviews": 6,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 6,
+          "lastSeen": "2026-05-20T18:16:50.752000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 1,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 1,
+          "lastSeen": "2026-05-21T09:24:58.283000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-23",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-24",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-25",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-26",
+          "events": 3,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 1,
+          "lastSeen": "2026-05-26T11:46:12.657000+09:00"
+        },
+        {
+          "date": "2026-05-27",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-28",
+          "events": 5,
+          "pageviews": 3,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 3,
+          "lastSeen": "2026-05-28T12:20:48.935000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-30",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-31",
+          "events": 3,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 2,
+          "users": 1,
+          "lastSeen": "2026-05-31T06:49:40.443000+09:00"
+        },
+        {
+          "date": "2026-06-01",
+          "events": 1,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 1,
+          "lastSeen": "2026-06-01T04:32:44.059000+09:00"
+        },
+        {
+          "date": "2026-06-02",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
     },
     {
       "site": "ethicaai",
-      "events": 68,
-      "pageviews": 25,
-      "actionEvents": 43,
-      "users": 25,
-      "lastSeen": "2026-05-13T09:28:10.161000+09:00"
+      "events": 39,
+      "pageviews": 7,
+      "decisionEvents": 0,
+      "actionEvents": 0,
+      "legacyActionEvents": 32,
+      "users": 7,
+      "lastSeen": "2026-06-01T04:32:43.891000+09:00",
+      "previousEvents": 40,
+      "previousPageviews": 15,
+      "previousDecisionEvents": 0,
+      "previousUsers": 15,
+      "daily": [
+        {
+          "date": "2026-05-19",
+          "events": 1,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 1,
+          "lastSeen": "2026-05-19T19:57:11.719000+09:00"
+        },
+        {
+          "date": "2026-05-20",
+          "events": 26,
+          "pageviews": 9,
+          "decisionEvents": 0,
+          "legacyActionEvents": 17,
+          "users": 9,
+          "lastSeen": "2026-05-20T18:16:44.932000+09:00"
+        },
+        {
+          "date": "2026-05-21",
+          "events": 1,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 1,
+          "lastSeen": "2026-05-21T09:24:52.285000+09:00"
+        },
+        {
+          "date": "2026-05-22",
+          "events": 5,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 1,
+          "lastSeen": "2026-05-22T04:59:29.658000+09:00"
+        },
+        {
+          "date": "2026-05-23",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-24",
+          "events": 2,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 2,
+          "lastSeen": "2026-05-24T23:50:12.937000+09:00"
+        },
+        {
+          "date": "2026-05-25",
+          "events": 5,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 1,
+          "lastSeen": "2026-05-25T01:54:53.836000+09:00"
+        },
+        {
+          "date": "2026-05-26",
+          "events": 5,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 1,
+          "lastSeen": "2026-05-26T11:48:31.973000+09:00"
+        },
+        {
+          "date": "2026-05-27",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-28",
+          "events": 6,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 2,
+          "lastSeen": "2026-05-28T12:20:41.520000+09:00"
+        },
+        {
+          "date": "2026-05-29",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        },
+        {
+          "date": "2026-05-30",
+          "events": 10,
+          "pageviews": 2,
+          "decisionEvents": 0,
+          "legacyActionEvents": 8,
+          "users": 2,
+          "lastSeen": "2026-05-30T07:32:43.151000+09:00"
+        },
+        {
+          "date": "2026-05-31",
+          "events": 5,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 4,
+          "users": 1,
+          "lastSeen": "2026-05-31T06:47:37.914000+09:00"
+        },
+        {
+          "date": "2026-06-01",
+          "events": 13,
+          "pageviews": 1,
+          "decisionEvents": 0,
+          "legacyActionEvents": 12,
+          "users": 1,
+          "lastSeen": "2026-06-01T04:32:43.891000+09:00"
+        },
+        {
+          "date": "2026-06-02",
+          "events": 0,
+          "pageviews": 0,
+          "decisionEvents": 0,
+          "legacyActionEvents": 0,
+          "users": 0,
+          "lastSeen": null
+        }
+      ],
+      "allowlistVersion": "2026-05-14.decision-events.v1"
     }
   ]
 }

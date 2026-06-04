@@ -1,0 +1,101 @@
+{
+  "version": "playback_verified_20260529_v1",
+  "status": "candidate_config_ready_not_wired",
+  "source_benchmark": "output\\tiktok_aino_reference_research\\reference_benchmark_url_first_playback_verified_20260529.md",
+  "playback_qa": "output\\tiktok_aino_reference_research\\playback_qa_20260529\\playback_qa_results.json",
+  "clean_playback_rows": [
+    "R002",
+    "R004",
+    "R005",
+    "R007",
+    "R008",
+    "R010",
+    "R011",
+    "R012",
+    "R013",
+    "R014",
+    "R015",
+    "R016",
+    "R017",
+    "R018",
+    "R019",
+    "R020"
+  ],
+  "partial_overlay_rows": [
+    "R001",
+    "R003",
+    "R006",
+    "R009"
+  ],
+  "platform_counts": {
+    "tiktok": 10,
+    "youtube_shorts": 10,
+    "instagram_reels": 0,
+    "unknown": 0
+  },
+  "config_use_rule": "Use as transformed pattern guidance only; do not copy claims, real-person visuals, or copyrighted clips.",
+  "routing_rules": [
+    {
+      "format_id": "evidence_briefing_75",
+      "when": [
+        "credible_sources>=2",
+        "actor_or_issue_keyword_present",
+        "visualizable_as_document_or_public_scene"
+      ],
+      "reference_patterns": [
+        "actor_allegation_caption",
+        "receipt_number_collage",
+        "documentary_title_card"
+      ],
+      "default": true
+    },
+    {
+      "format_id": "moment_short",
+      "when": [
+        "single_strong_clip_or_quote",
+        "source_card_can_appear_within_5s"
+      ],
+      "reference_patterns": [
+        "debate_or_hearing_quote"
+      ]
+    },
+    {
+      "format_id": "timeline_explainer",
+      "when": [
+        "sequence_or_before_after_claim",
+        "date_or_event_order_matters"
+      ],
+      "reference_patterns": [
+        "documentary_title_card",
+        "debate_or_hearing_quote"
+      ]
+    },
+    {
+      "format_id": "misread_correction",
+      "when": [
+        "claim_can_be_quoted_exactly",
+        "counter_evidence_available"
+      ],
+      "reference_patterns": [
+        "receipt_number_collage",
+        "actor_allegation_caption"
+      ]
+    },
+    {
+      "format_id": "satire_character_safe",
+      "when": [
+        "no_real_person_face_voice_logo",
+        "fictional_character_can_explain_issue"
+      ],
+      "reference_patterns": [
+        "documentary_title_card"
+      ]
+    }
+  ],
+  "blockers": [
+    "source_count_lt_2_for_evidence_formats",
+    "real_person_synthesis_requested",
+    "fake_authoritative_visual",
+    "no_claim_boundary"
+  ]
+}

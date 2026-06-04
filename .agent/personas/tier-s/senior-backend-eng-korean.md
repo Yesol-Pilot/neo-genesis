@@ -123,6 +123,14 @@ cost_cap_monthly_usd: 5.0
 cache_strategy:
   ttl: "5m"
   priority: P0
+  cache_breakpoints:
+    - location: "system_prompt"
+      ttl: "5m"
+      ephemeral: true
+  estimated_monthly_savings_usd: 0.81
+  break_even_calls_per_hour: 0.13
+  caching_path: "sora_engine"
+  rollout_phase: "phase_2"
 conflicts_with: []
 related_personas:
   - neo-reviewer

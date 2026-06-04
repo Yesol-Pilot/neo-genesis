@@ -48,8 +48,8 @@ MEMORY_DIR.mkdir(parents=True, exist_ok=True)
 # 결과: OPENAI_API_BASE / LLM_PRIMARY_MODEL 이 매번 옛 값 (4400/v1, local-main) 으로 복원,
 # Local LLM Connection error 매번 발생. owner action /home/ysh/sora/secrets/.env 갱신 무의미.
 # fix: docker container 의 외부 env 가 항상 우선. .env 파일은 빠진 변수만 보충.
-load_dotenv(PROJECT_ROOT / ".env", override=False)
-load_dotenv(PROFIT_ROOT / ".env", override=False)
+load_dotenv(PROJECT_ROOT / ".env", override=True)
+load_dotenv(PROFIT_ROOT / ".env", override=True)
 
 # ── 로깅 ─────────────────────────────────────────
 logger = logging.getLogger("neo.sora.engine")
@@ -58,6 +58,22 @@ logger = logging.getLogger("neo.sora.engine")
 GEMINI_API_KEY = os.getenv("SORA_GEMINI_API_KEY") or os.getenv("GEMINI_API_KEY", "")
 GEMINI_MODEL = os.getenv("SORA_GEMINI_MODEL") or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 MIN_REQUEST_INTERVAL = 1  # 유료 티어(2000 RPM) — 최소 쿨다운
+
+# 도구 사용 강제 규칙 (P0) — 단일 정의 (init + chat 재생성 양쪽에서 사용, drift 방지)
+_TOOL_REINFORCEMENT = (
+    "\n\n## 도구 사용 강제 규칙 (P0)\n"
+    "- 일정/메일/파일/시스템/RAG/calendar/gmail 관련 질문은 **반드시 등록된 도구를 호출**해서 답한다.\n"
+    "- 도구 호출 없이 'X 가 없어요'/'정보가 없어요' 같은 추측성 응답 금지.\n"
+    "- 도구 호출이 실패했다면 실패 사실을 그대로 보고하고, 임의로 결과를 만들어내지 않는다.\n"
+    "- 'LLM 이라서 못한다' / '직접 실행할 수 없다' 같은 거부 응답 금지 — 도구가 등록되어 있으면 호출한다.\n"
+    "\n## 디바이스/PC 명령 규칙 (P0 — 절대 준수)\n"
+    "- PC/디바이스 제어(remote_pc_command / remote_batch_exec / remote_pc_status 등)는 **반드시 해당 도구를 호출**한다. 도구를 호출하지 않고 '실행했다'고 절대 말하지 마라.\n"
+    "- 도구를 호출하지 않았다면 어떤 실행 결과(stdout, 삭제됨, 성공 등)도 지어내지 마라. 결과는 오직 도구가 실제 반환한 값만 보고한다.\n"
+    "- 위험 명령(rm -rf, 포맷, force push, 송금 등)도 회피하지 말고 **반드시 도구를 호출**한다. 그러면 안전 governor 가 위험을 판단한다.\n"
+    "- 도구가 `\"governor\": \"WARN\"` 을 반환하면 = **실행되지 않았다**는 뜻이다. 이때는 반환된 위험/권고/confirm_id 를 owner 에게 그대로 전달하고, 절대 '실행했다'고 말하지 마라.\n"
+    "- owner 가 그 경고를 보고 명시적으로 '진행'/'실행해'/'confirm' 이라고 답한 경우에만 confirm_pending_command 를 호출한다. 그 전에는 호출 금지.\n"
+    "- 요약: 호출 안 한 명령을 했다고 거짓말 금지 / 도구 결과 날조 금지 / WARN 은 경고 그대로 전달."
+)
 
 
 # ══════════════════════════════════════════════════
@@ -229,14 +245,9 @@ class SoraEngine:
             ]
         ]
         # 2026-05-12 P0: system_prompt 끝에 tool 사용 강화 (Gemini hallucination 차단)
+        # 2026-05-20 P0: 디바이스 명령 + governor WARN 전달 + 실행 날조 금지 규칙 추가 (모듈 상수)
         _sp_base = self._build_system_prompt()
-        _tool_reinforcement = (
-            "\n\n## 도구 사용 강제 규칙 (P0)\n"
-            "- 일정/메일/파일/시스템/RAG/calendar/gmail 관련 질문은 **반드시 등록된 도구를 호출**해서 답한다.\n"
-            "- 도구 호출 없이 'X 가 없어요'/'정보가 없어요' 같은 추측성 응답 금지.\n"
-            "- 도구 호출이 실패했다면 실패 사실을 그대로 보고하고, 임의로 결과를 만들어내지 않는다.\n"
-            "- 'LLM 이라서 못한다' / '직접 실행할 수 없다' 같은 거부 응답 금지 — 도구가 등록되어 있으면 호출한다."
-        )
+        _tool_reinforcement = _TOOL_REINFORCEMENT
         self._chat_config = types.GenerateContentConfig(
             system_instruction=_sp_base + _tool_reinforcement,
             tools=ALL_TOOLS,
@@ -1341,6 +1352,77 @@ class SoraEngine:
             except Exception as e:
                 return f"💻 PC 명령 실패: {e}"
 
+        # ── 9. 위험 명령 확인(진행) ── (governor pending → confirm, LLM 환각 우회)
+        # 2026-05-20: Gemini가 위험 명령을 도구 호출 없이 환각하는 문제 → deterministic 경로.
+        # 2026-05-29 강화 (M2): confirm phrase 좁힘 — "응 해/그래 해/해/ㅇㅇ" 같은 일상 표현 제거.
+        #                       명시적 "진행/실행해/confirm" 만. 한국어 구두점 strip.
+        try:
+            from src.core.security import command_governor as _gov
+            if _gov.has_pending():
+                import re as _rec
+                _t = tl.strip().rstrip("!.?~,。!?，。 ")  # 한국어 구두점 포함 strip
+                _cm = _rec.search(r"^confirm\s+([0-9a-f]{8,})\s*$", _t)
+                _explicit_confirm = {
+                    "진행", "진행해", "진행해줘", "진행할게",
+                    "실행해", "실행해줘", "실행할게",
+                    "confirm", "go", "proceed",
+                }
+                if _cm or _t in _explicit_confirm:
+                    from src.core.tools.system_tools import _confirm_pending_command_internal
+                    import json as _jc
+                    _res = _jc.loads(_confirm_pending_command_internal(_cm.group(1) if _cm else ""))
+                    if _res.get("error"):
+                        return f"⚠️ {_res['error']}"
+                    _out = _res.get("result", _res)
+                    return (f"✅ <b>실행 완료</b> ({_res.get('pc_id')}, type={_res.get('command_type','exec')})\n"
+                            f"명령: <code>{_res.get('executed')}</code>\n"
+                            f"<code>{str(_out)[:1300]}</code>")
+        except Exception as _e9:
+            logger.warning(f"[fastpath §9 confirm] failed: {_e9}")
+
+        # ── 10. 원격 디바이스 셸 명령 ── (deterministic: 별칭 해석 → governor → 실제 결과)
+        # LLM tool-calling 이 위험 명령에서 환각/거부하는 문제를 우회. 자연어 해석.
+        # 2026-05-29 (M4) 강화:
+        #   - 동사 확장: 실행/돌려/run/해줘/돌려줘/해봐 (단, 명시적 PC 지칭과 결합 시만)
+        #   - 단일-PC 폴백: PC 1대만 연결 + 명령 동사 + 디바이스 phrase 생략 → 자동 라우팅
+        #   - 예외는 logger.warning 으로 가시화 (silent swallow 금지)
+        try:
+            import re as _re2, json as _json2
+            from src.core.tools.system_tools import list_connected_pcs, remote_pc_command, resolve_device
+            _pcs = _json2.loads(list_connected_pcs())
+            _online = {k: v for k, v in _pcs.items()
+                       if isinstance(_pcs, dict) and isinstance(v, dict) and v.get("online")} \
+                if isinstance(_pcs, dict) and "message" not in _pcs else {}
+            _dev = None
+            _cmd = None
+            # 10a) 명시적 "디바이스에서 cmd 실행" 패턴
+            _m = _re2.search(r"(.{1,24}?)\s*(?:에서|에게)\s+(.+?)\s*(?:명령\s*)?(?:실행|돌려|run\b|해줘|돌려줘|해봐|시켜)", text)
+            if _m and _online:
+                _dev = resolve_device(_m.group(1), list(_online.keys()))
+                if _dev:
+                    _bt = _re2.search(r"[`'\"]([^`'\"“”‘’]+)[`'\"“”‘’]", text)
+                    _cmd = (_bt.group(1) if _bt else _m.group(2)).strip().strip("`'\"“”‘’ ")
+            # 10b) 단일-PC 폴백 (디바이스 phrase 생략 허용)
+            if _dev is None and len(_online) == 1:
+                _verb = _re2.search(r"(?:실행|돌려|run\b|해줘|돌려줘|해봐|시켜)", text)
+                _bt2 = _re2.search(r"[`'\"]([^`'\"“”‘’]+)[`'\"“”‘’]", text)
+                if _verb and _bt2:
+                    _dev = list(_online.keys())[0]
+                    _cmd = _bt2.group(1).strip()
+            if _dev and _cmd:
+                _r = _json2.loads(remote_pc_command(_dev, _cmd))
+                if _r.get("governor") == "WARN":
+                    return (f"⚠️ <b>위험 명령 — 실행하지 않음</b> ({_dev})\n"
+                            f"명령: <code>{_r.get('command')}</code>\n"
+                            f"위험: {_r.get('위험')}\n권고: {_r.get('권고')}\n\n"
+                            f"그래도 실행하려면 '진행' 이라고 답하세요.")
+                if _r.get("governor") == "ERROR":
+                    return f"⚠️ <b>governor 차단</b>: {_r.get('error')}"
+                _out = _r.get("result", _r)
+                return f"💻 <b>{_dev} $ {_cmd}</b>\n<code>{str(_out)[:1400]}</code>"
+        except Exception as _e10:
+            logger.warning(f"[fastpath §10 device-cmd] failed: {_e10}")
+
         return ""
 
     async def _owner_intent_fastpath(self, text: str) -> str:
@@ -2029,13 +2111,7 @@ class SoraEngine:
             if self.prompt_builder:
                 from google.genai import types  # noqa
                 _sp_full = self._build_system_prompt()
-                _tool_reinforcement = (
-                    "\n\n## 도구 사용 강제 규칙 (P0)\n"
-                    "- 일정/메일/파일/시스템/RAG/calendar/gmail 관련 질문은 **반드시 등록된 도구를 호출**해서 답한다.\n"
-                    "- 도구 호출 없이 'X 가 없어요'/'정보가 없어요' 같은 추측성 응답 금지.\n"
-                    "- 도구 호출이 실패했다면 실패 사실을 그대로 보고하고, 임의로 결과를 만들어내지 않는다.\n"
-                    "- 'LLM 이라서 못한다' / '직접 실행할 수 없다' 같은 거부 응답 금지 — 도구가 등록되어 있으면 호출한다."
-                )
+                _tool_reinforcement = _TOOL_REINFORCEMENT
                 # 새 config 로 chat 재생성 — chat history 는 손실되지만 system_prompt 가 활성
                 self._chat_config = types.GenerateContentConfig(
                     system_instruction=_sp_full + _tool_reinforcement,

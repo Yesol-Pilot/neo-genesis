@@ -1,0 +1,173 @@
+{
+  "generatedAt": "2026-05-14T22:37:44+09:00",
+  "tokenSource": "refresh_token",
+  "siteUrl": "https://ur-wrong.com/",
+  "uiRequestAttempt": {
+    "status": "browser_extension_execution_tool_unavailable",
+    "detail": "Chrome extension browser context could not be automated in this heartbeat because node_repl/browser execution was unavailable. API inspection was refreshed and request queue was retained."
+  },
+  "summary": {
+    "indexed": 8,
+    "discoveredNotIndexed": 1,
+    "apiErrors": 0
+  },
+  "remainingQueue": [
+    "https://ur-wrong.com/blog"
+  ],
+  "results": [
+    {
+      "url": "https://ur-wrong.com/",
+      "ok": true,
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "lastCrawlTime": "2026-05-13T06:46:04Z",
+      "googleCanonical": "https://ur-wrong.com/",
+      "userCanonical": "https://ur-wrong.com/",
+      "sitemap": [],
+      "action": "monitor_only"
+    },
+    {
+      "url": "https://ur-wrong.com/distribution",
+      "ok": true,
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "lastCrawlTime": "2026-05-12T05:56:30Z",
+      "googleCanonical": "https://ur-wrong.com/distribution",
+      "userCanonical": "https://ur-wrong.com/distribution",
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ],
+      "action": "monitor_only"
+    },
+    {
+      "url": "https://ur-wrong.com/topic/tech",
+      "ok": true,
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "lastCrawlTime": "2026-02-14T23:36:01Z",
+      "googleCanonical": "https://ur-wrong.com/topic/tech",
+      "userCanonical": "https://ur-wrong.com/topic/tech",
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ],
+      "action": "monitor_only"
+    },
+    {
+      "url": "https://ur-wrong.com/blog",
+      "ok": true,
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ],
+      "action": "request_indexing_when_browser_tool_available"
+    },
+    {
+      "url": "https://ur-wrong.com/archive",
+      "ok": true,
+      "verdict": "NEUTRAL",
+      "coverageState": "URL is unknown to Google",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "sitemap": [],
+      "action": "review_manually"
+    },
+    {
+      "url": "https://ur-wrong.com/topic/ai-homework",
+      "ok": true,
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "lastCrawlTime": "2026-05-12T04:38:09Z",
+      "googleCanonical": "https://ur-wrong.com/topic/ai-homework",
+      "userCanonical": "https://ur-wrong.com/topic/ai-homework",
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ],
+      "action": "monitor_only"
+    },
+    {
+      "url": "https://ur-wrong.com/topic/remote-work-productivity",
+      "ok": true,
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "lastCrawlTime": "2026-05-12T05:57:03Z",
+      "googleCanonical": "https://ur-wrong.com/topic/remote-work-productivity",
+      "userCanonical": "https://ur-wrong.com/topic/remote-work-productivity",
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ],
+      "action": "monitor_only"
+    },
+    {
+      "url": "https://ur-wrong.com/benchmark",
+      "ok": true,
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "lastCrawlTime": "2026-05-12T01:29:21Z",
+      "googleCanonical": "https://ur-wrong.com/benchmark",
+      "userCanonical": "https://ur-wrong.com/benchmark",
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ],
+      "action": "monitor_only"
+    },
+    {
+      "url": "https://ur-wrong.com/leaderboard",
+      "ok": true,
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "lastCrawlTime": "2026-05-12T01:29:21Z",
+      "googleCanonical": "https://ur-wrong.com/leaderboard",
+      "userCanonical": "https://ur-wrong.com/leaderboard",
+      "sitemap": [],
+      "action": "monitor_only"
+    },
+    {
+      "url": "https://ur-wrong.com/launch",
+      "ok": true,
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "lastCrawlTime": "2026-05-12T01:29:21Z",
+      "googleCanonical": "https://ur-wrong.com/launch",
+      "userCanonical": "https://ur-wrong.com/launch",
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ],
+      "action": "monitor_only"
+    }
+  ]
+}

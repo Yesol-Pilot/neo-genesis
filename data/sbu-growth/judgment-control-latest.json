@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "ng.judgment.v1",
+  "generatedAt": "2026-05-20T15:50:22+09:00",
+  "run": {
+    "id": "sbu-growth-control-tower",
+    "kind": "sbu_growth",
+    "sourceArtifacts": [
+      "data\\sbu-growth\\control-tower-latest.json",
+      "data\\sbu-growth\\growth-loop-latest.json"
+    ]
+  },
+  "mission": {
+    "goal": "Judge whether the SBU growth loop is ready to proceed.",
+    "successCriteria": [
+      "Control tower generated.",
+      "Regression gate has zero critical issues.",
+      "Live blog, detail, and sitemap checks pass for each SBU.",
+      "Residual warnings are visible before external side effects."
+    ],
+    "constraints": [
+      "Do not print secrets.",
+      "Do not treat DB-only publish as success for file-based SBU blogs.",
+      "Keep live verification separate from local publish success."
+    ]
+  },
+  "verdict": {
+    "status": "green",
+    "decision": "proceed",
+    "label": "Proceed",
+    "reason": "SBU control tower and live checks are green."
+  },
+  "summary": {
+    "conclusion": "Proceed: SBU control tower and live checks are green.",
+    "topAction": "Continue normal SBU loop.",
+    "residualRisk": "Warnings are review points; critical issues block external continuation."
+  },
+  "metrics": [
+    {
+      "label": "SBU sites",
+      "value": 6,
+      "status": "neutral"
+    },
+    {
+      "label": "Live OK",
+      "value": "6/6",
+      "status": "green"
+    },
+    {
+      "label": "Modeled MAU",
+      "value": 755650,
+      "status": "neutral"
+    },
+    {
+      "label": "Critical issues",
+      "value": 0,
+      "status": "green"
+    },
+    {
+      "label": "Warnings",
+      "value": 0,
+      "status": "green"
+    },
+    {
+      "label": "Dirty SBU worktrees",
+      "value": 0,
+      "status": "green"
+    }
+  ],
+  "lanes": [
+    {
+      "label": "SBU Control Tower",
+      "value": "generated",
+      "status": "green",
+      "detail": "data\\sbu-growth\\control-tower-latest.json"
+    },
+    {
+      "label": "Regression Gate",
+      "value": "passed",
+      "status": "green",
+      "detail": "data\\sbu-growth\\growth-loop-latest.json#regression-gate"
+    },
+    {
+      "label": "publisher-verify",
+      "value": "passed",
+      "status": "green",
+      "detail": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_autonomous_growth_runner.mjs --verify-only"
+    },
+    {
+      "label": "control-tower",
+      "value": "passed",
+      "status": "green",
+      "detail": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_growth_control_tower.mjs --json"
+    },
+    {
+      "label": "search-growth-flywheel",
+      "value": "passed",
+      "status": "green",
+      "detail": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_search_growth_flywheel.mjs --json"
+    },
+    {
+      "label": "full-live-quality",
+      "value": "passed",
+      "status": "green",
+      "detail": "python scripts/sbu_full_live_quality_audit.py --wait-ms 3000"
+    },
+    {
+      "label": "regression-gate",
+      "value": "passed",
+      "status": "green",
+      "detail": "C:\\Users\\yesol\\.gemini\\tools\\node22\\node-v22.12.0-win-x64\\node.exe scripts/sbu_growth_regression_gate.mjs --json"
+    },
+    {
+      "label": "posthog-7d",
+      "value": "passed",
+      "status": "green",
+      "detail": "python scripts/posthog_traffic.py --days 7"
+    },
+    {
+      "label": "ga4-report",
+      "value": "passed",
+      "status": "green",
+      "detail": "python scripts/ga4_traffic_report.py"
+    }
+  ],
+  "evidence": [
+    {
+      "type": "file",
+      "label": "Control tower JSON",
+      "status": "green",
+      "reference": "data\\sbu-growth\\control-tower-latest.json",
+      "summary": "SBU status, local checks, and live checks."
+    },
+    {
+      "type": "file",
+      "label": "Regression gate output",
+      "status": "green",
+      "reference": "data\\sbu-growth\\growth-loop-latest.json#regression-gate",
+      "summary": "0 critical issues, 0 warnings."
+    },
+    {
+      "type": "url",
+      "label": "ToolPick domain",
+      "status": "green",
+      "reference": "https://toolpick.dev",
+      "summary": "score=88 status=green"
+    },
+    {
+      "type": "url",
+      "label": "AIForge domain",
+      "status": "green",
+      "reference": "https://aiforge.neogenesis.app",
+      "summary": "score=87 status=green"
+    },
+    {
+      "type": "url",
+      "label": "CraftDesk domain",
+      "status": "green",
+      "reference": "https://craftdesk.neogenesis.app",
+      "summary": "score=88 status=green"
+    },
+    {
+      "type": "url",
+      "label": "DeployStack domain",
+      "status": "green",
+      "reference": "https://deploystack.neogenesis.app",
+      "summary": "score=87 status=green"
+    },
+    {
+      "type": "url",
+      "label": "FinStack domain",
+      "status": "green",
+      "reference": "https://finstack.neogenesis.app",
+      "summary": "score=87 status=green"
+    },
+    {
+      "type": "url",
+      "label": "SellKit domain",
+      "status": "green",
+      "reference": "https://sellkit.neogenesis.app",
+      "summary": "score=88 status=green"
+    }
+  ],
+  "risks": [],
+  "approvals": [
+    {
+      "authorityTier": "G3",
+      "action": "SBU routine continuation",
+      "scope": "Existing standing approval for SBU growth operations",
+      "rollbackPath": "Per-SBU git revert or Vercel rollback if a later external action fails.",
+      "state": "not_required"
+    }
+  ],
+  "memory": [],
+  "nextActions": [
+    {
+      "label": "Continue normal SBU loop.",
+      "owner": "Codex/SBU automation",
+      "status": "next"
+    }
+  ]
+}

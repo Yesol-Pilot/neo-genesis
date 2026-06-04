@@ -1,0 +1,163 @@
+{
+  "generatedAt": "2026-05-28T09:32:57+09:00",
+  "tokenSource": "service_account",
+  "args": {
+    "sites": "ur-wrong",
+    "days": 90,
+    "rowLimit": 50,
+    "submitSitemaps": true,
+    "fetch": true,
+    "minImpressions": 1,
+    "writeDefaultLatest": false
+  },
+  "scope": {
+    "label": "scope-ur-wrong",
+    "siteIds": [
+      "ur-wrong"
+    ],
+    "isDefaultAll": false,
+    "filePrefix": "gsc-sbu-scope-ur-wrong",
+    "writesDefaultLatest": false
+  },
+  "window": {
+    "startDate": "2026-02-25",
+    "endDate": "2026-05-26"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 1,
+    "propertiesListed": 1,
+    "liveSitemapsOk": 1,
+    "gscSitemapsKnown": 1,
+    "sitemapSubmissionsAttempted": 1,
+    "sitemapSubmissionsOk": 1,
+    "searchAnalyticsAttempted": 1,
+    "searchAnalyticsOk": 1,
+    "totalRows": 5
+  },
+  "sites": [
+    {
+      "id": "ur-wrong",
+      "name": "UR WRONG",
+      "property": "https://ur-wrong.com/",
+      "domain": "https://ur-wrong.com",
+      "sitemap": "https://ur-wrong.com/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 136,
+        "finalUrl": "https://ur-wrong.com/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": {
+        "ok": true,
+        "status": 204,
+        "submitted": true,
+        "primaryStatus": null,
+        "fallbackTokenSource": null,
+        "error": null
+      },
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 5,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://ur-wrong.com/",
+          "clicks": 0,
+          "impressions": 27,
+          "weightedPosition": 403,
+          "queries": [
+            {
+              "query": "ur wrong",
+              "clicks": 0,
+              "impressions": 19,
+              "ctr": 0,
+              "position": 6.842105263157895,
+              "score": 0.5811
+            },
+            {
+              "query": "u r wrong",
+              "clicks": 0,
+              "impressions": 8,
+              "ctr": 0,
+              "position": 34.125,
+              "score": 0.1096
+            }
+          ],
+          "score": 0.6907,
+          "averagePosition": 14.93
+        },
+        {
+          "page": "https://ur-wrong.com/topic/tech",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 4,
+          "queries": [
+            {
+              "query": "current technology debates",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            }
+          ],
+          "score": 0.04,
+          "averagePosition": 4
+        },
+        {
+          "page": "https://ur-wrong.com/topic/",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 44,
+          "queries": [
+            {
+              "query": "u r wrong",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 22,
+              "score": 0.0341
+            }
+          ],
+          "score": 0.0341,
+          "averagePosition": 22
+        },
+        {
+          "page": "https://ur-wrong.com/topic/ai",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 107,
+          "queries": [
+            {
+              "query": "artificial intelligence debate topics",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 53.5,
+              "score": 0.0219
+            }
+          ],
+          "score": 0.0219,
+          "averagePosition": 53.5
+        }
+      ]
+    }
+  ]
+}

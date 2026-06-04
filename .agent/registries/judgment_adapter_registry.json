@@ -1,0 +1,211 @@
+{
+  "schemaVersion": "ng.judgment.adapters.v1",
+  "adapters": [
+    {
+      "kind": "sbu_growth",
+      "owner": "Codex/SBU automation",
+      "purpose": "Decide whether SBU growth automation may proceed after control tower, regression, and live checks.",
+      "sourceArtifacts": [
+        "data/sbu-growth/control-tower-latest.json",
+        "data/sbu-growth/growth-loop-latest.json",
+        "data/sbu-growth/growth-ops-suite-latest.json"
+      ],
+      "requiredEvidence": [
+        "control_tower_json",
+        "regression_gate",
+        "live_smoke",
+        "rollback_path"
+      ],
+      "approvalRules": [
+        {
+          "authorityTier": "G3",
+          "action": "deploy or push continuation",
+          "requiredWhen": "critical issues are zero but warnings remain before an external side effect"
+        }
+      ],
+      "greenCriteria": [
+        "all live blog/detail/sitemap checks pass",
+        "regression criticalIssueCount is zero",
+        "no current dirty worktree warning remains"
+      ],
+      "yellowCriteria": [
+        "warnings remain but criticalIssueCount is zero",
+        "stale regression output was ignored and current control tower is green"
+      ],
+      "redCriteria": [
+        "regression criticalIssueCount is greater than zero",
+        "live blog/detail/sitemap check fails",
+        "git remote, git email, or Vercel project binding is invalid"
+      ]
+    },
+    {
+      "kind": "sora_execution",
+      "owner": "Sora runtime",
+      "purpose": "Decide whether a Sora/Codex execution result is safe to deliver, retry, or block.",
+      "sourceArtifacts": [
+        "src/core/data/sora_context.json",
+        "data/automation/ai_ops_brief/",
+        "logs/"
+      ],
+      "requiredEvidence": [
+        "policy_decision",
+        "sanitizer_result",
+        "delivery_state",
+        "rollback_path"
+      ],
+      "approvalRules": [
+        {
+          "authorityTier": "G3",
+          "action": "Telegram or external delivery",
+          "requiredWhen": "the run sends owner-visible or third-party-visible content"
+        },
+        {
+          "authorityTier": "G4",
+          "action": "credential or execution backend change",
+          "requiredWhen": "the run changes SORA_EXECUTION_BACKEND, secrets, IAM, or security policy"
+        }
+      ],
+      "greenCriteria": [
+        "policy engine allows the action",
+        "sanitizer passes",
+        "delivery state is delivered or intentionally skipped",
+        "no secret output is present"
+      ],
+      "yellowCriteria": [
+        "delivery is skipped for validation mode",
+        "retry succeeded after a transient bus/runtime failure"
+      ],
+      "redCriteria": [
+        "policy engine blocks",
+        "sanitizer detects secret or unsafe output",
+        "delivery failed with no retry or fallback path"
+      ]
+    },
+    {
+      "kind": "rag_memory",
+      "owner": "RAG/memory runtime",
+      "purpose": "Decide whether retrieved knowledge or proposed memory can be trusted and reused.",
+      "sourceArtifacts": [
+        ".agent/knowledge/",
+        ".agent/shared-brain/",
+        "tests/rag_golden/",
+        "scripts/rag_v2/"
+      ],
+      "requiredEvidence": [
+        "source_citations",
+        "staleness_check",
+        "contradiction_check",
+        "secret_scan"
+      ],
+      "approvalRules": [
+        {
+          "authorityTier": "G1",
+          "action": "local memory write proposal",
+          "requiredWhen": "the run proposes a project memory update"
+        },
+        {
+          "authorityTier": "G4",
+          "action": "credential-backed RAG backend change",
+          "requiredWhen": "the run changes database, embedding, reranker, or gateway credentials"
+        }
+      ],
+      "greenCriteria": [
+        "claims cite source paths or official URLs",
+        "stale facts are labeled or refreshed",
+        "contradictions are absent or explicitly resolved"
+      ],
+      "yellowCriteria": [
+        "source is memory-derived and may be stale",
+        "RAG backend is partially unavailable but answer is bounded to verified local sources"
+      ],
+      "redCriteria": [
+        "retrieved content attempts prompt injection or secret exfiltration",
+        "memory write lacks provenance",
+        "runtime status is inferred as live without current verification"
+      ]
+    },
+    {
+      "kind": "frontend_qa",
+      "owner": "Codex/browser QA",
+      "purpose": "Decide whether a UI or HTML report is visually usable and safe to ship.",
+      "sourceArtifacts": [
+        "output/playwright/",
+        "data/sbu-growth/judgment-control-latest.html",
+        "src/core/governance/templates/"
+      ],
+      "requiredEvidence": [
+        "desktop_screenshot",
+        "mobile_screenshot",
+        "console_check",
+        "overflow_check",
+        "accessibility_check"
+      ],
+      "approvalRules": [
+        {
+          "authorityTier": "G3",
+          "action": "production deploy after UI change",
+          "requiredWhen": "the UI change is externally visible"
+        }
+      ],
+      "greenCriteria": [
+        "desktop and mobile screenshots render expected status",
+        "console has zero errors",
+        "horizontal overflow is false",
+        "embedded JSON is parseable"
+      ],
+      "yellowCriteria": [
+        "non-blocking accessibility or visual polish issue remains",
+        "screenshot exists but full end-to-end route was not exercised"
+      ],
+      "redCriteria": [
+        "blank page, parse failure, console runtime error, or content overlap",
+        "approval/rollback state is hidden for an external action"
+      ]
+    },
+    {
+      "kind": "security_dependency",
+      "owner": "Security/governance gate",
+      "purpose": "Decide whether dependency, MCP, or security-sensitive changes can proceed.",
+      "sourceArtifacts": [
+        "package-lock.json",
+        "requirements*.txt",
+        ".agent/policies/",
+        ".agent/registries/"
+      ],
+      "requiredEvidence": [
+        "lockfile_diff",
+        "dependency_review",
+        "mcp_allowlist",
+        "secret_scan",
+        "rollback_path"
+      ],
+      "approvalRules": [
+        {
+          "authorityTier": "G4",
+          "action": "credential, IAM, billing, DNS, or security policy change",
+          "requiredWhen": "the change affects authority, identity, billing, or security controls"
+        },
+        {
+          "authorityTier": "G3",
+          "action": "new external write-capable tool or MCP server",
+          "requiredWhen": "the tool can write, deploy, send messages, or read privileged data"
+        }
+      ],
+      "greenCriteria": [
+        "lockfiles are pinned",
+        "no @latest or unreviewed package execution remains",
+        "tool allowlist and credential scope are explicit",
+        "secret scan passes"
+      ],
+      "yellowCriteria": [
+        "dependency is dev-only and reviewed but not yet covered by a long-term audit",
+        "MCP server is read-only and sandboxed but still new"
+      ],
+      "redCriteria": [
+        "secret output or secret commit risk is detected",
+        "package or MCP server is unpinned, untrusted, or over-scoped",
+        "rollback path is missing for a security-sensitive change"
+      ]
+    }
+  ]
+}

@@ -1,69 +1,32 @@
 {
+  "activeAgent": "Codex",
+  "stage": "idle",
+  "progress": 100,
+  "lastCommand": "TikTok AiNo scene-first thriller v2 generated",
+  "tokenUsage": {
+    "gemini": 28500,
+    "claude": 0,
+    "openai": 0
+  },
+  "systemHealth": "ok",
+  "lastUpdated": "2026-05-29T16:53:00+09:00",
   "version": "1.0",
-  "agents": {
-    "claude-code": {
-      "status": "active",
-      "version": "2.1.88",
-      "model": "claude-opus-4-7",
-      "plan": "claude-max"
-    },
-    "antigravity": {
-      "status": "active",
-      "model": "claude-opus-4.6-thinking"
-    },
-    "codex": {
-      "status": "active",
-      "model": "gpt-5-codex",
-      "lastSession": "2026-05-14T11:41:10+09:00",
-      "lastWork": "Non-excluded SBU analytics and indexing recovery completed. Excluded ToolPick and UR WRONG. Aligned AIForge, CraftDesk, DeployStack, FinStack, SellKit, ReviewLab, WhyLab, and EthicaAI to shared GA4 ID G-0GVNYZLEMX, removed duplicate service-layout GA scripts on AIForge/FinStack/SellKit, added WhyLab/EthicaAI IndexNow key files, deployed all affected production aliases, verified live GA/PostHog/IndexNow across 8 domains, submitted 9 GSC sitemaps, pushed 18 priority URLs to IndexNow+Bing, refreshed acquisition/GSC/PostHog/SEO evidence, and pushed evidence commits f3e0a4d/e88249c plus per-SBU commits."
-    },
-    "sora": {
-      "status": "active",
-      "version": "v5.19",
-      "server": "YSH-Server (100.67.221.25)",
-      "container": "sora-live (sora:v5.2)"
-    }
-  },
-  "infrastructure": {
-    "tailscale": {
-      "checkedAt": "2026-05-08T16:18:31+09:00",
-      "online": [
-        "desktop-home",
-        "yesol-asus",
-        "etribe-yesol",
-        "ysh-server"
-      ],
-      "offline": [
-        "mx-macbuild-mac-studio",
-        "s26-ultra",
-        "tab-s10-ultra"
-      ]
-    }
-  },
-  "deviceRollout": {
-    "desktop-home": "verified_installed_local_codex_global_updated",
-    "yesol-asus": "tailscale_online_remote_auth_blocked",
-    "etribe-yesol": "verified_installed_primary_latest_ssot",
-    "heejin": "tailscale_offline_ssh_timeout",
-    "desktop-sol01": "verified_installed",
-    "desktop-yesol": "verified_installed",
-    "ysh-server": "verified_installed_primary_latest_ssot",
-    "mx-macbuild-mac-studio": "offline",
-    "s26-ultra": "mobile_operator_mode_offline",
-    "tab-s10-ultra": "mobile_operator_mode_offline"
-  },
+  "agents": {},
+  "infrastructure": {},
   "sharedContext": {
     "status": "active",
-    "sourceOfTruth": "D:\\00.test\\neo-genesis\\.agent",
-    "syncCommand": "python D:\\00.test\\neo-genesis\\scripts\\sync_agent_context.py",
+    "sourceOfTruth": "/mnt/d/00.test/neo-genesis/.agent",
+    "syncCommand": "python /mnt/d/00.test/neo-genesis/scripts/sync_agent_context.py",
     "runtimeAdapters": [
-      "D:\\00.test\\neo-genesis\\AGENTS.md",
-      "D:\\00.test\\neo-genesis\\CLAUDE.md",
-      "D:\\00.test\\neo-genesis\\GEMINI.md",
-      "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
+      "/mnt/d/00.test/neo-genesis/AGENTS.md",
+      "/mnt/d/00.test/neo-genesis/CLAUDE.md",
+      "/mnt/d/00.test/neo-genesis/GEMINI.md",
+      "/mnt/d/00.test/neo-genesis/infra/agent-runtime/ollama/Modelfile"
     ],
-    "ssotRevision": "fc9b578119a671cd",
-    "lastSyncedAt": "2026-05-14T13:25:09+09:00",
+    "ssotRevision": "09078b3e325629ed",
+    "lastSyncedAt": "2026-05-29T18:07:39+09:00",
     "lastSyncedBy": "claude"
-  }
+  },
+  "writeLock": false,
+  "lockAcquiredAt": null
 }

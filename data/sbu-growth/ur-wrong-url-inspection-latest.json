@@ -1,0 +1,112 @@
+{
+  "generatedAt": "2026-05-12T04:18:11.514Z",
+  "tokenSource": "refresh_token",
+  "siteUrl": "https://ur-wrong.com/",
+  "results": [
+    {
+      "url": "https://ur-wrong.com/",
+      "ok": true,
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "lastCrawlTime": "2026-05-12T03:35:16Z",
+      "googleCanonical": "https://ur-wrong.com/",
+      "userCanonical": "https://ur-wrong.com/",
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ]
+    },
+    {
+      "url": "https://ur-wrong.com/distribution",
+      "ok": true,
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ]
+    },
+    {
+      "url": "https://ur-wrong.com/topic/tech",
+      "ok": true,
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "lastCrawlTime": "2026-02-14T23:36:01Z",
+      "googleCanonical": "https://ur-wrong.com/topic/tech",
+      "userCanonical": "https://ur-wrong.com/topic/tech",
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ]
+    },
+    {
+      "url": "https://ur-wrong.com/blog",
+      "ok": true,
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ]
+    },
+    {
+      "url": "https://ur-wrong.com/archive",
+      "ok": true,
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ]
+    },
+    {
+      "url": "https://ur-wrong.com/topic/ai-homework",
+      "ok": true,
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ]
+    },
+    {
+      "url": "https://ur-wrong.com/topic/remote-work-productivity",
+      "ok": true,
+      "verdict": "NEUTRAL",
+      "coverageState": "Discovered - currently not indexed",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+      "lastCrawlTime": null,
+      "googleCanonical": null,
+      "userCanonical": null,
+      "sitemap": [
+        "https://ur-wrong.com/sitemap.xml"
+      ]
+    }
+  ]
+}

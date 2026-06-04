@@ -1,0 +1,229 @@
+{
+  "summary": {
+    "audited_at": "2026-06-04T00:14:04+00:00",
+    "snapshot_date": "2026-06-04",
+    "decisions_snapshot": 30,
+    "added_today": 30,
+    "updated_today": 0,
+    "total_snapshots_in_ontology": 30,
+    "decisions_tracked": 30,
+    "status_changes_detected": 0,
+    "recent_status_changes": [],
+    "stability_overview": {
+      "stable": 30
+    }
+  },
+  "stability": {
+    "G1-1": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-2": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-3": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-4": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-5": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-7": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-8": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-9": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-10": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-11": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-12": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-13": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-14": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-15": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-16": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-17": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-18": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-19": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-20": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-21": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-22": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-23": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-24": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-25": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-33": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-34": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G1-35": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G2-1": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G2-2": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    },
+    "G2-3": {
+      "current_status": "validated",
+      "snapshots": 1,
+      "span_days": 1,
+      "same_status_count": 1,
+      "is_stable": true
+    }
+  },
+  "status_changes": []
+}

@@ -1,0 +1,70 @@
+{
+  "version": "playback_verified_20260529_v1",
+  "status": "candidate_config_ready_not_wired",
+  "source_benchmark": "output\\tiktok_aino_reference_research\\reference_benchmark_url_first_playback_verified_20260529.md",
+  "playback_qa": "output\\tiktok_aino_reference_research\\playback_qa_20260529\\playback_qa_results.json",
+  "clean_playback_rows": [
+    "R002",
+    "R004",
+    "R005",
+    "R007",
+    "R008",
+    "R010",
+    "R011",
+    "R012",
+    "R013",
+    "R014",
+    "R015",
+    "R016",
+    "R017",
+    "R018",
+    "R019",
+    "R020"
+  ],
+  "partial_overlay_rows": [
+    "R001",
+    "R003",
+    "R006",
+    "R009"
+  ],
+  "platform_counts": {
+    "tiktok": 10,
+    "youtube_shorts": 10,
+    "instagram_reels": 0,
+    "unknown": 0
+  },
+  "config_use_rule": "Use as transformed pattern guidance only; do not copy claims, real-person visuals, or copyrighted clips.",
+  "scene_types": [
+    {
+      "id": "debate_microphone_closeup",
+      "visual_role": "instant conflict and quote hook",
+      "ai_generation_rule": "fictional civic debate scene; no real politician likeness"
+    },
+    {
+      "id": "hearing_room_wide",
+      "visual_role": "institutional accountability",
+      "ai_generation_rule": "generic hearing room with papers and microphones; no party logo"
+    },
+    {
+      "id": "document_receipt_desk",
+      "visual_role": "evidence and source card",
+      "ai_generation_rule": "cinematic desk with blurred public document shapes; avoid fake official numbers"
+    },
+    {
+      "id": "news_graphic_title_card",
+      "visual_role": "fast consequence framing",
+      "ai_generation_rule": "original title-card design; do not imitate SBS/MBC/JTBC UI"
+    },
+    {
+      "id": "street_speech_closeup",
+      "visual_role": "field energy and urgency",
+      "ai_generation_rule": "generic speaker silhouette or crowd scene; no real face synthesis"
+    },
+    {
+      "id": "civic_location_exterior",
+      "visual_role": "place and stakes",
+      "ai_generation_rule": "generic assembly/court/government exterior; no exact logo"
+    }
+  ],
+  "layout_variety_rule": "Do not use the same card layout for more than two consecutive scenes."
+}

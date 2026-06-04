@@ -86,8 +86,16 @@ adversarial_baseline:
 review_cadence_days: 90
 cost_cap_monthly_usd: 8.0
 cache_strategy:
-  ttl: "1h"
+  ttl: "5m"  # Updated 2026-05-10: cost_analysis_v1 §7 권고 (multi-turn 대화 빈번)
   priority: P0
+  cache_breakpoints:
+    - location: "system_prompt"
+      ttl: "5m"
+      ephemeral: true
+  estimated_monthly_savings_usd: 0.51
+  break_even_calls_per_hour: 0.13
+  caching_path: "sora_engine"
+  rollout_phase: "phase_2"
 conflicts_with: []
 related_personas:
   - korean-seo-geo-strategist

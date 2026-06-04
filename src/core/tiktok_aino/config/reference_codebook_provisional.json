@@ -1,0 +1,129 @@
+{
+  "version": "provisional_reference_codebook_20260528_r2",
+  "status": "provisional_not_benchmark_backed",
+  "enabled_for_routing": false,
+  "source_report": "output/tiktok_aino_reference_research/deep-research-reportaino2_20260528.md",
+  "review_doc": "src/core/tiktok_aino/DEEP_RESEARCH_FOLLOWUP_REVIEW_20260528.md",
+  "reason_disabled": "The follow-up report did not include 20 or more URL-backed post-level benchmark rows.",
+  "final_config_blockers": [
+    "20_url_backed_post_rows",
+    "platform_balance_tiktok_8_plus_shorts_8_plus",
+    "row_level_first_1s_3s_5s_coding",
+    "row_level_scene_caption_voice_cta_fields",
+    "row_level_pipeline_rules"
+  ],
+  "global_rules": {
+    "min_sources_for_evidence_formats": 2,
+    "source_card_opening_window_sec": [0, 5],
+    "first_5s_must_include_at_least_two_of": ["date", "place", "event_name", "source_name", "public_consequence"],
+    "default_cta_priority": ["save", "share", "next_part", "comment_judgment_question"],
+    "forbid_real_person_face_or_voice_synthesis": true,
+    "forbid_fake_official_document_or_fake_news_screen": true,
+    "forbid_unsourced_crime_assertion": true
+  },
+  "formats": [
+    {
+      "id": "news_clip",
+      "recommended_duration_sec": [15, 35],
+      "first_1s_hook": "conflict_scene_or_field_audio",
+      "first_3s_hook": "one_line_place_or_actor_identification",
+      "first_5s_hook": "core_event_sentence_with_date",
+      "source_card_position": "0_to_3_sec",
+      "caption_density": "high_10_to_16_ko_chars_per_line",
+      "voice_style": "field_audio_preferred",
+      "cta_type": ["save", "share"],
+      "aino_decision": "limited",
+      "pipeline_rule": "Preserve authentic field context when rights and source context are controlled; otherwise use as reference grammar only."
+    },
+    {
+      "id": "evidence_briefing",
+      "recommended_duration_sec": [25, 50],
+      "first_1s_hook": "this_scene_or_document_shows_claim",
+      "first_3s_hook": "source_card_plus_core_claim",
+      "first_5s_hook": "two_evidence_points_started",
+      "source_card_position": "0_to_2_sec",
+      "caption_density": "high_12_to_18_ko_chars_per_line",
+      "voice_style": "presenter_or_natural_tts",
+      "cta_type": ["save", "next_part"],
+      "aino_decision": "priority",
+      "pipeline_rule": "Block if fewer than two credible sources or if no visible source card can be shown in the opening seconds."
+    },
+    {
+      "id": "timeline_explainer",
+      "recommended_duration_sec": [30, 60],
+      "first_1s_hook": "timestamp_question",
+      "first_3s_hook": "time_order_card",
+      "first_5s_hook": "three_step_timeline_started",
+      "source_card_position": "1_to_3_sec",
+      "caption_density": "medium_high",
+      "voice_style": "presenter_or_calm_tts",
+      "cta_type": ["next_part"],
+      "aino_decision": "adopt",
+      "pipeline_rule": "Split each sequence step into one sentence and one visual card."
+    },
+    {
+      "id": "fact_check",
+      "recommended_duration_sec": [20, 45],
+      "first_1s_hook": "this_claim_is_false_or_half_true",
+      "first_3s_hook": "original_claim_capture_or_exact_source",
+      "first_5s_hook": "comparison_with_verified_source",
+      "source_card_position": "0_to_2_sec",
+      "caption_density": "high",
+      "voice_style": "presenter_or_caption_driven",
+      "cta_type": ["save"],
+      "aino_decision": "priority",
+      "pipeline_rule": "Block if the original claim source is missing."
+    },
+    {
+      "id": "hybrid_live_to_short",
+      "recommended_duration_sec": [20, 45],
+      "first_1s_hook": "strong_live_moment",
+      "first_3s_hook": "one_line_field_context",
+      "first_5s_hook": "moment_context_source_sequence",
+      "source_card_position": "immediately_after_moment",
+      "caption_density": "medium",
+      "voice_style": "field_audio_plus_one_narration_track",
+      "cta_type": ["share", "next_part"],
+      "aino_decision": "priority_with_gate",
+      "pipeline_rule": "Use only when source, rights, and context are controlled; otherwise recreate context as clearly generated illustrative scenes."
+    },
+    {
+      "id": "satire_character",
+      "recommended_duration_sec": [20, 40],
+      "first_1s_hook": "fictional_character_line",
+      "first_3s_hook": "real_issue_connection",
+      "first_5s_hook": "fact_card_transition",
+      "source_card_position": "3_to_5_sec",
+      "caption_density": "medium",
+      "voice_style": "fictional_character_voice",
+      "cta_type": ["comment_question"],
+      "aino_decision": "limited",
+      "pipeline_rule": "Use fictional characters only; block real politician face, logo, or voice imitation."
+    },
+    {
+      "id": "comment_battle",
+      "recommended_duration_sec": [15, 30],
+      "first_1s_hook": "provocative_public_comment_or_claim",
+      "first_3s_hook": "one_line_rebuttal",
+      "first_5s_hook": "fact_card_transition",
+      "source_card_position": "within_3_sec",
+      "caption_density": "high",
+      "voice_style": "caption_or_presenter",
+      "cta_type": ["comment_judgment_question"],
+      "aino_decision": "restricted",
+      "pipeline_rule": "Block hate, doxxing, identity attacks, and unverified allegations; require a factual rebuttal card."
+    }
+  ],
+  "forbidden_patterns": [
+    "source_free_crime_assertion",
+    "real_person_face_synthesis",
+    "real_person_voice_imitation",
+    "fake_official_document",
+    "fake_news_broadcast_screen",
+    "party_or_candidate_ad_style",
+    "same_layout_repeated_across_posts",
+    "generic_symbolic_ai_background_as_main_scene",
+    "comment_fight_without_fact_card",
+    "long_explanation_without_opening_source_context"
+  ]
+}

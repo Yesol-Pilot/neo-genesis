@@ -1,0 +1,2023 @@
+{
+  "generatedAt": "2026-05-20T15:46:55+09:00",
+  "tokenSource": "refresh_token",
+  "args": {
+    "sites": "toolpick,aiforge,craftdesk,deploystack,finstack,sellkit,reviewlab,ur-wrong,kott,whylab,ethicaai,neogenesis,heoyesol",
+    "days": 28,
+    "rowLimit": 2500,
+    "submitSitemaps": false,
+    "fetch": true,
+    "minImpressions": 1,
+    "writeDefaultLatest": false
+  },
+  "scope": {
+    "label": "all-sbu",
+    "siteIds": [
+      "toolpick",
+      "aiforge",
+      "craftdesk",
+      "deploystack",
+      "finstack",
+      "sellkit",
+      "reviewlab",
+      "ur-wrong",
+      "kott",
+      "whylab",
+      "ethicaai",
+      "neogenesis",
+      "heoyesol"
+    ],
+    "isDefaultAll": true,
+    "filePrefix": "gsc-all-sbu",
+    "writesDefaultLatest": true
+  },
+  "window": {
+    "startDate": "2026-04-20",
+    "endDate": "2026-05-18"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "https://finstack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://review.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://deploystack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://heoyesol.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://sellkit.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:review.neogenesis.app",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://www.toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ethica.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:toolpick.dev",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://kott.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:heoyesol.kr",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://aiforge.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://craftdesk.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://whylab.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 13,
+    "propertiesListed": 13,
+    "liveSitemapsOk": 13,
+    "gscSitemapsKnown": 13,
+    "sitemapSubmissionsAttempted": 0,
+    "sitemapSubmissionsOk": 0,
+    "searchAnalyticsAttempted": 13,
+    "searchAnalyticsOk": 13,
+    "totalRows": 1046
+  },
+  "sites": [
+    {
+      "id": "toolpick",
+      "name": "ToolPick",
+      "property": "sc-domain:toolpick.dev",
+      "domain": "https://www.toolpick.dev",
+      "sitemap": "https://www.toolpick.dev/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 914,
+        "finalUrl": "https://www.toolpick.dev/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 748,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://www.toolpick.dev/reviews/fly-io-review",
+          "clicks": 1,
+          "impressions": 895,
+          "weightedPosition": 10568,
+          "queries": [
+            {
+              "query": "fly.io pricing machines 2026",
+              "clicks": 0,
+              "impressions": 97,
+              "ctr": 0,
+              "position": 8.88659793814433,
+              "score": 2.6031
+            },
+            {
+              "query": "fly.io latest news 2026",
+              "clicks": 0,
+              "impressions": 44,
+              "ctr": 0,
+              "position": 4.818181818181818,
+              "score": 1.6036
+            },
+            {
+              "query": "fly.io pricing machines official 2026",
+              "clicks": 0,
+              "impressions": 48,
+              "ctr": 0,
+              "position": 6.604166666666667,
+              "score": 1.4942
+            },
+            {
+              "query": "fly.io pricing official machines 2026",
+              "clicks": 0,
+              "impressions": 48,
+              "ctr": 0,
+              "position": 6.854166666666667,
+              "score": 1.4667
+            },
+            {
+              "query": "fly.io pricing machines 2026 official",
+              "clicks": 0,
+              "impressions": 39,
+              "ctr": 0,
+              "position": 8.307692307692307,
+              "score": 1.0825
+            }
+          ],
+          "score": 23.6019,
+          "averagePosition": 11.81
+        },
+        {
+          "page": "https://www.toolpick.dev/blog/excalidraw-vs-tldraw-2026",
+          "clicks": 4,
+          "impressions": 384,
+          "weightedPosition": 3448,
+          "queries": [
+            {
+              "query": "tldraw vs excalidraw",
+              "clicks": 3,
+              "impressions": 223,
+              "ctr": 0.013452914798206279,
+              "position": 9.237668161434977,
+              "score": 4.8826
+            },
+            {
+              "query": "excalidraw vs tldraw",
+              "clicks": 1,
+              "impressions": 98,
+              "ctr": 0.01020408163265306,
+              "position": 9.081632653061224,
+              "score": 2.2697
+            },
+            {
+              "query": "tldraw vs excalidraw comparison",
+              "clicks": 0,
+              "impressions": 13,
+              "ctr": 0,
+              "position": 7.230769230769231,
+              "score": 0.3868
+            },
+            {
+              "query": "excalidraw vs tldraw 2026",
+              "clicks": 0,
+              "impressions": 9,
+              "ctr": 0,
+              "position": 4.555555555555555,
+              "score": 0.3373
+            },
+            {
+              "query": "tldraw vs excalidraw 2026",
+              "clicks": 0,
+              "impressions": 8,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.32
+            }
+          ],
+          "score": 9.0524,
+          "averagePosition": 8.98
+        },
+        {
+          "page": "https://www.toolpick.dev/blog/low-codeno-code-ai-development-platforms",
+          "clicks": 0,
+          "impressions": 603,
+          "weightedPosition": 46839,
+          "queries": [
+            {
+              "query": "no code machine learning platform",
+              "clicks": 0,
+              "impressions": 344,
+              "ctr": 0,
+              "position": 74.54069767441861,
+              "score": 3.1875
+            },
+            {
+              "query": "low-code ai platform",
+              "clicks": 0,
+              "impressions": 54,
+              "ctr": 0,
+              "position": 87.79629629629629,
+              "score": 0.461
+            },
+            {
+              "query": "low-code ai",
+              "clicks": 0,
+              "impressions": 26,
+              "ctr": 0,
+              "position": 81.03846153846153,
+              "score": 0.2311
+            },
+            {
+              "query": "low code ai",
+              "clicks": 0,
+              "impressions": 26,
+              "ctr": 0,
+              "position": 81.3076923076923,
+              "score": 0.2307
+            },
+            {
+              "query": "low-code analytics platforms pricing?",
+              "clicks": 0,
+              "impressions": 21,
+              "ctr": 0,
+              "position": 82.47619047619048,
+              "score": 0.185
+            }
+          ],
+          "score": 5.4934,
+          "averagePosition": 77.68
+        },
+        {
+          "page": "https://www.toolpick.dev/reviews/render-review",
+          "clicks": 0,
+          "impressions": 190,
+          "weightedPosition": 2299,
+          "queries": [
+            {
+              "query": "render free instance spin down official 2026",
+              "clicks": 0,
+              "impressions": 38,
+              "ctr": 0,
+              "position": 5.578947368421052,
+              "score": 1.2871
+            },
+            {
+              "query": "render free instance spin down 2026",
+              "clicks": 0,
+              "impressions": 10,
+              "ctr": 0,
+              "position": 4.2,
+              "score": 0.3904
+            },
+            {
+              "query": "render free web service spin down official 2026",
+              "clicks": 0,
+              "impressions": 10,
+              "ctr": 0,
+              "position": 6.1,
+              "score": 0.3239
+            },
+            {
+              "query": "render free instance spins down official 2026",
+              "clicks": 0,
+              "impressions": 9,
+              "ctr": 0,
+              "position": 5.555555555555555,
+              "score": 0.3055
+            },
+            {
+              "query": "render free web services spin down official 2026",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 6.833333333333333,
+              "score": 0.1836
+            }
+          ],
+          "score": 5.4199,
+          "averagePosition": 12.1
+        },
+        {
+          "page": "https://www.toolpick.dev/pricing/figma",
+          "clicks": 0,
+          "impressions": 86,
+          "weightedPosition": 782,
+          "queries": [
+            {
+              "query": "figma pricing free plan official 2026",
+              "clicks": 0,
+              "impressions": 11,
+              "ctr": 0,
+              "position": 10.363636363636363,
+              "score": 0.2734
+            },
+            {
+              "query": "figma pricing free plan 2026 official",
+              "clicks": 0,
+              "impressions": 10,
+              "ctr": 0,
+              "position": 10.5,
+              "score": 0.2469
+            },
+            {
+              "query": "figjam free plan limits 2026",
+              "clicks": 0,
+              "impressions": 8,
+              "ctr": 0,
+              "position": 7.875,
+              "score": 0.2281
+            },
+            {
+              "query": "figma free tier details 2026",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 2,
+              "score": 0.2263
+            },
+            {
+              "query": "figma pricing plans for prototyping and handoff",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 7.5,
+              "score": 0.1753
+            }
+          ],
+          "score": 2.4251,
+          "averagePosition": 9.09
+        },
+        {
+          "page": "https://www.toolpick.dev/reviews/planetscale-review",
+          "clicks": 0,
+          "impressions": 67,
+          "weightedPosition": 656,
+          "queries": [
+            {
+              "query": "planetscale vs intellij",
+              "clicks": 0,
+              "impressions": 9,
+              "ctr": 0,
+              "position": 6.666666666666667,
+              "score": 0.2789
+            },
+            {
+              "query": "planetscale 2fa authenticator app reviews",
+              "clicks": 0,
+              "impressions": 8,
+              "ctr": 0,
+              "position": 5.625,
+              "score": 0.2698
+            },
+            {
+              "query": "intellij vs planetscale",
+              "clicks": 0,
+              "impressions": 9,
+              "ctr": 0,
+              "position": 7.222222222222222,
+              "score": 0.2679
+            },
+            {
+              "query": "planetscale return policy 2026",
+              "clicks": 0,
+              "impressions": 8,
+              "ctr": 0,
+              "position": 9.625,
+              "score": 0.2063
+            },
+            {
+              "query": "planetscale free plan limits 2026",
+              "clicks": 0,
+              "impressions": 5,
+              "ctr": 0,
+              "position": 9.2,
+              "score": 0.1319
+            }
+          ],
+          "score": 1.9331,
+          "averagePosition": 9.79
+        },
+        {
+          "page": "https://www.toolpick.dev/reviews/netlify-review",
+          "clicks": 0,
+          "impressions": 53,
+          "weightedPosition": 421,
+          "queries": [
+            {
+              "query": "netlify pricing free plan 2026",
+              "clicks": 0,
+              "impressions": 17,
+              "ctr": 0,
+              "position": 6.117647058823529,
+              "score": 0.5499
+            },
+            {
+              "query": "netlify pricing plans 2026",
+              "clicks": 0,
+              "impressions": 8,
+              "ctr": 0,
+              "position": 4.875,
+              "score": 0.2899
+            },
+            {
+              "query": "netlify pricing free plan 2026 official",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 4.75,
+              "score": 0.1468
+            },
+            {
+              "query": "netlify free plan pricing 2026",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 5,
+              "score": 0.1431
+            },
+            {
+              "query": "netlify pricing free plan official 2026",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.12
+            }
+          ],
+          "score": 1.822,
+          "averagePosition": 7.94
+        },
+        {
+          "page": "https://www.toolpick.dev/comparisons/github-vs-playwright",
+          "clicks": 0,
+          "impressions": 57,
+          "weightedPosition": 453,
+          "queries": [
+            {
+              "query": "git vs playwright",
+              "clicks": 0,
+              "impressions": 33,
+              "ctr": 0,
+              "position": 8.030303030303031,
+              "score": 0.9316
+            },
+            {
+              "query": "playwright vs git",
+              "clicks": 0,
+              "impressions": 24,
+              "ctr": 0,
+              "position": 7.833333333333333,
+              "score": 0.686
+            }
+          ],
+          "score": 1.6176,
+          "averagePosition": 7.95
+        },
+        {
+          "page": "https://www.toolpick.dev/blog/anker-power-bank-25000mah-165w-power-on-the-go",
+          "clicks": 0,
+          "impressions": 75,
+          "weightedPosition": 1813,
+          "queries": [
+            {
+              "query": "anker a1695 weight",
+              "clicks": 0,
+              "impressions": 16,
+              "ctr": 0,
+              "position": 5.9375,
+              "score": 0.5253
+            },
+            {
+              "query": "anker 165w power bank review",
+              "clicks": 0,
+              "impressions": 16,
+              "ctr": 0,
+              "position": 31.5625,
+              "score": 0.2278
+            },
+            {
+              "query": "anker 165w review",
+              "clicks": 0,
+              "impressions": 14,
+              "ctr": 0,
+              "position": 36.5,
+              "score": 0.1854
+            },
+            {
+              "query": "anker a1695 specifications",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 9.75,
+              "score": 0.1025
+            },
+            {
+              "query": "anker a1695",
+              "clicks": 0,
+              "impressions": 7,
+              "ctr": 0,
+              "position": 36,
+              "score": 0.0933
+            }
+          ],
+          "score": 1.5367,
+          "averagePosition": 24.17
+        },
+        {
+          "page": "https://www.toolpick.dev/blog/cloudflare-pages-vs-vercel-2026",
+          "clicks": 0,
+          "impressions": 48,
+          "weightedPosition": 711,
+          "queries": [
+            {
+              "query": "cloudflare pages pricing free plan 2026",
+              "clicks": 0,
+              "impressions": 7,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.2286
+            },
+            {
+              "query": "cloudflare pages pricing free plan official 2026",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.12
+            },
+            {
+              "query": "cloudflare pages pricing free custom domains 2026",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 9.333333333333334,
+              "score": 0.0786
+            },
+            {
+              "query": "cloudflare pages pricing free plan custom domains 2026",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 5,
+              "score": 0.0716
+            },
+            {
+              "query": "cloudflare pages pricing free plan limits 2026",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 7.5,
+              "score": 0.0584
+            }
+          ],
+          "score": 1.3498,
+          "averagePosition": 14.81
+        }
+      ]
+    },
+    {
+      "id": "aiforge",
+      "name": "AIForge",
+      "property": "https://aiforge.neogenesis.app/",
+      "domain": "https://aiforge.neogenesis.app",
+      "sitemap": "https://aiforge.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 649,
+        "finalUrl": "https://aiforge.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 0,
+        "error": null
+      },
+      "opportunities": []
+    },
+    {
+      "id": "craftdesk",
+      "name": "CraftDesk",
+      "property": "https://craftdesk.neogenesis.app/",
+      "domain": "https://craftdesk.neogenesis.app",
+      "sitemap": "https://craftdesk.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 509,
+        "finalUrl": "https://craftdesk.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 2,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://craftdesk.neogenesis.app/blog/uiux-tools-rapid-prototyping",
+          "clicks": 0,
+          "impressions": 3,
+          "weightedPosition": 289,
+          "queries": [
+            {
+              "query": "rapid prototyping user interface",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 94.5,
+              "score": 0.0165
+            },
+            {
+              "query": "rapid prototyping ui design",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 100,
+              "score": 0.008
+            }
+          ],
+          "score": 0.0245,
+          "averagePosition": 96.33
+        }
+      ]
+    },
+    {
+      "id": "deploystack",
+      "name": "DeployStack",
+      "property": "https://deploystack.neogenesis.app/",
+      "domain": "https://deploystack.neogenesis.app",
+      "sitemap": "https://deploystack.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 455,
+        "finalUrl": "https://deploystack.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 1,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://deploystack.neogenesis.app/pricing/railway",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 3,
+          "queries": [
+            {
+              "query": "railway pricing 2026 developer plan",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 3,
+              "score": 0.0462
+            }
+          ],
+          "score": 0.0462,
+          "averagePosition": 3
+        }
+      ]
+    },
+    {
+      "id": "finstack",
+      "name": "FinStack",
+      "property": "https://finstack.neogenesis.app/",
+      "domain": "https://finstack.neogenesis.app",
+      "sitemap": "https://finstack.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 446,
+        "finalUrl": "https://finstack.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 0,
+        "error": null
+      },
+      "opportunities": []
+    },
+    {
+      "id": "sellkit",
+      "name": "SellKit",
+      "property": "https://sellkit.neogenesis.app/",
+      "domain": "https://sellkit.neogenesis.app",
+      "sitemap": "https://sellkit.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 463,
+        "finalUrl": "https://sellkit.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 227,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/printful",
+          "clicks": 0,
+          "impressions": 117,
+          "weightedPosition": 8773,
+          "queries": [
+            {
+              "query": "printful alternatives",
+              "clicks": 0,
+              "impressions": 80,
+              "ctr": 0,
+              "position": 77.0125,
+              "score": 0.7293
+            },
+            {
+              "query": "alternatives to printful",
+              "clicks": 0,
+              "impressions": 26,
+              "ctr": 0,
+              "position": 68.73076923076923,
+              "score": 0.2509
+            },
+            {
+              "query": "websites similar to printful",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 67.5,
+              "score": 0.0195
+            },
+            {
+              "query": "websites like printful",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 68.5,
+              "score": 0.0193
+            },
+            {
+              "query": "printful competitors",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 80,
+              "score": 0.0179
+            }
+          ],
+          "score": 1.0822,
+          "averagePosition": 74.98
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/gumroad",
+          "clicks": 0,
+          "impressions": 62,
+          "weightedPosition": 4210,
+          "queries": [
+            {
+              "query": "gumroad alternative",
+              "clicks": 0,
+              "impressions": 12,
+              "ctr": 0,
+              "position": 80.16666666666667,
+              "score": 0.1072
+            },
+            {
+              "query": "gumroad alternatives",
+              "clicks": 0,
+              "impressions": 12,
+              "ctr": 0,
+              "position": 93.5,
+              "score": 0.0993
+            },
+            {
+              "query": "gumroad pricing free plan fees 2026",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 8,
+              "score": 0.0849
+            },
+            {
+              "query": "gumroad pricing free plan fees",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 10.333333333333334,
+              "score": 0.0747
+            },
+            {
+              "query": "gumroad pricing free plan",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 12,
+              "score": 0.0693
+            }
+          ],
+          "score": 0.7795,
+          "averagePosition": 67.9
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-invoicing",
+          "clicks": 0,
+          "impressions": 63,
+          "weightedPosition": 4811,
+          "queries": [
+            {
+              "query": "ecommerce billing system",
+              "clicks": 0,
+              "impressions": 21,
+              "ctr": 0,
+              "position": 75.71428571428571,
+              "score": 0.1931
+            },
+            {
+              "query": "ecommerce invoicing software",
+              "clicks": 0,
+              "impressions": 16,
+              "ctr": 0,
+              "position": 80.375,
+              "score": 0.1428
+            },
+            {
+              "query": "e commerce invoice software",
+              "clicks": 0,
+              "impressions": 15,
+              "ctr": 0,
+              "position": 78.8,
+              "score": 0.1352
+            },
+            {
+              "query": "e commerce billing system",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 83.33333333333333,
+              "score": 0.0526
+            },
+            {
+              "query": "platform offers turnkey plugins for major ecommerce and billing systems",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 17,
+              "score": 0.0194
+            }
+          ],
+          "score": 0.5879,
+          "averagePosition": 76.37
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/best-ecommerce-platform-for-digital-products-2026",
+          "clicks": 0,
+          "impressions": 22,
+          "weightedPosition": 723,
+          "queries": [
+            {
+              "query": "best checkout monetization platforms 2026",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 14.333333333333334,
+              "score": 0.0634
+            },
+            {
+              "query": "best platforms for digital entrepreneurs to sell products globally 2026",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 16.5,
+              "score": 0.0394
+            },
+            {
+              "query": "digital transformation ecommerce tools comparison 2025 2026",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 17.5,
+              "score": 0.0382
+            },
+            {
+              "query": "best platforms for ecommerce brand funding 2026",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 88.33333333333333,
+              "score": 0.0255
+            },
+            {
+              "query": "best payout solutions for ecommerce marketplaces 2025 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 13,
+              "score": 0.0222
+            }
+          ],
+          "score": 0.3771,
+          "averagePosition": 32.86
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/ecommerce-inventory-management-software-comparison",
+          "clicks": 0,
+          "impressions": 38,
+          "weightedPosition": 3025,
+          "queries": [
+            {
+              "query": "e-commerce inventory management software",
+              "clicks": 0,
+              "impressions": 9,
+              "ctr": 0,
+              "position": 73.66666666666667,
+              "score": 0.0839
+            },
+            {
+              "query": "ecommerce inventory software",
+              "clicks": 0,
+              "impressions": 5,
+              "ctr": 0,
+              "position": 90.4,
+              "score": 0.0421
+            },
+            {
+              "query": "e commerce inventory management software market",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 79.5,
+              "score": 0.0359
+            },
+            {
+              "query": "compare inventory management software",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 72.66666666666667,
+              "score": 0.0282
+            },
+            {
+              "query": "inventory management software for online sellers",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 80.33333333333333,
+              "score": 0.0268
+            }
+          ],
+          "score": 0.3416,
+          "averagePosition": 79.61
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/pricing/stripe",
+          "clicks": 0,
+          "impressions": 32,
+          "weightedPosition": 1990,
+          "queries": [
+            {
+              "query": "stripe pricing",
+              "clicks": 0,
+              "impressions": 19,
+              "ctr": 0,
+              "position": 59.94736842105263,
+              "score": 0.1963
+            },
+            {
+              "query": "stripe prices",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 50.25,
+              "score": 0.0451
+            },
+            {
+              "query": "pricing stripe",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 62,
+              "score": 0.0203
+            },
+            {
+              "query": "stripe free plan",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 51,
+              "score": 0.0112
+            },
+            {
+              "query": "stripe pricing models",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 56,
+              "score": 0.0107
+            }
+          ],
+          "score": 0.3274,
+          "averagePosition": 62.19
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/best-ecommerce-platform-for-artists-2026",
+          "clicks": 0,
+          "impressions": 25,
+          "weightedPosition": 1632,
+          "queries": [
+            {
+              "query": "best ecommerce for artists",
+              "clicks": 0,
+              "impressions": 21,
+              "ctr": 0,
+              "position": 74.47619047619048,
+              "score": 0.1947
+            },
+            {
+              "query": "best platforms to discover new digital artists 2025 2026",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 17,
+              "score": 0.0582
+            },
+            {
+              "query": "best platforms to sell nsfw art 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 17,
+              "score": 0.0194
+            }
+          ],
+          "score": 0.2723,
+          "averagePosition": 65.28
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/reviews/redbubble-review",
+          "clicks": 0,
+          "impressions": 21,
+          "weightedPosition": 995,
+          "queries": [
+            {
+              "query": "redbubble review",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 50.833333333333336,
+              "score": 0.0673
+            },
+            {
+              "query": "redbubble rating",
+              "clicks": 0,
+              "impressions": 5,
+              "ctr": 0,
+              "position": 58.2,
+              "score": 0.0524
+            },
+            {
+              "query": "redbubble trustpilot rating 2026",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 10,
+              "score": 0.0506
+            },
+            {
+              "query": "redbubble reviews",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 52,
+              "score": 0.0444
+            },
+            {
+              "query": "redbubble pricing",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 28,
+              "score": 0.0151
+            }
+          ],
+          "score": 0.2647,
+          "averagePosition": 47.38
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/redbubble",
+          "clicks": 0,
+          "impressions": 19,
+          "weightedPosition": 1072,
+          "queries": [
+            {
+              "query": "redbubble alternatives",
+              "clicks": 0,
+              "impressions": 11,
+              "ctr": 0,
+              "position": 52.09090909090909,
+              "score": 0.1219
+            },
+            {
+              "query": "best alternatives to redbubble",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 58.25,
+              "score": 0.0419
+            },
+            {
+              "query": "alternative redbubble",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 70,
+              "score": 0.0191
+            },
+            {
+              "query": "redbubble vs",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 51,
+              "score": 0.0112
+            },
+            {
+              "query": "redbubble alternative",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 75,
+              "score": 0.0092
+            }
+          ],
+          "score": 0.2033,
+          "averagePosition": 56.42
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/reviews/gumroad-review",
+          "clicks": 0,
+          "impressions": 21,
+          "weightedPosition": 1573,
+          "queries": [
+            {
+              "query": "gumroad price",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 80.83333333333333,
+              "score": 0.0534
+            },
+            {
+              "query": "gumroad review",
+              "clicks": 0,
+              "impressions": 5,
+              "ctr": 0,
+              "position": 73,
+              "score": 0.0468
+            },
+            {
+              "query": "gumroad pricing",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 93,
+              "score": 0.0249
+            },
+            {
+              "query": "gumroad reviews",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 19,
+              "score": 0.0184
+            },
+            {
+              "query": "gumroad.com review",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 44,
+              "score": 0.0121
+            }
+          ],
+          "score": 0.2025,
+          "averagePosition": 74.9
+        }
+      ]
+    },
+    {
+      "id": "reviewlab",
+      "name": "ReviewLab",
+      "property": "https://review.neogenesis.app/",
+      "domain": "https://review.neogenesis.app",
+      "sitemap": "https://review.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 200,
+        "finalUrl": "https://review.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 53,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://review.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 17,
+          "weightedPosition": 259,
+          "queries": [
+            {
+              "query": "6축 로봇의 정확도와 안전성 향상",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.1209
+            },
+            {
+              "query": "리뷰머신",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.1209
+            },
+            {
+              "query": "reviewlab",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 1,
+              "score": 0.08
+            },
+            {
+              "query": "가열식 가습기 소음",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            },
+            {
+              "query": "\"슬릭부스트\" -site:reddit.com -site:twitter.com -site:x.com -site:wykop.pl -site:tripadvisor.com -site:youtube.com -site:yelp.com -site:booking.com -site:facebook.com -site:instagram.com -site:tiktok.com",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 5,
+              "score": 0.0358
+            }
+          ],
+          "score": 0.504,
+          "averagePosition": 15.24
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%94%84%EB%9E%91%EC%8A%A4-%ED%86%B0%EC%8A%A8-tbe-201b-%EB%B8%94%EB%A3%A8%ED%88%AC%EC%8A%A4-%EC%9D%B4%EC%96%B4%ED%8F%B0-%EB%A6%AC%EB%B7%B0-enc-%EB%85%B8%EC%9D%B4%EC%A6%88-%EC%BA%94%EC%8A%AC%EB%A7%81%EA%B3%BC-led%EC%9D%98-%EC%A1%B0%ED%99%94",
+          "clicks": 1,
+          "impressions": 10,
+          "weightedPosition": 151,
+          "queries": [
+            {
+              "query": "톰슨 이어폰 후기",
+              "clicks": 0,
+              "impressions": 9,
+              "ctr": 0,
+              "position": 11.11111111111111,
+              "score": 0.216
+            },
+            {
+              "query": "톰슨 이어폰",
+              "clicks": 1,
+              "impressions": 1,
+              "ctr": 1,
+              "position": 51,
+              "score": 0.0014
+            }
+          ],
+          "score": 0.2174,
+          "averagePosition": 15.1
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%ED%99%88%EC%B9%B4%ED%8E%98-%EC%99%84%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%84%A0%ED%83%9D",
+          "clicks": 0,
+          "impressions": 5,
+          "weightedPosition": 60,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 2.333333333333333,
+              "score": 0.1571
+            },
+            {
+              "query": "philips bar300/03 전자동 커피 메이커 () reviews",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 9,
+              "score": 0.0267
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 44,
+              "score": 0.0121
+            }
+          ],
+          "score": 0.1959,
+          "averagePosition": 12
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EC%A0%84%EC%9E%90%EB%8F%99-%EC%BB%A4%ED%94%BC%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%EA%B5%AC%EB%A7%A4-%EA%B0%80%EC%9D%B4%EB%93%9C",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 63,
+          "queries": [
+            {
+              "query": "philips bar300/03 전자동 커피 메이커 () reviews",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 6.333333333333333,
+              "score": 0.0954
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 11,
+              "score": 0.0241
+            },
+            {
+              "query": "필립스 바리스 티나 후기",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 16,
+              "score": 0.02
+            },
+            {
+              "query": "필립스 바리스티나 후기",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 17,
+              "score": 0.0194
+            }
+          ],
+          "score": 0.1589,
+          "averagePosition": 10.5
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%ED%99%88%EC%B9%B4%ED%8E%98-%EC%99%84%EB%B2%BD-%EC%86%94%EB%A3%A8%EC%85%98",
+          "clicks": 1,
+          "impressions": 8,
+          "weightedPosition": 87,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 9,
+              "score": 0.08
+            },
+            {
+              "query": "philips bar300/03 전자동 커피 메이커 () reviews",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0653
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 1,
+              "impressions": 3,
+              "ctr": 0.3333333333333333,
+              "position": 16,
+              "score": 0.0075
+            }
+          ],
+          "score": 0.1528,
+          "averagePosition": 10.88
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/hp-2026-%EB%85%B8%ED%8A%B8%EB%B6%81-15-%EB%9D%BC%EC%9D%B4%EC%A0%A0-7000-%EC%8B%9C%EB%A6%AC%EC%A6%88-%ED%83%91%EC%9E%AC-%EA%B0%80%EC%84%B1%EB%B9%84-%EB%85%B8%ED%8A%B8%EB%B6%81-%EB%A6%AC%EB%B7%B0",
+          "clicks": 0,
+          "impressions": 5,
+          "weightedPosition": 35,
+          "queries": [
+            {
+              "query": "hp 2026 노트북 15 () reviews",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7.25,
+              "score": 0.1188
+            },
+            {
+              "query": "hp 2026 노트북 15 라이젠5 () reviews",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0327
+            }
+          ],
+          "score": 0.1515,
+          "averagePosition": 7
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/tabwee-2026-%ED%83%9C%EB%B8%94%EB%A6%BF-%EB%A6%AC%EB%B7%B0-android-16-gemini-ai-11%EC%9D%B8%EC%B9%98-16gb-ram-%ED%83%91%EC%9E%AC",
+          "clicks": 2,
+          "impressions": 21,
+          "weightedPosition": 158,
+          "queries": [
+            {
+              "query": "tabwee 태블릿 후기",
+              "clicks": 2,
+              "impressions": 20,
+              "ctr": 0.1,
+              "position": 7.55,
+              "score": 0.0728
+            },
+            {
+              "query": "게임",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.0302
+            }
+          ],
+          "score": 0.103,
+          "averagePosition": 7.52
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EC%A0%84%EC%9E%90%EB%8F%99-%EC%BB%A4%ED%94%BC%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%EB%B0%8F-%EA%B5%AC%EB%A7%A4-%EA%B0%80%EC%9D%B4%EB%93%9C",
+          "clicks": 0,
+          "impressions": 4,
+          "weightedPosition": 70,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 5,
+              "score": 0.0716
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 30,
+              "score": 0.0292
+            }
+          ],
+          "score": 0.1008,
+          "averagePosition": 17.5
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%EC%97%90%EC%9D%B4%ED%88%AC-point-5-%EB%A7%88%EC%9A%B0%EC%8A%A4-%EB%A6%AC%EB%B7%B0-%EA%B2%8C%EC%9D%B4%EB%B0%8D%EA%B3%BC-%EC%82%AC%EB%AC%B4%EB%A5%BC-%EC%9E%87%EB%8A%94-rgb-%EC%9C%A0%EB%AC%B4%EC%84%A0-%EB%A7%88%EC%9A%B0%EC%8A%A4",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 16,
+          "queries": [
+            {
+              "query": "2 point 5",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0327
+            },
+            {
+              "query": "point 5",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 10,
+              "score": 0.0253
+            }
+          ],
+          "score": 0.058,
+          "averagePosition": 8
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%94%84%EB%9E%91%EC%8A%A4-%ED%86%B0%EC%8A%A8-anc-%EC%9D%B4%EC%96%B4%ED%8F%B0-%EB%A6%AC%EB%B7%B0-%EB%AA%B0%EC%9E%85%EA%B0%90-%EA%B7%B9%EB%8C%80%ED%99%94-38db-%EB%85%B8%EC%9D%B4%EC%A6%88%EC%BA%94%EC%8A%AC%EB%A7%81-%EB%B8%94%EB%A3%A8%ED%88%AC%EC%8A%A4-60",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 6,
+          "queries": [
+            {
+              "query": "톰슨 이어폰 후기",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0327
+            }
+          ],
+          "score": 0.0327,
+          "averagePosition": 6
+        }
+      ]
+    },
+    {
+      "id": "ur-wrong",
+      "name": "UR WRONG",
+      "property": "https://ur-wrong.com/",
+      "domain": "https://ur-wrong.com",
+      "sitemap": "https://ur-wrong.com/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 135,
+        "finalUrl": "https://ur-wrong.com/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 2,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://ur-wrong.com/",
+          "clicks": 0,
+          "impressions": 3,
+          "weightedPosition": 242,
+          "queries": [
+            {
+              "query": "u r wrong",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 80.66666666666667,
+              "score": 0.0267
+            }
+          ],
+          "score": 0.0267,
+          "averagePosition": 80.67
+        },
+        {
+          "page": "https://ur-wrong.com/topic/ai",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 61,
+          "queries": [
+            {
+              "query": "artificial intelligence debate topics",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 61,
+              "score": 0.0102
+            }
+          ],
+          "score": 0.0102,
+          "averagePosition": 61
+        }
+      ]
+    },
+    {
+      "id": "kott",
+      "name": "K-OTT",
+      "property": "https://kott.kr/",
+      "domain": "https://kott.kr",
+      "sitemap": "https://kott.kr/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 60,
+        "finalUrl": "https://kott.kr/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 3,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://kott.kr/",
+          "clicks": 0,
+          "impressions": 3,
+          "weightedPosition": 137,
+          "queries": [
+            {
+              "query": "ott 순위",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 30,
+              "score": 0.0146
+            },
+            {
+              "query": "애니메이션 ott",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 49,
+              "score": 0.0114
+            },
+            {
+              "query": "티빙 ott",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 58,
+              "score": 0.0105
+            }
+          ],
+          "score": 0.0365,
+          "averagePosition": 45.67
+        }
+      ]
+    },
+    {
+      "id": "whylab",
+      "name": "WhyLab",
+      "property": "https://whylab.neogenesis.app/",
+      "domain": "https://whylab.neogenesis.app",
+      "sitemap": "https://whylab.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 14,
+        "finalUrl": "https://whylab.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 4,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://whylab.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 141,
+          "queries": [
+            {
+              "query": "whylab",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7.75,
+              "score": 0.1149
+            },
+            {
+              "query": "causality lab",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 41,
+              "score": 0.0125
+            },
+            {
+              "query": "why lab",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 69,
+              "score": 0.0096
+            }
+          ],
+          "score": 0.137,
+          "averagePosition": 23.5
+        },
+        {
+          "page": "https://whylab.neogenesis.app/dashboard?scenario=B",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 69,
+          "queries": [
+            {
+              "query": "whylab",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 69,
+              "score": 0.0096
+            }
+          ],
+          "score": 0.0096,
+          "averagePosition": 69
+        }
+      ]
+    },
+    {
+      "id": "ethicaai",
+      "name": "EthicaAI",
+      "property": "https://ethica.neogenesis.app/",
+      "domain": "https://ethica.neogenesis.app",
+      "sitemap": "https://ethica.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 14,
+        "finalUrl": "https://ethica.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 1,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://ethica.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 46,
+          "queries": [
+            {
+              "query": "ethica ai",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 46,
+              "score": 0.0118
+            }
+          ],
+          "score": 0.0118,
+          "averagePosition": 46
+        }
+      ]
+    },
+    {
+      "id": "neogenesis",
+      "name": "NeoGenesis",
+      "property": "https://neogenesis.app/",
+      "domain": "https://neogenesis.app",
+      "sitemap": "https://neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 92,
+        "finalUrl": "https://neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 5,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://neogenesis.app/",
+          "clicks": 0,
+          "impressions": 22,
+          "weightedPosition": 1110,
+          "queries": [
+            {
+              "query": "neogenesis",
+              "clicks": 0,
+              "impressions": 16,
+              "ctr": 0,
+              "position": 48.625,
+              "score": 0.1836
+            },
+            {
+              "query": "네오 제네시스",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 26,
+              "score": 0.0314
+            },
+            {
+              "query": "네오제네시스",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 57.5,
+              "score": 0.0211
+            },
+            {
+              "query": "nanogenesis",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 80,
+              "score": 0.0089
+            },
+            {
+              "query": "neo genesis",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 85,
+              "score": 0.0087
+            }
+          ],
+          "score": 0.2537,
+          "averagePosition": 50.45
+        }
+      ]
+    },
+    {
+      "id": "heoyesol",
+      "name": "HeoYesol Portfolio",
+      "property": "sc-domain:heoyesol.kr",
+      "domain": "https://heoyesol.kr",
+      "sitemap": "https://heoyesol.kr/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 9,
+        "finalUrl": "https://heoyesol.kr/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 0,
+        "error": null
+      },
+      "opportunities": []
+    }
+  ]
+}

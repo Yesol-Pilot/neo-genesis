@@ -1,0 +1,146 @@
+{
+  "started_at": "2026-06-04T00:13:02+00:00",
+  "finished_at": "2026-06-04T00:14:05+00:00",
+  "total_steps": 16,
+  "pass": 14,
+  "warn": 2,
+  "fail": 0,
+  "steps": [
+    {
+      "step": "extract_minimal",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\extract_minimal.py",
+      "started_at": "2026-06-04T00:13:02+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "\"Task\": 30\n  },\n  \"edges_by_type\": {\n    \"prov:wasAssociatedWith\": 33,\n    \"prov:wasGeneratedBy\": 32,\n    \"deployed_to\": 5,\n    \"references\": 32,\n    \"owned_by\": 58,\n    \"governs\": 44,\n    \"prov:wasDerivedFrom\": 32,\n    \"prov:wasAttributedTo\": 31,\n    \"belongs_to\": 3\n  }\n}\n\n[OK] wrote 325 nodes -> D:\\00.test\\neo-genesis\\.agent\\ontology\\nodes.jsonl\n[OK] wrote 270 edges -> D:\\00.test\\neo-genesis\\.agent\\ontology\\edges.jsonl\n[OK] report -> D:\\00.test\\neo-genesis\\.agent\\ontology\\extract_report.json",
+      "stderr_tail": ""
+    },
+    {
+      "step": "extract_business",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\business\\extract_business.py",
+      "started_at": "2026-06-04T00:13:02+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "y\": 3,\n    \"biz:enables\": 2,\n    \"biz:incurs\": 6,\n    \"biz:funds\": 2,\n    \"biz:adopted\": 1,\n    \"biz:depends_on\": 14,\n    \"biz:references\": 2,\n    \"biz:affects\": 4\n  }\n}\n[OK] carried forward 16 observed KPI value(s) from prior nodes.jsonl\n[OK] provenance backfilled for 131 node(s) (출처 증명된 클래스)\n[OK] edge provenance backfilled for 163 edge(s)\n\n[OK] 209 nodes -> D:\\00.test\\neo-genesis\\.agent\\ontology\\business\\nodes.jsonl\n[OK] 163 edges -> D:\\00.test\\neo-genesis\\.agent\\ontology\\business\\edges.jsonl",
+      "stderr_tail": ""
+    },
+    {
+      "step": "validate",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\validate.py",
+      "started_at": "2026-06-04T00:13:03+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": ": 0\n       biz:LeadCategory              : 2\n       biz:MonthlyCost               : 6\n       biz:Product                   : 16\n       biz:ResearchIP                : 3\n       biz:RevenueStream             : 13\n       biz:Risk                      : 12\n       biz:Strategy                  : 1\n       biz:TemporalEvent             : 8\n       biz:Workflow                  : 13\n\n======================================================================\nPASS -- all P0 / P1 gates green",
+      "stderr_tail": ""
+    },
+    {
+      "step": "validate_competency",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\validate_competency.py",
+      "started_at": "2026-06-04T00:13:03+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "e=[('neo://action_run/extract-20260604T091302375615', 'extract'), ('neo://action_r\n[OK] CQ-17 rows=10 sample=[(None,), (None,)]\n[OK] CQ-18 rows=0 sample=[]\n[OK] CQ-19 rows=1 sample=[('Artifact', 58)]\n[OK] CQ-20 rows=0 sample=[]\n\n======================================================================\nPASS=20 / WARN=0 / FAIL=0\nAcceptance gate: 20/20 = 20/20\n======================================================================\n\nReport: D:\\00.test\\neo-genesis\\.agent\\ontology\\competency_results.json",
+      "stderr_tail": ""
+    },
+    {
+      "step": "graphrag_rebuild",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\graphrag.py --rebuild",
+      "started_at": "2026-06-04T00:13:03+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "ifact 분포: {'persona': 32, 'knowledge': 20, 'policy': 6}\\n  주요 관계: {'owned_by': 58, 'governs': 1}\"\n    },\n    {\n      \"community_id\": \"neo://community/c001\",\n      \"size\": 42,\n      \"summary\": \"42개 객체 cluster (주력: Revision)\\n  주요 관계: {'prov:wasGeneratedBy': 10, 'prov:wasDerivedFrom': 10, 'references': 10}\"\n    },\n    {\n      \"community_id\": \"neo://community/c002\",\n      \"size\": 33,\n      \"summary\": \"33개 객체 cluster (주력: Reflection)\\n  주요 관계: {'prov:wasAttributedTo': 31, 'governs': 1}\"\n    }\n  ]\n}",
+      "stderr_tail": "Graph loaded: 322 nodes / 270 edges\nDetected 113 communities\n\n[OK] communities.json -> D:\\00.test\\neo-genesis\\.agent\\ontology\\communities.json"
+    },
+    {
+      "step": "vector_index_rebuild",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\vector_index.py --rebuild",
+      "started_at": "2026-06-04T00:13:05+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "\"matrix_shape\": [\n        58,\n        10000\n      ],\n      \"status\": \"indexed_tfidf_fallback\",\n      \"vectorizer\": \"tfidf_char_wb_2-4\",\n      \"kure_attempted\": true,\n      \"kure_available\": false\n    },\n    {\n      \"sbu\": \"unowned\",\n      \"n_artifacts\": 36,\n      \"n_features\": 1230,\n      \"matrix_shape\": [\n        36,\n        1230\n      ],\n      \"status\": \"indexed_tfidf_fallback\",\n      \"vectorizer\": \"tfidf_char_wb_2-4\",\n      \"kure_attempted\": true,\n      \"kure_available\": false\n    }\n  ]\n}",
+      "stderr_tail": ""
+    },
+    {
+      "step": "kpi_auto_fetch",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\business\\kpi_fetch.py",
+      "started_at": "2026-06-04T00:13:29+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "\"kpi\": \"neo://biz/kpi/heoyesol-brand/gsc_avg_position_28d\",\n      \"source\": \"gsc\",\n      \"status\": \"FETCHED\",\n      \"value\": {\n        \"value\": 4.0,\n        \"source\": \"gsc_live\",\n        \"impressions\": 6,\n        \"clicks\": 0,\n        \"ctr\": 0.0,\n        \"position\": 4.0\n      }\n    }\n  ],\n  \"updated\": 16,\n  \"auth_errors\": [],\n  \"note\": \"v0.1 PoC — GA4/GSC/PostHog credentials 통합 진행 중. auth_errors > 0 이면 creds 는 있으나 API 가 거부 (만료/권한). owner action: GSC 재인증 / GA4 SA Viewer / PostHog scope.\"\n}",
+      "stderr_tail": ""
+    },
+    {
+      "step": "external_signals",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\business\\external_signal_fetcher.py",
+      "started_at": "2026-06-04T00:13:58+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "\": \"NASDAQ (^IXIC)\",\n      \"symbol\": \"^IXIC\",\n      \"latest_close\": 26853.9765625,\n      \"prev_close\": 27093.900390625,\n      \"pct_change_1d\": -0.89,\n      \"rationale\": \"D2 ETF QQQ underlying\",\n      \"observed_at\": \"2026-06-04T00:14:02+00:00\",\n      \"markings\": [\n        \"internal\"\n      ],\n      \"provenance\": \"observed_from_live_source\",\n      \"provenance_source\": \"yfinance live quote\",\n      \"created_at\": \"2026-06-04T00:14:02+00:00\",\n      \"updated_at\": \"2026-06-04T00:14:02+00:00\"\n    }\n  ]\n}",
+      "stderr_tail": "[market] fetched 5 signals\n[conference] fetched 5 signals"
+    },
+    {
+      "step": "decision_outcome_tracker",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\business\\decision_outcome_tracker.py",
+      "started_at": "2026-06-04T00:14:02+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "{\n  \"total_decisions\": 30,\n  \"rules_with_check\": 30,\n  \"no_rule\": 0,\n  \"by_status\": {\n    \"validated\": 30\n  },\n  \"validation_rate_pct\": 100.0,\n  \"audit_log\": \"D:\\\\00.test\\\\neo-genesis\\\\.agent\\\\ontology\\\\business\\\\decision_outcomes.json\"\n}",
+      "stderr_tail": "[OK] 30 biz:Decision nodes updated with outcome_status"
+    },
+    {
+      "step": "outcome_timeline",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\business\\outcome_timeline.py",
+      "started_at": "2026-06-04T00:14:04+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "{\n  \"audited_at\": \"2026-06-04T00:14:04+00:00\",\n  \"snapshot_date\": \"2026-06-04\",\n  \"decisions_snapshot\": 30,\n  \"added_today\": 30,\n  \"updated_today\": 0,\n  \"total_snapshots_in_ontology\": 30,\n  \"decisions_tracked\": 30,\n  \"status_changes_detected\": 0,\n  \"recent_status_changes\": [],\n  \"stability_overview\": {\n    \"stable\": 30\n  }\n}",
+      "stderr_tail": "[OK] outcome timeline persisted: 30 total snapshots → D:\\00.test\\neo-genesis\\.agent\\ontology\\business\\nodes.jsonl"
+    },
+    {
+      "step": "agent_contribution_audit",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\business\\agent_contribution_auditor.py",
+      "started_at": "2026-06-04T00:14:04+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "{\n  \"audited_at\": \"2026-06-04T00:14:04+00:00\",\n  \"lookback_days\": 30,\n  \"action_runs_total\": 1,\n  \"action_runs_in_window\": 1,\n  \"agent_total_actions\": {\n    \"neo://agent/claude-opus-4-7\": 1\n  },\n  \"pair_count\": 16,\n  \"contribution_nodes_after\": 17,\n  \"biz_nodes_total_before\": 249,\n  \"biz_nodes_total_after\": 253\n}",
+      "stderr_tail": "[OK] 17 AgentContribution nodes (observed) → D:\\00.test\\neo-genesis\\.agent\\ontology\\business\\nodes.jsonl"
+    },
+    {
+      "step": "neo4j_parity_meta",
+      "status": "SKIP",
+      "reason": "NEO4J_BOLT_URI / NEO4J_PASSWORD env not set"
+    },
+    {
+      "step": "neo4j_sync_business",
+      "status": "SKIP",
+      "reason": "NEO4J env not set"
+    },
+    {
+      "step": "daily_digest",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\business\\daily_digest.py --save-as-decision",
+      "started_at": "2026-06-04T00:14:04+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "cripts/ontology/business/kpi_fetch.py\n  • ontology-daily-digest          → python scripts/ontology/business/daily_digest.py --save-as-d\n  • auradb-heartbeat               → python scripts/ontology/migrate_to_neo4j.py --verify\n  • graphrag-rebuild               → python scripts/ontology/graphrag.py --rebuild\n\n  실행: python scripts/ontology/business/workflow_runner.py --run <id>\n       또는 --run-all-ready (precondition match 만)\n\n======================================================================",
+      "stderr_tail": "[saved] D:\\00.test\\neo-genesis\\.agent\\ontology\\business\\daily_digest_last.json"
+    },
+    {
+      "step": "dashboard_generator",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\business\\dashboard_generator.py",
+      "started_at": "2026-06-04T00:14:04+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "[OK] dashboard -> D:\\00.test\\neo-genesis\\.agent\\ontology\\business\\dashboard\\index.html\n     open: file:///D:/00.test/neo-genesis/.agent/ontology/business/dashboard/index.html",
+      "stderr_tail": ""
+    },
+    {
+      "step": "auto_record_heartbeat",
+      "cmd": "D:\\00.test\\neo-genesis\\scripts\\ontology\\auto_record.py --kind heartbeat --agent neo://agent/ontology-daily-cron --label daily_maintain 2026-06-04 --meta {\"orchestrator\": \"daily_maintain.py\"}",
+      "started_at": "2026-06-04T00:14:04+00:00",
+      "exit_code": 0,
+      "status": "OK",
+      "stdout_tail": "{\"status\": \"recorded\", \"action_run_id\": \"neo://action_run/heartbeat-1ef9445f9f8b1a97\"}",
+      "stderr_tail": ""
+    }
+  ]
+}

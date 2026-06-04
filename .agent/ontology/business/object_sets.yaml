@@ -1,0 +1,97 @@
+# Neo Genesis Business Ontology -- Named Object Sets (OAG read interface)
+#
+# Foundry Object Set pattern for the BUSINESS layer (neo://biz/*).
+# Queried via: python scripts/ontology/business/query.py --object-set <id>
+#
+# Source of truth: .agent/ontology/business/nodes.jsonl + edges.jsonl (DuckDB views).
+# AuraDB-independent (cloud mirror optional). 이 도구가 "회사 그래프에 질문하는" read surface.
+# Column names verified against live extract_business.py output (2026-05-20).
+
+sets:
+  - id: live-products
+    description: "모든 Product 와 stage (어떤 SBU 가 어느 단계)"
+    cache_ttl_minutes: 60
+    sql: |
+      SELECT slug, label, kind, stage
+      FROM nodes WHERE rdf_type = 'biz:Product'
+      ORDER BY COALESCE(stage,'zzz'), slug
+
+  - id: revenue-paths-recommended
+    description: "recommended 매출 경로 (Strategy 가 정의한 권고 path)"
+    cache_ttl_minutes: 60
+    sql: |
+      SELECT path_id, label, category, expected_monthly_revenue, status
+      FROM nodes WHERE rdf_type = 'biz:RevenueStream' AND status = 'recommended'
+      ORDER BY path_id
+
+  - id: kpi-live-values
+    description: "KPI 별 current_value + provenance (live 관측 vs hardcoded seed 구분)"
+    cache_ttl_minutes: 15
+    sql: |
+      SELECT metric_name, source, current_value, provenance, target_value
+      FROM nodes WHERE rdf_type = 'biz:KPI'
+      ORDER BY source, metric_name
+
+  - id: stale-kpis
+    description: "값이 비었거나(seed) live 관측 안 된 KPI (데이터 feed 막힌 지점)"
+    cache_ttl_minutes: 15
+    sql: |
+      SELECT metric_name, source, provenance,
+             COALESCE(current_value, '(none)') AS current_value
+      FROM nodes WHERE rdf_type = 'biz:KPI'
+        AND (current_value IS NULL OR provenance <> 'observed_from_live_source')
+      ORDER BY source, metric_name
+
+  - id: decisions-by-governance
+    description: "Decision 거버넌스 (G1 자율 vs G2 owner / reversible 여부)"
+    cache_ttl_minutes: 30
+    sql: |
+      SELECT g_level, reversible, count(*) AS n
+      FROM nodes WHERE rdf_type = 'biz:Decision'
+      GROUP BY g_level, reversible
+      ORDER BY g_level, reversible
+
+  - id: risks-active
+    description: "active 상태 Risk (P0/P1 우선)"
+    cache_ttl_minutes: 30
+    sql: |
+      SELECT severity, kind, label, description
+      FROM nodes WHERE rdf_type = 'biz:Risk' AND status = 'active'
+      ORDER BY severity, kind
+
+  - id: sbu-revenue-linkage
+    description: "Product → RevenueStream 연결 (어느 SBU 가 어느 매출 경로에)"
+    cache_ttl_minutes: 60
+    sql: |
+      SELECT p.slug AS product, p.stage AS product_stage,
+             rs.path_id AS revenue_path, rs.label AS revenue_label
+      FROM edges e
+      JOIN nodes p ON e."from" = p.id AND p.rdf_type = 'biz:Product'
+      JOIN nodes rs ON e."to" = rs.id AND rs.rdf_type = 'biz:RevenueStream'
+      ORDER BY p.slug
+
+  - id: cross-layer-products
+    description: "biz:Product ↔ meta:Project cross-link (양 layer 연결 audit)"
+    cache_ttl_minutes: 120
+    sql: |
+      SELECT p.slug AS product, e."to" AS meta_project
+      FROM edges e
+      JOIN nodes p ON e."from" = p.id
+      WHERE e.type = 'biz:cross_ref_meta'
+      ORDER BY p.slug
+
+  - id: founder-capabilities
+    description: "Founder 역량 매트릭스 (tier 별)"
+    cache_ttl_minutes: 120
+    sql: |
+      SELECT tier, domain, label, evidence_note
+      FROM nodes WHERE rdf_type = 'biz:Capability' AND id LIKE '%/founder/%'
+      ORDER BY tier, domain
+
+  - id: monthly-cost-burn
+    description: "월 고정비 (burn rate 구성)"
+    cache_ttl_minutes: 120
+    sql: |
+      SELECT label, category, monthly_usd_estimate, note
+      FROM nodes WHERE rdf_type = 'biz:MonthlyCost'
+      ORDER BY category, label

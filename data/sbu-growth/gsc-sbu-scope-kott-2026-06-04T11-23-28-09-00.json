@@ -1,0 +1,174 @@
+{
+  "generatedAt": "2026-06-04T11:23:28+09:00",
+  "tokenSource": "service_account",
+  "args": {
+    "sites": "kott",
+    "days": 28,
+    "rowLimit": 2500,
+    "submitSitemaps": false,
+    "fetch": true,
+    "minImpressions": 1,
+    "writeDefaultLatest": false
+  },
+  "scope": {
+    "label": "scope-kott",
+    "siteIds": [
+      "kott"
+    ],
+    "isDefaultAll": false,
+    "filePrefix": "gsc-sbu-scope-kott",
+    "writesDefaultLatest": false
+  },
+  "window": {
+    "startDate": "2026-05-05",
+    "endDate": "2026-06-02"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "https://review.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://heoyesol.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://craftdesk.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ethica.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://aiforge.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://kott.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://finstack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://deploystack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://sellkit.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://whylab.neogenesis.app/",
+      "permissionLevel": "siteUnverifiedUser"
+    },
+    {
+      "siteUrl": "https://www.toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 1,
+    "propertiesListed": 1,
+    "liveSitemapsOk": 1,
+    "gscSitemapsKnown": 1,
+    "sitemapSubmissionsAttempted": 0,
+    "sitemapSubmissionsOk": 0,
+    "searchAnalyticsAttempted": 1,
+    "searchAnalyticsOk": 1,
+    "totalRows": 18
+  },
+  "sites": [
+    {
+      "id": "kott",
+      "name": "K-OTT",
+      "property": "https://kott.kr/",
+      "domain": "https://kott.kr",
+      "sitemap": "https://kott.kr/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 121,
+        "finalUrl": "https://kott.kr/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 18,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://kott.kr/",
+          "clicks": 0,
+          "impressions": 25,
+          "weightedPosition": 1619,
+          "queries": [
+            {
+              "query": "ott 검색",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 55,
+              "score": 0.0324
+            },
+            {
+              "query": "ott 순위",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 28.5,
+              "score": 0.03
+            },
+            {
+              "query": "ott 플랫폼",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 89,
+              "score": 0.0254
+            },
+            {
+              "query": "ott 영화 검색",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 47,
+              "score": 0.0233
+            },
+            {
+              "query": "ott 서비스 순위",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 81,
+              "score": 0.0178
+            }
+          ],
+          "score": 0.2586,
+          "averagePosition": 64.76
+        }
+      ]
+    }
+  ]
+}

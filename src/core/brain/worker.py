@@ -39,6 +39,7 @@ from src.core.ops_telegram_alerts import (
     notify_agent_approval_result,
 )
 from src.core.governance.execution_gate import evaluate_text_execution_gate
+from src.core.owner_traffic import build_owner_traffic_reply, is_owner_traffic_query
 from src.core.runtime.single_instance import claim_single_instance
 from src.core.time_context import build_time_context_block, needs_explicit_time_context
 
@@ -212,6 +213,19 @@ class BrainWorker:
             from src.core.progress import ProgressReporter
             bus = await self._get_bus()
             reporter = ProgressReporter(bus, request_id, request.get("chat_id", ""))
+
+            if not file_path and is_owner_traffic_query(text):
+                latency_ms = (time.time() - t_start) * 1000
+                self._stats["requests_processed"] += 1
+                return {
+                    "reply": build_owner_traffic_reply(),
+                    "error": None,
+                    "metadata": {
+                        "latency_ms": round(latency_ms, 1),
+                        "request_id": request_id,
+                        "path": "owner_traffic_fastpath",
+                    },
+                }
 
             # ── SEC-002/004/008 ConfirmGate: 위험 작업 사전 확인 ──
             request_metadata = request.get("metadata") or {}

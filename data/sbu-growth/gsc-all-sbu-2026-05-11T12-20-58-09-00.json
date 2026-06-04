@@ -1,0 +1,769 @@
+{
+  "generatedAt": "2026-05-11T12:20:58+09:00",
+  "tokenSource": "refresh_token",
+  "args": {
+    "sites": "sellkit,reviewlab",
+    "days": 28,
+    "rowLimit": 100,
+    "submitSitemaps": false,
+    "fetch": true,
+    "minImpressions": 1
+  },
+  "window": {
+    "startDate": "2026-04-11",
+    "endDate": "2026-05-09"
+  },
+  "listedProperties": [
+    {
+      "siteUrl": "https://kott.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://aiforge.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://craftdesk.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://heoyesol.kr/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ur-wrong.com/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://deploystack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:toolpick.dev",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:heoyesol.kr",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://finstack.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://whylab.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://ethica.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://review.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:review.neogenesis.app",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://www.toolpick.dev/",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "https://sellkit.neogenesis.app/",
+      "permissionLevel": "siteOwner"
+    }
+  ],
+  "summary": {
+    "sites": 2,
+    "propertiesListed": 2,
+    "liveSitemapsOk": 2,
+    "gscSitemapsKnown": 2,
+    "sitemapSubmissionsAttempted": 0,
+    "sitemapSubmissionsOk": 0,
+    "searchAnalyticsAttempted": 2,
+    "searchAnalyticsOk": 2,
+    "totalRows": 95
+  },
+  "sites": [
+    {
+      "id": "sellkit",
+      "name": "SellKit",
+      "property": "https://sellkit.neogenesis.app/",
+      "domain": "https://sellkit.neogenesis.app",
+      "sitemap": "https://sellkit.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 459,
+        "finalUrl": "https://sellkit.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 58,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/printful",
+          "clicks": 0,
+          "impressions": 136,
+          "weightedPosition": 9705,
+          "queries": [
+            {
+              "query": "printful alternatives",
+              "clicks": 0,
+              "impressions": 83,
+              "ctr": 0,
+              "position": 75.97590361445783,
+              "score": 0.7618
+            },
+            {
+              "query": "alternatives to printful",
+              "clicks": 0,
+              "impressions": 30,
+              "ctr": 0,
+              "position": 61.2,
+              "score": 0.3068
+            },
+            {
+              "query": "websites like printful",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 74,
+              "score": 0.0372
+            },
+            {
+              "query": "printful competitors",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 59,
+              "score": 0.0312
+            },
+            {
+              "query": "sites like printful",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 77,
+              "score": 0.0274
+            }
+          ],
+          "score": 1.2937,
+          "averagePosition": 71.36
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/ecommerce-platform-with-built-in-invoicing",
+          "clicks": 0,
+          "impressions": 70,
+          "weightedPosition": 5628,
+          "queries": [
+            {
+              "query": "ecommerce billing system",
+              "clicks": 0,
+              "impressions": 26,
+              "ctr": 0,
+              "position": 79.57692307692308,
+              "score": 0.2332
+            },
+            {
+              "query": "ecommerce invoicing software",
+              "clicks": 0,
+              "impressions": 21,
+              "ctr": 0,
+              "position": 79.52380952380952,
+              "score": 0.1884
+            },
+            {
+              "query": "e commerce invoice software",
+              "clicks": 0,
+              "impressions": 13,
+              "ctr": 0,
+              "position": 83.61538461538461,
+              "score": 0.1137
+            },
+            {
+              "query": "e commerce billing system",
+              "clicks": 0,
+              "impressions": 9,
+              "ctr": 0,
+              "position": 80.77777777777777,
+              "score": 0.0801
+            },
+            {
+              "query": "platforms that integrate invoicing and payments",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 75,
+              "score": 0.0092
+            }
+          ],
+          "score": 0.6246,
+          "averagePosition": 80.4
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/gumroad",
+          "clicks": 0,
+          "impressions": 33,
+          "weightedPosition": 1585,
+          "queries": [
+            {
+              "query": "gumroad pricing free plan fees 2026",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 8,
+              "score": 0.0849
+            },
+            {
+              "query": "gumroad pricing free plan fees",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 10.333333333333334,
+              "score": 0.0747
+            },
+            {
+              "query": "gumroad pricing free plan",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 12,
+              "score": 0.0693
+            },
+            {
+              "query": "gumroad pricing free plan no monthly fee",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 8,
+              "score": 0.0566
+            },
+            {
+              "query": "gumroad alternative",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 77.83333333333333,
+              "score": 0.0544
+            }
+          ],
+          "score": 0.5361,
+          "averagePosition": 48.03
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 242,
+          "queries": [
+            {
+              "query": "sellkit",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 40.333333333333336,
+              "score": 0.0756
+            }
+          ],
+          "score": 0.0756,
+          "averagePosition": 40.33
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/best-ecommerce-platform-for-digital-products-2026",
+          "clicks": 0,
+          "impressions": 3,
+          "weightedPosition": 52,
+          "queries": [
+            {
+              "query": "best checkout monetization platforms 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 14,
+              "score": 0.0214
+            },
+            {
+              "query": "best of breed ecommerce platforms 2025 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 18,
+              "score": 0.0189
+            },
+            {
+              "query": "digital transformation ecommerce tools comparison 2025 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 20,
+              "score": 0.0179
+            }
+          ],
+          "score": 0.0582,
+          "averagePosition": 17.33
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/pricing/stripe",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 434,
+          "queries": [
+            {
+              "query": "stripe pricing",
+              "clicks": 0,
+              "impressions": 5,
+              "ctr": 0,
+              "position": 68.8,
+              "score": 0.0482
+            },
+            {
+              "query": "how much is stripe a month",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 90,
+              "score": 0.0084
+            }
+          ],
+          "score": 0.0566,
+          "averagePosition": 72.33
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/reviews/gumroad-review",
+          "clicks": 0,
+          "impressions": 4,
+          "weightedPosition": 306,
+          "queries": [
+            {
+              "query": "gumroad reviews",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 19,
+              "score": 0.0184
+            },
+            {
+              "query": "gumroad prices",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 72,
+              "score": 0.0094
+            },
+            {
+              "query": "gumroad price",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 83,
+              "score": 0.0088
+            },
+            {
+              "query": "gumroad pricing",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 132,
+              "score": 0.007
+            }
+          ],
+          "score": 0.0436,
+          "averagePosition": 76.5
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/alternatives/lemonsqueezy",
+          "clicks": 0,
+          "impressions": 4,
+          "weightedPosition": 285,
+          "queries": [
+            {
+              "query": "lemon squeezy alternatives",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 85,
+              "score": 0.0174
+            },
+            {
+              "query": "lemonsqueezy alternatives",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 57,
+              "score": 0.0106
+            },
+            {
+              "query": "lemonsqueezy alternative",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 58,
+              "score": 0.0105
+            }
+          ],
+          "score": 0.0385,
+          "averagePosition": 71.25
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/blog/best-ecommerce-platform-for-artists-2026",
+          "clicks": 0,
+          "impressions": 4,
+          "weightedPosition": 352,
+          "queries": [
+            {
+              "query": "best ecommerce for artists",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 88,
+              "score": 0.0341
+            }
+          ],
+          "score": 0.0341,
+          "averagePosition": 88
+        },
+        {
+          "page": "https://sellkit.neogenesis.app/reviews/printful-review",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 9,
+          "queries": [
+            {
+              "query": "printful product quality reviews 2026",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 9,
+              "score": 0.0267
+            }
+          ],
+          "score": 0.0267,
+          "averagePosition": 9
+        }
+      ]
+    },
+    {
+      "id": "reviewlab",
+      "name": "ReviewLab",
+      "property": "https://review.neogenesis.app/",
+      "domain": "https://review.neogenesis.app",
+      "sitemap": "https://review.neogenesis.app/sitemap.xml",
+      "propertyListed": true,
+      "permission": "siteOwner",
+      "liveSitemap": {
+        "ok": true,
+        "status": 200,
+        "locCount": 1003,
+        "finalUrl": "https://review.neogenesis.app/sitemap.xml",
+        "error": null
+      },
+      "gscSitemap": {
+        "ok": true,
+        "status": 200,
+        "known": true,
+        "error": null
+      },
+      "sitemapSubmit": null,
+      "searchAnalytics": {
+        "ok": true,
+        "status": 200,
+        "rows": 37,
+        "error": null
+      },
+      "opportunities": [
+        {
+          "page": "https://review.neogenesis.app/",
+          "clicks": 0,
+          "impressions": 17,
+          "weightedPosition": 322,
+          "queries": [
+            {
+              "query": "6축 로봇의 정확도와 안전성 향상",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.1209
+            },
+            {
+              "query": "리뷰머신",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.0907
+            },
+            {
+              "query": "가열식 가습기 소음",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            },
+            {
+              "query": "\"슬릭부스트\" -site:reddit.com -site:twitter.com -site:x.com -site:wykop.pl -site:tripadvisor.com -site:youtube.com -site:yelp.com -site:booking.com -site:facebook.com -site:instagram.com -site:tiktok.com",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 5,
+              "score": 0.0358
+            },
+            {
+              "query": "갤럭시북6 울트라 64gb",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.0302
+            }
+          ],
+          "score": 0.4214,
+          "averagePosition": 18.94
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%ED%99%88%EC%B9%B4%ED%8E%98-%EC%99%84%EB%B2%BD-%EC%86%94%EB%A3%A8%EC%85%98",
+          "clicks": 1,
+          "impressions": 9,
+          "weightedPosition": 90,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7.5,
+              "score": 0.1168
+            },
+            {
+              "query": "philips bar300/03 전자동 커피 메이커 () reviews",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0653
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 1,
+              "impressions": 3,
+              "ctr": 0.3333333333333333,
+              "position": 16,
+              "score": 0.0075
+            }
+          ],
+          "score": 0.1896,
+          "averagePosition": 10
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%ED%99%88%EC%B9%B4%ED%8E%98-%EC%99%84%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%84%A0%ED%83%9D",
+          "clicks": 0,
+          "impressions": 4,
+          "weightedPosition": 51,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 3,
+              "ctr": 0,
+              "position": 2.333333333333333,
+              "score": 0.1571
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 44,
+              "score": 0.0121
+            }
+          ],
+          "score": 0.1692,
+          "averagePosition": 12.75
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/hp-2026-%EB%85%B8%ED%8A%B8%EB%B6%81-15-%EB%9D%BC%EC%9D%B4%EC%A0%A0-7000-%EC%8B%9C%EB%A6%AC%EC%A6%88-%ED%83%91%EC%9E%AC-%EA%B0%80%EC%84%B1%EB%B9%84-%EB%85%B8%ED%8A%B8%EB%B6%81-%EB%A6%AC%EB%B7%B0",
+          "clicks": 0,
+          "impressions": 5,
+          "weightedPosition": 35,
+          "queries": [
+            {
+              "query": "hp 2026 노트북 15 () reviews",
+              "clicks": 0,
+              "impressions": 4,
+              "ctr": 0,
+              "position": 7.25,
+              "score": 0.1188
+            },
+            {
+              "query": "hp 2026 노트북 15 라이젠5 () reviews",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0327
+            }
+          ],
+          "score": 0.1515,
+          "averagePosition": 7
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%94%84%EB%9E%91%EC%8A%A4-%ED%86%B0%EC%8A%A8-tbe-201b-%EB%B8%94%EB%A3%A8%ED%88%AC%EC%8A%A4-%EC%9D%B4%EC%96%B4%ED%8F%B0-%EB%A6%AC%EB%B7%B0-enc-%EB%85%B8%EC%9D%B4%EC%A6%88-%EC%BA%94%EC%8A%AC%EB%A7%81%EA%B3%BC-led%EC%9D%98-%EC%A1%B0%ED%99%94",
+          "clicks": 0,
+          "impressions": 6,
+          "weightedPosition": 61,
+          "queries": [
+            {
+              "query": "톰슨 이어폰 후기",
+              "clicks": 0,
+              "impressions": 6,
+              "ctr": 0,
+              "position": 10.166666666666666,
+              "score": 0.1505
+            }
+          ],
+          "score": 0.1505,
+          "averagePosition": 10.17
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/tabwee-2026-%ED%83%9C%EB%B8%94%EB%A6%BF-%EB%A6%AC%EB%B7%B0-android-16-gemini-ai-11%EC%9D%B8%EC%B9%98-16gb-ram-%ED%83%91%EC%9E%AC",
+          "clicks": 2,
+          "impressions": 20,
+          "weightedPosition": 139,
+          "queries": [
+            {
+              "query": "tabwee 태블릿 후기",
+              "clicks": 2,
+              "impressions": 19,
+              "ctr": 0.10526315789473684,
+              "position": 6.947368421052632,
+              "score": 0.0721
+            },
+            {
+              "query": "게임",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.0302
+            }
+          ],
+          "score": 0.1023,
+          "averagePosition": 6.95
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%ED%95%84%EB%A6%BD%EC%8A%A4-%EB%B0%94%EB%A6%AC%EC%8A%A4%ED%8B%B0%EB%82%98-bar30000-%EC%97%90%EC%8A%A4%ED%94%84%EB%A0%88%EC%86%8C-%EC%A0%84%EC%9E%90%EB%8F%99-%EC%BB%A4%ED%94%BC%EB%A8%B8%EC%8B%A0-%EB%A6%AC%EB%B7%B0-%EB%B0%8F-%EA%B5%AC%EB%A7%A4-%EA%B0%80%EC%9D%B4%EB%93%9C",
+          "clicks": 0,
+          "impressions": 4,
+          "weightedPosition": 70,
+          "queries": [
+            {
+              "query": "bar30000",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 5,
+              "score": 0.0716
+            },
+            {
+              "query": "필립스 바리스 티나 단점",
+              "clicks": 0,
+              "impressions": 2,
+              "ctr": 0,
+              "position": 30,
+              "score": 0.0292
+            }
+          ],
+          "score": 0.1008,
+          "averagePosition": 17.5
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%EC%97%90%EC%9D%B4%ED%88%AC-point-5-%EB%A7%88%EC%9A%B0%EC%8A%A4-%EB%A6%AC%EB%B7%B0-%EA%B2%8C%EC%9D%B4%EB%B0%8D%EA%B3%BC-%EC%82%AC%EB%AC%B4%EB%A5%BC-%EC%9E%87%EB%8A%94-rgb-%EC%9C%A0%EB%AC%B4%EC%84%A0-%EB%A7%88%EC%9A%B0%EC%8A%A4",
+          "clicks": 0,
+          "impressions": 2,
+          "weightedPosition": 16,
+          "queries": [
+            {
+              "query": "2 point 5",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 6,
+              "score": 0.0327
+            },
+            {
+              "query": "point 5",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 10,
+              "score": 0.0253
+            }
+          ],
+          "score": 0.058,
+          "averagePosition": 8
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/kospet-tank-t3-ultra-2-%EC%8A%A4%EB%A7%88%ED%8A%B8%EC%9B%8C%EC%B9%98-%EA%B0%95%EB%A0%A5%ED%95%9C-%EB%82%B4%EA%B5%AC%EC%84%B1%EA%B3%BC-%EC%B2%A8%EB%8B%A8-%EA%B8%B0%EB%8A%A5%EC%9D%98-%EC%99%84%EB%B2%BD%ED%95%9C-%EC%A1%B0%ED%99%94",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 4,
+          "queries": [
+            {
+              "query": "kospet tank t3 ultra 2",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 4,
+              "score": 0.04
+            }
+          ],
+          "score": 0.04,
+          "averagePosition": 4
+        },
+        {
+          "page": "https://review.neogenesis.app/posts/%EC%8B%A0%EC%9D%BC-%EB%AC%B4%EC%86%8C%EC%9D%8C-bldc-%EC%B4%88%EB%AF%B8%ED%92%8D-%EC%84%A0%ED%92%8D%EA%B8%B0-sif-t14sin-%EB%A6%AC%EB%B7%B0-%EC%97%AC%EB%A6%84%EB%B0%A4-%EC%88%99%EB%A9%B4%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%84%A0%ED%83%9D",
+          "clicks": 0,
+          "impressions": 1,
+          "weightedPosition": 7,
+          "queries": [
+            {
+              "query": "신일 bldc 무소음 선풍기 () reviews",
+              "clicks": 0,
+              "impressions": 1,
+              "ctr": 0,
+              "position": 7,
+              "score": 0.0302
+            }
+          ],
+          "score": 0.0302,
+          "averagePosition": 7
+        }
+      ]
+    }
+  ]
+}

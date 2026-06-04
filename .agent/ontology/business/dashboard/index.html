@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neo Genesis Ontology Dashboard</title>
+<style>
+:root { --bg:#0a0a0b; --fg:#e6e6e6; --dim:#888; --acc:#7aa2f7; --warn:#e0af68; --err:#f7768e; --ok:#9ece6a; }
+* { box-sizing:border-box; }
+body { background:var(--bg); color:var(--fg); font-family:-apple-system,'SF Pro Display','Pretendard',system-ui,sans-serif; margin:0; padding:24px; line-height:1.5; }
+h1 { font-size:20px; margin:0 0 4px; }
+h2 { font-size:14px; color:var(--dim); margin:24px 0 8px; text-transform:uppercase; letter-spacing:.5px; }
+.meta { color:var(--dim); font-size:12px; }
+.grid { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); margin-top:8px; }
+.card { background:#13131a; border:1px solid #1d1d28; border-radius:8px; padding:12px 14px; }
+.card .label { color:var(--dim); font-size:11px; text-transform:uppercase; }
+.card .value { font-size:22px; font-weight:600; margin-top:4px; }
+.card .sub { color:var(--dim); font-size:11px; margin-top:4px; }
+table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+th, td { text-align:left; padding:6px 10px; border-bottom:1px solid #1d1d28; }
+th { color:var(--dim); font-weight:500; font-size:11px; text-transform:uppercase; }
+.tag { display:inline-block; padding:2px 6px; border-radius:3px; font-size:11px; background:#1d1d28; color:var(--dim); margin-right:4px; }
+.tag.warn { background:#3a2a1a; color:var(--warn); }
+.tag.err { background:#3a1a22; color:var(--err); }
+.tag.ok { background:#1a3a22; color:var(--ok); }
+.section { background:#13131a; border:1px solid #1d1d28; border-radius:8px; padding:16px; margin-top:12px; }
+.section h2 { margin-top:0; }
+hr { border:0; border-top:1px solid #1d1d28; margin:24px 0; }
+a { color:var(--acc); text-decoration:none; }
+code { background:#13131a; padding:2px 6px; border-radius:3px; font-size:12px; color:var(--acc); }
+.kpi-grid { display:grid; gap:8px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); }
+</style></head><body>
+<h1>Neo Genesis Ontology Dashboard</h1>
+<div class="meta">Generated 2026-06-04T00:14:04+00:00 | meta: 323 nodes · biz: 253 nodes (21 classes)</div>
+<div class="grid">
+<div class="card"><div class="label">Products live</div><div class="value">14 / 16</div></div>
+<div class="card"><div class="label">Monthly burn</div><div class="value">$448</div><div class="sub">runway 16.7~133.9 months (1000~8000만 자본)</div></div>
+<div class="card"><div class="label">Decisions (G1 / G2)</div><div class="value">27 / 3</div><div class="sub">ratio 9.0</div></div>
+<div class="card"><div class="label">P0 active risks</div><div class="value" style="color:var(--err)">4</div></div>
+<div class="card"><div class="label">잠재 고객 (Leads)</div><div class="value">0</div><div class="sub">B2B enterprise 12 + B3 consulting 3</div></div>
+<div class="card"><div class="label">Capabilities</div><div class="value">20</div><div class="sub">Tier S 12건 (founder 3 + AI 9)</div></div>
+</div>
+<div class="section"><h2>🔴 D-30 이내 deadline</h2><table><tr><th>D-</th><th>kind</th><th>label</th><th>impact</th></tr>
+<tr><td><span class="tag err">D-9</span></td><td>infra_critical</td><td>auradb-trial-expiry</td><td class="meta">D-12 from 2026-05-14. 만료 후 결정: (A) $65/월 paid Professional 유지 (B) Free 다운그레이드 (C) Docker self-host 전환. burn rate $448 + </td></tr>
+<tr><td><span class="tag err">D+4</span></td><td>strategy_review</td><td>revenue-path-30day-review</td><td class="meta">B1/D2/C2/B3 path 진척 확인 + 자본 추가 투입 결정 (G2).</td></tr>
+<tr><td><span class="tag err">D+6</span></td><td>product_launch</td><td>koreanllm-w0-launch</td><td class="meta">D-27 from 2026-05-14. AO-1 SBU live trigger.</td></tr>
+<tr><td><span class="tag warn">D+9</span></td><td>conference</td><td>EMNLP 2026 main deadline</td><td class="meta">KoreanLLM AO-1 candidate</td></tr>
+<tr><td><span class="tag ">D+58</span></td><td>conference</td><td>AAAI 2026 main deadline</td><td class="meta">broad AI venue</td></tr>
+</table></div>
+<div class="section"><h2>📈 시장 신호</h2><table><tr><th>지표</th><th>종가</th><th>1d %</th><th>rationale</th></tr>
+<tr><td>KOSPI (^KS11)</td><td>8801.49</td><td><span class="tag ok">↑ 0.15%</span></td><td class="meta">D2 ETF korea-side</td></tr>
+<tr><td>S&amp;P 500 (^GSPC)</td><td>7553.68</td><td><span class="tag err">↓ -0.74%</span></td><td class="meta">D2 ETF us-side primary</td></tr>
+<tr><td>NASDAQ (^IXIC)</td><td>26853.98</td><td><span class="tag err">↓ -0.89%</span></td><td class="meta">D2 ETF QQQ underlying</td></tr>
+<tr><td>Invesco QQQ (QQQ)</td><td>744.21</td><td><span class="tag err">↓ -0.26%</span></td><td class="meta">D2 ETF direct</td></tr>
+<tr><td>USD-KRW (KRW=X)</td><td>1525.18</td><td><span class="tag ok">↑ 0.57%</span></td><td class="meta">달러원 — D2 ETF 진입 시점 결정</td></tr>
+</table></div>
+<div class="section"><h2>⚠️  P0 active risks</h2><table><tr><th>severity</th><th>kind</th><th>label</th><th>desc</th></tr>
+<tr><td><span class="tag err">P0</span></td><td>publication_compliance</td><td>blind-review-hold</td><td class="meta">EthicaAI + WhyLab manuscript double-blind venue 심사 중 → arXiv 업로드 금지</td></tr>
+<tr><td><span class="tag err">P0</span></td><td>self-imposed-policy</td><td>financial-advisor-charter</td><td class="meta">Strategy Lead = 재무책임자 헌장 — G1 자본 위험 0 / personal 0 / 영구 비가역 0 시만</td></tr>
+<tr><td><span class="tag err">P0</span></td><td>data_governance</td><td>personal-context-leak</td><td class="meta">personal/ 디렉토리 (법무·금융·개인회생) ontology / chat / agent context 절대 외</td></tr>
+<tr><td><span class="tag err">P0</span></td><td>product_launch_risk</td><td>koreanllm-w0-readiness</td><td class="meta">D-27 (2026-06-10) W0 launch — Cloudflare bind + DNS + dashboard ready 필요</td></tr>
+</table></div>
+<div class="section"><h2>💸 비용 분포</h2><table><tr><th>bucket</th><th>$/월</th><th>note</th></tr>
+<tr><td>LLM 구독 (Anthropic + OpenAI + Google)</td><td><strong>$330</strong></td><td class="meta">Claude Max $100 + GPT Pro $200 + Google AI Ultra $30. API 과금 0 (구독 limit 내).</td></tr>
+<tr><td>Cloudflare Workers/Pages/D1/KV (M3-M24 scaling)</td><td><strong>$58</strong></td><td class="meta">현재 Free tier 충분. koreanllm.org W0 launch 후 M3 $58 → M24 $400~450 trajectory.</td></tr>
+<tr><td>장치 운영 비용 (전기/네트워크)</td><td><strong>$50</strong></td><td class="meta">8 device fleet 추정. ysh-server (전기 + 네트워크). 정확한 측정 미실시.</td></tr>
+<tr><td>인프라 (GitHub Pro + domains)</td><td><strong>$10</strong></td><td class="meta">GitHub Pro $4 + 도메인 1-15 (kott.kr + koreanllm.org + 기타 평균). Tailscale/Vercel/Supabase/PostHog/GA4/AuraDB Free.</td></tr>
+<tr><td>논문 GPU 컴퓨트</td><td><strong>$0</strong></td><td class="meta">EthicaAI Melting Pot 24+26 seed 마이그레이션 완료. 신규 실험 미진행.</td></tr>
+</table></div>
+<div class="section"><h2>📦 Products</h2><table><tr><th>slug</th><th>stage</th><th>kind</th><th>label</th></tr>
+<tr><td><code>koreanllm</code></td><td><span class="tag warn">idea</span></td><td class="meta">sbu_saas</td><td>koreanllm.org AO-1 (W0 = 2026-06-10, D-27)</td></tr>
+<tr><td><code>aiforge</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>AIForge AI tools for developers</td></tr>
+<tr><td><code>craftdesk</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>CraftDesk design/Figma resources</td></tr>
+<tr><td><code>deploystack</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>DeployStack DevOps decision aid</td></tr>
+<tr><td><code>ethicaai-paper</code></td><td><span class="tag ok">live</span></td><td class="meta">paper</td><td>EthicaAI Melting Pot manuscript (blind review)</td></tr>
+<tr><td><code>finstack</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>FinStack financial decision</td></tr>
+<tr><td><code>heoyesol-brand</code></td><td><span class="tag ok">live</span></td><td class="meta">brand_site</td><td>heoyesol.kr personal brand HQ + /resume tool</td></tr>
+<tr><td><code>kott</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>K-OTT subscription rotation</td></tr>
+<tr><td><code>reviewlab</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>ReviewLab product reviews</td></tr>
+<tr><td><code>sellkit</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>SellKit ecommerce decision UX</td></tr>
+<tr><td><code>sora-app</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>Sora app — AI assistant frontend</td></tr>
+<tr><td><code>toolpick</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>ToolPick SaaS reviews + alternatives</td></tr>
+<tr><td><code>ur-wrong</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>UR WRONG argument benchmark</td></tr>
+<tr><td><code>whylab</code></td><td><span class="tag ok">live</span></td><td class="meta">sbu_saas</td><td>WhyLab causal inference platform (live + paper companion)</td></tr>
+<tr><td><code>whylab-paper</code></td><td><span class="tag ok">live</span></td><td class="meta">paper</td><td>WhyLab causal inference manuscript (blind review)</td></tr>
+<tr><td><code>2dlivegame</code></td><td><span class="tag ">paused</span></td><td class="meta">game</td><td>NEO-GENESIS: Antigravity 2D live game</td></tr>
+</table></div>
+<div class="section"><h2>⚙️  Workflows (executable)</h2><table><tr><th>workflow</th><th>kind</th><th>command</th></tr>
+<tr><td>ontology-daily-maintain</td><td class="meta">ontology_ops</td><td><code>python scripts/ontology/daily_maintain.py</code></td></tr>
+<tr><td>kpi-auto-fetch</td><td class="meta">kpi_collection</td><td><code>python scripts/ontology/business/kpi_fetch.py</code></td></tr>
+<tr><td>ontology-daily-digest</td><td class="meta">decision_surfacing</td><td><code>python scripts/ontology/business/daily_digest.py --save-as-decision</code></td></tr>
+<tr><td>auradb-heartbeat</td><td class="meta">infra_keep_alive</td><td><code>python scripts/ontology/migrate_to_neo4j.py --verify</code></td></tr>
+<tr><td>graphrag-rebuild</td><td class="meta">rag_refresh</td><td><code>python scripts/ontology/graphrag.py --rebuild</code></td></tr>
+</table></div>
+<div class="section"><h2>📊 KPI</h2><table><tr><th>product</th><th>metric</th><th>source</th><th>target</th><th>current</th></tr>
+<tr><td><code>kott</code></td><td>monthly_active_users</td><td class="meta">ga4</td><td>10,000 (next quarter)</td><td>45</td></tr>
+<tr><td><code>toolpick</code></td><td>monthly_active_users</td><td class="meta">ga4</td><td>100,000 (long term)</td><td>1565</td></tr>
+<tr><td><code>ur-wrong</code></td><td>verified_human_arguments</td><td class="meta">supabase</td><td>&gt;= 1 weekly</td><td><span class="tag warn">미집계</span></td></tr>
+<tr><td><code>koreanllm</code></td><td>monthly_active_users</td><td class="meta">ga4</td><td>1M (24mo target)</td><td><span class="tag warn">미집계</span></td></tr>
+<tr><td><code>koreanllm</code></td><td>annual_recurring_revenue</td><td class="meta">manual</td><td>$350K~$650K (24mo base)</td><td><span class="tag warn">미집계</span></td></tr>
+<tr><td><code>toolpick</code></td><td>daily_active_users</td><td class="meta">posthog</td><td>1,000+ DAU (long term)</td><td>36</td></tr>
+<tr><td><code>kott</code></td><td>daily_active_users</td><td class="meta">posthog</td><td>500+ DAU (next quarter)</td><td>0</td></tr>
+<tr><td><code>kott</code></td><td>gsc_impressions_28d</td><td class="meta">gsc</td><td>10K impressions / 100 clicks / position &lt; 20 (next quarter)</td><td>29</td></tr>
+<tr><td><code>kott</code></td><td>gsc_clicks_28d</td><td class="meta">gsc</td><td>10K impressions / 100 clicks / position &lt; 20 (next quarter)</td><td>0</td></tr>
+<tr><td><code>kott</code></td><td>gsc_avg_position_28d</td><td class="meta">gsc</td><td>10K impressions / 100 clicks / position &lt; 20 (next quarter)</td><td>61.52</td></tr>
+<tr><td><code>toolpick</code></td><td>gsc_impressions_28d</td><td class="meta">gsc</td><td>100K impressions / 1K clicks / position &lt; 15 (long term)</td><td>30</td></tr>
+<tr><td><code>toolpick</code></td><td>gsc_clicks_28d</td><td class="meta">gsc</td><td>100K impressions / 1K clicks / position &lt; 15 (long term)</td><td>0</td></tr>
+<tr><td><code>toolpick</code></td><td>gsc_avg_position_28d</td><td class="meta">gsc</td><td>100K impressions / 1K clicks / position &lt; 15 (long term)</td><td>14.67</td></tr>
+<tr><td><code>ur-wrong</code></td><td>gsc_impressions_28d</td><td class="meta">gsc</td><td>5K impressions / 50 clicks / position &lt; 30 (next quarter)</td><td>50</td></tr>
+<tr><td><code>ur-wrong</code></td><td>gsc_clicks_28d</td><td class="meta">gsc</td><td>5K impressions / 50 clicks / position &lt; 30 (next quarter)</td><td>1</td></tr>
+<tr><td><code>ur-wrong</code></td><td>gsc_avg_position_28d</td><td class="meta">gsc</td><td>5K impressions / 50 clicks / position &lt; 30 (next quarter)</td><td>58.78</td></tr>
+<tr><td><code>heoyesol-brand</code></td><td>gsc_impressions_28d</td><td class="meta">gsc</td><td>1K impressions / 10 clicks / position &lt; 10 (brand)</td><td>6</td></tr>
+<tr><td><code>heoyesol-brand</code></td><td>gsc_clicks_28d</td><td class="meta">gsc</td><td>1K impressions / 10 clicks / position &lt; 10 (brand)</td><td>0</td></tr>
+<tr><td><code>heoyesol-brand</code></td><td>gsc_avg_position_28d</td><td class="meta">gsc</td><td>1K impressions / 10 clicks / position &lt; 10 (brand)</td><td>4.0</td></tr>
+</table></div>
+<hr>
+<div class="meta">Generated by <code>scripts/ontology/business/dashboard_generator.py</code> · 일일 09:13 KST 자동 (Windows Task Scheduler · NeoGenesisOntologyDailyMaintain)</div>
+<div class="meta">Cypher 실시간 query: <a href="https://console.neo4j.io">AuraDB Browser</a></div>
+</body></html>

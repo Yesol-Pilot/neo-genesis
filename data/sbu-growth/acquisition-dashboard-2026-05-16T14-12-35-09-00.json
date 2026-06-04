@@ -1,0 +1,358 @@
+{
+  "generatedAt": "2026-05-16T14:12:35+09:00",
+  "scope": {
+    "excluded": [
+      "neogenesis",
+      "toolpick",
+      "ur-wrong"
+    ],
+    "sites": [
+      "aiforge",
+      "craftdesk",
+      "deploystack",
+      "finstack",
+      "sellkit",
+      "reviewlab",
+      "kott",
+      "whylab",
+      "ethicaai"
+    ]
+  },
+  "sources": {
+    "gsc": {
+      "path": "data\\sbu-growth\\gsc-all-sbu-2026-05-16T14-12-12-09-00.json",
+      "generatedAt": "2026-05-16T14:12:12+09:00",
+      "sites": 13
+    },
+    "posthog": {
+      "path": "data\\sbu-growth\\posthog-traffic-latest.json",
+      "days": 7
+    },
+    "ga4": {
+      "path": "logs\\ga4_result.json"
+    }
+  },
+  "rows": [
+    {
+      "site": "reviewlab",
+      "name": "ReviewLab",
+      "market": "korea",
+      "lane": "Korean product review",
+      "posthog": {
+        "events": 114,
+        "pageviews": 68,
+        "users": 57,
+        "lastSeen": "2026-05-16T12:38:13.395000+09:00"
+      },
+      "ga4": {
+        "users7d": 10,
+        "views7d": 20,
+        "sessions7d": 14,
+        "users28d": 16,
+        "views28d": 26
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Rewrite Korean title/description/H1 for comparison and purchase-review intent.",
+        "Prioritize Naver Search Advisor checks and Korean FAQ/pros-cons/spec tables."
+      ],
+      "stage": "distribution-validation",
+      "score": 174.9,
+      "measurementWarnings": [
+        "Traffic exists without search opportunity; validate referral/direct source and bot filtering."
+      ]
+    },
+    {
+      "site": "kott",
+      "name": "K-OTT",
+      "market": "korea",
+      "lane": "Korean OTT decision",
+      "posthog": {
+        "events": 89,
+        "pageviews": 42,
+        "users": 28,
+        "lastSeen": "2026-05-16T05:16:46.998000+09:00"
+      },
+      "ga4": {
+        "users7d": 8,
+        "views7d": 13,
+        "sessions7d": 9,
+        "users28d": 60,
+        "views28d": 65
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Build OTT price, plan, and monthly-watch decision hubs in Korean.",
+        "Track Naver/Google Korean queries separately from owned/direct traffic."
+      ],
+      "stage": "productize-before-growth",
+      "score": 120,
+      "measurementWarnings": []
+    },
+    {
+      "site": "craftdesk",
+      "name": "CraftDesk",
+      "market": "global",
+      "lane": "design/product workflow",
+      "posthog": {
+        "events": 124,
+        "pageviews": 29,
+        "users": 30,
+        "lastSeen": "2026-05-16T07:28:52.501000+09:00"
+      },
+      "ga4": {
+        "users7d": 6,
+        "views7d": 7,
+        "sessions7d": 7,
+        "users28d": 41,
+        "views28d": 46
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Publish a Figma Community template or UX rapid-prototyping checklist.",
+        "Create search pages around rapid prototyping, UI review, and design QA workflows."
+      ],
+      "stage": "distribution-validation",
+      "score": 99.4,
+      "measurementWarnings": [
+        "Traffic exists without search opportunity; validate referral/direct source and bot filtering."
+      ]
+    },
+    {
+      "site": "deploystack",
+      "name": "DeployStack",
+      "market": "global",
+      "lane": "developer/devops",
+      "posthog": {
+        "events": 88,
+        "pageviews": 24,
+        "users": 32,
+        "lastSeen": "2026-05-15T23:48:53.856000+09:00"
+      },
+      "ga4": {
+        "users7d": 2,
+        "views7d": 2,
+        "sessions7d": 2,
+        "users28d": 11,
+        "views28d": 11
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Ship a CI/CD YAML generator or preview-environment cost checklist.",
+        "Distribute via DEV, GitHub templates, and HN only when the artifact is directly usable."
+      ],
+      "stage": "distribution-validation",
+      "score": 79.4,
+      "measurementWarnings": [
+        "Traffic exists without search opportunity; validate referral/direct source and bot filtering."
+      ]
+    },
+    {
+      "site": "sellkit",
+      "name": "SellKit",
+      "market": "global",
+      "lane": "ecommerce sellers",
+      "posthog": {
+        "events": 28,
+        "pageviews": 18,
+        "users": 20,
+        "lastSeen": "2026-05-16T12:08:02.816000+09:00"
+      },
+      "ga4": {
+        "users7d": 1,
+        "views7d": 1,
+        "sessions7d": 1,
+        "users28d": 3,
+        "views28d": 3
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Exploit proven GSC intent: Printful alternatives, Stripe pricing, Printful pricing, and Gumroad review.",
+        "Add Stripe fee and POD margin calculators, then seed ecommerce/POD communities with tracked URLs."
+      ],
+      "stage": "productize-before-growth",
+      "score": 50.7,
+      "measurementWarnings": []
+    },
+    {
+      "site": "ethicaai",
+      "name": "EthicaAI",
+      "market": "global",
+      "lane": "AI ethics research",
+      "posthog": {
+        "events": 64,
+        "pageviews": 17,
+        "users": 17,
+        "lastSeen": "2026-05-16T02:18:29.697000+09:00"
+      },
+      "ga4": {
+        "users7d": 0,
+        "views7d": 0,
+        "sessions7d": 0,
+        "users28d": 0,
+        "views28d": 0
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Productize one practical artifact such as an AI risk checklist or model evaluation worksheet.",
+        "Use research pages for authority, not direct MAU scaling, until activation is measurable."
+      ],
+      "stage": "productize-before-growth",
+      "score": 42.5,
+      "measurementWarnings": []
+    },
+    {
+      "site": "whylab",
+      "name": "WhyLab",
+      "market": "global",
+      "lane": "research/product proof",
+      "posthog": {
+        "events": 24,
+        "pageviews": 11,
+        "users": 11,
+        "lastSeen": "2026-05-14T17:48:03.700000+09:00"
+      },
+      "ga4": {
+        "users7d": 0,
+        "views7d": 0,
+        "sessions7d": 0,
+        "users28d": 6,
+        "views28d": 6
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Treat current pages as credibility assets until a concrete user job is defined.",
+        "Avoid broad MAU acquisition spend before a repeatable tool or decision workflow exists."
+      ],
+      "stage": "productize-before-growth",
+      "score": 29.9,
+      "measurementWarnings": []
+    },
+    {
+      "site": "finstack",
+      "name": "FinStack",
+      "market": "global",
+      "lane": "finance ops",
+      "posthog": {
+        "events": 51,
+        "pageviews": 7,
+        "users": 8,
+        "lastSeen": "2026-05-14T15:50:49.317000+09:00"
+      },
+      "ga4": {
+        "users7d": 1,
+        "views7d": 2,
+        "sessions7d": 1,
+        "users28d": 6,
+        "views28d": 7
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Narrow the product promise to Stripe reconciliation, invoice ops, or SaaS finance templates.",
+        "Publish one practical calculator/template before adding more generic finance posts."
+      ],
+      "stage": "productize-before-growth",
+      "score": 22.9,
+      "measurementWarnings": []
+    },
+    {
+      "site": "aiforge",
+      "name": "AIForge",
+      "market": "global",
+      "lane": "AI builders",
+      "posthog": {
+        "events": 89,
+        "pageviews": 7,
+        "users": 7,
+        "lastSeen": "2026-05-14T11:38:23.651000+09:00"
+      },
+      "ga4": {
+        "users7d": 1,
+        "views7d": 2,
+        "sessions7d": 1,
+        "users28d": 4,
+        "views28d": 5
+      },
+      "gsc": {
+        "propertyListed": true,
+        "sitemapKnown": true,
+        "rows": 0,
+        "opportunityCount": 0,
+        "opportunityImpressions": 0,
+        "topOpportunity": null
+      },
+      "strategy": [
+        "Ship an agent stack selector or evaluation checklist as a tryable tool.",
+        "Distribute through GitHub, AI builder communities, and Product Hunt only after the demo is usable."
+      ],
+      "stage": "productize-before-growth",
+      "score": 20.6,
+      "measurementWarnings": []
+    }
+  ],
+  "summary": {
+    "siteCount": 9,
+    "captureNow": 0,
+    "distributionValidation": 3,
+    "productizeBeforeGrowth": 6,
+    "totalPosthogUsers": 210,
+    "totalPosthogPageviews": 223,
+    "totalGscOpportunityImpressions": 0
+  }
+}

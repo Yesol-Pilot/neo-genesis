@@ -1,0 +1,25 @@
+{
+  "proposed_at": "2026-05-14T06:30:13+00:00",
+  "agent_id": "claude-opus-4-7",
+  "name": "add-task-710a9faa2248",
+  "priority": 5,
+  "diff": {
+    "add_nodes": [
+      {
+        "id": "neo://task/710a9faa2248",
+        "rdf_type": "Task",
+        "label": "v0.5 dual-write E2E smoke test - JSONL + AuraDB 동시",
+        "title": "v0.5 dual-write E2E smoke test - JSONL + AuraDB 동시",
+        "status": "pending",
+        "priority": "P3",
+        "created_at": "2026-05-14T06:30:12+00:00",
+        "updated_at": "2026-05-14T06:30:12+00:00"
+      }
+    ],
+    "add_edges": [],
+    "modify_nodes": [],
+    "remove_node_ids": [],
+    "remove_edge_ids": []
+  },
+  "status": "pending"
+}
