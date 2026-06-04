@@ -1,0 +1,77 @@
+{
+  "version": "playback_verified_20260529_v1",
+  "status": "candidate_config_ready_not_wired",
+  "source_benchmark": "output\\tiktok_aino_reference_research\\reference_benchmark_url_first_playback_verified_20260529.md",
+  "playback_qa": "output\\tiktok_aino_reference_research\\playback_qa_20260529\\playback_qa_results.json",
+  "clean_playback_rows": [
+    "R002",
+    "R004",
+    "R005",
+    "R007",
+    "R008",
+    "R010",
+    "R011",
+    "R012",
+    "R013",
+    "R014",
+    "R015",
+    "R016",
+    "R017",
+    "R018",
+    "R019",
+    "R020"
+  ],
+  "partial_overlay_rows": [
+    "R001",
+    "R003",
+    "R006",
+    "R009"
+  ],
+  "platform_counts": {
+    "tiktok": 10,
+    "youtube_shorts": 10,
+    "instagram_reels": 0,
+    "unknown": 0
+  },
+  "config_use_rule": "Use as transformed pattern guidance only; do not copy claims, real-person visuals, or copyrighted clips.",
+  "cta_patterns": [
+    {
+      "id": "save_for_receipt",
+      "use_when": [
+        "evidence_briefing_75",
+        "misread_correction"
+      ],
+      "text_template": "Save this before the claim gets simplified."
+    },
+    {
+      "id": "share_for_context",
+      "use_when": [
+        "moment_short",
+        "timeline_explainer"
+      ],
+      "text_template": "Share the context, not just the clip."
+    },
+    {
+      "id": "judgment_question",
+      "use_when": [
+        "comment_battle",
+        "satire_character_safe"
+      ],
+      "text_template": "Which standard should be applied here?"
+    },
+    {
+      "id": "next_part_follow",
+      "use_when": [
+        "timeline_explainer",
+        "evidence_briefing_75"
+      ],
+      "text_template": "Next part tracks what changed after this."
+    }
+  ],
+  "forbidden_cta": [
+    "vote_for_candidate",
+    "attack_identity_group",
+    "spam_follow_now",
+    "fight_in_comments"
+  ]
+}

@@ -60,17 +60,17 @@
             "public": [
                 "D:/00.test/neo-genesis",
                 "D:/00.test/portfolio",
-                "D:/00.test/landing_page",
-                "D:/00.test/profile_repo"
+                "D:/00.test/002.products-sbu/landing_page",
+                "D:/00.test/003.portfolio-career/profile_repo"
             ],
             "internal": [
-                "D:/00.test/work",
+                "D:/00.test/005.client-work/work",
                 "D:/00.test/project_yesol",
                 "D:/AntiGravity",
-                "D:/00.test/WebPilot_Engine",
-                "D:/00.test/multiverse-creature-lab",
+                "D:/00.test/007.infra-tools/WebPilot_Engine",
+                "D:/00.test/006.games-labs/multiverse-creature-lab",
                 "D:/00.test/pay-for-me",
-                "D:/00.test/2dlivegame",
+                "D:/00.test/006.games-labs/2dlivegame",
                 "D:/00.test/PAPER"
             ],
             "sensitive": [

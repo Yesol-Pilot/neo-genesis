@@ -312,20 +312,51 @@ def _get_agent_tools(agent_id: str) -> list:
         remote_vercel_deploy, remote_npm_build_deploy, remote_batch_exec,
         get_system_status, get_today_schedule, read_recent_logs,
         run_pc_command, check_environment, run_daemon_job,
+        list_callable_tools, refresh_callable_tools_registry,
+        list_external_tool_capabilities, refresh_external_tool_capability_registry,
+        list_agent_tool_capabilities,
     )
-    from src.core.tools.calendar_tools import (
-        calendar_list_events, calendar_create_event,
-        calendar_delete_event, calendar_today,
-    )
+    def _unavailable_tool(name: str, message: str):
+        def _tool(*args, **kwargs) -> str:
+            return json.dumps({"status": "unavailable", "tool": name, "error": message}, ensure_ascii=False)
+
+        _tool.__name__ = name
+        _tool.__doc__ = message
+        return _tool
+
+    try:
+        from src.core.tools.calendar_tools import (
+            calendar_list_events, calendar_create_event,
+            calendar_delete_event, calendar_today,
+        )
+    except Exception as e:
+        logger.warning(f"[Router] calendar_tools unavailable: {e}")
+        calendar_list_events = _unavailable_tool("calendar_list_events", "calendar_tools is not installed")
+        calendar_create_event = _unavailable_tool("calendar_create_event", "calendar_tools is not installed")
+        calendar_delete_event = _unavailable_tool("calendar_delete_event", "calendar_tools is not installed")
+        calendar_today = _unavailable_tool("calendar_today", "calendar_tools is not installed")
     from src.core.tools.memory_tools import (
         save_to_memory, recall_from_memory,
         graph_add_knowledge, graph_search, graph_status,
         rag_index, rag_search, rag_status,
     )
     from src.core.tools.comfyui_tools import (
-        comfyui_generate_image, comfyui_status, comfyui_list_models,
+        comfyui_generate_image, comfyui_status, comfyui_stop,
     )
-    from src.core.tools.media_tools import generate_image
+    try:
+        from src.core.tools.media_tools import generate_image
+    except Exception as e:
+        logger.warning(f"[Router] media_tools unavailable, Gemini image tool skipped: {e}")
+
+        def generate_image(prompt: str, *args, **kwargs) -> str:
+            return json.dumps(
+                {
+                    "status": "unavailable",
+                    "error": "media_tools is not installed; use comfyui_generate_image",
+                    "prompt": prompt[:120],
+                },
+                ensure_ascii=False,
+            )
 
     TOOL_MAP = {
         "pc_control": [
@@ -344,6 +375,9 @@ def _get_agent_tools(agent_id: str) -> list:
             # 자율 컨텍스트 수집 (코드 검색 → Claude에게 전달)
             rag_search, recall_from_memory,
             remote_pc_file_read, list_connected_pcs,
+            list_callable_tools, refresh_callable_tools_registry,
+            list_external_tool_capabilities, refresh_external_tool_capability_registry,
+            list_agent_tool_capabilities,
         ],
         "web_search": [
             remote_web_search, remote_web_crawl,
@@ -351,7 +385,9 @@ def _get_agent_tools(agent_id: str) -> list:
         "system_monitor": [
             get_system_status, get_today_schedule, read_recent_logs,
             run_pc_command, check_environment, run_daemon_job,
-            list_connected_pcs,
+            list_connected_pcs, list_callable_tools, refresh_callable_tools_registry,
+            list_external_tool_capabilities, refresh_external_tool_capability_registry,
+            list_agent_tool_capabilities,
         ],
         "calendar": [
             calendar_list_events, calendar_create_event,
@@ -362,6 +398,7 @@ def _get_agent_tools(agent_id: str) -> list:
             generate_image,           # Gemini 이미지 API (일반/비NSFW, 빠름)
             comfyui_generate_image,   # ComfyUI 로컬 (NSFW/애니/특수)
             comfyui_status,
+            comfyui_stop,
         ],
         "knowledge": [
             save_to_memory, recall_from_memory,

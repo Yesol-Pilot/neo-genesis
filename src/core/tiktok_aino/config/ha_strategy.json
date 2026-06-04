@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "objective": "Run AiNo TikTok generation, upload preparation, scheduling evidence, and monitoring continuously from owner-controlled personal infrastructure only.",
+  "continuous_days_default": 365,
+  "minimum_continuous_days": 356,
+  "timezone": "Asia/Seoul",
+  "control_tower": {
+    "node_id": "desktop-home",
+    "ssh_target": "",
+    "runtime_dir": "D:/00.test/neo-genesis",
+    "state_dir": "output/tiktok_aino_ha_state",
+    "remote_enabled": false,
+    "notes": "YSH server is retired. Company assets are not allowed. Keep the queue local until a personal host, Oracle Cloud VM, or yesol-asus is explicitly promoted as a replacement control host."
+  },
+  "local_state_dir": "output/tiktok_aino_ha_state",
+  "artifact_cache_dir": "output/tiktok_aino_worker_cache",
+  "rolling_plan_days": 7,
+  "controller_interval_seconds": 900,
+  "worker_interval_seconds": 60,
+  "upload_claim_lead_hours": 216,
+  "upload_past_grace_hours": 24,
+  "default_upload_mode": "schedule",
+  "browser_auth": {
+    "profile_strategy": "owner_google_profile",
+    "login_method": "google_session",
+    "profile_dir_env": "AINO_CHROME_PROFILE_DIR",
+    "default_windows_profile_dir": "%LOCALAPPDATA%\\NeoGenesis\\TikTokAiNoChrome",
+    "notes": "Use the owner-approved Chrome profile that is already signed in with Google/TikTok. Do not fall back to password login unless the owner explicitly asks in-session."
+  },
+  "batch_schedule_max_count": 27,
+  "batch_schedule_window_days": 9,
+  "generate_claim_lead_hours": 216,
+  "monitor_claim_lead_hours": 720,
+  "monitor_daily_rollup_time_local": "23:30",
+  "monitor_cadence_hours": [24],
+  "duplicate_guard": {
+    "enabled": true,
+    "active_statuses": [
+      "planned",
+      "generating",
+      "generated",
+      "upload_retry",
+      "uploading",
+      "upload_prepared",
+      "scheduled",
+      "published",
+      "monitoring",
+      "monitoring_complete"
+    ],
+    "reason": "duplicate_content"
+  },
+  "lease_ttl_seconds": {
+    "generate": 7200,
+    "upload": 1800,
+    "monitor": 600
+  },
+  "max_attempts": {
+    "generate": 3,
+    "upload": 5,
+    "monitor": 20
+  },
+  "kill_switch_env": "AINO_HA_ENABLED",
+  "posting_gate_env": "AINO_UPLOAD_AUTOMATION_ENABLED",
+  "nodes": [
+    {
+      "node_id": "desktop-home",
+      "priority": 10,
+      "tier": "local_control_and_upload",
+      "platform": "windows",
+      "capabilities": ["control", "generate", "upload_browser", "monitor", "artifact_source", "artifact_cache"],
+      "notes": "Local creator workstation and current queue owner. Preferred browser uploader while online."
+    },
+    {
+      "node_id": "yesol-asus",
+      "priority": 20,
+      "tier": "upload_worker",
+      "platform": "windows",
+      "capabilities": ["upload_browser", "monitor", "artifact_cache"],
+      "notes": "Personal ASUS failover browser worker after SSH/auth verification."
+    },
+    {
+      "node_id": "oracle-cloud-personal",
+      "priority": 30,
+      "tier": "future_control_candidate",
+      "platform": "linux",
+      "capabilities": ["control", "generate", "monitor", "artifact_source"],
+      "notes": "Personal Oracle Cloud candidate only. Do not enable until account ownership, SSH, secrets, and cost boundaries are verified."
+    },
+    {
+      "node_id": "vertex-ai-personal",
+      "priority": 40,
+      "tier": "future_model_backend",
+      "platform": "managed_api",
+      "capabilities": ["model_inference", "image_generation_fallback"],
+      "notes": "Personal Google Cloud/Vertex AI candidate for generation only. It is not a browser upload worker."
+    }
+  ],
+  "terminal_statuses": ["scheduled", "published", "monitoring_complete", "blocked", "cancelled", "needs_revision", "upload_prepared"],
+  "safe_upload_modes": ["prepare", "schedule", "publish", "dry-run"],
+  "security_blockers": [
+    "captcha",
+    "security check",
+    "unusual activity",
+    "robot",
+    "보안 확인",
+    "비정상",
+    "자동화",
+    "인증"
+  ]
+}

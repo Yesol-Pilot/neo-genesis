@@ -1,0 +1,583 @@
+{
+  "default_topic": {
+    "title": "누가 이들을 교실로 보냈습니까",
+    "angle": "공교육 침투 의혹을 카드뉴스와 시네마틱 영상으로 재구성",
+    "slot": "11:20 evidence",
+    "target_duration_sec": 75,
+    "claims": [
+      {
+        "text": "대표님 제공 참고 대화에는 리박스쿨 홍보 영상, 학생 인터뷰, 늘봄학교 강사 파견 의혹, 교육부·서울교대 조치가 핵심 소재로 정리돼 있다.",
+        "source_ids": [
+          "owner_reference_reboxschool_chat"
+        ]
+      },
+      {
+        "text": "Creator Rewards의 기본은 시청 지속시간, 검색 가치, 참여율을 핵심 평가 축으로 삼는다.",
+        "source_ids": [
+          "tiktok_creator_rewards_newsroom",
+          "tiktok_creator_rewards_how_rewards_work"
+        ]
+      },
+      {
+        "text": "한국 약관 기준 적격 영상은 최소 1분 이상이어야 하고 인위적 지표 조작은 금지된다.",
+        "source_ids": [
+          "tiktok_creator_rewards_newsroom",
+          "tiktok_creator_rewards_kr_terms"
+        ]
+      },
+      {
+        "text": "leftaino 공개 표본에서 강한 포맷은 날카로운 질문형 썸네일, 단계적 카드뉴스, AI 분석 프레임, 댓글 유도형 결말이었다.",
+        "source_ids": [
+          "leftaino_public_analysis",
+          "owner_reference_reboxschool_chat"
+        ]
+      }
+    ]
+  },
+  "copy_normalization": {
+    "short_body_additions": {
+      "last": [
+        "댓글로 기준을 남겨주세요.",
+        "더 많은 사람이 확인해야 합니다."
+      ],
+      "default": [
+        "판단 기준을 더 좁혀 봅니다.",
+        "남은 쟁점을 분리합니다."
+      ]
+    },
+    "short_headline_suffixes": {
+      "last": ", 의견 남기기?",
+      "first": ", 핵심 질문",
+      "default": ", 전말 보기"
+    },
+    "last_body_required_term": "댓글",
+    "last_body_append": "댓글로 기준을 남겨주세요.",
+    "last_body_short_append": "어디까지 함께 확인할까요?"
+  },
+  "post_metadata": {
+    "title_min_chars": 8,
+    "title_max_chars": 34,
+    "caption_body_min_chars": 120,
+    "caption_body_max_chars": 220,
+    "caption_total_max_chars": 360,
+    "hashtags_min": 8,
+    "hashtags_max": 12,
+    "overflow_suffix": "",
+    "ellipsis_markers": [
+      "...",
+      "…"
+    ],
+    "title_templates": [
+      "{hook_headline}",
+      "{primary_term}, {hook_headline}",
+      "{primary_term}, 누가 책임지나?",
+      "{primary_term}, 프레임부터 보자"
+    ],
+    "title_short_suffixes": [
+      "누가 책임지나?",
+      "프레임부터 보자"
+    ],
+    "caption_body_template": "{post_title}\n\n{topic_title}. {case_thesis} 확인된 보도와 반론을 같이 놓고 봅니다.\n\n{cta_sentence}",
+    "caption_expansion_sentences": [
+      "보도 제목만 따라가지 않고, 누가 프레임을 잡는지까지 보겠습니다.",
+      "확인된 근거와 아직 남은 책임선을 나눠 보는 게 중요합니다."
+    ],
+    "post_body_template": "{topic_title}. {case_thesis} 확인된 것, 반론 가능성, 남은 책임을 분리했습니다.",
+    "pinned_comment_template": "{comment_trigger} 반론·공유도 받습니다. 팔로우하면 다음 편에서 이어갑니다.",
+    "cta_sentence": "반론까지 보고, 당신은 어느 쪽인지 댓글로 남겨주세요.",
+    "claim_focus_template": "{primary_term} 보도에서 반복된 쟁점",
+    "question_focus_default": "어떤 근거가 확인됐고 무엇이 아직 비어 있는가",
+    "hashtag_prefix": "#",
+    "hashtag_groups": {
+      "base": [
+        "정치",
+        "사회이슈",
+        "뉴스",
+        "시사"
+      ],
+      "format": [
+        "팩트체크",
+        "뉴스정리",
+        "이슈정리"
+      ],
+      "audience": [
+        "공정",
+        "민주주의"
+      ],
+      "brand": [
+        "올바른AiNo"
+      ]
+    },
+    "conditional_hashtags": [
+      {
+        "if_topic_contains_any": [
+          "김건희"
+        ],
+        "tags": [
+          "김건희"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "윤석열"
+        ],
+        "tags": [
+          "윤석열"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "공천개입"
+        ],
+        "tags": [
+          "공천개입"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "명태균"
+        ],
+        "tags": [
+          "명태균"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "김영선"
+        ],
+        "tags": [
+          "김영선"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "국민의힘"
+        ],
+        "tags": [
+          "국민의힘"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "특검",
+          "위증",
+          "구형",
+          "징역",
+          "선고",
+          "한덕수"
+        ],
+        "tags": [
+          "특검",
+          "위증",
+          "법원"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "5·18",
+          "5.18",
+          "광주",
+          "스타벅스"
+        ],
+        "tags": [
+          "518민주화운동",
+          "광주",
+          "민주주의"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "일베",
+          "혐오",
+          "조롱",
+          "노무현",
+          "추도식"
+        ],
+        "tags": [
+          "노무현",
+          "혐오표현",
+          "민주주의"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "검찰",
+          "경찰",
+          "수사",
+          "무혐의",
+          "불송치",
+          "송치"
+        ],
+        "tags": [
+          "검찰",
+          "경찰",
+          "수사",
+          "무혐의"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "국회",
+          "대통령",
+          "정부",
+          "정책"
+        ],
+        "tags": [
+          "국회",
+          "대통령",
+          "정부정책"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "교육",
+          "학교",
+          "늘봄학교",
+          "리박스쿨"
+        ],
+        "tags": [
+          "교육",
+          "학교",
+          "늘봄학교",
+          "리박스쿨"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "노동",
+          "노조",
+          "인권"
+        ],
+        "tags": [
+          "노동",
+          "노조",
+          "인권"
+        ]
+      }
+    ]
+  },
+  "reward_deep_format": {
+    "source_count_min": 2,
+    "duration_floor_sec": 65,
+    "post_body_template": "{topic_title} 쟁점을 1분 이상 흐름으로 정리했습니다. 확인된 보도, 남은 질문, 책임 기준을 나눠 봅니다.",
+    "pinned_comment_template": "이 사안에서 가장 중요한 기준은 무엇인가요? 1번 전말, 2번 근거, 3번 책임 중 하나를 댓글로 남겨주세요. 팔로우하면 다음 후속편에 반영하겠습니다.",
+    "scene_updates": {
+      "0": {
+        "body_template": "{hook_headline} 오늘은 짧은 분노가 아니라 1분 동안 전말, 근거, 책임을 순서대로 나눠 보겠습니다.",
+        "on_screen_template": "{primary_term}, 1분 전말 정리"
+      },
+      "2": {
+        "body_template": "첫 보도만으로 단정하지 않겠습니다. 같은 쟁점이 다른 출처에서 어떻게 반복됐는지 함께 보겠습니다.",
+        "on_screen_text": "출처를 나눠 보기"
+      },
+      "4": {
+        "body_template": "수익화보다 중요한 건 신뢰입니다. 확인된 사실, 아직 확인이 필요한 주장, 책임 기준을 분리합니다.",
+        "on_screen_text": "사실, 주장, 책임"
+      },
+      "7": {
+        "body_template": "정리하면 세 가지입니다. 무엇이 확인됐는가, 무엇이 아직 비어 있는가, 어떤 책임 기준이 남았는가입니다.",
+        "on_screen_text": "책임 기준 남기기"
+      },
+      "8": {
+        "body_template": "당신은 이 사안에서 어떤 기준을 먼저 봐야 한다고 생각하나요? 1번 전말, 2번 근거, 3번 책임. 댓글로 남겨주세요.",
+        "on_screen_text": "1 전말 2 근거 3 책임"
+      }
+    }
+  },
+  "hot_topic_script": {
+    "variant_id": "hot_issue_check",
+    "title_max_chars": 26,
+    "caption_max_chars": 150,
+    "hashtag_limit": 6,
+    "base_hashtags": [
+      "정치",
+      "사회이슈",
+      "팩트체크",
+      "공정",
+      "올바른AiNo"
+    ],
+    "conditional_hashtags": [
+      {
+        "if_topic_contains_any": [
+          "교육",
+          "학교"
+        ],
+        "insert_at": 1,
+        "tag": "교육"
+      },
+      {
+        "if_topic_contains_any": [
+          "국회"
+        ],
+        "insert_at": 1,
+        "tag": "국회"
+      }
+    ],
+    "caption_template": "{hook_headline} {case_thesis} 반론까지 놓고 어디에 설지 묻습니다. {hashtags_text}",
+    "post_body_template": "{topic_title}. {case_thesis} 확인된 보도, 반론 가능성, 남은 책임선을 분리합니다.",
+    "pinned_comment": "{comment_trigger} 반론도 받습니다. 팔로우하면 다음 편에서 이어갑니다.",
+    "scenes": [
+      {
+        "scene_id": 1,
+        "duration_sec": 8,
+        "title": "Hot Hook",
+        "body": "{hook_headline} 오늘 말할 건 {reference_label}입니다. {case_thesis}",
+        "body_template": "{hook_headline} 오늘 말할 건 {reference_label}입니다. {case_thesis}",
+        "visual_role": "hook",
+        "visual_source": "topic_title",
+        "on_screen_template": "{hook_headline}"
+      },
+      {
+        "scene_id": 2,
+        "duration_sec": 9,
+        "title": "What Happened",
+        "claim_index": 0,
+        "claim_body_template": "{what_happened}",
+        "fallback_body": "도화선은 이 보도입니다. 어떤 표현이 사람들을 멈춰 세웠고, 프레임이 어디로 움직였는지 먼저 봅니다.",
+        "visual_role": "why_now",
+        "visual_source": "claim",
+        "on_screen_text": "왜 지금 커졌나"
+      },
+      {
+        "scene_id": 3,
+        "duration_sec": 9,
+        "title": "Conflict Point",
+        "claim_index": 1,
+        "claim_body_template": "{why_now} {conflict_line}",
+        "fallback_body": "{conflict_line} 단순 해프닝인지, 권한과 책임의 문제인지 갈라지는 대목입니다.",
+        "visual_role": "criteria",
+        "visual_source": "claim",
+        "on_screen_text": "누가 프레임을 잡나"
+      },
+      {
+        "scene_id": 4,
+        "duration_sec": 9,
+        "title": "Receipt",
+        "claim_index": 2,
+        "claim_body_template": "{fact_anchor_line}",
+        "fallback_body": "여기서 필요한 건 분노가 아니라 영수증입니다. 공개 보도와 해석, 남은 설명 요구를 분리합니다.",
+        "visual_role": "evidence",
+        "visual_source": "claim",
+        "on_screen_text": "확인된 영수증"
+      },
+      {
+        "scene_id": 5,
+        "duration_sec": 8,
+        "title": "Missing Line",
+        "body": "{missing_line} {viewer_identity_line}",
+        "body_template": "{missing_line} {viewer_identity_line}",
+        "visual_role": "responsibility",
+        "visual_source": "topic_title",
+        "on_screen_text": "아직 비어 있다"
+      },
+      {
+        "scene_id": 6,
+        "duration_sec": 8,
+        "title": "Check",
+        "claim_index": 3,
+        "claim_body_template": "반론도 같이 봐야 합니다. {counterpoint_focus}. 단정 전에 남은 설명과 보도를 분리합니다.",
+        "fallback_body": "확인된 보도와 아직 확인이 필요한 반론을 분리합니다. 그래야 다음 보도에 흔들리지 않습니다.",
+        "visual_role": "verification",
+        "visual_source": "claim",
+        "on_screen_text": "반론까지 분리"
+      },
+      {
+        "scene_id": 7,
+        "duration_sec": 8,
+        "title": "Check Again",
+        "body": "남은 질문은 {research_question} 여기서 댓글이 갈립니다. {share_line}",
+        "body_template": "남은 질문은 {research_question} 여기서 댓글이 갈립니다. {share_line}",
+        "visual_role": "verification",
+        "visual_source": "topic_title",
+        "on_screen_text": "단정 전 체크"
+      },
+      {
+        "scene_id": 8,
+        "duration_sec": 8,
+        "title": "Pattern Review",
+        "body": "{next_watch_line} 이 논쟁은 공유할수록 반론이 선명해집니다.",
+        "body_template": "{next_watch_line} 이 논쟁은 공유할수록 반론이 선명해집니다.",
+        "visual_role": "criteria",
+        "visual_source": "topic_title",
+        "on_screen_text": "다음 보도 포인트"
+      },
+      {
+        "scene_id": 9,
+        "duration_sec": 8,
+        "title": "CTA",
+        "body": "{comment_trigger} 댓글로 번호만 남겨주세요. 올바른 AiNo가 다음 검증 순서에 반영하겠습니다.",
+        "body_template": "{comment_trigger} 댓글로 번호만 남겨주세요. 올바른 AiNo가 다음 검증 순서에 반영하겠습니다.",
+        "visual_role": "cta",
+        "visual_source": "topic_title",
+        "on_screen_text": "댓글로 판정"
+      }
+    ]
+  },
+  "default_script": {
+    "variant_id": "evidence_expose",
+    "caption": "교실까지 들어온 이념 교육 의혹. 누가 이들을 학교로 보냈을까요? #리박스쿨 #늘봄학교 #공교육 #정치교육 #AI분석 #올바른AiNo",
+    "hashtags": [
+      "리박스쿨",
+      "늘봄학교",
+      "공교육",
+      "정치교육",
+      "AI분석",
+      "올바른AiNo"
+    ],
+    "post_title": "아이들 교실의 태극기",
+    "post_body": "‘리박스쿨’ 강사 파견 의혹. 누가 이들을 학교로 보냈을까요?",
+    "pinned_comment": "교실까지 들어온 이념 교육, 이대로 괜찮을까요? 팔로우하고 함께 지켜봐 주세요. 댓글과 공유도 큰 힘이 됩니다.",
+    "scenes": [
+      {
+        "scene_id": 1,
+        "duration_sec": 8,
+        "title": "Thumbnail",
+        "body": "아이들 손에 태극기를 쥐어준 건 누구였을까요. 오늘은 한 교육단체가 교실까지 들어온 과정을 기록으로 보겠습니다.",
+        "visual": "clear close-up of a small folded South Korean national flag lying on a worn wooden elementary classroom desk, blurred chalkboard and windows behind it, no hands, no children",
+        "on_screen_text": "아이들 손에 쥐어진 태극기"
+      },
+      {
+        "scene_id": 2,
+        "duration_sec": 9,
+        "title": "Inciting Quote",
+        "body": "보수 집회 현장에서 사회자가 물었습니다. 역사교육을 어디서 배웠냐는 질문에, 학생은 리박스쿨이라고 답했습니다.",
+        "visual": "anonymous handheld microphone silhouette in a night civic gathering, crowd and architecture heavily out of focus, no faces, no readable banners",
+        "on_screen_text": "집회에서 나온 이름"
+      },
+      {
+        "scene_id": 3,
+        "duration_sec": 10,
+        "title": "Who",
+        "body": "리박스쿨은 이승만, 박정희 이름을 딴 보수 교육단체로 알려졌습니다. 대표와 단체 활동을 둘러싼 의혹도 이어졌습니다.",
+        "visual": "old office desk with face-down documents and a phone, anonymized figure silhouette near a window, no readable papers",
+        "on_screen_text": "리박스쿨은 어떤 단체인가"
+      },
+      {
+        "scene_id": 4,
+        "duration_sec": 9,
+        "title": "School Entry",
+        "body": "문제는 이 단체가 늘봄학교 명목으로 초등학교 교실까지 들어왔다는 점입니다. 보도에는 서울 시내 10곳이 언급됐습니다.",
+        "visual": "empty elementary classroom after hours, open door, cinematic hallway light, blank bulletin board, no readable posters",
+        "on_screen_text": "초등학교 교실까지 들어왔다"
+      },
+      {
+        "scene_id": 5,
+        "duration_sec": 9,
+        "title": "Evidence",
+        "body": "교육부는 대표를 정책자문위원에서 해촉했고, 서울교대는 협약 취소와 체료비 환수 통보를 했습니다.",
+        "visual": "quiet institutional hallway with sealed folders and stamped-looking papers turned away from camera, no readable text",
+        "on_screen_text": "해촉, 협약 취소, 환수 통보"
+      },
+      {
+        "scene_id": 6,
+        "duration_sec": 9,
+        "title": "Question",
+        "body": "국가사업으로 포장된 정치교육 의혹. 이게 가능했다면, 우리는 어디서부터 확인해야 할까요.",
+        "visual": "university corridor with agreement folders on a table, papers blurred or face-down, dramatic side light, no readable text",
+        "on_screen_text": "국가사업으로 포장된 정치교육?"
+      },
+      {
+        "scene_id": 7,
+        "duration_sec": 8,
+        "title": "Concern",
+        "body": "학부모들은 아이들이 공부하는 장소에 편향된 정치교육이 들어오는 것 자체가 우려스럽다고 말합니다.",
+        "visual": "rainy evening outside an anonymous school entrance, two parent silhouettes with umbrellas far from camera, no faces, no building signage, no readable text",
+        "on_screen_text": "학부모들의 우려"
+      },
+      {
+        "scene_id": 8,
+        "duration_sec": 8,
+        "title": "Policy Line",
+        "body": "다만 의혹은 의혹으로, 확인된 조치는 확인된 조치로 나눠 말해야 합니다. 올바른 AiNo는 그 선을 지키겠습니다.",
+        "visual": "dark newsroom desk with blurred source cards, face-down papers, red review pencil, cinematic overhead light, no readable text",
+        "on_screen_text": "의혹은 의혹으로, 조치는 조치로"
+      },
+      {
+        "scene_id": 9,
+        "duration_sec": 8,
+        "title": "CTA",
+        "body": "우리는 묻습니다. 도대체 누가 이들을 교실로 보냈습니까. 댓글과 공유로 더 많은 사람이 확인하게 해주세요.",
+        "visual": "empty classroom doorway, strong backlight, unresolved question mood",
+        "on_screen_text": "누가 이들을 교실로 보냈습니까"
+      }
+    ]
+  },
+  "variants": {
+    "strong_hook": {
+      "scene_updates": {
+        "0": {
+          "title": "Hard Hook",
+          "body": "교실 책상 위에 태극기가 놓였습니다. 문제는 누가, 어떤 말과 함께 아이들 앞에 섰는지입니다. 오늘은 그 과정을 기록으로 보겠습니다.",
+          "on_screen_text": "누가 아이들 교실로 들어왔나"
+        },
+        "1": {
+          "body": "집회 현장에서 나온 질문은 단순했습니다. 어디서 배웠나요. 답은 한 단체의 이름으로 이어졌습니다.",
+          "on_screen_text": "\"어디서 배웠나요?\""
+        },
+        "8": {
+          "body": "여기서 끝낼 문제가 아닙니다. 누가 아이들 교실로 들어왔는지, 더 많은 사람이 확인해야 합니다. 댓글로 당신의 기준을 남겨주세요.",
+          "on_screen_text": "이걸 그냥 넘겨도 될까요?"
+        }
+      },
+      "script_updates": {
+        "title": "누가 아이들 교실로 들어왔나",
+        "caption": "교실까지 들어온 정치교육 의혹. 누가 아이들 앞에 섰는지 기록으로 확인했습니다. #리박스쿨 #초등학교 #정치교육 #팩트체크 #올바른AiNo",
+        "post_title": "누가 아이들 교실로 들어왔나",
+        "post_body": "초등학교 교실까지 이어진 정치교육 의혹. 기록으로 확인해야 합니다.",
+        "pinned_comment": "이 문제, 어디까지 확인해야 할까요? 팔로우하고 다음 검증도 같이 봐주세요. 댓글 기준도 남겨주세요."
+      }
+    },
+    "empathy_parent": {
+      "scene_updates": {
+        "0": {
+          "title": "Parent Hook",
+          "body": "아이를 학교에 보낸 부모라면 이 장면 앞에서 멈출 수밖에 없습니다. 교실은 누구의 주장보다 먼저 아이들의 공간입니다.",
+          "on_screen_text": "교실은 누구의 공간인가"
+        },
+        "2": {
+          "body": "리박스쿨은 특정 전직 대통령 이름을 딴 보수 교육단체로 알려졌습니다. 그래서 더 조심스럽게, 기록과 조치를 나눠 봐야 합니다.",
+          "on_screen_text": "감정 말고 기록으로 보자"
+        },
+        "8": {
+          "body": "우리는 묻겠습니다. 아이들이 배우는 공간에 어떤 기준이 필요할까요. 공감한다면 공유하고, 다음 검증을 위해 팔로우해주세요.",
+          "on_screen_text": "아이들 앞의 기준은 무엇인가"
+        }
+      },
+      "script_updates": {
+        "title": "교실은 누구의 공간인가",
+        "caption": "아이들이 배우는 공간에 필요한 기준을 묻습니다. 감정이 아니라 기록으로 보겠습니다. #교육 #초등학교 #학부모 #정치교육 #팩트체크",
+        "post_title": "교실은 누구의 공간인가",
+        "post_body": "부모라면 멈춰서 봐야 할 학교 정치교육 의혹입니다.",
+        "pinned_comment": "아이들 앞의 기준, 어디까지여야 할까요? 댓글로 남기고 다음 검증도 팔로우로 확인해주세요."
+      }
+    },
+    "fact_pressure": {
+      "scene_updates": {
+        "0": {
+          "title": "Fact Pressure",
+          "body": "의혹은 감정으로 끝나면 안 됩니다. 해촉, 협약 취소, 환수 통보까지 이어졌다면 이제 질문은 하나입니다. 왜 가능했을까요.",
+          "on_screen_text": "해촉까지 갔다면 질문은 하나"
+        },
+        "4": {
+          "body": "교육부는 대표를 정책자문위원에서 해촉했고, 서울시는 협약 취소와 자료비 환수 통보를 했습니다. 의혹이 아니라 조치가 말합니다.",
+          "on_screen_text": "의혹 다음엔 조치가 남는다"
+        },
+        "5": {
+          "body": "국가사업으로 포장된 정치교육 의혹. 가능했다면, 다음에는 누가 막을 수 있을까요. 이 질문을 놓치면 반복됩니다.",
+          "on_screen_text": "다음엔 누가 막을까"
+        },
+        "8": {
+          "body": "의혹보다 중요한 건 재발을 막는 기준입니다. 이 사안이 그냥 넘어가도 된다고 보시나요. 댓글과 공유로 기준을 남겨주세요.",
+          "on_screen_text": "그냥 넘어가도 될까요?"
+        }
+      },
+      "script_updates": {
+        "title": "해촉까지 갔다면 질문은 하나",
+        "caption": "해촉, 협약 취소, 환수 통보까지 이어진 사안. 의혹보다 중요한 건 재발 방지 기준입니다. #리박스쿨 #교육부 #서울시교육청 #정치교육 #팩트체크",
+        "post_title": "해촉까지 갔다면 질문은 하나",
+        "post_body": "조치가 있었다면 다음 질문은 왜 가능했는가입니다.",
+        "pinned_comment": "이 사안, 그냥 넘어가도 된다고 보시나요? 팔로우하고 다음 검증까지 같이 확인해주세요."
+      }
+    }
+  }
+}

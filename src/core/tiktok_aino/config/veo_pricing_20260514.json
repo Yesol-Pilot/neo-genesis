@@ -1,0 +1,41 @@
+{
+  "verified_at": "2026-05-14",
+  "currency": "USD",
+  "source_urls": [
+    "https://cloud.google.com/vertex-ai/generative-ai/pricing",
+    "https://cloud.google.com/vertex-ai/generative-ai/docs/models/veo/3-1-generate",
+    "https://cloud.google.com/vertex-ai/generative-ai/docs/video/generate-videos-from-text"
+  ],
+  "prices_per_second": {
+    "veo-3.1-generate-001": {
+      "video": {
+        "720p": 0.20,
+        "1080p": 0.20
+      },
+      "video_audio": {
+        "720p": 0.40,
+        "1080p": 0.40
+      }
+    },
+    "veo-3.1-fast-generate-001": {
+      "video": {
+        "720p": 0.08,
+        "1080p": 0.10
+      },
+      "video_audio": {
+        "720p": 0.10,
+        "1080p": 0.12
+      }
+    },
+    "veo-3.1-lite-generate-001": {
+      "video": {
+        "720p": 0.03,
+        "1080p": 0.05
+      },
+      "video_audio": {
+        "720p": 0.05,
+        "1080p": 0.08
+      }
+    }
+  }
+}

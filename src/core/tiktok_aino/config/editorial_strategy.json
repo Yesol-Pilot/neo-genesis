@@ -1,0 +1,117 @@
+{
+  "version": "editorial_plan_v1",
+  "default_tone": "단정적 분노가 아니라 차분한 긴장감",
+  "default_comment_question": "1 전말, 2 근거, 3 책임 중 무엇부터 봐야 한다고 생각하나요?",
+  "global_must_avoid": [
+    "범죄 확정 표현",
+    "실존 인물 얼굴 생성",
+    "정당 로고 생성",
+    "투표 행동 유도",
+    "가짜 공식 문서 또는 가짜 뉴스 화면"
+  ],
+  "angle_rules": [
+    {
+      "angle_id": "timeline_explainer",
+      "label": "전말형",
+      "terms": [
+        "압수수색",
+        "특검",
+        "수사",
+        "조사",
+        "송치",
+        "판결",
+        "항소심"
+      ],
+      "core_question_template": "{topic_title}에서 무엇이 먼저 확인됐고 무엇이 아직 남았나?",
+      "viewer_promise_template": "1분 안에 전말, 근거, 책임 기준을 순서대로 분리한다.",
+      "must_include": [
+        "전말",
+        "근거",
+        "책임"
+      ]
+    },
+    {
+      "angle_id": "evidence_gap",
+      "label": "근거·빈칸형",
+      "terms": [
+        "의혹",
+        "해명",
+        "무혐의",
+        "불송치",
+        "오해",
+        "진실"
+      ],
+      "core_question_template": "{topic_title}에서 확인된 근거와 비어 있는 지점은 무엇인가?",
+      "viewer_promise_template": "확인된 사실, 아직 확인이 필요한 주장, 책임 기준을 분리한다.",
+      "must_include": [
+        "근거",
+        "빈칸",
+        "반론"
+      ]
+    },
+    {
+      "angle_id": "accountability_line",
+      "label": "책임선형",
+      "terms": [
+        "대통령실",
+        "감사원",
+        "국회",
+        "검찰",
+        "경찰",
+        "정부",
+        "책임"
+      ],
+      "core_question_template": "{topic_title}에서 누가 무엇을 설명해야 하나?",
+      "viewer_promise_template": "기관, 권한, 책임 라인을 한 장씩 분리해 보여준다.",
+      "must_include": [
+        "기관",
+        "권한",
+        "책임"
+      ]
+    },
+    {
+      "angle_id": "three_criteria",
+      "label": "기준 3개형",
+      "terms": [
+        "정책",
+        "민생",
+        "입법",
+        "공약",
+        "교육",
+        "노동",
+        "복지"
+      ],
+      "core_question_template": "{topic_title}을 어떤 기준으로 봐야 하나?",
+      "viewer_promise_template": "세 가지 기준으로 찬반보다 먼저 볼 지점을 정리한다.",
+      "must_include": [
+        "기준",
+        "비교",
+        "판단"
+      ]
+    },
+    {
+      "angle_id": "counterpoint_review",
+      "label": "반론검토형",
+      "terms": [
+        "선거",
+        "대선",
+        "투표",
+        "여론조사",
+        "후보",
+        "개표"
+      ],
+      "core_question_template": "{topic_title}에서 단정 전에 확인해야 할 반론은 무엇인가?",
+      "viewer_promise_template": "선거·시민 정보는 출처, 조사일, 확인 전 보류 지점을 먼저 분리한다.",
+      "must_include": [
+        "출처",
+        "반론",
+        "확인"
+      ],
+      "extra_must_avoid": [
+        "투표 방법 단정",
+        "후보 또는 정당 선택 유도",
+        "여론조사 출처·조사일 누락"
+      ]
+    }
+  ]
+}

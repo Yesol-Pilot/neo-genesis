@@ -1,0 +1,181 @@
+{
+  "version": "keyword_research_v1",
+  "base_queries": [
+    "한국 정치",
+    "국회",
+    "대통령실",
+    "특검",
+    "이재명",
+    "더불어민주당",
+    "김건희 특검",
+    "윤석열 특검",
+    "검찰개혁",
+    "국민의힘 논란",
+    "정치 팩트체크",
+    "선거 대선"
+  ],
+  "seed_baskets": [
+    {
+      "basket_id": "public_leadership",
+      "label": "정책·입법 리더십",
+      "seeds": [
+        "이재명",
+        "더불어민주당",
+        "민주당"
+      ],
+      "intents": [
+        "policy",
+        "legislation",
+        "governance"
+      ],
+      "modifiers": [
+        "민생",
+        "입법",
+        "국정과제",
+        "검찰개혁",
+        "공약",
+        "논란"
+      ],
+      "safety": [
+        "특정 정당 지지 요청 금지",
+        "선거 행동 유도 금지"
+      ]
+    },
+    {
+      "basket_id": "power_accountability",
+      "label": "권력 감시·책임 검증",
+      "seeds": [
+        "윤석열",
+        "김건희",
+        "국민의힘"
+      ],
+      "intents": [
+        "accountability",
+        "investigation",
+        "fact_check"
+      ],
+      "modifiers": [
+        "특검",
+        "압수수색",
+        "공천개입",
+        "관저",
+        "대통령실",
+        "감사원",
+        "의혹",
+        "수사"
+      ],
+      "safety": [
+        "범죄 확정 표현 금지",
+        "실존 인물 얼굴 생성 금지"
+      ]
+    },
+    {
+      "basket_id": "election_watch",
+      "label": "선거·여론 검증",
+      "seeds": [
+        "선거",
+        "대선",
+        "후보",
+        "여론조사"
+      ],
+      "intents": [
+        "election_integrity",
+        "poll_context",
+        "public_information"
+      ],
+      "modifiers": [
+        "공약",
+        "토론",
+        "투표",
+        "개표",
+        "사전투표",
+        "조사일",
+        "오차범위"
+      ],
+      "safety": [
+        "투표 방법 단정 금지",
+        "후보 선택 유도 금지",
+        "여론조사는 조사일·출처·오차범위 확인"
+      ]
+    }
+  ],
+  "query_templates": [
+    "{keyword}",
+    "{keyword} 전말",
+    "{keyword} 근거",
+    "{keyword} 책임"
+  ],
+  "stopwords": [
+    "관련",
+    "오늘",
+    "기준",
+    "기록",
+    "보도",
+    "쟁점",
+    "확인",
+    "논란",
+    "시작",
+    "요구",
+    "정리",
+    "종합",
+    "단독",
+    "속보",
+    "이번",
+    "우리",
+    "두고"
+  ],
+  "bad_phrase_leading_terms": [
+    "이전",
+    "관련",
+    "전격",
+    "본격",
+    "종합특검",
+    "특검팀"
+  ],
+  "high_intent_terms": [
+    "특검",
+    "압수수색",
+    "의혹",
+    "수사",
+    "감사원",
+    "관저",
+    "공천개입",
+    "검찰개혁",
+    "여론조사",
+    "공약",
+    "민생",
+    "입법"
+  ],
+  "generic_single_terms": [
+    "의혹",
+    "특검",
+    "수사",
+    "논란",
+    "관저",
+    "압수수색",
+    "감사원",
+    "대통령실",
+    "공약",
+    "투표",
+    "후보",
+    "정치"
+  ],
+  "scoring": {
+    "base": 20,
+    "seed_match": 14,
+    "modifier_match": 10,
+    "high_intent_match": 12,
+    "news_support": 7,
+    "specific_phrase": 8,
+    "trusted_source": 4,
+    "risk_penalty": -18,
+    "generic_penalty": -12,
+    "generic_single_cap": 62
+  },
+  "limits": {
+    "max_seed_items": 36,
+    "max_selected_keywords": 8,
+    "max_rejected_keywords": 12,
+    "max_expanded_queries": 36
+  }
+}

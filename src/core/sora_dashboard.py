@@ -23,6 +23,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+from urllib.parse import parse_qs
 
 from fastapi import FastAPI, Query, Request, Response, Cookie, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
@@ -96,7 +97,13 @@ from src.core.security.dashboard_auth import (
     authenticate_websocket_token,
     private_bypass_allowed,
     set_dashboard_session,
+    verify_action_token,
     verify_manual_login_secret,
+)
+from src.core.owner_traffic import (
+    OWNER_TRAFFIC_HTML,
+    build_owner_traffic_reply,
+    load_owner_traffic_snapshot,
 )
 
 
@@ -398,6 +405,9 @@ async def auth_middleware(request: Request, call_next):
 
     # 외부 접속 -- API 경로 인증 필수
     if path.startswith("/api/"):
+        if path.startswith("/api/v2/owner/traffic/"):
+            return await call_next(request)
+
         required_scope = "dashboard:read"
         if path.startswith("/api/pc-agents") and method != "GET":
             required_scope = "dashboard:execute"
@@ -837,6 +847,285 @@ async def serve_sora():
             },
         )
     return HTMLResponse("<h1>sora.html not found</h1>", status_code=404)
+
+
+_OWNER_TRAFFIC_SESSION_KEY = "owner_traffic_password_at"
+_OWNER_TRAFFIC_SESSION_TTL_SECONDS = int(os.environ.get("OWNER_TRAFFIC_SESSION_TTL_SECONDS", str(12 * 60 * 60)))
+
+
+def _owner_traffic_password_secret() -> str:
+    configured = os.environ.get("OWNER_TRAFFIC_PASSWORD", "").strip()
+    if configured:
+        return configured
+
+    configured_file = os.environ.get("OWNER_TRAFFIC_PASSWORD_FILE", "").strip()
+    candidate_paths = []
+    if configured_file:
+        candidate_paths.append(Path(configured_file))
+    candidate_paths.append(PROJECT_ROOT / "secrets" / "owner_traffic_password.txt")
+
+    for path in candidate_paths:
+        try:
+            if path.exists():
+                value = path.read_text(encoding="utf-8").strip()
+                if value:
+                    return value
+        except Exception:
+            continue
+    return ""
+
+
+def _owner_traffic_session_ok(request: Request) -> bool:
+    try:
+        issued_at = float(request.session.get(_OWNER_TRAFFIC_SESSION_KEY, 0))
+    except Exception:
+        return False
+    if issued_at <= 0:
+        return False
+    return time.time() - issued_at <= _OWNER_TRAFFIC_SESSION_TTL_SECONDS
+
+
+def _owner_traffic_auth_ok(request: Request) -> bool:
+    client_ip = request.client.host if request.client else ""
+    query_token = (request.query_params.get("token") or request.query_params.get("access_token") or "").strip()
+    if query_token and verify_action_token(query_token, required_scope="dashboard:read"):
+        return True
+    if _owner_traffic_session_ok(request):
+        return True
+    return private_bypass_allowed(client_ip) or _check_auth(request, required_scope="dashboard:read")
+
+
+def _owner_traffic_login_html(*, error: bool = False) -> str:
+    error_html = (
+        '<p class="error">암호가 맞지 않습니다. 다시 입력하세요.</p>'
+        if error
+        else ""
+    )
+    return f"""<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#172033" />
+  <title>내 사이트 통계 로그인</title>
+  <style>
+    :root {{
+      color-scheme: light;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f6f8fb;
+      color: #111827;
+    }}
+    * {{ box-sizing: border-box; }}
+    body {{
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: #f6f8fb;
+    }}
+    main {{
+      width: min(100%, 420px);
+      border: 1px solid #d8e0ea;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 24px;
+      box-shadow: 0 18px 50px rgba(17, 24, 39, 0.08);
+    }}
+    h1 {{
+      margin: 0 0 18px;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }}
+    label {{
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #334155;
+    }}
+    input {{
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 18px;
+      outline: none;
+    }}
+    input:focus {{
+      border-color: #172033;
+      box-shadow: 0 0 0 3px rgba(23, 32, 51, 0.12);
+    }}
+    button {{
+      width: 100%;
+      min-height: 48px;
+      margin-top: 16px;
+      border: 0;
+      border-radius: 8px;
+      background: #172033;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 800;
+    }}
+    .error {{
+      margin: 0 0 14px;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #fff1f2;
+      color: #be123c;
+      font-size: 14px;
+    }}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>내 사이트 통계 관제</h1>
+    {error_html}
+    <form method="post" action="/owner/traffic/login">
+      <input type="hidden" name="next" value="/owner/traffic" />
+      <label for="password">암호</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" autofocus required />
+      <button type="submit">대시보드 열기</button>
+    </form>
+  </main>
+</body>
+</html>"""
+
+
+def _owner_traffic_html() -> str:
+    html = OWNER_TRAFFIC_HTML.read_text(encoding="utf-8")
+    html = html.replace(
+        "<title>내 사이트 통계 관제</title>",
+        (
+            "<title>내 사이트 통계 관제</title>\n"
+            '    <meta name="theme-color" content="#172033" />\n'
+            '    <meta name="apple-mobile-web-app-capable" content="yes" />'
+        ),
+    )
+    html = html.replace(
+        "const response = await fetch(`./owner-traffic-latest.json?t=${Date.now()}`);",
+        (
+            "const ownerTrafficToken = new URLSearchParams(window.location.search).get(\"token\") || \"\";\n"
+            "          const ownerTrafficTokenParam = ownerTrafficToken ? `&token=${encodeURIComponent(ownerTrafficToken)}` : \"\";\n"
+            "          const response = await fetch(`/api/v2/owner/traffic/latest?t=${Date.now()}${ownerTrafficTokenParam}`, { credentials: \"same-origin\" });"
+        ),
+    )
+    html = html.replace(
+        "      @media (max-width: 640px) {",
+        """      @media (max-width: 640px) {
+        body {
+          background: #ffffff;
+        }
+
+        .brand h1 {
+          font-size: 18px;
+        }
+
+        .rail {
+          position: static;
+        }
+
+        .status-strip {
+          width: 100%;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          padding-bottom: 4px;
+        }
+
+        .segmented {
+          width: 100%;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .segmented button {
+          min-width: 0;
+        }
+
+        .panel {
+          box-shadow: none;
+        }
+""",
+    )
+    return html
+
+
+@app.post("/owner/traffic/login")
+async def owner_traffic_password_login(request: Request):
+    body = (await request.body()).decode("utf-8", errors="ignore")
+    form = parse_qs(body, keep_blank_values=True)
+    password = (form.get("password", [""])[0] or "").strip()
+    next_path = (form.get("next", ["/owner/traffic"])[0] or "/owner/traffic").strip()
+    if not next_path.startswith("/owner/traffic"):
+        next_path = "/owner/traffic"
+
+    configured = _owner_traffic_password_secret()
+    if configured and secrets.compare_digest(password, configured):
+        request.session[_OWNER_TRAFFIC_SESSION_KEY] = str(int(time.time()))
+        return RedirectResponse(next_path, status_code=303)
+
+    return HTMLResponse(
+        _owner_traffic_login_html(error=True),
+        status_code=401,
+        headers={
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0",
+        },
+    )
+
+
+@app.get("/owner/traffic")
+async def serve_owner_traffic(request: Request):
+    """Serve the owner-only mobile traffic dashboard through Sora."""
+    if not _owner_traffic_auth_ok(request):
+        return HTMLResponse(
+            _owner_traffic_login_html(),
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0",
+            },
+        )
+    if not OWNER_TRAFFIC_HTML.exists():
+        return HTMLResponse("<h1>내 사이트 통계 대시보드를 찾을 수 없습니다</h1>", status_code=404)
+    return HTMLResponse(
+        _owner_traffic_html(),
+        headers={
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0",
+        },
+    )
+
+
+@app.get("/api/v2/owner/traffic/latest")
+async def owner_traffic_latest(request: Request):
+    """Return the latest owner traffic snapshot for authenticated Sora clients."""
+    if not _owner_traffic_auth_ok(request):
+        return JSONResponse({"error": "Unauthorized"}, status_code=401)
+    snapshot = load_owner_traffic_snapshot()
+    if not snapshot:
+        return JSONResponse({"error": "owner traffic snapshot not found"}, status_code=404)
+    return JSONResponse(
+        snapshot,
+        headers={
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0",
+        },
+    )
+
+
+@app.get("/api/v2/owner/traffic/summary")
+async def owner_traffic_summary(request: Request):
+    """Small text summary for Sora mobile and Telegram shortcuts."""
+    if not _owner_traffic_auth_ok(request):
+        return JSONResponse({"error": "Unauthorized"}, status_code=401)
+    return {"reply": build_owner_traffic_reply(str(request.base_url).rstrip("/"))}
 
 @app.get("/app/manifest.json")
 async def serve_manifest():

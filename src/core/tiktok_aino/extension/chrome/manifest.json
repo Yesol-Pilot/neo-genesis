@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "AiNo TikTok Studio Assistant",
+  "version": "0.1.0",
+  "description": "Local draft-upload assistant and TikTok Studio metric collector for AiNo content packages.",
+  "permissions": ["activeTab", "storage", "tabs", "scripting"],
+  "host_permissions": [
+    "https://www.tiktok.com/*",
+    "http://127.0.0.1:8757/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AiNo TikTok"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.tiktok.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

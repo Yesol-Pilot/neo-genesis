@@ -1,0 +1,94 @@
+{
+  "version": "playback_verified_20260529_v1",
+  "status": "candidate_config_ready_not_wired",
+  "source_benchmark": "output\\tiktok_aino_reference_research\\reference_benchmark_url_first_playback_verified_20260529.md",
+  "playback_qa": "output\\tiktok_aino_reference_research\\playback_qa_20260529\\playback_qa_results.json",
+  "clean_playback_rows": [
+    "R002",
+    "R004",
+    "R005",
+    "R007",
+    "R008",
+    "R010",
+    "R011",
+    "R012",
+    "R013",
+    "R014",
+    "R015",
+    "R016",
+    "R017",
+    "R018",
+    "R019",
+    "R020"
+  ],
+  "partial_overlay_rows": [
+    "R001",
+    "R003",
+    "R006",
+    "R009"
+  ],
+  "platform_counts": {
+    "tiktok": 10,
+    "youtube_shorts": 10,
+    "instagram_reels": 0,
+    "unknown": 0
+  },
+  "config_use_rule": "Use as transformed pattern guidance only; do not copy claims, real-person visuals, or copyrighted clips.",
+  "patterns": [
+    {
+      "id": "actor_allegation_caption",
+      "examples": [
+        "R004",
+        "R011",
+        "R016"
+      ],
+      "use": "named actor plus high-contrast claim caption",
+      "aino_transform": "replace allegation with claim-boundary wording and visible source card"
+    },
+    {
+      "id": "debate_or_hearing_quote",
+      "examples": [
+        "R002",
+        "R005",
+        "R017"
+      ],
+      "use": "debate/hearing frame with readable quote or comparison caption",
+      "aino_transform": "use fictional/illustrative scene or licensed clip plus exact source label"
+    },
+    {
+      "id": "receipt_number_collage",
+      "examples": [
+        "R010",
+        "R012"
+      ],
+      "use": "money/number-led caption over public-office or document-like visual",
+      "aino_transform": "show source and calculation boundary before judgment"
+    },
+    {
+      "id": "documentary_title_card",
+      "examples": [
+        "R013",
+        "R014",
+        "R019",
+        "R020"
+      ],
+      "use": "dark title card or news graphic that names the consequence quickly",
+      "aino_transform": "build original generated scene plus source card, not fake broadcast screen"
+    },
+    {
+      "id": "subscribe_or_share_overlay",
+      "examples": [
+        "R018"
+      ],
+      "use": "oversized CTA can be visible early",
+      "aino_transform": "use sparingly; prefer save/share/next-part over subscribe spam"
+    }
+  ],
+  "forbidden_direct_copies": [
+    "real politician face synthesis",
+    "party logo imitation",
+    "fake news screen",
+    "unsourced crime assertion",
+    "copied copyrighted clip as primary asset"
+  ]
+}

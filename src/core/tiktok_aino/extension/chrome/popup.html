@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { width: 320px; margin: 0; padding: 14px; font: 13px system-ui, sans-serif; color: #111827; background: #f8fafc; }
+    h1 { font-size: 16px; margin: 0 0 10px; }
+    button { width: 100%; margin: 5px 0; padding: 9px 10px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; cursor: pointer; }
+    button.primary { background: #111827; color: #fff; border-color: #111827; }
+    pre { white-space: pre-wrap; background: #e2e8f0; padding: 8px; border-radius: 6px; max-height: 180px; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>AiNo TikTok</h1>
+  <button id="health">Bridge 확인</button>
+  <button id="load" class="primary">최신 패키지 로드</button>
+  <button id="openUpload">TikTok 업로드 열기</button>
+  <button id="prepare">현재 탭에 초안 준비</button>
+  <button id="metrics">Studio 지표 수집</button>
+  <pre id="status">대기 중</pre>
+  <script src="popup.js"></script>
+</body>
+</html>

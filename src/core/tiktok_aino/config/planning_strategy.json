@@ -1,0 +1,246 @@
+{
+  "version": "script_first_v1",
+  "editorial_frame": "공개 보도와 문서 근거로 쟁점을 설명하는 시민형 정치 뉴스 해설. 특정 정당·후보 선택 유도 없이 쟁점, 근거, 책임 기준을 분리한다.",
+  "fact_pack": {
+    "version": "fact_pack_v1",
+    "min_source_count": 2,
+    "reward_deep_min_source_count": 2,
+    "trusted_source_markers": [
+      "연합뉴스",
+      "뉴시스",
+      "KBS",
+      "MBC",
+      "SBS",
+      "JTBC",
+      "한겨레",
+      "경향",
+      "조선",
+      "중앙",
+      "동아",
+      "TikTok",
+      "공식",
+      "국회",
+      "대법원",
+      "헌법재판소"
+    ],
+    "confirmed_fact_guidance": "공식 문서 또는 복수 공개 출처로 확인된 사실만 단정형으로 사용한다.",
+    "reported_claim_guidance": "보도된 주장으로 말하고, 사실 확정처럼 표현하지 않는다.",
+    "counterpoint_guidance": "반론 가능성과 확인 전 보류 지점을 같은 카드 안에서 분리한다.",
+    "unanswered_question_template": "{core_question}",
+    "default_counterpoint_focus": "단정 전에 반론과 추가 확인이 필요한 지점",
+    "risk_phrases_to_avoid": [
+      "확실한 범죄",
+      "무조건 유죄",
+      "빼박",
+      "조작 확정",
+      "선거 결과가 바뀐다",
+      "투표하지 마세요",
+      "찍어야 합니다"
+    ]
+  },
+  "risk_flags": {
+    "version": "risk_flags_v1",
+    "min_sources_for_evidence_briefing": 2,
+    "election_terms": [
+      "선거",
+      "투표",
+      "개표",
+      "후보",
+      "유권자",
+      "여론조사",
+      "지지율"
+    ],
+    "election_high_risk_terms": [
+      "선거 결과가 바뀐다",
+      "투표하지 마세요",
+      "찍어야 합니다",
+      "부정선거 확정",
+      "개표 조작 확정"
+    ],
+    "aigc_high_risk_terms": [
+      "목소리를 복제",
+      "실제 발언처럼 합성",
+      "딥페이크",
+      "정치인 얼굴 합성",
+      "실존 인물 합성"
+    ],
+    "defamation_high_risk_terms": [
+      "확실한 범죄",
+      "무조건 유죄",
+      "빼박",
+      "조작 확정",
+      "범죄자"
+    ],
+    "copyright_high_risk_terms": [
+      "원본 전체",
+      "방송 클립 그대로",
+      "무단 재업로드",
+      "풀버전 재업로드"
+    ],
+    "public_importance_terms": [
+      "국회",
+      "법원",
+      "검찰",
+      "특검",
+      "정부",
+      "대통령",
+      "민주주의",
+      "노동",
+      "교육",
+      "복지",
+      "안전"
+    ],
+    "political_actor_terms": [
+      "대통령",
+      "국민의힘",
+      "더불어민주당",
+      "민주당",
+      "이재명",
+      "윤석열",
+      "김건희",
+      "후보",
+      "정당"
+    ],
+    "paid_political_terms": [
+      "유료광고",
+      "후원받아",
+      "정당에서 제공",
+      "선거운동 의뢰",
+      "paid partnership",
+      "sponsored"
+    ]
+  },
+  "source_card": {
+    "version": "source_card_v1",
+    "display_template": "{source_name} 기준",
+    "display_max_chars": 42
+  },
+  "angle_brief": {
+    "version": "angle_brief_v1",
+    "audience_emotion_by_angle": {
+      "timeline_explainer": "분노보다 먼저 전말을 확인하려는 긴장감",
+      "evidence_gap": "찜찜함과 확인 욕구",
+      "accountability_line": "권한을 가진 쪽에 설명을 요구하는 감정",
+      "three_criteria": "생활과 기준을 놓고 판단하려는 감정",
+      "counterpoint_review": "단정 전에 근거를 나누려는 경계심"
+    },
+    "share_reason_template": "확인된 것과 아직 비어 있는 지점을 분리해 공유할 명분을 만든다.",
+    "thesis_template": "{topic_title}은 편들기보다 전말, 근거, 책임선을 나눠 봐야 하는 사안이다.",
+    "safe_provocation_template": "{core_question}",
+    "follow_reason_template": "후속 보도에서 바뀌는 책임선과 빈칸을 계속 추적한다.",
+    "forbidden_angle_template": "범죄 확정, 투표 행동 유도, 실존 인물 합성, 가짜 공식 문서처럼 보이는 연출은 제외한다."
+  },
+  "storyboard_brief": {
+    "version": "storyboard_brief_v1",
+    "overlay_lanes": [
+      "top",
+      "middle",
+      "bottom"
+    ],
+    "narrative_jobs_by_role": {
+      "hook": "첫 2초 안에 멈출 질문을 던진다.",
+      "why_now": "오늘 왜 다시 커졌는지 설명한다.",
+      "criteria": "판단 기준을 분리한다.",
+      "evidence": "확인된 근거 또는 보도된 주장을 보여준다.",
+      "responsibility": "누가 무엇을 설명해야 하는지 남긴다.",
+      "verification": "반론과 확인 전 보류 지점을 분리한다.",
+      "cta": "댓글 선택지와 팔로우 이유를 연결한다."
+    },
+    "tts_jobs_by_role": {
+      "hook": "짧게 끊고 낮은 긴장감으로 시작한다.",
+      "why_now": "사건 순서를 또렷하게 말한다.",
+      "criteria": "숫자와 기준어를 분명히 읽는다.",
+      "evidence": "출처와 주장 경계를 차분하게 구분한다.",
+      "responsibility": "단정 대신 설명 책임을 강조한다.",
+      "verification": "보류해야 할 지점을 천천히 말한다.",
+      "cta": "질문형으로 끝내 댓글 행동을 유도한다."
+    }
+  },
+  "tts_performance": {
+    "version": "tts_performance_plan_v1",
+    "voice_direction": "차분하지만 긴장감 있는 한국어 여성 내레이터. 과장된 분노나 정치인 성대모사는 금지한다.",
+    "model_family": "eleven_multilingual_v2",
+    "language": "ko",
+    "default_pacing": "1.09 speed 기준, 장면당 1~2호흡",
+    "pause_after_sec": 0.25,
+    "emphasis_terms": [
+      "전말",
+      "근거",
+      "책임",
+      "빈칸",
+      "확인",
+      "반론"
+    ]
+  },
+  "source_requirements": [
+    "핵심 주장마다 공개 출처 1개 이상 연결",
+    "논쟁적 인물·정당 이슈는 보도 제목만으로 범죄 확정 표현 금지",
+    "선거·여론조사 이슈는 출처, 조사일, 아직 확인되지 않은 점을 분리"
+  ],
+  "risk_controls": [
+    "정당·후보 지지 또는 반대 행동 요청 금지",
+    "투표 방법·선거 절차 단정 금지",
+    "실존 인물·정당 로고 생성 이미지 금지",
+    "AI 생성 이미지 고지 유지",
+    "분노 유도보다 근거 확인과 책임 기준을 우선"
+  ],
+  "role_questions": {
+    "hook": "시청자가 첫 2초 안에 멈춰야 할 이유는 무엇인가?",
+    "why_now": "왜 지금 이 이슈가 다시 커졌는가?",
+    "criteria": "판단 기준을 몇 가지로 나눠야 하는가?",
+    "evidence": "확인된 근거와 아직 비어 있는 근거는 무엇인가?",
+    "responsibility": "누가 무엇을 설명해야 하는가?",
+    "verification": "단정 전에 검증해야 할 반론과 빈칸은 무엇인가?",
+    "cta": "댓글로 남길 수 있는 판단 기준은 무엇인가?"
+  },
+  "role_evidence_needs": {
+    "hook": "핫키워드와 보도량을 보여주는 장면",
+    "why_now": "최근 48시간 사건 순서와 변화 지점",
+    "criteria": "쟁점을 나누는 기준 카드 또는 체크리스트",
+    "evidence": "문서, 보도, 기록을 확인하는 증거 장면",
+    "responsibility": "공개 설명, 책임 라인, 답변 요구를 상징하는 장면",
+    "verification": "반론과 확인 전 보류 지점을 분리하는 장면",
+    "cta": "시청자가 댓글로 판단 기준을 남길 수 있는 장면"
+  },
+  "narrative_arc_by_format": {
+    "evidence_briefing_75": [
+      "문제 선언",
+      "출처 카드",
+      "확인된 근거",
+      "반론 또는 맥락",
+      "제도적 의미",
+      "책임 기준",
+      "남은 빈칸",
+      "저장/다음 영상 연결"
+    ],
+    "growth_short": [
+      "정지 훅",
+      "무슨 일이 있었나",
+      "핵심 기준",
+      "확인된 근거",
+      "남은 질문",
+      "참여 유도"
+    ],
+    "reward_deep": [
+      "정지 훅",
+      "왜 지금인가",
+      "판단 기준",
+      "확인된 근거",
+      "책임 라인",
+      "검증 빈칸",
+      "반론 분리",
+      "남은 질문",
+      "댓글 기준"
+    ],
+    "debate_followup": [
+      "댓글 훅",
+      "쟁점 재정의",
+      "근거 비교",
+      "반론 확인",
+      "판단 기준",
+      "참여 유도"
+    ]
+  },
+  "image_need_template": "장면 장소={location}. 필수 전경={anchors}. 카메라={camera}. 장면 목적={visual_intent}.",
+  "topic_selection_template": "최근 48시간 공개 보도 점수 {heat_score}, 검색 클러스터 {clusters}, 출처 {publisher} 기준으로 선정"
+}

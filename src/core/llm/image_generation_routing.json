@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "version": "image_generation_routing_v1",
+  "updated_at": "2026-05-16",
+  "policy": {
+    "gamma_scope": "image_only",
+    "gamma_creates_ui_visible_artifact": true,
+    "gamma_requires_allow_gamma_ui": true,
+    "gamma_history_standard": "company_safe",
+    "sensitive_work_routes_to": "local_comfyui"
+  },
+  "providers": {
+    "local_comfyui": {
+      "kind": "local",
+      "ui_history": false,
+      "external_api": false,
+      "lifecycle": "on_demand_stop_after_use",
+      "default_host": "127.0.0.1",
+      "default_port": 8188
+    },
+    "codex_cli": {
+      "kind": "local_or_agent",
+      "ui_history": false,
+      "external_api": true
+    },
+    "gemini_api": {
+      "kind": "direct_api",
+      "ui_history": false,
+      "external_api": true
+    },
+    "gamma_api": {
+      "kind": "workspace_api",
+      "ui_history": true,
+      "external_api": true,
+      "image_options_source": "aiGenerated",
+      "models": {
+        "fast_preview": {
+          "model": "flux-kontext-fast",
+          "credits_per_image": 2
+        },
+        "fast_general": {
+          "model": "flux-2-klein",
+          "credits_per_image": 2
+        },
+        "text_low_cost": {
+          "model": "ideogram-v3-turbo",
+          "credits_per_image": 10
+        },
+        "text_quality": {
+          "model": "gemini-3-pro-image",
+          "credits_per_image": 20
+        },
+        "photo_fast": {
+          "model": "imagen-4-fast",
+          "credits_per_image": 10
+        },
+        "photo_quality": {
+          "model": "imagen-4-pro",
+          "credits_per_image": 20
+        },
+        "vector": {
+          "model": "recraft-v4-svg",
+          "credits_per_image": 40
+        },
+        "final_high": {
+          "model": "gpt-image-1-high",
+          "credits_per_image": 120
+        },
+        "brand_pro": {
+          "model": "recraft-v4-pro",
+          "credits_per_image": 125
+        }
+      }
+    }
+  }
+}

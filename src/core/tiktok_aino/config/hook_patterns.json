@@ -1,0 +1,74 @@
+{
+  "version": "playback_verified_20260529_v1",
+  "status": "candidate_config_ready_not_wired",
+  "source_benchmark": "output\\tiktok_aino_reference_research\\reference_benchmark_url_first_playback_verified_20260529.md",
+  "playback_qa": "output\\tiktok_aino_reference_research\\playback_qa_20260529\\playback_qa_results.json",
+  "clean_playback_rows": [
+    "R002",
+    "R004",
+    "R005",
+    "R007",
+    "R008",
+    "R010",
+    "R011",
+    "R012",
+    "R013",
+    "R014",
+    "R015",
+    "R016",
+    "R017",
+    "R018",
+    "R019",
+    "R020"
+  ],
+  "partial_overlay_rows": [
+    "R001",
+    "R003",
+    "R006",
+    "R009"
+  ],
+  "platform_counts": {
+    "tiktok": 10,
+    "youtube_shorts": 10,
+    "instagram_reels": 0,
+    "unknown": 0
+  },
+  "config_use_rule": "Use as transformed pattern guidance only; do not copy claims, real-person visuals, or copyrighted clips.",
+  "hook_patterns": [
+    {
+      "id": "named_actor_first",
+      "first_1s": "show the named public actor or institution in text, not necessarily face",
+      "first_3s": "attach one conflict verb or claim boundary",
+      "first_5s": "show source/date or consequence"
+    },
+    {
+      "id": "number_receipt_first",
+      "first_1s": "lead with a number, amount, date, or count",
+      "first_3s": "identify what the number refers to",
+      "first_5s": "show source card or calculation caveat"
+    },
+    {
+      "id": "quote_contradiction_first",
+      "first_1s": "display a short quote or contradiction",
+      "first_3s": "identify speaker/source category",
+      "first_5s": "turn into a judgment question"
+    },
+    {
+      "id": "civic_scene_first",
+      "first_1s": "show courthouse, assembly, newsroom, document desk, or street-speech scene",
+      "first_3s": "label the institution or public consequence",
+      "first_5s": "connect to source-backed claim"
+    }
+  ],
+  "mobile_caption_rule": {
+    "max_lines": 2,
+    "target_chars_per_line": [
+      12,
+      22
+    ],
+    "avoid": [
+      "paragraph captions",
+      "tiny legalistic text"
+    ]
+  }
+}

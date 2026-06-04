@@ -16,6 +16,7 @@ from typing import Any
 
 from dotenv import load_dotenv
 
+from src.core.owner_traffic import build_owner_traffic_reply, is_owner_traffic_query
 from src.core.runtime.single_instance import claim_single_instance
 from src.core.tools import ALL_TOOLS  # noqa: F401 - imported for tool registration side effects
 
@@ -780,6 +781,8 @@ class NeoAssistant:
                 single_fast_reply = None
                 if not file_path:
                     single_fast_reply = _try_calendar_fastpath_reply(text, file_path=None)
+                    if not single_fast_reply and is_owner_traffic_query(text):
+                        single_fast_reply = build_owner_traffic_reply()
                     if single_fast_reply:
                         rendered = single_fast_reply[:4000]
                         self._recent_requests[fingerprint] = time.monotonic()
@@ -907,8 +910,10 @@ class NeoAssistant:
         progress_msg=None,
     ) -> str:
         fast_reply = _try_calendar_fastpath_reply(text, file_path=file_path)
+        if not fast_reply and not file_path and is_owner_traffic_query(text):
+            fast_reply = build_owner_traffic_reply()
         if fast_reply:
-            logger.info("[Sora] calendar fastpath reply used (telegram path)")
+            logger.info("[Sora] fastpath reply used (telegram path)")
             return fast_reply
 
         try:

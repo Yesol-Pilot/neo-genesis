@@ -1,0 +1,689 @@
+{
+  "brand": {
+    "name": "Receipt Room 11:59",
+    "tagline": "The internet brought receipts.",
+    "positioning": "A symbolic tabloid microdrama planner for global pop-culture gossip. It turns verified public signals and fan interpretation into a short-form episode plan without realistic likeness, voice cloning, or unsupported sensitive claims."
+  },
+  "research_sources": [
+    {
+      "source_id": "tiktok_next_2026",
+      "url": "https://newsroom.tiktok.com/introducing-tiktok-next-2026-our-trend-forecast-for-marketers-for-the-year-ahead?lang=en",
+      "finding": "TikTok's 2026 trend signals emphasize Reali-TEA, Curiosity Detours, and Emotional ROI: real-time cultural tea, comment-led discovery, and emotional payoff."
+    },
+    {
+      "source_id": "tiktok_trends_help",
+      "url": "https://ads.us.tiktok.com/help/article/how-to-use-trends?lang=en",
+      "finding": "Trend selection should use first-party trend discovery, not only creator intuition."
+    },
+    {
+      "source_id": "pew_tiktok_2026",
+      "url": "https://www.pewresearch.org/short-reads/2026/03/02/8-facts-about-americans-and-tiktok/",
+      "finding": "TikTok usage remains broad among US adults and especially young users, making entertainment and pop-culture topics a viable global signal proxy."
+    },
+    {
+      "source_id": "vogue_tiktok_tracker",
+      "url": "https://www.vogue.com/article/the-vogue-business-tiktok-trend-tracker",
+      "finding": "TikTok trend tracking surfaces fan-reaction topics such as Euphoria/Cassie, Billie Eilish, Olivia Rodrigo, nostalgia, and celebrity-adjacent moments."
+    },
+    {
+      "source_id": "omdia_microdrama_2026",
+      "url": "https://omdia.tech.informa.com/pr/2026/feb/microdramas-overtake-streamers-on-mobile-engagement-says-omdia",
+      "finding": "Vertical microdramas are one to two minutes, mobile-first, and winning engagement intensity against major mobile streaming apps."
+    },
+    {
+      "source_id": "tiktok_aigc_policy",
+      "url": "https://support.tiktok.com/en/using-tiktok/creating-videos/ai-generated-content",
+      "finding": "Realistic AI-generated images, audio, or video must be labeled, and some public-figure contexts remain prohibited even when labeled."
+    },
+    {
+      "source_id": "tiktok_integrity_policy",
+      "url": "https://www.tiktok.com/community-guidelines/en/integrity-authenticity",
+      "finding": "AIGC cannot falsely show public figures in certain contexts such as endorsement or being bullied; private figure likeness and young people are protected."
+    }
+  ],
+  "source_registry": {
+    "official_social": {
+      "category": "primary",
+      "reliability": 100,
+      "counts_as_verified": true
+    },
+    "official_interview": {
+      "category": "primary",
+      "reliability": 95,
+      "counts_as_verified": true
+    },
+    "people": {
+      "category": "tier_1_entertainment",
+      "reliability": 90,
+      "counts_as_verified": true
+    },
+    "eonline": {
+      "category": "tier_1_entertainment",
+      "reliability": 84,
+      "counts_as_verified": true
+    },
+    "tmz": {
+      "category": "tier_1_entertainment",
+      "reliability": 78,
+      "counts_as_verified": true
+    },
+    "vogue_trend_tracker": {
+      "category": "trend_tracker",
+      "reliability": 82,
+      "counts_as_verified": true
+    },
+    "just_jared": {
+      "category": "tier_2_entertainment",
+      "reliability": 72,
+      "counts_as_verified": true
+    },
+    "etonline": {
+      "category": "tier_2_entertainment",
+      "reliability": 74,
+      "counts_as_verified": true
+    },
+    "nypost_pagesix": {
+      "category": "tier_2_entertainment",
+      "reliability": 66,
+      "counts_as_verified": true
+    },
+    "google_trends": {
+      "category": "trend_signal",
+      "reliability": 82,
+      "counts_as_verified": false
+    },
+    "google_news": {
+      "category": "trend_signal",
+      "reliability": 68,
+      "counts_as_verified": false
+    },
+    "tiktok_creative_center": {
+      "category": "trend_signal",
+      "reliability": 86,
+      "counts_as_verified": false
+    },
+    "youtube_trending": {
+      "category": "trend_signal",
+      "reliability": 76,
+      "counts_as_verified": false
+    },
+    "reddit_popculture": {
+      "category": "social_signal",
+      "reliability": 42,
+      "counts_as_verified": false
+    },
+    "x_social": {
+      "category": "social_signal",
+      "reliability": 35,
+      "counts_as_verified": false
+    },
+    "deuxmoi": {
+      "category": "rumor_signal",
+      "reliability": 28,
+      "counts_as_verified": false
+    },
+    "unknown": {
+      "category": "unknown",
+      "reliability": 20,
+      "counts_as_verified": false
+    }
+  },
+  "trend_scout": {
+    "user_agent": "NeoGenesisReceiptRoomTrendScout/1.0 (+local research planner)",
+    "timeout_sec": 25,
+    "max_items_per_feed": 20,
+    "lookback_hours": 96,
+    "output_dir": "output/receipt_room_trend_scout",
+    "direct_feeds": [
+      {
+        "name": "E! News Top Stories",
+        "url": "https://eol-feeds.eonline.com/rssfeed/us/top_stories",
+        "source_id": "eonline"
+      },
+      {
+        "name": "Entertainment Tonight Latest",
+        "url": "https://www.etonline.com/news/rss",
+        "source_id": "etonline"
+      },
+      {
+        "name": "TMZ Latest",
+        "url": "https://www.tmz.com/rss.xml",
+        "source_id": "tmz"
+      },
+      {
+        "name": "Page Six Celebrity",
+        "url": "https://pagesix.com/celebrity-news/feed/",
+        "source_id": "nypost_pagesix"
+      }
+    ],
+    "google_news_queries": [
+      "celebrity gossip OR red carpet OR dating rumor",
+      "site:people.com celebrity dating OR red carpet",
+      "site:eonline.com celebrity dating OR red carpet",
+      "site:tmz.com celebrity viral OR tiktok OR dating",
+      "site:etonline.com celebrity dating red carpet",
+      "site:justjared.com celebrity dating rumor",
+      "site:vogue.com tiktok trend celebrity",
+      "kpop dating rumor lovestagram",
+      "Taylor Swift Travis Kelce OR Kylie Timothee OR Billie Eilish TikTok"
+    ],
+    "source_aliases": [
+      {
+        "match": "people.com",
+        "source_id": "people"
+      },
+      {
+        "match": "e! online",
+        "source_id": "eonline"
+      },
+      {
+        "match": "e! news",
+        "source_id": "eonline"
+      },
+      {
+        "match": "eonline",
+        "source_id": "eonline"
+      },
+      {
+        "match": "tmz",
+        "source_id": "tmz"
+      },
+      {
+        "match": "entertainment tonight",
+        "source_id": "etonline"
+      },
+      {
+        "match": "etonline",
+        "source_id": "etonline"
+      },
+      {
+        "match": "just jared",
+        "source_id": "just_jared"
+      },
+      {
+        "match": "vogue",
+        "source_id": "vogue_trend_tracker"
+      },
+      {
+        "match": "page six",
+        "source_id": "nypost_pagesix"
+      }
+    ],
+    "entity_stopwords": [
+      "TikTok",
+      "Instagram",
+      "YouTube",
+      "Hollywood",
+      "Met Gala",
+      "Red Carpet",
+      "New York",
+      "Los Angeles",
+      "United States",
+      "Google News",
+      "Page Six",
+      "E News",
+      "TMZ"
+    ],
+    "candidate_title_block_terms": [
+      "dead",
+      "dies",
+      "death",
+      "overdose",
+      "cancer",
+      "abuse",
+      "assault",
+      "dui",
+      "lawsuit",
+      "arrested",
+      "crime",
+      "shooting"
+    ],
+    "candidate_noise_terms": [
+      "hacks",
+      "sale",
+      "sales",
+      "shipping",
+      "retailers",
+      "sneakers",
+      "makeup",
+      "skincare",
+      "outdoors",
+      "indoor person",
+      "shop",
+      "where to buy",
+      "amazon",
+      "deal",
+      "discount"
+    ],
+    "report_hashtags": [
+      "#ReceiptRoom1159",
+      "#PopCulture",
+      "#CelebrityTok",
+      "#GossipExplained",
+      "#AIGenerated"
+    ]
+  },
+  "issue_scoring": {
+    "minimum_to_plan": 72,
+    "minimum_to_generate": 82,
+    "minimum_source_reliability": 55,
+    "weights": {
+      "source_reliability": 22,
+      "trend_velocity": 14,
+      "fandom_conflict": 16,
+      "visual_drama": 14,
+      "microdrama_fit": 12,
+      "search_intent": 10,
+      "freshness": 8,
+      "originality": 4
+    },
+    "keyword_bonuses": {
+      "fandom_conflict": [
+        "ex",
+        "awkward",
+        "dating",
+        "rumor",
+        "rumors",
+        "feud",
+        "tension",
+        "date",
+        "girlfriend",
+        "boyfriend",
+        "pda",
+        "kiss",
+        "romance",
+        "chemistry",
+        "ex-wife",
+        "ex-girlfriend",
+        "ex-boyfriend",
+        "breakup",
+        "couple",
+        "red carpet",
+        "met gala",
+        "lyrics",
+        "diss",
+        "shade",
+        "k-pop",
+        "kpop",
+        "lovestagram",
+        "stan",
+        "fan theory",
+        "mother",
+        "manager"
+      ],
+      "visual_drama": [
+        "red carpet",
+        "paparazzi",
+        "stage",
+        "concert",
+        "award",
+        "gala",
+        "cannes",
+        "stagecoach",
+        "dress",
+        "onstage",
+        "upfronts",
+        "kiss",
+        "caught",
+        "run-in",
+        "hand holding",
+        "ring",
+        "cctv",
+        "receipt",
+        "timeline",
+        "evidence"
+      ],
+      "microdrama_fit": [
+        "secret",
+        "missing",
+        "betrayal",
+        "rumor",
+        "rumors",
+        "feud",
+        "tension",
+        "surprising",
+        "dismisses",
+        "too busy to commit",
+        "asked her on a date",
+        "ex-wife",
+        "who knew",
+        "timeline",
+        "one clue",
+        "fans noticed",
+        "internet is divided",
+        "jury",
+        "trial"
+      ],
+      "search_intent": [
+        "why",
+        "what happened",
+        "explained",
+        "timeline",
+        "evidence",
+        "are they dating",
+        "rumors",
+        "dating rumors",
+        "breakup",
+        "tension",
+        "feud",
+        "pda",
+        "meaning",
+        "lyrics",
+        "reaction"
+      ]
+    }
+  },
+  "risk_policy": {
+    "default_disclosure": "AI-generated symbolic pop-culture parody. Verified reporting and fan speculation are separated on screen.",
+    "hard_block_terms": [
+      "voice clone",
+      "face swap",
+      "deepfake",
+      "realistic likeness",
+      "fake endorsement",
+      "political endorsement",
+      "financial endorsement",
+      "bullied",
+      "harassed",
+      "under 18",
+      "minor",
+      "private figure"
+    ],
+    "sensitive_claim_terms": [
+      "affair",
+      "cheating",
+      "pregnant",
+      "pregnancy",
+      "drug",
+      "rehab",
+      "crime",
+      "assault",
+      "abuse",
+      "illness",
+      "sexuality",
+      "divorce",
+      "surgery",
+      "death"
+    ],
+    "allowed_sensitive_evidence_levels": [
+      "confirmed",
+      "official",
+      "court_record"
+    ],
+    "public_figure_allowed_contexts": [
+      "symbolic_parody",
+      "commentary",
+      "news_explainer",
+      "fan_reaction_analysis",
+      "non_realistic_animation"
+    ],
+    "visual_never_do": [
+      "do not imitate a real face",
+      "do not clone a real voice",
+      "do not put exact real names in generation prompts",
+      "do not present fan theories as confirmed facts",
+      "do not fabricate crisis footage",
+      "do not imply commercial or political endorsement"
+    ]
+  },
+  "character_archetypes": {
+    "reference_style_policy": {
+      "global_rules": [
+        "adult-coded luxury tabloid characters",
+        "expressive face and readable emotion",
+        "full-body character design with clear outfit, gesture, and body line",
+        "exaggerate the archetype through wardrobe, posture, props, and body language",
+        "celebrity-inspired symbolic parody with fictionalized features"
+      ],
+      "female_glamour": "red-carpet glamour with a confident sensual pose, stylized hourglass body line, fitted couture dress, high slit or corset-inspired silhouette, polished hair and makeup, provocative glossy camera-aware tabloid heat",
+      "male_power": "charismatic power styling with sharp tailoring, athletic posture, status props, jealousy or tension in body language, attractive controlled status-heavy presence",
+      "neutral_drama": "tabloid-drama styling with clear face, expressive posture, distinctive props, and readable social status"
+    },
+    "default": {
+      "screen_character": "The Spotlight Figure",
+      "presentation": "neutral_drama",
+      "visual_rules": "expressive adult-coded tabloid figure, full visible character design, fictionalized facial features, abstract paparazzi light, distinctive wardrobe"
+    },
+    "by_keyword": [
+      {
+        "terms": [
+          "alex cooper",
+          "podcast",
+          "host"
+        ],
+        "screen_character": "The Podcast Queen",
+        "presentation": "female_glamour",
+        "visual_rules": "glamorous podcast empress, expressive face, fitted red-carpet couture, confident sensual stance, chrome podcast microphone throne, headline cards orbiting the character, fictionalized facial features, invented show insignia"
+      },
+      {
+        "terms": [
+          "matt kaplan",
+          "producer",
+          "husband"
+        ],
+        "screen_character": "The Producer Husband",
+        "presentation": "male_power",
+        "visual_rules": "producer archetype with sharp tailoring, tense guarded posture, backstage pass, red carpet edge light, fictionalized facial features"
+      },
+      {
+        "terms": [
+          "alix earle",
+          "influencer",
+          "viral"
+        ],
+        "screen_character": "The Viral It Girl",
+        "presentation": "female_glamour",
+        "visual_rules": "viral glamour archetype, expressive face, fitted nightlife couture, confident camera-aware pose, phone camera halo, influencer flash wall, glittering comment storm, fictionalized facial features, invented social handle motif"
+      },
+      {
+        "terms": [
+          "taylor",
+          "swift",
+          "pop star",
+          "singer"
+        ],
+        "screen_character": "The Pop Queen",
+        "presentation": "female_glamour",
+        "visual_rules": "adult pop royalty archetype, expressive face, fitted stage couture, dramatic body line, silver microphone, crown-shaped stage light, glitter boots, fictionalized facial features, invented stage wardrobe"
+      },
+      {
+        "terms": [
+          "travis",
+          "kelce",
+          "nfl",
+          "football",
+          "athlete"
+        ],
+        "screen_character": "The Stadium Prince",
+        "presentation": "male_power",
+        "visual_rules": "adult athlete-prince archetype, broad confident posture, fictional varsity jacket, stadium tunnel light, invented sports iconography, fictionalized facial features"
+      },
+      {
+        "terms": [
+          "bad bunny",
+          "latin",
+          "reggaeton"
+        ],
+        "screen_character": "The Latin Ghost",
+        "presentation": "male_power",
+        "visual_rules": "adult mysterious performer archetype, white-hot stage aura, desert club lighting, mirrored sunglasses as a symbolic mask, fictionalized facial features"
+      },
+      {
+        "terms": [
+          "kris",
+          "jenner",
+          "momager",
+          "manager",
+          "mother"
+        ],
+        "screen_character": "The Momager",
+        "presentation": "female_glamour",
+        "visual_rules": "adult power-glam manager archetype, sharp couture blazer dress, commanding posture, clipboard, flashbulb halo, fictionalized facial features"
+      },
+      {
+        "terms": [
+          "kylie",
+          "lip",
+          "beauty"
+        ],
+        "screen_character": "The Lip Empire Heiress",
+        "presentation": "female_glamour",
+        "visual_rules": "adult beauty heiress archetype, glossy couture, stylized hourglass body line, cosmetic throne, lip-shaped neon sign, invented beauty empire iconography, fictionalized facial features"
+      },
+      {
+        "terms": [
+          "timothee",
+          "chalamet",
+          "actor"
+        ],
+        "screen_character": "The Indie Prince",
+        "presentation": "male_power",
+        "visual_rules": "adult indie prince archetype, elegant lean tailoring, velvet cinema hallway, art-house poster atmosphere, fictionalized facial features"
+      },
+      {
+        "terms": [
+          "billie",
+          "eilish"
+        ],
+        "screen_character": "The Night-Stage Oracle",
+        "presentation": "female_glamour",
+        "visual_rules": "adult night-stage oracle archetype, expressive face, oversized high-fashion silhouette with visible body line, blue-green concert haze, fictionalized facial features, invented stage outfit"
+      },
+      {
+        "terms": [
+          "rapper",
+          "diss",
+          "kendrick",
+          "drake"
+        ],
+        "screen_character": "The Rap King",
+        "presentation": "male_power",
+        "visual_rules": "adult rap king archetype, dominant posture, split throne, microphone chessboard, fictionalized facial features, invented tattoo-like graphic motifs"
+      },
+      {
+        "terms": [
+          "k-pop",
+          "kpop",
+          "idol"
+        ],
+        "screen_character": "The Idol Star",
+        "presentation": "neutral_drama",
+        "visual_rules": "adult idol archetype, expressive face, stage-ready high-fashion outfit, anonymous lightstick crowd, mirrored rehearsal room, invented group iconography, fictionalized facial features"
+      }
+    ]
+  },
+  "episode_formats": {
+    "awkward_encounter": {
+      "hook_template": "This two-second run-in made the internet split into juries.",
+      "comment_prompt": "Was this awkward, scripted, or just fans over-reading it?",
+      "best_for": [
+        "red carpet",
+        "ex",
+        "family encounter",
+        "gala"
+      ]
+    },
+    "evidence_board": {
+      "hook_template": "Fans found three receipts. Only one actually matters.",
+      "comment_prompt": "Which receipt is real evidence and which one is fan fiction?",
+      "best_for": [
+        "dating",
+        "lovestagram",
+        "ring",
+        "same location",
+        "hand holding"
+      ]
+    },
+    "character_trial": {
+      "hook_template": "Tonight, the internet puts this character on trial.",
+      "comment_prompt": "Guilty, misunderstood, or badly written?",
+      "best_for": [
+        "series",
+        "euphoria",
+        "movie",
+        "character arc"
+      ]
+    },
+    "lyric_receipt": {
+      "hook_template": "One lyric turned into a full detective board.",
+      "comment_prompt": "Is this a direct shot or are fans building the story?",
+      "best_for": [
+        "song",
+        "lyrics",
+        "album",
+        "single",
+        "diss"
+      ]
+    },
+    "publicity_or_real": {
+      "hook_template": "The internet cannot decide if this is romance or rollout.",
+      "comment_prompt": "PR, real, or perfectly timed coincidence?",
+      "best_for": [
+        "pda",
+        "dating rumor",
+        "movie date",
+        "public appearance"
+      ]
+    }
+  },
+  "shot_templates": [
+    {
+      "beat": "cold_open",
+      "duration_sec": 4,
+      "caption_template": "{hook}",
+      "visual_template": "{main_character} stands in a symbolic tabloid spotlight while comment bubbles rush toward camera.",
+      "motion": "camera snap-zooms into the empty space beside the character; comments flood from both sides"
+    },
+    {
+      "beat": "verified_fact",
+      "duration_sec": 8,
+      "caption_template": "Confirmed: {verified_fact}",
+      "visual_template": "A receipt board stamps CONFIRMED on one clean card while rumor cards stay blurred.",
+      "motion": "one card slams onto the board; a red stamp lands; blurred cards slide away"
+    },
+    {
+      "beat": "fan_theory",
+      "duration_sec": 8,
+      "caption_template": "Fans think: {fan_theory}",
+      "visual_template": "Anonymous fan avatars connect string between symbolic photos, dates, and a glowing question mark.",
+      "motion": "red string stretches across the board; one clue lights up and another clue flickers out"
+    },
+    {
+      "beat": "contradiction",
+      "duration_sec": 10,
+      "caption_template": "But one clue breaks the theory.",
+      "visual_template": "The evidence board glitches as one receipt flips over and contradicts the headline.",
+      "motion": "board shakes; a receipt flips; camera pushes through paper debris"
+    },
+    {
+      "beat": "microdrama_scene",
+      "duration_sec": 14,
+      "caption_template": "The drama version: {drama_question}",
+      "visual_template": "{main_character} and {second_character} face each other across a red carpet courtroom with paparazzi flash walls.",
+      "motion": "two symbolic figures turn away from each other; flashbulbs pop; the floor becomes a courtroom aisle"
+    },
+    {
+      "beat": "verdict_meter",
+      "duration_sec": 8,
+      "caption_template": "Verdict meter: confirmed vs fan-built.",
+      "visual_template": "A split meter moves between CONFIRMED, REPORTED, FAN THEORY, and REACHING.",
+      "motion": "meter needle swings hard, stops, then trembles near fan theory"
+    },
+    {
+      "beat": "comment_jury",
+      "duration_sec": 6,
+      "caption_template": "{comment_prompt}",
+      "visual_template": "A comment jury wall opens with three giant buttons: awkward, scripted, over-read.",
+      "motion": "three buttons rise from the floor; camera lands on the comment box"
+    }
+  ],
+  "roast_gate": {
+    "minimum_shots": 6,
+    "minimum_total_duration_sec": 58,
+    "require_verified_fact": true,
+    "require_fan_speculation_boundary": true,
+    "require_motion_per_shot": true,
+    "reject_if_prompt_contains_real_names": true,
+    "reject_if_no_comment_conflict": true
+  }
+}

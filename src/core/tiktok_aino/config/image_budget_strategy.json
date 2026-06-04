@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "version": "image_budget_v1",
+  "objective": "Allow paid or external realistic image generation only after the script passes publish-quality gates.",
+  "require_gate_passed": true,
+  "require_readability_passed": true,
+  "require_quality_passed": true,
+  "min_publish_ready_score": 85,
+  "per_run_real_image_limit": 9,
+  "daily_real_image_limit": 27,
+  "paid_providers": ["codex_cli", "gemini_api"],
+  "local_modes": ["local"],
+  "override_env": "AINO_ALLOW_PAID_IMAGE_OVERRIDE"
+}

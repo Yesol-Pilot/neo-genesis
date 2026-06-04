@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "source_id": "leftaino_public_analysis",
+      "title": "leftaino 공개 TikTok 게시물 분석",
+      "url": "https://www.tiktok.com/@leftaino",
+      "note": "2026-05-10 공개 웹에서 노출된 38개 게시물의 조회/댓글/공유/저장 수치와 캡션을 로컬 분석한 결과"
+    },
+    {
+      "source_id": "tiktok_category_reference_analysis_20260514",
+      "title": "올바른 AiNo 관련 카테고리 상위 레퍼런스 분석",
+      "url": "D:/00.test/neo-genesis/output/tiktok_aino_reference_reports/category_reference_analysis_20260514_151756.md",
+      "note": "정치쇼츠, 정치뉴스, 이재명, 검찰개혁, 김건희 특검, 팩트체크 정치, 시사뉴스 공개 검색 표본과 상위 화면 스크린샷 기반 제작 문법 분석"
+    },
+    {
+      "source_id": "owner_reference_reboxschool_chat",
+      "title": "대표님 제공 기존 GPT 콘텐츠 제작 대화",
+      "url": "D:/강경 보수 교육단체 '리박스쿨'의 홍보 동영상입니다..txt",
+      "note": "올바른 AiNo 제작 문법 참고용 로컬 파일. 실제 업로드 전에는 원 보도 링크와 공식 반론/후속 보도를 추가 확인해야 함"
+    },
+    {
+      "source_id": "tiktok_creator_rewards_newsroom",
+      "title": "TikTok Creator Rewards Program announcement",
+      "url": "https://newsroom.tiktok.com/introducing-the-new-creator-rewards-program?trk=public_post_comment-text&lang=en",
+      "note": "수익화 공식 평가 축: originality, play duration, search value, audience engagement"
+    },
+    {
+      "source_id": "tiktok_creator_rewards_how_rewards_work",
+      "title": "TikTok Creator Rewards Program - How rewards work",
+      "url": "https://support.tiktok.com/en/business-and-creator/creator-rewards-program/how-rewards-work",
+      "note": "RPM 요소: watch time, finish rate, search value, engagement, ad value. Additional Reward: 1080p+, polished editing, 1분 이상, specialized theme"
+    },
+    {
+      "source_id": "tiktok_creator_search_insights",
+      "title": "TikTok Creator Search Insights",
+      "url": "https://newsroom.tiktok.com/creator-search-insights/?lang=en",
+      "note": "검색 수요와 content gap topic이 Creator Rewards search value에 연결된다는 공식 설명"
+    },
+    {
+      "source_id": "tiktok_creator_rewards_kr_terms",
+      "title": "TikTok Creator Rewards Program Terms KR",
+      "url": "https://www.tiktok.com/legal/page/global/tiktok-creator-rewards-program-jp-kr/ko",
+      "note": "한국/일본용 Creator Rewards 약관: 자격, 1분 이상 적격 동영상, 인위적 지표 조작 금지"
+    },
+    {
+      "source_id": "tiktok_integrity_guidelines",
+      "title": "TikTok Community Guidelines - Integrity and Authenticity",
+      "url": "https://www.tiktok.com/community-guidelines/en/integrity-authenticity",
+      "note": "선거/시민 무결성, AI 생성 콘텐츠, 원본성, fake engagement 관련 공식 가이드라인"
+    },
+    {
+      "source_id": "tiktok_aigc_support",
+      "title": "TikTok Support - About AI-generated content",
+      "url": "https://support.tiktok.com/en/using-tiktok/creating-videos/ai-generated-content?Sid=1",
+      "note": "현실적으로 보이는 AI 생성 이미지, 영상, 오디오의 라벨링 요구 및 금지 사례"
+    },
+    {
+      "source_id": "tiktok_political_ads_policy",
+      "title": "TikTok Ads Policy - Politics, Governments, and Elections",
+      "url": "https://ads.tiktok.com/help/article/tiktok-ads-policy-politics-government-and-elections/?lang=en",
+      "note": "유료 정치 광고 및 보상 기반 정치 브랜디드 콘텐츠 금지"
+    }
+  ]
+}

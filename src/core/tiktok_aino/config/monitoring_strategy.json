@@ -1,0 +1,113 @@
+{
+  "windows": {
+    "early_2h": {
+      "max_age_hours": 2,
+      "min_views": 250,
+      "min_engagement_rate": 0.045,
+      "min_comment_rate": 0.002,
+      "min_share_rate": 0.003,
+      "min_average_watch_ratio": 0.35,
+      "min_completion_rate": 0.18
+    },
+    "first_24h": {
+      "max_age_hours": 24,
+      "min_views": 1500,
+      "min_engagement_rate": 0.055,
+      "min_comment_rate": 0.003,
+      "min_share_rate": 0.004,
+      "min_average_watch_ratio": 0.42,
+      "min_completion_rate": 0.24
+    },
+    "day_3": {
+      "max_age_hours": 72,
+      "min_views": 5000,
+      "min_engagement_rate": 0.06,
+      "min_comment_rate": 0.004,
+      "min_share_rate": 0.005,
+      "min_average_watch_ratio": 0.45,
+      "min_completion_rate": 0.28
+    }
+  },
+  "score_weights": {
+    "views": 18,
+    "engagement_rate": 18,
+    "comment_rate": 14,
+    "share_rate": 14,
+    "average_watch_ratio": 18,
+    "completion_rate": 12,
+    "follower_conversion_rate": 6
+  },
+  "metric_aliases": {
+    "views": ["views", "video views", "viewers", "조회수", "동영상 조회수", "재생 수"],
+    "likes": ["likes", "좋아요"],
+    "comments": ["comments", "댓글"],
+    "shares": ["shares", "공유"],
+    "saves": ["saves", "favorites", "favourites", "saved", "즐겨찾기", "저장"],
+    "followers_gained": ["new followers", "followers gained", "팔로워 증가", "신규 팔로워"],
+    "profile_views": ["profile views", "프로필 조회수"],
+    "average_watch_time_sec": ["average watch time", "avg watch time", "평균 시청 시간", "평균 재생 시간"],
+    "completion_rate": ["watched full video", "completion rate", "full video watched", "전체 시청률", "완주율"],
+    "retention_rate": ["retention", "유지율"]
+  },
+  "response_rules": {
+    "strong_performer": {
+      "when": ["score_gte_80", "views_gte_threshold", "engagement_gte_threshold"],
+      "priority": 1,
+      "actions": [
+        "24시간 안에 같은 쟁점의 후속편을 제작한다.",
+        "댓글 상위 질문을 다음 debate_followup 슬롯의 첫 카드 질문으로 사용한다.",
+        "현재 후킹 문장과 업로드 시간대를 winning pattern 후보로 기록한다."
+      ]
+    },
+    "low_views": {
+      "when": ["views_lt_threshold"],
+      "priority": 2,
+      "actions": [
+        "동일 주제 재업로드보다 새 핫이슈로 교체한다.",
+        "첫 카드 문구를 더 직접적인 질문형으로 바꾸고 growth_short 길이를 유지한다.",
+        "다음 08:10 슬롯은 다른 키워드 클러스터로 배정한다."
+      ]
+    },
+    "low_retention": {
+      "when": ["average_watch_ratio_lt_threshold", "completion_rate_lt_threshold"],
+      "priority": 2,
+      "actions": [
+        "첫 3초에서 배경 설명을 줄이고 결론형 질문을 먼저 둔다.",
+        "본문 카드 문장을 한 줄 줄이고 시각자료 대비를 더 강하게 만든다.",
+        "다음 영상은 25~35초 growth_short 또는 45초 이하 debate_followup으로 테스트한다."
+      ]
+    },
+    "weak_comment_signal": {
+      "when": ["comment_rate_lt_threshold"],
+      "priority": 3,
+      "actions": [
+        "고정 댓글을 찬반형 질문이 아니라 기준 선택형 질문으로 바꾼다.",
+        "다음 CTA는 '어느 기준을 먼저 볼까요?'처럼 답하기 쉬운 2택 구조로 만든다.",
+        "댓글 소재가 있으면 후속편 제목에 댓글 반론 구조를 반영한다."
+      ]
+    },
+    "weak_share_signal": {
+      "when": ["share_rate_lt_threshold"],
+      "priority": 4,
+      "actions": [
+        "공유 유도보다 '기록으로 남겨야 할 쟁점' 프레이밍을 강화한다.",
+        "카드 2~3에 타임라인 또는 기준표형 구조를 넣어 저장/공유 가치를 올린다."
+      ]
+    },
+    "no_data": {
+      "when": ["missing_metrics"],
+      "priority": 9,
+      "actions": [
+        "TikTok Studio 영상 상세 화면에서 확장 프로그램의 Studio 지표 수집을 실행한다.",
+        "수집이 불안정하면 수동으로 views, likes, comments, shares, average_watch_time_sec, completion_rate를 JSONL에 보정한다."
+      ]
+    }
+  },
+  "reporting": {
+    "top_action_limit": 5,
+    "monitoring_dirname": "performance_reports",
+    "report_cooldown_minutes": 60,
+    "min_samples_for_time_slot_decision": 3,
+    "source_note": "TikTok Studio/Analytics UI에서 수집된 로컬 지표를 기준으로 한 운영 추정치다."
+  }
+}
