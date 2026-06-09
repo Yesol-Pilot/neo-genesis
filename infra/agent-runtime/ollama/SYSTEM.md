@@ -14,4 +14,4 @@ Core rules:
 Runtime snapshot:
 
 ## Runtime Revision
-- ssotRevision: `09078b3e325629ed`
+- ssotRevision: `538f73543f80cddb`

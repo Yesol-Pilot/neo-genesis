@@ -1,7 +1,7 @@
 # NEO GENESIS — 마스터 AI 규칙 문서
 
-> **버전:** 2.0
-> **최종 갱신:** 2026-05-21
+> **버전:** 2.1
+> **최종 갱신:** 2026-06-09
 > **위치:** `D:/00.test/neo-genesis/.agent/NEO_MASTER_RULES.md`
 > **역할:** Neo-Genesis 환경의 AI 운영 SSOT
 > **우선순위:** system > developer > user > 이 문서 > 파생 문서(BIBLE.md, CLAUDE.md, shared-brain, 기타 메모리)
@@ -305,6 +305,7 @@ Codex는 아래 작업을 기본 허용 범위로 간주한다.
 - `.env*`, 서비스 계정 키, 토큰, 비밀번호 등 자격증명 파일을 커밋하지 않는다.
 - 배포 전 가능한 범위에서 빌드/테스트/린트 중 해당 프로젝트의 핵심 검증을 통과시킨다.
 - Vercel 배포 전 `.vercel/project.json`의 projectId/orgId/projectName을 확인한다.
+- Vercel 팀과 Supabase 조직은 반드시 `neogenesis`만 사용한다. 기존 `etribe`(Vercel `etribe-cts's projects` / Supabase `etirbe-cts's Org`)는 사용 금지다 (2026-06-09 계정 이관). 프로젝트 생성·배포·마이그레이션·env 변경 전 대상 조직이 neogenesis인지 확인하고, etribe만 선택 가능하면 중단하고 owner에게 알린다. 조직 ID는 `CREDENTIAL_BIBLE.md` 참조.
 - DB 마이그레이션 전 대상 프로젝트/DB URL을 확인하고, 실행 SQL 파일 경로, 적용 목적, 예상 side effect를 기록한다.
 - additive가 아닌 스키마 변경(`DROP`, `ALTER TYPE`, 컬럼 타입 변경, 제약 추가 등)은 가능한 범위에서 백업/rollback SQL 또는 복구 경로를 먼저 준비한다.
 - DB 마이그레이션 후 관련 API smoke, schema check, 주요 사용자 플로우를 검증한다.
@@ -495,6 +496,7 @@ D:/00.test/neo-genesis/.agent/
 | 2026-04-24 | 1.8 | 대표님 포괄 승인에 따라 Git commit/push 및 SBU Vercel 프로덕션 배포를 Codex 자율 실행 범위로 편입 | Codex |
 | 2026-04-24 | 1.9 | 대표님 포괄 승인 범위에 DB 스키마 변경 및 마이그레이션 적용을 추가하고 DB 적용 게이트를 명문화 | Codex |
 | 2026-05-21 | 2.0 | PC 전역 방대 프로젝트 대응 동적 스킬 최적화 프로토콜(§1.Y) 추가 및 런타임 토큰 제한 정책 적용 | Antigravity |
+| 2026-06-09 | 2.1 | Vercel·Supabase 조직 `neogenesis` 단일화 규칙 추가(§2.5-A 게이트) — 기존 `etribe` 조직 사용 금지, 계정 이관 반영 | Claude Code |
 
 ---
 

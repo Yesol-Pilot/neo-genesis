@@ -4,7 +4,7 @@
 > Canonical source: `.agent/NEO_MASTER_RULES.md`
 > Supporting sources: `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, `.agent/shared-brain/*`
 > Regenerate with `python scripts/sync_agent_context.py`
-> Live snapshot source: `.agent/shared-brain/status.json` (`2026-05-29T18:07:39+09:00`)
+> Live snapshot source: `.agent/shared-brain/status.json` (`2026-06-09T15:20:40+09:00`)
 
 ## SSOT Order
 1. `.agent/NEO_MASTER_RULES.md`
@@ -25,6 +25,7 @@
 - Verify unstable or time-sensitive facts with official documentation before using them.
 - Treat `.agent/` as the source of truth. Treat root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `infra/agent-runtime/` as generated adapters.
 - For Neo Genesis business/runtime state (SBU, product, KPI, revenue path, decision, risk, agent, device), consult the ontology before acting and record material changes after: query `python scripts/ontology/business/query.py --object-set <name>` (business) or `scripts/ontology/query.py` (runtime); record via `scripts/ontology/mutate.py` / `auto_record.py`. The ontology auto-refreshes daily (Task Scheduler `NeoGenesisOntologyDailyMaintain`); every node/edge carries `provenance` and integrity is gated by `scripts/ontology/validate.py`.
+- For Vercel and Supabase, use only the `neogenesis` organization, never the legacy `etribe` org (Vercel team `etribe-cts's projects` / Supabase `etirbe-cts's Org`) — 2026-06-09 account migration. Before creating projects, deploying, running DB migrations, or changing env vars, confirm the target org is `neogenesis`; if only `etribe` is selectable, stop and tell the owner.
 
 ## Shared Knowledge
 - Ontology (Neo Genesis operating graph): `.agent/ontology/` (runtime/meta) + `.agent/ontology/business/` (business). Tools: `query.py` / `mutate.py` / `validate.py` / MCP `neo-genesis-ontology`. Design: `.agent/ontology/DESIGN_v0.1.md`.
@@ -49,4 +50,4 @@
 - Sora reads `src/core/data/sora_context.json` for shared-brain and runtime paths.
 
 ## Runtime Revision
-- ssotRevision: `09078b3e325629ed`
+- ssotRevision: `538f73543f80cddb`
