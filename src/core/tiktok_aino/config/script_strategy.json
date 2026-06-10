@@ -77,12 +77,15 @@
       "누가 책임지나?",
       "프레임부터 보자"
     ],
-    "caption_body_template": "{post_title}\n\n{topic_title}. {case_thesis} 확인된 보도와 반론을 같이 놓고 봅니다.\n\n{cta_sentence}",
+    "caption_body_template": "{post_title}\n\n{topic_title}. {stakes_line} {conflict_line}\n\n{comment_trigger}",
+    "caption_follow_template": "팔로우하면 {series_promise}",
+    "caption_follow_fallback": "팔로우하면 다음 편에서 이 프레임을 이어갑니다.",
+    "series_promise_template": "{primary_term} 쟁점의 다음 흐름도 이어갑니다.",
     "caption_expansion_sentences": [
       "보도 제목만 따라가지 않고, 누가 프레임을 잡는지까지 보겠습니다.",
       "확인된 근거와 아직 남은 책임선을 나눠 보는 게 중요합니다."
     ],
-    "post_body_template": "{topic_title}. {case_thesis} 확인된 것, 반론 가능성, 남은 책임을 분리했습니다.",
+    "post_body_template": "{topic_title}. {stakes_line} {next_watch_line}",
     "pinned_comment_template": "{comment_trigger} 반론·공유도 받습니다. 팔로우하면 다음 편에서 이어갑니다.",
     "cta_sentence": "반론까지 보고, 당신은 어느 쪽인지 댓글로 남겨주세요.",
     "claim_focus_template": "{primary_term} 보도에서 반복된 쟁점",
@@ -109,6 +112,98 @@
       ]
     },
     "conditional_hashtags": [
+      {
+        "if_topic_contains_any": [
+          "보완수사권",
+          "검찰 권한",
+          "검찰개혁"
+        ],
+        "tags": [
+          "검찰개혁",
+          "보완수사권",
+          "국회",
+          "검찰"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "엇갈린 운명",
+          "비전",
+          "책임의 시간"
+        ],
+        "tags": [
+          "이재명",
+          "윤석열",
+          "특검",
+          "계엄"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "팩트 조작",
+          "언론의 팩트 조작",
+          "언론 책임"
+        ],
+        "tags": [
+          "언론",
+          "가짜뉴스",
+          "팩트체크",
+          "언론개혁"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "국정조사",
+          "진상규명",
+          "시간끌기"
+        ],
+        "tags": [
+          "국정조사",
+          "진상규명",
+          "국회",
+          "책임"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "평화공존",
+          "평화 공존",
+          "남북관계"
+        ],
+        "tags": [
+          "평화",
+          "남북관계",
+          "안보",
+          "외교"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "역대 대통령",
+          "대통령 순위",
+          "TOP3",
+          "노무현",
+          "김대중"
+        ],
+        "tags": [
+          "역대대통령",
+          "노무현",
+          "이재명",
+          "김대중",
+          "대통령순위"
+        ]
+      },
+      {
+        "if_topic_contains_any": [
+          "이재명"
+        ],
+        "tags": [
+          "이재명",
+          "민주당",
+          "검찰개혁",
+          "민생"
+        ]
+      },
       {
         "if_topic_contains_any": [
           "김건희"

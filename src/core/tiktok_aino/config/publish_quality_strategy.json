@@ -30,14 +30,30 @@
       "확인",
       "전말",
       "근거",
-      "팩트체크"
+      "팩트체크",
+      "숫자",
+      "선관위",
+      "출처",
+      "안보",
+      "외교",
+      "군사 긴장",
+      "전쟁 비용",
+      "평화공존"
     ],
     "civic_terms": [
       "권한",
       "책임",
       "설명 가능성",
       "시민",
-      "시민 기준"
+      "시민 기준",
+      "민심",
+      "선거",
+      "견제",
+      "권력",
+      "안보",
+      "외교",
+      "평화",
+      "남북관계"
     ]
   },
   "policy_gate": {
@@ -111,6 +127,33 @@
   },
   "rendering": {
     "aigc_disclosure_label": "해당 이미지는 생성된 이미지입니다",
+    "default_render_style": "cinematic_subtitle",
+    "native_caption": {
+      "version": "tiktok_native_caption_v1",
+      "cta_choice_labels": [
+        "문제다",
+        "과장이다"
+      ],
+      "role_labels": {
+        "hook": "논쟁 시작",
+        "why_now": "왜 지금",
+        "evidence": "근거",
+        "criteria": "판단 기준",
+        "responsibility": "책임",
+        "verification": "검증",
+        "cta": "댓글 선택"
+      },
+      "accent_palette": {
+        "hook": "#ff335f",
+        "why_now": "#ffd166",
+        "evidence": "#35d0ff",
+        "criteria": "#7ef2a7",
+        "responsibility": "#ff8a3d",
+        "verification": "#9fb6ff",
+        "cta": "#ffe45e",
+        "default": "#ff335f"
+      }
+    },
     "card_ui": {
       "version": "aino_card_ui_v3",
       "layout_variety_min_unique": 5,
@@ -205,7 +248,16 @@
       "검찰",
       "논란",
       "특검",
-      "팩트체크"
+      "팩트체크",
+      "프레임",
+      "민심",
+      "선거",
+      "지지율",
+      "숫자",
+      "착시",
+      "서울",
+      "전국",
+      "12대4"
     ],
     "retention_terms": [
       "의혹",
@@ -221,7 +273,13 @@
       "비교",
       "다음",
       "확인",
-      "왜"
+      "왜",
+      "프레임",
+      "민심",
+      "흐름",
+      "숫자",
+      "착시",
+      "반박"
     ],
     "target_terms": [
       "아이",
@@ -247,7 +305,16 @@
       "경찰",
       "검찰",
       "무혐의",
-      "불송치"
+      "불송치",
+      "민주당",
+      "국민의힘",
+      "선거",
+      "민심",
+      "지지율",
+      "프레임",
+      "서울",
+      "전국",
+      "12대4"
     ],
     "target_title_terms": [
       "교실",
@@ -260,7 +327,13 @@
       "이재명",
       "김건희",
       "윤석열",
-      "국회"
+      "국회",
+      "선거",
+      "민심",
+      "지지율",
+      "프레임",
+      "민주당",
+      "국민의힘"
     ],
     "comment_terms": [
       "댓글",
@@ -270,6 +343,26 @@
       "팔로우",
       "구독",
       "다음 검증"
+    ],
+    "caption_follow_terms": [
+      "팔로우",
+      "구독"
+    ],
+    "series_identity_terms": [
+      "다음 편",
+      "이어갑니다",
+      "계속",
+      "후속",
+      "매일",
+      "다음 흐름"
+    ],
+    "profile_transition_terms": [
+      "팔로우하면",
+      "구독하면",
+      "다음 편",
+      "이어갑니다",
+      "계속 추적",
+      "매일 정리"
     ],
     "generic_repetition_phrases": [
       "전말과 근거를 나눠 봅니다",
@@ -281,6 +374,7 @@
       "safe_provocation",
       "retention_design",
       "comment_trigger",
+      "follower_conversion",
       "policy_safety"
     ],
     "weights": {

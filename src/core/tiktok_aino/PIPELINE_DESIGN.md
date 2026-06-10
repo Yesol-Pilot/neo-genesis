@@ -214,6 +214,16 @@ No production strategy language belongs in `pipeline.py`. Prompt templates, scri
    - `local_bridge.py`에서 최신 package를 가져와 TikTok 업로드 화면에 파일/캡션을 채운다.
    - CAPTCHA, 보안 경고, 로그인, 의심 활동 문구가 보이면 중단한다.
    - AIGC 라벨 후보를 클릭하되, 최종 public post는 사람이 확인한다.
+21. `publish_queue_runner`
+   - 검수 완료 후보 여러 개를 `publish_queue.json`으로 묶은 뒤 큐 단위로 드라이런한다.
+   - 기본 모드는 `dry-run`이며 파일 존재, 예약시각, 업로드 안전본, `upload_automation` 드라이런 결과만 확인한다.
+   - `prepare`, `schedule`, `publish`는 외부 브라우저 액션이므로 `--confirm-external-action` 없이는 차단한다.
+   - `schedule`과 `publish`는 `--confirm-external-action`과 별도로 `AINO_UPLOAD_AUTOMATION_ENABLED=true`가 있어야 실제 클릭 단계로 진입한다.
+   - 예약 성공 검증은 TikTok Studio 콘텐츠 목록에서 정확한 제목과 예약시각을 확인하는 단계로 분리한다.
+22. `performance_feedback`
+   - 예약/업로드 검증과 성과 측정은 분리한다.
+   - 예약된 행, 미래 게시물, 조회수 0 행은 `scheduled_not_evaluable`로 보며 성과 근거로 쓰지 않는다.
+   - 성과 롤업은 하루 1회 `23:30 KST` 경계 이후 중복 리포트 가드를 통과할 때만 생성한다.
 
 ## Visual Direction
 

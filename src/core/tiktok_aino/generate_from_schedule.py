@@ -68,6 +68,14 @@ def _source_supports_topic(title: str, source: pipeline.Source) -> bool:
     )
 
 
+def _slot_declares_source_gate_ready(slot: dict[str, Any], source_ids: list[str]) -> bool:
+    try:
+        planned_source_count = int(slot.get("source_count") or 0)
+    except (TypeError, ValueError):
+        planned_source_count = 0
+    return bool(slot.get("ready_for_generation")) and planned_source_count >= 2 and len(source_ids) >= 2
+
+
 def _topic_from_slot(slot: dict[str, Any], index: int) -> tuple[pipeline.TopicCandidate, dict[str, pipeline.Source]]:
     source_rows = slot.get("sources", [])
     sources = {
@@ -97,13 +105,20 @@ def _topic_from_slot(slot: dict[str, Any], index: int) -> tuple[pipeline.TopicCa
             for source_id in (topic_row.get("source_ids") or [])
             if str(source_id).strip()
         ]
-        support_source_ids = [
-            source_id
-            for source_id in [*source_ids, *candidate_source_ids]
-            if source_id in sources
-            and (source_id in aligned_source_ids or _source_supports_topic(title, sources[source_id]))
-        ]
-        retained_source_ids = list(dict.fromkeys([*aligned_source_ids, *support_source_ids]))
+        if _slot_declares_source_gate_ready(slot, source_ids):
+            retained_source_ids = [
+                source_id
+                for source_id in dict.fromkeys([*aligned_source_ids, *candidate_source_ids, *source_ids])
+                if source_id in sources
+            ]
+        else:
+            support_source_ids = [
+                source_id
+                for source_id in [*source_ids, *candidate_source_ids]
+                if source_id in sources
+                and (source_id in aligned_source_ids or _source_supports_topic(title, sources[source_id]))
+            ]
+            retained_source_ids = list(dict.fromkeys([*aligned_source_ids, *support_source_ids]))
         if retained_source_ids:
             sources = {source_id: source for source_id, source in sources.items() if source_id in retained_source_ids}
         if len(retained_source_ids) > len(aligned_source_ids):
@@ -178,6 +193,123 @@ def _plan_enforces_future_slots(plan: dict[str, Any]) -> bool:
     return bool(plan.get("created_at") or plan.get("timezone") or plan.get("mode"))
 
 
+def _signature_token(value: Any, fallback: str = "missing") -> str:
+    text = re.sub(r"\s+", "_", str(value or "").strip().casefold())
+    text = re.sub(r"[^0-9a-z가-힣_:-]", "", text)
+    return text[:48] or fallback
+
+
+def _visual_prop_from_brief(brief: dict[str, Any]) -> str:
+    for key in ("foreground_prop", "action_beat", "concrete_scene"):
+        value = str(brief.get(key) or "").strip()
+        if value:
+            return value
+    anchors = brief.get("visual_anchor")
+    if isinstance(anchors, list):
+        return " ".join(str(item) for item in anchors[:2] if str(item).strip())
+    return ""
+
+
+def _manifest_visual_signature(manifest: dict[str, Any]) -> dict[str, Any]:
+    raw_assets = manifest.get("visual_assets", [])
+    assets = [asset for asset in raw_assets if isinstance(asset, dict)] if isinstance(raw_assets, list) else []
+    rows: list[dict[str, str]] = []
+    for asset in sorted(assets, key=lambda item: int(item.get("scene_id") or 0)):
+        brief = asset.get("visual_brief") if isinstance(asset.get("visual_brief"), dict) else {}
+        rows.append(
+            {
+                "scene_id": str(asset.get("scene_id") or ""),
+                "role": _signature_token(brief.get("role"), "no_role"),
+                "location": _signature_token(brief.get("location"), "no_location"),
+                "camera": _signature_token(brief.get("camera"), "no_camera"),
+                "prop": _signature_token(_visual_prop_from_brief(brief), "no_prop"),
+                "concrete_scene": _signature_token(brief.get("concrete_scene"), "no_scene"),
+                "treatment": _signature_token(
+                    brief.get("treatment_id") or brief.get("visual_treatment"),
+                    "no_treatment",
+                ),
+                "diegetic_text": _signature_token(brief.get("diegetic_text"), "no_text"),
+            }
+        )
+    layout_quality = manifest.get("layout_quality") if isinstance(manifest.get("layout_quality"), dict) else {}
+    layout_ids = [str(item) for item in layout_quality.get("layout_ids", [])] if isinstance(layout_quality.get("layout_ids"), list) else []
+    first = rows[0] if rows else {}
+    first_frame_key = "|".join(
+        [
+            str(first.get("location") or "no_location"),
+            str(first.get("camera") or "no_camera"),
+            str(first.get("prop") or "no_prop"),
+            str(first.get("concrete_scene") or "no_scene"),
+            str(first.get("treatment") or "no_treatment"),
+            str(first.get("diegetic_text") or "no_text"),
+        ]
+    )
+    return {
+        "scene_count": len(rows),
+        "rows": rows,
+        "locations": [row["location"] for row in rows],
+        "cameras": [row["camera"] for row in rows],
+        "props": [row["prop"] for row in rows],
+        "concrete_scenes": [row["concrete_scene"] for row in rows],
+        "treatments": [row["treatment"] for row in rows],
+        "first_frame_key": first_frame_key,
+        "layout_mode": str(layout_quality.get("mode") or ""),
+        "layout_ids": layout_ids,
+        "layout_sequence_key": "|".join(layout_ids),
+        "unique_locations": len({row["location"] for row in rows}),
+        "unique_cameras": len({row["camera"] for row in rows}),
+        "unique_props": len({row["prop"] for row in rows}),
+        "unique_concrete_scenes": len({row["concrete_scene"] for row in rows}),
+        "unique_treatments": len({row["treatment"] for row in rows}),
+        "layout_unique_count": int(layout_quality.get("unique_count") or len(set(layout_ids))),
+    }
+
+
+def _batch_visual_signature_issues(results: list[dict[str, Any]]) -> list[dict[str, str]]:
+    issues: list[dict[str, str]] = []
+    visual_items = [
+        item
+        for item in results
+        if isinstance(item.get("visual_signature"), dict) and not item.get("dry_run")
+    ]
+    for item in visual_items:
+        run_id = str(item.get("run_id") or "")
+        signature = item["visual_signature"]
+        if signature.get("layout_mode") == "native_image_text":
+            issues.append({"run_id": run_id, "issue": "old_native_image_text_layout_bypass"})
+        if int(signature.get("scene_count") or 0) >= 9:
+            if int(signature.get("unique_locations") or 0) < 5:
+                issues.append({"run_id": run_id, "issue": "intra_post_location_repetition"})
+            if int(signature.get("unique_cameras") or 0) < 5:
+                issues.append({"run_id": run_id, "issue": "intra_post_camera_repetition"})
+            if int(signature.get("unique_props") or 0) < 5:
+                issues.append({"run_id": run_id, "issue": "intra_post_prop_repetition"})
+            if int(signature.get("unique_treatments") or 0) < 4:
+                issues.append({"run_id": run_id, "issue": "intra_post_treatment_repetition"})
+        if signature.get("layout_mode") == "native_image_text_scene_signature" and int(signature.get("layout_unique_count") or 0) < 5:
+            issues.append({"run_id": run_id, "issue": "native_image_text_scene_signature_repetition"})
+
+    first_frame_counts = Counter(
+        str(item["visual_signature"].get("first_frame_key") or "")
+        for item in visual_items
+        if str(item["visual_signature"].get("first_frame_key") or "").strip()
+    )
+    layout_sequence_counts = Counter(
+        str(item["visual_signature"].get("layout_sequence_key") or "")
+        for item in visual_items
+        if str(item["visual_signature"].get("layout_sequence_key") or "").strip()
+    )
+    for item in visual_items:
+        run_id = str(item.get("run_id") or "")
+        first_key = str(item["visual_signature"].get("first_frame_key") or "")
+        if first_key and first_frame_counts[first_key] > 1:
+            issues.append({"run_id": run_id, "issue": "cross_post_first_frame_duplicate"})
+        layout_key = str(item["visual_signature"].get("layout_sequence_key") or "")
+        if layout_key and layout_sequence_counts[layout_key] > 1 and len(set(layout_key.split("|"))) < 5:
+            issues.append({"run_id": run_id, "issue": "cross_post_layout_sequence_duplicate"})
+    return issues
+
+
 def _selected_slots(
     plan: dict[str, Any],
     *,
@@ -202,16 +334,18 @@ def generate_from_plan(
     *,
     output_dir: Path = pipeline.DEFAULT_OUTPUT_DIR / "scheduled_packages",
     target_date: str | None = None,
+    all_days: bool = False,
     limit: int = 3,
     include_not_ready: bool = False,
     image_mode: str = "auto",
-    real_image_limit: int = 9,
+    real_image_limit: int | None = None,
     dry_run: bool = False,
 ) -> dict[str, Any]:
     plan = _read_json(plan_path)
+    selected_target_date = None if all_days else (target_date or str(plan.get("start_day", "")) or None)
     selected = _selected_slots(
         plan,
-        target_date=target_date or str(plan.get("start_day", "")) or None,
+        target_date=selected_target_date,
         limit=limit,
         include_not_ready=include_not_ready,
     )
@@ -247,6 +381,7 @@ def generate_from_plan(
             planned_publish_at_local=str(slot.get("publish_at_local", "")),
         )
         manifest = json.loads(Path(result.artifacts.manifest_json).read_text(encoding="utf-8"))
+        visual_signature = _manifest_visual_signature(manifest)
         item.update(
             {
                 "run_id": result.run_id,
@@ -262,6 +397,7 @@ def generate_from_plan(
                 "manifest": result.artifacts.manifest_json,
                 "report_html": result.artifacts.report_html,
                 "schedule_status": manifest.get("schedule_status"),
+                "visual_signature": visual_signature,
             }
         )
         results.append(item)
@@ -308,17 +444,20 @@ def generate_from_plan(
                 )
             elif compact:
                 seen_headlines[compact] = index
+    visual_signature_issues = _batch_visual_signature_issues(results)
     base_ok = all(item.get("status") in {"publish_ready", "selected"} for item in results)
     batch_quality_ok = (
         not duplicate_post_titles
         and not generic_post_title_issues
         and not generic_caption_issues
         and not scene_headline_issues
+        and not visual_signature_issues
     )
     summary = {
         "ok": base_ok and batch_quality_ok,
         "plan_path": str(plan_path),
-        "target_date": target_date or plan.get("start_day"),
+        "target_date": "all" if all_days else selected_target_date,
+        "all_days": all_days,
         "selected_count": len(selected),
         "generated_count": sum(1 for item in results if item.get("status") == "publish_ready"),
         "dry_run": dry_run,
@@ -329,6 +468,7 @@ def generate_from_plan(
             "generic_post_title_issues": generic_post_title_issues,
             "generic_caption_issues": generic_caption_issues,
             "scene_headline_issues": scene_headline_issues,
+            "visual_signature_issues": visual_signature_issues,
         },
         "results": results,
     }
@@ -341,12 +481,15 @@ def main() -> int:
     parser.add_argument("--days", type=int, default=3)
     parser.add_argument("--output-dir", type=Path, default=pipeline.DEFAULT_OUTPUT_DIR / "scheduled_packages")
     parser.add_argument("--date", dest="target_date")
+    parser.add_argument("--all-days", action="store_true")
     parser.add_argument("--limit", type=int, default=3)
     parser.add_argument("--include-not-ready", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--image-mode", choices=["auto", "codex_cli", "gemini_api", "local"], default="auto")
-    parser.add_argument("--real-image-limit", type=int, default=int(os.environ.get("AINO_REAL_IMAGE_LIMIT", "9")))
+    parser.add_argument("--real-image-limit", type=int, default=pipeline.default_real_image_limit_from_env())
     args = parser.parse_args()
+    if args.all_days and args.target_date:
+        parser.error("--all-days cannot be combined with --date")
 
     plan_path = args.plan
     if plan_path is None:
@@ -356,10 +499,11 @@ def main() -> int:
         plan_path,
         output_dir=args.output_dir,
         target_date=args.target_date,
+        all_days=args.all_days,
         limit=max(0, args.limit),
         include_not_ready=args.include_not_ready,
         image_mode=args.image_mode,
-        real_image_limit=max(0, args.real_image_limit),
+        real_image_limit=None if args.real_image_limit is None else max(0, args.real_image_limit),
         dry_run=args.dry_run,
     )
     print(json.dumps(summary, ensure_ascii=False, indent=2))

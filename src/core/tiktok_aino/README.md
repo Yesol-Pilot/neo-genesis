@@ -79,6 +79,68 @@ HA 운영은 `ha_publisher.py` 계층에서 관리합니다. `ysh-server`는 폐
 - Windows 예약 워커: `scripts/tiktok_aino_ha_worker.ps1 -Role upload`
 - 운영 절차: `HA_RUNBOOK.md`
 
+### 로컬 게시 큐 실행 경계
+
+생성·검수된 후보를 바로 TikTok에 올리지 않고, 먼저 `publish_queue.json`으로 묶습니다.
+큐 실행기는 기본적으로 드라이런만 수행하며, 외부 브라우저 액션은 명시 확인 없이는 차단합니다.
+
+단일 로컬 프리플라이트:
+
+```powershell
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --preflight
+```
+
+빠른 로컬 감사:
+
+```powershell
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --audit
+```
+
+실행 패킷 생성:
+
+```powershell
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --packet
+```
+
+로컬 검수/핸드오프 HTML 생성:
+
+```powershell
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --manual-handoff
+```
+
+안전 드라이런:
+
+```powershell
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --mode dry-run
+```
+
+지난 예약 슬롯을 다음 유효 슬롯으로 밀어 새 큐를 만드는 로컬 롤오버:
+
+```powershell
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --rollover-past-slots
+```
+
+명시 지시가 들어온 뒤에만 사용하는 예약 실행 형태:
+
+```powershell
+$env:AINO_UPLOAD_AUTOMATION_ENABLED="true"
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --mode schedule --confirm-external-action --owner-instruction "owner explicitly requested upload schedule post in current session"
+```
+
+운영 규칙:
+
+- `--preflight`는 감사, 필요 시 롤오버 큐 생성, 패킷 생성, 안전 dry-run을 순서대로 수행합니다. 외부 schedule/publish는 실행하지 않습니다.
+- `--audit`는 파일, 슬롯, publish_ready, posting boundary만 확인하고 Chrome/업로드 자동화를 호출하지 않습니다.
+- `--packet`은 현재 큐 상태, 안전 로컬 명령, 명시 지시 뒤에만 가능한 예약 명령을 JSON/Markdown으로 묶습니다.
+- `--manual-handoff`는 영상, 스토리보드, 검증 리포트 링크를 로컬 HTML로 묶습니다. 캡션 복사 명령, 업로드 명령, Chrome/TikTok 자동 조작은 포함하지 않습니다.
+- `dry-run`은 파일, 캡션, 예약시각, Chrome 연결, 업로드 안전본만 확인합니다.
+- `--rollover-past-slots`는 업로드 자동화를 호출하지 않고 큐 JSON만 새로 만들며, 슬롯은 기본 `08:10`, `11:20`, `19:30` 순서로 배치합니다.
+- `prepare`, `schedule`, `publish`는 외부 브라우저 액션이므로 `--confirm-external-action` 없이는 `external_action_confirmation_required`로 차단합니다.
+- `prepare`, `schedule`, `publish`는 현재 세션의 명시적 업로드/예약/게시 지시를 `--owner-instruction`으로 함께 남겨야 하며, 단순 `다음`류 문구는 차단합니다.
+- `schedule`과 `publish`는 기존 `AINO_UPLOAD_AUTOMATION_ENABLED=true` 게이트도 함께 필요합니다.
+- 예약 성공 여부는 로컬 결과만 믿지 말고 TikTok Studio 콘텐츠 목록에서 제목과 예약시각을 직접 확인해야 합니다.
+- 예약된 행이나 조회수 0 행은 성과 증거가 아니며, 성과 측정은 하루 1회 `23:30 KST` 롤업에서만 수행합니다.
+
 ## ElevenLabs 기본 정책
 
 기본 음성은 사용자가 기존에 쓰던 `Anna Kim`으로 고정합니다.

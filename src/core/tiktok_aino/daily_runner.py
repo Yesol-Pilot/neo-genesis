@@ -53,7 +53,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Generate the AiNo TikTok daily content plan.")
     parser.add_argument("--output-dir", type=Path, default=pipeline.DEFAULT_OUTPUT_DIR)
     parser.add_argument("--image-mode", choices=["auto", "codex_cli", "gemini_api", "local"], default="auto")
-    parser.add_argument("--real-image-limit", type=int, default=9)
+    parser.add_argument("--real-image-limit", type=int, default=pipeline.default_real_image_limit_from_env())
     parser.add_argument("--topic-mode", choices=["static", "hot"], default="static")
     parser.add_argument("--slot", choices=[*DAILY_FORMATS, "all"], default="all")
     args = parser.parse_args()

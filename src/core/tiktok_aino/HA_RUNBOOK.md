@@ -73,6 +73,57 @@ uses local HA state directly.
 
 ## Manual Checks
 
+Run the single local preflight first:
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONPATH = "."
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --preflight
+```
+
+Run the local publish queue audit before opening any browser workflow:
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONPATH = "."
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --audit
+```
+
+Generate the local execution packet before any owner-approved schedule run:
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONPATH = "."
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --packet
+```
+
+Run the local publish queue dry-run before any manual scheduling:
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONPATH = "."
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --mode dry-run
+```
+
+If any planned slot is already past or too close, create a new local-only queue
+before scheduling:
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONPATH = "."
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --rollover-past-slots
+```
+
+Manual schedule execution is an external browser action and requires explicit
+owner instruction in the current session:
+
+```powershell
+$env:AINO_UPLOAD_AUTOMATION_ENABLED = "true"
+$env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONPATH = "."
+python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --mode schedule --confirm-external-action --owner-instruction "owner explicitly requested upload schedule post in current session"
+```
+
 Audit the current queue:
 
 ```powershell
@@ -106,8 +157,18 @@ Expected healthy state:
 ## Safety Rules
 
 - Never upload or schedule `needs_revision` content.
+- Manual queue execution should use `publish_queue_runner`; do not bypass it with per-manifest upload commands unless diagnosing a single failed item.
+- `--preflight` is the preferred local entry point: it audits, rolls over stale slots if needed, writes a packet, and runs safe dry-run without scheduling or publishing.
+- `--audit` is local-only and does not call Chrome, upload automation, scheduling, publishing, or performance measurement.
+- `--packet` is local-only and writes the current audit result plus safe and external-gated commands for handoff.
+- `--rollover-past-slots` is local-only and writes a new queue file; it does not upload, schedule, or publish.
+- `prepare`, `schedule`, and `publish` require `--confirm-external-action` in `publish_queue_runner`.
+- `prepare`, `schedule`, and `publish` also require `--owner-instruction` with an explicit upload/schedule/post instruction from the current session; continuation prompts are not valid.
 - `schedule` and `publish` require `AINO_UPLOAD_AUTOMATION_ENABLED=true`.
 - Stop on TikTok login, CAPTCHA, security check, account restriction, or unclear final-submit UI.
+- Verify successful schedules in TikTok Studio content list by exact title and scheduled time.
+- Keep upload/schedule verification separate from performance measurement.
+- Treat scheduled rows, future rows, and zero-metric rows as `scheduled_not_evaluable`.
 - Keep old past jobs as `expired` rather than deleting them, so the audit trail remains intact.
 - Do not reintroduce YSH defaults. Replacement failover must be configured explicitly.
 - Do not introduce company assets as failover. Use personal cloud or personal hardware only.

@@ -1,5 +1,10 @@
 {
   "version": "script_first_v1",
+  "rolling_schedule": {
+    "candidate_pool_multiplier": 24,
+    "candidate_pool_min": 240,
+    "support_match_min_score": 8
+  },
   "editorial_frame": "공개 보도와 문서 근거로 쟁점을 설명하는 시민형 정치 뉴스 해설. 특정 정당·후보 선택 유도 없이 쟁점, 근거, 책임 기준을 분리한다.",
   "fact_pack": {
     "version": "fact_pack_v1",
@@ -220,6 +225,15 @@
       "확인된 근거",
       "남은 질문",
       "참여 유도"
+    ],
+    "ranking_battle_65": [
+      "순위표 즉시 공개",
+      "판정 기준 압축",
+      "하위권 빠른 판정",
+      "3위 판정",
+      "2위 논쟁 지점",
+      "1위 선언",
+      "댓글 판정"
     ],
     "reward_deep": [
       "정지 훅",

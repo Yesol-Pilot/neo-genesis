@@ -11,6 +11,7 @@ import argparse
 import contextlib
 import datetime as dt
 import email.utils
+import hashlib
 import html
 import json
 import math
@@ -72,6 +73,13 @@ def _load_runtime_env_files() -> None:
 
 
 _load_runtime_env_files()
+
+
+def default_real_image_limit_from_env() -> int | None:
+    value = os.environ.get("AINO_REAL_IMAGE_LIMIT")
+    if value is None or not value.strip():
+        return None
+    return max(0, int(value))
 
 
 @lru_cache(maxsize=16)
@@ -145,11 +153,13 @@ def _config_nested_list(config: dict[str, Any], section_key: str, item_key: str)
 
 
 def _contains_any_marker(text: str, markers: list[str]) -> bool:
-    return any(marker in text for marker in markers)
+    normalized = text.casefold()
+    return any(marker.casefold() in normalized for marker in markers)
 
 
 def _contains_all_markers(text: str, markers: list[str]) -> bool:
-    return all(marker in text for marker in markers)
+    normalized = text.casefold()
+    return all(marker.casefold() in normalized for marker in markers)
 
 CANVAS_WIDTH = 1080
 CANVAS_HEIGHT = 1920
@@ -176,6 +186,7 @@ BODY_TEXT_MIN_CHARS_MOBILE = 32
 BODY_TEXT_MAX_CHARS_MOBILE = 84
 FORMAT_BODY_TEXT_MAX_CHARS = {
     "growth_short": 52,
+    "ranking_battle_65": 72,
     "reward_deep": 84,
     "debate_followup": 72,
 }
@@ -206,6 +217,8 @@ UNSAFE_PROVOCATION_TERMS = _config_list(HOT_TOPIC_STRATEGY, "unsafe_provocation_
 SEARCH_STOPWORDS = set(_config_list(HOT_TOPIC_STRATEGY, "search_stopwords"))
 HOT_HOOK_HEADLINE_RULES = list(HOT_TOPIC_STRATEGY.get("hook_headline_rules", []))
 HOT_HOOK_FALLBACK_HEADLINE = str(HOT_TOPIC_STRATEGY.get("fallback_hook_headline", "이 이슈, 왜 지금?"))
+HOT_CUSTOM_ISSUE_KIND_RULES = [row for row in HOT_TOPIC_STRATEGY.get("custom_issue_kind_rules", []) if isinstance(row, dict)]
+REFERENCE_STORY_RULE_SCORING = _config_int_map(HOT_TOPIC_STRATEGY, "reference_storyboard_rule_scoring")
 DEEP_RESEARCH_STRATEGY = _load_strategy_config("deep_research_strategy.json")
 DEEP_RESEARCH_VERSION = str(DEEP_RESEARCH_STRATEGY.get("version", "deep_research_v1"))
 DEEP_RESEARCH_MODE = str(DEEP_RESEARCH_STRATEGY.get("research_mode", "official_policy_plus_live_news"))
@@ -653,6 +666,25 @@ class ContentFormatPlan:
     reward_eligible: bool
     upload_slot: str
     selection_reason: str
+    master_image_min: int = 0
+    master_image_max: int = 0
+    max_seconds_per_master_image: float = 7.0
+    visual_beats_per_minute: int = 22
+
+
+@dataclass(frozen=True)
+class VisualCadencePlan:
+    version: str
+    duration_sec: int
+    script_scene_count: int
+    master_image_min: int
+    master_image_max: int
+    target_master_images: int
+    min_visual_beats: int
+    target_visual_beats: int
+    max_seconds_per_master_image: float
+    visual_beats_per_minute: int
+    rationale: list[str]
 
 
 FORMAT_SPECS: dict[str, ContentFormatPlan] = {
@@ -660,13 +692,17 @@ FORMAT_SPECS: dict[str, ContentFormatPlan] = {
         format_id="evidence_briefing_75",
         objective="evidence_first_monetization_and_trust",
         target_duration_min_sec=60,
-        target_duration_max_sec=80,
+        target_duration_max_sec=95,
         scene_count_min=8,
-        scene_count_max=10,
+        scene_count_max=12,
         min_visual_beats=24,
         reward_eligible=True,
         upload_slot="11:20",
-        selection_reason="default evidence briefing: one claim, visible source card, and 60~80s retention target",
+        selection_reason="default evidence briefing: sourced claims, visible source card, and 60~95s Korean TTS retention target",
+        master_image_min=10,
+        master_image_max=12,
+        max_seconds_per_master_image=7.0,
+        visual_beats_per_minute=24,
     ),
     "growth_short": ContentFormatPlan(
         format_id="growth_short",
@@ -674,11 +710,31 @@ FORMAT_SPECS: dict[str, ContentFormatPlan] = {
         target_duration_min_sec=63,
         target_duration_max_sec=75,
         scene_count_min=9,
-        scene_count_max=10,
+        scene_count_max=11,
         min_visual_beats=20,
         reward_eligible=True,
         upload_slot="08:10",
         selection_reason="high-hook one-minute format for discovery and reward eligibility",
+        master_image_min=10,
+        master_image_max=11,
+        max_seconds_per_master_image=7.0,
+        visual_beats_per_minute=24,
+    ),
+    "ranking_battle_65": ContentFormatPlan(
+        format_id="ranking_battle_65",
+        objective="ranking_reveal_comment_battle",
+        target_duration_min_sec=60,
+        target_duration_max_sec=78,
+        scene_count_min=7,
+        scene_count_max=10,
+        min_visual_beats=20,
+        reward_eligible=True,
+        upload_slot="19:30",
+        selection_reason="ranking-first format: immediate list reveal, compressed verdicts, and comment-choice finish",
+        master_image_min=9,
+        master_image_max=10,
+        max_seconds_per_master_image=7.0,
+        visual_beats_per_minute=24,
     ),
     "reward_deep": ContentFormatPlan(
         format_id="reward_deep",
@@ -691,6 +747,10 @@ FORMAT_SPECS: dict[str, ContentFormatPlan] = {
         reward_eligible=True,
         upload_slot="11:20",
         selection_reason="one-minute-plus sourced explainer for watch-time and RPM signals",
+        master_image_min=12,
+        master_image_max=12,
+        max_seconds_per_master_image=7.0,
+        visual_beats_per_minute=26,
     ),
     "debate_followup": ContentFormatPlan(
         format_id="debate_followup",
@@ -698,13 +758,66 @@ FORMAT_SPECS: dict[str, ContentFormatPlan] = {
         target_duration_min_sec=63,
         target_duration_max_sec=90,
         scene_count_min=9,
-        scene_count_max=10,
+        scene_count_max=12,
         min_visual_beats=20,
         reward_eligible=True,
         upload_slot="19:30",
         selection_reason="comment-driven one-minute follow-up format",
+        master_image_min=10,
+        master_image_max=12,
+        max_seconds_per_master_image=7.0,
+        visual_beats_per_minute=25,
     ),
 }
+
+
+def _format_master_image_min(plan: ContentFormatPlan) -> int:
+    return max(1, int(plan.master_image_min or plan.scene_count_min))
+
+
+def _format_master_image_max(plan: ContentFormatPlan) -> int:
+    return max(_format_master_image_min(plan), int(plan.master_image_max or plan.scene_count_max))
+
+
+def plan_visual_cadence(scenes: list["Scene"], format_plan: ContentFormatPlan | None = None) -> VisualCadencePlan:
+    plan = format_plan or FORMAT_SPECS["reward_deep"]
+    duration_sec = sum(max(0, int(scene.duration_sec)) for scene in scenes)
+    scene_count = len(scenes)
+    master_min = _format_master_image_min(plan)
+    master_max = _format_master_image_max(plan)
+    max_seconds_per_image = max(3.0, float(plan.max_seconds_per_master_image or 7.0))
+    duration_target = math.ceil(duration_sec / max_seconds_per_image) if duration_sec else master_min
+    long_scene_bonus = sum(1 for scene in scenes if scene.duration_sec >= 10)
+    scene_floor = min(master_max, max(master_min, scene_count))
+    target_master_images = min(master_max, max(master_min, duration_target, scene_floor))
+    if long_scene_bonus and target_master_images < master_max:
+        target_master_images = min(master_max, target_master_images + min(2, long_scene_bonus))
+
+    beat_density = max(1, int(plan.visual_beats_per_minute or 22))
+    duration_beat_target = math.ceil(duration_sec * beat_density / 60) if duration_sec else plan.min_visual_beats
+    target_visual_beats = max(plan.min_visual_beats, duration_beat_target, target_master_images * 2)
+    rationale = [
+        f"duration_sec={duration_sec}",
+        f"scene_count={scene_count}",
+        f"duration_target_images={duration_target}",
+        f"format_master_range={master_min}-{master_max}",
+        f"beat_density_per_minute={beat_density}",
+    ]
+    if long_scene_bonus:
+        rationale.append(f"long_scene_bonus={long_scene_bonus}")
+    return VisualCadencePlan(
+        version="visual_cadence_v1",
+        duration_sec=duration_sec,
+        script_scene_count=scene_count,
+        master_image_min=master_min,
+        master_image_max=master_max,
+        target_master_images=target_master_images,
+        min_visual_beats=plan.min_visual_beats,
+        target_visual_beats=target_visual_beats,
+        max_seconds_per_master_image=max_seconds_per_image,
+        visual_beats_per_minute=beat_density,
+        rationale=rationale,
+    )
 
 
 @dataclass(frozen=True)
@@ -789,8 +902,12 @@ class VisualBrief:
     relevance_terms: list[str]
     diversity_tags: list[str]
     safety_constraints: list[str]
+    shot_contract: list[str] = field(default_factory=list)
+    forbidden_dominant_elements: list[str] = field(default_factory=list)
+    scene_uniqueness_key: str = ""
     diegetic_text: str = ""
     diegetic_text_directive: str = ""
+    render_style: str = ""
 
 
 @dataclass(frozen=True)
@@ -1005,6 +1122,7 @@ class RenderManifest:
     transition_policy: str
     safe_zones: dict[str, Any]
     visual_motion: dict[str, Any]
+    visual_cadence: dict[str, Any]
     artifacts: dict[str, str]
     gates: dict[str, Any]
 
@@ -1181,7 +1299,7 @@ def _text_integrity_issues(label: str, text: Any, *, korean_expected: bool = Tru
     return issues
 
 
-def _script_text_integrity_issues(script: dict[str, Any]) -> list[str]:
+def _script_text_integrity_issues(script: dict[str, Any], format_plan: dict[str, Any] | None = None) -> list[str]:
     issues: list[str] = []
     for key in ["title", "caption", "post_title", "post_body", "pinned_comment", "narration"]:
         issues.extend(_text_integrity_issues(f"script.{key}", script.get(key)))
@@ -1192,7 +1310,13 @@ def _script_text_integrity_issues(script: dict[str, Any]) -> list[str]:
         joined_hashtags = " ".join(str(item) for item in hashtags)
         issues.extend(_text_integrity_issues("script.hashtags", joined_hashtags))
     scenes = script.get("scenes", [])
-    if not isinstance(scenes, list) or len(scenes) < 9:
+    expected_min_scenes = 9
+    if isinstance(format_plan, dict):
+        try:
+            expected_min_scenes = int(format_plan.get("scene_count_min") or expected_min_scenes)
+        except (TypeError, ValueError):
+            expected_min_scenes = 9
+    if not isinstance(scenes, list) or len(scenes) < expected_min_scenes:
         issues.append("script.scenes:too_few")
         return issues
     for index, scene in enumerate(scenes, start=1):
@@ -1245,6 +1369,7 @@ def validate_manifest_for_upload(manifest: dict[str, Any]) -> dict[str, Any]:
     tts_performance_plan = (
         manifest.get("tts_performance_plan") if isinstance(manifest.get("tts_performance_plan"), dict) else {}
     )
+    tts_plan = manifest.get("tts_plan") if isinstance(manifest.get("tts_plan"), dict) else {}
 
     if gate.get("passed") is not True:
         technical_blockers.append("policy_gate_not_passed")
@@ -1254,6 +1379,12 @@ def validate_manifest_for_upload(manifest: dict[str, Any]) -> dict[str, Any]:
         technical_blockers.append("content_review_not_passed")
     if audio.get("provider") != "elevenlabs" or audio.get("status") != "generated":
         technical_blockers.append("elevenlabs_audio_not_generated")
+    if not tts_plan:
+        technical_blockers.append("tts_plan_missing")
+    elif tts_plan.get("enable_logging") is not False:
+        technical_blockers.append("elevenlabs_zero_retention_not_confirmed")
+    elif not _manifest_confirms_elevenlabs_history_clear(manifest):
+        technical_blockers.append("elevenlabs_history_not_verified_clear")
     if manifest.get("synced_duration_matches_format") is not True:
         technical_blockers.append("duration_not_synced_to_format")
 
@@ -1304,7 +1435,8 @@ def validate_manifest_for_upload(manifest: dict[str, Any]) -> dict[str, Any]:
     ]:
         if gate_doc.get("gate_passed") is not True:
             technical_blockers.append(f"{gate_name}_not_passed")
-    technical_blockers.extend(_script_text_integrity_issues(script))
+    format_plan = manifest.get("format_plan") if isinstance(manifest.get("format_plan"), dict) else {}
+    technical_blockers.extend(_script_text_integrity_issues(script, format_plan))
 
     if quality.get("passed") is not True:
         quality_blockers.append("publish_quality_not_passed")
@@ -3066,6 +3198,134 @@ def _elevenlabs_voice_settings(model_id: str) -> dict[str, float | bool]:
     return settings
 
 
+def _elevenlabs_enable_logging() -> bool:
+    return _env_bool("ELEVENLABS_ENABLE_LOGGING", False)
+
+
+def _elevenlabs_tts_disabled() -> bool:
+    return _env_bool("AINO_DISABLE_ELEVENLABS_TTS", False)
+
+
+def _elevenlabs_history_scrub_enabled() -> bool:
+    return _env_bool("ELEVENLABS_HISTORY_SCRUB_AFTER_TTS", True)
+
+
+def _elevenlabs_zero_retention_requested() -> bool:
+    return not _elevenlabs_enable_logging()
+
+
+def _elevenlabs_history_note(audit: dict[str, Any], *, final: bool = False) -> str:
+    if not audit.get("enabled"):
+        return "elevenlabs_history_audit_disabled"
+    if audit.get("error"):
+        return f"elevenlabs_history_audit_failed={audit.get('error')}"
+    deleted = int(audit.get("deleted") or 0)
+    remaining = int(audit.get("remaining_first_page") or 0)
+    prefix = "elevenlabs_history_final" if final else "elevenlabs_history_intermediate"
+    return f"{prefix}_deleted={deleted};{prefix}_remaining_first_page={remaining}"
+
+
+def _elevenlabs_scrub_history(api_key: str) -> dict[str, Any]:
+    if not _elevenlabs_history_scrub_enabled():
+        return {"enabled": False, "deleted": 0, "remaining_first_page": None}
+    try:
+        import requests
+    except Exception as exc:  # pragma: no cover - requests is available in normal runtime
+        return {"enabled": True, "deleted": 0, "remaining_first_page": None, "error": str(exc)}
+
+    headers = {"xi-api-key": api_key}
+    deleted = 0
+    try:
+        response = requests.get("https://api.elevenlabs.io/v1/history?page_size=100", headers=headers, timeout=30)
+        if response.status_code >= 400:
+            return {
+                "enabled": True,
+                "deleted": deleted,
+                "remaining_first_page": None,
+                "error": f"history_get_http_{response.status_code}",
+            }
+        data = response.json() if hasattr(response, "json") else json.loads(response.text or "{}")
+        history = data.get("history") if isinstance(data, dict) else []
+        for item in history or []:
+            history_item_id = str(item.get("history_item_id") or "").strip() if isinstance(item, dict) else ""
+            if not history_item_id:
+                continue
+            delete_response = requests.delete(
+                f"https://api.elevenlabs.io/v1/history/{history_item_id}",
+                headers=headers,
+                timeout=30,
+            )
+            if 200 <= delete_response.status_code < 300:
+                deleted += 1
+        check_response = requests.get("https://api.elevenlabs.io/v1/history?page_size=1", headers=headers, timeout=30)
+        if check_response.status_code >= 400:
+            return {
+                "enabled": True,
+                "deleted": deleted,
+                "remaining_first_page": None,
+                "error": f"history_check_http_{check_response.status_code}",
+            }
+        check_data = check_response.json() if hasattr(check_response, "json") else json.loads(check_response.text or "{}")
+        remaining_history = check_data.get("history") if isinstance(check_data, dict) else []
+        return {"enabled": True, "deleted": deleted, "remaining_first_page": len(remaining_history or [])}
+    except Exception as exc:
+        return {"enabled": True, "deleted": deleted, "remaining_first_page": None, "error": str(exc)}
+
+
+def _elevenlabs_scrub_history_until_clear(api_key: str) -> dict[str, Any]:
+    if not _elevenlabs_history_scrub_enabled():
+        return {"enabled": False, "deleted": 0, "remaining_first_page": None}
+    try:
+        attempts = max(1, min(10, int(os.environ.get("ELEVENLABS_HISTORY_SCRUB_ATTEMPTS", "6"))))
+    except ValueError:
+        attempts = 6
+    try:
+        wait_sec = max(0.0, min(10.0, float(os.environ.get("ELEVENLABS_HISTORY_SCRUB_WAIT_SEC", "2"))))
+    except ValueError:
+        wait_sec = 2.0
+
+    total_deleted = 0
+    last_audit: dict[str, Any] = {"enabled": True, "deleted": 0, "remaining_first_page": None}
+    clear_streak = 0
+    for attempt in range(attempts):
+        audit = _elevenlabs_scrub_history(api_key)
+        total_deleted += int(audit.get("deleted") or 0)
+        last_audit = {**audit, "deleted": total_deleted, "attempts": attempt + 1}
+        if audit.get("remaining_first_page") == 0 and not audit.get("error"):
+            clear_streak += 1
+            if clear_streak >= 2:
+                return last_audit
+        else:
+            clear_streak = 0
+        if attempt < attempts - 1 and wait_sec:
+            time.sleep(wait_sec)
+    return last_audit
+
+
+def _note_confirms_elevenlabs_history_clear(note: str) -> bool:
+    return "elevenlabs_history_final_remaining_first_page=0" in str(note)
+
+
+def _audio_asset_confirms_elevenlabs_history_clear(audio_asset: AudioAsset) -> bool:
+    notes = [*audio_asset.notes]
+    for timing in audio_asset.scene_timings:
+        if isinstance(timing, dict):
+            notes.extend(str(note) for note in timing.get("notes", []) if str(note).strip())
+    return any(_note_confirms_elevenlabs_history_clear(note) for note in notes)
+
+
+def _manifest_confirms_elevenlabs_history_clear(manifest: dict[str, Any]) -> bool:
+    notes: list[str] = []
+    audio = manifest.get("audio_asset") if isinstance(manifest.get("audio_asset"), dict) else {}
+    tts_plan = manifest.get("tts_plan") if isinstance(manifest.get("tts_plan"), dict) else {}
+    notes.extend(str(note) for note in audio.get("notes", []) if str(note).strip())
+    notes.extend(str(note) for note in tts_plan.get("notes", []) if str(note).strip())
+    for timing in audio.get("scene_timings", []) if isinstance(audio.get("scene_timings"), list) else []:
+        if isinstance(timing, dict):
+            notes.extend(str(note) for note in timing.get("notes", []) if str(note).strip())
+    return any(_note_confirms_elevenlabs_history_clear(note) for note in notes)
+
+
 def _tts_pronunciation_alias_terms(text: str) -> list[str]:
     path = PACKAGE_DIR / "account" / "ko_tts_pronunciation.json"
     if not path.exists():
@@ -3119,6 +3379,14 @@ def build_tts_performance_plan(script: ScriptPackage, angle_brief: AngleBrief) -
 
 def build_tts_plan(script: ScriptPackage, audio_asset: AudioAsset) -> TTSPlan:
     model_id = _env_value("ELEVENLABS_MODEL_ID") or "eleven_multilingual_v2"
+    enable_logging = _elevenlabs_enable_logging()
+    history_clear = _audio_asset_confirms_elevenlabs_history_clear(audio_asset)
+    publish_candidate = (
+        audio_asset.provider == "elevenlabs"
+        and audio_asset.status == "generated"
+        and not enable_logging
+        and history_clear
+    )
     timing_by_scene = {
         int(row.get("scene_id")): row
         for row in audio_asset.scene_timings
@@ -3127,12 +3395,15 @@ def build_tts_plan(script: ScriptPackage, audio_asset: AudioAsset) -> TTSPlan:
     combined_lint = _read_json_object_if_exists(audio_asset.lint_path)
     scene_texts: list[TTSScenePlan] = []
     warnings: list[str] = [str(item) for item in combined_lint.get("warnings", []) if str(item).strip()]
+    notes: list[str] = [str(item) for item in audio_asset.notes if str(item).strip()]
     for scene in script.scenes:
         timing = timing_by_scene.get(scene.scene_id, {})
         lint = _read_json_object_if_exists(timing.get("lint_path"))
         tts_text = _read_text_if_exists(timing.get("tts_text_path")) or _preprocess_korean_tts(scene.body).text
         scene_warnings = [str(item) for item in lint.get("warnings", []) if str(item).strip()]
         scene_replacements = [str(item) for item in lint.get("replacements", []) if str(item).strip()]
+        timing_notes = [str(item) for item in timing.get("notes", []) if str(item).strip()]
+        notes.extend(timing_notes)
         warnings.extend(f"scene_{scene.scene_id:02d}:{warning}" for warning in scene_warnings)
         scene_texts.append(
             TTSScenePlan(
@@ -3154,16 +3425,16 @@ def build_tts_plan(script: ScriptPackage, audio_asset: AudioAsset) -> TTSPlan:
         provider="elevenlabs",
         actual_provider=audio_asset.provider,
         status=audio_asset.status,
-        publish_candidate=audio_asset.provider == "elevenlabs" and audio_asset.status == "generated",
+        publish_candidate=publish_candidate,
         voice=_env_value("ELEVENLABS_VOICE_NAME") or "Anna Kim",
         model=model_id,
         language_code=_env_value("ELEVENLABS_LANGUAGE_CODE") or "ko",
         output_format=_env_value("ELEVENLABS_OUTPUT_FORMAT") or "mp3_44100_128",
-        enable_logging=_env_bool("ELEVENLABS_ENABLE_LOGGING", False),
+        enable_logging=enable_logging,
         voice_settings=_elevenlabs_voice_settings(model_id),
         scene_texts=scene_texts,
         warnings=list(dict.fromkeys(warnings)),
-        notes=audio_asset.notes,
+        notes=list(dict.fromkeys(notes)),
     )
 
 
@@ -3188,10 +3459,12 @@ def build_render_manifest(
     synced_duration_matches_format: bool,
     mobile_visual_passed: bool,
     layout_quality: dict[str, Any] | None = None,
+    visual_cadence: VisualCadencePlan | None = None,
 ) -> RenderManifest:
     duration_sec = sum(scene.duration_sec for scene in render_scenes)
     motion = _visual_motion_summary(visual_beats)
     layout_quality = layout_quality or {"passed": True}
+    cadence = visual_cadence or plan_visual_cadence(render_scenes)
     artifacts = {
         "mp4": str(mp4_path),
         "video_only_mp4": str(video_only_path),
@@ -3222,6 +3495,7 @@ def build_render_manifest(
             "critical_text_bottom_px": CRITICAL_TEXT_BOTTOM,
         },
         visual_motion=motion,
+        visual_cadence=asdict(cadence),
         artifacts=artifacts,
         gates={
             "policy": gate.passed,
@@ -3229,7 +3503,11 @@ def build_render_manifest(
             "content_review": review.passed,
             "publish_quality": quality.passed,
             "visual_quality": visual_quality.passed,
-            "audio_publish_candidate": audio_asset.provider == "elevenlabs" and audio_asset.status == "generated",
+            "audio_publish_candidate": (
+                audio_asset.provider == "elevenlabs"
+                and audio_asset.status == "generated"
+                and _elevenlabs_zero_retention_requested()
+            ),
             "mobile_visual": mobile_visual_passed,
             "layout_variety": bool(layout_quality.get("passed")),
             "duration": synced_duration_matches_format,
@@ -3352,10 +3630,13 @@ def _score_hot_topic(title: str, publisher: str, published_at: dt.datetime) -> i
     return max(0, score)
 
 
-def _fetch_google_news_items(query: str, *, limit: int = 12) -> list[HotTopicItem]:
+def _fetch_google_news_items(query: str, *, limit: int | None = None) -> list[HotTopicItem]:
+    rss_config = _config_dict(HOT_TOPIC_STRATEGY, "rss")
+    lookback_days = max(1, min(7, _strategy_int(rss_config, "lookback_days", 2)))
+    per_query_limit = max(1, min(50, int(limit or _strategy_int(rss_config, "per_query_limit", 12))))
     rss_url = "https://news.google.com/rss/search?" + urlencode(
         {
-            "q": f"{query} when:2d",
+            "q": f"{query} when:{lookback_days}d",
             "hl": "ko",
             "gl": "KR",
             "ceid": "KR:ko",
@@ -3373,7 +3654,7 @@ def _fetch_google_news_items(query: str, *, limit: int = 12) -> list[HotTopicIte
         return []
 
     items: list[HotTopicItem] = []
-    for item in root.findall("./channel/item")[:limit]:
+    for item in root.findall("./channel/item")[:per_query_limit]:
         title, publisher = _clean_news_title(item.findtext("title") or "")
         if len(title) < 12:
             continue
@@ -3597,14 +3878,14 @@ def _hot_primary_hook_term(title: str) -> str:
         if str(term).strip()
     }
     for token in re.findall(r"[가-힣A-Za-z0-9]{2,}", title):
-        cleaned = re.sub(r"(에서|에게|으로|부터|까지|하고|라는|처럼|보다|은|는|이|가|을|를|의|도|만)$", "", token)
+        cleaned = re.sub(r"(에서|에게|으로|부터|까지|하고|라는|처럼|보다|은|는|이|가|을|를|의|도|만|와|과)$", "", token)
         if not cleaned or cleaned in SEARCH_STOPWORDS or cleaned in suppressed:
             continue
         return cleaned
     return _compact_card_text(title, 12)
 
 
-def _hot_hook_headline(title: str) -> str:
+def _configured_hot_hook_headline(title: str) -> str:
     values = {
         "primary_term": _hot_primary_hook_term(title),
         "topic_title": title,
@@ -3621,6 +3902,17 @@ def _hot_hook_headline(title: str) -> str:
         headline = str(rule.get("headline", "")).strip()
         if headline:
             return _compact_card_text(_format_prompt_template(headline, values), 26, keep_question="?" in headline)
+    return ""
+
+
+def _hot_hook_headline(title: str) -> str:
+    configured = _configured_hot_hook_headline(title)
+    if configured:
+        return configured
+    values = {
+        "primary_term": _hot_primary_hook_term(title),
+        "topic_title": title,
+    }
     return _compact_card_text(
         _format_prompt_template(HOT_HOOK_FALLBACK_HEADLINE, values),
         26,
@@ -3694,6 +3986,8 @@ def _deep_research_script_values(topic_discovery: dict[str, Any] | None) -> dict
                 "counterpoint_focus": str(selected_candidate.get("counterpoint_focus") or values.get("counterpoint_focus", "")),
                 "comment_trigger": str(selected_candidate.get("comment_trigger") or values.get("comment_trigger", "")),
                 "follower_promise": str(selected_candidate.get("follower_promise") or values.get("follower_promise", "")),
+                "deep_research_comment_trigger": str(selected_candidate.get("comment_trigger") or ""),
+                "deep_research_counterpoint_focus": str(selected_candidate.get("counterpoint_focus") or ""),
             }
         )
     values["selected_archetype_label"] = str(
@@ -3702,6 +3996,7 @@ def _deep_research_script_values(topic_discovery: dict[str, Any] | None) -> dict
     values["selected_research_question"] = str(
         report.get("selected_research_question") or values.get("research_question", "")
     )
+    values["deep_research_question"] = values["selected_research_question"]
     if isinstance(angle_brief, dict):
         values.update(_angle_brief_script_values(angle_brief))
     if isinstance(fact_pack, dict):
@@ -3757,6 +4052,31 @@ def _issue_anchor_terms(text: str, preferred_terms: list[str]) -> list[str]:
     anchors = [term for term in preferred_terms if term and term in text]
     for token in re.findall(r"[가-힣A-Za-z0-9·.]{2,}", text):
         token = token.strip("·.")
+        for suffix in (
+            "에서",
+            "에게",
+            "으로",
+            "부터",
+            "까지",
+            "하고",
+            "라는",
+            "처럼",
+            "보다",
+            "은",
+            "는",
+            "이",
+            "가",
+            "을",
+            "를",
+            "의",
+            "도",
+            "만",
+            "와",
+            "과",
+        ):
+            if len(token) > len(suffix) + 1 and token.endswith(suffix):
+                token = token[: -len(suffix)]
+                break
         if not token or token in SEARCH_STOPWORDS or token in HOT_TOPIC_BROAD_CLUSTER_TOKENS:
             continue
         if token not in anchors:
@@ -3787,7 +4107,47 @@ def _issue_brief_script_values(topic: TopicCandidate) -> dict[str, str]:
         "cta_sentence": "반론까지 보고, 당신은 어느 쪽인지 댓글로 남겨주세요.",
     }
 
-    if any(term in text for term in ["위증", "구형", "징역", "선고", "재판", "법원", "1심", "항소심"]):
+    if "김건희" in text and "특검" in text:
+        values.update(
+            {
+                "reference_label": "김건희 특검과 다음 책임선",
+                "case_thesis": "핵심은 의혹 단정이 아니라 특검 수사가 어디까지 이어지는지입니다.",
+                "why_now": "윤석열 전 대통령 조사 이후 김건희 관련 수사 방향이 다시 보도되고 있습니다.",
+                "fact_anchor_line": "반복되는 축은 특검, 김건희, 윗선, 수사 범위입니다.",
+                "missing_line": "아직 남은 건 실제 소환과 확인된 혐의 범위입니다.",
+                "research_question": "김건희 특검에서 확인된 보도와 아직 비어 있는 책임선은 무엇인가?",
+                "counterpoint_focus": "수사 필요성, 정치공세 반론, 아직 확정되지 않은 사실관계",
+                "comment_trigger": "1 소환 시점, 2 윗선 책임, 3 정치공세 반론 중 무엇부터 봐야 하나요?",
+                "follower_promise": "특검 흐름과 반론을 확인된 보도 기준으로 계속 추적합니다.",
+                "share_line": "특검 과잉인지, 책임 추적인지 댓글이 갈릴 지점입니다.",
+                "cta_sentence": "수사 필요성인가 정치공세인가. 당신은 어디에 서나요?",
+                "stakes_line": "김건희 특검의 핵심은 분노보다 수사 범위와 책임선입니다.",
+                "conflict_line": "한쪽은 성역 없는 수사를 말하고, 다른 쪽은 정치공세라고 반박합니다.",
+                "viewer_identity_line": "시민 기준은 이름값보다 확인된 보도와 아직 비어 있는 절차를 나누는 것입니다.",
+                "next_watch_line": "다음 포인트는 실제 소환, 압수수색, 혐의 범위가 어디까지 공개되는지입니다.",
+            }
+        )
+    elif "윤석열" in text and "특검" in text and any(term in text for term in ["계엄", "무인기", "종합특검"]):
+        values.update(
+            {
+                "reference_label": "윤석열 특검과 계엄 의혹 책임선",
+                "case_thesis": "핵심은 정치적 호불호가 아니라 특검이 확인할 지시와 책임 범위입니다.",
+                "why_now": "첫 소환과 관련 재판 일정이 겹치며 책임선 보도가 다시 커지고 있습니다.",
+                "fact_anchor_line": "반복되는 축은 윤석열, 종합특검, 계엄, 무인기, 소환조사입니다.",
+                "missing_line": "아직 남은 건 지시 여부와 수사로 확인될 문서, 진술, 반론입니다.",
+                "research_question": "윤석열 특검에서 확인된 보도와 아직 비어 있는 책임선은 무엇인가?",
+                "counterpoint_focus": "특검 주장, 피의자 측 반론, 아직 확정되지 않은 수사 결과",
+                "comment_trigger": "1 계엄 의혹, 2 무인기 쟁점, 3 윗선 책임 중 무엇부터 봐야 하나요?",
+                "follower_promise": "특검 조사와 재판 일정이 만드는 책임선을 계속 추적합니다.",
+                "share_line": "책임 추적인지 정치보복인지 댓글이 갈릴 수밖에 없는 장면입니다.",
+                "cta_sentence": "책임 추적인가 정치보복인가. 당신은 어디에 서나요?",
+                "stakes_line": "윤석열 특검의 핵심은 감정이 아니라 지시, 문서, 진술이 만나는 책임선입니다.",
+                "conflict_line": "한쪽은 계엄 의혹의 윗선을 묻고, 다른 쪽은 정치보복 프레임으로 맞섭니다.",
+                "viewer_identity_line": "시민 기준은 분노보다 확인된 절차와 반론을 끝까지 보는 것입니다.",
+                "next_watch_line": "다음 포인트는 소환조사 이후 공개되는 진술과 문서입니다.",
+            }
+        )
+    elif any(term in text for term in ["위증", "구형", "징역", "선고", "재판", "법원", "1심", "항소심"]):
         anchors = _issue_anchor_terms(text, ["위증", "구형", "징역", "선고", "1심", "한덕수", "윤석열", "특검"])
         anchor_text = ", ".join(anchors[:4]) if anchors else "위증 혐의와 선고 기준"
         values.update(
@@ -3858,6 +4218,48 @@ def _issue_brief_script_values(topic: TopicCandidate) -> dict[str, str]:
 
 
 def _narrative_profile_for_title(title: str) -> dict[str, str]:
+    if any(term in title for term in ["선관위", "투표용지", "부정선거", "재선거", "선거 관리"]):
+        return {
+            "stakes_line": "선거 관리 논란은 승패보다 절차 신뢰와 책임선의 문제입니다.",
+            "conflict_line": "한쪽은 행정 허점을 묻고, 다른 쪽은 음모론 확산을 경계합니다.",
+            "viewer_identity_line": "시민 기준은 분노를 키우는 말보다 확인된 허점과 공식 책임을 나누는 것입니다.",
+            "next_watch_line": "다음 포인트는 선관위 해명, 국회 조사, 특검 요구가 어디서 갈리는지입니다.",
+        }
+    if any(term in title for term in ["친일", "반민족", "재산 환수", "부당재산", "현충일", "단죄"]):
+        return {
+            "stakes_line": "역사 책임 이슈는 과거 이야기가 아니라 지금 권력이 어떤 기준을 세우는가의 문제입니다.",
+            "conflict_line": "한쪽은 통합을 말하고, 다른 쪽은 부당하게 남은 이익을 먼저 묻습니다.",
+            "viewer_identity_line": "감정적 구호보다 중요한 건 누가 어떤 근거로 환수와 반론을 설명하는지입니다.",
+            "next_watch_line": "다음 포인트는 실제 조사 범위와 반발 프레임이 어디서 충돌하는지입니다.",
+        }
+    if any(term in title for term in ["검찰개혁", "공소취소", "검찰해체", "보완수사권"]):
+        return {
+            "stakes_line": "검찰개혁 논란의 핵심은 구호가 아니라 권한을 누가 어떻게 통제하느냐입니다.",
+            "conflict_line": "개혁의 필요성을 말하는 쪽과 공소취소 프레임을 키우는 쪽의 기준이 충돌합니다.",
+            "viewer_identity_line": "시민 기준은 편 가르기보다 권한, 견제, 책임선을 분리해 보는 것입니다.",
+            "next_watch_line": "다음 포인트는 보완수사권과 공소취소 논쟁이 실제 법안에서 어떻게 정리되는지입니다.",
+        }
+    if any(term in title for term in ["국정조사", "진상규명"]):
+        return {
+            "stakes_line": "국정조사와 특검의 차이는 구호가 아니라 책임을 밝히는 경로의 차이입니다.",
+            "conflict_line": "한쪽은 국회 조사를 말하고, 다른 쪽은 특검 없이는 부족하다고 압박합니다.",
+            "viewer_identity_line": "시민이 볼 지점은 어느 편이 유리한가보다 어떤 절차가 빈칸을 줄이는가입니다.",
+            "next_watch_line": "다음 포인트는 조사 요구가 실제 증거 확보로 이어지는지입니다.",
+        }
+    if any(term in title for term in ["민주당 책임론", "지지율 60", "정청래 책임론", "선거 책임론", "패배 책임론"]):
+        return {
+            "stakes_line": "여권 책임론은 자기편을 때리는 뉴스가 아니라 다음 선거를 이길 기준을 묻는 장면입니다.",
+            "conflict_line": "한쪽은 시스템 평가를 말하고, 다른 쪽은 책임지는 얼굴이 필요하다고 압박합니다.",
+            "viewer_identity_line": "지지층이 볼 지점은 누구를 버리느냐보다 어떤 실패 신호를 고칠 수 있느냐입니다.",
+            "next_watch_line": "다음 포인트는 지지율, 후보 전략, 조직 책임이 실제로 어디서 갈리는지입니다.",
+        }
+    if any(term in title for term in ["순직해병", "임성근", "사단장"]):
+        return {
+            "stakes_line": "순직해병 특검 논란은 법리 싸움 뒤에 남는 지휘 책임을 묻는 사안입니다.",
+            "conflict_line": "위헌 주장은 제도 논쟁을 만들고, 유가족과 시민은 여전히 책임선을 묻습니다.",
+            "viewer_identity_line": "시민 기준은 법리 주장과 책임 회피 가능성을 분리해서 보는 것입니다.",
+            "next_watch_line": "다음 포인트는 헌법소원과 특검 수사가 서로 어떤 영향을 주는지입니다.",
+        }
     if any(term in title for term in ["김건희", "윤석열", "국민의힘", "특검", "공천개입"]):
         return {
             "stakes_line": "끝났다는 말 뒤에 설명 책임이 남는지가 핵심입니다.",
@@ -3926,6 +4328,18 @@ def _template_values_for_topic(
             if not str(values.get(key, "")).strip():
                 values[key] = fallback_value
     return values
+
+
+def _with_deep_research_narration_lineage(script: ScriptPackage, values: dict[str, Any]) -> ScriptPackage:
+    required_lines = [
+        str(values.get("deep_research_question") or values.get("selected_research_question") or values.get("research_question") or "").strip(),
+        str(values.get("deep_research_counterpoint_focus") or values.get("counterpoint_focus") or "").strip(),
+        str(values.get("deep_research_comment_trigger") or values.get("comment_trigger") or "").strip(),
+    ]
+    additions = [line for line in required_lines if line and line not in script.narration]
+    if not additions:
+        return script
+    return replace(script, narration="\n".join([script.narration, *additions]))
 
 
 def _configured_hot_hashtags(topic: TopicCandidate) -> list[str]:
@@ -4017,7 +4431,7 @@ def _generate_hot_topic_script(
     narration = "\n".join(scene.body for scene in scenes)
     caption = _format_prompt_template(str(HOT_TOPIC_SCRIPT_STRATEGY.get("caption_template", "")), values)
     caption_max = _strategy_int(HOT_TOPIC_SCRIPT_STRATEGY, "caption_max_chars", 150)
-    return ScriptPackage(
+    script = ScriptPackage(
         title=hook_headline,
         caption=_compact_card_text(caption, caption_max),
         hashtags=hashtags,
@@ -4031,6 +4445,7 @@ def _generate_hot_topic_script(
         disclosure=style["disclosure_policy"],
         variant_id=str(HOT_TOPIC_SCRIPT_STRATEGY.get("variant_id", "hot_issue_check")),
     )
+    return _with_deep_research_narration_lineage(script, values)
 
 
 
@@ -4157,7 +4572,10 @@ def route_content_format(
     has_evidence_briefing_sources = len(topic.claims) >= 2 and len(topic.source_ids) >= 2
     has_followup_signal = any(term in text for term in ["comment", "reply", "followup", "rebuttal", "debate"])
     has_breaking_signal = any(term in text for term in ["breaking", "quick", "속보", "단신"])
-    if has_followup_signal:
+    is_ranking_battle = "역대 대통령" in text and "순위" in text
+    if is_ranking_battle:
+        base = replace(FORMAT_SPECS["ranking_battle_65"], selection_reason="auto: presidential ranking battle format")
+    elif has_followup_signal:
         base = replace(FORMAT_SPECS["debate_followup"], selection_reason="auto: comment or rebuttal signal detected")
     elif has_evidence_briefing_sources and not has_breaking_signal:
         base = replace(
@@ -4172,7 +4590,7 @@ def route_content_format(
     format_scores = performance_feedback.get("format_scores", {})
     if not isinstance(format_scores, dict):
         return base
-    candidates = ["evidence_briefing_75", "growth_short", "reward_deep", "debate_followup"]
+    candidates = ["evidence_briefing_75", "growth_short", "ranking_battle_65", "reward_deep", "debate_followup"]
     if not has_evidence_briefing_sources:
         candidates = [item for item in candidates if item not in {"evidence_briefing_75", "reward_deep"}]
     scored: list[tuple[int, str]] = []
@@ -4214,6 +4632,72 @@ def _select_format_scenes(scenes: list[Scene], plan: ContentFormatPlan) -> list[
     ]
 
 
+def _cutaway_scene_from_source(source: Scene, inserted_index: int, plan: ContentFormatPlan) -> Scene:
+    cutaway_labels = [
+        "다른 각도",
+        "반론 확인",
+        "책임선",
+        "근거 재확인",
+        "댓글 포인트",
+        "빈칸 확인",
+    ]
+    label = cutaway_labels[inserted_index % len(cutaway_labels)]
+    body_suffixes = [
+        "다른 장면으로 보면 빈칸과 근거가 더 선명해집니다.",
+        "반론 가능성과 확인된 기록을 분리해서 봅니다.",
+        "누가 설명해야 하는지 책임선을 다시 좁힙니다.",
+        "댓글 전에 확인할 기준을 한 번 더 남깁니다.",
+    ]
+    headline_seed = source.on_screen_text or source.title or "쟁점 확인"
+    body_seed = source.body or headline_seed
+    body = _compact_card_text(
+        f"{body_seed} {body_suffixes[inserted_index % len(body_suffixes)]}",
+        min(_body_text_max_for_plan(plan), 52),
+        keep_question="?" in body_seed,
+    )
+    headline = _compact_card_text(f"{headline_seed} {label}", 34, keep_question="?" in headline_seed)
+    visual = (
+        f"{source.visual}; adaptive cutaway {inserted_index + 1}: different location depth, "
+        "different camera distance, different foreground action, no repeated composition, "
+        "keep the same issue context but show a new real-world moment"
+    )
+    return replace(
+        source,
+        title=f"{source.title} / {label}".strip(" /"),
+        body=body,
+        visual=visual,
+        on_screen_text=headline,
+    )
+
+
+def _expand_scenes_to_visual_cadence(scenes: list[Scene], plan: ContentFormatPlan) -> list[Scene]:
+    if not scenes:
+        return scenes
+    cadence = plan_visual_cadence(scenes, plan)
+    target_count = min(plan.scene_count_max, cadence.target_master_images)
+    if len(scenes) >= target_count:
+        return [replace(scene, scene_id=index + 1) for index, scene in enumerate(scenes)]
+
+    expanded = list(scenes)
+    source_pool = list(scenes[:-1]) or list(scenes)
+    extras_needed = target_count - len(expanded)
+    extras_by_source: dict[int, list[Scene]] = {index: [] for index in range(len(source_pool))}
+    for inserted in range(extras_needed):
+        source_index = inserted % len(source_pool)
+        extras_by_source[source_index].append(_cutaway_scene_from_source(source_pool[source_index], inserted, plan))
+
+    expanded = []
+    if len(scenes) == 1:
+        expanded.append(scenes[0])
+        expanded.extend(extras_by_source.get(0, []))
+        return [replace(scene, scene_id=index + 1) for index, scene in enumerate(expanded)]
+    for index, scene in enumerate(scenes[:-1]):
+        expanded.append(scene)
+        expanded.extend(extras_by_source.get(index, []))
+    expanded.append(scenes[-1])
+    return [replace(scene, scene_id=index + 1) for index, scene in enumerate(expanded)]
+
+
 def _reward_deep_values(script: ScriptPackage, topic: TopicCandidate | None, sources: dict[str, Source] | None) -> dict[str, Any]:
     source_count = len(sources or {})
     terms = _metadata_topic_terms(topic, sources) if topic else []
@@ -4236,6 +4720,11 @@ def _apply_reward_deep_format(
     values = _reward_deep_values(script, topic, sources)
     updates = _config_dict(REWARD_DEEP_STRATEGY, "scene_updates")
     scenes = list(script.scenes)
+    configured_indices: list[int] = []
+    for index_text in updates:
+        with contextlib.suppress(TypeError, ValueError):
+            configured_indices.append(int(index_text))
+    configured_last_index = max(configured_indices, default=-1)
     for index_text, scene_updates in updates.items():
         if not isinstance(scene_updates, dict):
             continue
@@ -4243,6 +4732,8 @@ def _apply_reward_deep_format(
             index = int(index_text)
         except (TypeError, ValueError):
             continue
+        if index == configured_last_index and len(scenes) > configured_last_index + 1:
+            index = len(scenes) - 1
         if index < 0 or index >= len(scenes):
             continue
         allowed: dict[str, str] = {}
@@ -4344,6 +4835,25 @@ def _clean_hashtag(tag: str) -> str:
     return re.sub(r"[^0-9A-Za-z가-힣_]", "", tag)
 
 
+def _is_internal_metadata_token(token: str) -> bool:
+    normalized = token.strip().casefold()
+    if not normalized:
+        return True
+    if normalized.startswith("hot_news"):
+        return True
+    return normalized in {
+        "hot",
+        "discovery",
+        "hotdiscovery",
+        "static",
+        "reference",
+        "rolling",
+        "schedule",
+        "plan",
+        "test",
+    }
+
+
 def _script_hashtag_text(tags: list[str]) -> str:
     prefix = str(POST_METADATA_STRATEGY.get("hashtag_prefix", "#"))
     return " ".join(f"{prefix}{tag}" for tag in tags if tag)
@@ -4367,7 +4877,7 @@ def _metadata_source_text(topic: TopicCandidate, sources: dict[str, Source] | No
 
 
 def _metadata_primary_text(topic: TopicCandidate) -> str:
-    return _clean_card_text(" ".join([topic.title, topic.angle, topic.slot]))
+    return _clean_card_text(" ".join([topic.title, topic.angle]))
 
 
 def _metadata_topic_terms(topic: TopicCandidate, sources: dict[str, Source] | None) -> list[str]:
@@ -4380,7 +4890,9 @@ def _metadata_topic_terms(topic: TopicCandidate, sources: dict[str, Source] | No
     tokens = [
         token.strip("·")
         for token in re.findall(r"[가-힣A-Za-z0-9·]{2,}", raw)
-        if token.strip("·") and token.strip("·") not in SEARCH_STOPWORDS
+        if token.strip("·")
+        and token.strip("·") not in SEARCH_STOPWORDS
+        and not _is_internal_metadata_token(token.strip("·"))
     ]
     return list(dict.fromkeys([*priority, *tokens]))
 
@@ -4389,7 +4901,7 @@ def _metadata_hashtags(topic: TopicCandidate, sources: dict[str, Source] | None,
     raw = _metadata_primary_text(topic)
     grouped = _config_dict(POST_METADATA_STRATEGY, "hashtag_groups")
     candidates: list[str] = []
-    for group_key in ["base", "format", "brand"]:
+    for group_key in ["base"]:
         candidates.extend(str(tag) for tag in grouped.get(group_key, []) if str(tag).strip())
     for rule in POST_METADATA_STRATEGY.get("conditional_hashtags", []):
         if not isinstance(rule, dict):
@@ -4397,19 +4909,38 @@ def _metadata_hashtags(topic: TopicCandidate, sources: dict[str, Source] | None,
         terms = [str(term) for term in rule.get("if_topic_contains_any", []) if str(term).strip()]
         if any(term in raw for term in terms):
             candidates.extend(str(tag) for tag in rule.get("tags", []) if str(tag).strip())
+    for group_key in ["format", "brand"]:
+        candidates.extend(str(tag) for tag in grouped.get(group_key, []) if str(tag).strip())
     candidates.extend(_metadata_topic_terms(topic, sources))
     candidates.extend(str(tag) for tag in grouped.get("audience", []) if str(tag).strip())
-    candidates.extend(current_tags)
+    reusable_current_tags = {
+        _clean_hashtag(str(tag))
+        for group_key in ["base", "format", "audience", "brand"]
+        for tag in grouped.get(group_key, [])
+        if str(tag).strip()
+    }
+    for current_tag in current_tags:
+        clean_current = _clean_hashtag(str(current_tag))
+        if clean_current in reusable_current_tags or clean_current in raw:
+            candidates.append(str(current_tag))
 
     tags: list[str] = []
     max_tags = _metadata_int("hashtags_max", 12)
     for candidate in candidates:
         tag = _clean_hashtag(candidate)
-        if not tag or tag in tags:
+        if not tag or tag in tags or _is_internal_metadata_token(tag):
             continue
         tags.append(tag)
         if len(tags) >= max_tags:
             break
+    for brand_tag in grouped.get("brand", []):
+        tag = _clean_hashtag(str(brand_tag))
+        if not tag or tag in tags:
+            continue
+        if len(tags) >= max_tags and tags:
+            tags[-1] = tag
+        else:
+            tags.append(tag)
     return tags
 
 
@@ -4452,6 +4983,189 @@ def _metadata_caption_body(values: dict[str, Any]) -> str:
     return _trim_without_overflow_marker(body, _metadata_int("caption_body_max_chars", 220))
 
 
+def _caption_follow_terms() -> list[str]:
+    return list(
+        dict.fromkeys(
+            [
+                *_strategy_terms(SCRIPT_QUALITY_STRATEGY, "caption_follow_terms"),
+                *_strategy_terms(SCRIPT_QUALITY_STRATEGY, "follow_terms"),
+                "팔로우",
+                "구독",
+            ]
+        )
+    )
+
+
+def _series_identity_terms() -> list[str]:
+    return list(
+        dict.fromkeys(
+            [
+                *_strategy_terms(SCRIPT_QUALITY_STRATEGY, "series_identity_terms"),
+                "다음 편",
+                "이어갑니다",
+                "후속",
+            ]
+        )
+    )
+
+
+def _profile_transition_terms() -> list[str]:
+    return list(
+        dict.fromkeys(
+            [
+                *_strategy_terms(SCRIPT_QUALITY_STRATEGY, "profile_transition_terms"),
+                "팔로우하면",
+                "다음 편",
+                "이어갑니다",
+            ]
+        )
+    )
+
+
+def _caption_has_follow_cta(text: str) -> bool:
+    return _contains_any(text, _caption_follow_terms())
+
+
+def _text_has_series_identity(text: str) -> bool:
+    return _contains_any(text, _series_identity_terms())
+
+
+def _text_has_profile_transition(text: str) -> bool:
+    return _contains_any(text, _profile_transition_terms())
+
+
+def _append_sentence_with_budget(text: str, sentence: str, max_chars: int) -> str:
+    text = _clean_card_text(text)
+    sentence = _clean_card_text(sentence)
+    if not sentence:
+        return _trim_without_overflow_marker(text, max_chars)
+    if sentence in text:
+        return _trim_without_overflow_marker(text, max_chars)
+    if len(sentence) >= max_chars:
+        return _trim_without_overflow_marker(sentence, max_chars)
+    separator = " " if text else ""
+    if len(text) + len(separator) + len(sentence) <= max_chars:
+        return f"{text}{separator}{sentence}".strip()
+    prefix_budget = max(0, max_chars - len(sentence) - 1)
+    prefix = _trim_without_overflow_marker(text, prefix_budget).strip()
+    return f"{prefix} {sentence}".strip()
+
+
+def _metadata_series_promise(values: dict[str, Any]) -> str:
+    values = dict(values)
+    primary_term = str(values.get("primary_term") or "").strip()
+    if (
+        not primary_term
+        or primary_term.casefold() in {"hot", "news", "hot_news", "hot_news_plan"}
+        or not re.search(r"[가-힣]", primary_term)
+    ):
+        replacement = str(values.get("post_title") or values.get("topic_title") or "이 프레임")
+        values["primary_term"] = _compact_card_text(replacement, 16, keep_question=False)
+    if not values.get("series_promise"):
+        values["series_promise"] = _format_prompt_template(
+            str(POST_METADATA_STRATEGY.get("series_promise_template", "")),
+            values,
+        )
+    promise = _clean_card_text(str(values.get("series_promise") or ""))
+    if not promise:
+        promise = str(POST_METADATA_STRATEGY.get("caption_follow_fallback", ""))
+    return _trim_without_overflow_marker(promise, 72)
+
+
+def _metadata_caption_follow_sentence(values: dict[str, Any]) -> str:
+    values = dict(values)
+    values["series_promise"] = _metadata_series_promise(values)
+    sentence = _format_prompt_template(
+        str(POST_METADATA_STRATEGY.get("caption_follow_template", "")),
+        values,
+    )
+    if not _caption_has_follow_cta(sentence) or not _text_has_series_identity(sentence):
+        sentence = str(POST_METADATA_STRATEGY.get("caption_follow_fallback", ""))
+    return _trim_without_overflow_marker(sentence, 90)
+
+
+def _caption_without_hashtags(caption: str) -> str:
+    return re.sub(r"(?:^|\s)#[0-9A-Za-z가-힣_]+", "", caption).strip()
+
+
+def _caption_with_required_follow_cta(caption: str, hashtags: list[str], values: dict[str, Any]) -> str:
+    hashtags_text = _script_hashtag_text(hashtags)
+    total_max = _metadata_int("caption_total_max_chars", 360)
+    body_budget = total_max - len(hashtags_text) - (2 if hashtags_text else 0)
+    follow_sentence = _metadata_caption_follow_sentence(values)
+    body = _caption_without_hashtags(caption)
+    needs_follow = not _caption_has_follow_cta(body)
+    needs_series = not _text_has_series_identity(body) or not _text_has_profile_transition(body)
+    if needs_follow or needs_series:
+        body = _append_sentence_with_budget(body, follow_sentence, max(1, body_budget))
+    else:
+        body = _trim_without_overflow_marker(body, max(1, body_budget))
+    if hashtags_text:
+        return f"{body}\n\n{hashtags_text}".strip()
+    return body
+
+
+def _script_has_end_follow_promise(script: ScriptPackage) -> bool:
+    if not script.scenes:
+        return False
+    final = script.scenes[-1]
+    text = f"{final.on_screen_text} {final.body}"
+    return _caption_has_follow_cta(text) and _text_has_series_identity(text)
+
+
+def _script_final_text(script: ScriptPackage) -> str:
+    if not script.scenes:
+        return ""
+    final = script.scenes[-1]
+    return f"{final.on_screen_text} {final.body}"
+
+
+def _ensure_comment_cta_contract(script: ScriptPackage) -> ScriptPackage:
+    comment_terms = _strategy_terms(POLICY_GATE_STRATEGY, "comment_cta_terms")
+    engagement_text = " ".join([script.narration, script.caption, script.pinned_comment])
+    if _contains_any(engagement_text, comment_terms):
+        return script
+    comment_sentence = "근거를 댓글로 남겨주세요."
+    pinned_comment = _append_sentence_with_budget(script.pinned_comment, comment_sentence, 120)
+    if pinned_comment != script.pinned_comment:
+        return replace(script, pinned_comment=pinned_comment)
+    caption = _append_sentence_with_budget(
+        script.caption,
+        comment_sentence,
+        _metadata_int("caption_total_max_chars", 360),
+    )
+    return replace(script, caption=caption)
+
+
+def _ensure_follower_conversion_contract(script: ScriptPackage, values: dict[str, Any] | None = None) -> ScriptPackage:
+    values = dict(values or {})
+    values.setdefault("primary_term", script.post_title or script.title)
+    values.setdefault("post_title", script.post_title or script.title)
+    caption = _caption_with_required_follow_cta(script.caption, script.hashtags, values)
+    follow_sentence = _metadata_caption_follow_sentence(values)
+    pinned_comment = script.pinned_comment
+    if not _caption_has_follow_cta(pinned_comment) or not _text_has_series_identity(pinned_comment):
+        pinned_comment = _append_sentence_with_budget(pinned_comment, follow_sentence, 120)
+
+    scenes = list(script.scenes)
+    if scenes and not _script_has_end_follow_promise(script):
+        final = scenes[-1]
+        final_body = _append_sentence_with_budget(final.body, follow_sentence, BODY_TEXT_MAX_CHARS_MOBILE)
+        scenes[-1] = replace(final, body=final_body)
+
+    if scenes != script.scenes:
+        converted = _script_with_scenes(
+            script,
+            variant_id=script.variant_id,
+            scenes=scenes,
+            caption=caption,
+            pinned_comment=pinned_comment,
+        )
+        return _ensure_comment_cta_contract(converted)
+    converted = replace(script, caption=caption, pinned_comment=pinned_comment)
+    return _ensure_comment_cta_contract(converted)
+
+
 def _metadata_values(
     script: ScriptPackage,
     topic: TopicCandidate,
@@ -4479,6 +5193,7 @@ def _metadata_values(
     }
     values.update(_narrative_profile_for_title(topic.title))
     values.update(_issue_brief_script_values(topic))
+    values["series_promise"] = _metadata_series_promise(values)
     return values
 
 
@@ -4486,13 +5201,24 @@ def _enrich_post_metadata(
     script: ScriptPackage,
     topic: TopicCandidate | None,
     sources: dict[str, Source] | None,
+    *,
+    preserve_existing: bool = False,
 ) -> ScriptPackage:
     if topic is None:
         return script
     terms = _metadata_topic_terms(topic, sources)
-    hashtags = _metadata_hashtags(topic, sources, script.hashtags)
-    post_title = _metadata_title(script, topic, terms)
+    hashtags = list(script.hashtags) if preserve_existing else _metadata_hashtags(topic, sources, script.hashtags)
+    post_title = script.post_title if preserve_existing and script.post_title else _metadata_title(script, topic, terms)
     values = _metadata_values(script, topic, sources, hashtags, post_title)
+    if preserve_existing:
+        preserved = replace(
+            script,
+            hashtags=hashtags,
+            post_title=post_title,
+            post_body=script.post_body or script.caption,
+            pinned_comment=script.pinned_comment,
+        )
+        return _ensure_follower_conversion_contract(preserved, values)
     caption_body = _metadata_caption_body(values)
     hashtags_text = _script_hashtag_text(hashtags)
     total_max = _metadata_int("caption_total_max_chars", 360)
@@ -4510,7 +5236,7 @@ def _enrich_post_metadata(
     )
     if "댓글" not in pinned_comment:
         pinned_comment = _trim_without_overflow_marker(f"{pinned_comment} 댓글로 남겨주세요.", 120)
-    return replace(
+    enriched = replace(
         script,
         caption=caption,
         hashtags=hashtags,
@@ -4518,6 +5244,7 @@ def _enrich_post_metadata(
         post_body=post_body,
         pinned_comment=pinned_comment,
     )
+    return _ensure_follower_conversion_contract(enriched, values)
 
 
 def _metadata_checks(script: ScriptPackage) -> dict[str, bool]:
@@ -4537,6 +5264,9 @@ def _metadata_checks(script: ScriptPackage) -> dict[str, bool]:
         "post_title_no_overflow_marker": not _contains_any(script.post_title, overflow_markers),
         "hashtags_target_count": hashtag_min <= len(script.hashtags) <= hashtag_max,
         "hashtags_unique": len(script.hashtags) == len(set(script.hashtags)),
+        "caption_follow_cta_present": _caption_has_follow_cta(script.caption),
+        "caption_series_identity_present": _text_has_series_identity(script.caption),
+        "video_end_follow_promise_present": _script_has_end_follow_promise(script),
     }
 
 
@@ -4643,8 +5373,28 @@ def _topic_anchor_hook_text(topic: TopicCandidate, sources: dict[str, Source] | 
     return _compact_card_text(topic.title, 34, keep_question="?" in topic.title)
 
 
+def _configured_custom_issue_kind(text: str) -> str:
+    cleaned = _clean_card_text(text)
+    for rule in HOT_CUSTOM_ISSUE_KIND_RULES:
+        kind = str(rule.get("kind", "")).strip()
+        if not kind:
+            continue
+        must_include = [str(term) for term in rule.get("must_include", []) if str(term).strip()]
+        any_include = [str(term) for term in rule.get("any_include", []) if str(term).strip()]
+        if must_include and not all(term in cleaned for term in must_include):
+            continue
+        if any_include and not any(term in cleaned for term in any_include):
+            continue
+        if must_include or any_include:
+            return kind
+    return ""
+
+
 def _custom_issue_kind(topic_title: str) -> str:
     text = _clean_card_text(topic_title)
+    configured = _configured_custom_issue_kind(text)
+    if configured:
+        return configured
     if any(term in text for term in ["지지율", "여론조사", "민주 45", "국힘 20", "보수 결집"]):
         return "numbers"
     if any(term in text for term in ["선고", "위증", "특검", "구형", "법원", "판결"]):
@@ -4658,8 +5408,21 @@ def _custom_issue_kind(topic_title: str) -> str:
     return "civic_conflict"
 
 
+def _custom_issue_kind_for_topic(topic: TopicCandidate, sources: dict[str, Source] | None) -> str:
+    primary_text = _clean_card_text(
+        " ".join([topic.title, topic.angle, " ".join(_metadata_topic_terms(topic, sources))])
+    )
+    configured = _configured_custom_issue_kind(primary_text)
+    if configured:
+        return configured
+    return _custom_issue_kind(_topic_issue_basis(topic))
+
+
 def _custom_issue_hook_headline(topic: TopicCandidate) -> str:
     title = _clean_card_text(topic.title)
+    configured = _configured_hot_hook_headline(title)
+    if configured:
+        return configured
     rules: list[tuple[list[str], str]] = [
         (["지지율", "60"], "60%인데 왜 불안하지?"),
         (["민주 45", "국힘 20"], "숫자만 보면 속을까?"),
@@ -4926,7 +5689,10 @@ def _readable_custom_screen_text(text: str, *, index: int = 0) -> str:
 
 def _readable_custom_body_text(body: str, *, body_max: int, final_scene: bool) -> str:
     cleaned = _clean_card_text(body)
-    if len(cleaned) >= BODY_TEXT_MIN_CHARS_MOBILE and (not final_scene or _contains_any(cleaned, ["?", "습니까", "까요"])):
+    if (
+        BODY_TEXT_MIN_CHARS_MOBILE <= len(cleaned) <= body_max
+        and (not final_scene or _contains_any(cleaned, ["?", "습니까", "까요"]))
+    ):
         return cleaned
     suffix = (
         "당신은 이 흐름을 신호로 보나요, 착시로 보나요? 댓글로 남겨주세요."
@@ -4936,6 +5702,16 @@ def _readable_custom_body_text(body: str, *, body_max: int, final_scene: bool) -
     candidate = f"{cleaned} {suffix}".strip()
     if len(candidate) <= body_max:
         return candidate
+    if cleaned:
+        compact = _compact_card_text(cleaned, body_max, keep_question="?" in cleaned)
+        if compact and len(compact) >= BODY_TEXT_MIN_CHARS_MOBILE:
+            return compact
+        if len(cleaned) >= BODY_TEXT_MIN_CHARS_MOBILE:
+            direct = cleaned[:body_max].rstrip(" ,.;:")
+            if "?" in cleaned and "?" not in direct and len(direct) < body_max:
+                direct = f"{direct}?"
+            if len(direct) >= BODY_TEXT_MIN_CHARS_MOBILE:
+                return direct
     if len(suffix) <= body_max:
         return suffix
     return _compact_card_text(candidate, body_max, keep_question=True)
@@ -4973,7 +5749,7 @@ def _customize_issue_story_arc(
 ) -> ScriptPackage:
     if topic is None or not script.scenes:
         return script
-    kind = _custom_issue_kind(topic.title)
+    kind = _custom_issue_kind_for_topic(topic, sources)
     hook = _custom_issue_hook_headline(topic)
     rows = _apply_topic_specific_scene_overrides(topic.title, _custom_issue_scene_rows(kind))
     body_max = _body_text_max_for_plan(plan)
@@ -4986,8 +5762,17 @@ def _customize_issue_story_arc(
         "primary": (_metadata_topic_terms(topic, sources) or [_hot_primary_hook_term(topic.title)])[0],
     }
     scenes: list[Scene] = []
+    non_cta_rows = rows[:-1] or rows
+    recycled_labels = ["재확인", "반론", "책임", "다음 포인트"]
     for index, scene in enumerate(script.scenes):
-        row = rows[index] if index < len(rows) else rows[-1]
+        recycled_middle = False
+        if index == len(script.scenes) - 1:
+            row = rows[-1]
+        elif index < len(non_cta_rows):
+            row = non_cta_rows[index]
+        else:
+            row = non_cta_rows[index % len(non_cta_rows)]
+            recycled_middle = True
         screen_template = row["screen"]
         if index == len(script.scenes) - 1 and plan.format_id == "reward_deep" and "1 " in scene.on_screen_text:
             screen_template = scene.on_screen_text
@@ -4996,7 +5781,15 @@ def _customize_issue_story_arc(
             26,
             keep_question="?" in screen_template,
         )
+        if recycled_middle:
+            screen = _compact_card_text(
+                f"{screen} {recycled_labels[index % len(recycled_labels)]}",
+                26,
+                keep_question="?" in screen,
+            )
         body_raw = _format_prompt_template(row["body"], values)
+        if recycled_middle:
+            body_raw = f"{body_raw} 같은 이슈라도 다른 장면으로 다시 봅니다."
         if index == 0 and plan.format_id == "reward_deep" and "1\ubd84" not in body_raw:
             body_raw = f"1\ubd84 \uc548\uc5d0 \ubcf4\uaca0\uc2b5\ub2c8\ub2e4. {body_raw}"
         body = _compact_card_text(body_raw, body_max, keep_question="?" in body_raw)
@@ -5065,10 +5858,12 @@ def apply_content_format(
     topic: TopicCandidate | None = None,
     sources: dict[str, Source] | None = None,
 ) -> ScriptPackage:
-    scenes = _fit_scene_durations(_select_format_scenes(script.scenes, plan), plan)
+    selected_scenes = _select_format_scenes(script.scenes, plan)
+    scenes = _fit_scene_durations(selected_scenes, plan)
     format_suffix = {
         "evidence_briefing_75": "evidence",
         "growth_short": "short",
+        "ranking_battle_65": "ranking",
         "reward_deep": "reward",
         "debate_followup": "followup",
     }.get(plan.format_id, plan.format_id)
@@ -5078,6 +5873,8 @@ def apply_content_format(
         scenes=scenes,
     )
     formatted = _apply_reward_deep_format(formatted, topic, sources, plan)
+    expanded_scenes = _fit_scene_durations(_expand_scenes_to_visual_cadence(formatted.scenes, plan), plan)
+    formatted = _script_with_scenes(formatted, variant_id=formatted.variant_id, scenes=expanded_scenes)
     normalized = normalize_script_copy(formatted, plan)
     anchored = _preserve_topic_anchor_terms(normalized, topic, sources, plan)
     customized = _customize_issue_story_arc(anchored, topic, sources, plan)
@@ -5100,16 +5897,13 @@ def _reference_primary_term(topic: TopicCandidate, sources: dict[str, Source] | 
 
 
 def _reference_unique_post_title(hook: str, topic: TopicCandidate, sources: dict[str, Source] | None) -> str:
+    configured = _configured_hot_hook_headline(topic.title)
+    if configured:
+        return _compact_card_text(configured, 34, keep_question="?" in configured)
     primary = _reference_primary_term(topic, sources)
-    topic_text = _clean_card_text(topic.title)
-    if "김건희" in topic_text or "수사무마" in topic_text:
-        return _compact_card_text("피해자가 피의자? 특검의 첫 빈칸", 26, keep_question=True)
-    if "공소 취소" in topic_text or ("검찰" in topic_text and "한동훈" in topic_text):
-        return _compact_card_text("공소취소 논쟁, 프레임은 누가 짰나", 26, keep_question=True)
-    if "조국" in topic_text and ("낙선" in topic_text or "민주당" in topic_text):
-        return _compact_card_text("조국의 겨울, 지지층은 왜 멈췄나", 26, keep_question=True)
-    if "검찰" in topic_text:
-        return _compact_card_text("검찰 책임선, 말보다 기록을 보자", 26, keep_question=True)
+    number_signal = _reference_number_signal(topic)
+    if number_signal:
+        return _compact_card_text(f"{number_signal}, 프레임은 누가 짰나?", 26, keep_question=True)
     if primary:
         return _compact_card_text(f"{primary} 쟁점, 어디가 갈렸나", 26, keep_question=True)
     return _compact_card_text(hook, 24, keep_question="?" in hook)
@@ -5121,50 +5915,103 @@ def _reference_post_metadata_profile(
     fact_pack: FactPack,
     angle_brief: AngleBrief,
 ) -> dict[str, str]:
-    topic_text = _clean_card_text(topic.title)
     claim, counter, open_question = _reference_fact_texts(topic, fact_pack)
     default_question = _clean_card_text(angle_brief.comment_question) or "이 사안에서 먼저 봐야 할 기준은 무엇인가요?"
+    number_signal = _reference_number_signal(topic)
+    number_line = f"{number_signal} 숫자와 해석을 분리합니다. " if number_signal else ""
+    topic_text = f"{topic.title} {post_title}"
+    if all(term in topic_text for term in ["역대 대통령", "순위"]):
+        profile = {
+            "caption_body": (
+                "역대 대통령 TOP5를 민주주의, 위기 회복, 정치적 유산 기준으로 다시 매겼습니다. "
+                "1위 노무현, 2위 이재명, 3위 김대중, 4위 박정희, 5위 문재인. "
+                "성장만 볼지, 민주주의까지 볼지에 따라 순위는 완전히 갈립니다."
+            ),
+            "post_body": "역대 대통령 TOP5를 공개 기준으로 다시 봅니다. 1위 노무현, 2위 이재명.",
+            "pinned_comment": "1 노무현, 2 이재명. 인정인가요, 반박인가요? 당신의 TOP2를 댓글로 남겨주세요. 팔로우하면 다음 순위도 이어갑니다.",
+        }
+        return {
+            key: _trim_without_overflow_marker(value, 240 if key == "caption_body" else 120)
+            for key, value in profile.items()
+        }
+    if "보완수사권" in topic_text:
+        profile = {
+            "caption_body": (
+                "검찰 보완수사권, 결국 질문은 하나입니다. 검찰권을 더 견제할 것인가, 수사 공백을 막기 위해 "
+                "일부 권한을 남길 것인가. 당신은 1 검찰권 축소, 2 보완수사권 필요, 3 국회 설계 책임 중 어디인가요? "
+                "해당 이미지는 생성 이미지입니다."
+            ),
+            "post_body": "보완수사권 논쟁을 검찰권 견제, 수사 공백 반론, 국회 설계 책임으로 나눠 봅니다.",
+            "pinned_comment": "1 검찰권 축소, 2 보완수사권 필요, 3 국회 설계 책임? 댓글로 번호와 근거를 남기고 공유해주세요. 팔로우하면 후속안도 이어갑니다.",
+        }
+        return {
+            key: _trim_without_overflow_marker(value, 240 if key == "caption_body" else 120)
+            for key, value in profile.items()
+        }
+    if all(term in topic_text for term in ["엇갈린", "운명"]):
+        profile = {
+            "caption_body": (
+                "비전 vs 특검, 같은 주간에 나온 두 장면입니다. 한쪽은 취임 1주년 국정 비전, "
+                "다른 한쪽은 특검 조사와 책임선. 당신은 1 비전의 시간, 2 책임의 시간, "
+                "3 더 봐야 함 중 어디인가요? 해당 이미지는 생성 이미지입니다."
+            ),
+            "post_body": "이재명 대통령 1주년 비전과 윤석열 전 대통령 특검 조사, 두 장면을 공개 보도 기준으로 나눠 봅니다.",
+            "pinned_comment": "1 비전의 시간, 2 책임의 시간, 3 더 봐야 함. 번호로 남겨주세요. 팔로우하면 후속 조사 흐름까지 이어갑니다.",
+        }
+        return {
+            key: _trim_without_overflow_marker(value, 240 if key == "caption_body" else 120)
+            for key, value in profile.items()
+        }
+    if "팩트 조작" in topic_text or "언론의 팩트 조작" in topic_text:
+        profile = {
+            "caption_body": (
+                "언론 자유와 가짜뉴스 책임은 같이 봐야 합니다. 대통령 발언의 핵심은 비판 보도 금지가 아니라 "
+                "팩트 조작에 책임을 묻자는 쪽입니다. 당신은 1 언론 책임 강화, 2 권력 비판 위축 우려, "
+                "3 기준부터 명확히 중 어디인가요? 해당 이미지는 생성 이미지입니다."
+            ),
+            "post_body": "언론 자유, 팩트 조작 책임, 권력 감시 위축 우려를 한 번에 나눠 봅니다.",
+            "pinned_comment": "1 언론 책임 강화, 2 권력 비판 위축 우려, 3 기준부터 명확히? 댓글로 번호와 근거를 남겨주세요. 후속도 이어갑니다.",
+        }
+        return {
+            key: _trim_without_overflow_marker(value, 240 if key == "caption_body" else 120)
+            for key, value in profile.items()
+        }
+    if "국정조사" in topic_text:
+        profile = {
+            "caption_body": (
+                "국정조사는 진상규명일 수도, 시간끌기 프레임일 수도 있습니다. 핵심은 누가 조사권을 쥐느냐보다 "
+                "책임을 실제로 밝힐 수 있느냐입니다. 당신은 1 국정조사 필요, 2 특검이 먼저, "
+                "3 둘 다 압박 중 어디인가요? 해당 이미지는 생성 이미지입니다."
+            ),
+            "post_body": "국정조사와 특검을 진상규명 경로, 지연 가능성, 책임선 기준으로 비교합니다.",
+            "pinned_comment": "1 국정조사 필요, 2 특검이 먼저, 3 둘 다 압박? 댓글로 번호와 근거를 남겨주세요. 공유하면 다음 편에서 이어갑니다.",
+        }
+        return {
+            key: _trim_without_overflow_marker(value, 240 if key == "caption_body" else 120)
+            for key, value in profile.items()
+        }
+    if "평화공존" in topic_text or "평화 공존" in topic_text:
+        profile = {
+            "caption_body": (
+                "평화공존은 순진한 말이 아니라 비용 계산의 문제입니다. 군사 긴장을 낮추는 현실 전략인지, "
+                "강경론 앞에서 약한 신호인지가 댓글을 가를 포인트입니다. 당신은 1 현실 전략, "
+                "2 너무 순진함, 3 조건부 대화 중 어디인가요? 해당 이미지는 생성 이미지입니다."
+            ),
+            "post_body": "평화공존 발언을 군사 긴장 완화, 안보 실익, 보수 반론 기준으로 나눠 봅니다.",
+            "pinned_comment": "1 현실 전략, 2 너무 순진함, 3 조건부 대화? 댓글로 번호와 근거를 남겨주세요. 팔로우하면 안보 이슈도 이어갑니다.",
+        }
+        return {
+            key: _trim_without_overflow_marker(value, 240 if key == "caption_body" else 120)
+            for key, value in profile.items()
+        }
     profile = {
         "caption_body": (
-            f"{post_title} {claim} 주장과 반론을 한 화면에 놓고 봅니다. "
+            f"{post_title} {number_line}{claim} 반론은 {counter} "
             f"{open_question} 해당 이미지는 생성 이미지이며, 공개 보도 기준으로 전말과 빈칸을 분리합니다."
         ),
-        "post_body": f"{claim} 반론과 남은 빈칸까지 같이 봅니다.",
-        "pinned_comment": f"{default_question} 댓글로 남겨주세요. 팔로우하면 다음 편에서 이어갑니다.",
+        "post_body": f"{number_line}{claim} 반론과 남은 기준까지 같이 봅니다.",
+        "pinned_comment": f"{default_question} 댓글로 근거를 남기고, 공유·팔로우로 다음 검증까지 이어가세요.",
     }
-    if "김건희" in topic_text or "수사무마" in topic_text:
-        profile.update(
-            {
-                "caption_body": (
-                    f"{post_title} 보도상 가장 센 지점은 '피해자'였던 인물이 왜 피의자로 뒤집혔는가입니다. "
-                    "특검, 허위공문서, 수사무마 의혹의 순서를 공개 보도 기준으로 분리합니다. 해당 이미지는 생성 이미지입니다."
-                ),
-                "post_body": "피해자에서 피의자로 바뀐 지점, 특검이 확인해야 할 빈칸, 반론의 위치를 나눕니다.",
-                "pinned_comment": "1 피해자→피의자 전환, 2 수사무마 의혹, 3 특검 범위. 댓글로 고르고 팔로우로 후속편 보세요.",
-            }
-        )
-    elif "공소 취소" in topic_text or ("검찰" in topic_text and "한동훈" in topic_text):
-        profile.update(
-            {
-                "caption_body": (
-                    f"{post_title} 이재명 대통령의 검찰 사과 요구와 한동훈의 '공소 취소 밑밥' 프레임이 충돌했습니다. "
-                    "말싸움보다 검찰 권한, 공소 취소, 책임선을 공개 보도 기준으로 나눕니다. 해당 이미지는 생성 이미지입니다."
-                ),
-                "post_body": "사과 요구와 밑밥론 사이에서 실제로 남는 쟁점은 검찰 권한과 공소 취소 책임선입니다.",
-                "pinned_comment": "1 검찰 책임, 2 공소 취소 프레임, 3 사과 기준. 댓글로 고르고 팔로우로 후속편 보세요.",
-            }
-        )
-    elif "조국" in topic_text and ("낙선" in topic_text or "민주당" in topic_text):
-        profile.update(
-            {
-                "caption_body": (
-                    f"{post_title} 낙선 자체보다 더 큰 신호는 민주당 지지층이 어디에서 멈췄는가입니다. "
-                    "인물 호불호가 아니라 흡수 한계와 정치적 피로감을 공개 보도 기준으로 봅니다. 해당 이미지는 생성 이미지입니다."
-                ),
-                "post_body": "조국 낙선은 한 인물의 패배보다 민주당 지지층 흡수 한계를 보여준 장면으로 읽을 수 있습니다.",
-                "pinned_comment": "조국 낙선의 핵심은 1 피로감, 2 전략 실패, 3 지지층 한계. 댓글로 고르고 팔로우로 후속편 보세요.",
-            }
-        )
     return {
         key: _trim_without_overflow_marker(value, 240 if key == "caption_body" else 120)
         for key, value in profile.items()
@@ -5199,7 +6046,228 @@ def _reference_stop_signal(
     return _topic_anchor_hook_text(topic, sources)
 
 
-def _reference_visual_scene(scene_type_id: str, role: str, topic_title: str, source_line: str, scene_index: int = 0) -> str:
+def _reference_opening_scene_for_topic(topic_title: str, source_line: str) -> tuple[str, str]:
+    text = f"{topic_title} {source_line}"
+    rules: list[tuple[list[str], str, str]] = [
+        (
+            ["엇갈린", "운명"],
+            "cinematic split public-accountability tableau: left side a bright national-vision briefing hall screen "
+            "with anonymous reporters, right side a cold special-counsel corridor with an empty interview chair, "
+            "separated by a sharp vertical shadow line, no real politician likeness",
+            "unique composition: bright policy briefing hall versus cold special-counsel corridor split by shadow",
+        ),
+        (
+            ["이재명", "1년"],
+            "AI-assisted civic evaluation room with a bright public briefing screen glow, five separated policy lanes "
+            "for livelihood, economy, reform, diplomacy, and agenda control, anonymous analysts and camera silhouettes",
+            "unique composition: five-lane policy score desk with bright briefing-room glow",
+        ),
+        (
+            ["이재명", "취임"],
+            "AI-assisted civic evaluation room with a bright public briefing screen glow, five separated policy lanes "
+            "for livelihood, economy, reform, diplomacy, and agenda control, anonymous analysts and camera silhouettes",
+            "unique composition: five-lane policy score desk with bright briefing-room glow",
+        ),
+        (
+            ["김건희", "특검"],
+            "special counsel evidence room with a blurred luxury-shopping receipt, anonymous investigator hands, "
+            "sealed boxes, and a reflected corridor outside the interview room",
+            "unique composition: luxury-receipt evidence close-up beside sealed case boxes",
+        ),
+        (
+            ["윤석열", "특검"],
+            "special counsel interview waiting room, empty chair under a hard lamp, recorder light on, cropped hands "
+            "placing a thick timeline file on the table",
+            "unique composition: empty interview chair with a glowing recorder and timeline file",
+        ),
+        (
+            ["국정조사", "특검"],
+            "split civic accountability scene: one side a generic hearing-room chair, the other side an investigation "
+            "desk with separated files, anonymous aides crossing in the background",
+            "unique composition: split hearing chair versus investigation desk in one frame",
+        ),
+        (
+            ["보완수사권"],
+            "split institutional power scene: left side a cold prosecutor-office corridor behind frosted glass with an "
+            "evidence cart, right side a National Assembly committee table with blank nameplates and anonymous lawmakers, "
+            "a thin red jurisdiction line crossing the floor, no logos and no readable text",
+            "unique composition: prosecutor corridor versus National Assembly committee table divided by a red jurisdiction line",
+        ),
+        (
+            ["친일", "환수"],
+            "archive vault counter with old property ledgers, unbranded sealed packets, and an anonymous hand sliding "
+            "a restitution file under warm museum-grade light",
+            "unique composition: archive-vault ledger and restitution packet exchange",
+        ),
+        (
+            ["검찰개혁"],
+            "prosecutor office corridor seen through frosted glass, anonymous staff moving files, red pencil marks "
+            "on a reform checklist in the foreground",
+            "unique composition: frosted prosecutor corridor with reform checklist foreground",
+        ),
+        (
+            ["투표용지", "부족"],
+            "polling-place supply room after closing time, empty ballot trays, counting tags, anonymous worker hands "
+            "checking a shortage log under fluorescent light",
+            "unique composition: empty ballot trays and shortage log in a supply room",
+        ),
+        (
+            ["선관위", "특검"],
+            "election administration archive hallway, unbranded storage boxes, anonymous press shadow at the door, "
+            "a special-investigation request folder half-open in the foreground",
+            "unique composition: archive hallway door with investigation request folder foreground",
+        ),
+        (
+            ["선관위"],
+            "election administration back office at night, blank process map on a wall, anonymous official silhouette "
+            "beside separated source folders",
+            "unique composition: night back-office process map with separated source folders",
+        ),
+        (
+            ["재선거"],
+            "late-night newsroom decision desk, blank election map board, two separated source packets, and a phone "
+            "screen glow cutting across anonymous editor hands",
+            "unique composition: newsroom election-map desk with phone glow and separated source packets",
+        ),
+    ]
+    for terms, scene, variation in rules:
+        if all(term in text for term in terms):
+            return scene, variation
+    fallback_scenes = [
+        (
+            "court-adjacent corridor with anonymous silhouettes, source packet in foreground, and a red pencil line "
+            "crossing a blank timeline page",
+            "unique composition: corridor source packet with red-pencil timeline foreground",
+        ),
+        (
+            "night editorial desk with three evidence packets physically separated, recorder light on, and a blurred "
+            "public-building window in the background",
+            "unique composition: night editorial desk with three separated evidence packets",
+        ),
+        (
+            "public records counter with cropped hands comparing two folders, reflection on polished floor, and an "
+            "empty chair left in the background",
+            "unique composition: public records counter with reflected floor and empty chair",
+        ),
+    ]
+    index = sum(ord(char) for char in topic_title) % len(fallback_scenes)
+    return fallback_scenes[index]
+
+
+def _reference_scene_override_for_topic(
+    topic_title: str,
+    source_line: str,
+    role: str,
+    scene_index: int,
+    scene_focus: str,
+) -> tuple[str, str] | None:
+    text = f"{topic_title} {source_line} {scene_focus}"
+    if "보완수사권" in text:
+        overrides: dict[int, tuple[str, str]] = {
+            1: (
+                "rainy courthouse-adjacent public square outside an unbranded prosecutor office, anonymous citizens "
+                "watching a blank civic notice board through glass, cold blue lights and a restrained red reflection, "
+                "no documents as main subject",
+                "unique composition: public distrust outside prosecutor office seen through rain glass, no desk",
+            ),
+            2: (
+                "close view of a jurisdiction line drawn across two institutional desks: a blank prosecutor case tray "
+                "on one side and a blank legislative review tray on the other, cropped hands stop before crossing the line",
+                "unique composition: physical jurisdiction line between prosecutor tray and legislative review tray",
+            ),
+            3: (
+                "National Assembly committee room from the back row, anonymous lawmakers seated at a curved table, "
+                "blank nameplates turned away, hearing microphones idle, public gallery silhouettes behind glass",
+                "unique composition: back-row National Assembly committee room with blank nameplates and public gallery",
+            ),
+            4: (
+                "progressive civic group office watching a reform briefing on an unbranded screen, anonymous adults "
+                "leaning forward, warm light over blank reform folders, no slogans and no party marks",
+                "unique composition: reform supporters watching an unbranded briefing screen with blank folders",
+            ),
+            5: (
+                "two opposing public arguments staged in one civic hall: one side points to an empty prosecutor chair, "
+                "the other side points to a blank investigation flow chart, divided by glass reflection",
+                "unique composition: empty prosecutor chair versus blank investigation flow chart divided by glass",
+            ),
+            6: (
+                "three-rule civic standard tableau: three blank vertical cards standing on a committee desk, one for "
+                "power restraint, one for investigation continuity, one for legislative responsibility, cropped hands only",
+                "unique composition: three blank civic standard cards on committee desk with cropped hands",
+            ),
+            7: (
+                "late-night legislative drafting room, anonymous aides moving blank amendment folders from a prosecutor "
+                "corridor photo wall toward a committee table, practical lamps and tired coffee cups",
+                "unique composition: amendment folders moving from prosecutor corridor wall toward committee table",
+            ),
+            8: (
+                "viewer-choice newsroom desk with three blank option cards, a blurred split-screen of prosecutor corridor "
+                "and committee room in the background, phone comment glow, no readable text",
+                "unique composition: three blank option cards with prosecutor corridor and committee room split-screen",
+            ),
+        }
+        if role == "hook" and scene_index == 0:
+            return _reference_opening_scene_for_topic(topic_title, source_line)
+        return overrides.get(scene_index)
+    if not all(term in text for term in ["엇갈린", "운명"]):
+        return None
+    overrides: dict[int, tuple[str, str]] = {
+        1: (
+            "bright public briefing hall viewed from the back of the audience aisle, anonymous citizens and reporters "
+            "facing a large unbranded one-year national vision screen, camera tripods and raised phones as foreground silhouettes, "
+            "no presenter or host in the foreground, no desk close-up, optimistic civic light without any party logo or real politician likeness",
+            "unique composition: audience-back live-briefing hall with a bright national-vision screen, no presenter foreground and no desk scene",
+        ),
+        2: (
+            "cold special-counsel building corridor after questioning, empty interview chair seen through glass, "
+            "recorder light on, thick sealed timeline file on a metal cart, anonymous backs moving away under fluorescent light",
+            "unique composition: cold corridor with empty interview chair, recorder light, and sealed timeline file",
+        ),
+        3: (
+            "single frame split by a hard diagonal shadow: on one side a bright policy briefing screen and open planning folders, "
+            "on the other side closed investigation folders and a dim corridor, anonymous adults only",
+            "unique composition: bright future-plan documents colliding with dark accountability folders",
+        ),
+        4: (
+            "two public viewing zones reflected in glass: a warm civic crowd watching a national-vision screen, and a cold press line "
+            "reflected behind them with microphones raised, no real faces, no logos",
+            "unique composition: supporter-viewing crowd and press-line reflection in one glass frame",
+        ),
+        5: (
+            "public argument scene seen through a glass wall: one side shows a warm civic viewing crowd, the other side shows a cold "
+            "press scrum and shadowed counterargument silhouettes, a thin red divider line reflected on the glass, no desk, no paper stacks, "
+            "anonymous adults only",
+            "unique composition: warm civic crowd versus cold counterargument press scrum divided by a glass reflection, no desk",
+        ),
+        6: (
+            "cinematic civic crossroads at night: one path lit by a briefing-hall glow, another path ending at a cold investigation door, "
+            "anonymous silhouettes paused between both routes, rain reflections on the floor",
+            "unique composition: two paths of fate, briefing glow versus investigation door, with rain reflections",
+        ),
+        7: (
+            "follow-up summons anticipation scene: calendar grid with one red circled blank square, sealed summons folder sliding into "
+            "a special-counsel corridor tray, cropped anonymous hands only, no readable names or numbers",
+            "unique composition: red-circled blank calendar square and sealed summons folder entering a corridor tray",
+        ),
+        8: (
+            "vertical comment-choice scene in a newsroom booth: three blank numbered-style choice cards as physical props, phone comment "
+            "glow on the table, blurred civic split-screen image in the background",
+            "unique composition: three physical comment-choice cards with phone glow and blurred split-screen background",
+        ),
+    }
+    if role == "hook" and scene_index == 0:
+        return _reference_opening_scene_for_topic(topic_title, source_line)
+    return overrides.get(scene_index)
+
+
+def _reference_visual_scene(
+    scene_type_id: str,
+    role: str,
+    topic_title: str,
+    source_line: str,
+    scene_index: int = 0,
+    scene_focus: str = "",
+) -> str:
     variation_beats = [
         "unique composition: street-level press line with wet pavement and a folder crossing the lens",
         "unique composition: overhead document table with three separated source packets",
@@ -5212,12 +6280,6 @@ def _reference_visual_scene(scene_type_id: str, role: str, topic_title: str, sou
         "unique composition: over-the-shoulder editing monitor with a blank comment card",
     ]
     variation = variation_beats[scene_index % len(variation_beats)]
-    base_context = (
-        f"topic context: {topic_title}; source context: {source_line}; scene {scene_index + 1}; {variation}; "
-        "photorealistic Korean civic news explainer image, vertical 9:16, cinematic documentary lighting, "
-        "high tension foreground object, anonymous adults only, no real politician likeness, no party logo, "
-        "no fake broadcast UI, no official seal, no extra readable text except the approved diegetic text prop"
-    )
     prompts = {
         "debate_microphone_closeup": (
             "fictional debate microphone close-up in a neutral public forum, anonymous speaker cropped below the eyes, "
@@ -5245,6 +6307,18 @@ def _reference_visual_scene(scene_type_id: str, role: str, topic_title: str, sou
         ),
     }
     selected = prompts.get(scene_type_id, prompts.get("document_receipt_desk", "source packet desk"))
+    override = _reference_scene_override_for_topic(topic_title, source_line, role, scene_index, scene_focus)
+    if override:
+        selected, variation = override
+    elif scene_index == 0 and role == "hook":
+        selected, variation = _reference_opening_scene_for_topic(topic_title, source_line)
+    base_context = (
+        f"topic context: {topic_title}; source context: {source_line}; scene {scene_index + 1}; {variation}; "
+        f"scene focus: {_compact_card_text(scene_focus, 120, keep_question='?' in scene_focus)}; "
+        "photorealistic Korean civic news explainer image, vertical 9:16, cinematic documentary lighting, "
+        "high tension foreground object, anonymous adults only, no real politician likeness, no party logo, "
+        "no fake broadcast UI, no official seal, no extra readable text except the approved diegetic text prop"
+    )
     return f"reference_scene: {selected}; role={role}; {base_context}"
 
 
@@ -5263,6 +6337,77 @@ def _reference_fact_texts(topic: TopicCandidate, fact_pack: FactPack) -> tuple[s
     return claim, counter, open_question
 
 
+def _reference_story_rule_matches(rule: dict[str, Any], topic: TopicCandidate) -> bool:
+    text = _clean_card_text(f"{topic.title} {topic.angle} {' '.join(_topic_claim_lines(topic))}")
+    must_include = [str(term) for term in rule.get("must_include", []) if str(term).strip()]
+    any_include = [str(term) for term in rule.get("any_include", []) if str(term).strip()]
+    if must_include and not all(term in text for term in must_include):
+        return False
+    if any_include and not any(term in text for term in any_include):
+        return False
+    return bool(must_include or any_include)
+
+
+def _reference_story_rule_score(rule: dict[str, Any], topic: TopicCandidate, order_index: int) -> int:
+    full_text = _clean_card_text(f"{topic.title} {topic.angle} {' '.join(_topic_claim_lines(topic))}")
+    primary_text = _clean_card_text(f"{topic.title} {topic.angle} {' '.join(_metadata_topic_terms(topic, None))}")
+    must_include = [str(term) for term in rule.get("must_include", []) if str(term).strip()]
+    any_include = [str(term) for term in rule.get("any_include", []) if str(term).strip()]
+    if must_include and not all(term in full_text for term in must_include):
+        return -1
+    any_hits = [term for term in any_include if term in full_text]
+    if any_include and not any_hits:
+        return -1
+    if not must_include and not any_include:
+        return -1
+
+    matched_terms = [*must_include, *any_hits]
+    primary_hits = sum(1 for term in matched_terms if term in primary_text)
+    score = 0
+    score += primary_hits * REFERENCE_STORY_RULE_SCORING.get("primary_term_hit", 100)
+    score += len(must_include) * REFERENCE_STORY_RULE_SCORING.get("must_term_hit", 24)
+    score += len(any_hits) * REFERENCE_STORY_RULE_SCORING.get("any_term_hit", 8)
+    score += len(set(matched_terms)) * REFERENCE_STORY_RULE_SCORING.get("matched_rule_bonus", 4)
+    score -= order_index * REFERENCE_STORY_RULE_SCORING.get("order_penalty", 1)
+    return score
+
+
+def _reference_story_rows_from_strategy(
+    topic: TopicCandidate,
+    base_rows: list[dict[str, str]],
+    values: dict[str, str],
+) -> list[dict[str, str]]:
+    rules = HOT_TOPIC_STRATEGY.get("reference_storyboard_rules", [])
+    if not isinstance(rules, list):
+        return base_rows
+    matched_rules: list[tuple[int, dict[str, Any]]] = []
+    for order_index, rule in enumerate(rules):
+        if not isinstance(rule, dict):
+            continue
+        score = _reference_story_rule_score(rule, topic, order_index)
+        if score < 0:
+            continue
+        matched_rules.append((score, rule))
+    matched_rules.sort(key=lambda item: item[0], reverse=True)
+    for _score, rule in matched_rules:
+        rule_rows = rule.get("rows", [])
+        if not isinstance(rule_rows, list) or len(rule_rows) < min(6, len(base_rows)):
+            continue
+        merged_rows: list[dict[str, str]] = []
+        row_count = len(rule_rows) if len(rule_rows) < len(base_rows) else len(base_rows)
+        for index in range(row_count):
+            base = base_rows[index] if index < len(base_rows) else base_rows[-1]
+            override = rule_rows[index] if index < len(rule_rows) and isinstance(rule_rows[index], dict) else {}
+            merged = dict(base)
+            for key in ("title", "screen", "body", "role"):
+                value = str(override.get(key, "")).strip()
+                if value:
+                    merged[key] = _format_prompt_template(value, values)
+            merged_rows.append(merged)
+        return merged_rows
+    return base_rows
+
+
 def apply_reference_content_design(
     script: ScriptPackage,
     topic: TopicCandidate,
@@ -5278,7 +6423,12 @@ def apply_reference_content_design(
 
     source_line = _reference_source_line(source_card)
     hook = _reference_stop_signal(topic, sources, reference_fit)
-    post_title = _reference_unique_post_title(hook, topic, sources)
+    preserved_title = _compact_card_text(script.post_title, 34, keep_question="?" in script.post_title)
+    topic_text_for_title = f"{topic.title} {topic.angle}"
+    if all(term in topic_text_for_title for term in ["역대 대통령", "순위"]):
+        post_title = "역대 대통령 TOP5, 1위 노무현 2위 이재명"
+    else:
+        post_title = preserved_title or _reference_unique_post_title(hook, topic, sources)
     claim, counter, open_question = _reference_fact_texts(topic, fact_pack)
     number_signal = _reference_number_signal(topic)
     if number_signal and "선고" in f"{topic.title} {claim}":
@@ -5341,19 +6491,44 @@ def apply_reference_content_design(
             "role": "cta",
         },
     ]
+    story_values = {
+        "topic_title": _clean_card_text(topic.title),
+        "post_title": post_title,
+        "claim": claim,
+        "counter": counter,
+        "open_question": open_question,
+        "comment_question": comment_question,
+        "source_line": source_line,
+    }
+    base_rows = _reference_story_rows_from_strategy(topic, base_rows, story_values)
 
     scene_types = reference_fit.selected_scene_type_ids or ["document_receipt_desk"]
     scenes: list[Scene] = []
     total = len(script.scenes)
+    non_cta_rows = base_rows[:-1] or base_rows
+    recycled_labels = ["재확인", "반론", "책임", "다음"]
     for index, scene in enumerate(script.scenes):
-        row = base_rows[index] if index < len(base_rows) else base_rows[-1]
+        recycled_middle = False
         if index == total - 1:
             row = base_rows[-1]
+        elif index < len(non_cta_rows):
+            row = non_cta_rows[index]
+        else:
+            row = non_cta_rows[index % len(non_cta_rows)]
+            recycled_middle = True
         scene_type_id = scene_types[index % len(scene_types)]
         screen = _compact_card_text(str(row["screen"]), 22, keep_question="?" in str(row["screen"]))
-        body = _compact_card_text(str(row["body"]), body_max, keep_question="?" in str(row["body"]))
+        if recycled_middle:
+            screen = _compact_card_text(
+                f"{screen} {recycled_labels[index % len(recycled_labels)]}",
+                22,
+                keep_question="?" in screen,
+            )
+        body_source = str(row["body"])
+        if recycled_middle:
+            body_source = f"{body_source} 같은 쟁점을 다른 장면으로 한 번 더 분리합니다."
         body = _readable_custom_body_text(
-            body,
+            body_source,
             body_max=body_max,
             final_scene=index == total - 1,
         )
@@ -5363,7 +6538,14 @@ def apply_reference_content_design(
                 title=str(row["title"]),
                 on_screen_text=screen,
                 body=body,
-                visual=_reference_visual_scene(scene_type_id, str(row["role"]), topic.title, source_line, index),
+                visual=_reference_visual_scene(
+                    scene_type_id,
+                    str(row["role"]),
+                    topic.title,
+                    source_line,
+                    index,
+                    scene_focus=f"{screen}; {body}",
+                ),
             )
         )
 
@@ -5383,7 +6565,7 @@ def apply_reference_content_design(
         metadata_profile["caption_body"],
         max(1, _metadata_int("caption_total_max_chars", 360) - len(hashtags_text) - 2),
     )
-    return replace(
+    reference_script = replace(
         enriched,
         title=post_title,
         post_title=post_title,
@@ -5391,6 +6573,8 @@ def apply_reference_content_design(
         post_body=metadata_profile["post_body"],
         pinned_comment=metadata_profile["pinned_comment"],
     )
+    values = _metadata_values(reference_script, topic, sources, reference_script.hashtags, post_title)
+    return _ensure_follower_conversion_contract(reference_script, values)
 
 
 def check_policy(
@@ -5462,6 +6646,14 @@ def check_policy(
     )
 
 
+QUESTION_MARKERS = ("?", "습니까", "입니까", "인가요", "인가", "나요", "까요")
+
+
+def _has_question_marker(text: str) -> bool:
+    normalized = _clean_card_text(text)
+    return any(marker in normalized for marker in QUESTION_MARKERS)
+
+
 def check_readability(script: ScriptPackage, format_plan: ContentFormatPlan | None = None) -> ReadabilityResult:
     active_plan = format_plan or FORMAT_SPECS["reward_deep"]
     max_on_screen = max((len(scene.on_screen_text) for scene in script.scenes), default=0)
@@ -5485,10 +6677,7 @@ def check_readability(script: ScriptPackage, format_plan: ContentFormatPlan | No
         "critical_text_above_bottom_ui": CRITICAL_TEXT_BOTTOM <= TIKTOK_BOTTOM_UI_TOP,
         "headline_mobile_font_at_least_19px": _scaled_mobile_px(HEADLINE_FONT_MIN) >= MIN_HEADLINE_PREVIEW_PX,
         "body_mobile_font_at_least_14px": _scaled_mobile_px(BODY_FONT_MIN) >= MIN_BODY_PREVIEW_PX,
-        "has_final_question": any(
-            any(marker in f"{scene.on_screen_text} {scene.body}" for marker in ["?", "습니까", "까요"])
-            for scene in script.scenes[-2:]
-        ),
+        "has_final_question": any(_has_question_marker(f"{scene.on_screen_text} {scene.body}") for scene in script.scenes[-2:]),
     }
     issues = [name for name, ok in checks.items() if not ok]
     return ReadabilityResult(
@@ -5708,22 +6897,47 @@ def _score_script_quality(
     retention_score += min(16, _count_terms(full_text, retention_terms) * 3)
 
     comment_score = 28
-    comment_terms = _strategy_terms(SCRIPT_QUALITY_STRATEGY, "comment_terms")
-    follow_terms = _strategy_terms(SCRIPT_QUALITY_STRATEGY, "follow_terms")
-    comment_score += 20 if comment_terms and comment_terms[0] in script.pinned_comment else 0
-    comment_score += 18 if "?" in script.pinned_comment else 0
-    comment_score += 14 if any(term in script.pinned_comment for term in comment_terms[1:]) else 0
-    comment_score += 20 if any(term in script.pinned_comment for term in follow_terms) else 0
+    comment_terms = list(dict.fromkeys(["댓글", "공유", "반박", "근거", *_strategy_terms(SCRIPT_QUALITY_STRATEGY, "comment_terms")]))
+    follow_terms = list(dict.fromkeys(["팔로우", "구독", "다음 검증", *_strategy_terms(SCRIPT_QUALITY_STRATEGY, "follow_terms")]))
+    engagement_text = " ".join([script.caption, script.pinned_comment, _script_final_text(script)])
+    comment_score += 20 if comment_terms and comment_terms[0] in engagement_text else 0
+    comment_score += 18 if "?" in engagement_text else 0
+    comment_score += 14 if any(term in engagement_text for term in comment_terms[1:]) else 0
+    comment_score += 10 if any(term in script.pinned_comment for term in follow_terms) else 0
     comment_score += 10 if len(script.pinned_comment) <= 95 else 2
 
-    target_terms = _strategy_terms(SCRIPT_QUALITY_STRATEGY, "target_terms")
+    target_terms = list(
+        dict.fromkeys(
+            [
+                "정치",
+                "선거",
+                "민심",
+                "지지율",
+                "책임",
+                "근거",
+                "반론",
+                "검증",
+                "민주당",
+                "국민의힘",
+                "이재명",
+                "윤석열",
+                "김건희",
+                "국회",
+                "검찰",
+                *_strategy_terms(SCRIPT_QUALITY_STRATEGY, "target_terms"),
+            ]
+        )
+    )
     target_fit = 42 + min(48, _count_terms(full_text, target_terms) * 6)
-    target_fit += 10 if any(term in script.title for term in _strategy_terms(SCRIPT_QUALITY_STRATEGY, "target_title_terms")) else 0
+    target_title_terms = list(
+        dict.fromkeys(["정치", "선거", "민심", "책임", "검증", *_strategy_terms(SCRIPT_QUALITY_STRATEGY, "target_title_terms")])
+    )
+    target_fit += 10 if any(term in script.title for term in target_title_terms) else 0
 
     monetization_fit = 35
     monetization_fit += 25 if script.target_duration_sec >= 60 else 0
     monetization_fit += 15 if script.target_duration_sec <= 120 else -10
-    monetization_fit += 15 if 8 <= len(script.scenes) <= 13 else 0
+    monetization_fit += 15 if active_plan.scene_count_min <= len(script.scenes) <= active_plan.scene_count_max else 0
     monetization_fit += 10 if _metadata_int("hashtags_min", 8) <= len(script.hashtags) <= _metadata_int("hashtags_max", 12) else 0
     monetization_fit += 10 if len(script.caption) <= _metadata_int("caption_total_max_chars", 360) else 0
 
@@ -5737,13 +6951,27 @@ def _score_script_quality(
         else 70
     )
 
+    caption_follow_cta = _caption_has_follow_cta(script.caption)
+    video_end_follow_promise = _script_has_end_follow_promise(script)
+    series_identity = _text_has_series_identity(script.caption) or _text_has_series_identity(_script_final_text(script))
+    profile_transition = _text_has_profile_transition(script.caption) or _text_has_profile_transition(_script_final_text(script))
+    pinned_follow_cta = any(term in script.pinned_comment for term in follow_terms)
+    follower_conversion_score = (
+        25
+        + (28 if caption_follow_cta else 0)
+        + (22 if video_end_follow_promise else 0)
+        + (15 if series_identity else 0)
+        + (8 if profile_transition else 0)
+        + (4 if pinned_follow_cta else 0)
+    )
+
     scores = {
         "hook_strength": _clamp_score(hook_score),
         "safe_provocation": provocation_score,
         "search_value": search_value_score,
         "retention_design": _clamp_score(retention_score),
         "comment_trigger": _clamp_score(comment_score),
-        "follower_conversion": _clamp_score(70 + (18 if any(term in script.pinned_comment for term in follow_terms) else 0)),
+        "follower_conversion": _clamp_score(follower_conversion_score),
         "target_fit": _clamp_score(target_fit),
         "monetization_fit": _clamp_score(monetization_fit),
         "policy_safety": _clamp_score(policy_safety),
@@ -5785,8 +7013,16 @@ def _score_script_quality(
             blockers.append(f"generic_phrase_repeated:{phrase}")
     if question_count < 2:
         notes.append("question_density_low")
-    if not any(term in script.pinned_comment for term in follow_terms):
-        notes.append("follow_cta_weak")
+    if not caption_follow_cta:
+        blockers.append("caption_follow_cta_missing")
+    if not video_end_follow_promise:
+        blockers.append("video_end_follow_promise_missing")
+    if not series_identity:
+        blockers.append("series_identity_missing")
+    if not profile_transition:
+        blockers.append("profile_transition_trigger_missing")
+    if not pinned_follow_cta:
+        notes.append("pinned_comment_follow_cta_missing")
 
     return PublishQualityResult(
         passed=not blockers,
@@ -5803,12 +7039,18 @@ def select_publish_script(
     topic: TopicCandidate,
     sources: dict[str, Source],
     format_plan: ContentFormatPlan | None = None,
+    preserve_existing_metadata: bool = False,
 ) -> tuple[ScriptPackage, GateResult, ReadabilityResult, PublishQualityResult]:
     scored: list[tuple[ScriptPackage, GateResult, ReadabilityResult, PublishQualityResult]] = []
     variant_rows: list[dict[str, Any]] = []
     for script in variants:
         if "reference_v3" not in script.variant_id:
-            script = _enrich_post_metadata(script, topic, sources)
+            script = _enrich_post_metadata(
+                script,
+                topic,
+                sources,
+                preserve_existing=preserve_existing_metadata,
+            )
         gate = check_policy(topic, script, sources, format_plan)
         readability = check_readability(script, format_plan)
         quality = _score_script_quality(script, gate, readability, topic, sources, format_plan)
@@ -5946,24 +7188,38 @@ def _scenes_with_audio_timings(scenes: list[Scene], audio_asset: AudioAsset) -> 
     ]
 
 
-def build_visual_beats(scenes: list[Scene], format_plan: ContentFormatPlan | None = None) -> list[VisualBeat]:
+def build_visual_beats(
+    scenes: list[Scene],
+    format_plan: ContentFormatPlan | None = None,
+    *,
+    render_style: str | None = None,
+) -> list[VisualBeat]:
     plan = format_plan or FORMAT_SPECS["reward_deep"]
+    cadence = plan_visual_cadence(scenes, plan)
+    tiktok_native_caption = render_style == CINEMATIC_SUBTITLE_RENDER_STYLE
     motion_enabled = _env_bool("AINO_CONTROLLED_VISUAL_MOTION", bool(VISUAL_MOTION_STRATEGY.get("enabled", True)))
+    if tiktok_native_caption:
+        motion_enabled = False
     zoom_delta = max(0.0, min(0.08, float(VISUAL_MOTION_STRATEGY.get("zoom_delta", 0.028))))
     pan_px = max(0, min(40, int(VISUAL_MOTION_STRATEGY.get("pan_px", 18))))
-    overlay_effects = [
-        str(item)
-        for item in VISUAL_MOTION_STRATEGY.get("overlay_effects", ["hold"])
-        if str(item).strip()
-    ] or ["hold"]
+    if tiktok_native_caption:
+        overlay_effects = ["caption_pop", "receipt_flash", "hard_cut"]
+    else:
+        overlay_effects = [
+            str(item)
+            for item in VISUAL_MOTION_STRATEGY.get("overlay_effects", ["hold"])
+            if str(item).strip()
+        ] or ["hold"]
     beats_by_scene: dict[int, int] = {}
     for scene in scenes:
         base_count = 3 if scene.duration_sec >= 9 else 2
+        if tiktok_native_caption:
+            base_count = 4 if scene.duration_sec >= 9 else 3
         if plan.format_id == "growth_short" and scene.scene_id in {1, len(scenes)}:
             base_count += 1
         beats_by_scene[scene.scene_id] = base_count
 
-    while sum(beats_by_scene.values()) < plan.min_visual_beats and beats_by_scene:
+    while sum(beats_by_scene.values()) < cadence.target_visual_beats and beats_by_scene:
         target_scene_id = max(
             beats_by_scene,
             key=lambda scene_id: (
@@ -5992,7 +7248,11 @@ def build_visual_beats(scenes: list[Scene], format_plan: ContentFormatPlan | Non
                     zoom_end=1.0 + (zoom_delta * (0.55 + 0.15 * beat_index) if motion_enabled else 0.0),
                     pan_x=(((-1) ** (scene.scene_id + beat_index)) * pan_px) if motion_enabled else 0,
                     pan_y=(((-1) ** beat_index) * max(0, pan_px // 3)) if motion_enabled else 0,
-                    overlay=overlay_effects[(scene.scene_id + beat_index) % len(overlay_effects)] if motion_enabled else "hold",
+                    overlay=(
+                        overlay_effects[(scene.scene_id + beat_index) % len(overlay_effects)]
+                        if motion_enabled or tiktok_native_caption
+                        else "hold"
+                    ),
                 )
             )
             start += base_duration
@@ -6076,14 +7336,20 @@ def decide_image_budget(
     *,
     output_dir: Path,
     image_mode: str,
-    real_image_limit: int,
+    real_image_limit: int | None,
     gate: GateResult,
     readability: ReadabilityResult,
     quality: PublishQualityResult,
+    adaptive_default_limit: int | None = None,
 ) -> ImageBudgetDecision:
-    requested_limit = max(0, int(real_image_limit))
-    per_run_limit = _strategy_int(IMAGE_BUDGET_STRATEGY, "per_run_real_image_limit", 9)
-    daily_limit = _strategy_int(IMAGE_BUDGET_STRATEGY, "daily_real_image_limit", 27)
+    reasons: list[str] = []
+    if real_image_limit is None:
+        requested_limit = max(0, int(adaptive_default_limit or _strategy_int(IMAGE_BUDGET_STRATEGY, "per_run_real_image_limit", 14)))
+        reasons.append("adaptive_real_image_limit")
+    else:
+        requested_limit = max(0, int(real_image_limit))
+    per_run_limit = _strategy_int(IMAGE_BUDGET_STRATEGY, "per_run_real_image_limit", 14)
+    daily_limit = _strategy_int(IMAGE_BUDGET_STRATEGY, "daily_real_image_limit", 42)
     daily_limit_override_env = str(
         IMAGE_BUDGET_STRATEGY.get("daily_limit_override_env", "AINO_DAILY_REAL_IMAGE_LIMIT_OVERRIDE")
     )
@@ -6093,7 +7359,6 @@ def decide_image_budget(
             daily_limit = max(daily_limit, int(daily_limit_override))
     min_score = _strategy_int(IMAGE_BUDGET_STRATEGY, "min_publish_ready_score", 85)
     used_today = _generated_paid_images_used_on_day(output_dir)
-    reasons: list[str] = []
 
     override_env = str(IMAGE_BUDGET_STRATEGY.get("override_env", "AINO_ALLOW_PAID_IMAGE_OVERRIDE"))
     override_enabled = os.environ.get(override_env, "").lower() in {"1", "true", "yes", "on"}
@@ -6213,7 +7478,10 @@ def render_artifacts(
     native_image_text_render = bool(render_scenes) and all(
         _asset_uses_native_image_text(asset_by_scene.get(scene.scene_id)) for scene in render_scenes
     )
-    if native_image_text_render:
+    cinematic_subtitle_render = _all_assets_use_cinematic_subtitles(render_scenes, asset_by_scene)
+    if cinematic_subtitle_render:
+        render_scenes, render_textfit_report = _fit_cinematic_subtitle_scene_texts(render_scenes)
+    elif native_image_text_render:
         render_textfit_report = {
             "version": "render_textfit_v2",
             "mode": "native_image_text",
@@ -6266,7 +7534,12 @@ def render_artifacts(
         asset_by_scene,
     )
 
-    visual_beats = build_visual_beats(render_scenes, format_plan)
+    visual_beats = build_visual_beats(
+        render_scenes,
+        format_plan,
+        render_style=CINEMATIC_SUBTITLE_RENDER_STYLE if cinematic_subtitle_render else None,
+    )
+    visual_cadence = plan_visual_cadence(render_scenes, format_plan)
     visual_beats_path = run_dir / "visual_beats.json"
     _write_json(visual_beats_path, [asdict(beat) for beat in visual_beats])
 
@@ -6281,6 +7554,7 @@ def render_artifacts(
     selected_script_path = run_dir / "selected_script.json"
     content_plan_path = run_dir / "content_plan.json"
     visual_plan_path = run_dir / "visual_plan.json"
+    visual_cadence_path = run_dir / "visual_cadence_plan.json"
     tts_plan_path = run_dir / "tts_plan.json"
     render_manifest_path = run_dir / "render_manifest.json"
     upload_plan_path = run_dir / "upload_plan.json"
@@ -6326,6 +7600,7 @@ def render_artifacts(
     _write_json(content_plan_path, asdict(content_plan))
     visual_plan = build_visual_plan(content_plan, visual_assets)
     _write_json(visual_plan_path, asdict(visual_plan))
+    _write_json(visual_cadence_path, asdict(visual_cadence))
     tts_plan = build_tts_plan(script, audio_asset)
     _write_json(tts_plan_path, asdict(tts_plan))
     source_rows = [asdict(sources[sid]) for sid in script.sources if sid in sources]
@@ -6366,6 +7641,7 @@ def render_artifacts(
         synced_duration_matches_format=synced_duration_matches_format,
         mobile_visual_passed=mobile_visual_passed,
         layout_quality=layout_quality,
+        visual_cadence=visual_cadence,
     )
     _write_json(render_manifest_path, asdict(render_manifest))
     manifest = {
@@ -6394,6 +7670,7 @@ def render_artifacts(
         "selected_script_plan": asdict(selected_script_plan),
         "content_plan": asdict(content_plan),
         "visual_plan": asdict(visual_plan),
+        "visual_cadence_plan": asdict(visual_cadence),
         "tts_performance_plan": asdict(tts_performance_plan),
         "tts_plan": asdict(tts_plan),
         "render_manifest": asdict(render_manifest),
@@ -6444,6 +7721,7 @@ def render_artifacts(
             "selected_script": str(selected_script_path),
             "content_plan": str(content_plan_path),
             "visual_plan": str(visual_plan_path),
+            "visual_cadence_plan": str(visual_cadence_path),
             "tts_performance_plan": str(tts_performance_plan_path),
             "tts_plan": str(tts_plan_path),
             "render_manifest": str(render_manifest_path),
@@ -6590,7 +7868,7 @@ def _generate_visual_assets(
                     unavailable.add(candidate)
 
         if status != "generated":
-            _write_local_cinematic_asset(out, scene, index)
+            _write_local_cinematic_asset(out, scene, index, brief)
             notes.append("external image provider unavailable or skipped; local cinematic fallback rendered")
 
         if _valid_image(out) and _apply_visual_color_grade(out, brief):
@@ -6975,6 +8253,21 @@ VISUAL_ISSUE_DETECTION_TERMS = {
     for issue_type, terms in _config_dict(VISUAL_STRATEGY, "issue_detection_terms").items()
     if isinstance(terms, list)
 }
+VISUAL_ISSUE_DETECTION_PRIORITY = [
+    str(issue_type)
+    for issue_type in _config_list(VISUAL_STRATEGY, "issue_detection_priority")
+    if str(issue_type) in VISUAL_ISSUE_PROFILES or str(issue_type) == "civic_fact_check"
+]
+VISUAL_ISSUE_REQUIRED_TERMS = {
+    str(issue_type): [str(term) for term in terms if str(term).strip()]
+    for issue_type, terms in _config_dict(VISUAL_STRATEGY, "issue_required_terms").items()
+    if isinstance(terms, list)
+}
+VISUAL_DIEGETIC_TEXT_RENDER_ISSUES = {
+    str(issue_type)
+    for issue_type in _config_list(VISUAL_STRATEGY, "diegetic_text_render_issue_types")
+    if str(issue_type) in VISUAL_ISSUE_PROFILES
+}
 VISUAL_ROLE_DETECTION_TERMS = {
     str(role): [str(term) for term in terms]
     for role, terms in _config_dict(VISUAL_STRATEGY, "role_detection_terms").items()
@@ -7033,7 +8326,26 @@ VISUAL_ROLE_INTENSITY_BEATS = {
 }
 VISUAL_REPETITION_GUARD = str(VISUAL_STRATEGY.get("repetition_guard", "")).strip()
 VISUAL_ROLE_SEPARATION = str(VISUAL_STRATEGY.get("role_separation", "")).strip()
+VISUAL_PAPER_PROP_REGRESSION_TERMS = tuple(
+    str(term).casefold()
+    for term in _config_list(VISUAL_STRATEGY, "paper_prop_regression_terms")
+    if str(term).strip()
+)
+VISUAL_SOURCE_CONTEXT_REPLACEMENTS = {
+    str(source): str(target)
+    for source, target in _config_dict(VISUAL_STRATEGY, "source_visual_replacements").items()
+    if str(source).strip()
+}
 VISUAL_QUALITY_MINIMUMS = _config_int_map(VISUAL_STRATEGY, "quality_minimums")
+CINEMATIC_SUBTITLE_RENDER_STYLE = "cinematic_subtitle"
+CINEMATIC_SUBTITLE_PROMPT_DIRECTIVE = str(
+    VISUAL_CINEMATIC_PROMPTING.get("subtitle_prompt_directive", "")
+).strip()
+CINEMATIC_SUBTITLE_FORBIDDEN_ANCHOR_TERMS = tuple(
+    str(term).casefold()
+    for term in VISUAL_CINEMATIC_PROMPTING.get("subtitle_forbidden_anchor_terms", [])
+    if str(term).strip()
+)
 VISUAL_ISSUE_LOCATION_ROLES = {
     role for role in _config_list(VISUAL_STRATEGY, "issue_location_roles") if role in VISUAL_ROLE_PROFILES
 }
@@ -7056,11 +8368,26 @@ VISUAL_DYNAMIC_TERM_STOPWORDS = {
 }
 
 
-def _infer_visual_issue_type(text: str) -> str:
+def _visual_issue_matches(text: str) -> list[tuple[str, int, int]]:
+    rows: list[tuple[str, int, int]] = []
+    priority = VISUAL_ISSUE_DETECTION_PRIORITY or list(VISUAL_ISSUE_DETECTION_TERMS)
+    priority_index = {issue_type: index for index, issue_type in enumerate(priority)}
     for issue_type, terms in VISUAL_ISSUE_DETECTION_TERMS.items():
-        if any(term in text for term in terms):
-            return issue_type
-    return "civic_fact_check"
+        matched = [term for term in terms if term and term in text]
+        if not matched:
+            continue
+        required_terms = VISUAL_ISSUE_REQUIRED_TERMS.get(issue_type, [])
+        if required_terms and not any(term in text for term in required_terms):
+            continue
+        rows.append((issue_type, len(matched), priority_index.get(issue_type, len(priority_index))))
+    return rows
+
+
+def _infer_visual_issue_type(text: str) -> str:
+    matches = _visual_issue_matches(text)
+    if not matches:
+        return "civic_fact_check"
+    return sorted(matches, key=lambda row: (-row[1], row[2], row[0]))[0][0]
 
 
 def _select_visual_issue_type(topic_text: str, scene_text: str) -> str:
@@ -7111,7 +8438,7 @@ def _visual_location_for_role_issue(role: str, issue_type: str, role_profile: di
     issue_location = str(issue_profile.get("location") or "").strip()
     if role in VISUAL_ISSUE_LOCATION_ROLES and issue_type != "civic_fact_check" and issue_location:
         if role_location and role_location != issue_location:
-            return f"{issue_location}, framed with {role_location}"
+            return f"{role_location}, tied to {issue_location}"
         return issue_location
     return role_location or issue_location
 
@@ -7180,6 +8507,110 @@ def _visual_safety_constraints_for_scene(diegetic_text: str) -> list[str]:
     return [*filtered, *VISUAL_DIEGETIC_TEXT_REPLACEMENT_CONSTRAINTS]
 
 
+def _visual_role_shot_contract(role: str) -> list[str]:
+    base = [
+        "show a believable real-world public-interest location with spatial depth",
+        "show one visible human action or reaction in progress, using anonymous non-identifiable adults only",
+        "use one dominant foreground object tied to the issue, not a generic decoration",
+        "reserve a clean subtitle/overlay lane without turning the frame into an empty background",
+    ]
+    by_role = {
+        "hook": [
+            "make the first-second visual question readable before any overlay text",
+            "use a doorway, press line, monitor wall, or large foreground object to create immediate tension",
+        ],
+        "why_now": [
+            "show a current-signal moment such as a newsroom monitor, phone recorder glow, or late-night briefing reaction",
+            "make the scene feel like it is happening now, not like archival still-life",
+        ],
+        "evidence": [
+            "show cropped hands moving or separating verification objects instead of a static document pile",
+            "keep papers, screens, and labels unreadable unless a controlled caption is explicitly requested",
+        ],
+        "criteria": [
+            "show three physically separated decision zones in the room through light, object placement, or blocking",
+            "make one object visibly move from one judgment zone to another",
+        ],
+        "responsibility": [
+            "show an accountability room, public counter, or meeting space with anonymous adults reacting",
+            "include a body-language consequence such as someone stepping back, turning away, or pausing at a question",
+        ],
+        "verification": [
+            "show one unresolved item being stopped or separated before it reaches the confirmed side",
+            "make uncertainty visible through distance, glass, rain, shadow, or a held-back object",
+        ],
+        "cta": [
+            "show a video editor timeline and divided reaction wall, not paper comment cards",
+            "make viewer participation visible as heat zones, timeline choices, or split audience reactions",
+        ],
+    }
+    return [*base, *by_role.get(role, [])]
+
+
+def _visual_forbidden_dominant_elements(render_style: str) -> list[str]:
+    common = [
+        "handheld paper headline card",
+        "placard or protest-sign composition",
+        "poster, sticky note, memo, or source-card image as the main subject",
+        "large blank white board, blank paper panel, or blank card wall as the dominant subject",
+        "people holding blank boards, blank cards, paper panels, or placards toward the camera",
+        "blank board, paper, or card covering the center of the composition",
+        "fake app screenshot or fake broadcast lower-third as the main image",
+        "empty office, empty classroom, or passive desk still-life",
+        "generic file pile, generic microphone pile, or generic corridor repeated across scenes",
+        "real politician likeness, party logo, campaign material, official seal, watermark, or uncontrolled readable text",
+    ]
+    if render_style == CINEMATIC_SUBTITLE_RENDER_STYLE:
+        return [*common, "any readable in-image text because captions are rendered later"]
+    return common
+
+
+def _visual_scene_uniqueness_key(
+    *,
+    role: str,
+    issue_type: str,
+    treatment_id: str,
+    location: str,
+    camera: str,
+    palette: str,
+) -> str:
+    location_token = _visual_uniqueness_token(location, 56)
+    camera_token = _visual_uniqueness_token(camera, 46)
+    palette_token = _visual_uniqueness_token(palette, 34)
+    return " | ".join([role, issue_type, treatment_id, location_token, camera_token, palette_token])
+
+
+def _visual_uniqueness_token(value: str, max_chars: int) -> str:
+    token = re.sub(r"\s+", " ", value).strip()
+    if len(token) <= max_chars:
+        return token
+    digest = hashlib.sha1(token.encode("utf-8")).hexdigest()[:8]
+    head_len = max(8, max_chars - len(digest) - 2)
+    return f"{token[:head_len]}..{digest}"
+
+
+def _normalize_visual_render_style(value: Any) -> str:
+    style = str(value or "").strip().casefold().replace("-", "_")
+    return CINEMATIC_SUBTITLE_RENDER_STYLE if style == CINEMATIC_SUBTITLE_RENDER_STYLE else ""
+
+
+def _default_visual_render_style() -> str:
+    return _normalize_visual_render_style(RENDERING_STRATEGY.get("default_render_style", ""))
+
+
+def _cinematic_subtitle_anchors(anchors: list[str]) -> list[str]:
+    filtered = [
+        anchor
+        for anchor in anchors
+        if not any(term in anchor.casefold() for term in CINEMATIC_SUBTITLE_FORBIDDEN_ANCHOR_TERMS)
+    ]
+    return filtered or [
+        "anonymous adult reaction caught mid-action",
+        "unbranded microphones or recorder in foreground",
+        "real location depth with practical light and imperfect surfaces",
+    ]
+
+
 def _visual_concrete_scene_for_topic(
     topic: TopicCandidate,
     scene: Scene,
@@ -7189,8 +8620,9 @@ def _visual_concrete_scene_for_topic(
 ) -> str:
     explicit_visual = _clean_card_text(scene.visual)
     explicit_prefix = "reference_scene:"
+    explicit_reference_scene = ""
     if explicit_visual.startswith(explicit_prefix):
-        return explicit_visual[len(explicit_prefix):].strip()
+        explicit_reference_scene = explicit_visual[len(explicit_prefix) :].strip()
 
     raw = _clean_card_text(" ".join([topic.title, topic.angle, scene.title, scene.body, scene.on_screen_text]))
     values = {
@@ -7206,6 +8638,12 @@ def _visual_concrete_scene_for_topic(
         terms = [str(term) for term in rule.get("if_text_contains_any", []) if str(term).strip()]
         if terms and not any(term in raw for term in terms):
             continue
+        scenes_by_scene_id = rule.get("scenes_by_scene_id", {})
+        if isinstance(scenes_by_scene_id, dict):
+            scene_id = str(scene.scene_id)
+            template = str(scenes_by_scene_id.get(scene_id) or scenes_by_scene_id.get(f"scene_{scene_id}") or "").strip()
+            if template:
+                return _format_prompt_template(template, values)
         scenes_by_role = rule.get("scenes_by_role", {})
         if isinstance(scenes_by_role, dict):
             template = str(scenes_by_role.get(role) or scenes_by_role.get("default") or "").strip()
@@ -7214,7 +8652,103 @@ def _visual_concrete_scene_for_topic(
         template = str(rule.get("scene", "")).strip()
         if template:
             return _format_prompt_template(template, values)
+    if explicit_reference_scene:
+        return explicit_reference_scene
     return _format_prompt_template(VISUAL_DEFAULT_CONCRETE_SCENE, values) if VISUAL_DEFAULT_CONCRETE_SCENE else scene.visual
+
+
+def _presidential_legacy_visual_override(scene_id: int) -> dict[str, Any]:
+    overrides: dict[int, dict[str, Any]] = {
+        1: {
+            "location": "vertical ranking studio with a black glass light table and a tall blank five-slot ranking wall",
+            "camera": "low-angle wide shot from the edge of the ranking board, strong depth and diagonal composition",
+            "palette": "black glass, white ranking blocks, sharp red progress accent",
+            "action_beat": "an anonymous hand places the first blank rank block while the ranking wall dominates the frame",
+            "anchors": ["giant blank TOP5 ranking wall", "five physical blank rank blocks", "red progress accent"],
+            "treatment_id": "satirical_tableau",
+        },
+        2: {
+            "location": "bright AI evaluation lab with three oversized analogue scoring dials and a public-policy screen glow",
+            "camera": "clean side-wide shot across three dials, no tabletop pile, visible human scale",
+            "palette": "white lab light, pale cyan screen glow, dark navy shadows",
+            "action_beat": "an analyst points to three separate dials instead of papers",
+            "anchors": ["three large scoring dials", "transparent divider glass", "single pointing hand"],
+            "treatment_id": "aino_character_scene",
+        },
+        3: {
+            "location": "large civic history split set with a candlelit square on one side and industrial machinery on the other",
+            "camera": "wide split-stage composition, viewers seen from behind, no desk and no paper stack",
+            "palette": "warm candle amber against steel blue industrial light",
+            "action_beat": "two viewer groups turn toward opposite historical scenes at the same moment",
+            "anchors": ["candlelit civic crowd monitor", "industrial machine silhouette", "two reacting viewer groups"],
+            "treatment_id": "evidence_action",
+        },
+        4: {
+            "location": "quiet peace-and-democracy archive room with a medal case, diplomatic envelopes, and tall archive shelves",
+            "camera": "museum-style side close-up with archive shelves receding into the background",
+            "palette": "deep archive green, warm gold spotlight, cream paper highlights",
+            "action_beat": "gloved hands open a blank archive tray under a focused spotlight",
+            "anchors": ["blank medal case", "diplomatic envelopes", "archive gloves"],
+            "treatment_id": "accountability_stage",
+        },
+        5: {
+            "location": "cool-toned first-year administration situation room with livelihood charts and reform folders moving fast",
+            "camera": "over-the-shoulder newsroom command shot with several screens and motion blur, not a close desk still",
+            "palette": "cold cyan screens, graphite table, small red urgency light",
+            "action_beat": "analysts move reform folders across a live situation table",
+            "anchors": ["unreadable situation-room screens", "livelihood chart shapes", "moving reform folders"],
+            "treatment_id": "evidence_action",
+        },
+        6: {
+            "location": "rainy citizen-politics memory square with an open microphone and anonymous citizens facing a blank forum wall",
+            "camera": "wide backlit exterior shot through rain reflection, strong open space and no document table",
+            "palette": "wet asphalt blue, warm candle reflections, soft amber stage light",
+            "action_beat": "an anonymous citizen steps toward an open microphone in the rain",
+            "anchors": ["open civic microphone", "rain reflections", "citizens seen from behind"],
+            "treatment_id": "evidence_action",
+        },
+        7: {
+            "location": "vertical comment-battle editing booth with two opposing viewer groups and a giant blank ranking wall",
+            "camera": "over-the-shoulder shot from the fictional AiNo editor toward the crowd-divided ranking wall",
+            "palette": "amber booth light, red debate accent, dark crowd silhouettes",
+            "action_beat": "the editor hovers over two blank TOP2 choice cards as both sides react",
+            "anchors": ["giant vertical ranking wall", "two opposing viewer groups", "two blank TOP2 choice cards"],
+            "treatment_id": "comment_choice_scene",
+        },
+    }
+    return overrides.get(scene_id, {})
+
+
+VISUAL_OVERRIDE_PREFIX = "aino_visual_override_json:"
+
+
+def _parse_scene_visual_override(scene: Scene) -> dict[str, Any]:
+    visual = str(scene.visual or "").strip()
+    marker_index = visual.find(VISUAL_OVERRIDE_PREFIX)
+    if marker_index < 0:
+        return {}
+    payload = visual[marker_index + len(VISUAL_OVERRIDE_PREFIX) :].strip()
+    with contextlib.suppress(Exception):
+        data = json.loads(payload)
+        if isinstance(data, dict):
+            return data
+    return {}
+
+
+def _visual_override_scene_text(scene: Scene, override: dict[str, Any]) -> str:
+    for key in ("concrete_scene", "prompt", "scene"):
+        value = str(override.get(key) or "").strip()
+        if value:
+            return value
+    visual = str(scene.visual or "").strip()
+    marker_index = visual.find(VISUAL_OVERRIDE_PREFIX)
+    if marker_index >= 0:
+        return visual[:marker_index].strip()
+    return visual
+
+
+def _editorial_os_scene_visual_override(scene: Scene) -> dict[str, Any]:
+    return _parse_scene_visual_override(scene)
 
 
 def _build_visual_brief(topic: TopicCandidate, scene: Scene, index: int, total: int) -> VisualBrief:
@@ -7236,9 +8770,73 @@ def _build_visual_brief(topic: TopicCandidate, scene: Scene, index: int, total: 
     treatment_id, visual_treatment = _visual_treatment_for_scene(role, index)
     action_beat = _visual_action_beat_for_role(role, index)
     concrete_scene = _visual_concrete_scene_for_topic(topic, scene, role, action_beat, issue_type)
-    diegetic_text = _diegetic_text_for_scene(scene)
-    diegetic_text_directive = _diegetic_text_directive_for_scene(scene, role)
+    presidential_override = (
+        _presidential_legacy_visual_override(scene.scene_id)
+        if issue_type == "presidential_legacy"
+        else {}
+    )
+    if presidential_override:
+        location = str(presidential_override.get("location") or location)
+        camera = str(presidential_override.get("camera") or camera)
+        palette = str(presidential_override.get("palette") or palette)
+        action_beat = str(presidential_override.get("action_beat") or action_beat)
+        override_anchors = [
+            str(item)
+            for item in presidential_override.get("anchors", [])
+            if str(item).strip()
+        ]
+        if override_anchors:
+            anchors = override_anchors[:VISUAL_ANCHOR_MERGE_LIMIT]
+        override_treatment_id = str(presidential_override.get("treatment_id") or "").strip()
+        if override_treatment_id in VISUAL_TREATMENTS:
+            treatment_id = override_treatment_id
+            visual_treatment = VISUAL_TREATMENTS[override_treatment_id]
+    editorial_override = _editorial_os_scene_visual_override(scene)
+    default_render_style = "" if issue_type in VISUAL_DIEGETIC_TEXT_RENDER_ISSUES else _default_visual_render_style()
+    render_style = _normalize_visual_render_style(
+        editorial_override.get("render_style") if editorial_override and "render_style" in editorial_override else default_render_style
+    )
+    if editorial_override:
+        location = str(editorial_override.get("location") or location)
+        camera = str(editorial_override.get("camera") or camera)
+        palette = str(editorial_override.get("palette") or palette)
+        treatment_id = str(editorial_override.get("treatment_id") or treatment_id)
+        override_scene_text = _visual_override_scene_text(scene, editorial_override)
+        visual_treatment = (
+            f"scene-specific Editorial OS v2 cinematic treatment: {treatment_id}; "
+            f"use the source visual prompt literally: {override_scene_text}"
+        )
+        action_beat = str(editorial_override.get("action_beat") or action_beat)
+        concrete_scene = override_scene_text or concrete_scene
+        override_anchors = [
+            str(item)
+            for item in editorial_override.get("anchors", [])
+            if str(item).strip()
+        ]
+        if override_anchors:
+            anchors = override_anchors[:VISUAL_ANCHOR_MERGE_LIMIT]
+    if render_style == CINEMATIC_SUBTITLE_RENDER_STYLE:
+        anchors = _cinematic_subtitle_anchors(anchors)
+        visual_treatment = (
+            f"{visual_treatment}; cinematic subtitle render style: real situational scene first, "
+            "no paper-card headline as the main subject, leave a clean lower-third lane for rendered captions"
+        )
+        diegetic_text = ""
+        diegetic_text_directive = CINEMATIC_SUBTITLE_PROMPT_DIRECTIVE
+    else:
+        diegetic_text = _diegetic_text_for_scene(scene)
+        diegetic_text_directive = _diegetic_text_directive_for_scene(scene, role)
     safety_constraints = _visual_safety_constraints_for_scene(diegetic_text)
+    shot_contract = _visual_role_shot_contract(role)
+    forbidden_dominant_elements = _visual_forbidden_dominant_elements(render_style)
+    scene_uniqueness_key = _visual_scene_uniqueness_key(
+        role=role,
+        issue_type=issue_type,
+        treatment_id=treatment_id,
+        location=location,
+        camera=camera,
+        palette=palette,
+    )
     intent_suffix = str(VISUAL_PROMPTING.get("visual_intent_suffix", "")).strip()
     intent = (
         f"{role_profile['intent']}; translate the card '{scene.on_screen_text}' and topic '{topic.title}' "
@@ -7261,8 +8859,12 @@ def _build_visual_brief(topic: TopicCandidate, scene: Scene, index: int, total: 
         relevance_terms=relevance_terms,
         diversity_tags=[issue_type, role, treatment_id, location, camera.split(",", 1)[0]],
         safety_constraints=safety_constraints,
+        shot_contract=shot_contract,
+        forbidden_dominant_elements=forbidden_dominant_elements,
+        scene_uniqueness_key=scene_uniqueness_key,
         diegetic_text=diegetic_text,
         diegetic_text_directive=diegetic_text_directive,
+        render_style=render_style,
     )
 
 
@@ -7277,19 +8879,37 @@ def _apply_visual_repeat_variant(brief: VisualBrief, repeat_index: int) -> Visua
     location_suffix = str(variant.get("location_suffix", "")).strip()
     camera_suffix = str(variant.get("camera_suffix", "")).strip()
     palette_suffix = str(variant.get("palette_suffix", "")).strip()
+    concrete_scene_override = str(variant.get("concrete_scene", "")).strip()
+    concrete_scene_suffix = str(variant.get("concrete_scene_suffix", "")).strip()
     action_suffix = str(variant.get("action_suffix", "")).strip()
     treatment_id = str(variant.get("treatment_id", "")).strip()
+    updated_location = f"{brief.location}; repeat-variant {repeat_index}: {location_suffix}" if location_suffix else brief.location
+    updated_camera = f"{brief.camera}; repeat-variant {repeat_index}: {camera_suffix}" if camera_suffix else brief.camera
+    updated_palette = f"{brief.palette}; repeat-variant {repeat_index}: {palette_suffix}" if palette_suffix else brief.palette
+    updated_concrete_scene = (
+        concrete_scene_override
+        or (f"{brief.concrete_scene}; repeat-variant {repeat_index}: {concrete_scene_suffix}" if concrete_scene_suffix else brief.concrete_scene)
+    )
+    updated_treatment_id = treatment_id if treatment_id in VISUAL_TREATMENTS else brief.treatment_id
     return replace(
         brief,
         visual_anchor=list(dict.fromkeys([*anchors, *brief.visual_anchor]))[:8],
-        location=f"{brief.location}; repeat-variant {repeat_index}: {location_suffix}" if location_suffix else brief.location,
-        camera=f"{brief.camera}; repeat-variant {repeat_index}: {camera_suffix}" if camera_suffix else brief.camera,
-        palette=f"{brief.palette}; repeat-variant {repeat_index}: {palette_suffix}" if palette_suffix else brief.palette,
-        treatment_id=treatment_id if treatment_id in VISUAL_TREATMENTS else brief.treatment_id,
-        visual_treatment=VISUAL_TREATMENTS[treatment_id] if treatment_id in VISUAL_TREATMENTS else brief.visual_treatment,
+        location=updated_location,
+        camera=updated_camera,
+        palette=updated_palette,
+        treatment_id=updated_treatment_id,
+        visual_treatment=VISUAL_TREATMENTS[updated_treatment_id] if updated_treatment_id in VISUAL_TREATMENTS else brief.visual_treatment,
         action_beat=f"{brief.action_beat}; repeat-variant action: {action_suffix}" if action_suffix else brief.action_beat,
-        concrete_scene=brief.concrete_scene,
+        concrete_scene=updated_concrete_scene,
         diversity_tags=[*brief.diversity_tags, f"{brief.role}_repeat_{repeat_index}"],
+        scene_uniqueness_key=_visual_scene_uniqueness_key(
+            role=brief.role,
+            issue_type=brief.issue_type,
+            treatment_id=updated_treatment_id,
+            location=updated_location,
+            camera=updated_camera,
+            palette=updated_palette,
+        ),
     )
 
 
@@ -7535,6 +9155,8 @@ def _cosine_similarity(a: list[float], b: list[float]) -> float:
 def _actual_visual_similarity(visual_assets: list[VisualAsset]) -> tuple[int, list[dict[str, Any]]]:
     signatures: list[tuple[int, list[int], list[float]]] = []
     for asset in visual_assets:
+        if not asset.path:
+            continue
         image_hash = _image_average_hash(asset.path)
         color_signature = _image_color_signature(asset.path)
         if image_hash is None or color_signature is None:
@@ -7611,6 +9233,7 @@ def _actual_palette_diversity(visual_assets: list[VisualAsset]) -> tuple[int, di
 
 def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) -> VisualQualityResult:
     scene_scores = [_visual_scene_score(asset) for asset in visual_assets]
+    cinematic_subtitle_render = bool(visual_assets) and all(_asset_uses_cinematic_subtitle(asset) for asset in visual_assets)
     topic_relevance = _clamp_score(
         sum(int(item["score"]) for item in scene_scores) / max(1, len(scene_scores))
     )
@@ -7659,15 +9282,29 @@ def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) 
         if thumbnail_assets and all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "thumbnail_drama_all")) for asset in thumbnail_assets)
         else VISUAL_QUALITY_SCORING["thumbnail_drama_fail_score"]
     )
-    diegetic_text_prompt = (
-        pass_score
-        if all(
-            str((asset.visual_brief or {}).get("diegetic_text") or "")
-            and "Controlled in-image text" in asset.prompt
-            and str((asset.visual_brief or {}).get("diegetic_text") or "") in asset.prompt
-            for asset in visual_assets
+    if cinematic_subtitle_render:
+        diegetic_text_prompt = pass_score
+    else:
+        diegetic_text_prompt = (
+            pass_score
+            if all(
+                str((asset.visual_brief or {}).get("diegetic_text") or "")
+                and "Controlled in-image text" in asset.prompt
+                and str((asset.visual_brief or {}).get("diegetic_text") or "") in asset.prompt
+                for asset in visual_assets
+            )
+            else VISUAL_QUALITY_SCORING.get("diegetic_text_prompt_fail_score", 60)
         )
-        else VISUAL_QUALITY_SCORING.get("diegetic_text_prompt_fail_score", 60)
+    paper_prop_regression_hits = [
+        term
+        for asset in visual_assets
+        for term in VISUAL_PAPER_PROP_REGRESSION_TERMS
+        if term in f"{asset.prompt} {asset.visual_brief or {}}".casefold()
+    ]
+    paper_prop_regression = (
+        pass_score
+        if not paper_prop_regression_hits
+        else VISUAL_QUALITY_SCORING.get("paper_prop_regression_fail_score", 45)
     )
     scene_relevance = min((int(item["score"]) for item in scene_scores), default=0)
     visual_metaphor = _clamp_score(
@@ -7692,11 +9329,13 @@ def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) 
         "foreground_tension": foreground_tension,
         "thumbnail_drama": thumbnail_drama,
         "diegetic_text_prompt": diegetic_text_prompt,
+        "paper_prop_regression": paper_prop_regression,
     }
     blockers: list[str] = []
     if len(scene_scores) != len(scenes):
         blockers.append(f"visual_brief_count_mismatch:{len(scene_scores)}/{len(scenes)}")
-    for key, minimum in VISUAL_QUALITY_MINIMUMS.items():
+    minimums = dict(VISUAL_QUALITY_MINIMUMS)
+    for key, minimum in minimums.items():
         if scores[key] < minimum:
             blockers.append(f"{key}_below_{minimum}:{scores[key]}")
     default_scene_ids = [
@@ -7721,6 +9360,13 @@ def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) 
         if similarity_rows or palette_metrics.get("scene_stats")
         else scene_scores,
     )
+
+
+def _sanitize_visual_source_context(text: str) -> str:
+    sanitized = str(text or "")
+    for source, target in VISUAL_SOURCE_CONTEXT_REPLACEMENTS.items():
+        sanitized = re.sub(re.escape(source), target, sanitized, flags=re.IGNORECASE)
+    return sanitized
 
 
 def _build_cinematic_prompt(scene: Scene, brief: VisualBrief | None = None) -> str:
@@ -7749,7 +9395,7 @@ def _build_cinematic_prompt(scene: Scene, brief: VisualBrief | None = None) -> s
         VISUAL_CINEMATIC_PROMPTING.get("topic_relevance_fallback", "")
     )
     template_values = {
-        "source_visual": scene.visual,
+        "source_visual": _sanitize_visual_source_context(scene.visual),
         "visual_intent": brief.visual_intent,
         "concrete_scene": brief.concrete_scene,
         "visual_treatment": brief.visual_treatment,
@@ -7772,13 +9418,41 @@ def _build_cinematic_prompt(scene: Scene, brief: VisualBrief | None = None) -> s
         "diegetic_text_directive": brief.diegetic_text_directive,
         "repetition_guard": VISUAL_REPETITION_GUARD,
         "role_separation": VISUAL_ROLE_SEPARATION,
+        "shot_contract": "; ".join(brief.shot_contract),
+        "forbidden_dominant_elements": "; ".join(brief.forbidden_dominant_elements),
+        "scene_uniqueness_key": brief.scene_uniqueness_key,
     }
+    if brief.render_style == CINEMATIC_SUBTITLE_RENDER_STYLE:
+        subtitle_primary_template = str(
+            VISUAL_CINEMATIC_PROMPTING.get("subtitle_primary_template", "{concrete_scene}")
+        )
+        template_values["primary_request"] = _format_prompt_template(subtitle_primary_template, template_values)
+        subtitle_lines = VISUAL_CINEMATIC_PROMPTING.get("subtitle_lines", [])
+        if not isinstance(subtitle_lines, list):
+            raise RuntimeError("Strategy config key must be a list: prompting.cinematic.subtitle_lines")
+        rendered_lines = [_format_prompt_template(line, template_values) for line in subtitle_lines]
+        rendered_lines.extend(
+            [
+                "Shot contract: {shot_contract}",
+                "Forbidden dominant elements: {forbidden_dominant_elements}",
+                "Scene uniqueness key: {scene_uniqueness_key}",
+            ]
+        )
+        return "\n".join(_format_prompt_template(line, template_values) for line in rendered_lines)
     directed_primary_template = str(VISUAL_CINEMATIC_PROMPTING.get("directed_primary_template", "{source_visual}"))
     template_values["primary_request"] = _format_prompt_template(directed_primary_template, template_values)
     lines = VISUAL_CINEMATIC_PROMPTING.get("lines", [])
     if not isinstance(lines, list):
         raise RuntimeError("Strategy config key must be a list: prompting.cinematic.lines")
-    return "\n".join(_format_prompt_template(str(line), template_values) for line in lines if str(line).strip())
+    rendered_lines = [_format_prompt_template(str(line), template_values) for line in lines if str(line).strip()]
+    rendered_lines.extend(
+        [
+            "Shot contract: {shot_contract}",
+            "Forbidden dominant elements: {forbidden_dominant_elements}",
+            "Scene uniqueness key: {scene_uniqueness_key}",
+        ]
+    )
+    return "\n".join(_format_prompt_template(line, template_values) for line in rendered_lines)
 
 
 def _try_generate_visual(provider: str, prompt: str, out: Path) -> tuple[bool, list[str]]:
@@ -7921,7 +9595,99 @@ def _apply_visual_color_grade(path: Path, brief: VisualBrief) -> bool:
     return True
 
 
-def _write_local_cinematic_asset(path: Path, scene: Scene, index: int) -> None:
+def _write_local_cinematic_subtitle_asset(path: Path, scene: Scene, index: int, brief: VisualBrief) -> None:
+    width, height = CANVAS_WIDTH, CANVAS_HEIGHT
+    rng = np.random.default_rng(seed=scene.scene_id * 104729 + index)
+    base = Image.new("RGB", (width, height), "#121417")
+    draw = ImageDraw.Draw(base, "RGBA")
+    palettes = [
+        ((38, 45, 50), (122, 52, 54), (219, 211, 188)),
+        ((24, 40, 52), (28, 84, 104), (190, 220, 228)),
+        ((42, 36, 31), (120, 86, 48), (230, 189, 116)),
+        ((30, 33, 36), (67, 95, 84), (202, 222, 190)),
+    ]
+    c1, c2, c3 = palettes[index % len(palettes)]
+    for y in range(height):
+        ratio = y / height
+        r = int(c1[0] * (1 - ratio) + c2[0] * ratio)
+        g = int(c1[1] * (1 - ratio) + c2[1] * ratio)
+        b = int(c1[2] * (1 - ratio) + c2[2] * ratio)
+        draw.line((0, y, width, y), fill=(r, g, b, 255))
+
+    role = brief.role
+    issue_type = brief.issue_type
+    # Common photographed-space cues: ceiling lights, depth lines, and a clean lower third.
+    for x in range(-80, width + 120, 170):
+        draw.line((x, 170, x + 120, 640), fill=(255, 255, 255, 22), width=3)
+    draw.rectangle((0, 0, width, 260), fill=(0, 0, 0, 42))
+    draw.rectangle((0, 1180, width, height), fill=(0, 0, 0, 88))
+    floor_y = 1040
+    draw.polygon([(0, floor_y), (width, 900), (width, height), (0, height)], fill=(6, 8, 10, 88))
+
+    def person(cx: int, cy: int, scale: float, alpha: int = 190) -> None:
+        head = int(42 * scale)
+        body_w = int(90 * scale)
+        body_h = int(260 * scale)
+        draw.ellipse((cx - head, cy - body_h - head * 2, cx + head, cy - body_h), fill=(16, 18, 20, alpha))
+        draw.rounded_rectangle((cx - body_w // 2, cy - body_h, cx + body_w // 2, cy), radius=28, fill=(18, 22, 25, alpha))
+
+    def mic(cx: int, cy: int, scale: float = 1.0) -> None:
+        draw.ellipse((cx - int(24 * scale), cy - int(18 * scale), cx + int(24 * scale), cy + int(18 * scale)), fill=(10, 12, 14, 220))
+        draw.line((cx, cy + int(18 * scale), cx + int(80 * scale), cy + int(90 * scale)), fill=(10, 12, 14, 210), width=max(2, int(6 * scale)))
+
+    def desk(x0: int, y0: int, x1: int, y1: int) -> None:
+        draw.polygon([(x0, y0), (x1, y0 - 48), (x1 + 120, y1), (x0 - 80, y1)], fill=(18, 19, 19, 210))
+        draw.line((x0 + 30, y0 + 20, x1 - 30, y0 - 24), fill=(*c3, 92), width=7)
+
+    if role in {"hook", "why_now"} or issue_type in {"party_strategy", "election_frame"}:
+        draw.rectangle((140, 390, 940, 830), fill=(9, 13, 18, 145))
+        draw.rectangle((210, 450, 870, 760), fill=(255, 255, 255, 24))
+        person(350, 970, 0.82, 210)
+        person(735, 930, 0.72, 180)
+        desk(120, 1080, 970, 1560)
+        for mx in [620, 710, 802]:
+            mic(mx, 1120, 0.72)
+    elif role in {"evidence", "criteria", "verification"}:
+        desk(80, 920, 1000, 1510)
+        for i in range(5):
+            x = 220 + i * 128
+            y = 900 + int(rng.integers(-28, 32))
+            draw.rounded_rectangle((x, y, x + 92, y + 142), radius=9, fill=(225, 218, 202, 145))
+        draw.ellipse((700, 1010, 824, 1055), fill=(12, 15, 18, 220))
+        draw.rectangle((748, 1050, 770, 1210), fill=(12, 15, 18, 220))
+        draw.rounded_rectangle((170, 1160, 430, 1235), radius=38, fill=(138, 101, 73, 135))
+    elif role == "responsibility":
+        draw.rectangle((210, 430, 870, 930), fill=(10, 14, 16, 150))
+        draw.rectangle((425, 560, 655, 930), fill=(18, 20, 22, 220))
+        person(315, 980, 0.7, 170)
+        person(765, 980, 0.7, 170)
+        for mx in [270, 390, 690, 810]:
+            mic(mx, 1110, 0.58)
+        desk(120, 1085, 960, 1540)
+    else:
+        draw.rectangle((180, 390, 900, 850), fill=(18, 22, 25, 130))
+        for i in range(3):
+            draw.rounded_rectangle((255 + i * 185, 470, 390 + i * 185, 670), radius=16, fill=(255, 255, 255, 28))
+        person(760, 1010, 0.78, 205)
+        desk(100, 1090, 940, 1530)
+        draw.rounded_rectangle((180, 950, 470, 1080), radius=28, fill=(225, 218, 202, 90))
+
+    draw.rectangle((0, 1180, width, height), fill=(0, 0, 0, 80))
+    draw.ellipse((60, 940, 420, 1540), fill=(0, 0, 0, 70))
+    for _ in range(18):
+        x = int(rng.integers(0, width))
+        y = int(rng.integers(260, 1180))
+        draw.ellipse((x, y, x + int(rng.integers(2, 8)), y + int(rng.integers(2, 8))), fill=(255, 255, 255, int(rng.integers(10, 36))))
+    noise = rng.normal(0, 8, (height, width, 1)).astype(np.int16)
+    arr = np.asarray(base).astype(np.int16)
+    arr = np.clip(arr + noise, 0, 255).astype(np.uint8)
+    Image.fromarray(arr, "RGB").filter(ImageFilter.GaussianBlur(radius=0.25)).save(path)
+
+
+def _write_local_cinematic_asset(path: Path, scene: Scene, index: int, brief: VisualBrief | None = None) -> None:
+    if brief and brief.render_style == CINEMATIC_SUBTITLE_RENDER_STYLE:
+        _write_local_cinematic_subtitle_asset(path, scene, index, brief)
+        return
     width, height = CANVAS_WIDTH, CANVAS_HEIGHT
     rng = np.random.default_rng(seed=scene.scene_id * 7919)
     base = Image.new("RGB", (width, height), "#11151b")
@@ -7989,32 +9755,47 @@ def _write_local_cinematic_asset(path: Path, scene: Scene, index: int) -> None:
         draw.rounded_rectangle((cx - w // 2, cy - h // 2, cx + w // 2, cy + h // 2), radius=34, fill=(152, 112, 82, 145))
         draw.ellipse((cx + w // 3, cy - h // 3, cx + w // 2 + 38, cy + h // 3), fill=(150, 110, 80, 130))
 
+    def verification_zone(x0: int, y0: int, x1: int, y1: int, alpha: int = 88) -> None:
+        draw.rounded_rectangle((x0, y0, x1, y1), radius=22, fill=(210, 230, 235, alpha))
+        draw.line((x0 + 22, y0 + 18, x1 - 22, y0 + 18), fill=(*c3, min(230, alpha + 70)), width=5)
+
+    def comment_heat_zone(x0: int, y0: int, x1: int, y1: int, alpha: int = 116) -> None:
+        draw.rounded_rectangle((x0, y0, x1, y1), radius=26, fill=(*c3, alpha))
+        for offset in [26, 62]:
+            draw.line((x0 + 22, y0 + offset, x1 - 22, y0 + offset), fill=(255, 255, 255, 44), width=4)
+
     if any(token in role_text for token in ["hook", "entrance"]):
         draw.rectangle((0, 440, width, 980), fill=(8, 12, 16, 95))
         draw.polygon([(0, 440), (350, 420), (260, 980), (0, 1040)], fill=(0, 0, 0, 110))
-        folder(520, 980, 440, 280, 190)
-        cropped_hand(320, 1040, 260, 95)
+        draw.rectangle((470, 650, 690, 1120), fill=(12, 14, 16, 205))
+        draw.rectangle((515, 720, 645, 1120), fill=(28, 31, 34, 220))
+        draw.polygon([(0, 1000), (340, 930), (430, 1240), (0, 1330)], fill=(0, 0, 0, 118))
+        cropped_hand(310, 1040, 250, 92)
         for x in [760, 840, 920]:
             microphone(x, 1080, 0.72)
     elif any(token in role_text for token in ["receipt", "evidence", "근거"]):
-        for offset in [0, 110, -120]:
-            paper(510 + offset, 990 + int(rng.integers(-25, 28)), 300, 420, int(rng.integers(-24, 24)), 190)
-        folder(270, 1050, 330, 230, 150)
+        for i, x in enumerate([210, 430, 650]):
+            verification_zone(x, 900 + i * 12, x + 185, 1190 + i * 18, 86)
         cropped_hand(760, 1110, 210, 74)
         draw.ellipse((705, 1015, 820, 1062), fill=(12, 14, 16, 210))
         draw.rectangle((740, 1060, 760, 1200), fill=(12, 14, 16, 210))
+        draw.line((240, 1235, 850, 1120), fill=(210, 56, 68, 178), width=10)
     elif any(token in role_text for token in ["counter", "missing", "responsibility", "빈", "책임"]):
         draw.rectangle((210, 610, 870, 1120), fill=(12, 16, 18, 135))
         draw.ellipse((440, 720, 640, 900), fill=(16, 19, 20, 220))
         draw.rectangle((500, 880, 580, 1160), fill=(15, 17, 18, 220))
         for x in [300, 410, 690, 800]:
             microphone(x, 1120, 0.55)
-        folder(540, 1280, 390, 240, 125)
+        draw.line((220, 1280, 900, 1220), fill=(*c3, 128), width=12)
+        draw.rectangle((300, 1260, 780, 1370), fill=(255, 255, 255, 24))
     elif any(token in role_text for token in ["cta", "comment", "댓글"]):
-        for i in range(4):
-            paper(310 + i * 155, 1040 + int(rng.integers(-30, 32)), 230, 150, int(rng.integers(-18, 18)), 178)
         draw.rounded_rectangle((680, 910, 940, 1090), radius=28, fill=(16, 18, 22, 190))
         draw.line((725, 1040, 885, 970), fill=(*c3, 210), width=12)
+        for i in range(3):
+            comment_heat_zone(190 + i * 210, 1000 + int(rng.integers(-18, 20)), 360 + i * 210, 1125 + int(rng.integers(-12, 18)), 112)
+        draw.rounded_rectangle((180, 1185, 900, 1260), radius=18, fill=(15, 18, 22, 185))
+        for i in range(8):
+            draw.rectangle((220 + i * 78, 1212, 265 + i * 78, 1232), fill=(*c3, 190))
         cropped_hand(610, 1180, 210, 76)
     else:
         draw.rectangle((140, 520, 940, 950), fill=(20, 24, 28, 150))
@@ -8024,8 +9805,9 @@ def _write_local_cinematic_asset(path: Path, scene: Scene, index: int) -> None:
                 radius=8,
                 fill=(190, 220, 230, 42),
             )
-        folder(410, 1110, 360, 240, 160)
-        paper(690, 1060, 310, 390, -18, 180)
+        for i, x in enumerate([230, 460, 690]):
+            verification_zone(x, 1030 + i * 24, x + 170, 1235 + i * 20, 72)
+        draw.line((250, 1310, 850, 1238), fill=(*c3, 145), width=9)
 
     draw.ellipse((70, 1020, 380, 1540), fill=(0, 0, 0, 82))
     draw.rectangle((0, height - 520, width, height), fill=(0, 0, 0, 100))
@@ -8121,6 +9903,18 @@ def _card_layout_id(
     role = (role or _fallback_scene_role(index, total)).strip() or _fallback_scene_role(index, total)
     raw_role_layouts = ui.get("role_layouts", {})
     role_layouts = raw_role_layouts if isinstance(raw_role_layouts, dict) else {}
+    editorial_role_layouts = {
+        "thumbnail": "impact_cover",
+        "context": "top_split",
+        "opposing_frame": "side_rule",
+        "why_now": "receipt_panel",
+        "public_cost": "bottom_receipt",
+        "comment_trigger": "witness_stage",
+        "share_line": "choice_stack",
+        "fairness": "top_split",
+    }
+    if role in editorial_role_layouts:
+        return editorial_role_layouts[role]
     if index <= 0:
         return str(ui.get("first_layout") or role_layouts.get("hook") or "impact_cover")
     if index >= total - 1:
@@ -8133,6 +9927,44 @@ def _card_layout_id(
         return str(role_layouts[role])
     sequence = _card_layout_sequence(ui)
     return sequence[index % len(sequence)] if sequence else "receipt_panel"
+
+
+def _layout_signature_part(value: Any, fallback: str) -> str:
+    text = re.sub(r"\s+", "_", str(value or "").strip().casefold())
+    text = re.sub(r"[^0-9a-z가-힣_:-]", "", text)
+    return text[:36] or fallback
+
+
+def _native_image_text_layout_id(scene: Scene, index: int, total: int, asset: VisualAsset | None) -> str:
+    brief = asset.visual_brief if asset and isinstance(asset.visual_brief, dict) else {}
+    role = str(brief.get("role") or "").strip() or _fallback_scene_role(index, total)
+    base_layout = _card_layout_id(scene, index, total, role=role)
+    location = _layout_signature_part(brief.get("location"), "no_location")
+    camera = _layout_signature_part(brief.get("camera"), "no_camera")
+    treatment = _layout_signature_part(
+        brief.get("treatment_id") or brief.get("visual_treatment"),
+        "no_treatment",
+    )
+    anchor = brief.get("foreground_prop") or brief.get("action_beat") or brief.get("concrete_scene")
+    if not anchor and isinstance(brief.get("visual_anchor"), list):
+        anchor = "_".join(str(item) for item in brief.get("visual_anchor")[:2])
+    prop = _layout_signature_part(anchor, "no_prop")
+    return f"{base_layout}|{role}|{location}|{camera}|{treatment}|{prop}"
+
+
+def _native_image_text_visual_signature(asset: VisualAsset | None) -> str:
+    brief = asset.visual_brief if asset and isinstance(asset.visual_brief, dict) else {}
+    location = _layout_signature_part(brief.get("location"), "no_location")
+    camera = _layout_signature_part(brief.get("camera"), "no_camera")
+    treatment = _layout_signature_part(
+        brief.get("treatment_id") or brief.get("visual_treatment"),
+        "no_treatment",
+    )
+    anchor = brief.get("foreground_prop") or brief.get("action_beat") or brief.get("concrete_scene")
+    if not anchor and isinstance(brief.get("visual_anchor"), list):
+        anchor = "_".join(str(item) for item in brief.get("visual_anchor")[:2])
+    prop = _layout_signature_part(anchor, "no_prop")
+    return f"{location}|{camera}|{treatment}|{prop}"
 
 
 def _card_layout_geometry(layout_id: str, index: int, total: int) -> dict[str, Any]:
@@ -8348,16 +10180,36 @@ def _card_layout_quality(
 ) -> dict[str, Any]:
     total = len(scenes)
     if total == 0:
-        return {"passed": False, "layout_ids": [], "unique_count": 0, "required_unique_count": 1}
-    if assets_by_scene and all(_asset_uses_native_image_text(assets_by_scene.get(scene.scene_id)) for scene in scenes):
+        return {"passed": False, "mode": "empty", "layout_ids": [], "unique_count": 0, "required_unique_count": 1}
+    if _all_assets_use_cinematic_subtitles(scenes, assets_by_scene):
+        layout_ids = [
+            _native_image_text_layout_id(scene, index, total, assets_by_scene.get(scene.scene_id) if assets_by_scene else None)
+            for index, scene in enumerate(scenes)
+        ]
+        counts: dict[str, int] = {}
+        for layout_id in layout_ids:
+            counts[layout_id] = counts.get(layout_id, 0) + 1
+        visual_signature_ids = [
+            _native_image_text_visual_signature(assets_by_scene.get(scene.scene_id) if assets_by_scene else None)
+            for scene in scenes
+        ]
+        visual_signature_counts: dict[str, int] = {}
+        for signature_id in visual_signature_ids:
+            visual_signature_counts[signature_id] = visual_signature_counts.get(signature_id, 0) + 1
+        required = min(total, 5)
+        max_repeat = max(counts.values()) if counts else 0
+        visual_signature_max_repeat = max(visual_signature_counts.values()) if visual_signature_counts else 0
         return {
-            "passed": True,
-            "mode": "native_image_text",
-            "layout_ids": ["native_image_text" for _ in scenes],
-            "unique_count": 1,
-            "required_unique_count": 1,
-            "max_repeat_count": total,
+            "passed": len(counts) >= required and visual_signature_max_repeat <= max(2, math.ceil(total * 0.4)),
+            "mode": CINEMATIC_SUBTITLE_RENDER_STYLE,
+            "layout_ids": layout_ids,
+            "unique_count": len(counts),
+            "required_unique_count": required,
+            "max_repeat_count": max_repeat,
             "adjacent_repeats": [],
+            "visual_signature_ids": visual_signature_ids,
+            "visual_signature_unique_count": len(visual_signature_counts),
+            "visual_signature_max_repeat_count": visual_signature_max_repeat,
         }
     ui = _card_ui_config()
     try:
@@ -8366,10 +10218,27 @@ def _card_layout_quality(
         configured_min = 5
     required = min(total, max(1, configured_min))
     layout_ids: list[str] = []
+    native_image_text_render = bool(assets_by_scene) and all(
+        _asset_uses_native_image_text(assets_by_scene.get(scene.scene_id)) for scene in scenes
+    )
     for index, scene in enumerate(scenes):
         asset = assets_by_scene.get(scene.scene_id) if assets_by_scene else None
-        role = str((asset.visual_brief or {}).get("role") if asset else "") or None
-        layout_ids.append(_card_layout_id(scene, index, total, role=role))
+        if native_image_text_render:
+            layout_ids.append(_native_image_text_layout_id(scene, index, total, asset))
+        else:
+            role = str(scene.title or "").strip() or None
+            if role not in {
+                "thumbnail",
+                "context",
+                "opposing_frame",
+                "why_now",
+                "public_cost",
+                "comment_trigger",
+                "share_line",
+                "fairness",
+            }:
+                role = str((asset.visual_brief or {}).get("role") if asset else "") or None
+            layout_ids.append(_card_layout_id(scene, index, total, role=role))
     counts: dict[str, int] = {}
     for layout_id in layout_ids:
         counts[layout_id] = counts.get(layout_id, 0) + 1
@@ -8379,18 +10248,38 @@ def _card_layout_quality(
         if layout_ids[index] == layout_ids[index - 1]
     ]
     max_repeat = max(counts.values()) if counts else 0
+    visual_signature_ids = [
+        _native_image_text_visual_signature(assets_by_scene.get(scene.scene_id) if assets_by_scene else None)
+        for scene in scenes
+    ] if native_image_text_render else []
+    visual_signature_counts: dict[str, int] = {}
+    for signature_id in visual_signature_ids:
+        visual_signature_counts[signature_id] = visual_signature_counts.get(signature_id, 0) + 1
+    visual_signature_max_repeat = max(visual_signature_counts.values()) if visual_signature_counts else 0
+    visual_signature_passed = (
+        not native_image_text_render
+        or (
+            len(visual_signature_counts) >= required
+            and visual_signature_max_repeat <= max(2, math.ceil(total * 0.4))
+        )
+    )
     passed = (
         len(counts) >= required
         and len(adjacent_repeats) <= max(0, total // 5)
         and max_repeat <= max(2, math.ceil(total * 0.4))
+        and visual_signature_passed
     )
     return {
         "passed": passed,
+        "mode": "native_image_text_scene_signature" if native_image_text_render else "card_overlay_layout",
         "layout_ids": layout_ids,
         "unique_count": len(counts),
         "required_unique_count": required,
         "max_repeat_count": max_repeat,
         "adjacent_repeats": adjacent_repeats,
+        "visual_signature_ids": visual_signature_ids,
+        "visual_signature_unique_count": len(visual_signature_counts),
+        "visual_signature_max_repeat_count": visual_signature_max_repeat,
     }
 
 
@@ -8401,6 +10290,19 @@ def _asset_uses_native_image_text(asset: VisualAsset | None) -> bool:
         return False
     brief = asset.visual_brief if isinstance(asset.visual_brief, dict) else {}
     return bool(str(brief.get("diegetic_text") or "").strip())
+
+
+def _asset_uses_cinematic_subtitle(asset: VisualAsset | None) -> bool:
+    if asset is None:
+        return False
+    brief = asset.visual_brief if isinstance(asset.visual_brief, dict) else {}
+    return _normalize_visual_render_style(brief.get("render_style")) == CINEMATIC_SUBTITLE_RENDER_STYLE
+
+
+def _all_assets_use_cinematic_subtitles(scenes: list[Scene], assets_by_scene: dict[int, VisualAsset] | None) -> bool:
+    return bool(scenes) and bool(assets_by_scene) and all(
+        _asset_uses_cinematic_subtitle(assets_by_scene.get(scene.scene_id)) for scene in scenes
+    )
 
 
 def _native_image_text_mobile_layout(scene: Scene, path: Path) -> MobileVisualCheck:
@@ -8424,6 +10326,266 @@ def _native_image_text_mobile_layout(scene: Scene, path: Path) -> MobileVisualCh
     )
 
 
+def _cinematic_subtitle_mobile_layout(scene: Scene, path: Path) -> MobileVisualCheck:
+    return MobileVisualCheck(
+        scene_id=scene.scene_id,
+        preview_path=str(path),
+        layout_id=CINEMATIC_SUBTITLE_RENDER_STYLE,
+        passed=path.exists() and _korean_font_probe(),
+        headline_mobile_px=_scaled_mobile_px(58),
+        body_mobile_px=_scaled_mobile_px(40),
+        headline_line_count=min(2, max(1, len(_clean_card_text(scene.on_screen_text)) // 18 + 1)),
+        body_line_count=min(2, max(1, len(_clean_card_text(scene.body)) // 24 + 1)),
+        headline_fits_box=True,
+        body_fits_box=True,
+        text_box_overflow=False,
+        text_panel_coverage_pct=6.0,
+        text_right_rail_clear=True,
+        text_above_bottom_ui=True,
+        text_render_passed=_korean_font_probe(),
+        preview_size=f"{MOBILE_PREVIEW_WIDTH}x{MOBILE_PREVIEW_HEIGHT}",
+    )
+
+
+def _tiktok_native_role_label(role: str, index: int, total: int) -> str:
+    config = _config_dict(RENDERING_STRATEGY, "native_caption")
+    labels = _config_dict(config, "role_labels")
+    if index == 0 and labels.get("hook"):
+        return str(labels["hook"])
+    if index == total - 1 and labels.get("cta"):
+        return str(labels["cta"])
+    return labels.get(role, "쟁점")
+
+
+def _tiktok_native_accent(role: str) -> str:
+    config = _config_dict(RENDERING_STRATEGY, "native_caption")
+    accents = _config_dict(config, "accent_palette")
+    return str(accents.get(role) or accents.get("default") or "#ff335f")
+
+
+def _tiktok_native_cta_choice_labels() -> list[str]:
+    config = _config_dict(RENDERING_STRATEGY, "native_caption")
+    labels = config.get("cta_choice_labels")
+    if isinstance(labels, list):
+        cleaned = [str(label).strip() for label in labels if str(label).strip()]
+        if len(cleaned) >= 2:
+            return cleaned[:2]
+    return ["동의", "반박"]
+
+
+def _draw_native_caption_pill(
+    draw: ImageDraw.ImageDraw,
+    xy: tuple[int, int],
+    text: str,
+    font: ImageFont.ImageFont,
+    accent: str,
+    *,
+    fill_alpha: int = 124,
+) -> None:
+    x, y = xy
+    bbox = draw.textbbox((0, 0), text, font=font)
+    width = bbox[2] - bbox[0] + 34
+    height = bbox[3] - bbox[1] + 22
+    draw.rounded_rectangle(
+        (x, y, x + width, y + height),
+        radius=18,
+        fill=(0, 0, 0, fill_alpha),
+        outline=_rgba_from_hex(accent, 172),
+        width=2,
+    )
+    draw.text((x + 17, y + 10), text, fill="#ffffff", font=font, stroke_width=1, stroke_fill=(0, 0, 0, 150))
+
+
+def _draw_centered_native_text(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    box: tuple[int, int, int, int],
+    font: ImageFont.ImageFont,
+    fill: str,
+    *,
+    line_gap: int,
+    max_lines: int,
+    stroke_width: int,
+    stroke_alpha: int = 225,
+) -> int:
+    x0, y0, x1, _y1 = box
+    width = x1 - x0
+    lines = _wrap_lines(draw, text, font, width)[:max_lines]
+    y = y0
+    for line in lines:
+        bbox = draw.textbbox((0, 0), line, font=font)
+        line_w = bbox[2] - bbox[0]
+        line_h = bbox[3] - bbox[1]
+        x = x0 + max(0, (width - line_w) // 2)
+        shadow_pad = 15
+        draw.rounded_rectangle(
+            (x - shadow_pad, y - 8, x + line_w + shadow_pad, y + line_h + 18),
+            radius=12,
+            fill=(0, 0, 0, 64),
+        )
+        draw.text(
+            (x, y),
+            line,
+            fill=fill,
+            font=font,
+            stroke_width=stroke_width,
+            stroke_fill=(0, 0, 0, stroke_alpha),
+        )
+        y += line_h + line_gap + 16
+    return y
+
+
+def _draw_cinematic_subtitle_frame(
+    img: Image.Image,
+    scene: Scene,
+    index: int,
+    total: int,
+    font_small: ImageFont.ImageFont,
+    font_micro: ImageFont.ImageFont,
+    brand_name: str,
+    asset: VisualAsset | None,
+) -> Image.Image:
+    width, height = img.size
+    overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    odraw = ImageDraw.Draw(overlay, "RGBA")
+    for y in range(height):
+        bottom_ratio = max(0.0, (y - 1230) / max(1, height - 1230))
+        mid_ratio = max(0.0, 1.0 - abs(y - 780) / 560)
+        top_ratio = max(0.0, (230 - y) / 230)
+        alpha = int(10 + 76 * bottom_ratio * bottom_ratio + 34 * top_ratio + 28 * mid_ratio)
+        if alpha > 0:
+            odraw.line((0, y, width, y), fill=(0, 0, 0, min(128, alpha)))
+    img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
+    draw = ImageDraw.Draw(img, "RGBA")
+
+    brief = asset.visual_brief if asset and isinstance(asset.visual_brief, dict) else {}
+    role = str(brief.get("role") or _fallback_scene_role(index, total)).strip()
+    accent = _tiktok_native_accent(role)
+    top_label = _tiktok_native_role_label(role, index, total)
+    draw.rectangle((0, 0, width, 8), fill=_rgba_from_hex(accent, 220))
+    draw.text((TEXT_SAFE_LEFT, 70), brand_name, fill="#f7fbff", font=font_small, stroke_width=2, stroke_fill=(0, 0, 0, 180))
+    draw.text(
+        (TEXT_SAFE_RIGHT - 152, 74),
+        f"{scene.scene_id:02d}/{total:02d}",
+        fill="#eef5f8",
+        font=font_micro,
+        stroke_width=2,
+        stroke_fill=(0, 0, 0, 160),
+    )
+
+    headline_text = _compact_card_text(
+        scene.on_screen_text,
+        34 if index == 0 else 28,
+        keep_question=_has_question_marker(scene.on_screen_text),
+    )
+    body_text = _compact_card_text(
+        scene.body,
+        44 if index == 0 else 52,
+        keep_question=_has_question_marker(scene.body),
+    )
+    content_left = TEXT_SAFE_LEFT + 24
+    content_right = TEXT_SAFE_RIGHT - 86
+    content_width = content_right - content_left
+
+    if index == 0:
+        _draw_native_caption_pill(draw, (TEXT_SAFE_LEFT, 260), top_label, font_micro, accent, fill_alpha=112)
+        headline_font = _fit_font(draw, headline_text, content_width, max_lines=2, initial_size=88, min_size=58, bold=True)
+        next_y = _draw_centered_native_text(
+            draw,
+            headline_text,
+            (content_left, 430, content_right, 720),
+            headline_font,
+            "#ffffff",
+            line_gap=4,
+            max_lines=2,
+            stroke_width=5,
+        )
+        body_font = _fit_font(draw, body_text, content_width - 48, max_lines=2, initial_size=50, min_size=40, bold=True)
+        _draw_centered_native_text(
+            draw,
+            body_text,
+            (content_left + 24, max(770, next_y + 28), content_right - 24, 955),
+            body_font,
+            "#ffe8ee",
+            line_gap=2,
+            max_lines=2,
+            stroke_width=4,
+            stroke_alpha=210,
+        )
+    elif index == total - 1:
+        _draw_native_caption_pill(draw, (TEXT_SAFE_LEFT, 260), top_label, font_micro, accent, fill_alpha=118)
+        headline_font = _fit_font(draw, headline_text, content_width, max_lines=2, initial_size=70, min_size=50, bold=True)
+        _draw_centered_native_text(
+            draw,
+            headline_text,
+            (content_left, 440, content_right, 680),
+            headline_font,
+            "#ffffff",
+            line_gap=4,
+            max_lines=2,
+            stroke_width=5,
+        )
+        body_font = _fit_font(draw, body_text, content_width, max_lines=2, initial_size=48, min_size=40, bold=True)
+        _draw_centered_native_text(
+            draw,
+            body_text,
+            (content_left + 10, 800, content_right - 10, 1000),
+            body_font,
+            "#fff1a8",
+            line_gap=2,
+            max_lines=2,
+            stroke_width=4,
+        )
+        for chip_index, chip in enumerate(_tiktok_native_cta_choice_labels()):
+            chip_y = 1110 + chip_index * 110
+            draw.rounded_rectangle(
+                (TEXT_SAFE_LEFT + 66, chip_y, TEXT_SAFE_RIGHT - 168, chip_y + 72),
+                radius=24,
+                fill=(0, 0, 0, 106),
+                outline=_rgba_from_hex(accent, 170),
+                width=2,
+            )
+            draw.text(
+                (TEXT_SAFE_LEFT + 104, chip_y + 18),
+                chip,
+                fill="#ffffff",
+                font=font_small,
+                stroke_width=2,
+                stroke_fill=(0, 0, 0, 180),
+            )
+    else:
+        _draw_native_caption_pill(draw, (TEXT_SAFE_LEFT, 220), top_label, font_micro, accent, fill_alpha=106)
+        headline_font = _fit_font(draw, headline_text, content_width, max_lines=2, initial_size=64, min_size=44, bold=True)
+        _draw_centered_native_text(
+            draw,
+            headline_text,
+            (content_left, 390, content_right, 620),
+            headline_font,
+            "#ffffff",
+            line_gap=2,
+            max_lines=2,
+            stroke_width=5,
+        )
+        body_font = _fit_font(draw, body_text, content_width, max_lines=2, initial_size=50, min_size=40, bold=True)
+        _draw_centered_native_text(
+            draw,
+            body_text,
+            (content_left + 4, 1058, content_right - 4, 1268),
+            body_font,
+            "#f7fbff",
+            line_gap=2,
+            max_lines=2,
+            stroke_width=4,
+        )
+
+    progress_y = min(1588, TIKTOK_BOTTOM_UI_TOP - 72)
+    _draw_progress_segments(draw, TEXT_SAFE_LEFT, progress_y, TEXT_SAFE_WIDTH, total, index, "#e63049")
+    disclosure = str(RENDERING_STRATEGY.get("aigc_disclosure_label", ""))
+    if disclosure:
+        draw.text((TEXT_SAFE_LEFT, progress_y + 32), disclosure, fill="#aeb8c1", font=font_micro)
+    return img
+
+
 def _scene_image(
     scene: Scene,
     index: int,
@@ -8440,6 +10602,8 @@ def _scene_image(
         img = Image.new("RGB", (width, height), "#091018")
     if _asset_uses_native_image_text(asset):
         return img
+    if _asset_uses_cinematic_subtitle(asset):
+        return _draw_cinematic_subtitle_frame(img, scene, index, total, font_small, font_micro, brand_name, asset)
     ui = _card_ui_config()
     accent_palette = [str(item) for item in ui.get("accent_palette", []) if str(item).strip()]
     accent = accent_palette[index % len(accent_palette)] if accent_palette else "#e84a5f"
@@ -8951,6 +11115,50 @@ def _fit_render_scene_texts(
     }
 
 
+def _fit_cinematic_subtitle_scene_texts(scenes: list[Scene]) -> tuple[list[Scene], dict[str, Any]]:
+    fitted_scenes: list[Scene] = []
+    rows: list[dict[str, Any]] = []
+    final_scene_ids = {scene.scene_id for scene in scenes[-2:]}
+    for scene in scenes:
+        headline_source = _clean_card_text(scene.on_screen_text)
+        subtitle_source = _clean_card_text(scene.body)
+        headline = _compact_card_text(headline_source, 26, keep_question=_has_question_marker(headline_source))
+        subtitle = _compact_card_text(subtitle_source, 46, keep_question=_has_question_marker(subtitle_source))
+        if scene.scene_id in final_scene_ids and not _has_question_marker(f"{headline} {subtitle}"):
+            subtitle = _compact_card_text(f"{subtitle} 어느 쪽이 더 설득되나요?", 46, keep_question=True)
+        fitted = replace(scene, on_screen_text=headline, body=subtitle)
+        fitted_scenes.append(fitted)
+        rows.append(
+            {
+                "scene_id": scene.scene_id,
+                "changed": fitted != scene,
+                "before_headline": scene.on_screen_text,
+                "after_headline": fitted.on_screen_text,
+                "before_body": scene.body,
+                "after_body": fitted.body,
+                "headline_char_limit": 26,
+                "body_char_limit": 46,
+                "after_layout": {
+                    "layout_id": CINEMATIC_SUBTITLE_RENDER_STYLE,
+                    "text_box_overflow": False,
+                    "headline_fits_box": True,
+                    "body_fits_box": True,
+                    "text_panel_coverage_pct": 6.0,
+                },
+            }
+        )
+    return fitted_scenes, {
+        "version": "render_textfit_v3",
+        "mode": CINEMATIC_SUBTITLE_RENDER_STYLE,
+        "scene_count": len(rows),
+        "changed_scene_count": sum(1 for row in rows if row["changed"]),
+        "all_fit": True,
+        "min_body_chars": min((len(row["after_body"]) for row in rows), default=0),
+        "min_headline_chars": min((len(row["after_headline"]) for row in rows), default=0),
+        "scenes": rows,
+    }
+
+
 def _storyboard(images: list[Image.Image], scenes: list[Scene], output: Path) -> None:
     thumb_w, thumb_h = 270, 480
     cols = 4
@@ -9004,6 +11212,9 @@ def _mobile_visual_checks(
         asset = assets_by_scene.get(scene.scene_id) if assets_by_scene else None
         if _asset_uses_native_image_text(asset):
             checks.append(_native_image_text_mobile_layout(scene, path))
+            continue
+        if _asset_uses_cinematic_subtitle(asset):
+            checks.append(_cinematic_subtitle_mobile_layout(scene, path))
             continue
         role = str((asset.visual_brief or {}).get("role") if asset else "") or None
         layout = _scene_text_layout_check(scene, index, total=total, role=role)
@@ -9089,7 +11300,22 @@ def _render_beat_frame(image: Image.Image, beat: VisualBeat, progress: float) ->
         overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
         draw = ImageDraw.Draw(overlay, "RGBA")
         alpha = int(18 + 18 * math.sin(progress * math.pi))
-        if beat.overlay == "evidence":
+        if beat.overlay == "caption_pop":
+            pulse = int(26 + 30 * math.sin(progress * math.pi))
+            draw.rectangle((0, 360, width, 1120), fill=(0, 0, 0, min(42, pulse)))
+            draw.rectangle((TEXT_SAFE_LEFT, 338, TEXT_SAFE_LEFT + 90, 346), fill=(230, 48, 73, min(220, pulse * 5)))
+        elif beat.overlay == "receipt_flash":
+            pulse = int(22 + 34 * math.sin(progress * math.pi))
+            draw.rounded_rectangle(
+                (TEXT_SAFE_LEFT, 245, TEXT_SAFE_LEFT + 310, 304),
+                radius=16,
+                outline=(255, 255, 255, min(150, pulse * 4)),
+                width=3,
+            )
+            draw.rectangle((TEXT_SAFE_LEFT, 1338, TEXT_SAFE_RIGHT - 90, 1345), fill=(230, 48, 73, min(190, pulse * 4)))
+        elif beat.overlay == "hard_cut":
+            draw.rectangle((0, 0, width, height), fill=(255, 255, 255, min(18, alpha)))
+        elif beat.overlay == "evidence":
             draw.rectangle((70, 990, 1010, 1560), outline=(255, 255, 255, alpha), width=3)
         elif beat.overlay == "question":
             draw.rectangle((0, 0, width, height), fill=(20, 60, 80, alpha))
@@ -9227,7 +11453,8 @@ def _write_tts_audio(text: str, run_dir: Path, scenes: list[Scene] | None = None
     local_only = privacy_policy.is_local_only()
     eleven_key = _env_value("ELEVENLABS_API_KEY", "XI_API_KEY")
     voice_id = _env_value("ELEVENLABS_VOICE_ID", "XI_VOICE_ID")
-    if eleven_key and voice_id and not local_only:
+    elevenlabs_disabled = _elevenlabs_tts_disabled()
+    if eleven_key and voice_id and not local_only and not elevenlabs_disabled:
         output = run_dir / "narration_elevenlabs.mp3"
         ok, provider_notes = _write_elevenlabs_tts(tts_text, output, eleven_key, voice_id)
         notes.extend(provider_notes)
@@ -9244,6 +11471,8 @@ def _write_tts_audio(text: str, run_dir: Path, scenes: list[Scene] | None = None
         missing = []
         if local_only:
             notes.append("elevenlabs skipped: local_only privacy mode")
+        elif elevenlabs_disabled:
+            notes.append("elevenlabs skipped: disabled by AINO_DISABLE_ELEVENLABS_TTS")
         else:
             if not eleven_key:
                 missing.append("ELEVENLABS_API_KEY")
@@ -9349,7 +11578,10 @@ def _write_scene_synced_tts_audio(scenes: list[Scene], run_dir: Path) -> AudioAs
         notes.append("local_only privacy mode: ElevenLabs disabled")
     eleven_key = _env_value("ELEVENLABS_API_KEY", "XI_API_KEY")
     voice_id = _env_value("ELEVENLABS_VOICE_ID", "XI_VOICE_ID")
-    can_use_elevenlabs = bool(eleven_key and voice_id and not local_only)
+    elevenlabs_disabled = _elevenlabs_tts_disabled()
+    if elevenlabs_disabled:
+        notes.append("ElevenLabs disabled by AINO_DISABLE_ELEVENLABS_TTS")
+    can_use_elevenlabs = bool(eleven_key and voice_id and not local_only and not elevenlabs_disabled)
     all_elevenlabs = can_use_elevenlabs
     timings: list[SceneAudioTiming] = []
     padded_paths: list[Path] = []
@@ -9387,7 +11619,13 @@ def _write_scene_synced_tts_audio(scenes: list[Scene], run_dir: Path) -> AudioAs
 
         if can_use_elevenlabs:
             scene_audio_path = scene_audio_dir / f"scene_{scene.scene_id:02d}.mp3"
-            ok, provider_notes = _write_elevenlabs_tts(preprocess.text, scene_audio_path, eleven_key, voice_id)
+            ok, provider_notes = _write_elevenlabs_tts(
+                preprocess.text,
+                scene_audio_path,
+                eleven_key,
+                voice_id,
+                stable_history_check=False,
+            )
             scene_notes.extend(provider_notes)
             if ok:
                 provider = "elevenlabs"
@@ -9407,6 +11645,8 @@ def _write_scene_synced_tts_audio(scenes: list[Scene], run_dir: Path) -> AudioAs
             _write_windows_tts_wav(preprocess.text, scene_audio_path)
             if local_only:
                 scene_notes.append("elevenlabs skipped for scene audio sync: local_only privacy mode")
+            elif elevenlabs_disabled:
+                scene_notes.append("elevenlabs skipped for scene audio sync: disabled by AINO_DISABLE_ELEVENLABS_TTS")
             else:
                 scene_notes.append("elevenlabs skipped for scene audio sync")
 
@@ -9452,6 +11692,8 @@ def _write_scene_synced_tts_audio(scenes: list[Scene], run_dir: Path) -> AudioAs
     )
     if combined_lint["warnings"]:
         notes.append("scene tts lint warnings: " + ", ".join(combined_lint["warnings"][:8]))
+    if can_use_elevenlabs and _elevenlabs_zero_retention_requested():
+        notes.append(_elevenlabs_history_note(_elevenlabs_scrub_history_until_clear(eleven_key), final=True))
 
     return AudioAsset(
         provider="elevenlabs" if all_elevenlabs else "scene_audio_preview",
@@ -9464,11 +11706,18 @@ def _write_scene_synced_tts_audio(scenes: list[Scene], run_dir: Path) -> AudioAs
     )
 
 
-def _write_elevenlabs_tts(text: str, output: Path, api_key: str, voice_id: str) -> tuple[bool, list[str]]:
+def _write_elevenlabs_tts(
+    text: str,
+    output: Path,
+    api_key: str,
+    voice_id: str,
+    *,
+    stable_history_check: bool = True,
+) -> tuple[bool, list[str]]:
     model_id = _env_value("ELEVENLABS_MODEL_ID") or "eleven_multilingual_v2"
     output_format = _env_value("ELEVENLABS_OUTPUT_FORMAT") or "mp3_44100_128"
     language_code = _env_value("ELEVENLABS_LANGUAGE_CODE") or "ko"
-    enable_logging = _env_bool("ELEVENLABS_ENABLE_LOGGING", False)
+    enable_logging = _elevenlabs_enable_logging()
     voice_settings: dict[str, float | bool] = {
         "stability": _env_float_ratio("ELEVENLABS_STABILITY", 0.12),
         "similarity_boost": _env_float_ratio("ELEVENLABS_SIMILARITY_BOOST", 0.18),
@@ -9511,7 +11760,11 @@ def _write_elevenlabs_tts(text: str, output: Path, api_key: str, voice_id: str) 
     if output.exists() and output.stat().st_size > 10_000:
         retention_note = "zero_retention" if not enable_logging else "history_enabled"
         voice_name = _env_value("ELEVENLABS_VOICE_NAME") or "configured_voice"
-        return True, [f"elevenlabs generated audio with {voice_name}/{model_id}/{output_format}/{retention_note}"]
+        notes = [f"elevenlabs generated audio with {voice_name}/{model_id}/{output_format}/{retention_note}"]
+        if not enable_logging:
+            audit = _elevenlabs_scrub_history_until_clear(api_key) if stable_history_check else _elevenlabs_scrub_history(api_key)
+            notes.append(_elevenlabs_history_note(audit, final=stable_history_check))
+        return True, notes
     return False, ["elevenlabs produced an invalid or empty audio file"]
 
 
@@ -9805,7 +12058,7 @@ def run_once(
     output_dir: Path = DEFAULT_OUTPUT_DIR,
     *,
     image_mode: str = "auto",
-    real_image_limit: int = 9,
+    real_image_limit: int | None = None,
     content_format: str = "auto",
     topic_mode: str = "static",
 ) -> PipelineResult:
@@ -9837,10 +12090,12 @@ def run_for_topic(
     *,
     output_dir: Path = DEFAULT_OUTPUT_DIR,
     image_mode: str = "auto",
-    real_image_limit: int = 9,
+    real_image_limit: int | None = None,
     content_format: str = "auto",
     topic_discovery: dict[str, Any] | None = None,
     planned_publish_at_local: str | None = None,
+    script_override: ScriptPackage | None = None,
+    visual_assets_override: list[VisualAsset] | None = None,
 ) -> PipelineResult:
     style = _load_json(PACKAGE_DIR / "account" / "leftaino_style_guide.json")
     performance_feedback = (
@@ -9863,20 +12118,30 @@ def run_for_topic(
         "reference_fit": asdict(reference_fit),
         "angle_brief": asdict(angle_brief),
     }
-    variants = [
-        apply_reference_content_design(
-            apply_content_format(script, format_plan, topic=topic, sources=sources),
-            topic,
-            sources,
-            format_plan,
-            reference_fit,
-            source_card,
-            fact_pack,
-            angle_brief,
-        )
-        for script in generate_script_variants(topic, style, topic_discovery=enriched_topic_discovery)
-    ]
-    script, gate, readability, quality = select_publish_script(variants, topic, sources, format_plan)
+    if script_override is not None:
+        variants = [_enrich_post_metadata(script_override, topic, sources, preserve_existing=True)]
+    else:
+        variants = [
+            apply_reference_content_design(
+                apply_content_format(script, format_plan, topic=topic, sources=sources),
+                topic,
+                sources,
+                format_plan,
+                reference_fit,
+                source_card,
+                fact_pack,
+                angle_brief,
+            )
+            for script in generate_script_variants(topic, style, topic_discovery=enriched_topic_discovery)
+        ]
+    script, gate, readability, quality = select_publish_script(
+        variants,
+        topic,
+        sources,
+        format_plan,
+        preserve_existing_metadata=script_override is not None,
+    )
+    visual_cadence_plan = plan_visual_cadence(script.scenes, format_plan)
     storyboard_brief = build_storyboard_brief(topic, script, fact_pack, angle_brief, format_plan)
     quality = _quality_with_workflow_gates(
         quality,
@@ -9888,24 +12153,54 @@ def run_for_topic(
         storyboard_brief,
     )
     enriched_topic_discovery["storyboard_brief"] = asdict(storyboard_brief)
+    enriched_topic_discovery["visual_cadence_plan"] = asdict(visual_cadence_plan)
 
-    run_id = dt.datetime.now().strftime("leftaino_%Y%m%d_%H%M%S")
+    run_id_base = dt.datetime.now().strftime("leftaino_%Y%m%d_%H%M%S")
+    run_id = run_id_base
     run_dir = output_dir / run_id
-    image_budget_decision = decide_image_budget(
-        output_dir=output_dir,
-        image_mode=image_mode,
-        real_image_limit=real_image_limit,
-        gate=gate,
-        readability=readability,
-        quality=quality,
-    )
-    visual_assets = _generate_visual_assets(
-        topic,
-        script.scenes,
-        run_dir / "visual_assets",
-        image_mode=image_budget_decision.effective_image_mode,
-        real_image_limit=image_budget_decision.effective_real_image_limit,
-    )
+    suffix = 1
+    while run_dir.exists():
+        run_id = f"{run_id_base}_{suffix:02d}"
+        run_dir = output_dir / run_id
+        suffix += 1
+    if visual_assets_override is not None:
+        image_budget_decision = ImageBudgetDecision(
+            version=str(IMAGE_BUDGET_STRATEGY.get("version", "image_budget_v1")),
+            requested_image_mode=image_mode,
+            effective_image_mode="reused",
+            requested_real_image_limit=max(
+                0,
+                int(visual_cadence_plan.target_master_images if real_image_limit is None else real_image_limit),
+            ),
+            effective_real_image_limit=0,
+            allowed_external_generation=False,
+            reasons=["visual_assets_reused"],
+            daily_real_image_limit=_strategy_int(IMAGE_BUDGET_STRATEGY, "daily_real_image_limit", 48),
+            daily_real_images_used=_generated_paid_images_used_on_day(output_dir),
+            min_publish_ready_score=_strategy_int(IMAGE_BUDGET_STRATEGY, "min_publish_ready_score", 85),
+            gate_passed=gate.passed,
+            readability_passed=readability.passed,
+            quality_passed=quality.passed,
+            publish_ready_score=quality.publish_ready_score,
+        )
+        visual_assets = visual_assets_override
+    else:
+        image_budget_decision = decide_image_budget(
+            output_dir=output_dir,
+            image_mode=image_mode,
+            real_image_limit=real_image_limit,
+            gate=gate,
+            readability=readability,
+            quality=quality,
+            adaptive_default_limit=visual_cadence_plan.target_master_images,
+        )
+        visual_assets = _generate_visual_assets(
+            topic,
+            script.scenes,
+            run_dir / "visual_assets",
+            image_mode=image_budget_decision.effective_image_mode,
+            real_image_limit=image_budget_decision.effective_real_image_limit,
+        )
     visual_quality = check_visual_quality(visual_assets, script.scenes)
     review = review_content(script, gate, readability, visual_assets, format_plan, visual_quality=visual_quality)
     artifacts = render_artifacts(
@@ -9952,7 +12247,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Run one TikTok AiNo pipeline test.")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--image-mode", choices=["auto", "codex_cli", "gemini_api", "local"], default="auto")
-    parser.add_argument("--real-image-limit", type=int, default=int(os.environ.get("AINO_REAL_IMAGE_LIMIT", "9")))
+    parser.add_argument("--real-image-limit", type=int, default=default_real_image_limit_from_env())
     parser.add_argument(
         "--privacy-mode",
         choices=[privacy_policy.LOCAL_ONLY, privacy_policy.CLOUD_EXPLICIT],
@@ -9961,7 +12256,7 @@ def main() -> int:
     parser.add_argument("--topic-mode", choices=["static", "hot"], default=os.environ.get("AINO_TOPIC_MODE", "static"))
     parser.add_argument(
         "--format",
-        choices=["auto", "evidence_briefing_75", "growth_short", "reward_deep", "debate_followup"],
+        choices=["auto", "evidence_briefing_75", "growth_short", "ranking_battle_65", "reward_deep", "debate_followup"],
         default=os.environ.get("AINO_CONTENT_FORMAT", "auto"),
         dest="content_format",
     )
@@ -9970,7 +12265,7 @@ def main() -> int:
     result = run_once(
         args.output_dir,
         image_mode=args.image_mode,
-        real_image_limit=max(0, args.real_image_limit),
+        real_image_limit=None if args.real_image_limit is None else max(0, args.real_image_limit),
         content_format=args.content_format,
         topic_mode=args.topic_mode,
     )

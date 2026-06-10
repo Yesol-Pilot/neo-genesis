@@ -62,7 +62,11 @@ def _valid_upload_manifest(mp4: Path) -> dict:
         "readability": {"passed": True},
         "review": {"passed": True},
         "quality": {"passed": True, "publish_ready_score": 92},
-        "audio_asset": {"provider": "elevenlabs", "status": "generated"},
+        "audio_asset": {
+            "provider": "elevenlabs",
+            "status": "generated",
+            "notes": ["elevenlabs_history_final_deleted=0;elevenlabs_history_final_remaining_first_page=0"],
+        },
         "mobile_visual_passed": True,
         "mobile_visual_checks": [
             {"passed": True, "text_render_passed": True, "preview_path": f"scene_{index}.png"}
@@ -76,6 +80,7 @@ def _valid_upload_manifest(mp4: Path) -> dict:
         "angle_brief": {"gate_passed": True},
         "storyboard_brief": {"gate_passed": True},
         "tts_performance_plan": {"gate_passed": True},
+        "tts_plan": {"provider": "elevenlabs", "actual_provider": "elevenlabs", "enable_logging": False, "publish_candidate": True},
         "artifacts": {
             "mp4": str(mp4),
             "fact_pack": "fact_pack.json",
@@ -85,6 +90,7 @@ def _valid_upload_manifest(mp4: Path) -> dict:
             "angle_brief": "angle_brief.json",
             "storyboard_brief": "storyboard_brief.json",
             "tts_performance_plan": "tts_performance_plan.json",
+            "tts_plan": "tts_plan.json",
         },
     }
 
@@ -320,6 +326,66 @@ def test_enqueue_manifest_blocks_duplicate_content_across_schedule_slots(tmp_pat
     second_manifest["planned_publish_at_local"] = (
         dt.datetime.now(dt.timezone.utc) + dt.timedelta(hours=2)
     ).isoformat()
+    first_path = first_dir / "manifest.json"
+    second_path = second_dir / "manifest.json"
+    first_path.write_text(json.dumps(first_manifest, ensure_ascii=False), encoding="utf-8")
+    second_path.write_text(json.dumps(second_manifest, ensure_ascii=False), encoding="utf-8")
+
+    first = ha_publisher.enqueue_manifest(state_dir, first_path)
+    second = ha_publisher.enqueue_manifest(state_dir, second_path)
+    jobs = json.loads((state_dir / ha_publisher.JOBS_FILENAME).read_text(encoding="utf-8"))["jobs"]
+
+    assert first["created"] is True
+    assert second["blocked"] is True
+    assert second["reason"] == "duplicate_content"
+    assert len(jobs) == 1
+
+
+def test_enqueue_manifest_blocks_duplicate_visual_signature_even_when_title_changes(tmp_path: Path) -> None:
+    state_dir = tmp_path / "state"
+    first_dir = tmp_path / "leftaino_20260512_181016"
+    second_dir = tmp_path / "leftaino_20260512_201016"
+    first_dir.mkdir()
+    second_dir.mkdir()
+    first_mp4 = first_dir / "preview_1080x1920.mp4"
+    second_mp4 = second_dir / "preview_1080x1920.mp4"
+    first_mp4.write_bytes(b"fake")
+    second_mp4.write_bytes(b"fake")
+    visual_assets = [
+        {
+            "scene_id": index,
+            "provider": "codex_cli",
+            "status": "generated",
+            "path": f"scene_{index}.png",
+            "prompt": "Controlled in-image text",
+            "visual_brief": {
+                "role": "evidence",
+                "location": "same hallway",
+                "camera": "same low angle",
+                "foreground_prop": "same paper card",
+                "treatment_id": "same_tableau",
+                "diegetic_text": f"card {index}",
+            },
+        }
+        for index in range(1, 10)
+    ]
+    first_manifest = _valid_upload_manifest(first_mp4)
+    second_manifest = _valid_upload_manifest(second_mp4)
+    first_manifest["visual_assets"] = visual_assets
+    second_manifest["visual_assets"] = visual_assets
+    first_manifest["layout_quality"] = {
+        "mode": "native_image_text_scene_signature",
+        "layout_ids": [f"same-layout-{index}" for index in range(1, 10)],
+        "unique_count": 9,
+    }
+    second_manifest["layout_quality"] = first_manifest["layout_quality"]
+    second_manifest["run_id"] = "leftaino_20260512_201016"
+    second_manifest["planned_publish_at_local"] = (
+        dt.datetime.now(dt.timezone.utc) + dt.timedelta(hours=2)
+    ).isoformat()
+    second_manifest["script"]["post_title"] = f"{second_manifest['script']['post_title']} 2"
+    second_manifest["script"]["caption"] = f"{second_manifest['script']['caption']} 2"
+    second_manifest["script"]["post_body"] = f"{second_manifest['script']['post_body']} 2"
     first_path = first_dir / "manifest.json"
     second_path = second_dir / "manifest.json"
     first_path.write_text(json.dumps(first_manifest, ensure_ascii=False), encoding="utf-8")

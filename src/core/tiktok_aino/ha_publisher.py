@@ -378,6 +378,67 @@ def _content_fingerprint(*parts: Any) -> str:
     return _stable_hash(normalized or "empty-content", length=16)
 
 
+def _visual_fingerprint(*parts: Any) -> str:
+    normalized = _normalized_content_text(*parts)
+    return _stable_hash(normalized, length=16) if normalized else ""
+
+
+def _visual_prop_from_brief(brief: dict[str, Any]) -> str:
+    for key in ("foreground_prop", "action_beat", "concrete_scene"):
+        value = str(brief.get(key) or "").strip()
+        if value:
+            return value
+    anchors = brief.get("visual_anchor")
+    if isinstance(anchors, list):
+        return " ".join(str(item) for item in anchors[:2] if str(item).strip())
+    return ""
+
+
+def _manifest_visual_fingerprint(manifest: dict[str, Any]) -> str:
+    raw_assets = manifest.get("visual_assets", [])
+    assets = [asset for asset in raw_assets if isinstance(asset, dict)] if isinstance(raw_assets, list) else []
+    parts: list[str] = []
+    for asset in sorted(assets, key=lambda item: int(item.get("scene_id") or 0)):
+        brief = asset.get("visual_brief") if isinstance(asset.get("visual_brief"), dict) else {}
+        parts.extend(
+            [
+                str(brief.get("role") or ""),
+                str(brief.get("location") or ""),
+                str(brief.get("camera") or ""),
+                _visual_prop_from_brief(brief),
+                str(brief.get("treatment_id") or brief.get("visual_treatment") or ""),
+                str(brief.get("diegetic_text") or ""),
+            ]
+        )
+    layout_quality = manifest.get("layout_quality") if isinstance(manifest.get("layout_quality"), dict) else {}
+    if isinstance(layout_quality.get("layout_ids"), list):
+        parts.extend(str(item) for item in layout_quality.get("layout_ids"))
+    return _visual_fingerprint(*parts)
+
+
+def _slot_visual_fingerprint(slot: dict[str, Any]) -> str:
+    signature = slot.get("content_signature") if isinstance(slot.get("content_signature"), dict) else None
+    if signature is None:
+        signature = slot.get("visual_signature") if isinstance(slot.get("visual_signature"), dict) else None
+    if not isinstance(signature, dict):
+        return ""
+    parts: list[str] = []
+    for key in (
+        "first_frame_signature",
+        "visual_locations",
+        "camera_styles",
+        "foreground_props",
+        "treatments",
+        "layout_ids",
+    ):
+        value = signature.get(key)
+        if isinstance(value, list):
+            parts.extend(str(item) for item in value)
+        else:
+            parts.append(str(value or ""))
+    return _visual_fingerprint(*parts)
+
+
 def _duplicate_guard_enabled() -> bool:
     guard = HA_STRATEGY.get("duplicate_guard", {})
     return not isinstance(guard, dict) or bool(guard.get("enabled", True))
@@ -408,10 +469,20 @@ def _job_content_fingerprint(job: dict[str, Any]) -> str:
     )
 
 
+def _job_visual_fingerprint(job: dict[str, Any]) -> str:
+    existing = str(job.get("visual_fingerprint") or "")
+    if existing:
+        return existing
+    payload = job.get("payload") if isinstance(job.get("payload"), dict) else {}
+    slot = payload.get("slot") if isinstance(payload.get("slot"), dict) else {}
+    return _slot_visual_fingerprint(slot)
+
+
 def _find_duplicate_job(jobs: dict[str, Any], job: dict[str, Any]) -> dict[str, Any] | None:
     if not _duplicate_guard_enabled():
         return None
     fingerprint = _job_content_fingerprint(job)
+    visual_fingerprint = _job_visual_fingerprint(job)
     statuses = _duplicate_guard_statuses()
     for existing in jobs.values():
         if not isinstance(existing, dict):
@@ -422,6 +493,9 @@ def _find_duplicate_job(jobs: dict[str, Any], job: dict[str, Any]) -> dict[str, 
             continue
         if _job_content_fingerprint(existing) == fingerprint:
             return existing
+        existing_visual_fingerprint = _job_visual_fingerprint(existing)
+        if visual_fingerprint and existing_visual_fingerprint and existing_visual_fingerprint == visual_fingerprint:
+            return existing
     return None
 
 
@@ -430,6 +504,7 @@ def _job_from_slot(slot: dict[str, Any], plan_path: Path, slot_index: int) -> di
     content_format = str(slot.get("format") or "auto")
     topic = str(slot.get("topic") or slot.get("post_title") or "planned-topic")
     job_id = _job_id_from_parts(publish_at, content_format, topic)
+    visual_fingerprint = _slot_visual_fingerprint(slot)
     return {
         "job_id": job_id,
         "kind": "publish_slot",
@@ -439,6 +514,7 @@ def _job_from_slot(slot: dict[str, Any], plan_path: Path, slot_index: int) -> di
         "format": content_format,
         "topic": topic,
         "content_fingerprint": _content_fingerprint(topic, slot.get("post_title"), slot.get("caption")),
+        "visual_fingerprint": visual_fingerprint,
         "priority": _safe_int(slot.get("quality_score"), 0),
         "attempts": {},
         "payload": {
@@ -469,6 +545,7 @@ def _job_from_manifest(manifest_path: Path) -> dict[str, Any]:
     if not publish_at:
         publish_at = _iso()
     job_id = _job_id_from_parts(publish_at, content_format, topic)
+    visual_fingerprint = _manifest_visual_fingerprint(manifest)
     return {
         "job_id": job_id,
         "kind": "publish_slot",
@@ -484,6 +561,7 @@ def _job_from_manifest(manifest_path: Path) -> dict[str, Any]:
             script.get("post_body"),
             script.get("pinned_comment"),
         ),
+        "visual_fingerprint": visual_fingerprint,
         "priority": _safe_int(manifest.get("quality", {}).get("publish_ready_score") if isinstance(manifest.get("quality"), dict) else 0, 0),
         "run_id": run_id,
         "manifest_path": str(manifest_path),
@@ -496,6 +574,7 @@ def _job_from_manifest(manifest_path: Path) -> dict[str, Any]:
             "manifest_status": manifest.get("status"),
             "upload_validation": validation,
             "has_planned_publish_at": has_planned_publish_at,
+            "visual_fingerprint": visual_fingerprint,
         },
         "created_at": _iso(),
         "updated_at": _iso(),
@@ -1010,7 +1089,7 @@ def defer_lease(state_dir: Path, *, lease_id: str, node_id: str, reason: str) ->
     return {"ok": True, "status": job["status"]}
 
 
-def _generate_for_job(job: dict[str, Any], *, output_dir: Path, image_mode: str, real_image_limit: int) -> dict[str, Any]:
+def _generate_for_job(job: dict[str, Any], *, output_dir: Path, image_mode: str, real_image_limit: int | None) -> dict[str, Any]:
     from src.core.tiktok_aino import generate_from_schedule, pipeline
 
     payload = job.get("payload", {}) if isinstance(job.get("payload"), dict) else {}
@@ -1468,7 +1547,7 @@ def worker_once(
     operation: str,
     output_dir: Path,
     image_mode: str = "auto",
-    real_image_limit: int = 9,
+    real_image_limit: int | None = None,
     upload_mode: str | None = None,
     chrome_profile_dir: Path | None = None,
     chrome_cdp_port: int = 9222,
@@ -1693,6 +1772,8 @@ def _json_print(payload: dict[str, Any]) -> None:
 
 
 def main() -> int:
+    from src.core.tiktok_aino import pipeline
+
     parser = argparse.ArgumentParser(description="AiNo TikTok HA publisher coordinator.")
     parser.add_argument("--state-dir", type=Path, default=default_state_dir())
     parser.add_argument("--node-id", default=default_node_id())
@@ -1731,7 +1812,7 @@ def main() -> int:
     worker.add_argument("--operation", choices=sorted(DEFAULT_OPERATION_STATUSES), required=True)
     worker.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR / "scheduled_packages")
     worker.add_argument("--image-mode", choices=["auto", "codex_cli", "gemini_api", "local"], default="auto")
-    worker.add_argument("--real-image-limit", type=int, default=9)
+    worker.add_argument("--real-image-limit", type=int, default=pipeline.default_real_image_limit_from_env())
     worker.add_argument("--upload-mode", choices=["prepare", "schedule", "publish"], default=None)
     worker.add_argument("--chrome-profile-dir", type=Path)
     worker.add_argument("--chrome-cdp-port", type=int, default=9222)
@@ -1798,7 +1879,7 @@ def main() -> int:
                 operation=args.operation,
                 output_dir=args.output_dir,
                 image_mode=args.image_mode,
-                real_image_limit=args.real_image_limit,
+                real_image_limit=None if args.real_image_limit is None else max(0, args.real_image_limit),
                 upload_mode=args.upload_mode,
                 chrome_profile_dir=args.chrome_profile_dir,
                 chrome_cdp_port=args.chrome_cdp_port,

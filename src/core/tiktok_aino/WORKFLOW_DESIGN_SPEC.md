@@ -77,6 +77,7 @@ Design implication:
   -> 15_render_plan
   -> 16_quality_gate
   -> 17_upload_plan
+  -> 17A_publish_queue
   -> 18_performance_feedback
   -> next 02_keyword_research
 ```
@@ -107,6 +108,7 @@ Each flow must write a machine-readable artifact when it materially affects the 
 | 15 Render Plan | `render_manifest.json` plus `manifest.json` | Implemented |
 | 16 Quality Gate | `upload_validation` plus `verification_report.html` | Implemented |
 | 17 Upload Plan | `upload_plan.json` | Implemented |
+| 17A Publish Queue | `publish_queue.json` plus `publish_queue_run_*.json` | Implemented |
 | 18 Performance Feedback | `performance_feedback.json` | Implemented |
 
 ## 5. Flow 01: Signal Collection
@@ -714,6 +716,43 @@ Keep browser upload automation auditable.
 }
 ```
 
+## 17A. Flow 17A: Publish Queue
+
+### Purpose
+
+Batch multiple `publish_ready` manifests into an auditable local queue before any browser upload, scheduling, or public post action.
+
+### Rules
+
+- `publish_queue_runner` defaults to `dry-run`.
+- `prepare`, `schedule`, and `publish` are external browser actions and must be blocked unless `--confirm-external-action` is explicitly passed.
+- `schedule` and `publish` also require the existing `AINO_UPLOAD_AUTOMATION_ENABLED=true` posting gate.
+- Past slots are invalid by default.
+- The queue must preserve `tiktok_upload_performed=false` and `tiktok_schedule_click_performed=false` until a verified external action actually happens.
+- Schedule/upload verification must stay separate from performance measurement.
+- Scheduled posts, future rows, and zero-metric rows are `scheduled_not_evaluable` and cannot be used as performance evidence.
+
+### Output Schema
+
+```json
+{
+  "version": "aino_publish_queue_v1",
+  "status": "local_queue_only_not_uploaded",
+  "posting_boundary": {
+    "tiktok_upload_performed": false,
+    "tiktok_schedule_click_performed": false
+  },
+  "queue": [
+    {
+      "run_id": "leftaino_...",
+      "planned_publish_at_local": "2026-06-09T19:30:00+09:00",
+      "manifest_path": "...",
+      "upload_safe_mp4": "..."
+    }
+  ]
+}
+```
+
 ## 18. Flow 18: Performance Feedback
 
 ### Purpose
@@ -787,6 +826,7 @@ Done when every publish candidate can explain:
 1. Add `upload_plan.json`. Done.
 2. Add schedule slot reasoning. Done.
 3. Ensure extension refuses anything below `publish_ready`. Done via `validate_manifest_for_upload` and `build_upload_job`.
+4. Add guarded `publish_queue_runner` for local queue dry-runs and explicit external-action confirmation. Done.
 
 ### Phase D: Feedback Loop
 
@@ -825,6 +865,8 @@ Implemented:
 - `tts_plan.json`
 - `render_manifest.json`
 - `upload_plan.json`
+- `publish_queue.json`
+- `publish_queue_run_*.json`
 - `performance_feedback.json`
 - hot-topic keyword expansion from recent signal candidates
 - generic single-keyword caps
@@ -835,6 +877,7 @@ Implemented:
 - Chrome Extension Studio metrics capture v2 and bridge enrichment
 - paid/external image budget gating before provider calls
 - post-publish monitor cadence for 2h, 24h, and 72h windows
+- guarded publish queue runner with dry-run default and explicit external-action confirmation
 
 Next implementation target:
 

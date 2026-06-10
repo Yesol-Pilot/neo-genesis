@@ -23,20 +23,29 @@
     "의혹",
     "검증",
     "기록",
-    "책임"
+    "책임",
+    "역대 대통령",
+    "대통령 순위",
+    "노무현",
+    "이재명",
+    "김대중",
+    "취임 1년",
+    "참여정부",
+    "민주주의",
+    "대통령 기록"
   ],
   "realism_principles": [
     "depict a plausible real-world moment, not an abstract symbol board or generic stock office",
-    "show believable spatial depth, practical lights, surface imperfections, dust, rain, fingerprints, paper texture, cables, and worn furniture",
+    "show believable spatial depth, practical lights, surface imperfections, dust, rain, fingerprints, cables, worn furniture, and issue-specific human movement",
     "anonymous non-identifiable human presence is allowed only as backs, silhouettes, cropped hands, or out-of-focus press shapes",
     "the main subject should be a real scene that could have been photographed by a documentary camera, while preserving clean overlay lanes without turning the image into an empty background",
     "every generated scene must contain a visible event, active gesture, anonymous adult reaction, or object in motion; empty rooms and passive still-life backgrounds are not acceptable",
-    "use only the pipeline-approved short diegetic text prop when text is requested; never add uncontrolled text, real politician faces, party logos, campaign materials, identifiable private people, or fake screenshots"
+    "use only the pipeline-approved short native caption element when text is requested; never add uncontrolled text, real politician faces, party logos, campaign materials, identifiable private people, or fake screenshots"
   ],
   "drama_principles": [
     "use a dominant foreground object, partial obstruction, hard shadow, reflection, or doorway frame so the scene feels caught mid-event",
     "make the first visual read within one second through silhouette scale, lens compression, strong diagonal lines, and clear object hierarchy",
-    "favor the moment just before or just after public accountability pressure: a folder crossing frame, a microphone line, a hand separating evidence, a vacant chair under harsh light",
+    "favor the moment just before or just after public accountability pressure: a press line turning tense, a meeting-room reaction, a doorway confrontation, a hand separating evidence, a vacant chair under harsh light",
     "keep civic safety constraints, but do not make the frame polite, empty, or purely atmospheric"
   ],
   "visual_treatment_sequence": [
@@ -52,40 +61,40 @@
   ],
   "visual_treatments": {
     "real_scene_reconstruction": "mandatory visible action: photorealistic reconstruction of a public-interest moment as if photographed on location, with anonymous people or cropped hands caught mid-action",
-    "satirical_tableau": "mandatory visible action: photorealistic editorial satire tableau with exaggerated anonymous archetype adults, oversized blank paperwork, absurd institutional props, dark humor, theatrical blocking, and no real person likeness",
-    "aino_character_scene": "mandatory visible character: a fictional AiNo analyst appears waist-up or over-the-shoulder as a composed non-real AI news host inside the scene, wearing a bright clean jacket, reacting to evidence or pointing at blank materials, expressive but not sexualized and not a real person",
+    "satirical_tableau": "mandatory visible action: photorealistic editorial satire tableau with exaggerated anonymous archetype adults, awkward civic-room staging, absurd institutional props, dark humor, theatrical blocking, and no real person likeness",
+    "aino_character_scene": "mandatory visible character: a fictional AiNo analyst appears waist-up or over-the-shoulder as a composed non-real AI news host inside the scene, wearing a bright clean jacket, reacting to the room tension or pointing toward a scene-integrated caption rail, expressive but not sexualized and not a real person",
     "accountability_stage": "mandatory visible action: public accountability moment in a concrete real-world location, with anonymous adults reacting, someone stepping away, or a question landing in the room; avoid empty symbolic-only staging",
-    "evidence_action": "mandatory visible action: evidence-action close-up that stays attached to the real topic location, with cropped hands, real surfaces, phone recorder, receipts, cups, leaflets, notes, or source packets moving through the foreground",
-    "comment_choice_scene": "mandatory visible action: comment-choice scene with viewer decision cards, editor timeline, and a hand or fictional AiNo editor about to choose one of three blank options"
+    "evidence_action": "mandatory visible action: evidence-action close-up that stays attached to the real topic location, with cropped hands, real surfaces, phone recorder, receipts, cups, leaflets, or source packets moving through the foreground without becoming a text-on-paper image",
+    "comment_choice_scene": "mandatory visible action: comment-choice scene built around a video editor timeline, comment heatmap glow, and a fictional AiNo editor preparing a debate choice without holding paper cards"
   },
   "action_beats_by_role": {
     "hook": [
       "a door is half-open and the viewer catches the moment something is entering the classroom",
-      "an anonymous adult silhouette is frozen in the doorway while a blank folder crosses the lens"
+      "an anonymous adult silhouette is frozen in the doorway while another adult turns back toward the tension"
     ],
     "why_now": [
-      "a lamp snaps on over a fresh packet while the background stays blurred",
-      "a phone glow reflects on glass as someone reaches for a blank file"
+      "a newsroom monitor glow snaps on while the background staff react",
+      "a phone recorder glow reflects on glass as someone leans toward a microphone line"
     ],
     "evidence": [
-      "cropped hands split one blank packet into a separate pile",
-      "a red pencil and recorder sit in the foreground while source cards slide apart"
+      "cropped hands separate one evidence packet while a recorder runs nearby",
+      "a red pencil and recorder sit in the foreground while anonymous adults react behind glass"
     ],
     "criteria": [
-      "three blank trays are being separated into fact, claim, and responsibility zones",
-      "a hand moves one paper away from the others at the exact decision moment"
+      "three table zones are separated by light and object placement at the exact decision moment",
+      "a hand moves one object away from the others while two adults watch"
     ],
     "responsibility": [
       "an anonymous adult steps away from a public counter or meeting table while others react in the background",
       "a question lands in a real room and two anonymous adults turn toward the source of tension"
     ],
     "verification": [
-      "one unresolved envelope is stopped by a cropped hand before it reaches the confirmed pile",
-      "rain on glass cuts across two separated file trays"
+      "one unresolved item is stopped by a cropped hand before it reaches the confirmed side",
+      "rain on glass cuts across two separated civic-room sightlines"
     ],
     "cta": [
-      "a hand hovers over three blank comment-choice cards",
-      "the fictional AiNo editor holds a blank card toward the viewer beside a glowing timeline"
+      "a hand hovers over a video timeline and three blurred comment heat zones",
+      "the fictional AiNo editor turns toward the viewer beside a glowing timeline and divided reaction wall"
     ]
   },
   "default_concrete_scene": "a concrete public-interest location tied to the topic, photographed mid-event with anonymous adults reacting, one specific object from the story in the foreground, and no readable text",
@@ -111,10 +120,10 @@
         "hook": "election-night polling analysis room at dawn, anonymous analysts seen from behind, a large blank regional map wall made of colored blocks, a phone recorder and sealed blank poll packet in the foreground, no party colors as logos and no readable numbers",
         "why_now": "polling call-center floor after hours with anonymous operators seen only from behind, muted monitor glow, blank survey sheets sliding into a tray, one analyst reaching for a ringing phone, no readable UI",
         "evidence": "polling methodology desk with blank crosstab sheets, calculator, recorder, and colored sticky markers separated by cropped hands, survey packets visibly divided by region and age without text",
-        "criteria": "campaign-neutral data room where three physical piles are separated: turnout signal, swing-voter signal, and regional movement signal, all cards blank, an anonymous hand moving one pile into the danger zone",
+        "criteria": "campaign-neutral data room where three light zones are separated: turnout signal, swing-voter signal, and regional movement signal, an anonymous hand moving one marker into the danger zone",
         "responsibility": "tense campaign strategy room with no logos, anonymous adults around a table facing a blank regional map wall, one chair pushed back, poll packet open under harsh overhead light",
         "verification": "quiet press-room side table after a polling briefing, unbranded microphones low in the foreground, sealed blank survey envelopes stopped by a cropped hand before joining the confirmed pile",
-        "cta": "fictional AiNo editor at a video timeline showing polling call-center, blank map wall, and counting-table thumbnails, holding three blank viewer-choice cards toward camera"
+        "cta": "fictional AiNo editor at a video timeline showing polling call-center, blank map wall, and counting-table thumbnails, with three blurred comment heat zones reflected on the monitor"
       }
     },
     {
@@ -131,17 +140,55 @@
         "\uc815\uad8c\uc548\uc815\ub860",
         "\uacbd\uc81c\ub860",
         "\ud504\ub808\uc784",
-        "\uc6b0\ud30c \ud504\ub808\uc784",
-        "TOP5"
+        "\uc6b0\ud30c \ud504\ub808\uc784"
       ],
       "scenes_by_role": {
-        "hook": "heated election-frame war room with anonymous adults frozen around a blank debate-stage board, two oversized blank slogan cards turned away from camera, a spotlight cutting across the table, no party logos",
-        "why_now": "late-night TV debate monitoring booth with blurred anonymous pundit silhouettes on screens, blank cue cards, and a producer hand hovering over a mute button, no readable captions",
-        "evidence": "frame-comparison table with five blank campaign narrative cards, each physically separated by cropped hands, a recorder and red pencil marking the tension without any text",
+        "hook": "heated election-frame analysis room with anonymous adults reacting around a glowing debate monitor wall, press-camera silhouettes and a recorder in the foreground, a spotlight cutting across the floor, no party logos and no paper cards",
+        "why_now": "late-night TV debate monitoring booth with blurred anonymous pundit silhouettes on screens, producer hand hovering over a mute button, waveform lights and monitor reflections, no cue cards and no readable captions",
+        "evidence": "frame-comparison control table with three light-separated reaction zones, a recorder, red pencil, and monitor thumbnails divided by cropped hands, no narrative cards and no readable text",
         "criteria": "neutral voter-reaction observation room behind glass, anonymous silhouettes watching two blank podiums on a small monitor, sticky markers separated into anger, fear, and turnout piles with no writing",
-        "responsibility": "post-debate backstage corridor with two blank podium placards turned to the wall, anonymous staff walking away, microphones abandoned in the foreground, hard fluorescent light",
-        "verification": "fact-check desk beside a blurred debate set, one hand stops a blank narrative card before it reaches the confirmed pile, other cards remain face-down",
-        "cta": "fictional AiNo editor beside a split-screen timeline of debate booth, war room, and voter-reaction room thumbnails, offering blank cards labeled only by color with no text"
+        "responsibility": "post-debate backstage corridor with anonymous staff walking away from a monitor-lit accountability room, microphones abandoned in the foreground, hard fluorescent light, no podium placards",
+        "verification": "fact-check desk beside a blurred debate set, one cropped hand stops a monitor thumbnail before it joins the confirmed side, other signals remain blurred and unreadable",
+        "cta": "fictional AiNo editor beside a split-screen video timeline of debate booth, war room, and voter-reaction room thumbnails, divided comment heat zones glowing on the monitor, no physical cards"
+      }
+    },
+    {
+      "issue_type": "presidential_legacy",
+      "if_text_contains_any": [
+        "역대 대통령",
+        "대통령 순위",
+        "대통령 TOP",
+        "TOP5",
+        "TOP3",
+        "TOP2",
+        "노무현",
+        "이재명",
+        "김대중",
+        "박정희",
+        "문재인",
+        "취임 1년",
+        "참여정부",
+        "민주주의"
+      ],
+      "scenes_by_scene_id": {
+        "1": "vertical political ranking studio at night, anonymous editor hand slams a large unbranded TOP5-style ranking board onto a light table, five blank name slots as graphic blocks, camera close and urgent, no real faces and no readable names",
+        "2": "AI-assisted evaluation desk with three large unbranded scoring dials for democracy, crisis recovery, and legacy, anonymous analyst pointing at the dials, bright newsroom light, no readable UI or official seal",
+        "3": "split-screen civic history set: one side shows candlelit citizen-square footage on monitors, the other side shows industrial growth archive machinery, anonymous viewers arguing through body language, no readable text",
+        "4": "peace-and-democracy record room where a blank medal case, human-rights archive folders, and diplomatic envelopes are placed under a spotlight by cropped gloved hands, no Nobel branding and no readable labels",
+        "5": "first-year administration situation room with anonymous analysts moving reform folders and livelihood charts across a table, emergency newsroom glow, no party colors and no readable screens",
+        "6": "citizen-politics memory square after rain with an open microphone, anonymous citizens seen from behind, warm candle reflections, a blank public forum wall, no portraits, logos, or banners",
+        "7": "comment-battle editing booth with a giant vertical ranking wall, two anonymous viewer groups reacting on opposite sides, fictional AiNo editor from behind hovering over three blank choice cards, no readable UI",
+        "8": "tense historical-ranking auditorium with a blank growth-model display on one side and a blank democracy timeline on the other, anonymous adults arguing through body language, hard stage light, no text",
+        "9": "vertical editing booth for viewer ranking debate, fictional AiNo editor from behind beside a wall of nine blank thumbnail stills, three physical blank rank cards in the foreground, phone comment glow, no readable UI"
+      },
+      "scenes_by_role": {
+        "hook": "cinematic presidential archive gallery at night with anonymous visitors seen from behind, a long wall of blank portrait frames and a ranking timeline board turned partly away, rain reflections on polished stone, no real faces and no readable names",
+        "why_now": "late-night vertical-video edit room comparing historical leadership eras, anonymous editor hand hovering over a timeline of blank archive thumbnails, muted news monitor glow with no readable UI",
+        "evidence": "presidential record desk with three legacy-era object zones separated by cropped hands, museum catalog tags turned away, recorder light on, archive gloves and glass reflections visible",
+        "criteria": "evaluation-room wall with five unmarked criterion light zones for democracy, livelihood, crisis recovery, reform, and legacy, colored string connecting them, an anonymous hand moving one marker upward",
+        "responsibility": "transition-era public office hallway with archive boxes moving through a half-open door, anonymous staff silhouettes and press microphones low in the foreground, no agency logo",
+        "verification": "museum-style timeline wall where one blank president-rank card is stopped by a cropped hand before joining the top row, glass reflection and practical spotlights",
+        "cta": "fictional AiNo editor in front of a vertical timeline of archive gallery, record desk, and ranking-wall thumbnails, with divided comment heat zones glowing beside the timeline"
       }
     },
     {
@@ -157,13 +204,13 @@
         "\uc758\ud639"
       ],
       "scenes_by_role": {
-        "hook": "public courthouse entrance at dawn with anonymous press silhouettes behind a rope line, sealed blank case folder crossing the foreground, marble steps wet from rain, no court seal and no readable signs",
-        "why_now": "courthouse corridor outside an appeal hearing, anonymous adults seen from behind, unbranded microphone cluster low in the foreground, one sealed blank case packet under a hard ceiling light",
-        "evidence": "legal record review table with blank appeal packet, recorder, stamp pad, and two case folders separated by cropped hands, all paper turned away from camera",
-        "criteria": "court timeline desk where three blank piles are separated: allegation, legal judgment, and remaining issue, a cropped hand moving one sealed folder into the unresolved side",
+        "hook": "public courthouse entrance at dawn with anonymous press silhouettes behind a rope line, a dark umbrella edge crossing the foreground, marble steps wet from rain, no court seal and no readable signs",
+        "why_now": "courthouse corridor outside an appeal hearing, anonymous adults seen from behind, unbranded microphone cluster low in the foreground, hard ceiling light cutting the floor",
+        "evidence": "legal review table with recorder, stamp pad, glass reflection, and two evidence zones separated by cropped hands, all papers turned away from camera",
+        "criteria": "court timeline room where three light zones are separated: allegation, legal judgment, and remaining issue, a cropped hand moving one marker into the unresolved side",
         "responsibility": "quiet courtroom-adjacent waiting area after a hearing, vacant witness chair visible through a half-open door, anonymous aides leaving frame, no insignia",
-        "verification": "glass courthouse service counter where a sealed blank case envelope is stopped by a cropped hand before joining the confirmed pile, rain reflection behind glass",
-        "cta": "fictional AiNo editor beside a timeline of courthouse entrance, legal record table, and press corridor thumbnails, holding a blank viewer-choice card toward camera"
+        "verification": "glass courthouse service counter where one unresolved item is stopped by a cropped hand before joining the confirmed side, rain reflection behind glass",
+        "cta": "fictional AiNo editor beside a timeline of courthouse entrance, legal review table, and press corridor thumbnails, with a divided reaction wall beside the monitor"
       }
     },
     {
@@ -179,11 +226,11 @@
       "scenes_by_role": {
         "hook": "rainy memorial-plaza entrance or civic steps on a remembrance day, anonymous adults paused at the edge of a public walkway, a wet unbranded coffee cup and folded receipt in the foreground, press lights reflected on stone, no logos and no readable signs",
         "why_now": "late-night newsroom desk reviewing the public controversy, unbranded coffee cup beside a phone glow, rainy memorial footage blurred on a monitor with no readable UI, anonymous editor turning toward the screen",
-        "evidence": "unbranded cafe counter near a civic district, anonymous hand setting down a plain coffee cup and blank receipt while another hand slides a source packet into frame, public rain visible through the window, no brand marks",
+        "evidence": "unbranded cafe counter near a civic district, anonymous hand setting down a plain coffee cup while another hand moves a recorder into frame, public rain visible through the window, no brand marks",
         "criteria": "editorial verification wall and table where a memorial-plaza image, a cafe-counter image, and a public response note are physically separated by cropped hands, all cards blank and unreadable",
-        "responsibility": "small public meeting room after a controversy, anonymous adults around a table with unbranded coffee cups, one person stepping back while another points to a blank printed statement, no party logo",
-        "verification": "rainy street outside a civic building and unbranded cafe window, anonymous adults checking phones under umbrellas, one hand stops a blank envelope before it reaches a confirmed pile",
-        "cta": "fictional AiNo editor at a video timeline showing blurred memorial steps and an unbranded cafe counter as visual thumbnails, holding a blank viewer-choice card toward camera"
+        "responsibility": "small public meeting room after a controversy, anonymous adults around a table with unbranded coffee cups, one person stepping back while another points toward the doorway tension, no party logo",
+        "verification": "rainy street outside a civic building and unbranded cafe window, anonymous adults checking phones under umbrellas, one hand stops an unresolved object before it reaches a confirmed side",
+        "cta": "fictional AiNo editor at a video timeline showing blurred memorial steps and an unbranded cafe counter as visual thumbnails, with divided comment heat zones on the monitor"
       }
     },
     {
@@ -197,13 +244,13 @@
         "초등학교"
       ],
       "scenes_by_role": {
-        "hook": "after-hours elementary school entrance and classroom doorway, anonymous adult crossing the threshold with a plain folder while parent silhouettes wait outside the door, no children and no readable notices",
-        "why_now": "parent group chat glow reflected on a rainy classroom window, a teacher desk and unopened school visitor pass blurred in the background, anonymous adult reaching for a blank folder",
-        "evidence": "school administration counter with cropped hands passing a sealed blank packet and visitor pass tray, scuffed hallway floor and classroom doorway visible behind glass",
-        "criteria": "empty classroom table where parent concern notes, school schedule cards, and source packets are separated into three physical piles by cropped hands, all text blank",
-        "responsibility": "education office hallway with closed doors, anonymous parents waiting on a bench while one adult walks out holding a plain folder, fluorescent light and real hallway depth",
-        "verification": "rainy school gate at night with parent silhouettes and a folder protected under a coat, no school name, no children faces",
-        "cta": "fictional AiNo editor at a video desk facing an open classroom doorway, holding a blank comment card while a timeline of classroom shots glows behind her"
+        "hook": "after-hours elementary school entrance and classroom doorway, anonymous adult crossing the threshold while parent silhouettes wait outside the door, no children and no readable notices",
+        "why_now": "parent group chat glow reflected on a rainy classroom window, a teacher desk and unopened school visitor pass blurred in the background, anonymous adult turning toward the doorway",
+        "evidence": "school administration counter with cropped hands pausing one unresolved item beside a visitor pass tray, scuffed hallway floor and classroom doorway visible behind glass",
+        "criteria": "empty classroom table where parent concern, school schedule pressure, and source-checking are represented by three light-separated zones, cropped hands moving one marker, all text blank",
+        "responsibility": "education office hallway with closed doors, anonymous parents waiting on a bench while one adult walks out into fluorescent light and real hallway depth",
+        "verification": "rainy school gate at night with parent silhouettes and umbrella edges cutting across the frame, no school name, no children faces",
+        "cta": "fictional AiNo editor at a video desk facing an open classroom doorway, with divided comment heat zones while a timeline of classroom shots glows behind her"
       }
     },
     {
@@ -231,6 +278,71 @@
       }
     },
     {
+      "issue_type": "national_assembly",
+      "if_text_contains_any": [
+        "국정조사",
+        "청문회",
+        "요구서",
+        "원 구성",
+        "상임위",
+        "국회"
+      ],
+      "scenes_by_role": {
+        "hook": "National Assembly inspired committee corridor at night, anonymous aides carrying blank inquiry binders in opposite directions, unbranded microphones low in the foreground, wet stone reflections, no signs or logos",
+        "why_now": "public hearing preparation room with two opposing lecterns under harsh ceiling light, anonymous staff seen from behind, no readable nameplates",
+        "evidence": "committee evidence intake counter with cropped hands pausing one unresolved item, unbranded recorder light on, glass counter reflections visible",
+        "criteria": "three-route accountability table inside a committee prep room: public questioning, evidence request, and delay risk represented by three light zones, a hand moving one marker aside",
+        "responsibility": "empty committee hearing room from the back row, microphones and vacant witness chair under a hard spotlight, anonymous gallery shadows behind glass",
+        "verification": "rainy public archive window beside a legislative corridor, one unresolved item stopped before entering the confirmed side, committee room blurred beyond the glass",
+        "cta": "fictional AiNo editor in a compact video booth with thumbnails of committee room, archive counter, and press corridor, with divided comment heat zones on the monitor"
+      }
+    },
+    {
+      "issue_type": "media_accountability",
+      "if_text_contains_any": [
+        "팩트 조작",
+        "언론",
+        "가짜뉴스",
+        "보도",
+        "정정보도",
+        "언론개혁",
+        "팩트체크"
+      ],
+      "scenes_by_role": {
+        "hook": "press-room corridor just after a contentious briefing, anonymous reporters seen only as silhouettes, one recorder light glowing near a glass wall reflection splitting newsroom and public-office depth",
+        "why_now": "late-night newsroom standards desk with an unbranded monitor turned away, cropped editor hand stopping an unresolved decision beside a phone recorder, no readable UI",
+        "evidence": "fact-check desk where three verification zones are physically separated by light, red pencil suspended mid-mark, recorder and newsroom reflections visible",
+        "criteria": "editorial standards wall with three unmarked light zones divided into criticism, false claim, and correction, anonymous hand moving one marker under a harsh lamp",
+        "responsibility": "public media accountability room with an empty response chair, unbranded microphones, and a turned-away statement area under spotlight",
+        "verification": "glass-walled corrections desk at night, one unresolved decision held back before joining a confirmed side, newsroom silhouettes blurred through rain-specked glass",
+        "cta": "fictional AiNo editor at a vertical editing desk with divided comment heat zones and a blurred press-room corridor timeline behind her"
+      }
+    },
+    {
+      "issue_type": "peace_security",
+      "if_text_contains_any": [
+        "평화공존",
+        "평화 공존",
+        "남북관계",
+        "통일",
+        "핵무장",
+        "핵잠",
+        "우라늄",
+        "비확산",
+        "군사 긴장",
+        "안보"
+      ],
+      "scenes_by_role": {
+        "hook": "rainy border-observation inspired civic overlook at night, anonymous security analysts seen from behind, two unbranded map boards turned away, cold monitor edge in the foreground, no flags or military insignia",
+        "why_now": "foreign-policy situation room after hours with anonymous adults watching a blank peninsula-shaped light map, phone recorder and cold table reflection visible, no readable screens",
+        "evidence": "diplomacy desk where peace-talk, security risk, and sanction-pressure zones are separated by cropped hands, recorder light and cold blue monitor glow",
+        "criteria": "three-zone strategy table: deterrence, dialogue, and cost are represented by light zones under a hard overhead light, an anonymous hand moves one marker forward",
+        "responsibility": "quiet security briefing room with two empty podium silhouettes on an unbranded monitor, anonymous press shadows outside glass, no national symbols",
+        "verification": "night checkpoint-style public corridor with rain on glass, one unresolved diplomatic signal stopped before entering a confirmed side, security lights reflected on the floor",
+        "cta": "fictional AiNo editor beside a split timeline of situation room, border overlook, and diplomacy desk thumbnails, with divided comment heat zones beside the timeline"
+      }
+    },
+    {
       "issue_type": "party_strategy",
       "if_text_contains_any": [
         "\uc774\uc7ac\uba85",
@@ -248,13 +360,13 @@
         "\uc57c\uad8c"
       ],
       "scenes_by_role": {
-        "hook": "anonymous party-strategy room with two blank podium silhouettes on a monitor, a campaign memo pile turned face-down, cropped hands pushing a strategy card across the table, no real faces and no party logos",
-        "why_now": "press-scrum corridor after a political briefing, anonymous public-figure proxy seen only as a backlit silhouette from behind, unbranded microphones and blank notebooks in the foreground",
-        "evidence": "strategy memo desk comparing anonymous public reactions, blank social-comment cards printed as gray boxes, phone recorder and red pencil in motion, no screenshots and no readable UI",
-        "criteria": "neutral editorial room separating leadership image, party risk, and voter reaction into three blank trays, cropped hand moving one tray away from the others",
-        "responsibility": "civic meeting room where anonymous party staff sit under hard light facing an empty chair, blank response statement on the table, no insignia or campaign material",
-        "verification": "glass-walled newsroom where a cropped hand stops a blank political claim card before it joins a confirmed pile, anonymous press silhouettes beyond the glass",
-        "cta": "fictional AiNo editor at a timeline of press-scrum, strategy room, and voter-reaction thumbnails, holding a blank viewer-choice card toward camera"
+        "hook": "anonymous party-strategy room with two blank podium silhouettes on a monitor, cropped hands pushing a strategy marker across the table, no real faces and no party logos",
+        "why_now": "press-scrum corridor after a political briefing, anonymous public-figure proxy seen only as a backlit silhouette from behind, unbranded microphones and recorder lights in the foreground",
+        "evidence": "strategy room comparing anonymous public reactions through monitor glow and red-pencil marks, phone recorder and cropped hands in motion, no screenshots and no readable UI",
+        "criteria": "neutral editorial room separating leadership image, party risk, and voter reaction into three light zones, cropped hand moving one marker away from the others",
+        "responsibility": "civic meeting room where anonymous party staff sit under hard light facing an empty chair, response area turned away on the table, no insignia or campaign material",
+        "verification": "glass-walled newsroom where a cropped hand stops an unresolved political claim before it joins a confirmed side, anonymous press silhouettes beyond the glass",
+        "cta": "fictional AiNo editor at a timeline of press-scrum, strategy room, and voter-reaction thumbnails, with divided comment heat zones beside the monitor"
       }
     }
   ],
@@ -296,25 +408,65 @@
     "responsibility",
     "verification"
   ],
-  "topic_dominant_issue_types": [
+  "issue_detection_priority": [
+    "polling_election",
+    "memory_consumer_backlash",
+    "court_case",
+    "investigation",
+    "education",
+    "party_strategy",
+    "election_frame",
+    "national_assembly",
+    "labor",
+    "peace_security",
+    "media_accountability",
+    "presidential_legacy",
+    "civic_fact_check"
+  ],
+  "issue_required_terms": {
+    "presidential_legacy": [
+      "역대 대통령",
+      "대통령 순위",
+      "대통령 TOP",
+      "TOP5",
+      "TOP3",
+      "TOP2",
+      "취임 1년",
+      "참여정부",
+      "대통령 기록"
+    ]
+  },
+  "diegetic_text_render_issue_types": [
+    "education",
+    "court_case",
+    "investigation"
+  ],
+    "topic_dominant_issue_types": [
+      "presidential_legacy",
+      "polling_election",
+      "election_frame",
+      "peace_security",
+      "media_accountability",
+      "party_strategy",
+      "memory_consumer_backlash"
+    ],
+    "topic_priority_issue_types": [
+      "education",
+      "investigation",
+      "national_assembly",
+      "court_case",
+      "peace_security",
+      "media_accountability",
+      "memory_consumer_backlash",
+      "labor"
+    ],
+  "generic_scene_issue_types": [
+    "civic_fact_check",
+    "presidential_legacy",
     "polling_election",
     "election_frame",
     "party_strategy",
-    "memory_consumer_backlash"
-  ],
-  "topic_priority_issue_types": [
-    "education",
-    "investigation",
-    "court_case",
-    "memory_consumer_backlash",
-    "labor",
-    "national_assembly"
-  ],
-  "generic_scene_issue_types": [
-    "civic_fact_check",
-    "polling_election",
-    "election_frame",
-    "party_strategy"
+    "media_accountability"
   ],
   "visual_anchor_merge_limit": 10,
   "issue_profiles": {
@@ -330,13 +482,23 @@
     },
     "election_frame": {
       "anchors": [
-        "blank debate-stage monitor with anonymous silhouettes",
-        "campaign-frame cards turned away from camera",
+        "debate-stage monitor glow with anonymous silhouettes",
+        "split reaction zones and body-language tension",
         "TV control-room glow and unbranded microphones under hard light"
       ],
       "location": "election-frame war room or debate monitoring booth with no party branding",
       "emotion": "combative narrative pressure",
       "palette": "broadcast blue, hard white spotlight, restrained red warning accent"
+    },
+    "presidential_legacy": {
+      "anchors": [
+        "presidential archive gallery with blank portrait frames and no real faces",
+        "ranked legacy timeline cards turned away from camera",
+        "cropped hands separating sealed folders for democracy, livelihood, recovery, reform, and legacy"
+      ],
+      "location": "presidential archive gallery, record desk, or historical evaluation room with no party branding",
+      "emotion": "heated historical ranking debate with civic pride and tension",
+      "palette": "museum charcoal, warm archive light, paper white, restrained crimson accent"
     },
     "party_strategy": {
       "anchors": [
@@ -371,8 +533,8 @@
     "investigation": {
       "anchors": [
         "rainy public-record review office seen through glass",
-        "separated decision file trays and blank evidence envelopes",
-        "desk lamp, phone recorder, and worn folder corners on the table"
+        "separated decision zones and unresolved evidence area",
+        "desk lamp, phone recorder, and worn table corners visible"
       ],
       "location": "police investigation review desk with no logo or insignia",
       "emotion": "skeptical fact-check pressure",
@@ -391,7 +553,7 @@
     "education": {
       "anchors": [
         "empty classroom after hours with fluorescent ceiling light",
-        "blank curriculum folders and scuffed student desks",
+        "scuffed student desks, half-open classroom door, and parent silhouettes outside",
         "unreadable bulletin board and chalk dust texture"
       ],
       "location": "South Korean classroom or education office after hours",
@@ -401,16 +563,36 @@
     "labor": {
       "anchors": [
         "closed storefront shutters after business hours",
-        "blank worker meeting placards turned away from camera",
+        "stacked chairs, closed storefront shutters, and anonymous workers seen from behind",
         "public hearing table with anonymous silhouettes in the back rows"
       ],
       "location": "retail labor dispute meeting space with no brand logo",
       "emotion": "solidarity and pressure",
       "palette": "industrial gray, warm fluorescent light, muted red accent"
     },
+    "media_accountability": {
+      "anchors": [
+        "press-room corridor reflected in glass with anonymous reporter silhouettes",
+        "newsroom monitor glow, recorder light, and a correction decision paused by a cropped hand",
+        "unbranded recorder light and red pencil on a newsroom standards desk"
+      ],
+      "location": "newsroom standards desk or public media accountability room",
+      "emotion": "tense fight over press freedom and factual responsibility",
+      "palette": "cool newsroom blue, paper white, restrained red correction accent"
+    },
+    "peace_security": {
+      "anchors": [
+        "border-observation inspired civic overlook with anonymous analysts from behind",
+        "blank peninsula-shaped light map in a foreign-policy situation room",
+        "unbranded security briefing table, monitor glow, and anonymous analysts leaning in"
+      ],
+      "location": "foreign-policy situation room or border-observation inspired civic overlook with no flags",
+      "emotion": "strategic tension between peace, deterrence, and security cost",
+      "palette": "rainy midnight blue, diplomatic paper white, restrained amber warning light"
+    },
     "civic_fact_check": {
       "anchors": [
-        "open source packets spread across a worn editor desk",
+        "phone recorder, split verification light, and worn editor desk surface",
         "cropped hand using a red checking pencil beside a phone recorder",
         "out-of-focus verification board in the background with no readable text"
       ],
@@ -426,7 +608,7 @@
       "palette": "cold civic gray with one sharp restrained red reflection",
       "intent": "make the unresolved question feel like a real breaking civic scene tied to the topic, not a symbolic prop shot",
       "anchors": [
-        "anonymous cropped hand gripping a completely blank unmarked public-record folder in the foreground, not a sign or placard",
+        "anonymous cropped hand pushing through a half-open civic doorway in the foreground",
         "blurred civic press line or public office depth squeezed into the background",
         "hard doorway or window shadow cutting across the floor",
         "clean headline lane carved by shadow, not empty dead space"
@@ -439,131 +621,144 @@
       "intent": "show why this issue is surfacing now through fresh public-record signals",
       "anchors": [
         "muted phone alert glow reflected on glass with no readable text",
-        "blank calendar grid turned away",
-        "single opened folder half-lit at frame edge",
+        "unreadable calendar glow reflected in glass",
+        "monitor edge and recorder light half-lit at frame edge",
         "anonymous newsroom silhouette reflected in glass",
         "foreground desk lamp edge partially blocking the frame"
       ]
     },
     "evidence": {
       "camera": "slightly angled overhead evidence-table shot with real lens falloff",
-      "location": "document comparison table in a quiet editorial room",
-      "palette": "paper white, matte charcoal, restrained red pencil accent",
-      "intent": "turn the reported claim into a tangible source-checking scene with photographed paper texture",
+      "location": "verification table in a quiet editorial room",
+      "palette": "matte charcoal, cool glass reflection, restrained red pencil accent",
+      "intent": "turn the reported claim into a tangible source-checking scene with motion, light separation, and recorder evidence without making paper the subject",
       "anchors": [
-        "three blank source cards",
-        "separated document stacks",
-        "cropped anonymous hand moving a blank folder at the edge"
+        "three light-separated verification zones",
+        "phone recorder and red pencil close to the lens",
+        "cropped anonymous hand moving one object at the edge"
       ]
     },
     "criteria": {
       "camera": "slightly angled close overhead shot with shallow depth of field, not a flat diagram",
       "location": "worn editor desk in an investigative editing room, never a hallway",
-      "palette": "bright paper white, black tabletop, restrained cyan verification accent",
+      "palette": "bright table light, black tabletop, restrained cyan verification accent",
       "intent": "show the difference between headline heat and verifiable criteria through a real fact-check workspace",
       "anchors": [
         "red pencil beside a phone recorder",
-        "stacked printed source packets with blank top sheets",
-        "cropped anonymous hand sliding one folder into a separate pile",
+        "three object zones divided by light and shadow",
+        "cropped anonymous hand sliding one marker into a separate zone",
         "softly blurred verification board only in the far background"
       ]
     },
     "responsibility": {
-      "camera": "low telephoto shot toward a vacant witness chair and microphone row under hard overhead light",
-      "location": "empty public accountability hearing room after hours, no corridor",
-      "palette": "dim institutional green-gray with one warm spotlight",
-      "intent": "show public responsibility through a believable empty civic room after people have left",
+      "camera": "low telephoto shot across an accountability room with anonymous adults reacting, hard light, and one foreground microphone row",
+      "location": "public accountability room or civic meeting space with visible adult reaction, not an empty chair-only symbol",
+      "palette": "hard white accountability light, neutral concrete gray, restrained amber edge",
+      "intent": "show public responsibility through visible body-language consequence, not a polite empty-room symbol",
       "anchors": [
-        "vacant witness chair isolated in a cone of light",
-        "unbranded microphone row looming in foreground",
+        "anonymous adult stepping away from the response chair",
+        "unbranded microphone row looming in foreground under hard white light",
         "long table edge creating a strong diagonal",
-        "anonymous public gallery shadows with no faces"
+        "anonymous public gallery shadows turning toward the tension"
       ]
     },
     "verification": {
       "camera": "close-medium shot through rain-specked or reflected glass with bokeh and a desk lamp cutting across the foreground",
       "location": "issue-specific file review desk, visibly different from courtroom or generic office",
-      "palette": "wet midnight blue with warm desk-lamp paper tones",
+      "palette": "wet midnight blue with warm desk-lamp amber",
       "intent": "show confirmed items separated from unresolved claims in a real investigative night-shift setting",
       "anchors": [
-        "two separated file trays split by a harsh lamp shadow",
-        "blank labels turned away",
-        "cropped hand stopping over the unresolved envelope",
+        "two separated verification zones split by a harsh lamp shadow",
+        "unreadable labels turned away",
+        "cropped hand stopping over the unresolved side",
         "topic-specific public records or civic setting visible only as unreadable context"
       ]
     },
     "cta": {
       "camera": "warm close-up from editor's desk perspective, low depth of field",
       "location": "investigative video editor desk prepared for viewer comments, not a hearing room",
-      "palette": "warm amber desk lamp, paper cream surface, subtle yellow comment-card accent",
+      "palette": "warm amber desk lamp, monitor black, subtle yellow comment accent",
       "intent": "invite civic discussion through a real editor desk prepared for viewer replies",
       "anchors": [
-        "blank comment cards",
+        "three blurred comment heat zones",
         "timeline markers with no text",
-        "pen beside a blank reply card"
+        "pen beside a glowing edit timeline"
       ]
     }
   },
   "role_reality_beats": {
-    "hook": "a documentary camera catches the tense edge of a topic-specific civic scene, with public-space depth and an issue folder crossing the foreground",
+    "hook": "a documentary camera catches the tense edge of a topic-specific civic scene, with public-space depth and an anonymous body or doorway movement crossing the foreground",
     "why_now": "a late-night newsroom monitoring desk shows a fresh public-record signal through glass, with anonymous staff only as reflections or silhouettes",
-    "evidence": "an investigative editor sorts blank source packets and evidence envelopes on a worn table under a real desk lamp",
-    "criteria": "a fact-check editor reviews paper source packets on a worn desk, with a cropped hand, red pencil, phone recorder, and only a softly blurred board in the background",
-    "responsibility": "an empty public accountability hearing room remains lit after hours, with unbranded microphones and a vacant witness chair",
-    "verification": "a rain-reflected review desk separates confirmed files from unresolved envelopes while the topic-specific public setting blurs through the window",
-    "cta": "a warm video editor desk has blank viewer reply cards, a pen, a lamp, and subtle editing-room clutter ready for comments"
+    "evidence": "an investigative editor separates verification zones on a worn table under a real desk lamp while a phone recorder runs",
+    "criteria": "a fact-check editor compares evidence zones on a worn desk, with a cropped hand, red pencil, phone recorder, and only a softly blurred board in the background",
+    "responsibility": "a public accountability room shows anonymous adults reacting as someone steps away from the response area, with unbranded microphones and hard light",
+    "verification": "a rain-reflected review desk separates confirmed and unresolved sides while the topic-specific public setting blurs through the window",
+    "cta": "a warm video editor desk shows a glowing timeline, blurred comment heat zones, a pen, a lamp, and subtle editing-room clutter ready for comments"
   },
   "role_intensity_beats": {
-    "hook": "thumbnail drama: an issue folder is gripped close to the lens while civic space, press cameras, and doorway shadow compress behind it",
-    "why_now": "first-second tension: glass reflections, monitor glare, a half-lit folder, and an anonymous silhouette make the fresh public-record signal feel urgent",
-    "evidence": "foreground tension: a cropped hand interrupts the source packets mid-sort, with a red pencil and recorder close enough to feel tactile",
-    "criteria": "foreground tension: a hand slides a blank packet into a separate pile, forcing the viewer to notice the divide between heat and proof",
-    "responsibility": "foreground tension: microphones loom large while the empty witness chair sits under a hard overhead cone of light",
-    "verification": "foreground tension: rain glass, a desk lamp shadow, and separated envelopes make the confirmed-versus-unresolved split visible",
-    "cta": "foreground tension: a pen hovers over blank viewer reply cards beside a glowing edit timeline, inviting a response without feeling staged"
+    "hook": "thumbnail drama: a doorway movement cuts close to the lens while civic space, press cameras, and hard shadow compress behind it",
+    "why_now": "thumbnail drama and first-second tension: glass reflections, monitor glare, and an anonymous silhouette make the fresh public-record signal feel urgent",
+    "evidence": "foreground tension: a cropped hand interrupts the verification split, with a red pencil and recorder close enough to feel tactile",
+    "criteria": "foreground tension: a hand slides one marker into a separate zone, forcing the viewer to notice the divide between heat and proof",
+    "responsibility": "foreground tension: microphones loom large while an anonymous adult steps back from the response area under a hard overhead cone of light",
+    "verification": "foreground tension: rain glass, a desk lamp shadow, and separated sightlines make the confirmed-versus-unresolved split visible",
+    "cta": "foreground tension: a pen hovers beside a glowing edit timeline and divided comment heat zones, inviting a response without feeling staged"
   },
   "role_repeat_variants": {
     "evidence": [
       {
         "location_suffix": "second evidence beat at a school-administration archive counter, not another classroom desk",
-        "camera_suffix": "side-angle shot across a frosted glass counter with a cropped hand receiving a sealed blank packet",
-        "palette_suffix": "cool fluorescent green-gray with one warm paper highlight",
+        "camera_suffix": "side-angle shot across a frosted glass counter with a cropped hand stopping one unresolved item",
+        "palette_suffix": "bright archive white, pale teal glass, warm amber counter edge, no green room dominance",
         "anchors": [
           "frosted school-administration archive counter",
-          "sealed blank packet passed by a cropped anonymous hand",
+          "cropped anonymous hand pausing one unresolved item",
           "unbranded stamp pad and phone recorder at the edge of frame"
         ]
       },
       {
         "location_suffix": "third evidence beat outside a rainy school entrance at night, not another document table",
         "camera_suffix": "long lens from behind anonymous parent silhouettes with umbrellas, foreground rain on glass",
-        "palette_suffix": "wet asphalt blue, sodium school-window glow, muted paper beige",
+        "palette_suffix": "wet asphalt blue, sodium school-window glow, muted concrete beige",
         "anchors": [
           "rainy anonymous school entrance with no sign",
           "two parent silhouettes seen from behind with umbrellas",
-          "blank folder protected under a coat at the lower edge of frame"
+          "coat edge and umbrella handle cutting across the lower frame"
         ]
       }
     ],
     "responsibility": [
       {
-        "location_suffix": "second responsibility beat in an education office corridor with closed doors, not another hearing room",
-        "camera_suffix": "deep corridor shot with a single empty chair, contract folders in the foreground, and hard fluorescent ceiling light",
-        "palette_suffix": "institutional green-gray, cold fluorescent white, muted folder brown",
+        "concrete_scene": "bright civic office corridor under fluorescent white and pale blue monitor spill, an anonymous adult walks out while two adults turn back toward the room, a door frame cuts a hard shadow across the floor, no signs and no logos",
+        "location_suffix": "second responsibility beat in a bright civic office corridor with people moving, not another hearing room",
+        "camera_suffix": "deep corridor shot with doorway framing, anonymous adults in motion, and a strong pale blue monitor glow from the side room",
+        "palette_suffix": "cold fluorescent white, pale blue monitor spill, muted concrete beige, no green room dominance",
         "anchors": [
-          "closed education office corridor doors with no signage",
-          "single empty chair pushed away from a small table",
-          "blank contract folders stacked in the foreground"
+          "anonymous adult walking out of a civic office doorway",
+          "two adults turning back toward the accountability room",
+          "door-frame shadow cutting across a bright corridor floor"
+        ],
+        "action_suffix": "an adult exits while two others turn back toward the unresolved question"
+      },
+      {
+        "concrete_scene": "rainy public building steps at night with anonymous press silhouettes behind a rope line, one adult leaving through a lit doorway, umbrella edge crossing the foreground, wet stone reflecting camera flash, no signs and no logos",
+        "location_suffix": "third responsibility beat outside on rainy public building steps, not another corridor or meeting room",
+        "camera_suffix": "low exterior long-lens shot through umbrella foreground and camera-flash reflection",
+        "palette_suffix": "wet blue-gray exterior, camera-flash white, restrained red floor reflection, no green room dominance",
+        "anchors": [
+          "anonymous press silhouettes behind a rope line",
+          "one adult leaving through a lit public doorway",
+          "umbrella edge and wet stone reflection in the foreground"
         ]
       }
     ],
     "cta": [
       {
         "location_suffix": "second CTA beat looking from a video editing desk toward an open classroom doorway, not another warm monitor close-up",
-        "camera_suffix": "over-the-shoulder editor view with a blank comment card in hand and a distant classroom doorway",
+        "camera_suffix": "over-the-shoulder editor view with a glowing timeline and divided comment heat zones beside a distant classroom doorway",
         "palette_suffix": "warm desk amber against cool classroom blue",
         "anchors": [
-          "blank comment card held near the lens",
+          "comment heat zones reflected on the editor monitor",
           "video editing keyboard and timeline glow with no readable UI",
           "open classroom doorway blurred in the distance"
         ]
@@ -573,7 +768,7 @@
       {
         "location_suffix": "second verification beat in a different public archive counter, not another rainy desk",
         "camera_suffix": "side-angle shot across a glass service counter with a cropped stamp pad and a single sealed envelope",
-        "palette_suffix": "cool fluorescent archive green with a single amber paper edge",
+        "palette_suffix": "pale archive white, cool teal glass, single amber counter edge, no green room dominance",
         "anchors": [
           "glass public archive counter",
           "cropped anonymous clerk hand behind frosted glass",
@@ -632,8 +827,25 @@
       "\uc815\uad8c\uc548\uc815\ub860",
       "\uacbd\uc81c\ub860",
       "\ud504\ub808\uc784",
-      "\uc6b0\ud30c \ud504\ub808\uc784",
-      "TOP5"
+      "\uc6b0\ud30c \ud504\ub808\uc784"
+    ],
+    "presidential_legacy": [
+      "역대 대통령",
+      "대통령 순위",
+      "대통령 TOP",
+      "TOP5",
+      "TOP3",
+      "TOP2",
+      "노무현",
+      "이재명",
+      "김대중",
+      "박정희",
+      "문재인",
+      "취임 1년",
+      "참여정부",
+      "민주주의",
+      "권위주의",
+      "대통령 기록"
     ],
     "memory_consumer_backlash": [
       "5\u00b718",
@@ -676,6 +888,11 @@
     "national_assembly": [
       "국회",
       "국회의장",
+      "국정조사",
+      "청문회",
+      "요구서",
+      "원 구성",
+      "상임위",
       "선호투표"
     ],
     "education": [
@@ -695,6 +912,27 @@
       "노동",
       "인권",
       "성소수자"
+    ],
+    "media_accountability": [
+      "팩트 조작",
+      "언론",
+      "가짜뉴스",
+      "보도",
+      "정정보도",
+      "언론개혁",
+      "팩트체크"
+    ],
+    "peace_security": [
+      "평화공존",
+      "평화 공존",
+      "남북관계",
+      "통일",
+      "핵무장",
+      "핵잠",
+      "우라늄",
+      "비확산",
+      "군사 긴장",
+      "안보"
     ],
     "party_strategy": [
       "\uc774\uc7ac\uba85",
@@ -775,18 +1013,18 @@
     "hook": [
       "wet public building steps or memorial plaza edge",
       "press camera silhouettes behind a rope line",
-      "one completely blank unmarked folder crossing the foreground diagonally, not a sign or placard",
+      "umbrella edge or anonymous shoulder crossing the foreground diagonally",
       "rain reflection on stone floor"
     ],
     "evidence": [
-      "single overhead comparison table with three blank source packets",
+      "single overhead verification table with three light-separated zones",
       "small audio recorder beside a red pencil",
-      "cropped hand separating one folder from another",
-      "paper fibers and worn table scratches visible"
+      "cropped hand separating one object from another",
+      "worn table scratches and glass reflections visible"
     ],
     "cta": [
-      "warm video editing desk with blank comment cards",
-      "pen hovering over a completely blank reply card",
+      "warm video editing desk with divided comment heat zones",
+      "pen hovering beside a glowing edit timeline",
       "soft timeline glow with no visible letters or numbers",
       "coffee cup and lamp creating a warm foreground frame"
     ],
@@ -803,16 +1041,16 @@
       "dark public gallery silhouettes without faces"
     ],
     "criteria": [
-      "two clearly separated blank trays on a bright table",
-      "cropped hand moving one paper packet between sides",
+      "two clearly separated light zones on a bright table",
+      "cropped hand moving one marker between sides",
       "cyan sticky marker with no writing",
       "phone recorder and red pencil placed as scale objects"
     ],
     "verification": [
       "rain-specked window in the foreground",
-      "two separated file trays split by lamp shadow",
-      "blank labels turned away from camera",
-      "unresolved envelope stopped by a cropped hand"
+      "two separated verification zones split by lamp shadow",
+      "unreadable labels turned away from camera",
+      "unresolved side stopped by a cropped hand"
     ]
   },
   "safety_constraints": [
@@ -838,27 +1076,27 @@
       "no graphic ui"
     ],
     "replacement_safety_constraints": [
-      "only the exact approved short Korean diegetic text may be readable",
+      "only the exact approved short Korean native caption may be readable",
       "no extra words, outlet names, logos, seals, dates, document numbers, UI screenshots, random glyphs, or fake handwriting"
     ],
     "role_surfaces": {
-      "hook": "a large foreground Korean headline card filling the lower third of the frame, held close to the lens, sharp and readable",
-      "why_now": "a phone lock-screen style alert card or editor cue card inside the room, not a fake app screenshot",
-      "evidence": "a stamped-looking but fully fictional source card on the desk, photographed at an angle",
-      "criteria": "three physical sorting cards on the table, with only one card facing the camera",
-      "responsibility": "a plain meeting-room placard or response memo on the table",
-      "verification": "a fact-check sticky note stopped by a cropped hand",
-      "cta": "a viewer comment-choice card held by the fictional AiNo editor",
-      "default": "one physical paper card inside the scene"
+      "hook": "a scene-integrated lower-third caption strip formed by light on glass or a shallow acrylic news caption rail, not a handheld paper card",
+      "why_now": "a small in-scene newsroom monitor caption rail or glass reflection caption, not a phone screenshot or paper cue card",
+      "evidence": "one projected caption strip on an evidence-room wall or monitor bezel, not a source card or desk paper",
+      "criteria": "a clean caption band integrated into the table edge or glass divider, not sorting cards",
+      "responsibility": "a caption strip on a meeting-room glass wall or table-edge display, not a placard or memo",
+      "verification": "a reflection-style fact-check caption on rain glass or monitor edge, not a sticky note",
+      "cta": "a short editor-room caption panel near the video timeline, not a comment card",
+      "default": "one scene-integrated caption strip inside the photographed environment, not a paper card"
     },
-    "directive_template": "Controlled in-image text: include exactly one readable diegetic text surface, {surface}, with the exact Korean text \"{text}\". This approved text prop is a primary foreground subject, not optional background detail. The text must look physically present in the photographed scene, printed or handwritten on a real prop, not added as a flat app overlay. Keep the approved text sharp, high-contrast, short, centered on the prop, and not blurred by depth of field. Do not invent any other readable text, numbers, logos, seals, screenshots, labels, or random glyphs."
+    "directive_template": "Controlled in-image text: include exactly one readable native caption element, {surface}, with the exact Korean text \"{text}\". The real situation, anonymous people, location depth, and active gesture must remain the primary subject; the caption is secondary but legible. Do not put the text on a handheld paper, placard, protest sign, memo, document, sticky note, poster, or comment card. Do not render a fake app screenshot or broadcast UI. Keep the approved text sharp, high-contrast, short, centered in the caption element, and physically integrated with light, glass, monitor bezel, table edge, or architectural surface. Do not invent any other readable text, numbers, logos, seals, screenshots, labels, or random glyphs."
   },
   "role_palette_map": {
     "hook": "cold gray/red",
     "why_now": "amber/blue",
     "evidence": "paper/charcoal/red",
     "criteria": "bright white/cyan",
-    "responsibility": "green-gray/warm spotlight",
+    "responsibility": "hard white/neutral gray/amber",
     "verification": "wet blue/warm paper",
     "cta": "warm cream/yellow"
   },
@@ -954,7 +1192,62 @@
     },
     "cinematic": {
       "topic_relevance_fallback": "civic verification",
-      "directed_primary_template": "Create this concrete scene first: {concrete_scene}. Mandatory text-prop foreground: {diegetic_text_directive}. Apply this treatment: {visual_treatment}. Capture this action beat clearly: {action_beat}. Use only a few supporting anchors from this list when they fit the concrete scene: {visual_anchors}. Visually imply these topic terms without writing any other text: {topic_relevance_terms}. Original context to reinterpret, not copy literally: {source_visual}",
+      "directed_primary_template": "Create this concrete scene first: {concrete_scene}. Scene-integrated caption element: {diegetic_text_directive}. Apply this treatment: {visual_treatment}. Capture this action beat clearly: {action_beat}. Use only a few supporting anchors from this list when they fit the concrete scene: {visual_anchors}. Visually imply these topic terms without writing any other text beyond the approved native caption: {topic_relevance_terms}. Original context to reinterpret, not copy literally: {source_visual}",
+      "subtitle_prompt_directive": "No readable in-image text. Keep all papers, screens, signs, labels, UI, and cards blank, blurred, turned away, or cropped. Korean captions are rendered later by the video subtitle layer.",
+      "subtitle_forbidden_anchor_terms": [
+        "paper card",
+        "placard",
+        "headline card",
+        "source card",
+        "viewer-choice card",
+        "comment-choice card",
+        "blank card",
+        "blank cards",
+        "blank board",
+        "white board",
+        "paper panel",
+        "large blank",
+        "slogan",
+        "sign",
+        "label",
+        "text"
+      ],
+      "subtitle_primary_template": "Create this concrete scene first: {concrete_scene}. Make it a believable public-interest moment with visible action, anonymous adults, real location depth, and a clean lower-third area for later subtitles. Apply this treatment: {visual_treatment}. Capture this action beat clearly: {action_beat}. Use supporting anchors only when they fit: {visual_anchors}. Do not place any readable text inside the generated image.",
+      "subtitle_lines": [
+        "Use case: photorealistic-natural",
+        "Asset type: vertical TikTok background plate for a Korean political commentary video",
+        "Render style: cinematic subtitle plate, not card-news, not a text-on-paper image",
+        "Primary request: {primary_request}",
+        "Concrete scene directive: {concrete_scene}",
+        "Scene-specific priority: the frame must look like a captured real situation tied to the issue, not a symbolic office still-life",
+        "Visual treatment: {visual_treatment}",
+        "Action beat: {action_beat}",
+        "Visual intent: {visual_intent}",
+        "Real-world moment: {reality_beat}",
+        "Foreground tension: {intensity_beat}",
+        "Supporting visual anchors: {visual_anchors}",
+        "Issue type: {issue_type}",
+        "Card role: {role}",
+        "Location: {location}",
+        "Camera: {camera}",
+        "Emotion: {emotion}",
+        "Palette: {palette}",
+        "Documentary realism principles: {realism_principles}",
+        "Drama principles: {drama_principles}",
+        "Topic relevance terms to imply visually without writing them: {topic_relevance_terms}",
+        "Composition/framing: vertical 9:16 portrait, off-center subject, strong foreground object, visible action, clean lower third for subtitles, no empty dead background",
+        "Subtitle lane: reserve the lower third as darker or less busy negative space, but still keep it part of the real photographed scene",
+        "Text rule: {diegetic_text_directive}",
+        "People rule: anonymous non-identifiable adults only as backs, silhouettes, cropped hands, or fictional AiNo editor if requested; no real politician likeness",
+        "Lighting/mood: believable practical lighting, serious investigative tone, filmic depth of field, real surface imperfections",
+        "Palette discipline: follow the Palette line exactly. Across the full set, {palette_discipline}.",
+        "Palette override rule: if the Palette line contains repeat-variant, the repeat-variant palette is mandatory and must visibly override the base role palette; do not let repeated roles collapse into the same dark green or navy room tone.",
+        "Constraints: {safety_constraints}",
+        "Scene uniqueness: this scene must differ by location, camera distance, dominant object, palette, and action beat. Do not reuse the same corridor, desk angle, file stack, or wall composition.",
+        "Repetition guard: {repetition_guard}",
+        "Role separation: {role_separation}",
+        "Avoid: text card, placard, poster, propaganda image, real-person caricature, fake screenshot, fake broadcast lower third, watermark, party logo, extra text, distorted hands, generic stock photo"
+      ],
       "lines": [
         "Use case: photorealistic-natural",
         "Asset type: vertical TikTok background plate for a public-interest fact-check video",
@@ -980,18 +1273,19 @@
         "Palette: {palette}",
         "Documentary realism principles: {realism_principles}",
         "Drama principles: {drama_principles}",
-        "Topic relevance terms to imply visually, except for the controlled diegetic text prop: {topic_relevance_terms}",
+        "Topic relevance terms to imply visually, except for the controlled native caption element: {topic_relevance_terms}",
         "Scene/backdrop: realistic South Korean civic, school, newsroom, cafe, public-office, or street environment that matches the Concrete scene directive, editorial documentary mood, no staged stock-photo feeling, no abstract symbolic-only composition",
         "Style/medium: photorealistic cinematic film still or photorealistic editorial satire when the treatment requires it, 35mm documentary lens, natural imperfect texture, subtle film grain, real photographed surfaces",
-        "Composition/framing: vertical 9:16 portrait composition, subject placed off-center, one dominant foreground object, strong overlay lanes in upper and lower thirds without empty dead background, plus one controlled diegetic text prop when requested",
+        "Composition/framing: vertical 9:16 portrait composition, subject placed off-center, one dominant foreground object, strong overlay lanes in upper and lower thirds without empty dead background, plus one secondary scene-integrated native caption element when requested",
         "{diegetic_text_directive}",
-        "Text legibility priority: the approved Korean text prop must be readable in the generated image; if there is a foreground card or memo, it must carry the approved text instead of staying blank.",
+        "Text legibility priority: the approved Korean native caption must be readable in the generated image, but it must not become a handheld paper card, memo, placard, sticky note, poster, or protest sign.",
         "Character/satire rule: if a character appears, make them fictional, anonymous, expressive, and non-identifiable; satire should come from staging and props, not from real faces or party symbols",
         "Liveliness rule: do not output an empty classroom, empty office, passive desk still-life, or generic background plate. The image must show a visible event or active human gesture.",
         "Lighting/mood: believable practical lighting, serious investigative tone, filmic depth of field, with brightness and color temperature matching the palette instead of defaulting to all-dark navy/black",
         "Palette discipline: follow the Palette line exactly. Across the full card set, {palette_discipline}.",
+        "Palette override rule: if the Palette line contains repeat-variant, the repeat-variant palette is mandatory and must visibly override the base role palette; do not let repeated roles collapse into the same dark green or navy room tone.",
         "Constraints: {safety_constraints}",
-        "If documents, posters, screens, or building signs appear: keep every surface blank, turned away, cropped out, or too blurred to read except the single approved diegetic text prop.",
+        "If documents, posters, screens, or building signs appear: keep every surface blank, turned away, cropped out, or too blurred to read except the single approved native caption element.",
         "If a national flag appears: it must be a small physical object in the scene, not a party/campaign symbol and not a propaganda poster.",
         "Scene uniqueness: this scene must be visually distinct from the other cards by location, camera distance, palette, and dominant object. Do not reuse the same corridor, desk angle, file stack, or wall composition across cards.",
         "Repetition guard: {repetition_guard}",
@@ -1005,8 +1299,8 @@
       "style": "photorealistic cinematic editorial satire, character-driven public-interest scene reconstruction",
       "composition": "vertical 9:16 portrait, strong overlay lanes for Korean overlay, visible action beat, one expressive focal character or prop",
       "lighting": "moody practical light, serious investigative tone with satirical edge when requested",
-      "constraints": "no real politician likeness, no party logos, only the approved short diegetic Korean prop text may be readable, no watermark, no identifiable children, no horror styling, no glowing eyes, no fantasy or non-human figures",
-      "negative": "propaganda poster, real-person caricature, fake screenshot, unapproved overlaid text, distorted hands, celebrity face, horror lighting, glowing eyes, fantasy figure"
+      "constraints": "no real politician likeness, no party logos, only the approved short native Korean caption element may be readable, no watermark, no identifiable children, no horror styling, no glowing eyes, no fantasy or non-human figures",
+      "negative": "propaganda poster, real-person caricature, fake screenshot, unapproved overlaid text, large blank white board, blank paper panel, people holding blank cards toward camera, placard wall, distorted hands, celebrity face, horror lighting, glowing eyes, fantasy figure"
     }
   },
   "quality_markers": {
@@ -1018,19 +1312,19 @@
       "no real politician likeness"
     ],
     "cinematic_quality_all": [
-      "35mm documentary lens"
+      "filmic depth of field"
     ],
     "documentary_realism_all": [
       "real-world moment",
       "plausible real-world moment"
     ],
     "foreground_tension_all": [
-      "Foreground tension",
-      "one dominant foreground object"
+      "foreground tension",
+      "dominant foreground object"
     ],
     "thumbnail_drama_all": [
-      "Thumbnail drama",
-      "first-second"
+      "thumbnail drama",
+      "first visual read"
     ],
     "metaphor_issue_specific_any": [
       "concrete issue-specific objects"
@@ -1056,10 +1350,73 @@
     "documentary_realism_fail_score": 65,
     "foreground_tension_fail_score": 60,
     "thumbnail_drama_fail_score": 60,
-    "diegetic_text_prompt_fail_score": 60
+    "diegetic_text_prompt_fail_score": 60,
+    "paper_prop_regression_fail_score": 45
   },
-  "repetition_guard": "do not make every scene a dark desk with files. Only use a dominant file stack when it is explicitly listed as a required anchor; otherwise choose the role-specific dominant object such as newsroom signal, comparison cards, empty witness chair, rain glass, or comment cards.",
-  "role_separation": "why_now must look like a newsroom/current-signal desk, CTA must look like an editor desk with comment cards, not a corridor or hearing room. Criteria must look like a comparison table, not a hallway. Responsibility must look like an accountability room or issue-specific public meeting space, not an evidence desk.",
+  "paper_prop_regression_terms": [
+    "mandatory text-prop foreground",
+    "large foreground korean headline card",
+    "approved text prop is a primary foreground subject",
+    "foreground card or memo",
+    "one physical paper card",
+    "viewer comment-choice card held",
+    "stamped-looking but fully fictional source card",
+    "plain meeting-room placard or response memo",
+    "fact-check sticky note stopped",
+    "phone lock-screen style alert card",
+    "three physical sorting cards",
+    "no extra readable text except the approved diegetic text prop",
+    "folder crossing the lens",
+    "source packet in foreground",
+    "three blank comment-choice cards",
+    "blank comment card",
+    "three physical comment-choice cards",
+    "approved diegetic text prop"
+  ],
+  "source_visual_replacements": {
+    "no extra readable text except the approved diegetic text prop": "only the approved native caption element may be readable",
+    "folder crossing the lens": "anonymous shoulder crossing the lens",
+    "a folder crossing the lens": "an anonymous shoulder crossing the lens",
+    "source packet in foreground": "verification object in foreground",
+    "source packet": "verification object",
+    "source packets": "verification zones",
+    "separated source folders": "separated verification zones",
+    "separated files": "separated civic signals",
+    "public records counter with cropped hands comparing two folders": "public records counter with cropped hands separating two verification zones",
+    "three evidence packets physically separated": "three verification zones separated",
+    "three separated evidence packets": "three separated verification zones",
+    "blank documents physically separated": "verification zones separated",
+    "sealed blank folder in the foreground": "umbrella edge in the foreground",
+    "three blank comment-choice cards": "three divided comment heat zones",
+    "blank comment card": "glowing comment heat zone",
+    "three physical comment-choice cards": "three divided comment heat zones",
+    "three blank option cards": "three divided reaction zones",
+    "viewer-choice cards": "divided comment heat zones",
+    "viewer-choice card": "comment heat zone",
+    "blank folders": "unreadable situation markers",
+    "blank debate-stage monitor": "debate-stage monitor glow",
+    "campaign-frame cards turned away from camera": "split reaction zones and body-language tension",
+    "blank cue cards": "producer control gestures",
+    "blank campaign narrative cards": "monitor thumbnails and divided reaction zones",
+    "blank narrative card": "monitor thumbnail",
+    "blank podium placards": "monitor-lit accountability doorway",
+    "blank cards labeled only by color": "divided comment heat zones",
+    "blank slogan cards": "anonymous reaction silhouettes",
+    "blank board": "monitor glow",
+    "blank card wall": "reaction-zone wall",
+    "large blank white board": "monitor glow wall",
+    "blank paper panel": "glass reflection panel",
+    "reform folders": "reform chart glow",
+    "amendment folders": "amendment route markers",
+    "planning folders": "planning screen glow",
+    "closed investigation folders": "closed investigation doorway",
+    "sealed summons folder": "summons-route marker",
+    "timeline file": "timeline marker",
+    "paper texture": "surface texture",
+    "papers and microphones": "microphones and room tension"
+  },
+  "repetition_guard": "do not make every scene a dark desk, file pile, paper card, placard, sticky note, document close-up, or comment-card setup. At most two scenes in a 9-card set may use documents as the dominant foreground. Prefer public rooms, corridors, press lines, monitor glow, anonymous reactions, civic space depth, and real situation changes.",
+  "role_separation": "why_now must look like a newsroom/current-signal moment, CTA must look like an editor timeline and divided reaction wall, not a paper-card desk or repeated corridor. Criteria must look like a comparison decision scene, not a hallway. Responsibility must look like an accountability room or issue-specific public meeting space, not an evidence desk.",
   "quality_minimums": {
     "topic_relevance": 80,
     "scene_relevance": 78,
@@ -1074,6 +1431,7 @@
     "documentary_realism": 90,
     "foreground_tension": 90,
     "thumbnail_drama": 90,
-    "diegetic_text_prompt": 90
+    "diegetic_text_prompt": 90,
+    "paper_prop_regression": 90
   }
 }

@@ -34,32 +34,36 @@ def _valid_upload_manifest(mp4: Path, run_id: str = "leftaino_20260514_181016") 
     scenes = [
         {
             "scene_id": index,
-            "body": f"Readable Korean-style body placeholder {index}",
-            "on_screen_text": f"Readable card text {index}",
+            "body": f"검증 가능한 본문 문장입니다 {index}. 근거와 책임을 함께 봅니다.",
+            "on_screen_text": f"검증 카드 문구 {index}",
         }
         for index in range(1, 10)
     ]
     return {
         "run_id": run_id,
         "status": "publish_ready",
-        "planned_publish_at_local": "2026-05-15T08:10:00+09:00",
+        "planned_publish_at_local": "2026-06-15T08:10:00+09:00",
         "schedule_status": "planned_not_scheduled",
         "format_plan": {"format_id": "growth_short"},
         "script": {
-            "title": "AiNo verification",
-            "post_title": "Readable post title",
-            "caption": "Readable caption #news",
-            "post_body": "Readable post body",
-            "pinned_comment": "Readable pinned comment",
-            "narration": "Readable narration for a generated short.",
-            "hashtags": ["news", "politics"],
+            "title": "올바른 AiNo 검증",
+            "post_title": "검증 가능한 게시글 제목",
+            "caption": "검증 가능한 설명입니다 #뉴스",
+            "post_body": "검증 가능한 게시글 본문입니다.",
+            "pinned_comment": "댓글로 기준을 남겨주세요.",
+            "narration": "검증 가능한 내레이션입니다.",
+            "hashtags": ["뉴스", "정치"],
             "scenes": scenes,
         },
         "gate": {"passed": True},
         "readability": {"passed": True},
         "review": {"passed": True},
         "quality": {"passed": True, "publish_ready_score": 92},
-        "audio_asset": {"provider": "elevenlabs", "status": "generated"},
+        "audio_asset": {
+            "provider": "elevenlabs",
+            "status": "generated",
+            "notes": ["elevenlabs_history_final_deleted=0;elevenlabs_history_final_remaining_first_page=0"],
+        },
         "mobile_visual_passed": True,
         "mobile_visual_checks": [
             {"passed": True, "text_render_passed": True, "preview_path": f"scene_{index}.png"}
@@ -73,6 +77,7 @@ def _valid_upload_manifest(mp4: Path, run_id: str = "leftaino_20260514_181016") 
         "angle_brief": {"gate_passed": True},
         "storyboard_brief": {"gate_passed": True},
         "tts_performance_plan": {"gate_passed": True},
+        "tts_plan": {"provider": "elevenlabs", "actual_provider": "elevenlabs", "enable_logging": False, "publish_candidate": True},
         "artifacts": {
             "mp4": str(mp4),
             "fact_pack": "fact_pack.json",
@@ -82,6 +87,7 @@ def _valid_upload_manifest(mp4: Path, run_id: str = "leftaino_20260514_181016") 
             "angle_brief": "angle_brief.json",
             "storyboard_brief": "storyboard_brief.json",
             "tts_performance_plan": "tts_performance_plan.json",
+            "tts_plan": "tts_plan.json",
         },
     }
 
@@ -128,7 +134,7 @@ def test_image_budget_caps_remaining_daily_paid_images(tmp_path: Path, monkeypat
     run_dir.mkdir()
     used_assets = [
         {"provider": "codex_cli", "status": "generated", "scene_id": index}
-        for index in range(1, 27)
+        for index in range(1, 48)
     ]
     (run_dir / "visual_assets.json").write_text(json.dumps(used_assets), encoding="utf-8")
 
@@ -142,7 +148,7 @@ def test_image_budget_caps_remaining_daily_paid_images(tmp_path: Path, monkeypat
     )
 
     assert decision.allowed_external_generation is True
-    assert decision.daily_real_images_used == 26
+    assert decision.daily_real_images_used == 47
     assert decision.effective_real_image_limit == 1
 
 

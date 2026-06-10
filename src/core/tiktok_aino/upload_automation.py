@@ -48,15 +48,35 @@ VERIFICATION_STOPWORDS = {
 AIGC_DISCLOSURE_TERMS = (
     "생성된 이미지",
     "생성 이미지",
+    "생성형 이미지",
+    "생성형 AI",
+    "AI 음성",
     "AI 생성",
     "AI-generated",
     "generated content",
 )
+FOLLOW_CTA_TERMS = ("팔로우", "구독")
+SERIES_IDENTITY_TERMS = ("다음 편", "이어갑니다", "후속", "계속", "매일", "다음 흐름")
 
 
 def _caption_has_aigc_disclosure(caption: str) -> bool:
     normalized = caption.lower()
     return any(term.lower() in normalized for term in AIGC_DISCLOSURE_TERMS)
+
+
+def _caption_has_follow_cta(caption: str) -> bool:
+    return any(term in caption for term in FOLLOW_CTA_TERMS)
+
+
+def _caption_has_series_identity(caption: str) -> bool:
+    return any(term in caption for term in SERIES_IDENTITY_TERMS)
+
+
+def _caption_upload_cta_status(caption: str) -> dict[str, bool]:
+    return {
+        "caption_follow_cta_present": _caption_has_follow_cta(caption),
+        "caption_series_identity_present": _caption_has_series_identity(caption),
+    }
 
 
 def _verification_needles(job: dict[str, Any]) -> list[str]:
@@ -358,6 +378,22 @@ def build_upload_job(manifest_path: Path) -> dict[str, Any]:
             "upload_safe": upload_safe,
         }
     upload_mp4 = Path(str(upload_safe.get("mp4_path") or mp4)).resolve()
+    caption = _caption_with_aigc_disclosure(str(script.get("caption", "")))
+    caption_cta = _caption_upload_cta_status(caption)
+    if not all(caption_cta.values()):
+        return {
+            "ok": False,
+            "reason": "caption_follow_cta_missing",
+            "manifest_path": str(manifest_path),
+            "run_id": manifest.get("run_id") or manifest_path.parent.name,
+            "status": validation["status"],
+            "raw_manifest_status": manifest.get("status"),
+            "validation": validation,
+            "mp4_path": str(upload_mp4),
+            "source_mp4_path": str(mp4),
+            "upload_safe": upload_safe,
+            "caption_cta": caption_cta,
+        }
     return {
         "ok": True,
         "manifest_path": str(manifest_path),
@@ -370,9 +406,11 @@ def build_upload_job(manifest_path: Path) -> dict[str, Any]:
         "mp4_path": str(upload_mp4),
         "source_mp4_path": str(mp4),
         "upload_safe": upload_safe,
-        "caption": _caption_with_aigc_disclosure(str(script.get("caption", ""))),
+        "caption": caption,
         "post_title": str(script.get("post_title", "")),
         "hashtags": script.get("hashtags", []),
+        "pinned_comment": str(script.get("pinned_comment", "")),
+        "caption_cta": caption_cta,
         "aigc_required": True,
     }
 

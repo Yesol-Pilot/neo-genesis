@@ -2,6 +2,9 @@ import datetime as dt
 import io
 import json
 import os
+import sys
+from pathlib import Path
+from types import SimpleNamespace
 
 from src.core.tiktok_aino import generate_from_schedule, ha_publisher, monitoring, pipeline, schedule_planner, upload_automation
 from src.core.tiktok_aino.pipeline import _preprocess_korean_tts, _scene_card_duration, _trim_letterbox
@@ -398,6 +401,92 @@ def test_hot_topic_script_builds_case_specific_court_brief() -> None:
     assert not any(blocker.startswith("topic_anchor_terms_missing") for blocker in quality.blockers)
 
 
+def test_compound_hot_topic_keeps_primary_prosecution_arc_over_secondary_peace_claim() -> None:
+    style = {"disclosure_policy": "해당 이미지는 생성된 이미지입니다"}
+    title = "이재명 대통령 “검찰 보완수사권은 국회 판단”…언론 책임·남북관계 개선도 강조"
+    topic = pipeline.TopicCandidate(
+        title=title,
+        angle="보완수사권 논쟁을 권한 배분, 견제 장치, 시민 기준으로 재구성한다.",
+        slot="hot discovery",
+        target_duration_sec=75,
+        claims=[
+            _configured_hot_claim("일간투데이", title, "hot_news_01"),
+            _configured_hot_claim("다음뉴스", '이재명 대통령, "남북관계 개선 포기 못해"…대화·평화공존 거듭 강조', "hot_news_02"),
+            _configured_hot_claim("머니투데이", '이재명 대통령 "남북관계 더 이상 나빠질 수 없는 상태"', "hot_news_03"),
+            _configured_hot_claim("연합뉴스", "7월에 부동산 세제 정비…검찰 보완수사권은 국회서 판단", "hot_news_04"),
+        ],
+        source_ids=["hot_news_01", "hot_news_02", "hot_news_03", "hot_news_04"],
+    )
+    sources = {
+        "hot_news_01": pipeline.Source("hot_news_01", f"일간투데이: {title}", "https://example.com/1", "test"),
+        "hot_news_02": pipeline.Source(
+            "hot_news_02",
+            '다음뉴스: 이재명 대통령, "남북관계 개선 포기 못해"…대화·평화공존 거듭 강조',
+            "https://example.com/2",
+            "test",
+        ),
+        "hot_news_03": pipeline.Source(
+            "hot_news_03",
+            '머니투데이: 이재명 대통령 "남북관계 더 이상 나빠질 수 없는 상태"',
+            "https://example.com/3",
+            "test",
+        ),
+        "hot_news_04": pipeline.Source(
+            "hot_news_04",
+            "연합뉴스: 7월에 부동산 세제 정비…검찰 보완수사권은 국회서 판단",
+            "https://example.com/4",
+            "test",
+        ),
+    }
+    topic_discovery = {"mode": "rolling_schedule_plan"}
+    format_plan = pipeline.FORMAT_SPECS["evidence_briefing_75"]
+    editorial_plan = pipeline.build_editorial_plan(topic, sources, format_plan, topic_discovery)
+    fact_pack = pipeline.build_fact_pack(topic, sources, format_plan, topic_discovery)
+    source_card = pipeline.build_source_card(topic, sources, fact_pack)
+    reference_fit = pipeline.build_reference_fit(topic, format_plan, fact_pack, source_card)
+    angle_brief = pipeline.build_angle_brief(topic, fact_pack, editorial_plan, format_plan, topic_discovery)
+    enriched_discovery = {
+        **topic_discovery,
+        "fact_pack": pipeline.asdict(fact_pack),
+        "source_card": pipeline.asdict(source_card),
+        "reference_fit": pipeline.asdict(reference_fit),
+        "angle_brief": pipeline.asdict(angle_brief),
+    }
+
+    script = pipeline.apply_reference_content_design(
+        pipeline.apply_content_format(
+            pipeline.generate_script(topic, style, enriched_discovery),
+            format_plan,
+            topic=topic,
+            sources=sources,
+        ),
+        topic,
+        sources,
+        format_plan,
+        reference_fit,
+        source_card,
+        fact_pack,
+        angle_brief,
+    )
+    scene_text = " ".join([scene.title + " " + scene.on_screen_text + " " + scene.body for scene in script.scenes])
+    quality = pipeline._score_script_quality(
+        script,
+        pipeline.check_policy(topic, script, sources, format_plan),
+        pipeline.check_readability(script, format_plan),
+        topic,
+        sources,
+        format_plan,
+    )
+
+    assert "보완수사권" in script.post_title
+    assert "보완수사권" in scene_text
+    assert "검찰" in scene_text
+    assert "국회" in scene_text
+    assert "평화공존" not in scene_text
+    assert "안보 훅" not in scene_text
+    assert not any(blocker.startswith("topic_anchor_terms_missing") for blocker in quality.blockers)
+
+
 def test_hot_topic_script_uses_provocative_but_safe_debate_prompt() -> None:
     style = {"disclosure_policy": "해당 이미지는 생성된 이미지입니다"}
     title = "이재명 대통령 \"일베 등 혐오 조장 사이트 폐쇄 및 징벌 공론화 필요\""
@@ -596,6 +685,44 @@ def test_recent_generated_titles_scan_all_tiktok_output_manifests(tmp_path, monk
     assert "중복 방지용 제목" in titles
 
 
+def test_recent_queue_titles_use_active_ha_jobs_only(tmp_path, monkeypatch) -> None:
+    state_dir = tmp_path / "state"
+    state_dir.mkdir()
+    (state_dir / "jobs.json").write_text(
+        json.dumps(
+            {
+                "jobs": {
+                    "active": {
+                        "status": "scheduled",
+                        "topic": "보완수사권 논쟁, 검찰 권한은 어디까지인가?",
+                        "post_title": "보완수사권, 왜 갈리나?",
+                    },
+                    "expired": {
+                        "status": "expired",
+                        "topic": "이미 지난 낮은 품질 주제",
+                    },
+                }
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        schedule_planner,
+        "_load_ha_strategy",
+        lambda: {
+            "local_state_dir": str(state_dir),
+            "duplicate_guard": {"active_statuses": ["scheduled", "generated"]},
+        },
+    )
+
+    titles = schedule_planner._recent_queue_titles()
+
+    assert "보완수사권 논쟁, 검찰 권한은 어디까지인가?" in titles
+    assert "보완수사권, 왜 갈리나?" in titles
+    assert "이미 지난 낮은 품질 주제" not in titles
+
+
 def test_duplicate_topic_blocks_configured_issue_anchors() -> None:
     assert schedule_planner._is_duplicate_topic(
         "국민의힘 5·18 반대론, 선거용인가 민주주의 기준인가",
@@ -605,6 +732,78 @@ def test_duplicate_topic_blocks_configured_issue_anchors() -> None:
         "김건희 관저 의혹, 21그램과 예산 전용 어디까지 왔나",
         ["윤석열 계엄 정당화 메시지, 특검은 왜 다시 불렀나"],
     )
+
+
+def test_schedule_plan_skips_recent_duplicate_after_topic_framing(tmp_path, monkeypatch) -> None:
+    duplicate_raw_title = "이 대통령 “검찰 보완수사권은 국회 판단”…언론 책임도 강조"
+    replacement_title = "김건희 특검 책임 기준, 국회는 무엇을 봐야 하나"
+    discovery = {
+        "candidates": [
+            {
+                "title": duplicate_raw_title,
+                "publisher": "한겨레",
+                "url": "https://news.example/duplicate",
+                "published_at": "2026-06-08T07:00:00+00:00",
+                "query": "보완수사권",
+                "score": 220,
+            },
+            {
+                "title": replacement_title,
+                "publisher": "연합뉴스",
+                "url": "https://news.example/replacement",
+                "published_at": "2026-06-08T08:00:00+00:00",
+                "query": "김건희 특검",
+                "score": 190,
+            },
+        ]
+    }
+
+    def fake_script(topic, *_args, **_kwargs):
+        return pipeline.ScriptPackage(
+            title=topic.title,
+            caption="caption",
+            hashtags=["정치"],
+            post_title=topic.title,
+            post_body="body",
+            pinned_comment="comment",
+            narration="narration",
+            scenes=[pipeline.Scene(1, 8, "Hook", "본문", "visual", "화면")],
+            target_duration_sec=70,
+            sources=["hot_news_plan_01"],
+            disclosure="해당 이미지는 생성된 이미지입니다.",
+            variant_id="test",
+        )
+
+    monkeypatch.setattr(pipeline, "_load_json", lambda _path: {})
+    monkeypatch.setattr(pipeline, "discover_hot_topic", lambda _style: ({}, {}, discovery))
+    monkeypatch.setattr(schedule_planner, "_load_performance_feedback", lambda _path: {"enabled": False})
+    monkeypatch.setattr(
+        schedule_planner,
+        "_recent_queue_titles",
+        lambda: ["보완수사권 논쟁, 검찰 권한은 어디까지인가?"],
+    )
+    monkeypatch.setattr(schedule_planner, "_recent_generated_titles", lambda: [])
+    monkeypatch.setattr(schedule_planner, "_format_sequence_from_feedback", lambda _feedback: ["growth_short"])
+    monkeypatch.setattr(schedule_planner, "_strict_topic_blockers", lambda **_kwargs: [])
+    monkeypatch.setattr(pipeline, "generate_script", fake_script)
+    monkeypatch.setattr(pipeline, "apply_content_format", lambda generated, *_args, **_kwargs: generated)
+    monkeypatch.setattr(
+        pipeline,
+        "select_publish_script",
+        lambda scripts, _topic, _sources, _plan: (
+            scripts[0],
+            pipeline.GateResult(True, 100),
+            pipeline.ReadabilityResult(True, {}, 12, 60),
+            pipeline.PublishQualityResult(True, "test", 92, {}, [], []),
+        ),
+    )
+    monkeypatch.setattr(pipeline, "_publisher_is_trusted", lambda _publisher: True)
+
+    result = schedule_planner.build_rolling_plan(days=1, output_dir=tmp_path)
+
+    assert result["ready_count"] == 1
+    assert result["slots"][0]["topic"] == "김건희 특검, 다음 책임선은 어디인가?"
+    assert result["slots"][0]["skipped_candidates"][0]["reason"] == "recent_or_queued_duplicate_topic"
 
 
 def test_schedule_plan_does_not_fallback_to_default_topic_when_candidates_exhausted(tmp_path, monkeypatch) -> None:
@@ -671,7 +870,7 @@ def test_schedule_plan_uses_lightweight_research_when_deep_research_missing(tmp_
     result = schedule_planner.build_rolling_plan(days=1, output_dir=tmp_path)
 
     assert result["ready_count"] == 1
-    assert result["slots"][0]["topic"] == topic_title
+    assert result["slots"][0]["topic"] == "김건희 특검, 다음 책임선은 어디인가?"
     assert result["slots"][0]["ready_for_generation"] is True
     assert result["slots"][0]["blockers"] == []
     assert result["slots"][0]["warnings"] == []
@@ -771,16 +970,18 @@ def test_reward_deep_format_reframes_script_for_one_minute_explainer() -> None:
         source_ids=["s1", "s2"],
     )
 
+    plan = pipeline.FORMAT_SPECS["reward_deep"]
     script = pipeline.apply_content_format(
         pipeline.generate_script(topic, style),
-        pipeline.FORMAT_SPECS["reward_deep"],
+        plan,
         topic=topic,
         sources=sources,
     )
 
     assert "reward_optimized" in script.variant_id
     assert 65 <= script.target_duration_sec <= 95
-    assert 9 <= len(script.scenes) <= 12
+    assert plan.scene_count_min <= len(script.scenes) <= plan.scene_count_max
+    assert len(script.scenes) > 9
     assert "1분" in script.scenes[0].body
     assert "1분 이상" in script.post_body
     assert "전말" in script.pinned_comment
@@ -804,7 +1005,7 @@ def test_auto_format_prefers_evidence_briefing_for_sourced_civic_issue() -> None
     plan = pipeline.route_content_format(topic, "auto")
 
     assert plan.format_id == "evidence_briefing_75"
-    assert 60 <= plan.target_duration_min_sec <= plan.target_duration_max_sec <= 80
+    assert 60 <= plan.target_duration_min_sec <= plan.target_duration_max_sec <= 95
 
 
 def test_monitoring_normalizes_studio_metric_text() -> None:
@@ -1130,6 +1331,44 @@ def test_visual_beats_meet_format_density_and_scene_durations() -> None:
     for scene in script.scenes:
         duration = sum(beat.duration_sec for beat in beats if beat.scene_id == scene.scene_id)
         assert abs(duration - scene.duration_sec) <= 0.02
+
+
+def test_visual_cadence_is_not_fixed_to_nine_master_images() -> None:
+    scenes = [
+        pipeline.Scene(index + 1, 8, f"Scene {index + 1}", "Body text long enough for a spoken scene.", "visual", "Headline")
+        for index in range(9)
+    ]
+    plan = pipeline.FORMAT_SPECS["reward_deep"]
+
+    cadence = pipeline.plan_visual_cadence(scenes, plan)
+    beats = pipeline.build_visual_beats(scenes, plan)
+
+    assert cadence.target_master_images > 9
+    assert cadence.target_master_images <= plan.master_image_max
+    assert len(beats) >= cadence.target_visual_beats
+
+
+def test_image_budget_uses_adaptive_cadence_when_limit_is_unset(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv("AINO_PRIVACY_MODE", "cloud_explicit")
+    scenes = [
+        pipeline.Scene(index + 1, 8, f"Scene {index + 1}", "Body text long enough for a spoken scene.", "visual", "Headline")
+        for index in range(9)
+    ]
+    cadence = pipeline.plan_visual_cadence(scenes, pipeline.FORMAT_SPECS["reward_deep"])
+
+    decision = pipeline.decide_image_budget(
+        output_dir=tmp_path,
+        image_mode="auto",
+        real_image_limit=None,
+        gate=pipeline.GateResult(True, 96),
+        readability=pipeline.ReadabilityResult(True, {}, 20, 50, []),
+        quality=pipeline.PublishQualityResult(True, "test", 91, {}, [], []),
+        adaptive_default_limit=cadence.target_master_images,
+    )
+
+    assert decision.requested_real_image_limit == cadence.target_master_images
+    assert decision.effective_real_image_limit == cadence.target_master_images
+    assert "adaptive_real_image_limit" in decision.reasons
 
 
 def test_render_beat_frame_keeps_static_still_pixels_unchanged() -> None:
@@ -1991,6 +2230,230 @@ def test_tts_plan_preserves_scene_text_and_publish_provider_gate(tmp_path, monke
     assert "scene_01:long_sentence_count" in plan.warnings
 
 
+def test_tts_plan_blocks_publish_candidate_when_elevenlabs_logging_enabled(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("ELEVENLABS_ENABLE_LOGGING", "true")
+    script = pipeline.ScriptPackage(
+        title="tts",
+        caption="caption",
+        hashtags=["tag"],
+        post_title="post",
+        post_body="body",
+        pinned_comment="comment",
+        narration="narration",
+        scenes=[pipeline.Scene(1, 8, "Hook", "본문", "visual", "화면")],
+        target_duration_sec=8,
+        sources=[],
+        disclosure="generated",
+        variant_id="test",
+    )
+    audio = pipeline.AudioAsset("elevenlabs", "generated", str(tmp_path / "narration.mp3"))
+
+    plan = pipeline.build_tts_plan(script, audio)
+
+    assert plan.enable_logging is True
+    assert plan.publish_candidate is False
+
+
+def test_tts_plan_requires_history_clear_note_for_publish_candidate(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("ELEVENLABS_ENABLE_LOGGING", "false")
+    script = pipeline.ScriptPackage(
+        title="tts",
+        caption="caption",
+        hashtags=["tag"],
+        post_title="post",
+        post_body="body",
+        pinned_comment="comment",
+        narration="narration",
+        scenes=[pipeline.Scene(1, 8, "Hook", "본문", "visual", "화면")],
+        target_duration_sec=8,
+        sources=[],
+        disclosure="generated",
+        variant_id="test",
+    )
+    unchecked = pipeline.AudioAsset("elevenlabs", "generated", str(tmp_path / "unchecked.mp3"))
+    checked = pipeline.AudioAsset(
+        "elevenlabs",
+        "generated",
+        str(tmp_path / "checked.mp3"),
+        notes=["elevenlabs_history_final_deleted=0;elevenlabs_history_final_remaining_first_page=0"],
+    )
+
+    assert pipeline.build_tts_plan(script, unchecked).publish_candidate is False
+    assert pipeline.build_tts_plan(script, checked).publish_candidate is True
+
+
+def test_write_elevenlabs_tts_requests_zero_retention(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("ELEVENLABS_ENABLE_LOGGING", "false")
+    monkeypatch.setenv("ELEVENLABS_HISTORY_SCRUB_WAIT_SEC", "0")
+    captured: dict[str, object] = {}
+
+    def fake_post(url, *, headers, json, timeout):
+        captured["url"] = url
+        captured["headers"] = headers
+        captured["json"] = json
+        captured["timeout"] = timeout
+        return SimpleNamespace(status_code=200, content=b"x" * 10001, text="")
+
+    def fake_get(url, *, headers, timeout):
+        return SimpleNamespace(status_code=200, json=lambda: {"history": []}, text="")
+
+    def fake_delete(url, *, headers, timeout):
+        raise AssertionError("history delete should not run when history is already empty")
+
+    monkeypatch.setitem(sys.modules, "requests", SimpleNamespace(post=fake_post, get=fake_get, delete=fake_delete))
+
+    ok, notes = pipeline._write_elevenlabs_tts("테스트 문장입니다.", tmp_path / "tts.mp3", "fake-key", "voice-id")
+
+    assert ok is True
+    assert "enable_logging=false" in str(captured["url"])
+    assert any("zero_retention" in note for note in notes)
+    assert any("elevenlabs_history_final_remaining_first_page=0" in note for note in notes)
+
+
+def test_write_elevenlabs_tts_scrubs_history_when_zero_retention_is_not_effective(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("ELEVENLABS_ENABLE_LOGGING", "false")
+    monkeypatch.setenv("ELEVENLABS_HISTORY_SCRUB_WAIT_SEC", "0")
+    calls = {"get": 0, "deleted": []}
+
+    def fake_post(url, *, headers, json, timeout):
+        return SimpleNamespace(status_code=200, content=b"x" * 10001, text="")
+
+    def fake_get(url, *, headers, timeout):
+        calls["get"] += 1
+        if calls["get"] == 1:
+            return SimpleNamespace(status_code=200, json=lambda: {"history": [{"history_item_id": "history-1"}]}, text="")
+        return SimpleNamespace(status_code=200, json=lambda: {"history": []}, text="")
+
+    def fake_delete(url, *, headers, timeout):
+        calls["deleted"].append(url)
+        return SimpleNamespace(status_code=200, json=lambda: {}, text="")
+
+    monkeypatch.setitem(sys.modules, "requests", SimpleNamespace(post=fake_post, get=fake_get, delete=fake_delete))
+
+    ok, notes = pipeline._write_elevenlabs_tts("테스트 문장입니다.", tmp_path / "tts.mp3", "fake-key", "voice-id")
+
+    assert ok is True
+    assert calls["deleted"] == ["https://api.elevenlabs.io/v1/history/history-1"]
+    assert any("elevenlabs_history_final_deleted=1" in note for note in notes)
+    assert any("elevenlabs_history_final_remaining_first_page=0" in note for note in notes)
+
+
+def test_disable_elevenlabs_tts_forces_preview_fallback(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("AINO_PRIVACY_MODE", "cloud_explicit")
+    monkeypatch.setenv("AINO_DISABLE_ELEVENLABS_TTS", "true")
+    monkeypatch.setenv("ELEVENLABS_API_KEY", "fake-key")
+    monkeypatch.setenv("ELEVENLABS_VOICE_ID", "voice-id")
+
+    def fail_elevenlabs(*args, **kwargs):
+        raise AssertionError("ElevenLabs must not be called when disabled")
+
+    def fake_windows_tts(text, output):
+        output.write_bytes(b"RIFF-preview")
+
+    monkeypatch.setattr(pipeline, "_write_elevenlabs_tts", fail_elevenlabs)
+    monkeypatch.setattr(pipeline, "_write_windows_tts_wav", fake_windows_tts)
+
+    audio = pipeline._write_tts_audio("테스트 문장입니다.", tmp_path)
+
+    assert audio.provider == "windows_system_speech"
+    assert audio.status == "fallback"
+    assert any("disabled by AINO_DISABLE_ELEVENLABS_TTS" in note for note in audio.notes)
+
+
+def test_disable_elevenlabs_tts_applies_to_scene_sync(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("AINO_PRIVACY_MODE", "cloud_explicit")
+    monkeypatch.setenv("AINO_DISABLE_ELEVENLABS_TTS", "true")
+    monkeypatch.setenv("AINO_SCENE_AUDIO_SYNC", "true")
+    monkeypatch.setenv("ELEVENLABS_API_KEY", "fake-key")
+    monkeypatch.setenv("ELEVENLABS_VOICE_ID", "voice-id")
+
+    def fail_elevenlabs(*args, **kwargs):
+        raise AssertionError("ElevenLabs must not be called when disabled")
+
+    def fake_windows_tts(text, output):
+        output.write_bytes(b"RIFF-scene")
+
+    def fake_pad_audio(input_path, output_path, duration_sec):
+        output_path.write_bytes(b"RIFF-padded")
+
+    def fake_concat(segment_paths, output_path, list_path):
+        list_path.write_text("\n".join(str(path) for path in segment_paths), encoding="utf-8")
+        output_path.write_bytes(b"RIFF-combined")
+
+    monkeypatch.setattr(pipeline, "_write_elevenlabs_tts", fail_elevenlabs)
+    monkeypatch.setattr(pipeline, "_write_windows_tts_wav", fake_windows_tts)
+    monkeypatch.setattr(pipeline, "_media_duration_sec", lambda path: 2.0)
+    monkeypatch.setattr(pipeline, "_pad_audio_to_duration", fake_pad_audio)
+    monkeypatch.setattr(pipeline, "_concat_audio_segments", fake_concat)
+
+    audio = pipeline._write_tts_audio(
+        "테스트 문장입니다.",
+        tmp_path,
+        scenes=[pipeline.Scene(1, 8, "Hook", "본문입니다.", "visual", "화면")],
+    )
+
+    assert audio.provider == "scene_audio_preview"
+    assert audio.status == "fallback"
+    assert any("ElevenLabs disabled by AINO_DISABLE_ELEVENLABS_TTS" in note for note in audio.notes)
+    assert any(
+        "disabled by AINO_DISABLE_ELEVENLABS_TTS" in note
+        for timing in audio.scene_timings
+        for note in timing["notes"]
+    )
+
+
+def test_upload_validation_blocks_elevenlabs_history_logging_enabled(tmp_path) -> None:
+    mp4 = tmp_path / "preview.mp4"
+    mp4.write_bytes(b"fake")
+    manifest = {
+        "gate": {"passed": True},
+        "readability": {"passed": True},
+        "review": {"passed": True},
+        "quality": {"passed": True},
+        "audio_asset": {"provider": "elevenlabs", "status": "generated"},
+        "tts_plan": {"provider": "elevenlabs", "actual_provider": "elevenlabs", "enable_logging": True},
+        "mobile_visual_passed": True,
+        "mobile_visual_checks": [{"passed": True, "text_render_passed": True}],
+        "synced_duration_matches_format": True,
+        "fact_pack": {"gate_passed": True},
+        "risk_flags": {"gate_passed": True},
+        "source_card": {"gate_passed": True},
+        "reference_fit": {"gate_passed": True},
+        "angle_brief": {"gate_passed": True},
+        "storyboard_brief": {"gate_passed": True},
+        "tts_performance_plan": {"gate_passed": True},
+        "script": {
+            "title": "검증 가능한 정치 이슈",
+            "caption": "검증 가능한 정치 이슈 캡션입니다.",
+            "post_title": "검증 가능한 정치 이슈",
+            "post_body": "검증 가능한 본문입니다.",
+            "pinned_comment": "댓글로 기준을 남겨 주세요.",
+            "narration": "검증 가능한 내레이션입니다.",
+            "hashtags": ["정치", "뉴스"],
+            "scenes": [
+                {"scene_id": index, "body": "검증 가능한 장면 본문입니다.", "on_screen_text": "검증 장면 문구"}
+                for index in range(1, 10)
+            ],
+        },
+        "artifacts": {
+            "mp4": str(mp4),
+            "fact_pack": "fact_pack.json",
+            "risk_flags": "risk_flags.json",
+            "source_card": "source_card.json",
+            "reference_fit": "reference_fit.json",
+            "angle_brief": "angle_brief.json",
+            "storyboard_brief": "storyboard_brief.json",
+            "tts_performance_plan": "tts_performance_plan.json",
+            "tts_plan": "tts_plan.json",
+        },
+    }
+
+    validation = pipeline.validate_manifest_for_upload(manifest)
+
+    assert validation["upload_ready"] is False
+    assert "elevenlabs_zero_retention_not_confirmed" in validation["technical_blockers"]
+
+
 def test_render_manifest_and_upload_plan_document_blockers(tmp_path) -> None:
     mp4 = tmp_path / "preview_1080x1920.mp4"
     video_only = tmp_path / "preview_video_only.mp4"
@@ -2105,6 +2568,26 @@ def test_studio_schedule_verification_requires_topic_and_time() -> None:
     assert "5월 18일 오후 7:30" in upload_automation._studio_time_needles(job["planned_publish_at_local"])
     assert upload_automation._caption_has_aigc_disclosure(job["caption"])
     assert "해당 이미지는 생성된 이미지입니다" in upload_automation._caption_with_aigc_disclosure("본문만 있는 캡션")
+
+
+def test_upload_caption_cta_status_requires_follow_and_series_identity() -> None:
+    weak = upload_automation._caption_upload_cta_status("정치 이슈를 차분하게 정리합니다.")
+    strong = upload_automation._caption_upload_cta_status(
+        "정치 이슈를 차분하게 정리합니다. 팔로우하면 다음 편에서 이어갑니다."
+    )
+
+    assert weak == {
+        "caption_follow_cta_present": False,
+        "caption_series_identity_present": False,
+    }
+    assert all(strong.values())
+
+
+def test_upload_caption_aigc_disclosure_detects_generated_image_and_ai_voice() -> None:
+    caption = "해당 영상은 생성형 이미지와 AI 음성을 활용해 제작했습니다."
+
+    assert upload_automation._caption_has_aigc_disclosure(caption)
+    assert upload_automation._caption_with_aigc_disclosure(caption) == caption
 
 
 def test_ha_publisher_does_not_mark_scheduled_without_studio_visibility() -> None:
@@ -2253,6 +2736,9 @@ def test_post_metadata_expands_caption_and_hashtags_without_ellipsis() -> None:
     assert "공천개입" in script.caption
     assert "김건희" in script.hashtags
     assert "올바른AiNo" in script.hashtags
+    assert "팔로우하면" in script.caption
+    assert "이어갑니다" in script.caption
+    assert pipeline._script_has_end_follow_promise(script)
 
 
 def test_post_metadata_hashtags_do_not_leak_from_supporting_sources() -> None:
@@ -2284,6 +2770,63 @@ def test_post_metadata_hashtags_do_not_leak_from_supporting_sources() -> None:
     assert "검찰" not in tags
     assert "민주주의" in tags
     assert "국민의힘" in tags
+
+
+def test_script_override_metadata_enrichment_restores_follower_contract() -> None:
+    topic = pipeline.TopicCandidate(
+        title="12대4 이후, 졌잘싸 프레임의 약점",
+        angle="선거 결과를 책임 언어로 해석하는 좌파 지지층용 해설",
+        slot="editorial_canary",
+        target_duration_sec=72,
+        claims=[],
+        source_ids=["test_source"],
+    )
+    sources = {
+        "test_source": pipeline.Source(
+            "test_source",
+            "선거 결과 공식 통계",
+            "https://example.com",
+            "test source",
+        )
+    }
+    scenes = [
+        pipeline.Scene(
+            index + 1,
+            8,
+            f"Scene {index + 1}",
+            "근거와 책임을 짧게 봅니다.",
+            "visual",
+            "숫자가 남긴 질문",
+        )
+        for index in range(8)
+    ]
+    scenes.append(pipeline.Scene(9, 8, "CTA", "당신은 이 결과를 어떻게 봅니까.", "visual", "당신의 해석은?"))
+    script = pipeline.ScriptPackage(
+        title="12대4 이후, 졌잘싸 프레임의 약점",
+        caption="숫자가 남긴 질문을 봅니다.",
+        hashtags=["정치", "선거", "민주당", "진보", "사회이슈", "올바른AiNo", "이슈", "뉴스"],
+        post_title="12대4 이후, 졌잘싸 프레임의 약점",
+        post_body="숫자가 남긴 질문을 봅니다.",
+        pinned_comment="근거로 댓글에 붙어봅시다.",
+        narration="\n".join(scene.body for scene in scenes),
+        scenes=scenes,
+        target_duration_sec=72,
+        sources=["test_source"],
+        disclosure="해당 이미지는 생성된 이미지입니다.",
+        variant_id="script_override_test",
+    )
+
+    enriched = pipeline._enrich_post_metadata(script, topic, sources)
+    plan = pipeline.FORMAT_SPECS["reward_deep"]
+    gate = pipeline.check_policy(topic, enriched, sources, plan)
+    readability = pipeline.check_readability(enriched, plan)
+    quality = pipeline._score_script_quality(enriched, gate, readability, topic, sources, plan)
+
+    assert pipeline._caption_has_follow_cta(enriched.caption)
+    assert pipeline._script_has_end_follow_promise(enriched)
+    assert quality.scores["follower_conversion"] >= 70
+    assert "caption_follow_cta_missing" not in quality.blockers
+    assert "video_end_follow_promise_missing" not in quality.blockers
 
 
 def test_mobile_visual_checks_fail_when_text_box_overflows(tmp_path) -> None:
@@ -2363,6 +2906,201 @@ def test_mobile_visual_checks_native_generated_text_skips_overlay_layout(tmp_pat
     assert checks[0].passed is True
 
 
+def test_scene_image_uses_cinematic_subtitle_layer(tmp_path) -> None:
+    source = tmp_path / "cinematic.png"
+    Image.new("RGB", (pipeline.CANVAS_WIDTH, pipeline.CANVAS_HEIGHT), "#ffffff").save(source)
+    scene = pipeline.Scene(
+        1,
+        9,
+        "Hook",
+        "This subtitle should render as a compact video caption, not a card covering the image.",
+        "visual",
+        "Short punchline",
+    )
+    asset = pipeline.VisualAsset(
+        scene_id=1,
+        provider="local_pillow",
+        status="fallback",
+        path=str(source),
+        prompt="test prompt",
+        visual_brief={"role": "hook", "issue_type": "party_strategy", "render_style": "cinematic_subtitle"},
+    )
+
+    image = pipeline._scene_image(scene, 0, 1, asset, pipeline._font(30), pipeline._font(24), "올바른 AiNo")
+
+    assert image.getpixel((pipeline.TEXT_SAFE_LEFT, 82)) != (255, 255, 255)
+    assert sum(image.getpixel((180, 1220))) > 600
+
+
+def test_mobile_visual_checks_cinematic_subtitle_uses_subtitle_layout(tmp_path) -> None:
+    preview = tmp_path / "scene_01.png"
+    Image.new("RGB", (pipeline.CANVAS_WIDTH, pipeline.CANVAS_HEIGHT), "#ffffff").save(preview)
+    scene = pipeline.Scene(1, 9, "Hook", "Compact subtitle body", "visual", "Short punchline")
+    asset = pipeline.VisualAsset(
+        scene_id=1,
+        provider="local_pillow",
+        status="fallback",
+        path=str(preview),
+        prompt="test prompt",
+        visual_brief={"role": "hook", "issue_type": "party_strategy", "render_style": "cinematic_subtitle"},
+    )
+
+    checks = pipeline._mobile_visual_checks([scene], [preview], {1: asset})
+
+    assert checks[0].layout_id == "cinematic_subtitle"
+    assert checks[0].text_panel_coverage_pct <= pipeline.MAX_TEXT_PANEL_COVERAGE_PCT
+    assert checks[0].passed is True
+
+
+def test_visual_brief_defaults_to_cinematic_subtitle_render_style() -> None:
+    topic = pipeline.TopicCandidate(
+        title="검증해야 할 정치 쟁점",
+        angle="공개 보도와 반론을 나눠 보는 장면",
+        slot="test",
+        target_duration_sec=72,
+        claims=[],
+        source_ids=[],
+    )
+    scene = pipeline.Scene(
+        1,
+        8,
+        "Hook",
+        "공개 보도와 반론을 같은 화면에서 확인합니다.",
+        "generic political newsroom scene",
+        "이 쟁점, 어디가 갈렸나?",
+    )
+
+    brief = pipeline._build_visual_brief(topic, scene, 0, 9)
+
+    assert brief.render_style == pipeline.CINEMATIC_SUBTITLE_RENDER_STYLE
+    assert brief.diegetic_text == ""
+    assert "No readable in-image text" in brief.diegetic_text_directive
+
+
+def test_cinematic_subtitle_visual_beats_are_motion_free_and_denser() -> None:
+    scenes = [
+        pipeline.Scene(1, 9, "Hook", "Body", "visual", "Headline"),
+        pipeline.Scene(2, 7, "Evidence", "Body", "visual", "Headline"),
+    ]
+
+    beats = pipeline.build_visual_beats(
+        scenes,
+        pipeline.FORMAT_SPECS["debate_followup"],
+        render_style=pipeline.CINEMATIC_SUBTITLE_RENDER_STYLE,
+    )
+
+    assert len([beat for beat in beats if beat.scene_id == 1]) >= 4
+    assert all(beat.zoom_start == 1.0 and beat.zoom_end == 1.0 for beat in beats)
+    assert all(beat.pan_x == 0 and beat.pan_y == 0 for beat in beats)
+    assert {beat.overlay for beat in beats} & {"caption_pop", "receipt_flash", "hard_cut"}
+
+
+def test_readability_accepts_korean_final_question_marker() -> None:
+    scenes = [
+        pipeline.Scene(1, 8, "도입 질문", "본문은 모바일 기준을 넘길 만큼 충분히 깁니다.", "visual", "도입 질문"),
+        pipeline.Scene(2, 8, "근거 확인", "본문은 모바일 기준을 넘길 만큼 충분히 깁니다.", "visual", "근거 확인"),
+        pipeline.Scene(3, 8, "어느 쪽이 신호입니까", "서울의 역전극이 핵심입니까, 전국 흐름이 핵심입니까.", "visual", "마무리 질문"),
+    ]
+    script = pipeline.ScriptPackage(
+        title="질문형 CTA 테스트",
+        caption="caption",
+        hashtags=["정치"],
+        post_title="질문형 CTA 테스트",
+        post_body="body",
+        pinned_comment="comment",
+        narration="narration",
+        scenes=scenes,
+        target_duration_sec=24,
+        sources=[],
+        disclosure="해당 이미지는 생성된 이미지입니다.",
+        variant_id="test",
+    )
+
+    result = pipeline.check_readability(script)
+
+    assert result.checks["has_final_question"] is True
+
+
+def test_cinematic_subtitle_textfit_preserves_final_question() -> None:
+    scenes = [
+        pipeline.Scene(1, 8, "도입 문장", "본문은 모바일 기준을 넘길 만큼 충분히 깁니다.", "visual", "도입 문장"),
+        pipeline.Scene(2, 8, "댓글에서 숫자로 붙읍시다", "서울 한 곳의 상징성, 전국 열두 곳의 방향성.", "visual", "댓글 CTA"),
+    ]
+
+    fitted, report = pipeline._fit_cinematic_subtitle_scene_texts(scenes)
+
+    assert pipeline._has_question_marker(f"{fitted[-1].on_screen_text} {fitted[-1].body}") is True
+    assert report["all_fit"] is True
+
+
+def test_card_layout_quality_accepts_cinematic_subtitle_visual_variety() -> None:
+    scenes = [
+        pipeline.Scene(index + 1, 7, f"scene {index + 1}", "Short subtitle body.", "visual", "Short headline")
+        for index in range(6)
+    ]
+    assets = {
+        scene.scene_id: pipeline.VisualAsset(
+            scene_id=scene.scene_id,
+            provider="local_pillow",
+            status="fallback",
+            path=None,
+            prompt="layout test",
+            visual_brief={
+                "role": role,
+                "location": f"location {scene.scene_id}",
+                "camera": f"camera {scene.scene_id}",
+                "treatment_id": f"treatment_{scene.scene_id}",
+                "action_beat": f"action {scene.scene_id}",
+                "render_style": "cinematic_subtitle",
+            },
+        )
+        for scene, role in zip(scenes, ["hook", "why_now", "evidence", "criteria", "responsibility", "cta"])
+    }
+
+    quality = pipeline._card_layout_quality(scenes, assets)
+
+    assert quality["mode"] == "cinematic_subtitle"
+    assert quality["passed"] is True
+    assert quality["unique_count"] >= 5
+
+
+def test_visual_quality_accepts_cinematic_subtitle_without_diegetic_text() -> None:
+    scenes = [
+        pipeline.Scene(index + 1, 7, f"scene {index + 1}", "Short subtitle body.", "visual", "Short headline")
+        for index in range(6)
+    ]
+    prompt = (
+        "negative space overlay lanes no real politician likeness filmic depth of field "
+        "real-world moment plausible real-world moment foreground tension dominant foreground object "
+        "thumbnail drama first visual read concrete issue-specific objects"
+    )
+    assets = [
+        pipeline.VisualAsset(
+            scene_id=scene.scene_id,
+            provider="codex_cli",
+            status="generated",
+            path=None,
+            prompt=prompt,
+            visual_brief={
+                "role": "hook" if scene.scene_id == 1 else "evidence",
+                "issue_type": "election_frame",
+                "location": f"location {scene.scene_id}",
+                "camera": f"camera {scene.scene_id}",
+                "palette": "cold gray and signal red",
+                "relevance_terms": ["서울", "12대4", "선거", "프레임"],
+                "visual_anchor": ["map wall", "anonymous adults", "microphones", "document folders"],
+                "render_style": "cinematic_subtitle",
+            },
+        )
+        for scene in scenes
+    ]
+
+    quality = pipeline.check_visual_quality(assets, scenes)
+
+    assert quality.scores["diegetic_text_prompt"] == 100
+    assert quality.passed is True
+
+
 def test_card_layout_ids_vary_by_scene_role() -> None:
     scenes = [
         pipeline.Scene(index + 1, 7, f"scene {index + 1}", "Short body for mobile readability.", "visual", "Short headline")
@@ -2434,9 +3172,14 @@ def test_cinematic_prompt_uses_controlled_diegetic_text_without_text_ban() -> No
     prompt = pipeline._build_cinematic_prompt(scene, brief)
 
     assert brief.diegetic_text == "\ub204, \uc65c \uac08\ub9ac\ub098?"
-    assert "Mandatory text-prop foreground" in prompt
+    assert "Scene-integrated caption element" in prompt
     assert "Controlled in-image text" in prompt
+    assert "readable native caption element" in prompt
+    assert "real situation, anonymous people, location depth, and active gesture must remain the primary subject" in prompt
     assert '"\ub204, \uc65c \uac08\ub9ac\ub098?"' in prompt
+    assert "Mandatory text-prop foreground" not in prompt
+    assert "approved text prop is a primary foreground subject" not in prompt
+    assert "one physical paper card" not in prompt
     assert not any("no readable text" in item.lower() for item in brief.safety_constraints)
     assert "Do not invent any other readable text" in prompt
 
@@ -2670,6 +3413,54 @@ def test_publish_quality_blocks_bland_low_search_content() -> None:
     assert quality.blockers
 
 
+def test_publish_quality_blocks_when_follow_cta_only_exists_in_pinned_comment() -> None:
+    topic = pipeline.TopicCandidate(
+        title="김건희 특검 책임선",
+        angle="책임 기준을 나눠 봅니다",
+        slot="hot discovery",
+        target_duration_sec=72,
+        claims=[],
+        source_ids=["hot_news_01"],
+    )
+    sources = {
+        "hot_news_01": pipeline.Source("hot_news_01", "연합뉴스: 김건희 특검 책임선", "https://example.com", "test")
+    }
+    scenes = [
+        pipeline.Scene(
+            index + 1,
+            8,
+            f"Scene {index + 1}",
+            "김건희 특검 책임 기준을 차분히 봅니다. 댓글로 판단 기준을 남겨주세요.",
+            "visual",
+            "김건희 특검, 어디까지?",
+        )
+        for index in range(9)
+    ]
+    script = pipeline.ScriptPackage(
+        title="김건희 특검, 어디까지?",
+        caption="김건희 특검 책임 기준을 정리합니다. #정치 #특검",
+        hashtags=["정치", "특검"],
+        post_title="김건희 특검, 어디까지?",
+        post_body="김건희 특검 책임 기준을 정리합니다.",
+        pinned_comment="댓글로 남겨주세요. 팔로우하면 다음 편에서 이어갑니다.",
+        narration="\n".join(scene.body for scene in scenes),
+        scenes=scenes,
+        target_duration_sec=72,
+        sources=["hot_news_01"],
+        disclosure="해당 이미지는 생성된 이미지입니다.",
+        variant_id="missing_caption_follow",
+    )
+    plan = pipeline.FORMAT_SPECS["growth_short"]
+    gate = pipeline.check_policy(topic, script, sources, plan)
+    readability = pipeline.check_readability(script, plan)
+    quality = pipeline._score_script_quality(script, gate, readability, topic, sources, plan)
+
+    assert not quality.passed
+    assert "caption_follow_cta_missing" in quality.blockers
+    assert "video_end_follow_promise_missing" in quality.blockers
+    assert quality.scores["follower_conversion"] < 70
+
+
 def test_transition_frame_keeps_video_canvas_and_changes_pixels() -> None:
     previous = Image.new("RGB", (pipeline.CANVAS_WIDTH, pipeline.CANVAS_HEIGHT), "#111820")
     current = Image.new("RGB", (pipeline.CANVAS_WIDTH, pipeline.CANVAS_HEIGHT), "#f0f4f8")
@@ -2865,6 +3656,76 @@ def test_visual_quality_gate_scores_specific_briefs_above_threshold() -> None:
     assert result.scores["thumbnail_drama"] >= 90
 
 
+def test_visual_quality_blocks_paper_text_prop_prompt_regression() -> None:
+    topic = pipeline.TopicCandidate(
+        title="prosecution review controversy",
+        angle="recent report repetition and public-interest verification",
+        slot=_hot_candidate_value("slot"),
+        target_duration_sec=45,
+        claims=[],
+        source_ids=["hot_news_01"],
+    )
+    scenes = [
+        pipeline.Scene(1, 8, "Hot Hook", "A review claim is splitting the room.", "sealed file", "Who benefits?"),
+        pipeline.Scene(2, 8, "Why Now", "The same claim is returning today.", "courthouse", "Why now?"),
+        pipeline.Scene(3, 8, "Check", "Keep only what can be checked.", "police review", "Check the proof"),
+    ]
+    assets = []
+    for index, scene in enumerate(scenes):
+        brief = pipeline._build_visual_brief(topic, scene, index, len(scenes))
+        prompt = pipeline._build_cinematic_prompt(scene, brief)
+        if index == 0:
+            prompt += " Mandatory text-prop foreground. approved text prop is a primary foreground subject."
+        assets.append(
+            pipeline.VisualAsset(
+                scene_id=scene.scene_id,
+                provider="codex_cli",
+                status="generated",
+                path=None,
+                prompt=prompt,
+                visual_brief=pipeline.asdict(brief),
+            )
+        )
+
+    result = pipeline.check_visual_quality(assets, scenes)
+
+    assert not result.passed
+    assert result.scores["paper_prop_regression"] < 90
+    assert any(blocker.startswith("paper_prop_regression_below_90") for blocker in result.blockers)
+
+
+def test_source_visual_context_is_sanitized_before_prompt() -> None:
+    topic = pipeline.TopicCandidate(
+        title="\ub9ac\ubc15\uc2a4\ucfe8 \ud64d\ubcf4 \uc601\uc0c1 \uad50\uc721 \ub17c\ub780",
+        angle="\uad50\uc2e4\uc5d0 \ubb34\uc5c7\uc774 \ub4e4\uc5b4\uc654\ub294\uc9c0 \ubb3b\ub294 \ud574\uc124",
+        slot="test",
+        target_duration_sec=75,
+        claims=[],
+        source_ids=["canary"],
+    )
+    scene = pipeline.Scene(
+        1,
+        9,
+        "Hook",
+        "\ub204\uac00 \uc774\uac78 \uad50\uc2e4\ub85c \ubcf4\ub0c8\uc2b5\ub2c8\uae4c.",
+        (
+            "reference_scene: street press-scrum close-up with folder crossing the lens, "
+            "three blank comment-choice cards, and no extra readable text except the approved diegetic text prop"
+        ),
+        "\ub204\uac00 \ubcf4\ub0c8\ub098?",
+    )
+
+    brief = pipeline._build_visual_brief(topic, scene, 0, 9)
+    prompt = pipeline._build_cinematic_prompt(scene, brief)
+
+    assert "folder crossing the lens" not in prompt
+    assert "three blank comment-choice cards" not in prompt
+    assert "approved diegetic text prop" not in prompt
+    assert "anonymous shoulder crossing the lens" in prompt
+    assert "three divided comment heat zones" in prompt
+    assert "approved native caption element" in prompt
+
+
 def test_actual_visual_diversity_blocks_identical_generated_images(tmp_path) -> None:
     topic = pipeline.TopicCandidate(
         title="윤석열·김건희 공천개입 의혹 항소심 시작",
@@ -2969,7 +3830,7 @@ def test_cta_visual_brief_does_not_reuse_courthouse_corridor() -> None:
     assert brief.location.startswith("investigative video editor desk prepared for viewer comments")
     assert "courthouse corridor" not in " ".join(brief.visual_anchor)
     assert "Scene uniqueness" in prompt
-    assert "CTA must look like an editor desk" in prompt
+    assert "CTA must look like an editor timeline and divided reaction wall" in prompt
     assert "courthouse corridor" not in pipeline._hot_visual_for_text(topic.title, "cta")
 
 
@@ -3085,7 +3946,7 @@ def test_visual_prompt_uses_concrete_topic_scene_before_symbolic_anchors() -> No
     assert "memorial-plaza" in brief.concrete_scene
     assert "coffee cup" in brief.concrete_scene
     assert "Concrete scene directive:" in prompt
-    assert "Literal-scene rule:" in prompt
+    assert "Scene-specific priority:" in prompt
     assert prompt.index("Concrete scene directive:") < prompt.index("Supporting visual anchors")
 
 
@@ -3110,6 +3971,149 @@ def test_visual_topic_scene_pack_uses_polling_context_before_generic_desks() -> 
     assert "regional map" in briefs[0].concrete_scene
     assert pipeline.VISUAL_DEFAULT_CONCRETE_SCENE not in [brief.concrete_scene for brief in briefs]
     assert any("polling" in anchor or "survey" in anchor for anchor in briefs[0].visual_anchor)
+
+
+def test_election_frame_visual_brief_avoids_blank_board_card_library() -> None:
+    topic = pipeline.TopicCandidate(
+        title="12대4 이후, 졌잘싸 프레임의 약점",
+        angle="선거 결과 프레임을 책임 언어로 해석한다",
+        slot="test",
+        target_duration_sec=72,
+        claims=[],
+        source_ids=[],
+    )
+    scene = pipeline.Scene(
+        1,
+        8,
+        "Hook",
+        "숫자가 남긴 질문을 봅니다.",
+        "generic debate room",
+        "12대4, 이걸 졌잘싸라고?",
+    )
+
+    brief = pipeline._build_visual_brief(topic, scene, 0, 9)
+    scene_text = " ".join([brief.concrete_scene, *brief.visual_anchor]).casefold()
+
+    assert "blank board" not in scene_text
+    assert "blank slogan card" not in scene_text
+    assert "campaign-frame cards" not in scene_text
+    assert "reaction" in scene_text or "monitor glow" in scene_text
+
+
+def test_repeated_responsibility_visual_briefs_override_scene_and_palette() -> None:
+    topic = pipeline.TopicCandidate(
+        title="\uc120\uac70 \ud504\ub808\uc784 12\ub3004 \uc774\ud6c4",
+        angle="\ud504\ub808\uc784 \uc2f8\uc6c0\uc758 \ucc45\uc784\uc744 \ub530\uc9c4\ub2e4",
+        slot="test",
+        target_duration_sec=72,
+        claims=[],
+        source_ids=[],
+    )
+    scenes = [
+        pipeline.Scene(1, 8, "Hook", "hook beat", "room", "hook"),
+        pipeline.Scene(2, 8, "Responsibility", "first responsibility beat", "room", "first"),
+        pipeline.Scene(3, 8, "Responsibility", "second responsibility beat", "room", "second"),
+        pipeline.Scene(4, 8, "Responsibility", "third responsibility beat", "room", "third"),
+    ]
+
+    briefs = pipeline.build_visual_briefs(topic, scenes)
+
+    assert [brief.role for brief in briefs] == ["hook", "responsibility", "responsibility", "responsibility"]
+    assert "bright civic office corridor" in briefs[2].concrete_scene
+    assert "pale blue monitor spill" in briefs[2].palette
+    assert "rainy public building steps" in briefs[3].concrete_scene
+    assert "wet blue-gray exterior" in briefs[3].palette
+    assert len({brief.concrete_scene for brief in briefs}) == 4
+    assert len({brief.scene_uniqueness_key for brief in briefs}) == 4
+
+
+def test_visual_brief_carries_hard_shot_contract_into_provider_prompt() -> None:
+    topic = pipeline.TopicCandidate(
+        title="\uc9c0\uc9c0\uc728 60% \uc5ec\ub860\uc870\uc0ac \ubbfc\uc8fc 45 \uad6d\ud798 20 \ubcf4\uc218 \uacb0\uc9d1",
+        angle="\uc120\uac70 \uc9c0\ud615\uc740 \uc22b\uc790\ubcf4\ub2e4 \ud22c\ud45c\uc728\uacfc \uc9c0\uc5ed \uc774\ud0c8\uc744 \ubd10\uc57c \ud55c\ub2e4",
+        slot=_hot_candidate_value("slot"),
+        target_duration_sec=75,
+        claims=[],
+        source_ids=["hot_news_01"],
+    )
+    scene = pipeline.Scene(
+        1,
+        9,
+        "Hot Hook",
+        "\uc22b\uc790\uac00 \ud070\ub370 \uc65c \ubd88\uc548\ud55c\uc9c0 \ubd05\ub2c8\ub2e4.",
+        "generic folder desk",
+        "\uc9c0\uc9c0\uc728, \uc65c \ubd88\uc548\ud558\uc9c0?",
+    )
+
+    brief = pipeline._build_visual_brief(topic, scene, 0, 9)
+    prompt = pipeline._build_cinematic_prompt(scene, brief)
+
+    assert brief.shot_contract
+    assert brief.forbidden_dominant_elements
+    assert brief.scene_uniqueness_key
+    assert "show one visible human action or reaction in progress" in " ".join(brief.shot_contract)
+    assert "handheld paper headline card" in " ".join(brief.forbidden_dominant_elements)
+    assert "Shot contract:" in prompt
+    assert "Forbidden dominant elements:" in prompt
+    assert "Scene uniqueness key:" in prompt
+    assert "empty office, empty classroom, or passive desk still-life" in prompt
+    assert brief.scene_uniqueness_key in prompt
+
+
+def test_visual_prompt_forbids_blank_board_card_dominance() -> None:
+    topic = pipeline.TopicCandidate(
+        title="12대4 이후, 졌잘싸 프레임의 약점",
+        angle="선거 결과 해설",
+        slot="test",
+        target_duration_sec=72,
+        claims=[],
+        source_ids=[],
+    )
+    scene = pipeline.Scene(
+        1,
+        8,
+        "Hook",
+        "숫자가 남긴 질문을 봅니다.",
+        "blank board and blank card wall",
+        "12대4, 이걸 졌잘싸라고?",
+    )
+
+    brief = pipeline._build_visual_brief(topic, scene, 0, 9)
+    prompt = pipeline._build_cinematic_prompt(scene, brief)
+    forbidden = " ".join(brief.forbidden_dominant_elements)
+
+    assert "large blank white board" in forbidden
+    assert "people holding blank boards" in forbidden
+    assert "blank board" in pipeline.CINEMATIC_SUBTITLE_FORBIDDEN_ANCHOR_TERMS
+    assert "large blank white board" in prompt
+
+
+def test_visual_brief_contract_survives_cinematic_subtitle_render_style() -> None:
+    topic = pipeline.TopicCandidate(
+        title="\uc774\uc7ac\uba85 \ubbfc\uc8fc\ub2f9 \uad6d\ubbfc\uc758\ud798 \ubcf4\uc218 \uc804\ub7b5 \ub17c\uc7c1",
+        angle="\uc2e4\uc874 \uc5bc\uad74\uc774 \uc544\ub2c8\ub77c \uc775\uba85 \uc815\uce58 \uc804\ub7b5 \uc7a5\uba74\uc73c\ub85c \ud45c\ud604\ud55c\ub2e4",
+        slot=_hot_candidate_value("slot"),
+        target_duration_sec=75,
+        claims=[],
+        source_ids=["hot_news_01"],
+    )
+    scene = pipeline.Scene(
+        1,
+        9,
+        "Hot Hook",
+        "\ub204\uac00 \ud504\ub808\uc784\uc744 \uba39\uc5ec \ub123\ub294\uc9c0 \ubd05\ub2c8\ub2e4.",
+        'aino_visual_override_json:{"render_style":"cinematic_subtitle","concrete_scene":"anonymous party-strategy room with divided viewer reactions and no real faces"}',
+        "\ub204\uac00 \uba39\uc5ec \ub123\ub098?",
+    )
+
+    brief = pipeline._build_visual_brief(topic, scene, 0, 9)
+    prompt = pipeline._build_cinematic_prompt(scene, brief)
+
+    assert brief.render_style == "cinematic_subtitle"
+    assert "any readable in-image text because captions are rendered later" in brief.forbidden_dominant_elements
+    assert "Shot contract:" in prompt
+    assert "No readable in-image text" in prompt
+    assert "Scene uniqueness key:" in prompt
 
 
 def test_visual_topic_scene_pack_uses_party_strategy_without_real_likeness() -> None:
