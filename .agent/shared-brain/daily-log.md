@@ -4803,3 +4803,24 @@
 - 학습 박제: AIT CLI 메커니즘 (web-framework 임시설치로 ait bin 생성 / 4031 = 앱 부재 또는 stale 키 / Claude-in-Chrome 은 toss.im 하드 차단이라 콘솔 UI 는 owner 또는 Codex) -> Claude memory project_ait_factory.md + feedback_credential_upkeep.md (P0).
 - Chat 노출 기록: 전역 키는 owner 가 chat 으로 직접 제공 (의도적). 별도 회전 불요 판단 — 단 기록상 명시.
 - 의미: SBU 13 팩토리의 "생성 -> 빌드 -> .ait -> 콘솔 업로드" 전 구간이 처음으로 end-to-end 검증됨. wave_1 잔여 후보(쿠폰만료봇 88/구독정리봇 85)는 콘솔 앱 생성(owner 1분) 외 전 구간 자동.
+
+## 2026-06-11 Claude - TikTok @leftaino 팔로워 성장 실행 스펙 완성 + 앵커 감사 (Codex 즉시 실행 가능)
+
+- owner "코덱스가 바로 실행할수있도록 완벽한 방향으로 기획 및 설계 구현을 끝내놔 감사까지" → 기획→설계→스펙→앵커 감사 전 구간 완료.
+- **정본 스펙**: `src/core/tiktok_aino/EXECUTION_SPEC_FOLLOW_GROWTH_20260610.md` — Codex 는 이 파일 하나로 T1부터 착수 가능.
+- 핵심 방향 (증거 기반, §1 표): 보도인용형(median 84뷰·좋아요 0~1) 전면 폐기 / "왜 ~나" 질문템플릿 중단 / 정서서사(738뷰)·랭킹(392뷰) 스케일 / 선언훅(299) > 질문훅(172) / 주간 믹스 = ranking_battle 2 + narrative_confession 2 + reformed_briefing 1~2 (briefing ≤3/주).
+- 작업 T1~T7: T1 인용형 폐기+blocker `headline_quote_format_banned` / T2 질문템플릿 중단 / T3 슬롯 믹스 / T4 캡션 CTA 게이트 `caption_follow_cta_missing` (REDESIGN 핵심결함 2: pinned_comment 점수반영되나 업로드엔 미전달) / T5 reference 문법 production 연결 / T6 측정 선행 (profile_conversion 지표 + rollup_gap_detected, 거짓 분해 금지 — not_capturable 정직 표기) / T7 7일 실험 (합격: 24h 500뷰+ / 반응률 8%+ / profile_conversion 0.8%+).
+- **앵커 감사 완료 (grep 전수 검증, 보정 1건)**: "보도 제목" 실제 위치 = hot_topic_strategy.json·planning_strategy.json·script_strategy.json + pipeline.py (스펙 T1 초안의 format_router/hook_patterns 지목은 오류 → 스펙 본문 정정 완료). format_router `blockers`·publish_quality `policy_gate/content_review`·cta_patterns `forbidden_cta`·monitoring_strategy 5키·planning `rolling_schedule`·pipeline.py pinned_comment 5개 라인·schedule_planner.py 롤업 앵커 전부 실재 확인. 검증 결과는 스펙 §3 헤더 노트에 박제.
+- 가드 (§5): 선거 오정보 금지 / AI 고지 유지 / 조작 engagement 금지 / 거짓 메트릭 금지 / 외부 공개행위 owner 게이트.
+- 스코프 밖 (§7): 프로필 재변경 (이름 6/17 잠금) / 신규 플랫폼 / 4번째 포맷 발명.
+- Codex 완료 보고 위치: 본 daily-log + active-tasks.md (T1~T7 체크박스 + 증빙 경로). 자가검증 §6 (pytest green / compileall / json.tool / 차단 fixture 2종 / cold-grill 4문).
+## 2026-06-11 Claude - SBU 13 wave_1 품질 게이트 완주 (감사 -> P0/P1 수정 -> 재배포)
+
+- 흐름: owner "단순 쓰레기 양산이면 곤란해" + "정말 가치가 있는가" -> 품질 게이트 G0~G6 수립 (공식 문서 3종 근거) -> 세션 한도로 하드닝 에이전트 3개 중단 (6/10 밤) -> 6/11 아침 재개: 무결성 검증 -> 잔여 하드닝 직접 메움 -> G5 독립 감사 3건 -> P0/P1 수정 3 에이전트 병렬 -> 재검증 -> 재배포.
+- **감사 결과**: 쿠폰만료봇 conditional_pass (P1 5) / 이사체크봇 conditional_pass (P1 3 + P2 2) / 구독정리봇 **fail** (P0: copyGuard 렌더 throw -> "넷플 해지하세요" 입력 시 전체 백화면, 라이브 재현).
+- **수정 완료 (전 회귀 green)**: 쿠폰 43/43 (per-item sanitize + ErrorBoundary + 터치타깃 44px + 과거날짜 인라인 확인 + 폼 접힘 위계 + 만료 일괄정리) / 이사 30/30 (**D-day 실날짜 연동**(targetDate 마이그레이션 v1->v2) + 항목 추가/삭제 + 리셋 2-tap + 뱃지 줄깨짐 + draft 입력) / 구독 27/27 (P0 submit-시점 검증 + ErrorBoundary + 회귀 5).
+- **템플릿 면역화**: templates/miniapp-template 에 ErrorBoundary 기본 래핑 + storage per-item 검증 + copyGuard "렌더 중 throw 금지" 규칙 + 오염 주입 테스트 — 미래 전 앱에 적용. 교차 검증에서 이사봇 잔존 렌더 assert 발견 -> Claude 직접 제거+래핑 (수정 에이전트 간 일관성 갭 학습).
+- **배포**: 이사체크봇 하드닝본 재배포 성공 `intoss-private://moving-check-bot?_deploymentId=019eb3df-...5a11` (6/11 08:31). 쿠폰만료봇 4031 (콘솔 앱 엔트리 미생성 — owner action: ko=쿠폰만료봇/en=coupon-expiry-bot/비게임). 구독정리봇 미배포 (G0 fail 유지, P0는 템플릿 교훈으로 수정).
+- **G0 가치 게이트 박제** (quality_gate_v1_0.md): 구독정리봇 = 토스 네이티브 "내 구독 서비스" 중복으로 심사 트랙 제외 / 이사봇 hold(리텐션 구조 부재) / 쿠폰봇 가치가설 1순위 (마찰 절감 로드맵: 스마트 단일입력 -> 붙여넣기 등록 -> OCR+바코드 보관). 후보 스코어카드에 duplicationRisk + valueGateG0 축 추가 (유통기한봇 high 차단).
+- 최종 .ait: 이사 3,769,698B / 쿠폰 3,770,642B / 구독 3,769,675B. 정책 체커 0 findings 유지, ops_report_20260611 green (3 apps).
+- 잔존: 쿠폰봇 콘솔 엔트리(owner 1분) -> 배포 / 실기기 QR QA / 심사 제출은 G6 human gate / 쿠폰봇 마찰 절감 1단계(스마트 입력+날짜 퀵칩) 차기 작업.
