@@ -4,7 +4,7 @@
 > Canonical source: `.agent/NEO_MASTER_RULES.md`
 > Supporting sources: `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, `.agent/shared-brain/*`
 > Regenerate with `python scripts/sync_agent_context.py`
-> Live snapshot source: `.agent/shared-brain/status.json` (`2026-06-09T15:20:40+09:00`)
+> Live snapshot source: `.agent/shared-brain/status.json` (`2026-06-10T20:59:09+09:00`)
 
 ## SSOT Order
 1. `.agent/NEO_MASTER_RULES.md`
@@ -50,4 +50,4 @@
 - Sora reads `src/core/data/sora_context.json` for shared-brain and runtime paths.
 
 ## Runtime Revision
-- ssotRevision: `538f73543f80cddb`
+- ssotRevision: `c2e79a2ced044f4f`

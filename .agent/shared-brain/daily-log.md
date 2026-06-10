@@ -6,6 +6,22 @@
 
 ---
 
+## 2026-06-07 - Codex Apps in Toss 1평상점 기획 고도화
+
+- Completed the Apps in Toss idle game planning upgrade for `1평상점` under `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs`.
+- Added the development baseline PRD/economy/revenue/launch/architecture/naming/planning-board artifact set, with MVP scope fixed to client-only H5, ads-only monetization, 4 ad placements, and no IAP/promotion/leaderboard/server in MVP.
+- Verified `20260607_1pyeong_store_economy_v0_2.json` parses and matches the PRD counts: 6 stands, 10 equipment, 5 expansions, 8 regulars, 6 daily goals, 5 achievements, and 4 ad placements.
+- Added `20260607_1pyeong_store_project_strategy_v1_0.md`: proceed decision, low-cash validation mode, 10-day local MVP roadmap, 2-4 week Apps in Toss launch path, KPI gates, budget caps, and Go/Pivot/Stop rules.
+- Added `20260607_1pyeong_store_design_research_v1_0.md`: single-screen idle tycoon UX, 390x700 baseline, Safe Area-first mobile layout, bright 2D store visual direction, SDK adapter architecture, storage/analytics/ad mock design, asset and QA criteria.
+- Advanced implementation design: saved `design/concepts/20260607_1pyeong_store_mobile_home_concept_v1.png` and added screen design, component contract, state/event design, and implementation breakdown docs. All design docs verify as ready, and the next action is `create_app_scaffold`.
+- Completed independent external design audit in `20260607_1pyeong_store_design_independent_audit_v1_0.md`. Result is conditional reject: P0=2, P1=7, P2=3. Implementation scaffold is blocked until design patch v1.1 fixes the custom X/Safe Area conflict and 360x640 height budget.
+- Re-reviewed project strategy in `20260607_1pyeong_store_project_strategy_review_v1_1.md`: product and monetization direction remain proceed/ads-only, but strategy v1.0 is superseded and app scaffold remains blocked until design patch v1.1 closes the P0 items.
+- Registered `20260607_1pyeong_store_release_audit_telegram_notification_gate_v1_0.md`: Codex/Neo Telegram notification will be sent once final launch preparation and final external audit pass. No Telegram message was sent now because current external QA rejects implementation until doc gate index, design patch, and asset manifest v1.1 are complete.
+- Added `20260607_1pyeong_store_test_and_real_user_qa_gate_v1_0.md`: verified there is no `app/`, `package.json`, test runner, or test files, so unit/integration/E2E/real-user QA are not completed. Real-user QA is gated behind playable MVP plus internal automated/mobile QA pass.
+- Completed 6-agent synthetic persona parallel QA and added `20260607_1pyeong_store_synthetic_persona_parallel_qa_v1_0.md`. Result: synthetic persona QA is useful now but does not replace real-user QA; implementation remains blocked until doc gate index, design patch, and asset manifest v1.1 close P0 issues. Key new design inputs are first purchase friction, ad fatigue, softened money wording, explicit ad copy, first expansion visual delta, and accessibility acceptance criteria.
+- Added `20260607_1pyeong_store_doc_gate_index_v1_1.md`, `20260607_1pyeong_store_design_patch_v1_1.md`, `20260607_1pyeong_store_ai_native_asset_manifest_v1_1.json`, and `20260607_1pyeong_store_economy_simulation_patch_v0_3.md`. v1.0 implementation docs now carry superseded notices. Asset manifest v1.1 parses, has 10 equipment items, includes `equipment_used_calculator`, accepted/rejected schema, static AI disclosure policy, and matches all v0.2 economy equipment IDs. Economy simulation passes first purchase 15 taps, auto income 15 sec, first expansion 140 sec. Internal app scaffold is now the next allowed step; real-user QA remains blocked.
+- Launch remains not externally ready until Apps in Toss sandbox QA, game review/rating, and open review are completed.
+
 ## 2026-05-12 - Codex D00.test Deferred Cleanup First Run
 
 - Ran `D:\00.test\007.infra-tools\006.directory-maintenance\Invoke-D00TestDeferredCleanup.ps1` with `HandleTimeoutSeconds 180`.
@@ -4042,3 +4058,738 @@
 - Commit pushed to `Yesol-Pilot/kott`: `09aaf07 feat: deepen kott title intent pages`; production deploy `kott-b7qe3qzwb-yesol-pilots-projects.vercel.app` was aliased to `https://kott.kr`.
 - Verification: lint passed with the existing 13 warnings only, build passed, live `/` and `/title/moving` return HTTP 200, live growth monitor score `100`/green, sitemap contains `/title/moving`, `/title/lovely-runner`, and `/title/queen-of-tears`.
 - Live DOM QA: `/title/moving` has body length `1788`, answer box top `303px`, fast points/search terms/verification sections present, FAQ count `6`; `/title` has `P0 20개` and 80 title links; home has 40 `/title/` links and 43 OTT anchors.
+
+## 2026-06-05 - Codex Supabase Security Advisor Cleanup
+
+- Cleaned Supabase security advisor findings across ETRIBEAI, sora, quant-poc-multi-asset, neogenesis-main, and zing through MCP-backed migrations and verification queries.
+- Revoked public/client execute from exposed security-definer RPCs, tightened or removed broad public RLS write policies, added explicit deny policies for service/private tables, and moved `neogenesis-main` pgvector extension from `public` to `extensions`.
+- Final security advisor state: ETRIBEAI 0 lints, quant-poc-multi-asset 0 lints, zing 0 lints, sora only `auth_leaked_password_protection`, neogenesis-main only `auth_leaked_password_protection`.
+- Remaining Auth leaked password protection findings require Supabase Auth dashboard/config action rather than table/RLS SQL.
+
+## 2026-06-07 - Codex TikTok AiNo Editorial Batch Render Validation
+
+- Added a data-driven `render_editorial_batch.py` path so source-backed issue bundles can drive Topic/Script/Scene creation without duplicating the single canary template.
+- Hardened `pipeline.py` to accept scene-level visual override JSON and unique run IDs, then rendered three 2026-06-07 political commentary candidates with Codex CLI images and ElevenLabs TTS.
+- Final usable candidates: `leftaino_20260607_102114`, `leftaino_20260607_102736`, and `leftaino_20260607_105347`; all are `publish_ready`, `upload_ready=true`, 9/9 Codex images generated, and mobile storyboard QA was visually checked.
+- Rejected earlier batch attempts where readability and generated-image text checks exposed short card copy and `견제`/`경제` visual text confusion; rerendered the third candidate with `감시/방패` image text.
+- No TikTok upload or scheduling was performed. `\AiNo TikTok HA Upload Worker` remained disabled.
+- Follow-up owner-approved execution scheduled all three candidates directly in TikTok Studio for 2026-06-07 12:20, 18:50, and 21:40 KST. Studio content-page verification matched titles and times, AIGC disclosure was appended in captions, and HA state was updated to `scheduled` for the three 2026-06-07 jobs. The Windows scheduled upload task remains disabled.
+
+## 2026-06-07 - Codex Apps in Toss 1평상점 AI Native Production Methodology
+
+- 작성 완료: `20260607_1pyeong_store_ai_native_production_methodology_v1_0.md`, `20260607_1pyeong_store_ai_native_asset_manifest_v1_0.json`, `20260607_1pyeong_store_ai_asset_prompt_pack_v1_0.md`.
+- 결정: `1평상점`은 런타임 AI 호출 게임이 아니라 AI 네이티브 제작 게임으로 진행. 플레이 중 AI API 호출은 제외하고, 기획/에셋/코드/QA 생산을 AI 기반으로 운영한다.
+- 에셋 원칙: UI 텍스트/버튼/수치/상태는 React DOM, 상점/매대/손님/단골/마케팅 이미지는 생성형 원본 에셋. 스톡/외주/원작 유사/읽히는 가짜 상품명/현금성 그래픽은 MVP 금지.
+- 검증: asset manifest JSON 파싱 통과, 필수 그룹 7개/선택 그룹 1개 확인, 민감 credential/account 문자열 없음.
+- 다음 게이트: 설계 패치 v1.1로 custom X 제거와 360x640 compact height budget을 닫은 뒤, AI 에셋 1차 생성/QA와 app scaffold 순서로 진행.
+- 산출물 독립 감사/QA 완료: `20260607_1pyeong_store_ai_native_output_audit_qa_v1_0.md` 작성. 새 P0는 없으나 P1 4건, P2 3건을 확인했다. 핵심 P1은 `equipment_used_calculator` 프롬프트와 manifest ID 불일치, static AI generated art disclosure policy 미확정, accepted/rejected QA record schema 부재, full MVP prompt pack 미완성이다. 다음 패치는 `asset_manifest_v1.1`과 `design_patch_v1.1`.
+- 외부 독립 QA 완료: `20260607_1pyeong_store_external_independent_qa_v1_0.md` 작성. 외부 QA 판정은 `reject_for_implementation`. P0 2건/P1 6건/P2 3건. 핵심 P0는 기존 설계 P0 미해결과 문서 게이트 충돌이다. `screen/component/state/implementation v1.0`이 아직 `ready/create_app_scaffold`를 말하므로 외부 구현팀 오착수 위험이 있어 `doc_gate_index_v1.1` 작성이 추가 게이트가 됐다.
+
+## 2026-06-07 - Codex Apps in Toss 1평상점 H5 MVP Scaffold QA
+
+- Created `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app` as a Vite + React + TypeScript scaffold with local storage, reducer/state/selectors, v0.3 economy timing, compact Toss-style mobile layout, and static favicon.
+- Fixed storage resume behavior: saved game state now loads through `LOAD_STATE`, increments the session, resets per-session ad counters, and applies capped offline income instead of resetting the game.
+- Verification passed: `npm test` = 2 files / 5 tests, `npm run build` passed, and 360x640 Chrome/Playwright fallback smoke passed with page identity/not blank/no framework overlay/no custom close/no console errors/interaction proof/no page vertical overflow.
+- Browser plugin attempt failed on in-app Browser webview attach timeout, so QA used local Chrome headless with cached Playwright outside project dependencies. Evidence is under `D:\00.test\010.tmp-output\1pyeong-store-browser-qa`.
+- Remaining gates: AI generated asset pass and manifest update, Apps in Toss sandbox/API adapter QA, real user QA with 5-7 testers, final external release audit. Telegram release notification remains blocked until those pass.
+
+## 2026-06-07 - Codex Apps in Toss 1평상점 AI Asset Pass 1 Partial
+
+- Generated and accepted AI-native static assets for `stage_shop_initial`, `stage_shop_expansion_ready`, `stage_shop_expanded` conditional, `stand_snack`, `equipment_used_calculator`, and `app_icon`; high-resolution sources are under `asset-sources/raw` and app-optimized assets under `app/public/assets/generated`.
+- Rejected `customer_silhouettes_4` because the output was full character cutouts rather than compact silhouettes. It was removed from the app public bundle and moved to `asset-sources/rejected`.
+- Updated `20260607_1pyeong_store_ai_native_asset_manifest_v1_1.json` with generated QA records, accepted/rejected paths, bundle budget check, and next actions. Added `20260607_1pyeong_store_asset_qa_pass_1_v1_0.md`.
+- App public generated asset total is 321.8KB, below the 5MB MVP image budget. Verification re-passed: `npm test`, `npm run build`, and 360x640 Chrome/Playwright fallback smoke with generated assets loaded.
+- Remaining gates: regenerate true customer silhouettes, generate regular icons, add expansion-purchase E2E, then Apps in Toss sandbox/API adapter QA. Real user QA and Telegram release notification remain blocked.
+
+## 2026-06-07 - Codex Apps in Toss 1평상점 AI Asset Pass 1 Completion
+
+- Regenerated `customer_silhouettes_4` as true compact visitor markers after two rejected full-character attempts, then cropped and compressed four marker assets into `app/public/assets/generated/customers`.
+- Generated `regular_icons_first_4`, cropped four regular customer icons into `app/public/assets/generated/regulars`, and wired them into the regular customer tab.
+- Updated app UI to show a customer marker after the first tap and to switch stage art after `next_room` expansion purchase. Public generated asset total is 344.1KB.
+- Verification passed: `npm test`, `npm run build`, and enhanced 360x640 Chrome/Playwright smoke covering generated assets, customer marker after tap, expansion purchase flow, regular icon loading, console health, and no page vertical overflow.
+- AI asset pass 1 is complete. Remaining release gates are Apps in Toss storage/ads adapter stubs, sandbox/API QA, real user QA, and final external release audit.
+
+## 2026-06-07 - Codex Apps in Toss 1평상점 Adapter + Rewarded QA
+
+- Implemented `app/src/adapters/appsInToss.ts` with native Apps in Toss Storage, SafeAreaInsets, `loadFullScreenAd/showFullScreenAd`, event logging, and local browser fallback.
+- Replaced direct localStorage use with `platformStorageAdapter`; saved v3 state now tolerates missing `adState.rewardedBoosts`.
+- Fixed rewarded ad behavior: `AD_COMPLETED` no longer only increments a counter; `customer_rush` now applies a 60s CPS multiplier from 6 to 12 and expires through reducer ticks.
+- Added `@apps-in-toss/web-bridge` and `@apps-in-toss/bridge-core`; removed full `@apps-in-toss/web-framework` after it pulled large transitive dependencies and audit findings. Final `npm audit` is 0 vulnerabilities.
+- Verification passed: `npm test` = 3 files / 8 tests, `npm run build` passed, and 360x640 Chrome/Playwright fallback QA passed including rewarded ad flow. Evidence: `D:\00.test\010.tmp-output\1pyeong-store-browser-qa\evidence.json`.
+- Added current docs: `20260607_1pyeong_store_apps_in_toss_adapter_v1_0.md`, `20260607_1pyeong_store_test_and_real_user_qa_gate_v1_1.md`, and `20260607_1pyeong_store_doc_gate_index_v1_2.md`.
+- Remaining gates: Apps in Toss sandbox packaging/env wiring, real WebView Storage/SafeArea/rewarded ad QA, real user QA, final external release audit, then Telegram release notification.
+
+## 2026-06-07 - Codex Apps in Toss 1pyeong-store AIT Packaging Gate
+
+- Added Apps in Toss packaging config and scripts under `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app`: `granite.config.ts`, `scripts/build-apps-in-toss.ps1`, and `scripts/deploy-apps-in-toss.ps1`.
+- Verified `.ait` artifact creation through `npm run ait:build`; final artifact is `app\one-pyeong-store.ait`, 4,127,651 bytes, with build log deploymentId `019ea206-b68a-7324-a9a9-02e0b36863a5`.
+- Verified archive contents include RN 0.84.0 and 0.72.6 iOS/Android bundles plus `web/index.html`, Vite assets, and all generated static game art.
+- Hardened deploy script so missing AIT profile fails before upload and before any raw API key prompt; `npm run ait:deploy` currently blocks because local profile `default` is absent.
+- Reverified `npm test` (3 files / 8 tests), `npm run build`, final `npm audit --json` with 0 vulnerabilities, and `npm ls --depth=0` with no retained `@apps-in-toss/web-framework`.
+- Added docs: `20260607_1pyeong_store_apps_in_toss_packaging_v1_0.md` and `20260607_1pyeong_store_doc_gate_index_v1_3.md`.
+- Remaining gates: secure AIT profile or manual console upload, Toss app QR QA, real rewarded ad `userEarnedReward` QA, 5 to 7 person real user QA, external release audit, then Telegram notification.
+
+## 2026-06-07 - Codex Apps in Toss 1pyeong-store Pre-upload Local Gate
+
+- Added pagehide/visibilitychange persistence guard in `app/src/App.tsx` so current game state is flushed before the Toss WebView is hidden or closed.
+- Expanded Apps in Toss adapter unit coverage from 8 to 13 tests: native Storage, native Storage fallback, SafeArea CSS variables, native `userEarnedReward` reward, and dismissed-ad no-reward behavior.
+- Added QA privacy notice at `app/public/privacy.html`, plus docs `20260607_1pyeong_store_privacy_notice_v1_0.md`, `20260607_1pyeong_store_toss_app_qr_qa_runbook_v1_0.md`, `20260607_1pyeong_store_doc_gate_index_v1_4.md`, and `20260607_1pyeong_store_doc_gate_index_v1_5.md`.
+- Rebuilt `.ait`; final artifact is `app\one-pyeong-store.ait`, 4,129,211 bytes, with build log deploymentId `019ea20f-3d9f-7fa6-bdc1-149b95a112d1`, and archive path `web/privacy.html` verified present.
+- Verification passed: `npm test` = 3 files / 13 tests, `npm run ait:build` passed, `npm audit --json` has 0 vulnerabilities, `npm run ait:deploy` fails fast because local AIT profile `default` is absent, `/privacy.html` returns 200, and 360x640 browser QA passed with no console errors or vertical overflow.
+- Secret hygiene check: no bank-account-shaped string was found in app/docs; credential-related text matches are only policy/gate wording and no raw credential values were printed.
+- Remaining gates: secure AIT profile or manual console upload, Toss app QR QA, real rewarded ad `userEarnedReward` QA, 5 to 7 person real user QA, external release audit, then Telegram notification.
+
+## 2026-06-07 - Codex Apps in Toss 1pyeong-store Deploy 4031 Gate
+
+- Registered the Apps in Toss API credential into the local AIT `default` profile through the official `ait token add default` flow using stdin from `.env.local`; raw credential value was not printed.
+- First deploy no longer prompted for an API key, but Apps in Toss returned `Code: 4031` with app missing/no-permission wording, so no upload occurred.
+- Hardened `scripts/deploy-apps-in-toss.ps1` to treat `Canceled`, `Code: ####`, or `Error` output as a real failure instead of allowing the AIT CLI's zero exit behavior to look successful.
+- Added `APPS_IN_TOSS_APP_NAME` and `APPS_IN_TOSS_DISPLAY_NAME` overrides in `granite.config.ts`; default remains `one-pyeong-store` / `1평상점`.
+- Reverified after the config change: `npm test` = 3 files / 13 tests, `npm audit --json` = 0 vulnerabilities, `npm run ait:build` passed, latest artifact is 4,129,209 bytes with build deploymentId `019ea21e-f8d3-78bf-9ab0-7883945c7aea`.
+- Added docs: `20260607_1pyeong_store_apps_in_toss_deploy_attempt_v1_0.md` and `20260607_1pyeong_store_doc_gate_index_v1_6.md`.
+- Remaining blocker is no longer local credential setup; it is Apps in Toss console app creation/appName mismatch/API key permission.
+
+## 2026-06-07 - Codex Apps in Toss 1pyeong-store Local Release Gate Automation
+
+- Added `app/scripts/check-apps-in-toss-release-gate.ps1` and `npm run ait:gate` to verify the local AIT release gate without printing credentials.
+- Gate checks cover artifact presence, tar readability, `web/index.html`, web assets, `web/privacy.html`, readable local AIT credentials, profile existence, and non-empty appName.
+- Verification passed: `npm run ait:gate` returned `localGateReady=true`, artifact 4,129,209 bytes, `privacyInArchive=true`, `profileExists=true`, and appName `one-pyeong-store`.
+- Reverified quality gates after the script addition: `npm test` = 3 files / 13 tests and `npm audit --json` = 0 vulnerabilities.
+- Added docs: `20260607_1pyeong_store_doc_gate_index_v1_7.md`.
+- Remaining blocker is still external: Apps in Toss console app creation, immutable appName match, or API key permission after the observed 4031 response.
+
+## 2026-06-07 - Codex Apps in Toss 1pyeong-store No Store Registration Path
+
+- Owner confirmed there is no existing external store registration for this app/game.
+- Updated the release decision: do not assume an existing store app; create a new Apps in Toss console app first, then run AIT upload and QR QA.
+- Added docs: `20260607_1pyeong_store_no_store_registration_release_path_v1_0.md` and `20260607_1pyeong_store_doc_gate_index_v1_8.md`.
+- Public release/revenue remains blocked after QR QA until business, settlement, advertising permission, public privacy URL, and game-rating evidence are handled.
+- Current immediate action is console app creation with appName `one-pyeong-store`; local code/build/profile gate remains pass.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store Console-Created Deploy Retry
+
+- Owner confirmed the Apps in Toss console app was created.
+- PowerShell command execution was unresponsive in this session, so the deploy retry used Node REPL `child_process` with direct `cmd.exe` execution.
+- Verified local artifact directly: `one-pyeong-store.ait` exists, is 4,129,209 bytes, and includes `web/index.html`, `web/privacy.html`, and web assets.
+- Temporarily installed `@apps-in-toss/web-framework@2.6.1`, ran `npx ait deploy --profile default --location one-pyeong-store.ait --memo one-pyeong-store_QR_QA_candidate`, then uninstalled the temporary package.
+- Deploy still failed with Apps in Toss `Code: 4031`; no upload completed.
+- Post-cleanup `npm audit --json` returned 0 vulnerabilities.
+- Added docs: `20260608_1pyeong_store_post_console_creation_deploy_attempt_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_9.md`.
+- Remaining gate: exact console appName must match `one-pyeong-store`, or the AIT API key/profile must be from the same workspace/app with access permission.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store appName Confirmed 4031
+
+- Owner confirmed the exact Apps in Toss console appName is `one-pyeong-store`.
+- Retried deploy with explicit `--location one-pyeong-store.ait`; Apps in Toss returned `Code: 4031`.
+- Retried deploy without `--location` from the `.ait` directory, matching the official community troubleshooting suggestion; Apps in Toss again returned `Code: 4031`.
+- Verified the installed temporary `@apps-in-toss/web-framework` package was removed from both `package.json` and `package-lock.json`.
+- Added docs: `20260608_1pyeong_store_appname_confirmed_4031_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_10.md`.
+- Remaining gate is API key/profile permission for the workspace/app containing `one-pyeong-store`; appName mismatch is no longer a candidate root cause.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store AIT Deploy Success
+
+- Updated the local AIT `default` profile with the new owner-provided API key; raw key was not written to docs or final output.
+- Created a local backup of the previous `~/.ait/credentials` profile file before replacement.
+- Deployed `one-pyeong-store.ait` successfully with `npx ait deploy --profile default --location one-pyeong-store.ait --memo one-pyeong-store_new_api_key_retry`.
+- Deployment succeeded with `deploymentId=019ea21e-f8d3-78bf-9ab0-7883945c7aea` and generated the deep link `intoss-private://one-pyeong-store?_deploymentId=019ea21e-f8d3-78bf-9ab0-7883945c7aea`.
+- Removed temporary `@apps-in-toss/web-framework` and verified `npm audit --json` returned 0 vulnerabilities.
+- Generated QR artifacts under `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy`.
+- Added docs: `20260608_1pyeong_store_ait_deploy_success_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_11.md`.
+- Next gate is Toss app real-device QR/runtime QA; public release remains blocked until review/rating/business gates pass.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store App Credential Pin
+
+- Pinned the deploy-success Apps in Toss API key to the 1pyeong-store app-specific credential slot in `D:\00.test\neo-genesis\.env.local`.
+- Stored app routing keys: `APPS_IN_TOSS_ONE_PYEONG_STORE_APP_NAME` and `APPS_IN_TOSS_ONE_PYEONG_STORE_API_MASTER_CREDENTIAL`.
+- Did not overwrite the generic `APPS_IN_TOSS_API_MASTER_CREDENTIAL`; app-specific automation should prefer the one-pyeong-store key.
+- Raw credential was not written to docs, final output, or Shared Brain.
+- Added docs: `20260608_1pyeong_store_app_specific_credential_pin_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_12.md`.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store QR Runtime QA Attempt
+
+- Attempted to continue into real-device QR runtime QA after successful AIT deploy.
+- ADB is not available in PATH or common Android SDK paths on this PC session, so automated Android launch could not run.
+- Browser plugin refused direct `file://` navigation to the QR image by security policy, so no browser workaround was used.
+- QR and deeplink artifacts remain ready under `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy`.
+- Added docs: `20260608_1pyeong_store_qr_runtime_qa_attempt_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_13.md`.
+- Next required gate is manual Toss app scan of the QR/deeplink and pass/fail reporting for first screen, Safe Area, tap, purchase, expansion, resume, and rewarded flow.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store Console QR Verified
+
+- In the in-app browser, entered Apps in Toss console workspace `네오제네시스`, opened app `1평상점`, and navigated to `앱 출시`.
+- Verified bundle version `20260608-1`, SDK version `2.6.1`, status `검토 필요`, memo `one-pyeong-store_new_api_key_retry`.
+- Opened the official `테스트` modal and confirmed the QR/deep link `intoss-private://one-pyeong-store?_deploymentId=019ea21e-f8d3-78bf-9ab0-7883945c7aea`.
+- Saved evidence screenshot and JSON under `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy`.
+- Did not click `푸시 보내기`; it is an external notification action to workspace members.
+- Official docs confirm QR testing requires Toss app login, workspace membership, age 19+, and at least one completed test before review request is enabled.
+- Added docs: `20260608_1pyeong_store_console_qr_test_ready_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_14.md`.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store Virtual Device QR Check
+
+- Checked local Android virtual-device prerequisites for QR runtime QA: `adb`, `emulator`, `sdkmanager`, and `avdmanager` are not available in PATH.
+- Confirmed generic browser access to the private deployment host is not a substitute for Toss-app QA because the private distribution requires a signed key/cookie context.
+- Found that the earlier locally generated QR artifact had quoted payload; preserved it as `qr.bad-quoted-20260608.png`.
+- Regenerated `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy\qr.png` and decoded it successfully to `intoss-private://one-pyeong-store?_deploymentId=019ea21e-f8d3-78bf-9ab0-7883945c7aea`.
+- Added docs: `20260608_1pyeong_store_virtual_device_qr_check_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_15.md`.
+- Remaining gate: real Toss app scan by a logged-in workspace member age 19+, or owner-authorized console push send. No push was sent.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store Deus App Builder Analysis
+
+- Opened `https://deus.toss.im/projects/11909/pages/Hn4N2Ap3@1` after the owner reached an authenticated Deus page.
+- Confirmed title `이름 없는 프로젝트 - 가이드`; this is a Deus/App Builder guide and template workspace, not the `1평상점` production runtime.
+- Observed quickstart/template categories including home/list, result screen, picker, loading, notice, auth, upload, and custom sections.
+- Saved screenshot evidence: `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy\deus-guide-page-11909-Hn4N2Ap3.png`.
+- Added docs: `20260608_1pyeong_store_deus_appbuilder_analysis_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_16.md`.
+- Product decision: use Deus for TDS shell, loading, result, and error notice alignment; do not replace the custom H5 idle-game dashboard; release still waits on Toss-app QR/runtime QA.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store QR Console Gate Resolution
+
+- Returned to Apps in Toss app-build and reopened the official `20260608-1 테스트하기` QR modal.
+- Kept the browser visible for QR scan and captured `console-test-modal-live-20260608-qr-runtime-qa.png`.
+- Polled the console state for 90 seconds, then closed the QR modal with `확인`.
+- Confirmed `검토 요청` is enabled with `disabled=false` and `aria-disabled=false`; captured screenshot and JSON evidence under `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy`.
+- Did not click `푸시 보내기` and did not click `검토 요청`, because both can create external side effects.
+- Added docs: `20260608_1pyeong_store_qr_runtime_gate_resolution_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_17.md`.
+- Remaining distinction: console gate is resolved; Codex still lacks direct phone WebView evidence for first screen, Safe Area, purchase, expansion, resume, and rewarded flow.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store Visual QA Pass 1
+
+- Ran Browser visual QA against the local H5 app at `http://127.0.0.1:4073/` using 360x640, 390x844, and 430x932 mobile viewports.
+- Verified page identity, nonblank render, no Vite overlay, local console health, image asset loading, no horizontal overflow, primary tap state change, and expansion tab switch.
+- Found one P1 polish issue: disabled shop rows were too low-contrast and the 360px viewport exposed a heavy inner scrollbar.
+- Fixed `app/src/styles/layout.css` only: removed whole-row disabled opacity, applied readable disabled colors, hid the active-panel scrollbar, and kept scrolling behavior.
+- Reverified post-fix screenshots under `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy\visual-qa-20260608`.
+- Verification passed: `npm test` 3 files / 13 tests, `npm run build`, `npm audit --json` 0 vulnerabilities, and `npm run ait:build`.
+- New local `.ait` artifact is `4,129,303` bytes with build deploymentId `019ea520-71e5-78bb-a0f3-0c44eb2d691d`.
+- Added docs: `20260608_1pyeong_store_visual_qa_pass_1_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_18.md`.
+- Important gate update: the current console review-request-enabled bundle is pre-fix; upload the rebuilt artifact before review request unless the owner explicitly chooses to review the old visual version.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store Brand Icon Asset Pass
+
+- Confirmed the owner concern: stage art was acceptable, but brand/logo/UI icon usage was too thin for launch polish.
+- Added 9 deterministic SVG UI assets under `app/public/assets/generated/ui`: sales, auto, upgrade, expansion, regular, goal, storage, signboard, and ad.
+- Integrated existing `app_icon.png` into the in-app header brand lockup.
+- Updated `app/src/App.tsx` and `app/src/styles/layout.css` so status cards, bottom tabs, shop rows, and ad CTA can use visual icons while preserving DOM text labels.
+- Browser visual QA passed at 360x640, 390x844, and 430x932; broken images 0, horizontal overflow false, local console errors 0, expansion tab switch passed.
+- Verification passed: `npm test` 3 files / 13 tests, `npm audit --json` 0 vulnerabilities, and `npm run ait:build`.
+- New local `.ait` artifact is `4,134,379` bytes with build deploymentId `019ea529-20b6-7055-a51e-63bed0e150df`.
+- Added docs: `20260608_1pyeong_store_brand_icon_asset_pass_v1_0.md` and `20260608_1pyeong_store_doc_gate_index_v1_19.md`.
+- Remaining gate: post-asset artifact must be uploaded to Apps in Toss and QR gate rechecked before review request.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store Required Asset Plan
+
+- Owner challenged whether the first asset pass is enough; conclusion: no, it is only enough to remove obvious prototype feel.
+- Added required asset plan splitting resources into P0-A runtime MVP assets, P0-B review submission assets, P1 game depth assets, and P2 growth/marketing assets.
+- Added production backlog JSON and verified it parses.
+- P0-A runtime assets are pass after the brand/icon asset fix.
+- P0-B review submission assets remain pending and should be checked after uploading the rebuilt `.ait` and entering the review flow.
+- P1/P2 resources such as coffee/stationery stand art, result illustrations, badges, customer rush FX, representative image, screenshots, and launch card are planned rather than blindly generated now.
+- Added docs: `20260608_1pyeong_store_required_asset_plan_v1_0.md`, `20260608_1pyeong_store_asset_production_backlog_v1_0.json`, and `20260608_1pyeong_store_doc_gate_index_v1_20.md`.
+- Next gate remains post-asset upload to Apps in Toss, QR recheck, then review flow asset requirements.
+
+## 2026-06-08 - Codex Apps in Toss 1pyeong-store Post-Asset Upload And QR Gate
+
+- Uploaded the rebuilt post-asset `.ait` bundle to Apps in Toss with memo `one-pyeong-store_visual_asset_pass_v1_20`.
+- Console now shows latest bundle `20260608-2`, SDK `2.6.1`, status `review required`.
+- Verified local artifact gate: archive readable, `web/index.html`, assets, and `privacy.html` present.
+- Post-upload dependency cleanup passed: temporary Apps in Toss web framework package is not left in package files or `node_modules`.
+- `npm audit --json` returned 0 vulnerabilities.
+- Opened the official `20260608-2` QR modal, saved screenshot evidence, and decoded the QR successfully to the `intoss-private://one-pyeong-store` scheme with deployment id prefix/suffix `019ea529...150df`.
+- Reloaded the Apps in Toss console and confirmed the latest row's `검토 요청` button is enabled.
+- Did not click `푸시 보내기`, did not submit `검토 요청`, and did not release to production.
+- Direct browser/private runtime access is still not a substitute for native Toss app QA: Browser returned `ERR_BLOCKED_BY_CLIENT`, and HTTP fetch returned 403.
+- Added docs: `20260608_1pyeong_store_post_asset_deploy_v1_0.md`, `20260608_1pyeong_store_post_asset_qr_gate_v1_0.md`, `20260608_1pyeong_store_review_ready_gate_v1_0.md`, and `20260608_1pyeong_store_doc_gate_index_v1_21.md`.
+
+## 2026-06-08 Apps in Toss `one-pyeong-store` White Screen Runtime Fix (Codex)
+
+- Owner reported the new QR opened a Toss temporary-problem / white screen state.
+- Patched AIT WebView runtime safety:
+  - `vite.config.ts` now uses `base: "./"`.
+  - `index.html` and generated asset paths now resolve through relative/base URLs instead of absolute `/assets/...` paths.
+  - localStorage fallback is now exception-safe so blocked storage cannot reject boot flow.
+- Verification passed: `npm test` 14 tests, `npm run build`, `npm run ait:build`, `npm run ait:gate`, `npm audit` 0 vulnerabilities, static `dist-ait/web` browser QA at 390x844 with 0 console errors and 0 broken images.
+- Redeployed with memo `one-pyeong-store_white_screen_fix_relative_assets_v1`.
+- New retest deployment id is recorded as prefix/suffix `019ea615...ef4a4`; raw secrets were not recorded.
+- New QR evidence path: `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy\white-screen-fix-v1\qr-20260608-white-screen-fix.png`.
+- Next required gate: owner scans the new QR in the Toss app and reports whether the first screen renders.
+
+## 2026-06-08 Apps in Toss `one-pyeong-store` Console Metadata And Store Asset Pack (Codex)
+
+- Entered and draft-saved Apps in Toss console metadata for public app info, category, search keywords, and leaderboard settings.
+- Verified persisted values after reload: category `게임 / 시뮬레이션`, search keywords `방치형`, `키우기`, `상점`, `클리커`, `경영`, score units `점` / `points`, sort order `높은 점수부터`.
+- Generated Apps in Toss submission assets under `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\public\assets\generated\marketing\apps-in-toss`.
+- Added reproducible generator `app\scripts\generate-apps-in-toss-store-assets.ps1`; confirmed it runs through Windows PowerShell after UTF-8 BOM normalization.
+- Asset dimensions verified: light/dark logos 600x600, thumbnail 1932x828, three portrait screenshots 636x1048.
+- Browser visual inspection passed for thumbnail and representative portrait screenshot.
+- Current blocker: Codex in-app Browser exposes `input[type=file]` elements but no `setInputFiles`/native file chooser automation, so console file uploads still require a capable browser automation surface or a one-time manual upload.
+- Owner asked Codex to do the upload; Chrome fallback was attempted. Chrome, Codex Chrome Extension, and native host checks passed, but the Chrome extension backend remained unavailable to Codex, so file upload automation is still blocked until Chrome plugin communication is restored.
+- 2026-06-09 retry: Chrome extension backend reconnected successfully. Chrome Apps in Toss navigation reached Toss Business login, so upload still needs a logged-in Chrome session. Authenticated Codex in-app Browser upload was also tried and failed because Codex In-app Browser explicitly does not support file uploads.
+- Owner clarified Chrome login was already available. Codex reconnected Chrome, claimed the logged-in Apps in Toss console tab, and opened the app logo file chooser. Upload then failed at `fileChooser.setFiles()` with Chrome extension permission `Not allowed`; next blocker is enabling local file access for the Codex Chrome Extension.
+- Verification passed: `npm test` 14 tests and `npm run build`.
+- Added doc: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260608_apps_in_toss_console_management_v1_0.md`.
+
+## 2026-06-09 Apps in Toss `one-pyeong-store` Store Asset Upload Resolved (Codex)
+
+- Owner confirmed Chrome local file access was already allowed.
+- Reconnected Chrome, claimed the logged-in Apps in Toss console tab, and retried file chooser upload using Windows native paths instead of `D:/...` style paths.
+- Root cause of the previous `Not allowed` was path format, not missing asset files or missing console login: `D:\...` native paths succeeded.
+- Uploaded app logo, dark-mode app logo, thumbnail, and three screenshots to Apps in Toss metadata step 2.
+- Clicked `임시저장`; observed `임시 저장했어요`.
+- Reload verification passed: logo/dark-logo/thumbnail fields showed readonly `static.toss.im/appsintoss/48697/...png` URLs, and the screenshot area showed three uploaded screenshots with delete controls plus `추가하기`.
+- Evidence file: `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy\store-assets-upload-v1\console-assets-upload-verification.json`.
+- Updated doc: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260608_apps_in_toss_console_management_v1_0.md`.
+- Remaining gates are game rating/legal or business-sensitive fields, QR/native Toss runtime QA, and explicit owner confirmation before final review request. Raw credentials, bank account, and legal identity values were not recorded.
+
+## 2026-06-09 Apps in Toss `one-pyeong-store` Rating Gate Triage (Codex)
+
+- Opened console metadata step 3 (`게임 등급분류`) and confirmed `검토 요청하기` is disabled.
+- Confirmed required missing fields: store link or game rating certificate PDF, business/app-market registrant info, representative name/address/phone, self-rating registrant/agency/date/number, producer registration number, usage rating, content descriptors, representative seal/signature image, gameplay screenshots, and five legal confirmation checkboxes.
+- Official Apps in Toss docs confirm game apps require rating evidence. If using an open-market rating, store URL plus GRAC self-rating lookup values are required; if using GRAC direct review, a rating certificate PDF is required.
+- Existing repo search found no confirmed `1평상점` open-market store URL or rating number.
+- Prepared Apps in Toss gameplay screen candidates under `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy\rating-gate-v1\apps-in-toss-play-screens`.
+- Added evidence manifest: `D:\00.test\010.tmp-output\1pyeong-store-ait-deploy\rating-gate-v1\rating-gate-manifest.json`.
+- Added doc: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260609_1pyeong_store_apps_in_toss_rating_gate_v1_0.md`.
+- Did not enter legal identity fields, did not check legal confirmations, and did not submit review. Raw business/representative/signature/bank/credential values were not recorded.
+
+## 2026-06-09 Apps in Toss `one-pyeong-store` Android Wrapper And Google Play Prep (Codex)
+
+- Created a Capacitor Android wrapper for the existing H5 game with package `app.neogenesis.onepyeongstore`.
+- Built the debug APK at `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\android\app\build\outputs\apk\debug\app-debug.apk`.
+- Generated Google Play preparation assets under `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\public\assets\generated\marketing\google-play`.
+- Android emulator QA passed for launch, first tap, and expansion tab; crash-pattern log filter returned 0 matches.
+- Verification passed: `npm test` 3 files / 14 tests, `npm run build`, `npm audit --json` 0 vulnerabilities, `npm run assets:google-play`, and `npm run android:assemble:debug`.
+- Added docs: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260609_1pyeong_store_google_play_android_wrapper_v1_0.md` and `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260609_1pyeong_store_google_play_listing_draft_v1_0.json`.
+- Added QA manifest: `D:\00.test\010.tmp-output\1pyeong-store-android-qa\debug-emulator-v1\android-wrapper-qa-manifest.json`.
+- Release is still blocked on Play account/signing/AAB/privacy/content-rating/closed-test gates and Apps in Toss game-rating/legal fields. No final review request was submitted and no sensitive business, bank, signature, or credential values were recorded.
+
+## 2026-06-09 TikTok AiNo Compound Topic Storyboard Drift Fix (Codex)
+
+- Fixed the hot-topic pipeline drift where a compound article headed by `검찰 보완수사권/국회 판단` could select the later `평화공존/남북관계` storyboard rule because the strategy matcher accepted the first matching rule.
+- Added config-owned hook/scoring/classification controls in `src/core/tiktok_aino/config/hot_topic_strategy.json` so `보완수사권` keeps the legal/prosecution arc ahead of broader `이재명` or secondary peace/security claims.
+- Updated `src/core/tiktok_aino/pipeline.py` to score reference storyboard rules by primary title/angle terms, to classify custom arcs from topic metadata, and to preserve the prosecution/legal arc through final reference design.
+- Added a regression test for the exact compound issue shape: final scenes must keep `보완수사권`, `검찰`, and `국회`, and must not drift into `평화공존` or `안보 훅`.
+- Verification passed: `python -m compileall src\core\tiktok_aino\pipeline.py`; targeted regression test; `python -m pytest tests\core\test_tiktok_aino_tts.py tests\core\test_tiktok_aino_generate_from_schedule_quality.py tests\core\test_tiktok_aino_render_editorial_batch.py -q` returned 154 passed.
+- Local canary generated at `D:\00.test\neo-genesis\output\tiktok_aino_canary_20260609_fix\leftaino_20260609_103809`. Script quality passed with publish-ready score 98 and no blockers; mobile text checks passed 9/9 with no overflow.
+- The canary is not an upload candidate because it used local fallback visuals: review failed on `실생성 이미지 부족: 0/9장` and visual diversity/palette blockers. Next production run must use the real image generation path before upload preparation.
+- Real-image canary then generated and was re-rendered with the existing real images under `D:\00.test\neo-genesis\output\tiktok_aino_canary_20260609_real_reuse\leftaino_20260609_105922`.
+- Final canary status is `publish_ready`; review recommendation is `upload_candidate`; ElevenLabs audio is generated; synced duration is 89s; quality score is 98; mobile visual checks passed 9/9 with no text overflow.
+- Upload dry-run passed and created `D:\00.test\neo-genesis\output\tiktok_aino_canary_20260609_real_reuse\leftaino_20260609_105922\preview_1080x1920_upload_safe.mp4`; Chrome CDP was reachable on port 9222.
+- No TikTok post or schedule click was performed because `AINO_UPLOAD_AUTOMATION_ENABLED` is false and this remains an external public action gate.
+
+## 2026-06-09 Apps in Toss `one-pyeong-store` Release AAB Preflight (Codex)
+
+- Added Google Play release bundle scripts: `npm run android:bundle:release` and `npm run android:bundle:release:unsigned`.
+- Added upload signing env wiring in Android Gradle without generating or storing a keystore.
+- Hardened Android `.gitignore` for keystores and signing files.
+- Replaced the mojibake privacy policy with a clean ASCII-safe `public/privacy.html` suitable for public HTTPS hosting.
+- Verification passed: `npm test` 14 tests, `npm run build`, `npm audit --json` 0 vulnerabilities, signed release command intentionally fails without signing env, unsigned release preflight builds successfully.
+- Unsigned preflight AAB: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\android\app\build\outputs\bundle\release\app-release.aab` (`9,497,145` bytes).
+- `jarsigner -verify` confirmed `jar is unsigned`; this AAB is not Play-upload ready.
+- Added release prep doc: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260609_1pyeong_store_google_play_release_aab_prep_v1_0.md`.
+- Added release prep manifest: `D:\00.test\010.tmp-output\1pyeong-store-android-qa\release-aab-prep-v1\release-aab-prep-manifest.json`.
+- Remaining gates: upload key creation, signed release AAB, public HTTPS privacy URL, D-U-N-S case result, Play Organization account, content rating, store URL/GRAC evidence, Apps in Toss legal fields.
+
+## 2026-06-09 Apps in Toss `one-pyeong-store` Signed Release AAB (Codex)
+
+- Generated the local Google Play upload key as a gitignored PKCS12 keystore.
+- Built the signed release AAB for package `app.neogenesis.onepyeongstore`.
+- Verified the AAB with `jarsigner -verify`; result was `jar verified.` and exit code 0.
+- AAB path: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\android\app\build\outputs\bundle\release\app-release.aab`.
+- AAB size: `9,527,683` bytes.
+- Updated release prep doc: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260609_1pyeong_store_google_play_release_aab_prep_v1_0.md`.
+- Updated signed QA manifest: `D:\00.test\010.tmp-output\1pyeong-store-android-qa\release-aab-signed-v1\signed-release-aab-manifest.json`.
+- Did not upload to Play Console, submit Apps in Toss review, check legal confirmations, or store raw credential/bank/legal identity values.
+- Remaining gates: public HTTPS privacy policy URL, D-U-N-S result, Play Organization setup, Play content rating, and Apps in Toss game-rating/legal evidence.
+
+## 2026-06-09 Apps in Toss `one-pyeong-store` D-U-N-S Wait Prep (Codex)
+
+- While the D-U-N-S case is pending, prepared account-independent launch materials instead of waiting.
+- Added D-U-N-S wait workstream doc: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260609_1pyeong_store_duns_wait_workstream_v1_0.md`.
+- Added Google Play App content packet: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260609_1pyeong_store_google_play_app_content_packet_v1_0.json`.
+- Added closed test QA plan: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260609_1pyeong_store_closed_test_qa_plan_v1_0.md`.
+- Updated listing draft to reflect signed AAB readiness.
+- Official-source basis checked: Google Play create app, App content, Data safety, Content ratings, testing tracks, and Apps in Toss FAQ for game rating evidence.
+- Verification passed: JSON parse in PowerShell and Node, `npm test` 14 passed, `npm run build` passed, `npm audit` 0 vulnerabilities.
+- Remaining non-D-U-N-S blocker: choose HTTPS privacy hosting scope; current Vercel CLI default scope is not ideal for blind new project creation.
+
+## 2026-06-09 Apps in Toss `one-pyeong-store` Android 50 Persona Emulator QA (Codex)
+
+- Confirmed Android SDK/emulator setup: SDK root `D:\00.test\007.infra-tools\android-sdk`, AVD `finite_qa`, serial `emulator-5554`, Android 15, 1080x1920, density 420.
+- Rebuilt and installed the latest debug APK.
+- Implemented reusable adb-driven persona QA script and package script.
+- Ran 50 virtual personas. Final v2 result: 50/50 pass, no sustained blank screens, no app crash/ANR package patterns, 50 screenshots, 50 UI dumps, final logcat captured.
+- Evidence report: `D:\00.test\010.tmp-output\1pyeong-store-android-qa\persona-qa-v2\persona-qa-report.json` and `persona-qa-report.md`.
+- Project doc: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260609_1pyeong_store_android_50_persona_emulator_qa_v1_0.md`.
+- Residual issue: short-session relaunch can show native white screen around 2 seconds but recovers by 5 seconds; track as Android splash/loading P1.
+
+## 2026-06-09 Apps in Toss `one-pyeong-store` Android Boot Fallback Patch (Codex)
+
+- Patched `app/index.html` with an inline brand boot fallback to cover the gap between native splash and React render.
+- Evidence: `D:\00.test\010.tmp-output\1pyeong-store-android-qa\splash-fallback-v1\splash_fallback_2s.png` shows the brand loading screen at the previously white 2-second relaunch point.
+- Re-ran emulator persona QA at `D:\00.test\010.tmp-output\1pyeong-store-android-qa\persona-qa-v3-splash-fallback`: 50 personas, 50 passed, 0 failed, 0 blank likely, 0 app crash/ANR package patterns.
+- Rebuilt signed release AAB at `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\android\app\build\outputs\bundle\release\app-release.aab`, size `9,528,175` bytes; `jarsigner -verify` passed.
+- Added doc: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\docs\20260609_1pyeong_store_android_boot_fallback_patch_v1_0.md`.
+
+## 2026-06-09 Apps in Toss `one-pyeong-store` Privacy Policy HTTPS URL (Codex)
+
+- Deployed an isolated static Vercel privacy policy project under `neogenesis-d82d2888`.
+- Public URL: `https://one-pyeong-store-privacy.vercel.app/privacy.html`.
+- Verification passed: Vercel deployment Ready, `HEAD /privacy.html` 200, `GET /privacy.html` 200, browser title present, desktop and 390px mobile layout without horizontal overflow.
+- Evidence screenshot: `D:\00.test\010.tmp-output\1pyeong-store-privacy-url-v1\privacy-vercel-browser.png`.
+- Updated Google Play app content packet, listing draft, release AAB prep doc, Apps in Toss console registration packet, release path doc, and privacy deploy manifest.
+- Did not upload to Play Console, submit Apps in Toss review, check legal confirmations, or register bank/payment data.
+
+## 2026-06-09 TikTok AiNo visual/TTS publish gate hardening (Codex)
+
+- Reworked the TikTok AiNo Editorial OS visual prompt contract so generated images are real-situation cinematic subtitle plates rather than repeated paper-board/card-news scenes.
+- Added repeat-variant concrete scene overrides and palette separation for repeated responsibility scenes; final 9-image canary passed visual quality with real Codex images reused for final TTS validation.
+- Confirmed final local package: `D:\00.test\neo-genesis\output\tiktok_aino_real_image_canary_20260609_tts_final_gate\leftaino_20260609_144528`, status `publish_ready`, upload validation blockers `[]`.
+- Hardened ElevenLabs: `enable_logging=false`, automatic history delete, retry-based final history audit, and final upload gate requiring `elevenlabs_history_final_remaining_first_page=0`.
+- External source checked: ElevenLabs docs state Zero Retention via `enable_logging=false` is enterprise-only, so this account requires post-generation history scrub verification.
+- Final ElevenLabs history API check after the run returned first page items `0`.
+- Verification passed: 192 relevant TikTok AiNo tests.
+- No TikTok upload, schedule click, Play upload, or other external public action was performed.
+
+## 2026-06-09 TikTok AiNo reused visual asset canary CLI (Codex)
+
+- Added a first-class `--reuse-visual-assets-from` path to `src/core/tiktok_aino/render_editorial_canary.py`, reusing the batch renderer's existing visual asset loader instead of an ad-hoc Python path.
+- Verified the formal CLI path with reused real Codex images and fresh ElevenLabs TTS: `D:\00.test\neo-genesis\output\tiktok_aino_real_image_canary_20260609_reuse_cli_final\leftaino_20260609_145823`.
+- Final status: `publish_ready`; upload validation blockers `[]`; mobile visual checks 9/9 passed; render text-fit `all_fit: true`; no overflow, right-rail block, or bottom-UI overlap.
+- ElevenLabs API audit after the run: initial first page items `0`, deleted `0`, final first page items `0`.
+- Verification passed: targeted canary reuse test plus 193 relevant TikTok AiNo tests.
+- No TikTok upload or schedule click was performed.
+
+## 2026-06-09 Apps in Toss `one-pyeong-store` Android ANR Buffered Save Patch (Codex)
+
+- Fixed rapid-tap Android ANR risk by buffering game-state persistence and flushing on lifecycle exits.
+- Hardened the adb persona QA harness to dismiss stale Android system error dialogs and count `ANR_DIALOGS`.
+- Clean v6 emulator QA passed: 50 personas, 50 passed, 0 failed, 0 blank likely, 0 ANR dialogs, 0 crash log matches.
+- Rebuilt signed release AAB: `9,528,960` bytes; `jarsigner -verify` returned `jar verified.` with expected upload-key warnings.
+- Rebuilt Apps in Toss AIT: `8,634,797` bytes; `npm run ait:gate` passed local gate.
+- Updated docs/manifests: `20260609_1pyeong_store_android_anr_buffered_save_fix_v1_0.md`, `20260609_1pyeong_store_doc_gate_index_v1_23.md`, release prep doc, app content packet, and signed AAB manifest.
+- No Play upload, Apps in Toss review submit, legal checkbox confirmation, bank/payment registration, production release, or raw credential recording was performed.
+
+## 2026-06-09 TikTok AiNo live issue render: Lee 1-year 165min press conference (Codex)
+
+- Built a source-backed live issue bundle at `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\live_issue_bundle.json`.
+- Topic: `165분 기자회견, 왜 이렇게 반응이 갈렸을까`; evidence axis: 165 minutes, 21 questions, 64~67% approval range, NBS party gap 46 vs 18, and split ruling/opposition interpretation.
+- Generated a fresh 9-scene Codex-image + ElevenLabs-TTS package: `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\render\leftaino_20260609_151022`.
+- Final status: `publish_ready`; review `upload_candidate`; quality score `95`; upload validation blockers `[]`; visual providers `codex_cli`; unique locations/treatments `9/9`.
+- Visual QA: mobile storyboard inspected; mobile checks 9/9 passed; text-fit `all_fit: true`; overflow/right-rail/bottom-UI collisions `0`.
+- ElevenLabs account audit after generation: initial first page items `0`, deleted `0`, final first page items `0`.
+- Residual creative note: scenes 3 and 4 still lean too much toward chart/card evidence; next iteration should keep only one numeric evidence card and use more press-room/crowd/reaction footage-like scenes.
+- No TikTok upload or schedule click was performed.
+
+## 2026-06-09 TikTok AiNo live issue v2 metadata gate fix (Codex)
+
+- Produced v2 scene-drama bundle at `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\live_issue_bundle_v2_scene_drama.json`, replacing numeric/chart-heavy scenes 3 and 4 with viewer reaction and split-newsroom interpretation scenes.
+- Fixed source-backed script override metadata handling in `src/core/tiktok_aino/pipeline.py`: explicit bundle captions, post bodies, pinned comments, and hashtags are now preserved through `select_publish_script` instead of being overwritten by default metadata templates.
+- Fixed upload AIGC disclosure detection in `src/core/tiktok_aino/upload_automation.py` so `생성형 이미지` and `AI 음성` disclosures are recognized and not duplicated.
+- Final candidate: `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\render_v2_metadata_fixed_final\leftaino_20260609_154015`.
+- Final status: `publish_ready`; quality score `95`; upload dry-run `ok`; upload-safe MP4 `35,495,270` bytes; upload validation blockers `[]`.
+- Final caption/hashtags are topic-specific: no unrelated `검찰개혁` tag; AIGC disclosure appears once; caption follow CTA and series identity pass.
+- Visual/text QA: mobile checks 9/9 passed; text-fit `all_fit: true`; overflow/right-rail/bottom-UI collisions `0`.
+- ElevenLabs account audit after final run: initial first page items `0`, deleted `0`, final first page items `0`.
+- Verification passed: relevant TikTok AiNo suite `195 passed`.
+- No TikTok upload or schedule click was performed.
+
+## 2026-06-09 TikTok AiNo next 3 publish-ready local candidates (Codex)
+
+- Generated and validated two additional source-backed live-issue candidates, bringing the current local candidate set to 3:
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\render_v2_metadata_fixed_final\leftaino_20260609_154015` — `165분 기자회견, 숫자가 아니라 장면이 갈랐다`.
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\next2_render\leftaino_20260609_155454` — `선거 다음날, 보수 프레임이 무너진 이유`.
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\next2_render_fix\leftaino_20260609_160708` — `특검 첫 출석, 책임인가 방어인가?`.
+- Rejected the first special-probe render `leftaino_20260609_155312`: policy gate failed and all visuals were local fallback, so it was not used as an upload candidate.
+- Fixed preserved script metadata so follower conversion also guarantees a comment CTA when explicit captions/pinned comments are preserved.
+- Verification passed: upload dry-run `ok` for all 3 candidates; upload validation blockers `[]`; visual providers `codex_cli`; visual statuses `generated`; mobile checks 9/9 passed for each; text-fit `all_fit: true`; overflow/right-rail/bottom-UI collisions `0`.
+- TTS check: ElevenLabs scene-synced audio generated for all 3; TTS lint warnings `0`; final ElevenLabs history API first page `0`.
+- Tests: `python -m pytest tests\core\test_tiktok_aino_render_editorial_batch.py tests\core\test_tiktok_aino_tts.py -q` => `145 passed`.
+- No TikTok upload, schedule click, or public posting action was performed.
+
+## 2026-06-09 TikTok AiNo local publish queue package (Codex)
+
+- Packaged the 3 verified candidates into a local-only publish queue at `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400`.
+- Planned queue order:
+  - `2026-06-09T19:30:00+09:00` — `leftaino_20260609_160708`, `특검 첫 출석, 책임인가 방어인가?`.
+  - `2026-06-10T08:10:00+09:00` — `leftaino_20260609_155454`, `선거 다음날, 보수 프레임이 무너진 이유`.
+  - `2026-06-10T11:20:00+09:00` — `leftaino_20260609_154015`, `165분 기자회견, 숫자가 아니라 장면이 갈랐다`.
+- Verification passed: queue JSON count `3`, all planned times are future KST slots, all referenced manifests/MP4/storyboards/reports exist, posting boundary flags remain false.
+- Upload dry-run with `--schedule-at` passed for all 3; `posting_gate_enabled=false`, so no external posting action was triggered.
+- HA status check: active lease count `0`; no new HA job was enqueued in this step.
+- No TikTok upload, schedule click, public posting, or performance measurement was performed.
+
+## 2026-06-09 TikTok AiNo publish queue runner guard (Codex)
+
+- Added `src/core/tiktok_aino/publish_queue_runner.py`, a local queue runner that defaults to `dry-run` and blocks `prepare`, `schedule`, and `publish` unless `--confirm-external-action` is explicitly passed.
+- Fixed the local queue reason text in `publish_queue_20260609_162400\publish_queue.json`; no manifest paths, MP4 paths, captions, or planned slots were changed.
+- Verification passed:
+  - `python -m compileall src\core\tiktok_aino\publish_queue_runner.py`.
+  - `python -m src.core.tiktok_aino.publish_queue_runner --queue output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.json --mode dry-run` => `ok=true`, 3 rows.
+  - `--mode schedule --no-write-report` without confirmation was blocked for all 3 rows with `external_action_confirmation_required`.
+  - `python -m pytest tests\core\test_tiktok_aino_publish_queue_runner.py tests\core\test_tiktok_aino_render_editorial_batch.py tests\core\test_tiktok_aino_tts.py -q` => `148 passed`.
+- Dry-run report: `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_run_20260609_162933_dry_run.json`.
+- No TikTok upload, schedule click, public posting, HA enqueue, or performance measurement was performed.
+
+## 2026-06-09 TikTok AiNo publish queue docs and SSOT alignment (Codex)
+
+- Documented the guarded local publish queue flow in `src/core/tiktok_aino/README.md`.
+- Updated `src/core/tiktok_aino/PIPELINE_DESIGN.md` production flow with `publish_queue_runner` and the upload-vs-performance boundary.
+- Updated `src/core/tiktok_aino/WORKFLOW_DESIGN_SPEC.md` with `17A_publish_queue`, artifact contract rows for `publish_queue.json` and `publish_queue_run_*.json`, rules, schema, roadmap, and current status.
+- Verification passed:
+  - README dry-run command returned `ok=true` for 3 queue rows.
+  - Schedule mode without `--confirm-external-action` stayed blocked with `external_action_confirmation_required`.
+  - `python -m pytest tests\core\test_tiktok_aino_publish_queue_runner.py -q` => `3 passed`.
+- No TikTok upload, schedule click, public posting, HA enqueue, or performance measurement was performed.
+
+## 2026-06-09 TikTok AiNo queue execution packet cleanup (Codex)
+
+- Updated `output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue.md` so it no longer points operators to per-manifest `upload_automation --manifest ...` commands.
+- Replaced the stale/garbled queue reasons in `publish_queue.md` with the same clean reason text already present in `publish_queue.json`.
+- Added safe queue dry-run, explicit owner-instruction schedule command, and post-schedule TikTok Studio verification checklist to the queue packet.
+- Updated `src/core/tiktok_aino/HA_RUNBOOK.md` so manual queue execution uses `publish_queue_runner`, requires `--confirm-external-action` for external modes, and preserves the upload/schedule-vs-performance boundary.
+- Verification passed:
+  - `publish_queue_runner --mode dry-run --no-write-report` returned `ok=true` for 3 rows.
+  - `publish_queue_runner --mode schedule --no-write-report` without confirmation blocked all 3 rows with `external_action_confirmation_required`.
+  - `python -m pytest tests\core\test_tiktok_aino_publish_queue_runner.py -q` => `3 passed`.
+- No TikTok upload, schedule click, public posting, HA enqueue, or performance measurement was performed.
+
+## 2026-06-09 TikTok AiNo publish queue rollover guard (Codex)
+
+- Added local-only queue rollover support to `src/core/tiktok_aino/publish_queue_runner.py`.
+- `--rollover-past-slots` moves invalid, past, or too-close planned slots to the next local slot sequence: `08:10`, `11:20`, `19:30`.
+- The rollover path writes a new `publish_queue_rollover_*.json` only when a slot actually changes; it does not call upload automation and preserves posting boundary flags as false.
+- Updated operator docs in `src/core/tiktok_aino/README.md`, `src/core/tiktok_aino/HA_RUNBOOK.md`, and the current queue packet.
+- Verification passed:
+  - `python -m compileall src\core\tiktok_aino\publish_queue_runner.py`.
+  - `python -m pytest tests\core\test_tiktok_aino_publish_queue_runner.py -q` => `5 passed`.
+  - Current queue rollover at `2026-06-09T16:46:24+09:00` returned `changed=false`; first slot `2026-06-09T19:30:00+09:00` remained valid.
+  - Current queue dry-run returned `ok=true`, `count=3`, `posting_gate_enabled=false`.
+  - Schedule mode without `--confirm-external-action` remained blocked for all 3 rows with `external_action_confirmation_required`.
+- No TikTok upload, schedule click, public posting, HA enqueue, or performance measurement was performed.
+
+## 2026-06-09 TikTok AiNo publish queue audit guard (Codex)
+
+- Added local-only queue audit support to `src/core/tiktok_aino/publish_queue_runner.py`.
+- `--audit` checks queue rows, posting boundary, planned slot freshness, and publish/upload readiness without calling Chrome or upload automation.
+- Updated operator docs in `src/core/tiktok_aino/README.md`, `src/core/tiktok_aino/HA_RUNBOOK.md`, and the current queue packet.
+- Verification passed:
+  - `python -m compileall src\core\tiktok_aino\publish_queue_runner.py`.
+  - `python -m pytest tests\core\test_tiktok_aino_publish_queue_runner.py -q` => `7 passed`.
+  - Current queue audit at `2026-06-09T16:51:13+09:00` returned `ready_to_schedule_after_explicit_owner_instruction=true`, `rollover_required=false`, `boundary_ok=true`.
+  - Current queue dry-run returned `ok=true`, `count=3`, with no schedule click.
+  - Schedule mode without `--confirm-external-action` remained blocked for all 3 rows with `external_action_confirmation_required`.
+- Audit report: `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_audit_20260609_165113.json`.
+- No TikTok upload, schedule click, public posting, HA enqueue, or performance measurement was performed.
+
+## 2026-06-09 TikTok AiNo publish queue execution packet (Codex)
+
+- Added local-only execution packet support to `src/core/tiktok_aino/publish_queue_runner.py`.
+- `--packet` writes `publish_queue_packet_*.json` and `publish_queue_packet_*.md` containing the current audit result, safe local commands, and the external schedule command gated behind explicit owner instruction.
+- Updated operator docs in `src/core/tiktok_aino/README.md`, `src/core/tiktok_aino/HA_RUNBOOK.md`, and the current queue packet.
+- Verification passed:
+  - `python -m compileall src\core\tiktok_aino\publish_queue_runner.py`.
+  - `python -m pytest tests\core\test_tiktok_aino_publish_queue_runner.py -q` => `9 passed`.
+  - Current queue packet at `2026-06-09T16:54:52+09:00` returned `local_only=true`, `ready_to_schedule_after_explicit_owner_instruction=true`, `rollover_required=false`.
+  - Current queue audit returned `ok=true`; dry-run returned `ok=true`, `count=3`.
+  - Schedule mode without `--confirm-external-action` remained blocked for all 3 rows with `external_action_confirmation_required`.
+- Packet files:
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_packet_20260609_165452.json`.
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_packet_20260609_165452.md`.
+- No TikTok upload, schedule click, public posting, HA enqueue, or performance measurement was performed.
+
+## 2026-06-09 TikTok AiNo owner-instruction external gate (Codex)
+
+- Hardened `src/core/tiktok_aino/publish_queue_runner.py` external modes with a required `--owner-instruction` argument.
+- `prepare`, `schedule`, and `publish` now require all three gates before upload automation is called:
+  - `--confirm-external-action`.
+  - `--owner-instruction` containing an explicit upload/schedule/post action from the current session.
+  - `AINO_UPLOAD_AUTOMATION_ENABLED=true` for the downstream upload automation gate.
+- Continuation-only prompts such as `next`, `continue`, and short Korean continuation prompts are rejected by the owner-instruction validator.
+- Updated operator docs in `src/core/tiktok_aino/README.md`, `src/core/tiktok_aino/HA_RUNBOOK.md`, and the current queue packet.
+- Verification passed:
+  - `python -m compileall src\core\tiktok_aino\publish_queue_runner.py`.
+  - `python -m pytest tests\core\test_tiktok_aino_publish_queue_runner.py -q` => `11 passed`.
+  - Current queue `--mode schedule --confirm-external-action --no-write-report` stayed blocked with `explicit_owner_instruction_required`.
+  - Current queue `--mode schedule --no-write-report` stayed blocked with `external_action_confirmation_required`.
+  - Current queue `--mode schedule --confirm-external-action --owner-instruction "다음" --no-write-report` stayed blocked with `explicit_owner_instruction_required`.
+  - Current queue dry-run returned `ok=true`, `count=3`.
+- Latest packet files:
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_packet_20260609_165959.json`.
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_packet_20260609_165959.md`.
+- No TikTok upload, schedule click, public posting, HA enqueue, or performance measurement was performed.
+
+## 2026-06-09 TikTok AiNo local preflight orchestrator (Codex)
+
+- Added `--preflight` to `src/core/tiktok_aino/publish_queue_runner.py`.
+- Preflight performs the safe queue sequence in one command: audit, rollover if required, final audit, packet generation, and safe dry-run.
+- If rollover is required, preflight writes a new rollover queue and uses that queue for the final audit, packet, and dry-run. It does not overwrite the source queue.
+- Updated operator docs in `src/core/tiktok_aino/README.md`, `src/core/tiktok_aino/HA_RUNBOOK.md`, and the current queue packet.
+- Verification passed:
+  - `python -m compileall src\core\tiktok_aino\publish_queue_runner.py`.
+  - `python -m pytest tests\core\test_tiktok_aino_publish_queue_runner.py -q` => `13 passed`.
+  - Current queue preflight at `2026-06-09T17:04:15+09:00` returned `ok=true`, `rollover_applied=false`, `dry_run_ok=true`, `final_queue_path` equal to the source queue.
+  - Schedule mode with `--confirm-external-action` but no owner instruction stayed blocked with `explicit_owner_instruction_required`.
+  - Schedule mode with `--owner-instruction "다음"` stayed blocked with `explicit_owner_instruction_required`.
+- Preflight files:
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_preflight_20260609_170415.json`.
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_preflight_20260609_170415.md`.
+- No TikTok upload, schedule click, public posting, HA enqueue, or performance measurement was performed.
+## 2026-06-09 Codex - one-pyeong-store reset-progress gate
+
+- Implemented the Goal-tab `진행 초기화` two-step local progress reset.
+- Verified browser reset flow at 390x844 with no console errors observed.
+- Rebuilt Apps in Toss AIT and Android artifacts: AIT 8,635,074 bytes; signed AAB 9,529,281 bytes; jarsigner reported `jar verified.` with expected upload-key warnings.
+- Reran Android emulator persona QA v7 at `D:\00.test\010.tmp-output\1pyeong-store-android-qa\persona-qa-v7-reset-progress-clean-50`: 50 passed, 0 failed, 0 blank likely, 0 ANR dialogs, 0 crash matches, 50 screenshots, 50 UI dumps.
+- Added/updated release docs and data-safety packet. No Play upload, Apps in Toss review submission, legal checkbox confirmation, credential change, or bank/payment registration was performed.
+## 2026-06-09 Codex - one-pyeong-store closed-test ops packet
+
+- Checked official Play Console testing sources for the latest closed-test operating assumptions.
+- Added `20260609_1pyeong_store_closed_test_ops_packet_v1_0.md`, `20260609_1pyeong_store_closed_test_feedback_schema_v1_0.json`, and `20260609_1pyeong_store_doc_gate_index_v1_25.md`.
+- Added closed-test templates under `D:\00.test\006.games-labs\005.beggar-like-toss-idle\qa\closed-test-v1`: daily log, issue triage, tester roster, production access evidence checklist, and README.
+- Verified JSON parsing for feedback schema, Google Play content packet, and signed release manifest.
+- No tester invitation, Play upload, Apps in Toss review submission, legal checkbox confirmation, credential change, or bank/payment registration was performed.
+## 2026-06-09 Codex - one-pyeong-store Google Play org path correction
+
+- Rechecked official Google Play docs for account type, organization verification, D-U-N-S, and personal-account closed testing requirements.
+- Added organization account strategy and D-U-N-S wait v1.1 docs for `1Pyeong Store`.
+- Corrected the launch gate so closed testing is optional QA/personal fallback for the preferred organization path, not the default release blocker.
+- Updated the Google Play app content packet and verified JSON parsing.
+- No account creation, Play upload, tester invitation, Apps in Toss review submission, legal checkbox confirmation, credential change, or bank/payment registration was performed.
+## 2026-06-10 Codex - one-pyeong-store organization signup runbook
+
+- Checked current official Google Play docs for organization developer accounts, D-U-N-S, payments profile matching, developer identity verification, and public developer contacts.
+- Added the Google Play organization signup runbook and redacted exact-match template for the D-U-N-S-dependent setup step.
+- Added doc gate v1.27 and linked the app content packet to the new runbook/template.
+- Verified JSON parsing for the app content packet, exact-match template, and closed-test feedback schema.
+- No account creation, Play upload, tester invitation, Apps in Toss review submission, legal checkbox confirmation, credential change, or bank/payment registration was performed.
+## 2026-06-10 Codex - TikTok AiNo publish queue preflight after owner approval
+
+- Reran the TikTok AiNo publish queue runner tests: `tests\core\test_tiktok_aino_publish_queue_runner.py` => 13 passed.
+- Reran preflight with authoritative local override `2026-06-10T12:55:00+09:00` because the local OS clock path previously produced stale June 9 slots.
+- Preflight returned `ok=true`, `rollover_applied=true`, and `dry_run_ok=true`.
+- Final rollover queue: `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_rollover_20260610_125500.json`.
+- New planned slots: 2026-06-10 19:30, 2026-06-11 08:10, and 2026-06-11 11:20 KST.
+- No TikTok upload, schedule click, public posting, HA enqueue, credential action, or performance measurement was performed.
+- External scheduling was not executed because the current queue is political persuasion and engagement-oriented content; keep automation limited to local validation unless the queue is replaced with neutral/factual civic information or otherwise safe content.
+## 2026-06-10 Codex - TikTok AiNo manual handoff packet
+
+- Added a local-only `--manual-handoff` mode to `src/core/tiktok_aino/publish_queue_runner.py`.
+- The handoff creates JSON and HTML files with queue readiness, planned slots, and links to local video/storyboard/verification artifacts.
+- It intentionally does not include TikTok upload commands, schedule-click automation, Chrome control, or full caption-copy output.
+- Generated current handoff:
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_manual_handoff_20260610_125500.json`.
+  - `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_manual_handoff_20260610_125500.html`.
+- Verification passed: `python -m pytest tests\core\test_tiktok_aino_publish_queue_runner.py -q` => 14 passed; `python -m compileall src\core\tiktok_aino\publish_queue_runner.py`; `git diff --check` had no whitespace errors for touched TikTok files.
+- No TikTok upload, schedule click, public posting, HA enqueue, credential action, or performance measurement was performed.
+## 2026-06-10 Codex - one-pyeong-store business registration master credentials
+
+- Copied the owner-provided Neo Genesis business registration certificate into the protected business document store and used the ASCII protected alias for extraction.
+- Added redacted local master credential key groups for `NEO_BUSINESS_*`, `GOOGLE_PLAY_ORG_*`, and `APPS_IN_TOSS_BUSINESS_*` in `D:\00.test\neo-genesis\.env.local` and `C:\Users\yesol\.neo-genesis\credentials.env`.
+- Updated `D:\00.test\CREDENTIAL_BIBLE.md`, Google Play app content packet, exact-match template, doc gate v1.28, and the redacted credential update report.
+- Verification passed: protected PDF SHA-256 prefix `05ADED720791`, 29/29 expected local credential keys present in both local files, app content packet JSON valid, exact-match template JSON valid, and sensitive doc leak check passed.
+- No raw business registration number, representative name, registered address, bank data, resident identifier, fleet credential sync, Play upload, Apps in Toss submission, legal checkbox confirmation, or payment action was performed.
+## 2026-06-10 Codex - TikTok AiNo scheduled upload verified
+
+- Owner explicitly requested uploading the newly generated TikTok posts in the current session.
+- Reran publish queue preflight on the current clock. The stale source slots were rolled over to 2026-06-10 19:30, 2026-06-11 08:10, and 2026-06-11 11:20 KST.
+- Scheduled and verified all three posts in TikTok Studio content list:
+  - `leftaino_20260609_160708` -> 2026-06-10 19:30 KST.
+  - `leftaino_20260609_155454` -> 2026-06-11 08:10 KST, after one `login_required` retry.
+  - `leftaino_20260609_154015` -> 2026-06-11 11:20 KST.
+- Evidence written to `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\upload_schedule_evidence_20260610_1317.json`.
+- Verified queue copy written to `D:\00.test\neo-genesis\output\tiktok_aino_live_issue_20260609\publish_queue_20260609_162400\publish_queue_scheduled_verified_20260610_1317.json`; the three manifests now record `schedule_status=scheduled`.
+- No performance measurement was performed; scheduled rows remain `scheduled_not_evaluable` until the 23:30 KST monitoring rollup after publication.
+## 2026-06-10 Codex - one-pyeong-store current QA rerun
+
+- Reran local app gates after business-registration credential work: `npm test` => 4 files / 17 tests passed; `npm run build` passed; `npm audit --audit-level=high` returned 0 vulnerabilities.
+- Reran masked credential/doc checks: 29/29 expected local business identity keys present in both `.env.local` and local cache; JSON packets valid; sensitive document leak check passed.
+- Built and installed Android debug on emulator `emulator-5554`, then ran current 50-persona QA to `D:\00.test\010.tmp-output\1pyeong-store-android-qa\persona-qa-v8-current-50`: 50 passed, 0 failed, 0 blank likely, 0 ANR dialogs, 0 crash matches, 50 screenshots, 50 UI dumps.
+- Rebuilt signed Google Play AAB and verified it with `jarsigner`; rebuilt Apps in Toss AIT artifact and passed the local AIT gate.
+- Residuals: Apps in Toss external gate still blocked by console app name/permission matching, D-U-N-S case `34585961` pending, real external user QA not performed, store upload/submission/legal/payment actions not performed, AIT build emitted a Node `>=24` engine warning while current Node was `v22.12.0`, and screenshots show a `Privacy` label that should be localized before public launch.
+## 2026-06-10 Codex - TikTok AiNo next topic discovery
+
+- After the three newly generated TikTok AiNo posts were scheduled and verified, researched current next-topic candidates from official and reputable live sources.
+- Wrote topic discovery artifacts:
+  - `D:\00.test\neo-genesis\output\tiktok_aino_topic_discovery_20260610\topic_candidates_20260610_ko.md`.
+  - `D:\00.test\neo-genesis\output\tiktok_aino_topic_discovery_20260610\topic_candidates_20260610.json`.
+- Recommended next production order: election administration trust, June 10 democracy anniversary, AI privacy roadmap.
+- Marked youth suicide prevention as `hold_sensitive` because it requires non-sensational self-harm-safe policy framing.
+- JSON validation passed with `python -m json.tool`; no rendering, upload, scheduling, public posting, or performance measurement was performed.
+## 2026-06-10 Codex - TikTok AiNo election administration trust render
+
+- Proceeded from topic discovery into local production for `election_admin_trust_20260610`.
+- Created source-backed production bundle:
+  - `D:\00.test\neo-genesis\output\tiktok_aino_election_admin_trust_20260610\election_admin_trust_bundle_20260610.json`.
+  - `D:\00.test\neo-genesis\output\tiktok_aino_election_admin_trust_20260610\production_brief_20260610_ko.md`.
+- Dry-run passed with 9 scenes, 3 sources, and 4 source-backed claims.
+- First real render produced `needs_revision` because readability/safe-provocation gates blocked real image generation, so the bundle was patched to use a stronger first-frame question and a clear final CTA question.
+- Final render passed as `publish_ready` / `upload_ready`:
+  - run_id `leftaino_20260610_140835`.
+  - manifest `D:\00.test\neo-genesis\output\tiktok_aino_election_admin_trust_20260610\render_fix\leftaino_20260610_140835\manifest.json`.
+  - mp4 `D:\00.test\neo-genesis\output\tiktok_aino_election_admin_trust_20260610\render_fix\leftaino_20260610_140835\preview_1080x1920.mp4`.
+  - storyboard `D:\00.test\neo-genesis\output\tiktok_aino_election_admin_trust_20260610\render_fix\leftaino_20260610_140835\mobile_preview_storyboard.png`.
+- Verification summary: quality score 96, blockers empty, ElevenLabs audio generated, `codex_cli` visual assets generated, storyboard visually checked.
+- No TikTok upload, schedule click, public posting, or performance measurement was performed.
+## 2026-06-10 Codex - one-pyeong-store environment setup audit
+
+- Installed portable Node `v24.16.0` with npm `11.13.0` under `D:\00.test\007.infra-tools\node24` after SHA-256 verification from the official Node distribution.
+- Patched `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\scripts\build-apps-in-toss.ps1` so AIT packaging prepends local Node 24 when present, without changing global PATH.
+- Reran `npm run ait:build`; AIT artifact rebuilt at `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\one-pyeong-store.ait` with 8,635,072 bytes and no Node engine warning.
+- Reran `npm run ait:gate`; local gate passed and external gate remained `blocked_until_apps_in_toss_console_app_name_and_permission_match_after_4031`.
+- Verified Android SDK setup: build-tools 35/36, emulator 36.5.11, platform-tools 37.0.0, platforms android-35/android-36, and `finite_qa` emulator available.
+- Added environment setup audit and doc gate v1.30. Remaining setup is external: Apps in Toss console gate, D-U-N-S/Google Play org account, payment/legal actions, and real external user QA.
+## 2026-06-10 Codex - AIT autonomous factory research package
+
+- Created the new product planning root `D:\00.test\002.products-sbu\013.ait-autonomous-factory`.
+- Added `PROJECT_SPEC.md`, detailed research, architecture, 4-week execution plan, operations playbook, and mini-app candidate scorecard.
+- Reframed the owner intent as an AI-native Apps in Toss mini-app factory, not a single AI chatbot or one-off mini-app.
+- Explicitly kept console registration, mTLS certificates, legal/privacy approval, settlement, review submission, production launch, and bulk messaging as human approval gates.
+- Verified the scorecard JSON with UTF-8 parsing and checked that the research document includes official Apps in Toss source links.
+## 2026-06-10 Codex - AIT autonomous factory executable skeleton
+
+- Added a reusable mini-app template, policy checker, candidate ranking script, generation script, candidate data, and `moving-check-bot` manifest under `D:\00.test\002.products-sbu\013.ait-autonomous-factory`.
+- Generated the first Apps in Toss candidate app at `apps\moving-check-bot`.
+- Verification passed: `node factory/verify.mjs`, `npm install`, `npm test`, `npm run build`, `npm run ait:build`, `npm run ait:gate`, and `npm audit --audit-level=high`.
+- AIT artifact created: `apps\moving-check-bot\moving-check-bot.ait` with 3,767,135 bytes; local AIT gate ready, external gate still `blocked_until_console_registration_review_and_owner_release_approval`.
+- Browser smoke at `http://127.0.0.1:4051` with 390x700 viewport passed: app title rendered, no horizontal overflow, first checklist click changed progress from 0/4 to 1/4. Screenshot capture returned no data from the in-app browser tab, so DOM/click evidence was used.
+- Stopped the local Vite dev server after verification. No Apps in Toss console action, review submission, production launch, credential entry, legal approval, or bulk message was performed.
+## 2026-06-10 Codex - one-pyeong-store privacy label polish
+
+- Localized the visible header privacy link in `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\src\App.tsx` from `Privacy` to `개인정보` and updated the accessibility label to `개인정보 처리방침`.
+- Verification passed: source no longer contains `Privacy`/`Privacy Policy` in `app/src`, `npm test` => 4 files / 17 tests passed, `npm run build` passed.
+- Rebuilt Apps in Toss AIT artifact under portable Node 24: `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\one-pyeong-store.ait`, 8,635,090 bytes; local AIT gate passed and external gate remains blocked.
+- Rebuilt/installed Android debug on `emulator-5554`, then ran 50-persona QA v9 at `D:\00.test\010.tmp-output\1pyeong-store-android-qa\persona-qa-v9-privacy-label-50`: 50 passed, 0 failed, 0 blank likely, 0 ANR dialogs, 0 crash matches, 50 screenshots, 50 UI dumps.
+- Rebuilt signed Google Play AAB at `D:\00.test\006.games-labs\005.beggar-like-toss-idle\app\android\app\build\outputs\bundle\release\app-release.aab`, 9,529,280 bytes; `jarsigner -verify` passed.
+- Added `20260610_1pyeong_store_privacy_label_patch_v1_0.md` and `20260610_1pyeong_store_doc_gate_index_v1_31.md`; updated the Google Play app content packet to v9 QA/artifact sizes. No Apps in Toss review submit, Google Play upload, legal/payment action, fleet credential sync, or external real-user QA was performed.
+## 2026-06-10 Claude - TikTok AiNo 23:30 rollup gap filled (manual 15:47 run)
+
+- Owner asked for the pending performance report; last canonical rollup was 2026-06-03 23:32 and the daily 23:30 rollup had a 6-day gap.
+- Captured a fresh TikTok Studio content snapshot via Chrome (4 scroll panes, 153 posts account, rows 5/27-6/11) to `output/tiktok_aino_performance_reports/current_studio_visible_rows_20260610.json` (builder script `build_snapshot_20260610.py` kept for reproducibility).
+- Ran `python -m src.core.tiktok_aino.monitoring --studio-snapshot ...` with conda base python (repo `.venv` lacks imageio; pipeline import needs it).
+- Output: `performance_report_20260610_154723.json` + canonical `performance_feedback.json` refreshed (row_count 35, sample 31, strong 3, weak 24, scheduled 4). Next hot-topic discovery and schedule plan will consume the new feedback automatically.
+- Honest read: recent Editorial OS posts sit in a ~80-740 view box (best: 조국의 겨울 738v 6/5; 국정조사 434v 6/9; ranking-format 역대 TOP5 392v). Headline-quote format ("YTN/MBC 보도 제목 기준") is the weakest bucket (76-159v, 0-1 likes). Account's all-time strong refs remain the 3 pinned 2025-04 narrative/ranking posts (116K/35K/9.9K).
+- 3 scheduled rows (6/10 19:30, 6/11 8:10, 6/11 11:20) remain `scheduled_not_evaluable`; tonight's 23:30 rollup should evaluate the 19:30 post's early window.
+- No TikTok upload, schedule click, or content change was performed; read-only metrics + local analysis only.
+## 2026-06-10 Claude - @leftaino 4-angle account analysis (owner request: content/performance/profile)
+
+- Ran a 4-agent analysis (data forensics on 35 Studio rows / FOLLOWER_GROWTH_REDESIGN audit / KR political short-form market research / profile branding). Full output: `D:\005.output\tmp\claude\D--00-test\f2596fb6-4a7f-484a-98c5-b131c42a8555\tasks\wzr4gy519.output`.
+- Format forensics (recent 28 posts): 정서서사 738v·like 3.5% > 양자택일해설 avg216 > 랭킹 avg200 > 질문템플릿("X, 왜~나?") avg178(54% of volume, fatigued, feedback already -28) > **보도제목 인용형 median 84v, likes 0-1, comments 0 = kill**. Legacy pinned (2025-04) like-rates 14.8-24.2% vs recent 1.3-3.5%. Recent 28 posts total comments = 9.
+- Hook finding: 명사구/선언 훅 avg 299v beats 질문 훅 avg 172v (1.7x). Numeric-provocation questions ("12대4...") are the only good question hooks.
+- **Pipeline asks for Codex** (production router is Codex domain): ① drop "보도 제목 기준:" template entirely (one more queued variant should be reviewed before future use) ② stop "X, 왜 ~나?" question-template (7x repeated, boxed 85-217v) ③ shift mix toward 랭킹/판정 2 + 1인칭/정서서사 2 + 개량해설(선언훅+입장명시) 1-2 per week ④ FOLLOWER_GROWTH_REDESIGN P0 4건(캡션 CTA 차단 게이트 등) and per-post profile_views/followers_gained capture are still unimplemented — measurement before the 7-day experiment, and profile work deserves P0 not P2.
+- Audience reality: 55+ = 85.8%, female 58%, KR 86.9%, most active 8am; platform-wide KR TikTok usage is 70% age-40+ so this is structural. Follow conversion needs persona trust (인물/캐릭터 IP), not headline re-broadcasts.
+- Profile makeover proposal delivered to owner (name "올바른 아이노 ｜ 대한민국 정치", bio A안 46자, pinned slot restructure incl. 최신작 롤링, 오픈채팅→주제투표방, 아이노 캐릭터 아바타). Owner approval pending; no account changes made.
+## 2026-06-10 Claude - Codex 3세션 펜딩 흡수 완료 + SBU 13 메인 인수
+
+- Owner instruction flow: "코덱스가 오늘 진행한 작업들 분석해봐" -> 4-agent verification workflow -> "3번 너가 흡수하자" (14:41~14:58 KST 3-session simultaneous stall pendings) -> "sbu 13을 너가 메인으로 할거야" -> "계속해".
+- Verification findings on today's Codex work: claims matched disk evidence byte-exact (AIT 8,635,090 / AAB 9,529,280 / .ait 3,767,135 bytes, persona QA 50/50 x2, credential keys 29/29). 2 discrepancies: stale active-tasks "upload stopped" entry (superseded by owner's 13:09 explicit upload instruction; correction appended to active-tasks) and FOLDER_BIBLE missing 013 registration (fixed).
+- [S3 absorbed] FINITE body-age receipt share copy + guide_view tracker: committed `c9b9c77`, merged to main `25c197a`, Vercel `finite` (neogenesis team) auto-deploy READY, live verified on daysleft.io /calc bundle ("My birthday says" present). 12-file uncommitted risk cleared.
+- [S4 absorbed] AIT factory: candidates 5->10 (`apps_in_toss_candidates_v2.json` — 유통기한봇 84/여행준비 83/습관체크 83/점심메뉴 82/기념일디데이 81; hard-reject 회피, Toss 내장기능 중복 배제), ranking v2 (top3 이사 91/쿠폰만료 88/구독정리 85), W4 daily ops report generator `factory/ops/generate_ops_report.mjs` (+`npm run factory:ops-report`, 오늘자 green 리포트, 미연결 메트릭 no_data 정직 표기), FOLDER_BIBLE에 013 등록. `factory/verify.mjs` pass 유지.
+- [S2 absorbed] TikTok AiNo rank3 `ai_privacy_roadmap_20260610` 로컬 렌더 (rank2 6.10 기념일은 다음 슬롯이 6/11+라 시의성 상실로 skip):
+  - bundle: 공식소스 3 (개인정보위 2 + KDI 1) / claims 6 / scenes 9, AIGC 고지 포함.
+  - attempt1 `leftaino_20260610_160856` needs_revision (86, readability 68 + safe_provocation 64; 이미지 0/9 local_pillow fallback — 에이전트 bash에 OPENAI_API_KEY 미주입이 원인).
+  - attempt2 `161422` 대본 압축(전 장면 32~84자) -> readability 100, duration 103->85s, safe_provocation 77; 잔존 blocker = 실생성 이미지 0/9 (fallback 재사용 탓).
+  - attempt3 `render_fix3/leftaino_20260610_205128`: credential_loader 경유 env 주입 + codex_cli 실이미지 9/9 -> **publish_ready / upload_ready, blockers [], score 88, policy_safety 100, 83s**. mp4 110MB + storyboard 산출.
+  - No TikTok upload, schedule click, public posting, HA enqueue, or performance measurement was performed.
+- [Risk cleared] neo-genesis tiktok_aino 31 uncommitted files (publish_queue_runner/render_editorial_batch/editorial_os_v2 + tests + config 8 + docs 4): gitleaks staged scan no leaks -> commit `fe07646` pushed to origin/master.
+- [SBU 13 ownership] `013.ait-autonomous-factory` main agent = Claude (owner 지정). Codex는 보조 가능. Human gates (console/review/legal/settlement/launch) unchanged per PROJECT_SPEC §4. Claude memory `project_ait_factory.md` + active-tasks entry에 박제.
+- Remaining external/monitor: 정치성 예약 3건 중 1건 게시됨(6/10 19:30), 23:30 KST rollup 대기; 6/11 08:10·11:20 예약분은 owner 회수 의사 시 TikTok Studio 수동 취소. ai_privacy 신규 렌더는 upload_ready 상태로 owner 명시 지시 대기.

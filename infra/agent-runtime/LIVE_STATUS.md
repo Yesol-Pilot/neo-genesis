@@ -5,4 +5,4 @@
 > Regenerate with `python scripts/sync_agent_context.py`
 
 ## Runtime Revision
-- ssotRevision: `538f73543f80cddb`
+- ssotRevision: `c2e79a2ced044f4f`

@@ -1,30 +1,30 @@
 {
   "activeAgent": "Codex",
-  "stage": "idle",
+  "stage": "one_pyeong_store_local_polish_complete_external_gates_blocked",
   "progress": 100,
-  "lastCommand": "TikTok AiNo scene-first thriller v2 generated",
+  "lastCommand": "1Pyeong Store privacy header label localized from Privacy to 개인정보; unit tests, web build, AIT build/local gate, Android debug install, 50/50 emulator persona QA v9, signed AAB build, jarsigner verify, JSON validation, and sensitive doc leak scan passed; external Apps in Toss/Google Play/real-user gates remain not performed",
   "tokenUsage": {
     "gemini": 28500,
     "claude": 0,
     "openai": 0
   },
   "systemHealth": "ok",
-  "lastUpdated": "2026-05-29T16:53:00+09:00",
+  "lastUpdated": "2026-06-10T14:28:45+09:00",
   "version": "1.0",
   "agents": {},
   "infrastructure": {},
   "sharedContext": {
     "status": "active",
-    "sourceOfTruth": "/mnt/d/00.test/neo-genesis/.agent",
-    "syncCommand": "python /mnt/d/00.test/neo-genesis/scripts/sync_agent_context.py",
+    "sourceOfTruth": "D:\\00.test\\neo-genesis\\.agent",
+    "syncCommand": "python D:\\00.test\\neo-genesis\\scripts\\sync_agent_context.py",
     "runtimeAdapters": [
-      "/mnt/d/00.test/neo-genesis/AGENTS.md",
-      "/mnt/d/00.test/neo-genesis/CLAUDE.md",
-      "/mnt/d/00.test/neo-genesis/GEMINI.md",
-      "/mnt/d/00.test/neo-genesis/infra/agent-runtime/ollama/Modelfile"
+      "D:\\00.test\\neo-genesis\\AGENTS.md",
+      "D:\\00.test\\neo-genesis\\CLAUDE.md",
+      "D:\\00.test\\neo-genesis\\GEMINI.md",
+      "D:\\00.test\\neo-genesis\\infra\\agent-runtime\\ollama\\Modelfile"
     ],
-    "ssotRevision": "09078b3e325629ed",
-    "lastSyncedAt": "2026-05-29T18:07:39+09:00",
+    "ssotRevision": "c2e79a2ced044f4f",
+    "lastSyncedAt": "2026-06-10T20:59:09+09:00",
     "lastSyncedBy": "claude"
   },
   "writeLock": false,
