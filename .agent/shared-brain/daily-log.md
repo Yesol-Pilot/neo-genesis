@@ -4793,3 +4793,13 @@
 - [Risk cleared] neo-genesis tiktok_aino 31 uncommitted files (publish_queue_runner/render_editorial_batch/editorial_os_v2 + tests + config 8 + docs 4): gitleaks staged scan no leaks -> commit `fe07646` pushed to origin/master.
 - [SBU 13 ownership] `013.ait-autonomous-factory` main agent = Claude (owner 지정). Codex는 보조 가능. Human gates (console/review/legal/settlement/launch) unchanged per PROJECT_SPEC §4. Claude memory `project_ait_factory.md` + active-tasks entry에 박제.
 - Remaining external/monitor: 정치성 예약 3건 중 1건 게시됨(6/10 19:30), 23:30 KST rollup 대기; 6/11 08:10·11:20 예약분은 owner 회수 의사 시 TikTok Studio 수동 취소. ai_privacy 신규 렌더는 upload_ready 상태로 owner 명시 지시 대기.
+## 2026-06-10 Claude - SBU 13 이사체크봇 첫 콘솔 배포 성공 + AIT 전역 키 회전
+
+- Owner 위임 흐름: "콘솔 등록 끝나서 api까지 있다고 왜자꾸 모르지" (Claude의 stale 인식 정정) -> "직접해" (§4 앱 등록 게이트 위임) -> 앱 생성 폼 값 제공 (한글 이사체크봇 / 영어 moving-check-bot / 비게임) -> owner 콘솔 앱 생성 "완료" -> 전역 API 키 제공.
+- 진단 체인: 1차 deploy 4031 -> 콘솔 앱 생성 후에도 4031 -> .env.local 마스터 키도 4031 -> **근본 원인 = 저장된 APPS_IN_TOSS_API_MASTER_CREDENTIAL 이 stale** (owner: "전역키야 관리좀 잘해 맨날 마스터크레덴셜에 업데이트가 안돼").
+- 키 회전 처리: .env.local 갱신(백업 .env.local.bak-pre-ait-key-20260610) + ~/.ait/credentials default 프로파일 갱신(백업 credentials.bak-2026-06-10) + CREDENTIAL_BIBLE §Apps in Toss 행 갱신(전역 키 명시 + 3곳 동시 갱신 의무 박제). 키 원문은 어떤 산출물에도 미기록.
+- **배포 성공**: `intoss-private://moving-check-bot?_deploymentId=019eaff7-...a74c` (2026-06-10 21:55 KST, memo "ait-factory wave1 moving-check-bot first console upload", evidence apps/moving-check-bot/deploy-20260610-4.log). 임시 framework 설치/제거 패턴 준수.
+- 운영 기록: data/apps/moving-check-bot.manifest.json 에 deployment 블록 추가 (status console_uploaded_private, 잔존 게이트 = real_device_qr_qa / review_submission(human) / release_approval(human)).
+- 학습 박제: AIT CLI 메커니즘 (web-framework 임시설치로 ait bin 생성 / 4031 = 앱 부재 또는 stale 키 / Claude-in-Chrome 은 toss.im 하드 차단이라 콘솔 UI 는 owner 또는 Codex) -> Claude memory project_ait_factory.md + feedback_credential_upkeep.md (P0).
+- Chat 노출 기록: 전역 키는 owner 가 chat 으로 직접 제공 (의도적). 별도 회전 불요 판단 — 단 기록상 명시.
+- 의미: SBU 13 팩토리의 "생성 -> 빌드 -> .ait -> 콘솔 업로드" 전 구간이 처음으로 end-to-end 검증됨. wave_1 잔여 후보(쿠폰만료봇 88/구독정리봇 85)는 콘솔 앱 생성(owner 1분) 외 전 구간 자동.
