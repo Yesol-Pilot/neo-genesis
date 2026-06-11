@@ -4841,3 +4841,10 @@
 - 측정 한계: 게시물별 `profile_conversion`은 TikTok Studio가 게시물별 profile views/follows를 노출하지 않으면 `not_capturable`로 기록한다. 계정 스냅샷 profile conversion과 게시물 성과를 분리하며, scheduled row는 `scheduled_not_evaluable`로 유지하고 성과로 계산하지 않는다.
 - Git: `.git/index.lock` 생성 권한 실패로 명시적 staging/commit이 불가했다. `git add -A`는 사용하지 않았고 push도 하지 않았다.
 - Cold-grill 답변: 거짓 메트릭 생성 없음 / 외부 게시·예약 없음 / scheduled row 성과 계산 없음 / 게시물별 profile conversion은 원천 데이터 부재 시 `not_capturable`.
+## 2026-06-11 Claude - 쿠폰만료봇 출시 준비 일체 완료 (배포는 키 권한 1건 대기)
+
+- [콘솔 운영 패킷] docs/apps/20260611_coupon_expiry_bot_console_packet_v1_0.md — 스토어 설명 장(212자)/단문(52자, copyGuard 0매치), 카테고리, 심사 Q&A 10문답, 개인정보 답변(코드 사실검증: 네트워크 호출 0/외부 SDK 0/토스 플랫폼 비식별 로깅만, 쿠폰 이름·메모 원문 이벤트 미포함), 자산 스펙(1평상점 실측), human gate 6단계.
+- [심사 대비 수정 2건] ①실존 브랜드 placeholder "스타벅스"→"동네카페" 전 소스·테스트 교체 ②public/privacy.html 신설(수집 0/기기 내 저장/문의 dpthf1537). 테스트 67/67 + 정책 0 findings 유지, .ait 3,773,127B.
+- [스토어 자산 6종] apps/coupon-expiry-bot/store-assets/ — 스크린샷 3종(636×1048, Playwright 실렌더: 온보딩/스마트입력 프리뷰/D-day 정렬, 실존 브랜드 0) + 로고 600² 라이트·다크 + 썸네일 1932×828 (OpenAI imagegen, 티켓+시계 모티프 #3182F6, 텍스트 0, 풀블리드 후처리). 전 해상도 정확 일치.
+- [앱 생성 심사 AI 게이트 학습] 콘솔 앱 생성에 서비스 설명 AI 심사 추가됨 — "쿠폰 관리·추적"만으로는 "판단 어려움" 반려. 통과 문구 공식: 개인 기록 도구 명시 + 발행·판매·교환·중개·양도 명시 부정 + 기기 내 저장. (owner 1차 반려 후 2차 통과)
+- [4031 진단] 콘솔 영문명 coupon-expiry-bot 정확 일치(owner 확인) + 아티팩트 내장 name 검증 + 2시간 전파 대기에도 4031 지속. 소거 결과 = **API 키의 앱 권한이 발급 시점 앱에 묶임** 가설 (이사봇=키 발급 전 존재→성공 / 쿠폰봇=발급 후 생성→권한 없음). owner action: 키 관리 화면에서 앱 권한 추가 또는 "전체 앱" 범위 선택(향후 신규 앱 무중단) 또는 신규 키 발급→.env.local 갱신.
