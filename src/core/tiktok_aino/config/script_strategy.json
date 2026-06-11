@@ -82,13 +82,13 @@
     "caption_follow_fallback": "팔로우하면 다음 편에서 이 프레임을 이어갑니다.",
     "series_promise_template": "{primary_term} 쟁점의 다음 흐름도 이어갑니다.",
     "caption_expansion_sentences": [
-      "보도 제목만 따라가지 않고, 누가 프레임을 잡는지까지 보겠습니다.",
+      "첫 문장만 따라가지 않고, 누가 프레임을 잡는지까지 보겠습니다.",
       "확인된 근거와 아직 남은 책임선을 나눠 보는 게 중요합니다."
     ],
     "post_body_template": "{topic_title}. {stakes_line} {next_watch_line}",
     "pinned_comment_template": "{comment_trigger} 반론·공유도 받습니다. 팔로우하면 다음 편에서 이어갑니다.",
     "cta_sentence": "반론까지 보고, 당신은 어느 쪽인지 댓글로 남겨주세요.",
-    "claim_focus_template": "{primary_term} 보도에서 반복된 쟁점",
+    "claim_focus_template": "{primary_term} 쟁점에서 반복된 기준",
     "question_focus_default": "어떤 근거가 확인됐고 무엇이 아직 비어 있는가",
     "hashtag_prefix": "#",
     "hashtag_groups": {

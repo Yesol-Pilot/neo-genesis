@@ -40,7 +40,7 @@ class PerformanceAnalysis:
     window: str
     score: int
     metrics: dict[str, float]
-    derived_metrics: dict[str, float]
+    derived_metrics: dict[str, Any]
     thresholds: dict[str, float]
     diagnoses: list[str]
     actions: list[str]
@@ -152,6 +152,45 @@ def _recent_duplicate_report(
             continue
         return _with_existing_report_artifacts(path, summary)
     return None
+
+
+def _rollup_gap_status(output_dir: Path | None) -> dict[str, Any]:
+    threshold_hours = _config_int(_config_dict("reporting"), "rollup_gap_threshold_hours", 36)
+    if output_dir is None:
+        return {"status": "not_checked", "gap_detected": False, "threshold_hours": threshold_hours}
+    if not output_dir.exists():
+        return {
+            "status": "no_prior_report",
+            "gap_detected": True,
+            "threshold_hours": threshold_hours,
+            "latest_report_path": None,
+        }
+    try:
+        reports = sorted(output_dir.glob("performance_report_*.json"), key=lambda item: item.stat().st_mtime, reverse=True)
+    except OSError as exc:
+        return {
+            "status": "not_capturable",
+            "gap_detected": True,
+            "threshold_hours": threshold_hours,
+            "reason": str(exc),
+        }
+    if not reports:
+        return {
+            "status": "no_prior_report",
+            "gap_detected": True,
+            "threshold_hours": threshold_hours,
+            "latest_report_path": None,
+        }
+    latest = reports[0]
+    latest_at = dt.datetime.fromtimestamp(latest.stat().st_mtime, tz=dt.timezone.utc)
+    gap_hours = (dt.datetime.now(dt.timezone.utc) - latest_at).total_seconds() / 3600
+    return {
+        "status": "gap_detected" if gap_hours > threshold_hours else "current",
+        "gap_detected": gap_hours > threshold_hours,
+        "gap_hours": round(gap_hours, 2),
+        "threshold_hours": threshold_hours,
+        "latest_report_path": str(latest),
+    }
 
 
 def parse_metric_number(text: str) -> float | None:
@@ -290,8 +329,13 @@ def parse_studio_content_rows(text: str) -> list[StudioContentRow]:
     return rows
 
 
-def _studio_snapshot_text(path: Path) -> str:
+def _studio_snapshot_payload(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
+    return payload if isinstance(payload, dict) else {}
+
+
+def _studio_snapshot_text(path: Path) -> str:
+    payload = _studio_snapshot_payload(path)
     parts: list[str] = []
     if isinstance(payload.get("combined"), str):
         parts.append(str(payload["combined"]))
@@ -339,6 +383,23 @@ def _is_weak_reference_row(row: StudioContentRow, best_views: float) -> bool:
     if best_views >= 10000 and row.views < best_views * 0.01 and _engagement_count(row) <= 10:
         return True
     return False
+
+
+def _account_level_metric_summary(payload: dict[str, Any]) -> dict[str, Any]:
+    metrics = normalize_metrics(payload)
+    profile_conversion: float | str = "not_capturable"
+    views = metrics.get("views")
+    profile_views = metrics.get("profile_views")
+    if "profile_conversion" in metrics:
+        profile_conversion = metrics["profile_conversion"]
+    elif views and profile_views is not None:
+        profile_conversion = _safe_rate(float(profile_views), float(views))
+    return {
+        "metrics": metrics,
+        "profile_conversion": profile_conversion,
+        "measurement_scope": "account_snapshot_not_post_level",
+        "post_level_profile_conversion": "not_capturable",
+    }
 
 
 def build_account_reference_feedback(rows: list[StudioContentRow]) -> dict[str, Any]:
@@ -402,6 +463,7 @@ def analyze_studio_snapshot(snapshot_path: Path, output_dir: Path | None = None)
         )
         if existing:
             return existing
+    snapshot_payload = _studio_snapshot_payload(snapshot_path)
     rows = parse_studio_content_rows(_studio_snapshot_text(snapshot_path))
     feedback = build_account_reference_feedback(rows)
     unique: dict[tuple[str, str], StudioContentRow] = {}
@@ -413,6 +475,8 @@ def analyze_studio_snapshot(snapshot_path: Path, output_dir: Path | None = None)
         "source_path": str(snapshot_path),
         "mode": "studio_content_reference",
         "row_count": len(rows),
+        "account_level_metrics": _account_level_metric_summary(snapshot_payload),
+        "rollup_gap": _rollup_gap_status(output_dir),
         "feedback": feedback,
         "top_rows": [asdict(row) for row in ranked[:20]],
         "scheduled_rows": [asdict(row) for row in ranked if row.views == 0][:20],
@@ -549,7 +613,7 @@ def _safe_rate(numerator: float, denominator: float) -> float:
     return numerator / denominator if denominator > 0 else 0.0
 
 
-def _derived_metrics(metrics: dict[str, float], manifest: dict[str, Any]) -> dict[str, float]:
+def _derived_metrics(metrics: dict[str, float], manifest: dict[str, Any]) -> dict[str, Any]:
     views = float(metrics.get("views", 0))
     likes = float(metrics.get("likes", 0))
     comments = float(metrics.get("comments", 0))
@@ -557,15 +621,26 @@ def _derived_metrics(metrics: dict[str, float], manifest: dict[str, Any]) -> dic
     saves = float(metrics.get("saves", 0))
     duration = _duration_sec(manifest)
     average_watch_time = float(metrics.get("average_watch_time_sec", 0))
+    profile_views = metrics.get("profile_views")
+    profile_conversion: float | str = "not_capturable"
+    if "profile_conversion" in metrics:
+        profile_conversion = float(metrics["profile_conversion"])
+    elif profile_views is not None:
+        profile_conversion = _safe_rate(float(profile_views), views)
     return {
         "engagement_rate": _safe_rate(likes + comments + shares + saves, views),
         "comment_rate": _safe_rate(comments, views),
         "share_rate": _safe_rate(shares, views),
         "save_rate": _safe_rate(saves, views),
         "follower_conversion_rate": _safe_rate(float(metrics.get("followers_gained", 0)), views),
+        "profile_conversion": profile_conversion,
         "average_watch_ratio": _safe_rate(average_watch_time, duration),
         "completion_rate": float(metrics.get("completion_rate", 0)),
     }
+
+
+def _numeric_metric(value: Any) -> float:
+    return float(value) if isinstance(value, (int, float)) else 0.0
 
 
 def _score_component(value: float, threshold: float, weight: float) -> float:
@@ -574,7 +649,7 @@ def _score_component(value: float, threshold: float, weight: float) -> float:
     return min(weight, weight * value / threshold)
 
 
-def _score(metrics: dict[str, float], derived: dict[str, float], thresholds: dict[str, float]) -> int:
+def _score(metrics: dict[str, float], derived: dict[str, Any], thresholds: dict[str, float]) -> int:
     weights = {str(key): float(value) for key, value in _config_dict("score_weights").items()}
     values = {
         "views": float(metrics.get("views", 0)),
@@ -583,7 +658,8 @@ def _score(metrics: dict[str, float], derived: dict[str, float], thresholds: dic
         "share_rate": derived["share_rate"],
         "average_watch_ratio": derived["average_watch_ratio"],
         "completion_rate": derived["completion_rate"],
-        "follower_conversion_rate": derived["follower_conversion_rate"],
+        "follower_conversion_rate": _numeric_metric(derived["follower_conversion_rate"]),
+        "profile_conversion": _numeric_metric(derived["profile_conversion"]),
     }
     threshold_values = {
         "views": thresholds.get("min_views", 0),
@@ -593,12 +669,13 @@ def _score(metrics: dict[str, float], derived: dict[str, float], thresholds: dic
         "average_watch_ratio": thresholds.get("min_average_watch_ratio", 0),
         "completion_rate": thresholds.get("min_completion_rate", 0),
         "follower_conversion_rate": 0.001,
+        "profile_conversion": thresholds.get("min_profile_conversion", 0),
     }
     total = sum(_score_component(values[key], threshold_values[key], weights.get(key, 0)) for key in values)
     return int(round(max(0, min(100, total))))
 
 
-def _diagnoses(metrics: dict[str, float], derived: dict[str, float], thresholds: dict[str, float]) -> list[str]:
+def _diagnoses(metrics: dict[str, float], derived: dict[str, Any], thresholds: dict[str, float]) -> list[str]:
     diagnoses: list[str] = []
     if not metrics:
         return ["missing_metrics"]
@@ -612,6 +689,10 @@ def _diagnoses(metrics: dict[str, float], derived: dict[str, float], thresholds:
         diagnoses.append("comment_rate_lt_threshold")
     if derived["share_rate"] < thresholds.get("min_share_rate", 0):
         diagnoses.append("share_rate_lt_threshold")
+    if derived["profile_conversion"] == "not_capturable":
+        diagnoses.append("profile_conversion_not_capturable")
+    elif _numeric_metric(derived["profile_conversion"]) < thresholds.get("min_profile_conversion", 0):
+        diagnoses.append("profile_conversion_lt_threshold")
     if derived["average_watch_ratio"] < thresholds.get("min_average_watch_ratio", 0):
         diagnoses.append("average_watch_ratio_lt_threshold")
     if derived["completion_rate"] and derived["completion_rate"] < thresholds.get("min_completion_rate", 0):
@@ -682,6 +763,21 @@ def analyze_run(run_id: str, manifest_path: Path, manifest: dict[str, Any], snap
     )
 
 
+def _measurement_limits(analyses: list[PerformanceAnalysis]) -> list[dict[str, str]]:
+    limits: list[dict[str, str]] = []
+    for analysis in analyses:
+        if analysis.derived_metrics.get("profile_conversion") == "not_capturable":
+            limits.append(
+                {
+                    "run_id": analysis.run_id,
+                    "metric": "profile_conversion",
+                    "status": "not_capturable",
+                    "reason": "post_level_profile_views_missing",
+                }
+            )
+    return limits
+
+
 def analyze_performance(
     *,
     output_dirs: list[Path],
@@ -709,6 +805,8 @@ def analyze_performance(
         "run_id": run_id,
         "output_dirs": [str(path) for path in output_dirs],
         "status_counts": status_counts,
+        "rollup_gap": _rollup_gap_status(output_dir),
+        "measurement_limits": _measurement_limits(analyses),
         "feedback": feedback,
         "analyses": [asdict(analysis) for analysis in analyses],
     }

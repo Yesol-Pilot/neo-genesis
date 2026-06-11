@@ -3,7 +3,42 @@
   "rolling_schedule": {
     "candidate_pool_multiplier": 24,
     "candidate_pool_min": 240,
-    "support_match_min_score": 8
+    "support_match_min_score": 8,
+    "weekly_format_pattern": [
+      "ranking_battle_65",
+      "narrative_confession",
+      "reformed_briefing",
+      "ranking_battle_65",
+      "narrative_confession",
+      "reformed_briefing",
+      "rest"
+    ],
+    "weekly_format_targets": {
+      "ranking_battle_65": 2,
+      "narrative_confession": 2,
+      "reformed_briefing": 2
+    },
+    "daily_briefing_cap": 1,
+    "weekly_briefing_cap": 2,
+    "seven_day_experiment": {
+      "status": "configured_only_no_external_action",
+      "owner_action_required": "approve TikTok Studio upload/schedule/publish separately",
+      "days": 7,
+      "primary_metric": "followers_gained",
+      "secondary_metrics": [
+        "profile_views",
+        "profile_conversion",
+        "follower_conversion_rate",
+        "views",
+        "average_watch_ratio"
+      ],
+      "acceptance_criteria": [
+        "publish only after owner approval",
+        "use ranking_battle_65 2x, narrative_confession 2x, reformed_briefing 2x per week",
+        "do not count scheduled rows as performance",
+        "mark post-level profile conversion as not_capturable when TikTok Studio does not expose it"
+      ]
+    }
   },
   "editorial_frame": "공개 보도와 문서 근거로 쟁점을 설명하는 시민형 정치 뉴스 해설. 특정 정당·후보 선택 유도 없이 쟁점, 근거, 책임 기준을 분리한다.",
   "fact_pack": {
@@ -235,6 +270,14 @@
       "1위 선언",
       "댓글 판정"
     ],
+    "narrative_confession": [
+      "입장 변화 고백",
+      "처음 착각한 지점",
+      "근거로 바뀐 기준",
+      "반론 인정",
+      "지금 따라볼 이유",
+      "다음 편 약속"
+    ],
     "reward_deep": [
       "정지 훅",
       "왜 지금인가",
@@ -245,6 +288,15 @@
       "반론 분리",
       "남은 질문",
       "댓글 기준"
+    ],
+    "reformed_briefing": [
+      "쟁점 선언",
+      "배우/이슈 키워드",
+      "출처와 실제 맥락",
+      "확인된 근거",
+      "남은 빈칸",
+      "책임 기준",
+      "팔로우 후속 약속"
     ],
     "debate_followup": [
       "댓글 훅",

@@ -45,9 +45,47 @@
       "reference_patterns": [
         "actor_allegation_caption",
         "receipt_number_collage",
+        "large_caption_real_context_cta",
         "documentary_title_card"
       ],
       "default": true
+    },
+    {
+      "format_id": "ranking_battle_65",
+      "when": [
+        "actor_or_issue_keyword_present",
+        "comment_choice_finish"
+      ],
+      "reference_patterns": [
+        "large_caption_real_context_cta",
+        "receipt_number_collage",
+        "subscribe_or_share_overlay"
+      ]
+    },
+    {
+      "format_id": "narrative_confession",
+      "when": [
+        "stance_shift_or_realization",
+        "series_follow_promise"
+      ],
+      "reference_patterns": [
+        "large_caption_real_context_cta",
+        "documentary_title_card",
+        "subscribe_or_share_overlay"
+      ]
+    },
+    {
+      "format_id": "reformed_briefing",
+      "when": [
+        "credible_sources>=2",
+        "actor_or_issue_keyword_present",
+        "real_context_scene_available"
+      ],
+      "reference_patterns": [
+        "large_caption_real_context_cta",
+        "actor_allegation_caption",
+        "receipt_number_collage"
+      ]
     },
     {
       "format_id": "moment_short",
@@ -96,6 +134,7 @@
     "source_count_lt_2_for_evidence_formats",
     "real_person_synthesis_requested",
     "fake_authoritative_visual",
-    "no_claim_boundary"
+    "no_claim_boundary",
+    "headline_quote_format_banned"
   ]
 }

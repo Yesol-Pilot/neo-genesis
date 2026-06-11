@@ -19,7 +19,23 @@ from zoneinfo import ZoneInfo
 from src.core.tiktok_aino import pipeline
 
 
-DEFAULT_FORMAT_SEQUENCE = ["growth_short", "reward_deep", "debate_followup"]
+DEFAULT_FORMAT_SEQUENCE = ["ranking_battle_65", "narrative_confession", "reformed_briefing"]
+DEFAULT_WEEKLY_FORMAT_PATTERN = [
+    "ranking_battle_65",
+    "narrative_confession",
+    "reformed_briefing",
+    "ranking_battle_65",
+    "narrative_confession",
+    "reformed_briefing",
+    "rest",
+]
+FORMAT_SCORE_ALIASES = {
+    "growth_short": "narrative_confession",
+    "debate_followup": "narrative_confession",
+    "reward_deep": "reformed_briefing",
+    "evidence_briefing_75": "reformed_briefing",
+}
+BRIEFING_FORMATS = {"reward_deep", "reformed_briefing", "evidence_briefing_75"}
 DEFAULT_TIMEZONE = "Asia/Seoul"
 DEFAULT_PERFORMANCE_REPORT_DIR = pipeline.DEFAULT_PERFORMANCE_REPORT_DIR
 UNSUITABLE_TOPIC_TERMS = ("살해", "피살", "범행", "성폭력", "강간", "자살", "아동학대")
@@ -306,13 +322,81 @@ def _format_sequence_from_feedback(feedback: dict[str, object]) -> list[str]:
     if not isinstance(format_scores, dict):
         return sequence
     def score(format_id: str) -> tuple[int, int]:
+        score_keys = [format_id, *[source for source, target in FORMAT_SCORE_ALIASES.items() if target == format_id]]
         try:
-            value = int(format_scores.get(format_id, 0))
+            value = max(int(format_scores.get(key, 0) or 0) for key in score_keys)
         except (TypeError, ValueError):
             value = 0
         return value, -sequence.index(format_id)
 
     return sorted(sequence, key=score, reverse=True)
+
+
+def _configured_weekly_format_pattern() -> list[str]:
+    schedule_config = pipeline._config_dict(pipeline.PLANNING_STRATEGY, "rolling_schedule")
+    pattern = [
+        str(item).strip()
+        for item in schedule_config.get("weekly_format_pattern", [])
+        if str(item).strip()
+    ]
+    return pattern or list(DEFAULT_WEEKLY_FORMAT_PATTERN)
+
+
+def _rotated_weekly_format_pattern(format_sequence: list[str]) -> list[str]:
+    pattern = _configured_weekly_format_pattern()
+    preferred = format_sequence[0] if format_sequence else ""
+    if preferred in pattern:
+        start = pattern.index(preferred)
+        return [*pattern[start:], *pattern[:start]]
+    return pattern
+
+
+def _formats_for_day(day_offset: int, format_sequence: list[str]) -> list[str]:
+    if not format_sequence:
+        return []
+    pattern = _rotated_weekly_format_pattern(format_sequence)
+    if not pattern:
+        return [format_sequence[day_offset % len(format_sequence)]]
+    format_id = pattern[day_offset % len(pattern)]
+    if format_id == "rest":
+        return []
+    if format_id in format_sequence:
+        return [format_id]
+    return [format_sequence[day_offset % len(format_sequence)]]
+
+
+def _planned_formats_for_days(days: int, format_sequence: list[str]) -> list[tuple[int, str]]:
+    planned: list[tuple[int, str]] = []
+    for day_offset in range(days):
+        for format_id in _formats_for_day(day_offset, format_sequence):
+            planned.append((day_offset, format_id))
+    return planned
+
+
+def _experiment_summary(days: int, format_counts: dict[str, int]) -> dict[str, object]:
+    schedule_config = pipeline._config_dict(pipeline.PLANNING_STRATEGY, "rolling_schedule")
+    experiment = schedule_config.get("seven_day_experiment", {})
+    if not isinstance(experiment, dict):
+        experiment = {}
+    return {
+        "status": str(experiment.get("status", "configured_only_no_external_action")),
+        "owner_action_required": str(experiment.get("owner_action_required", "owner approval required")),
+        "days": days,
+        "configured_days": int(experiment.get("days", 7) or 7),
+        "publish_scope": "local_plan_only_no_tiktok_action",
+        "format_counts": format_counts,
+        "primary_metric": str(experiment.get("primary_metric", "followers_gained")),
+        "secondary_metrics": [
+            str(item)
+            for item in experiment.get("secondary_metrics", [])
+            if str(item).strip()
+        ],
+        "acceptance_criteria": [
+            str(item)
+            for item in experiment.get("acceptance_criteria", [])
+            if str(item).strip()
+        ],
+    }
 
 
 def _deep_research_candidates_by_title(discovery: dict[str, object]) -> dict[str, dict[str, object]]:
@@ -658,8 +742,8 @@ def _strict_topic_blockers(
         blockers.append("direct_election_action_topic")
     if "선거" in title and not _has_public_accountability_frame(title):
         blockers.append("election_topic_without_accountability_frame")
-    if content_format == "reward_deep" and source_count < 2:
-        blockers.append(f"reward_deep_source_count_below_2:{source_count}")
+    if content_format in BRIEFING_FORMATS and source_count < 2:
+        blockers.append(f"{content_format}_source_count_below_2:{source_count}")
     return blockers
 
 
@@ -998,7 +1082,8 @@ def build_rolling_plan(
     _, _, discovery = pipeline.discover_hot_topic(style)
     feedback = _load_performance_feedback(performance_report)
     format_sequence = _format_sequence_from_feedback(feedback)
-    slot_count = days * len(format_sequence)
+    planned_formats = _planned_formats_for_days(days, format_sequence)
+    slot_count = len(planned_formats)
     schedule_config = pipeline._config_dict(pipeline.PLANNING_STRATEGY, "rolling_schedule")
     candidate_pool_multiplier = pipeline._strategy_int(schedule_config, "candidate_pool_multiplier", 10)
     candidate_pool_min = pipeline._strategy_int(schedule_config, "candidate_pool_min", 30)
@@ -1018,164 +1103,169 @@ def build_rolling_plan(
     candidate_index = 0
     planned_topic_titles: list[str] = []
     planned_post_titles: list[str] = []
-    for day_offset in range(days):
+    for day_offset, content_format in planned_formats:
         day = start_day + dt.timedelta(days=day_offset)
-        for content_format in format_sequence:
-            plan = pipeline.FORMAT_SPECS[content_format]
-            publish_at = _slot_datetime(day, plan.upload_slot, timezone)
-            skipped: list[dict[str, object]] = []
-            slot: dict[str, object] | None = None
-            while available_candidates:
-                pick_index = 0
-                if content_format == "reward_deep":
-                    for scan_index, candidate in enumerate(available_candidates):
-                        if _supporting_rows(candidate, adjusted_candidates):
-                            pick_index = scan_index
-                            break
-                row = available_candidates.pop(pick_index)
-                row_title = str(row.get("title", ""))
-                if _has_unsuitable_topic_terms(row_title):
-                    skipped.append({"topic": row.get("title", ""), "reason": "unsuitable_topic_terms"})
-                    continue
-                if _is_suppressed_by_feedback(row_title, feedback):
-                    skipped.append({"topic": row.get("title", ""), "reason": "negative_performance_feedback"})
-                    continue
-                try:
-                    row_feedback_adjustment = int(row.get("feedback_adjustment", 0) or 0)
-                except (TypeError, ValueError):
-                    row_feedback_adjustment = 0
-                if row_feedback_adjustment <= -24:
-                    skipped.append({"topic": row.get("title", ""), "reason": "negative_performance_feedback"})
-                    continue
-                support = _supporting_rows(row, adjusted_candidates)
-                topic, sources = _topic_from_candidate(row, candidate_index + 1, support)
-                candidate_index += 1
-                if _is_excluded_after_framing(topic.title, exclusion_titles):
-                    skipped.append({"topic": topic.title, "reason": "recent_or_queued_duplicate_topic"})
-                    continue
-                if _is_duplicate_planned_title(topic.title, planned_topic_titles):
-                    skipped.append({"topic": topic.title, "reason": "duplicate_framed_topic"})
-                    continue
-                slot_topic_discovery = _slot_topic_discovery(row, discovery)
+        plan = pipeline.FORMAT_SPECS[content_format]
+        publish_at = _slot_datetime(day, plan.upload_slot, timezone)
+        skipped: list[dict[str, object]] = []
+        slot: dict[str, object] | None = None
+        while available_candidates:
+            pick_index = 0
+            if content_format in BRIEFING_FORMATS:
+                for scan_index, candidate in enumerate(available_candidates):
+                    if _supporting_rows(candidate, adjusted_candidates):
+                        pick_index = scan_index
+                        break
+            row = available_candidates.pop(pick_index)
+            row_title = str(row.get("title", ""))
+            if _has_unsuitable_topic_terms(row_title):
+                skipped.append({"topic": row.get("title", ""), "reason": "unsuitable_topic_terms"})
+                continue
+            if _is_suppressed_by_feedback(row_title, feedback):
+                skipped.append({"topic": row.get("title", ""), "reason": "negative_performance_feedback"})
+                continue
+            try:
+                row_feedback_adjustment = int(row.get("feedback_adjustment", 0) or 0)
+            except (TypeError, ValueError):
+                row_feedback_adjustment = 0
+            if row_feedback_adjustment <= -24:
+                skipped.append({"topic": row.get("title", ""), "reason": "negative_performance_feedback"})
+                continue
+            support = _supporting_rows(row, adjusted_candidates)
+            topic, sources = _topic_from_candidate(row, candidate_index + 1, support)
+            candidate_index += 1
+            if _is_excluded_after_framing(topic.title, exclusion_titles):
+                skipped.append({"topic": topic.title, "reason": "recent_or_queued_duplicate_topic"})
+                continue
+            if _is_duplicate_planned_title(topic.title, planned_topic_titles):
+                skipped.append({"topic": topic.title, "reason": "duplicate_framed_topic"})
+                continue
+            slot_topic_discovery = _slot_topic_discovery(row, discovery)
 
-                script = pipeline.apply_content_format(
-                    pipeline.generate_script(topic, style, topic_discovery=slot_topic_discovery or {"mode": "rolling_schedule_plan"}),
-                    plan,
-                    topic=topic,
-                    sources=sources,
+            script = pipeline.apply_content_format(
+                pipeline.generate_script(topic, style, topic_discovery=slot_topic_discovery or {"mode": "rolling_schedule_plan"}),
+                plan,
+                topic=topic,
+                sources=sources,
+            )
+            script, gate, readability, quality = pipeline.select_publish_script([script], topic, sources, plan)
+            blockers = quality.blockers + gate.errors + readability.issues
+            if _is_excluded_after_framing(script.post_title, exclusion_titles):
+                blockers.append("recent_or_queued_duplicate_post_title")
+            if _is_duplicate_planned_title(script.post_title, planned_post_titles):
+                blockers.append("duplicate_post_title_in_plan")
+            reward_source_min = pipeline._strategy_int(pipeline.REWARD_DEEP_STRATEGY, "source_count_min", 2)
+            if content_format in BRIEFING_FORMATS and len(sources) < reward_source_min:
+                blockers.append(f"{content_format}_source_count_lt_2")
+            deep_score = int(slot_topic_discovery.get("deep_research_score", 0) or 0)
+            planner_warnings: list[str] = []
+            if not slot_topic_discovery:
+                planner_warnings.append("deep_research_missing")
+            elif deep_score < 60:
+                blockers.append(f"deep_research_score_below_60:{deep_score}")
+            progressive_reaction_score = int(slot_topic_discovery.get("progressive_reaction_score", 0) or 0)
+            if slot_topic_discovery and progressive_reaction_score < 50:
+                blockers.append(f"progressive_reaction_below_50:{progressive_reaction_score}")
+            trusted_source_present = any(
+                pipeline._publisher_is_trusted(str(source.title).split(":", 1)[0])
+                for source in sources.values()
+            )
+            trusted_source_count = sum(
+                1
+                for source in sources.values()
+                if pipeline._publisher_is_trusted(str(source.title).split(":", 1)[0])
+            )
+            primary_source_trusted = _row_publisher_is_trusted(row)
+            if not trusted_source_present and len(sources) < 2:
+                blockers.append("trusted_source_or_multi_source_required")
+            blockers.extend(
+                _strict_topic_blockers(
+                    title=topic.title,
+                    content_format=content_format,
+                    source_count=len(sources),
+                    trusted_source_count=trusted_source_count,
+                    primary_source_trusted=primary_source_trusted,
+                    deep_score=deep_score,
+                    progressive_reaction_score=progressive_reaction_score,
+                    trusted_source_present=trusted_source_present,
                 )
-                script, gate, readability, quality = pipeline.select_publish_script([script], topic, sources, plan)
-                blockers = quality.blockers + gate.errors + readability.issues
-                if _is_excluded_after_framing(script.post_title, exclusion_titles):
-                    blockers.append("recent_or_queued_duplicate_post_title")
-                if _is_duplicate_planned_title(script.post_title, planned_post_titles):
-                    blockers.append("duplicate_post_title_in_plan")
-                reward_source_min = pipeline._strategy_int(pipeline.REWARD_DEEP_STRATEGY, "source_count_min", 2)
-                if content_format == "reward_deep" and len(sources) < reward_source_min:
-                    blockers.append("reward_deep_source_count_lt_2")
-                deep_score = int(slot_topic_discovery.get("deep_research_score", 0) or 0)
-                planner_warnings: list[str] = []
-                if not slot_topic_discovery:
-                    planner_warnings.append("deep_research_missing")
-                elif deep_score < 60:
-                    blockers.append(f"deep_research_score_below_60:{deep_score}")
-                progressive_reaction_score = int(slot_topic_discovery.get("progressive_reaction_score", 0) or 0)
-                if slot_topic_discovery and progressive_reaction_score < 50:
-                    blockers.append(f"progressive_reaction_below_50:{progressive_reaction_score}")
-                trusted_source_present = any(
-                    pipeline._publisher_is_trusted(str(source.title).split(":", 1)[0])
-                    for source in sources.values()
-                )
-                trusted_source_count = sum(
-                    1
-                    for source in sources.values()
-                    if pipeline._publisher_is_trusted(str(source.title).split(":", 1)[0])
-                )
-                primary_source_trusted = _row_publisher_is_trusted(row)
-                if not trusted_source_present and len(sources) < 2:
-                    blockers.append("trusted_source_or_multi_source_required")
-                blockers.extend(
-                    _strict_topic_blockers(
-                        title=topic.title,
-                        content_format=content_format,
-                        source_count=len(sources),
-                        trusted_source_count=trusted_source_count,
-                        primary_source_trusted=primary_source_trusted,
-                        deep_score=deep_score,
-                        progressive_reaction_score=progressive_reaction_score,
-                        trusted_source_present=trusted_source_present,
-                    )
-                )
-                blockers = list(dict.fromkeys(blockers))
-                ready_for_generation = quality.passed and gate.passed and readability.passed and not blockers
-                candidate_slot = {
-                    "publish_at_local": publish_at.isoformat(),
-                    "format": plan.format_id,
-                    "objective": plan.objective,
-                    "topic": topic.title,
-                    "post_title": script.post_title,
-                    "caption": script.caption,
-                    "hashtags": script.hashtags,
-                    "topic_candidate": asdict(topic),
-                    "topic_discovery": slot_topic_discovery,
-                    "quality_score": quality.publish_ready_score,
-                    "quality_passed": quality.passed,
-                    "gate_passed": gate.passed,
-                    "readability_passed": readability.passed,
-                    "blockers": blockers,
-                    "warnings": planner_warnings,
-                    "sources": [asdict(source) for source in sources.values()],
-                    "feedback_adjustment": _feedback_adjustment(
-                        f"{topic.title} {topic.angle} {topic.slot}",
-                        feedback,
-                        plan.format_id,
-                    ),
-                    "source_count": len(sources),
-                    "trusted_source_count": trusted_source_count,
-                    "primary_source_trusted": primary_source_trusted,
-                    "ready_for_generation": ready_for_generation,
-                    "skipped_candidates": skipped,
-                }
-                if ready_for_generation:
-                    slot = candidate_slot
-                    planned_topic_titles.append(topic.title)
-                    planned_post_titles.append(script.post_title)
-                    break
-                skipped.append({"topic": topic.title, "reason": "quality_blockers", "blockers": blockers})
+            )
+            blockers = list(dict.fromkeys(blockers))
+            ready_for_generation = quality.passed and gate.passed and readability.passed and not blockers
+            candidate_slot = {
+                "publish_at_local": publish_at.isoformat(),
+                "format": plan.format_id,
+                "objective": plan.objective,
+                "topic": topic.title,
+                "post_title": script.post_title,
+                "caption": script.caption,
+                "hashtags": script.hashtags,
+                "topic_candidate": asdict(topic),
+                "topic_discovery": slot_topic_discovery,
+                "quality_score": quality.publish_ready_score,
+                "quality_passed": quality.passed,
+                "gate_passed": gate.passed,
+                "readability_passed": readability.passed,
+                "blockers": blockers,
+                "warnings": planner_warnings,
+                "sources": [asdict(source) for source in sources.values()],
+                "feedback_adjustment": _feedback_adjustment(
+                    f"{topic.title} {topic.angle} {topic.slot}",
+                    feedback,
+                    plan.format_id,
+                ),
+                "source_count": len(sources),
+                "trusted_source_count": trusted_source_count,
+                "primary_source_trusted": primary_source_trusted,
+                "ready_for_generation": ready_for_generation,
+                "skipped_candidates": skipped,
+            }
+            if ready_for_generation:
+                slot = candidate_slot
+                planned_topic_titles.append(topic.title)
+                planned_post_titles.append(script.post_title)
+                break
+            skipped.append({"topic": topic.title, "reason": "quality_blockers", "blockers": blockers})
 
-            if slot is None:
-                slot = {
-                    "publish_at_local": publish_at.isoformat(),
-                    "format": plan.format_id,
-                    "objective": plan.objective,
-                    "topic": "",
-                    "post_title": "",
-                    "caption": "",
-                    "hashtags": [],
-                    "topic_candidate": None,
-                    "quality_score": 0,
-                    "quality_passed": False,
-                    "gate_passed": False,
-                    "readability_passed": False,
-                    "blockers": ["candidate_pool_exhausted"],
-                    "warnings": [],
-                    "sources": [],
-                    "feedback_adjustment": 0,
-                    "source_count": 0,
-                    "trusted_source_count": 0,
-                    "primary_source_trusted": False,
-                    "ready_for_generation": False,
-                    "skipped_candidates": skipped,
-                }
-            slots.append(slot)
+        if slot is None:
+            slot = {
+                "publish_at_local": publish_at.isoformat(),
+                "format": plan.format_id,
+                "objective": plan.objective,
+                "topic": "",
+                "post_title": "",
+                "caption": "",
+                "hashtags": [],
+                "topic_candidate": None,
+                "quality_score": 0,
+                "quality_passed": False,
+                "gate_passed": False,
+                "readability_passed": False,
+                "blockers": ["candidate_pool_exhausted"],
+                "warnings": [],
+                "sources": [],
+                "feedback_adjustment": 0,
+                "source_count": 0,
+                "trusted_source_count": 0,
+                "primary_source_trusted": False,
+                "ready_for_generation": False,
+                "skipped_candidates": skipped,
+            }
+        slots.append(slot)
 
+    planned_format_ids = [format_id for _day_offset, format_id in planned_formats]
+    format_counts = {format_id: planned_format_ids.count(format_id) for format_id in sorted(set(planned_format_ids))}
     result = {
         "created_at": now.isoformat(),
         "timezone": timezone_name,
         "days": days,
         "start_day": start_day.isoformat(),
-        "mode": "rolling_three_day_plan",
+        "mode": "rolling_follow_growth_plan",
         "format_sequence": format_sequence,
+        "weekly_format_pattern": _rotated_weekly_format_pattern(format_sequence),
+        "planned_formats": planned_format_ids,
+        "format_counts": format_counts,
+        "experiment": _experiment_summary(days, format_counts),
         "discovery": discovery,
         "performance_feedback": feedback,
         "slots": slots,

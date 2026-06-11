@@ -82,6 +82,16 @@
       ],
       "use": "oversized CTA can be visible early",
       "aino_transform": "use sparingly; prefer save/share/next-part over subscribe spam"
+    },
+    {
+      "id": "large_caption_real_context_cta",
+      "examples": [
+        "R004",
+        "R011",
+        "R020"
+      ],
+      "use": "large caption + actor/issue keyword + real context scene + CTA",
+      "aino_transform": "anchor the first frame with a large issue keyword, show a fictionalized real-context scene, and close with a follow-series CTA"
     }
   ],
   "forbidden_direct_copies": [

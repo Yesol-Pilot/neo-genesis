@@ -206,7 +206,7 @@ def test_schedule_feedback_reads_performance_feedback_artifact(tmp_path) -> None
     assert feedback["enabled"] is True
     assert feedback["term_scores"]["노동"] == 15
     assert feedback["format_scores"]["reward_deep"] == 8
-    assert schedule_planner._format_sequence_from_feedback(feedback)[0] == "reward_deep"
+    assert schedule_planner._format_sequence_from_feedback(feedback)[0] == "reformed_briefing"
 
 
 def test_studio_feedback_suppresses_recent_weak_template_terms() -> None:
@@ -814,9 +814,46 @@ def test_schedule_plan_does_not_fallback_to_default_topic_when_candidates_exhaus
     result = schedule_planner.build_rolling_plan(days=1, output_dir=tmp_path)
 
     assert result["ready_count"] == 0
-    assert len(result["slots"]) == 3
+    assert len(result["slots"]) == 1
+    assert result["planned_formats"] == ["ranking_battle_65"]
     assert all(slot["topic"] == "" for slot in result["slots"])
     assert all("candidate_pool_exhausted" in slot["blockers"] for slot in result["slots"])
+
+
+def test_schedule_plan_uses_three_day_follow_growth_mix() -> None:
+    sequence = schedule_planner._format_sequence_from_feedback({"enabled": False})
+    planned = schedule_planner._planned_formats_for_days(3, sequence)
+    planned_format_ids = [format_id for _day_offset, format_id in planned]
+    counts = {format_id: planned_format_ids.count(format_id) for format_id in sorted(set(planned_format_ids))}
+
+    assert planned_format_ids == [
+        "ranking_battle_65",
+        "narrative_confession",
+        "reformed_briefing",
+    ]
+    assert counts == {
+        "narrative_confession": 1,
+        "ranking_battle_65": 1,
+        "reformed_briefing": 1,
+    }
+
+
+def test_seven_day_experiment_summary_is_local_plan_only() -> None:
+    sequence = schedule_planner._format_sequence_from_feedback({"enabled": False})
+    planned = schedule_planner._planned_formats_for_days(7, sequence)
+    planned_format_ids = [format_id for _day_offset, format_id in planned]
+    counts = {format_id: planned_format_ids.count(format_id) for format_id in sorted(set(planned_format_ids))}
+    summary = schedule_planner._experiment_summary(7, counts)
+
+    assert counts == {
+        "narrative_confession": 2,
+        "ranking_battle_65": 2,
+        "reformed_briefing": 2,
+    }
+    assert summary["status"] == "configured_only_no_external_action"
+    assert summary["publish_scope"] == "local_plan_only_no_tiktok_action"
+    assert summary["primary_metric"] == "followers_gained"
+    assert "do not count scheduled rows as performance" in summary["acceptance_criteria"]
 
 
 def test_schedule_plan_uses_lightweight_research_when_deep_research_missing(tmp_path, monkeypatch) -> None:
@@ -1023,6 +1060,61 @@ def test_monitoring_normalizes_studio_metric_text() -> None:
     assert metrics["average_watch_time_sec"] == 18
     assert metrics["completion_rate"] == 0.31
     assert metrics["followers_gained"] == 3
+
+
+def test_monitoring_profile_conversion_is_numeric_when_profile_views_exist() -> None:
+    manifest_path = Path("leftaino_test_manifest.json")
+    manifest = {
+        "run_id": "leftaino_profile_conversion",
+        "created_at": "2026-05-12T09:00:00+00:00",
+        "synced_duration_sec": 70,
+    }
+    snapshot = monitoring.MetricSnapshot(
+        run_id="leftaino_profile_conversion",
+        captured_at="2026-05-12T12:00:00+00:00",
+        metrics={
+            "views": 1000,
+            "likes": 120,
+            "comments": 12,
+            "shares": 8,
+            "profile_views": 20,
+            "followers_gained": 3,
+            "average_watch_time_sec": 38,
+            "completion_rate": 0.4,
+        },
+        source_path="studio_metrics.jsonl",
+    )
+
+    analysis = monitoring.analyze_run("leftaino_profile_conversion", manifest_path, manifest, snapshot)
+
+    assert analysis.derived_metrics["profile_conversion"] == 0.02
+    assert "profile_conversion_not_capturable" not in analysis.diagnoses
+    assert "profile_conversion_lt_threshold" not in analysis.diagnoses
+
+
+def test_monitoring_profile_conversion_marks_not_capturable_without_profile_views() -> None:
+    manifest = {"run_id": "leftaino_profile_missing", "created_at": "2026-05-12T09:00:00+00:00"}
+    snapshot = monitoring.MetricSnapshot(
+        run_id="leftaino_profile_missing",
+        captured_at="2026-05-12T12:00:00+00:00",
+        metrics={"views": 1000, "likes": 120, "comments": 12, "shares": 8},
+        source_path="studio_metrics.jsonl",
+    )
+
+    analysis = monitoring.analyze_run("leftaino_profile_missing", Path("manifest.json"), manifest, snapshot)
+
+    assert analysis.derived_metrics["profile_conversion"] == "not_capturable"
+    assert "profile_conversion_not_capturable" in analysis.diagnoses
+
+
+def test_monitoring_account_level_profile_conversion_summary() -> None:
+    summary = monitoring._account_level_metric_summary(
+        {"metrics": {"views": 2000, "profile_views": 24, "followers_gained": 5}}
+    )
+
+    assert summary["profile_conversion"] == 0.012
+    assert summary["measurement_scope"] == "account_snapshot_not_post_level"
+    assert summary["post_level_profile_conversion"] == "not_capturable"
 
 
 def test_monitoring_parses_studio_content_rows_for_account_references() -> None:
@@ -3459,6 +3551,162 @@ def test_publish_quality_blocks_when_follow_cta_only_exists_in_pinned_comment() 
     assert "caption_follow_cta_missing" in quality.blockers
     assert "video_end_follow_promise_missing" in quality.blockers
     assert quality.scores["follower_conversion"] < 70
+
+
+def test_publish_quality_blocks_headline_quote_format_even_with_follow_cta() -> None:
+    topic = pipeline.TopicCandidate(
+        title="김건희 특검 책임선",
+        angle="책임 기준을 나눠 봅니다",
+        slot="hot discovery",
+        target_duration_sec=72,
+        claims=[],
+        source_ids=["hot_news_01"],
+    )
+    sources = {
+        "hot_news_01": pipeline.Source("hot_news_01", "연합뉴스: 김건희 특검 책임선", "https://example.com", "test")
+    }
+    scenes = [
+        pipeline.Scene(
+            index + 1,
+            8,
+            f"Scene {index + 1}",
+            (
+                "김건희 특검 책임 기준을 차분히 봅니다. "
+                "팔로우하면 다음 편에서 이어갑니다."
+                if index == 8
+                else "김건희 특검 책임 기준을 차분히 봅니다. 댓글로 판단 기준을 남겨주세요."
+            ),
+            "visual",
+            "김건희 특검, 책임 기준",
+        )
+        for index in range(9)
+    ]
+    script = pipeline.ScriptPackage(
+        title="김건희 특검, 책임 기준",
+        caption="MBC 보도 제목 기준: 김건희 특검 책임선을 봅니다. 팔로우하면 다음 편에서 이어갑니다. #정치 #특검",
+        hashtags=["정치", "특검"],
+        post_title="김건희 특검, 책임 기준",
+        post_body="김건희 특검 책임 기준을 정리합니다.",
+        pinned_comment="댓글로 남겨주세요. 팔로우하면 다음 편에서 이어갑니다.",
+        narration="\n".join(scene.body for scene in scenes),
+        scenes=scenes,
+        target_duration_sec=72,
+        sources=["hot_news_01"],
+        disclosure="해당 이미지는 생성된 이미지입니다.",
+        variant_id="headline_quote_format",
+    )
+    plan = pipeline.FORMAT_SPECS["growth_short"]
+    gate = pipeline.check_policy(topic, script, sources, plan)
+    readability = pipeline.check_readability(script, plan)
+    quality = pipeline._score_script_quality(script, gate, readability, topic, sources, plan)
+
+    assert "caption_follow_cta_missing" not in quality.blockers
+    assert "headline_quote_format_banned" in quality.blockers
+
+
+def test_custom_issue_hook_avoids_fatigued_question_template() -> None:
+    topic = pipeline.TopicCandidate(
+        title="국민의힘 정부견제론 프레임",
+        angle="선거 프레임 작동 지점을 봅니다",
+        slot="hot discovery",
+        target_duration_sec=72,
+        claims=[],
+        source_ids=["hot_news_01"],
+    )
+
+    headline = pipeline._custom_issue_hook_headline(topic)
+
+    assert headline == "국힘 프레임, 작동 지점 3개"
+    assert "왜 먹히나" not in headline
+
+
+def test_publish_quality_blocks_fatigued_question_template() -> None:
+    topic = pipeline.TopicCandidate(
+        title="국민의힘 정부견제론 프레임",
+        angle="선거 프레임 작동 지점을 봅니다",
+        slot="hot discovery",
+        target_duration_sec=72,
+        claims=[],
+        source_ids=["hot_news_01"],
+    )
+    sources = {
+        "hot_news_01": pipeline.Source("hot_news_01", "연합뉴스: 정부견제론 프레임", "https://example.com", "test")
+    }
+    scenes = [
+        pipeline.Scene(
+            index + 1,
+            8,
+            f"Scene {index + 1}",
+            (
+                "정부견제론 프레임 기준을 차분히 봅니다. 팔로우하면 다음 편에서 이어갑니다."
+                if index == 8
+                else "정부견제론 프레임 기준을 차분히 봅니다. 댓글로 판단 기준을 남겨주세요."
+            ),
+            "visual",
+            "국힘 프레임, 왜 먹히나?",
+        )
+        for index in range(9)
+    ]
+    script = pipeline.ScriptPackage(
+        title="국힘 프레임, 왜 먹히나?",
+        caption="정부견제론 프레임 기준을 봅니다. 팔로우하면 다음 편에서 이어갑니다. #정치 #선거",
+        hashtags=["정치", "선거"],
+        post_title="국힘 프레임, 왜 먹히나?",
+        post_body="정부견제론 프레임 기준을 정리합니다.",
+        pinned_comment="댓글로 남겨주세요. 팔로우하면 다음 편에서 이어갑니다.",
+        narration="\n".join(scene.body for scene in scenes),
+        scenes=scenes,
+        target_duration_sec=72,
+        sources=["hot_news_01"],
+        disclosure="해당 이미지는 생성된 이미지입니다.",
+        variant_id="fatigued_question_template",
+    )
+    plan = pipeline.FORMAT_SPECS["growth_short"]
+    gate = pipeline.check_policy(topic, script, sources, plan)
+    readability = pipeline.check_readability(script, plan)
+    quality = pipeline._score_script_quality(script, gate, readability, topic, sources, plan)
+
+    assert "caption_follow_cta_missing" not in quality.blockers
+    assert "fatigued_question_template_banned" in quality.blockers
+
+
+def test_cta_patterns_include_follow_series_promises() -> None:
+    patterns = pipeline.CTA_PATTERNS_CONFIG["cta_patterns"]
+    follow_patterns = [
+        row
+        for row in patterns
+        if "팔로우" in str(row.get("text_template", "")) and "다음" in str(row.get("text_template", ""))
+    ]
+
+    assert len(follow_patterns) >= 3
+    assert {"ranking_battle_65", "narrative_confession", "reformed_briefing"} <= {
+        format_id
+        for row in follow_patterns
+        for format_id in row.get("use_when", [])
+    }
+
+
+def test_reference_router_wires_large_caption_real_context_cta() -> None:
+    pattern_ids = {row["id"] for row in pipeline.REFERENCE_PATTERNS_CONFIG["patterns"]}
+    routes = {
+        row["format_id"]: row["reference_patterns"]
+        for row in pipeline.FORMAT_ROUTER_CONFIG["routing_rules"]
+        if "format_id" in row
+    }
+    layout_rule = pipeline.SCENE_TYPE_LIBRARY_CONFIG["layout_variety_rule"]
+
+    assert "large_caption_real_context_cta" in pattern_ids
+    for format_id in ["ranking_battle_65", "narrative_confession", "reformed_briefing"]:
+        assert "large_caption_real_context_cta" in routes[format_id]
+    for forbidden in [
+        "text-only cards",
+        "fake broadcast UI",
+        "real-person face synthesis",
+        "party logos",
+        "paper headline cards",
+        "blurred stock crowds",
+    ]:
+        assert forbidden in layout_rule
 
 
 def test_transition_frame_keeps_video_canvas_and_changes_pixels() -> None:

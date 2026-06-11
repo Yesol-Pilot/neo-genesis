@@ -208,7 +208,7 @@
     }
   ],
   "topic_candidate": {
-    "claim_text_template": "{publisher} 보도 제목 기준: {title}",
+    "claim_text_template": "{publisher} 확인 쟁점: {title}",
     "angle": "최근 48시간 보도량, 출처 신뢰도, 채널 적합도를 기준으로 고른 핫이슈 검증",
     "slot": "hot discovery",
     "target_duration_sec": 75
@@ -899,7 +899,7 @@
     },
     {
       "must_include": ["보완수사권"],
-      "headline": "보완수사권, 왜 갈리나?"
+      "headline": "보완수사권, 갈린 기준 3개"
     },
     {
       "must_include": ["검찰개혁", "막고"],
@@ -1197,7 +1197,7 @@
       "rule_id": "prosecution_supplementary_investigation_power",
       "must_include": ["보완수사권"],
       "rows": [
-        {"title": "검찰권 훅", "screen": "보완수사권, 왜 갈리나?", "body": "이 이슈는 어려운 법률 용어가 아닙니다. 검찰 권한을 누가 통제할 것인가, 그 질문으로 보면 바로 댓글이 갈립니다.", "role": "hook"},
+        {"title": "검찰권 훅", "screen": "보완수사권, 갈린 기준 3개", "body": "이 이슈는 어려운 법률 용어가 아닙니다. 검찰 권한을 누가 통제할 것인가, 그 질문으로 보면 바로 댓글이 갈립니다.", "role": "hook"},
         {"title": "첫 장면", "screen": "검찰 불신이 먼저다", "body": "이재명 대통령은 국민의 검찰 불신이 크다고 말했고, 보완수사권 결론은 국회 판단에 맡기겠다는 취지로 보도됐습니다.", "role": "why_now"},
         {"title": "권한선", "screen": "수사권은 어디까지?", "body": "핵심은 검찰을 없애자는 구호가 아닙니다. 기소권과 수사 보완 권한이 어디까지 남아야 하는지의 문제입니다.", "role": "criteria"},
         {"title": "국회 공", "screen": "공은 국회로 갔다", "body": "대통령 발언 뒤 실제 설계는 국회 몫이 됩니다. 그래서 말싸움보다 법사위와 제도 설계가 다음 장면입니다.", "role": "responsibility"},

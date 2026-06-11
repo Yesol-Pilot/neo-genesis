@@ -7,7 +7,8 @@
       "min_comment_rate": 0.002,
       "min_share_rate": 0.003,
       "min_average_watch_ratio": 0.35,
-      "min_completion_rate": 0.18
+      "min_completion_rate": 0.18,
+      "min_profile_conversion": 0.008
     },
     "first_24h": {
       "max_age_hours": 24,
@@ -16,7 +17,8 @@
       "min_comment_rate": 0.003,
       "min_share_rate": 0.004,
       "min_average_watch_ratio": 0.42,
-      "min_completion_rate": 0.24
+      "min_completion_rate": 0.24,
+      "min_profile_conversion": 0.008
     },
     "day_3": {
       "max_age_hours": 72,
@@ -25,7 +27,8 @@
       "min_comment_rate": 0.004,
       "min_share_rate": 0.005,
       "min_average_watch_ratio": 0.45,
-      "min_completion_rate": 0.28
+      "min_completion_rate": 0.28,
+      "min_profile_conversion": 0.008
     }
   },
   "score_weights": {
@@ -35,23 +38,80 @@
     "share_rate": 14,
     "average_watch_ratio": 18,
     "completion_rate": 12,
-    "follower_conversion_rate": 6
+    "follower_conversion_rate": 3,
+    "profile_conversion": 3
   },
   "metric_aliases": {
-    "views": ["views", "video views", "viewers", "조회수", "동영상 조회수", "재생 수"],
-    "likes": ["likes", "좋아요"],
-    "comments": ["comments", "댓글"],
-    "shares": ["shares", "공유"],
-    "saves": ["saves", "favorites", "favourites", "saved", "즐겨찾기", "저장"],
-    "followers_gained": ["new followers", "followers gained", "팔로워 증가", "신규 팔로워"],
-    "profile_views": ["profile views", "프로필 조회수"],
-    "average_watch_time_sec": ["average watch time", "avg watch time", "평균 시청 시간", "평균 재생 시간"],
-    "completion_rate": ["watched full video", "completion rate", "full video watched", "전체 시청률", "완주율"],
-    "retention_rate": ["retention", "유지율"]
+    "views": [
+      "views",
+      "video views",
+      "viewers",
+      "조회수",
+      "동영상 조회수",
+      "재생 수"
+    ],
+    "likes": [
+      "likes",
+      "좋아요"
+    ],
+    "comments": [
+      "comments",
+      "댓글"
+    ],
+    "shares": [
+      "shares",
+      "공유"
+    ],
+    "saves": [
+      "saves",
+      "favorites",
+      "favourites",
+      "saved",
+      "즐겨찾기",
+      "저장"
+    ],
+    "followers_gained": [
+      "new followers",
+      "followers gained",
+      "팔로워 증가",
+      "신규 팔로워"
+    ],
+    "profile_views": [
+      "profile views",
+      "프로필 조회수",
+      "profile visits",
+      "profile viewers"
+    ],
+    "average_watch_time_sec": [
+      "average watch time",
+      "avg watch time",
+      "평균 시청 시간",
+      "평균 재생 시간"
+    ],
+    "completion_rate": [
+      "watched full video",
+      "completion rate",
+      "full video watched",
+      "전체 시청률",
+      "완주율"
+    ],
+    "retention_rate": [
+      "retention",
+      "유지율"
+    ],
+    "profile_conversion": [
+      "profile conversion",
+      "profile visit rate",
+      "프로필 전환율"
+    ]
   },
   "response_rules": {
     "strong_performer": {
-      "when": ["score_gte_80", "views_gte_threshold", "engagement_gte_threshold"],
+      "when": [
+        "score_gte_80",
+        "views_gte_threshold",
+        "engagement_gte_threshold"
+      ],
       "priority": 1,
       "actions": [
         "24시간 안에 같은 쟁점의 후속편을 제작한다.",
@@ -60,7 +120,9 @@
       ]
     },
     "low_views": {
-      "when": ["views_lt_threshold"],
+      "when": [
+        "views_lt_threshold"
+      ],
       "priority": 2,
       "actions": [
         "동일 주제 재업로드보다 새 핫이슈로 교체한다.",
@@ -69,7 +131,10 @@
       ]
     },
     "low_retention": {
-      "when": ["average_watch_ratio_lt_threshold", "completion_rate_lt_threshold"],
+      "when": [
+        "average_watch_ratio_lt_threshold",
+        "completion_rate_lt_threshold"
+      ],
       "priority": 2,
       "actions": [
         "첫 3초에서 배경 설명을 줄이고 결론형 질문을 먼저 둔다.",
@@ -78,7 +143,9 @@
       ]
     },
     "weak_comment_signal": {
-      "when": ["comment_rate_lt_threshold"],
+      "when": [
+        "comment_rate_lt_threshold"
+      ],
       "priority": 3,
       "actions": [
         "고정 댓글을 찬반형 질문이 아니라 기준 선택형 질문으로 바꾼다.",
@@ -87,7 +154,9 @@
       ]
     },
     "weak_share_signal": {
-      "when": ["share_rate_lt_threshold"],
+      "when": [
+        "share_rate_lt_threshold"
+      ],
       "priority": 4,
       "actions": [
         "공유 유도보다 '기록으로 남겨야 할 쟁점' 프레이밍을 강화한다.",
@@ -95,7 +164,9 @@
       ]
     },
     "no_data": {
-      "when": ["missing_metrics"],
+      "when": [
+        "missing_metrics"
+      ],
       "priority": 9,
       "actions": [
         "TikTok Studio 영상 상세 화면에서 확장 프로그램의 Studio 지표 수집을 실행한다.",
@@ -108,6 +179,7 @@
     "monitoring_dirname": "performance_reports",
     "report_cooldown_minutes": 60,
     "min_samples_for_time_slot_decision": 3,
-    "source_note": "TikTok Studio/Analytics UI에서 수집된 로컬 지표를 기준으로 한 운영 추정치다."
+    "source_note": "TikTok Studio/Analytics UI에서 수집된 로컬 지표를 기준으로 한 운영 추정치다.",
+    "rollup_gap_threshold_hours": 36
   }
 }

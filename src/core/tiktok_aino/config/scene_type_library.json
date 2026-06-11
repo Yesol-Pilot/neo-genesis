@@ -66,5 +66,5 @@
       "ai_generation_rule": "generic assembly/court/government exterior; no exact logo"
     }
   ],
-  "layout_variety_rule": "Do not use the same card layout for more than two consecutive scenes."
+  "layout_variety_rule": "Do not use the same card layout for more than two consecutive scenes. Forbidden repeats: text-only cards, fake broadcast UI, real-person face synthesis, party logos, paper headline cards, blurred stock crowds."
 }

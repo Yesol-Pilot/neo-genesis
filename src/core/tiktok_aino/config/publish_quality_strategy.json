@@ -115,7 +115,8 @@
       "readability_gate": "모바일 가독성 게이트 미통과",
       "visual_shortage": "실생성 이미지 부족: {generated}/{total}장. 로컬 대체 이미지는 업로드 후보로 인정하지 않음",
       "visual_quality_gate": "이미지-주제/장면 적합도 게이트 미통과",
-      "reward_duration": "Creator Rewards 후보로 보기 어려운 60초 미만 영상"
+      "reward_duration": "Creator Rewards 후보로 보기 어려운 60초 미만 영상",
+      "headline_quote_format": "뉴스 제목을 인용하는 형식의 훅/캡션은 업로드 금지"
     },
     "notes": {
       "fallback_visuals": "로컬 fallback 이미지가 포함됨: {scenes}",
@@ -363,6 +364,18 @@
       "이어갑니다",
       "계속 추적",
       "매일 정리"
+    ],
+    "headline_quote_banned_terms": [
+      "보도 제목 기준",
+      "뉴스 보도 제목"
+    ],
+    "fatigued_question_template_terms": [
+      "왜 먹히나",
+      "왜 흔들리나",
+      "왜 갈리나",
+      "뭐가 먹히나",
+      "누가 먹히나",
+      "왜 안 죽나"
     ],
     "generic_repetition_phrases": [
       "전말과 근거를 나눠 봅니다",

@@ -66,6 +66,30 @@
         "evidence_briefing_75"
       ],
       "text_template": "Next part tracks what changed after this."
+    },
+    {
+      "id": "follow_for_next_receipt",
+      "use_when": [
+        "reformed_briefing",
+        "evidence_briefing_75"
+      ],
+      "text_template": "팔로우하면 다음 편에서 바뀐 책임선을 이어갑니다."
+    },
+    {
+      "id": "follow_for_ranking_update",
+      "use_when": [
+        "ranking_battle_65",
+        "narrative_confession"
+      ],
+      "text_template": "팔로우하면 다음 순위와 반론까지 이어갑니다."
+    },
+    {
+      "id": "follow_for_daily_thread",
+      "use_when": [
+        "narrative_confession",
+        "reformed_briefing"
+      ],
+      "text_template": "팔로우하면 매일 같은 쟁점의 다음 흐름을 봅니다."
     }
   ],
   "forbidden_cta": [

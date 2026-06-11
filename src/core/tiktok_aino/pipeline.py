@@ -187,7 +187,9 @@ BODY_TEXT_MAX_CHARS_MOBILE = 84
 FORMAT_BODY_TEXT_MAX_CHARS = {
     "growth_short": 52,
     "ranking_battle_65": 72,
+    "narrative_confession": 72,
     "reward_deep": 84,
+    "reformed_briefing": 84,
     "debate_followup": 72,
 }
 MIN_HEADLINE_PREVIEW_PX = 19
@@ -279,6 +281,30 @@ SCRIPT_QUALITY_WEIGHTS = {
     for key, value in _config_dict(SCRIPT_QUALITY_STRATEGY, "weights").items()
 }
 SCRIPT_QUALITY_MINIMUMS = _config_int_map(SCRIPT_QUALITY_STRATEGY, "minimums")
+HEADLINE_QUOTE_FORMAT_BANNED_TERMS = list(
+    dict.fromkeys(
+        [
+            "보도 제목 기준",
+            "뉴스 보도 제목",
+            "ë³´ë„ ì œëª© ê¸°ì¤€",
+            "ë‰´ìŠ¤ ë³´ë„ ì œëª©",
+            *_strategy_terms(SCRIPT_QUALITY_STRATEGY, "headline_quote_banned_terms"),
+        ]
+    )
+)
+FATIGUED_QUESTION_TEMPLATE_TERMS = list(
+    dict.fromkeys(
+        [
+            "왜 먹히나",
+            "왜 흔들리나",
+            "왜 갈리나",
+            "뭐가 먹히나",
+            "누가 먹히나",
+            "왜 안 죽나",
+            *_strategy_terms(SCRIPT_QUALITY_STRATEGY, "fatigued_question_template_terms"),
+        ]
+    )
+)
 SCRIPT_STRATEGY = _load_strategy_config("script_strategy.json")
 COPY_NORMALIZATION_STRATEGY = _config_dict(SCRIPT_STRATEGY, "copy_normalization")
 POST_METADATA_STRATEGY = _config_dict(SCRIPT_STRATEGY, "post_metadata")
@@ -767,6 +793,38 @@ FORMAT_SPECS: dict[str, ContentFormatPlan] = {
         master_image_max=12,
         max_seconds_per_master_image=7.0,
         visual_beats_per_minute=25,
+    ),
+    "narrative_confession": ContentFormatPlan(
+        format_id="narrative_confession",
+        objective="follow_growth_narrative_confession",
+        target_duration_min_sec=63,
+        target_duration_max_sec=82,
+        scene_count_min=9,
+        scene_count_max=11,
+        min_visual_beats=20,
+        reward_eligible=True,
+        upload_slot="08:10",
+        selection_reason="follow-growth narrative: personal stance shift, issue confession, and next-episode promise",
+        master_image_min=10,
+        master_image_max=11,
+        max_seconds_per_master_image=7.0,
+        visual_beats_per_minute=24,
+    ),
+    "reformed_briefing": ContentFormatPlan(
+        format_id="reformed_briefing",
+        objective="follow_growth_reformed_briefing",
+        target_duration_min_sec=65,
+        target_duration_max_sec=92,
+        scene_count_min=9,
+        scene_count_max=12,
+        min_visual_beats=24,
+        reward_eligible=True,
+        upload_slot="11:20",
+        selection_reason="reformed briefing: sourced context, actor/issue keyword, and explicit follow-through promise",
+        master_image_min=12,
+        master_image_max=12,
+        max_seconds_per_master_image=7.0,
+        visual_beats_per_minute=26,
     ),
 }
 
@@ -1348,6 +1406,27 @@ def _scene_headline_quality_issues(scenes: list[Any]) -> list[str]:
     return issues
 
 
+def _script_headline_quote_format_fields(script: dict[str, Any]) -> list[str]:
+    fields: list[str] = []
+    for key in ["title", "caption", "post_title", "post_body", "pinned_comment", "narration"]:
+        value = str(script.get(key, "") or "")
+        if _contains_any(value, HEADLINE_QUOTE_FORMAT_BANNED_TERMS):
+            fields.append(f"script.{key}")
+    scenes = script.get("scenes", [])
+    if isinstance(scenes, list):
+        for index, scene in enumerate(scenes, start=1):
+            if not isinstance(scene, dict):
+                continue
+            text = " ".join(str(scene.get(key, "") or "") for key in ["title", "body", "on_screen_text"])
+            if _contains_any(text, HEADLINE_QUOTE_FORMAT_BANNED_TERMS):
+                fields.append(f"script.scenes[{index}]")
+    return fields
+
+
+def _script_has_headline_quote_format(script: ScriptPackage) -> bool:
+    return bool(_script_headline_quote_format_fields(asdict(script)))
+
+
 def validate_manifest_for_upload(manifest: dict[str, Any]) -> dict[str, Any]:
     """Strict final gate shared by Chrome Extension, CLI upload, and HA workers."""
 
@@ -1437,6 +1516,9 @@ def validate_manifest_for_upload(manifest: dict[str, Any]) -> dict[str, Any]:
             technical_blockers.append(f"{gate_name}_not_passed")
     format_plan = manifest.get("format_plan") if isinstance(manifest.get("format_plan"), dict) else {}
     technical_blockers.extend(_script_text_integrity_issues(script, format_plan))
+    headline_quote_fields = _script_headline_quote_format_fields(script)
+    if headline_quote_fields:
+        technical_blockers.append(f"headline_quote_format_banned:{','.join(headline_quote_fields)}")
 
     if quality.get("passed") is not True:
         quality_blockers.append("publish_quality_not_passed")
@@ -4590,7 +4672,15 @@ def route_content_format(
     format_scores = performance_feedback.get("format_scores", {})
     if not isinstance(format_scores, dict):
         return base
-    candidates = ["evidence_briefing_75", "growth_short", "ranking_battle_65", "reward_deep", "debate_followup"]
+    candidates = [
+        "evidence_briefing_75",
+        "growth_short",
+        "ranking_battle_65",
+        "narrative_confession",
+        "reward_deep",
+        "reformed_briefing",
+        "debate_followup",
+    ]
     if not has_evidence_briefing_sources:
         candidates = [item for item in candidates if item not in {"evidence_briefing_75", "reward_deep"}]
     scored: list[tuple[int, str]] = []
@@ -4715,7 +4805,7 @@ def _apply_reward_deep_format(
     sources: dict[str, Source] | None,
     plan: ContentFormatPlan,
 ) -> ScriptPackage:
-    if plan.format_id != "reward_deep":
+    if plan.format_id not in {"reward_deep", "reformed_briefing"}:
         return script
     values = _reward_deep_values(script, topic, sources)
     updates = _config_dict(REWARD_DEEP_STRATEGY, "scene_updates")
@@ -5363,7 +5453,7 @@ def _topic_anchor_hook_text(topic: TopicCandidate, sources: dict[str, Source] | 
     primary = anchors[0] if anchors else _compact_card_text(topic.title, 12)
     templates = [
         "{primary}, 진짜 책임은?",
-        "{primary}, 왜 지금 커졌나?",
+        "{primary}, 커진 이유 3개",
         "{primary}, 누가 책임지나?",
     ]
     for template in templates:
@@ -5428,7 +5518,7 @@ def _custom_issue_hook_headline(topic: TopicCandidate) -> str:
         (["민주 45", "국힘 20"], "숫자만 보면 속을까?"),
         (["보수 결집"], "결집인가, 착시인가?"),
         (["오세훈"], "그 말, 그냥 넘길까?"),
-        (["김건희", "특검"], "특검 이슈, 왜 안 죽나"),
+        (["김건희", "특검"], "특검 이슈, 남은 책임선"),
         (["오늘", "선고"], "오늘 선고, 뭘 봐야 하나?"),
         (["D-1", "선고"], "선고 D-1, 뭘 볼까?"),
         (["윤석열", "선고"], "선고 전 뭘 봐야 하나?"),
@@ -5438,10 +5528,10 @@ def _custom_issue_hook_headline(topic: TopicCandidate) -> str:
         (["혐오", "조롱"], "혐오, 장난으로 끝날까?"),
         (["스타벅스"], "불매, 과한가 정당한가?"),
         (["5·18", "조롱"], "5·18 조롱, 선 넘었나?"),
-        (["국민의힘", "정부견제론"], "국힘 프레임, 왜 먹히나?"),
+        (["국민의힘", "정부견제론"], "국힘 프레임, 작동 지점 3개"),
         (["우파 프레임"], "우파 프레임 TOP5, 왜?"),
         (["선거판"], "이번 주 TOP5, 뭐가 흔드나?"),
-        (["심판론", "안정론"], "심판론, 누가 먹히나?"),
+        (["심판론", "안정론"], "심판론 vs 안정론, 갈림점 3개"),
     ]
     for terms, headline in rules:
         if all(term in title for term in terms):
@@ -5450,12 +5540,12 @@ def _custom_issue_hook_headline(topic: TopicCandidate) -> str:
     primary = _hot_primary_hook_term(title)
     kind = _custom_issue_kind(title)
     fallbacks = {
-        "numbers": "{primary}, 왜 흔들리나?",
+        "numbers": "{primary}, 흔들린 지점 3개",
         "legal": "{primary}, 누가 흔드나?",
         "memory_hate": "{primary}, 선 넘었나?",
         "election_frame": "{primary}, 누가 움직이나?",
-        "party_frame": "{primary}, 왜 먹히나?",
-        "civic_conflict": "{primary}, 왜 갈리나?",
+        "party_frame": "{primary}, 작동한 프레임 3개",
+        "civic_conflict": "{primary}, 갈린 기준 3개",
     }
     return _compact_card_text(fallbacks[kind].format(primary=primary), 34, keep_question=True)
 
@@ -5569,7 +5659,7 @@ def _apply_topic_specific_scene_overrides(topic_title: str, rows: list[dict[str,
 
     if "김건희" in title and "특검" in title:
         set_rows([
-            (1, "왜 계속 살아나나", "{claim0}"),
+            (1, "계속 남는 이유", "{claim0}"),
             (2, "스캔들 소비 아님", "이 이슈가 오래 가는 이유는 사생활 호기심이 아니라 권력 사유화 의심 때문입니다."),
             (3, "특검의 기준", "특검은 분노를 대신하는 장치가 아닙니다. 공개 근거와 절차가 기준이어야 합니다."),
             (4, "방어 프레임", "상대는 정치 보복이라고 말할 겁니다. 그래서 더더욱 근거와 절차로 압박해야 합니다."),
@@ -5622,7 +5712,7 @@ def _apply_topic_specific_scene_overrides(topic_title: str, rows: list[dict[str,
         ])
     elif "심판론" in title and "안정론" in title:
         set_rows([
-            (1, "둘 중 뭐가 먹히나", "{claim0}"),
+            (1, "둘의 갈림점 3개", "{claim0}"),
             (2, "심판론의 힘", "심판론은 분노를 투표로 바꾸는 언어입니다. 과거 책임을 현재 선택으로 끌고 옵니다."),
             (3, "안정론의 힘", "안정론은 불안을 줄이는 언어입니다. 변화 피로가 큰 층에는 강하게 먹힙니다."),
             (4, "댓글 전쟁", "댓글이 갈리는 이유는 간단합니다. 한쪽은 책임을 보고, 다른 쪽은 불안을 봅니다."),
@@ -5655,7 +5745,7 @@ _CUSTOM_SHORT_HEADLINE_EXPANSIONS = {
     "상대 논리": "상대 논리는 이거",
     "우리 기준": "우리 기준은 책임",
     "프레임": "프레임 전쟁 시작",
-    "견제론": "견제론은 왜 먹히나",
+    "견제론": "견제론이 작동하는 지점",
     "안정론": "안정론의 약점은 이것",
     "승부처": "승부처는 바로 여기",
     "장면 1": "장면 1, 지지율 균열",
@@ -5774,7 +5864,7 @@ def _customize_issue_story_arc(
             row = non_cta_rows[index % len(non_cta_rows)]
             recycled_middle = True
         screen_template = row["screen"]
-        if index == len(script.scenes) - 1 and plan.format_id == "reward_deep" and "1 " in scene.on_screen_text:
+        if index == len(script.scenes) - 1 and plan.format_id in {"reward_deep", "reformed_briefing"} and "1 " in scene.on_screen_text:
             screen_template = scene.on_screen_text
         screen = _compact_card_text(
             _format_prompt_template(screen_template, values),
@@ -5790,7 +5880,7 @@ def _customize_issue_story_arc(
         body_raw = _format_prompt_template(row["body"], values)
         if recycled_middle:
             body_raw = f"{body_raw} 같은 이슈라도 다른 장면으로 다시 봅니다."
-        if index == 0 and plan.format_id == "reward_deep" and "1\ubd84" not in body_raw:
+        if index == 0 and plan.format_id in {"reward_deep", "reformed_briefing"} and "1\ubd84" not in body_raw:
             body_raw = f"1\ubd84 \uc548\uc5d0 \ubcf4\uaca0\uc2b5\ub2c8\ub2e4. {body_raw}"
         body = _compact_card_text(body_raw, body_max, keep_question="?" in body_raw)
         visual_role = str(row.get("visual_role") or "evidence")
@@ -5833,7 +5923,7 @@ def _preserve_topic_anchor_terms(
         scenes[0] = replace(
             scenes[0],
             on_screen_text=_topic_anchor_hook_text(topic, sources),
-            body=_compact_card_text(f"{topic_title}. 왜 지금 커졌고, 누가 책임져야 하나요?", body_max, keep_question=True),
+            body=_compact_card_text(f"{topic_title}. 커진 이유와 책임선을 함께 봅니다.", body_max, keep_question=False),
         )
 
     provisional = _script_with_scenes(script, variant_id=script.variant_id, scenes=scenes)
@@ -5864,7 +5954,9 @@ def apply_content_format(
         "evidence_briefing_75": "evidence",
         "growth_short": "short",
         "ranking_battle_65": "ranking",
+        "narrative_confession": "narrative",
         "reward_deep": "reward",
+        "reformed_briefing": "reformed",
         "debate_followup": "followup",
     }.get(plan.format_id, plan.format_id)
     formatted = _script_with_scenes(
@@ -6501,6 +6593,17 @@ def apply_reference_content_design(
         "source_line": source_line,
     }
     base_rows = _reference_story_rows_from_strategy(topic, base_rows, story_values)
+    for row in base_rows:
+        body = str(row.get("body", ""))
+        body = body.replace(
+            "ì œëª©ë³´ë‹¤ ë¨¼ì € ë³¼ ê±´ ì¶œì²˜ì™€ ë¹ ì§„ ì„¤ëª…ìž…ë‹ˆë‹¤.",
+            "첫 문장보다 먼저 볼 건 출처와 빠진 설명입니다.",
+        )
+        body = body.replace(
+            "ë³´ë„ ì œëª©ê³¼ í™•ì¸ëœ ì‚¬ì‹¤",
+            "확인된 사실",
+        )
+        row["body"] = body
 
     scene_types = reference_fit.selected_scene_type_ids or ["document_receipt_desk"]
     scenes: list[Scene] = []
@@ -7011,6 +7114,10 @@ def _score_script_quality(
     for phrase in _strategy_terms(SCRIPT_QUALITY_STRATEGY, "generic_repetition_phrases"):
         if phrase and scene_body_text.count(phrase) >= 2:
             blockers.append(f"generic_phrase_repeated:{phrase}")
+    if _script_has_headline_quote_format(script):
+        blockers.append("headline_quote_format_banned")
+    if _contains_any(full_text, FATIGUED_QUESTION_TEMPLATE_TERMS):
+        blockers.append("fatigued_question_template_banned")
     if question_count < 2:
         notes.append("question_density_low")
     if not caption_follow_cta:
@@ -12256,7 +12363,16 @@ def main() -> int:
     parser.add_argument("--topic-mode", choices=["static", "hot"], default=os.environ.get("AINO_TOPIC_MODE", "static"))
     parser.add_argument(
         "--format",
-        choices=["auto", "evidence_briefing_75", "growth_short", "ranking_battle_65", "reward_deep", "debate_followup"],
+        choices=[
+            "auto",
+            "evidence_briefing_75",
+            "growth_short",
+            "ranking_battle_65",
+            "narrative_confession",
+            "reward_deep",
+            "reformed_briefing",
+            "debate_followup",
+        ],
         default=os.environ.get("AINO_CONTENT_FORMAT", "auto"),
         dest="content_format",
     )
