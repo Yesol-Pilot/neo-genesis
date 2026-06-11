@@ -6016,11 +6016,11 @@ def _reference_post_metadata_profile(
         profile = {
             "caption_body": (
                 "역대 대통령 TOP5를 민주주의, 위기 회복, 정치적 유산 기준으로 다시 매겼습니다. "
-                "1위 노무현, 2위 이재명, 3위 김대중, 4위 박정희, 5위 문재인. "
-                "성장만 볼지, 민주주의까지 볼지에 따라 순위는 완전히 갈립니다."
+                "성장만 볼지, 민주주의까지 볼지에 따라 순위는 완전히 갈립니다. "
+                "1위는 영상 끝에서 공개합니다. 당신의 1위는 누구인가요?"
             ),
-            "post_body": "역대 대통령 TOP5를 공개 기준으로 다시 봅니다. 1위 노무현, 2위 이재명.",
-            "pinned_comment": "1 노무현, 2 이재명. 인정인가요, 반박인가요? 당신의 TOP2를 댓글로 남겨주세요. 팔로우하면 다음 순위도 이어갑니다.",
+            "post_body": "역대 대통령 TOP5를 공개 기준으로 다시 봅니다. 기준이 바뀌면 1위가 바뀝니다.",
+            "pinned_comment": "당신의 TOP2는 누구인가요? 기준과 함께 댓글로 남겨주세요. 팔로우하면 다음 순위 편도 이어갑니다.",
         }
         return {
             key: _trim_without_overflow_marker(value, 240 if key == "caption_body" else 120)
@@ -6518,7 +6518,7 @@ def apply_reference_content_design(
     preserved_title = _compact_card_text(script.post_title, 34, keep_question="?" in script.post_title)
     topic_text_for_title = f"{topic.title} {topic.angle}"
     if all(term in topic_text_for_title for term in ["역대 대통령", "순위"]):
-        post_title = "역대 대통령 TOP5, 1위 노무현 2위 이재명"
+        post_title = "역대 대통령 TOP5. 기준을 바꾸면 1위가 바뀝니다"
     else:
         post_title = preserved_title or _reference_unique_post_title(hook, topic, sources)
     claim, counter, open_question = _reference_fact_texts(topic, fact_pack)
