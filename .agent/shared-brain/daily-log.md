@@ -4830,3 +4830,14 @@
 - [wave_2 후보 리서치] docs/20260611_wave2_candidate_research_v1_0.md — 후보 8종 G0 판정: pass 3 (경조사비 가이드+장부 / 월급 실시간 카운터 / 기온별 옷차림 브리핑) / hold 2 (분리수거·택배조회) / fail 3 (무지출 챌린지·운세 = 토스 네이티브 중복 재적발, 주차메모 = 대체재 우위). 톱2 = 경조사비 장부(수요증거 3중 + 마이데이터 밖 영역이라 토스 열화판 함정 구조적 부재) + 월급 카운터(API 0 + 100만 사용자급 수요 검증). 부가 실증: 앱인토스 날씨앱 푸시 CTR 20%(공식) = "매일 갱신 값+푸시" 리텐션 레버. 빌드 전 토스 실기기 네이티브 부재 재확인 필수 박제.
 - [배포 상태] coupon-expiry-bot 10:55 deploy 재시도 = 4031 (콘솔 앱 엔트리 owner action 대기: ko=쿠폰만료봇/en=coupon-expiry-bot/비게임). moving-check-bot 은 하드닝본 라이브 유지 (019eb3df). ops_report_20260611 재생성.
 - 외부 액션: deploy 시도 2회(4031) 외 0. wave_2 빌드는 owner 픽 대기.
+
+## 2026-06-11 Codex - TikTok @leftaino follow-growth T1~T7 로컬 구현
+
+- 정본 `src/core/tiktok_aino/EXECUTION_SPEC_FOLLOW_GROWTH_20260610.md` 기준으로 T1~T7을 구현했다. 인용형 보도 제목 포맷 차단, 피로한 질문 템플릿 차단, `ranking_battle_65`/`narrative_confession`/`reformed_briefing` 믹스, 캡션 follow CTA 게이트, reference 문법 배선, profile conversion 측정 선행, 7일 실험 local-only 설정까지 반영.
+- 외부 행위는 하지 않았다. TikTok 업로드/예약/게시 클릭, 계정/프로필 변경, 외부 플랫폼 게시 모두 0건이며 T7은 `configured_only_no_external_action` 상태로 owner 별도 지시 대기.
+- 검증 증빙: 신규/수정 테스트 10/10 PASS, config `json.tool` 20/20 PASS, validation log `json.tool` PASS, AST parse 18/18 PASS. `output/tiktok_aino_validation/follow_growth_self_validation_20260611.json`에 인용형 훅 차단(`headline_quote_format_banned`), CTA 누락 캡션 차단(`caption_follow_cta_missing`), 3일 스케줄 믹스, 7일 실험 설정, cold-grill 4문을 기록했다.
+- 관련 전체 pytest는 `C:\Users\yesol\miniconda3\python.exe -m pytest -s --tb=short tests/core/test_tiktok_aino_*.py`로 수집 247개, 166 passed, 81 errors. 오류는 `FileNotFoundError: No usable temporary directory found ...`로 `tmp_path`/tempfile setup에서 발생했고, 실행된 테스트의 assertion failure는 없었다.
+- `compileall src/core/tiktok_aino`은 `.pyc` rename 권한 문제(`WinError 5`)로 실패했다. 문법 대체 확인은 AST parse 18/18 PASS로 남겼다.
+- 측정 한계: 게시물별 `profile_conversion`은 TikTok Studio가 게시물별 profile views/follows를 노출하지 않으면 `not_capturable`로 기록한다. 계정 스냅샷 profile conversion과 게시물 성과를 분리하며, scheduled row는 `scheduled_not_evaluable`로 유지하고 성과로 계산하지 않는다.
+- Git: `.git/index.lock` 생성 권한 실패로 명시적 staging/commit이 불가했다. `git add -A`는 사용하지 않았고 push도 하지 않았다.
+- Cold-grill 답변: 거짓 메트릭 생성 없음 / 외부 게시·예약 없음 / scheduled row 성과 계산 없음 / 게시물별 profile conversion은 원천 데이터 부재 시 `not_capturable`.

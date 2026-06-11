@@ -1,7 +1,140 @@
 # Active Tasks — 에이전트 공유 작업 목록
 
 > **규칙:** 작업 시작/완료 시 갱신. 담당 에이전트와 상태를 명시.
-> **최종 갱신:** 2026-06-10 by Claude Opus 4.8 — **허예솔 founder career 층 + Neo Genesis 온톨로지 갱신 (ultracode 9-agent, 전 게이트 PASS)**
+> **최종 갱신:** 2026-06-11 by Claude Fable 5 — **FINITE 현황보고+진행 (트래픽 붕괴 P0 발견) / TikTok @leftaino 실행 스펙 (Codex 인계)**
+
+---
+
+## 🟡 2026-06-11 FINITE(daysleft.io) 현황보고 + "진행" 후속 (Claude Fable 5)
+
+owner "daysleft 프로젝트 현황보고" → 4축 실측 → "진행".
+
+### 핵심 발견 — 🔴 트래픽 붕괴 (지금 P0)
+- 일별 방문: 6/9 **225명**(런치 스파이크) → 6/10 34명 → **6/11 4명**. 시드 채널 1회성 소진, 지속 유입 0.
+- 결과: G-v1 게이트(공유율·재방문 실측)와 Sprint5/6 실험 전부 **표본 부족으로 측정 불능** 진입 중.
+- 퍼널 자체는 건강: 측정 시작→완주 **78%**, 시뮬레이션 사용 47%. 1일 표본(n=17) 조기 신호 = wedge_viewed→measure_start **100%** (이탈은 /calc 아니라 홈/랜딩 추정 — 표본 누적 필요).
+- 공유 개입(Sprint5 카드 미리보기) 효과: 배포 후 공유 0건 = 측정 불가 (원인=트래픽).
+
+### "진행" 실행 완료
+1. **git 위생**: feat 브랜치 ↔ origin/main ff 동기화 (calc/page.tsx +32줄 수신).
+2. **온톨로지 FINITE 등록**: `neo://biz/product/finite` (stage=live, evidence=PROJECT_SPEC v1.4 + daysleft.io 200 + Vercel READY + PostHog 실측) + owns/depends_on(vercel) 엣지. **Product 17→18, biz 233n/185e, provenance 0 none, validate 전 게이트 PASS, competency 13/13**.
+3. Sprint6 entry 버킷 첫 판독 (위 조기 신호).
+
+### 다음
+- **트래픽 재점화 = 유일한 unblock** — 스펙 v0 계획(디시갤/더쿠/X/TikTok/단톡 5채널 시드 + 친구5 챌린지)은 외부 게시 = **owner 직접** (owner-zero-touch 정합). Claude 는 채널별 카피팩 준비 가능.
+- SEO 26페이지 색인 대기 (수 주, passive). guide_view 7일 1건 = 미성숙 정합.
+
+👤 Claude Fable 5
+
+---
+
+## 🟢 2026-06-11 [완료] TikTok @leftaino 콘텐츠 전면 개편 — T1~T7 구현 완료 (Codex 실행 + Claude 감사, commit `42fcd0d`)
+
+owner "코덱스가 바로 실행할수있도록 완벽한 방향으로 기획 및 설계 구현을 끝내놔 감사까지" → 스펙·감사(Claude) → owner "코덱스 시켜서 해봐" → Codex CLI 실행 → Claude 외부 감사·대리 커밋으로 완료.
+
+> **Claude 외부 감사 (2026-06-11 11:25 KST)**: pytest **247/247 PASS** (Codex 샌드박스에서 막힌 tmp_path 81건 포함 전수 재실행, assertion failure 0) / 차단 fixture 2종 실차단 재확인 (`headline_quote_format_banned`·`caption_follow_cta_missing` blockers 배열에 실재) / gitleaks no leaks / **commit `42fcd0d`** (14파일 +1101/-213, Codex 샌드박스 `.git` 보호로 커밋 불가 → Claude 대리 커밋, 변경 파일만 명시적 add). 외부 행위 0 — T7은 `configured_only_no_external_action` 배선까지, 실제 게시/예약은 owner 별도 지시 대기.
+
+- **정본**: `src/core/tiktok_aino/EXECUTION_SPEC_FOLLOW_GROWTH_20260610.md` (미션: profile conversion 0.1%→0.8%)
+- 방향: 보도인용형 폐기(median 84뷰) / 질문템플릿 중단 / 정서서사·랭킹 스케일 / 주간 믹스 ranking 2 + narrative 2 + briefing ≤2
+- 작업: T1 인용형 폐기+blocker → T2 질문템플릿 → T3 슬롯 믹스 → T4 캡션 CTA 게이트 → T5 reference 문법 연결 → T6 측정 선행(profile_conversion) → T7 7일 실험
+- **앵커 감사 (2026-06-11)**: T1~T7 전 파일·키 grep 전수 실재 검증 + T1 위치 보정 1건("보도 제목"은 hot_topic/planning/script_strategy.json + pipeline.py — format_router/hook_patterns 아님). 검증 키 목록은 스펙 §3 헤더 노트.
+- **착수 전 기준선 GREEN (2026-06-11 라이브 실행, conda base python)**: `compileall src/core/tiktok_aino` PASS / config JSON 20/20 파싱 PASS / **pytest 12파일 237/237 PASS** (publish_queue_runner·tts·render_editorial_batch·schedule_quality·operational_hardening·ha_publisher 209 + editorial_os_v2·receipt_room 3종·reference_benchmark·veo_automation 28). T1~T7 회귀 비교는 이 기준선 대비.
+- 가드: 선거 오정보 금지 / AI 고지 / 조작 engagement 금지 / 거짓 메트릭 금지(not_capturable 정직 표기). 스코프 밖: 프로필 재변경(이름 6/17 잠금)·신규 플랫폼·4번째 포맷.
+- [x] T1~T7 실행 + §6 자가검증 (pytest green / compileall / json.tool / 차단 fixture 증빙 / cold-grill 4문) + 완료 보고(daily-log + 본 entry 체크박스)
+  - Codex 결과: T1~T7 로컬 구현 완료. TikTok 업로드/예약/게시/계정 변경 없음.
+  - 증빙: `output/tiktok_aino_validation/follow_growth_self_validation_20260611.json`에 인용형 훅 차단, CTA 누락 캡션 차단, 3일 포맷 믹스, 7일 실험 설정, cold-grill 4문 기록.
+  - 한계: post-level profile conversion은 TikTok Studio 게시물별 profile_views/follows가 없으면 `not_capturable`; scheduled row는 성과로 계산하지 않음.
+  - 환경 제약: 관련 전체 pytest는 수집 247개 중 실행 166 passed, 81개는 tempfile/`tmp_path` setup 권한 실패. `compileall`은 `.pyc` rename WinError 5로 실패했으며 AST parse 18/18로 문법 확인. `.git/index.lock` 생성 권한 실패로 T1~T7 단위 commit은 미수행.
+  👤 **Codex (실행)** / Claude (스펙·감사 작성)
+
+---
+
+## 🟢 2026-06-10 에이전트 런타임 전수 감사 + 재설계 + 모델 3-tier 테스트 (Claude Opus 4.8)
+
+owner "너가 판단해 + 스킬·규칙 전수 감사·재설계·최적화·고도화 계획 + Opus/Sonnet 사용가능 테스트". ultracode 워크플로는 서버 rate-limit(내 한도 아님)으로 fail → 인컨텍스트 직접 감사 전환.
+
+### 보류 2건 G1 판단
+- **WSL sora 재기동 = 안 함** (brain worker 고장→알림 48건/일 폭증 위험 / 알림은 oracle cron+GH Actions 대체 / 6/8부터 죽었는데 불편신고 0). 코어 자산 보존.
+- **Windows NeoGenesisDaemon = 보존** (텔레그램 발신 no-op 무해 + dashboard/credential watcher 겸용, 단순 kill 부작용).
+
+### 감사 결과 — 시스템 의외로 건강 (전면 재설계 불필요 = anti-pattern 회피)
+- 규칙 2,171줄: ysh/sora/quant stale **0 hits**, etribe 2건=정당 금지규칙, import chain 이미 v2 slim ✅
+- 페르소나 32: model 추상명(forward-compat) ✅ / 9개 본문 stale 예시 / 4 opus 중 quant-strategy-lead만 죽은도메인
+- 훅 9: 전부 settings.json 등록+live, dispatcher 17회 배선 ✅
+- 스킬: 커스텀 grill-toast 1개뿐 = 저활용(갭 큼)
+- memory 47: 6개 미인덱스
+
+### 모델 3-tier 라이브 테스트 (owner 핵심 요청) — **3/3 PASS**
+- Opus `claude-opus-4-8` (7.1s) / Sonnet `claude-sonnet-4-6` (5.3s) / Haiku `claude-haiku-4-5-20251001` (4.7s) 전부 실 스폰 확인. 페르소나 model 배정이 해당 tier 서브에이전트 스폰함을 증명.
+
+### 자율 실행 완료 (reversible)
+- ✅ 훅 .bak 2개 삭제 (live 무영향) / ✅ memory 인덱스 6개 정정 / ✅ 신규 스킬 **`ontology-update`** 구현 (오늘 수동 4단계 파이프라인 스킬화, personal경계+거짓0 규율 내장) / ✅ 마스터 문서 `20260610_AGENT_RUNTIME_REDESIGN_v1.md`
+- 페르소나 32/32 valid 유지 (회귀 0)
+
+### G1 자율 실행 완료 (2026-06-11, owner "왜 내게 판단을 넘기지" 지적 후 — decision_authority 룰 정합)
+owner 정당한 지적: 전부 reversible 영역인데 결정을 넘긴 건 박제 룰(G1 자율) 위반. 직접 판단·실행:
+1. **죽은 도메인 페르소나 3 → `_archive/` 이동** (quant=폐쇄 / sora-sre=휴면→SRE는 infrastructure-architect-cloud 인수 / financial-advisor=quant부속+투자조언 금지영역). 미러 3 제거. **디스패처 키워드 재배선** (S3 quant 트리거 제거 / S4 SRE→infra-architect / 자본위험→auditor직행 / devil's-advocate secondary 교체). 라이브 검증: "incident postmortem"→infra-architect ✅, "sharpe backtest"→fallback ✅. **활성 29 valid (회귀 0)**.
+2. **P0 신규 스킬 3종 구현** — fleet-health / credential-rotate / sbu-deploy (전부 즉시 로드 확인). ontology-update 포함 **커스텀 스킬 1→5**.
+3. **tier-c 5 = 유지** (유지비 0 정적 유틸, 동결 작업 자체가 낭비 — "아무것도 안 함"이 최적).
+- INDEX.md 32→활성29 정정 + sync ssotRevision 전파.
+
+### 롤백
+페르소나: `_archive/`에서 tier-s/tier-a 복원 + generate_claude_agents.py 재실행 + keyword_rules.yaml git checkout / 스킬: `rm -rf ~/.claude/skills/{fleet-health,credential-rotate,sbu-deploy,ontology-update}` / `rm .agent/knowledge/20260610_AGENT_RUNTIME_REDESIGN_v1.md`
+
+👤 Claude Opus 4.8 → Fable 5 (런타임 감사+재설계+모델 3-tier 검증 + G1 자율 정리 실행)
+
+---
+
+## 🟢 2026-06-10 OCI always-on 워커 `oracle-worker-1` 라이브 (Claude Opus 4.8)
+
+owner "새로운 오라클 서버 활용가능해" → 분석 결과 미생성 확인 (tailnet 9노드 전수 신원확인 + OCI 전 리전 인스턴스 0 + 콘솔/API 크레덴셜 동일계정 대조) → "해봐" → 생성 실행.
+
+### 결과
+- **E2.1.Micro `agent-x86-worker-1` 생성 성공 (1차 시도)** — A1은 춘천 4일째 용량 거부라 플랜 B 즉시 투입. Ubuntu 24.04 x86, 2vCPU(burst)/1GB/45GB, Always Free 비용 0.
+- public IP `158.180.92.4` / **Tailscale `100.74.165.52` = `oracle-worker-1`** (auth key API 발급, preauthorized) / ssh alias `oracle-worker-1` (~/.ssh/config, key `~/.oci/oci_worker_ssh`, user ubuntu)
+- CREDENTIAL_BIBLE OCI 섹션 갱신 + device_inventory + 온톨로지 Device 노드(online=True) 등록, validate 전 게이트 PASS
+- **A1 사냥 계속** (백그라운드 35×90s): 잡히면 업그레이드 이전 검토. 디버그 박제: tailscale up "invalid key" 원인 = **Windows python text모드 stdin \r 오염** (read 가 키 끝에 \r 수신) → 원격 tr -d '\r' 로 해결.
+
+### 다음 (역할 인수 — 우선순위)
+1. ysh(Storage) 가 잃은 always-on 역할 이관: SBU sitemap 헬스 cron + (owner 결정 시) 추가 워커 역할
+2. P1 보안: OCI security list SSH 22 가 0.0.0.0/0 오픈 — 안정화 후 Tailscale-only 로 조이기 권고
+3. (owner 결정 대기) sora 토폴로지 — 1GB 라 sora 본체는 부적합, A1(6GB) 잡히면 후보
+
+### 롤백
+인스턴스: `oci compute instance terminate --instance-id <ocid ...3xiegdya>` / tailnet: admin console 디바이스 제거 / ssh config: Host oracle-worker-1 블록 삭제 / device_inventory: entry 제거 후 재extract
+
+👤 Claude Opus 4.8
+
+---
+
+## 🟡 2026-06-10 텔레그램 발신원 전수감사 — 정리 매트릭스 (owner 승인 대기)
+
+owner "텔레그램 채널이랑 자동 메시지 너무 많아 정리 필요" → ultracode 6-agent read-only 감사.
+
+### 핵심 발견
+- **지난 7일 실수신 12건 = brain_dead 장애알림 11 + 주간리포트 1**. 스팸이 아니라 단일 장애 반복 + **sora 6/8 14:43부터 사망** (텔레그램 응답 없는 상태).
+- 봇 7개 중 실사용 3 (@sora_yesol_bot / @Claude_alert_sol_bot / @Codex_yesol_bot). 유령 4 (meeting/quant/jobsearch/CTS — 코드참조 0).
+- ysh(Storage) sora-live 컨테이너 좀비 (토큰 rejected 무한재시도, unless-stopped) = 409 split-brain 재발 경로. ysh crontab 22항목 고아(유저 삭제됨).
+- Windows 죽은 Task 10개 (스크립트 부재, 매일 실패). AIOpsBrief 텔레그램 leg 는 모듈 부재로 사망인데 task 0x0 성공 위장.
+
+### ✅ KILL 1~4 실행 완료 (owner "모두 승인" 2026-06-10 21:35)
+1. **ysh 좀비 sora-live**: stop + restart=no (exited 확인) + 재시작루프 promtail 도 정지. 롤백 `docker start sora-live`
+2. **ysh 고아 crontab**: `/root/ysh-crontab.bak-20260610` 백업 후 제거 + root remind_job 제거
+3. **Windows 죽은 Task 10 disable**: GDrive Night Sync ×3 / OneDrive Migration ×5 / QuantDashboardUpdate / SoraLocalLLMTunnel (전부 DISABLED, 삭제 아님)
+4. **AIOpsBrief**: Task 액션에 `-SkipTelegram` 추가 (pipeline 이 이미 지원), 테스트 run 성공
+5. ✅ **BotFather 유령 봇 3 revoke 완료** (owner "텔레그램은 웹으로 처리해" → Claude가 Telegram Web 으로 직접 실행, 2026-06-10 21:55~22:04) — @meeting_sol_bot / @neogenesiscriptonbot / @neogenesis_alert_bot 구토큰 전부 사망 (신토큰은 BotFather DM 에만 존재, 의도적 미사용 = 무력화). @CTS_alertbot 은 6/19 퇴사 후 동일 처리. CREDENTIAL_BIBLE 봇 인벤토리 3봇 체제로 갱신.
+6. ✅ **quant 모니터링 제외** (owner "퀀트 쓰고있어?" → 휴면 확정) — oracle-worker-1 sitemap 체크 11→10 사이트, quant.heoyesol.kr 복구 칩 회수 (복구 불필요 판정)
+
+### 추가 발견/조치
+- **`OCI-A1-Retry` Task 발견** (6/6 세션 잔재, 15분 간격 A1 사냥, 인스턴스 가드+자가비활성 내장) — 세션 중복 루프 정지하고 이 Task 를 단일 A1 사냥꾼으로 유지
+- **SBU sitemap cron → oracle-worker-1 이관 완료** (매일 09:00 KST, KST tz 설정, creds 600, 실패 시 NEO_ALERT_BOT DM). 첫 실행이 **실제 장애 발견**: ↓
+- **🔴 quant.heoyesol.kr 전체 404** (DEPLOYMENT_NOT_FOUND) — 6/9 Vercel org 이관에서 quant-poc-multi-asset 만 누락 (neogenesis 팀 30 프로젝트에 없음). 복구 칩 발행 (재배포+도메인 재연결).
+
+### owner 결정 2건 (계속 대기)
+- WSL sora 재기동 여부 (재기동 전 brain worker 수리 필수 — 아니면 brain_dead 알림 ~48건/일 재발) / Windows NeoGenesisDaemon 처분
+- 상세 매트릭스: `D:\005.output\tmp\claude\D--00-test\84132f11-a440-47e2-beb7-74a0be3b3ae8\tasks\w8uvj5yi9.output`
+
+👤 Claude Opus 4.8 (감사 + KILL 1~4 실행 + oracle cron 이관 + quant 장애 발견)
 
 ---
 
