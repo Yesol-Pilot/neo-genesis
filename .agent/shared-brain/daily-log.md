@@ -4866,3 +4866,11 @@
 - **W1 서사 publish_ready 커밋** / **W2 정체성 토픽 풀 커밋** (150/150) / W7 구독정리봇 체인 가동 중.
 - 정본: `.agent/knowledge/20260612_AUTONOMOUS_REVENUE_OS_v1.md` (v1.1 — TikTok 자율 권한 개정).
 - 잔존: 구독정리봇 배포(W7 진행), 콘솔 기본정보 입력(owner 진행 중 — 값 전달됨), 아바타(6/17 닉네임 잠금 해제 후 일괄), 19:30 첫 게시 성과는 23:30 롤업.
+
+## 2026-06-12 (오후) Claude+Codex - 자율 수익 OS 인프라 완결 + AIT 3봇 제출직전 + 비주얼 전환
+
+- **자율 cron 스택 3종 ACTIVE** (codex automations): gemini-budget-pacer 09:30 / revenue-telemetry 09:35 / weekly-revenue-review 월 09:00. 세션 없이 매일 예산·수익·게이트 추적 → 텔레그램.
+- **AIT 3봇 전부 "검토 요청하기 직전"**: 쿠폰만료봇(W6 배포+에셋+콘솔) / 이사체크봇(W9 에셋+W10 콘솔) / 구독정리봇(W7 배포+에셋+W10 콘솔). 비법무 입력 전부 저장+검증. 법무 체크박스 5개 = owner 게이트(미클릭). owner 콘솔 버튼만 누르면 심사 진입 = R1 광고수익 게이트 해제.
+- **비주얼 양산형 정정**: owner 시각검증 지적 → 예약 2건 삭제검증 → W8 키네틱 카드(순위별 색·숫자·인물 구별, distinctiveness 100, 육안확인) → W12 Veo 하이브리드(훅+정서비트=Veo fast, 리빌=무료카드, 영상당 ≤$1.5 월$35) 진행 중. Veo ROI 판단 박제(VISUAL_DIRECTION_OVERHAUL §6).
+- **R5 ROOM707** 등재 + EP002 업로드팩 텔레그램 발송 + W11 채널 자동화(전용크롬 9224) 진행 중.
+- 정본: 20260612_AUTONOMOUS_REVENUE_OS_v1.md (v1.1 TikTok 자율권한). 잔존: W11/W12 완료대기, owner 콘솔 제출, 닉네임 6/17 잠금해제 후 프로필.
