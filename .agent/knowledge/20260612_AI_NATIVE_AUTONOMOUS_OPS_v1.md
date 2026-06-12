@@ -64,3 +64,17 @@ EP brief 큐(EP003~010 골격) → Veo/LTX 생성 → 게이트 → @neogenesis5
 - ⬜ P2 외부행위 견고화 (W16) ← 핵심
 - ⬜ P3 자가치유 (W17)
 - ⬜ P4 707 자율 (W15)
+
+## 6. 오라클 24/7 plane (owner "오라클 서버도 24시간용으로", 2026-06-12)
+
+**실측 제약**: oracle-worker-1 = 2vCPU burst / RAM 954MB(가용 ~520MB) / Python3.12 / git O, node X / GPU X / gcloud·GCP SA X / 크레덴셜 최소(96B). → 영상생성·브라우저자동화·GCP호출·node빌드 **불가**. 경량 API cron·stdlib·watchdog **가능**.
+
+**역할 분담 (확정)**:
+| 호스트 | 담당 | 이유 |
+|---|---|---|
+| **oracle-worker-1** (always-on) | ① 트래픽 텔레메트리(PostHog, urllib stdlib) ② **cron-health 워치독**(데스크탑 cron 발화·산출 검증, 미발화 시 경보) ③ 알림 릴레이 ④ SBU sitemap(기존) | PC 꺼져도 도는 24/7 안전망. self-monitor는 죽을 수 있는 데스크탑이 아닌 always-on에서만 유효 |
+| **desktop-home** (GPU·세션) | 콘텐츠 생성(Veo/키네틱/LTX) / 브라우저 액션(TikTok·콘솔 CDP) / GCP 예산페이서(gcloud) / pytest | GPU + 로그인 크롬세션 + GCP 인증 필요 |
+
+**핵심 가치**: 오라클 워치독이 "데스크탑 자율 파이프라인이 실제로 돌았나"를 24/7 감시 → PC 꺼짐·cron 실패·세션 만료를 always-on에서 잡아 경보. = P3 자가치유의 토대. 데스크탑이 자기 자신 죽음을 못 알리는 문제 해결.
+
+**셋업 (W18)**: 오라클에 (a) telemetry 스크립트 + PostHog/Telegram 키 배치 (b) cron-health 워치독 스크립트 (데스크탑 output/revenue_os/*.json mtime + git 최신커밋 시각 원격 점검, stale 시 NEO_ALERT DM) (c) crontab 등록 (텔레메트리 09:35 / 워치독 매시). 키는 credentials.env 600 권한, 원문 비노출.
