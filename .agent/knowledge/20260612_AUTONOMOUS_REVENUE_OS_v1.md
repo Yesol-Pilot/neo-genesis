@@ -34,6 +34,7 @@ OPEX 플랜과의 정합: 5M 플랜의 "AI API 버퍼 월 5만 cap"은 owner 신
 | R2 | **TikTok @leftaino** | Creator Rewards (1분+ 영상 — 새 포맷 60~78s 충족) | 새 파이프라인 라이브, ranking 1호 publish_ready | 팔로워 10K + 30일 조회 10만 (KR 조건) → T7 실험으로 성장 우선, 수익은 후행 | 파이프라인 자율 + 주간 리뷰 |
 | R3 | **FINITE (daysleft.io)** | 구독/결제 (RevenueCat placeholder 해소) | 트래픽 P0 별도 세션 진행 중 — **충돌 방지: 본 OS 는 결제 배선 설계만, 코드 변경은 그 세션 종료 후** | 결제 수단 결정(web=Stripe 류, owner G2) | 보류 슬롯 |
 | R4 | **SBU 패시브** (toolpick 쿠팡 88글, AdSense, kott) | 어필리에이트/광고 | 유지 모드 (100k 폐기 판정 유지) | 쿠팡 글 도메인 이전(기존 펜딩) + AdSense 상태 점검 (저노력) | 하위 에이전트 점검만 |
+| R5 | **ROOM707** (@neogenesis5) | TikTok 숏폼 IP (장기: Creator Rewards 2계정째) | EP002 완성 (P0 5결함 수리, 18s) — **로컬 LTX = 한계비용 ₩0** | EP002 업로드(owner 모바일 — 팩 전송됨) → 반응 보고 EP003 자율 생산 | brief-driven 파이프라인 (gen_ep_ltx_v2) |
 | — | koreanllm B2B | 영업 중량급 | idea 단계 | **6/22까지 스코프 아웃** | — |
 
 ## 3. 자율 루프 (cron 스택 — 세션 없이 도는 것)
