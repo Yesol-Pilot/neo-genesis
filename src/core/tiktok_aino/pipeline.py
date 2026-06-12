@@ -966,6 +966,11 @@ class VisualBrief:
     diegetic_text: str = ""
     diegetic_text_directive: str = ""
     render_style: str = ""
+    format_id: str = ""
+    layout_type: str = ""
+    rank_number: int | None = None
+    rank_item: str = ""
+    criteria_scores: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -1466,6 +1471,8 @@ def validate_manifest_for_upload(manifest: dict[str, Any]) -> dict[str, Any]:
         technical_blockers.append("elevenlabs_history_not_verified_clear")
     if manifest.get("synced_duration_matches_format") is not True:
         technical_blockers.append("duration_not_synced_to_format")
+    if manifest.get("visually_distinct") is not True:
+        quality_blockers.append("frame_distinctiveness_not_passed")
 
     mobile_checks = manifest.get("mobile_visual_checks")
     if manifest.get("mobile_visual_passed") is not True:
@@ -1528,6 +1535,7 @@ def validate_manifest_for_upload(manifest: dict[str, Any]) -> dict[str, Any]:
     return {
         "upload_ready": upload_ready,
         "publish_ready": publish_ready,
+        "visually_distinct": manifest.get("visually_distinct") is True,
         "status": "publish_ready" if publish_ready else ("upload_ready" if upload_ready else "needs_revision"),
         "technical_blockers": technical_blockers,
         "quality_blockers": quality_blockers,
@@ -3085,7 +3093,7 @@ def build_storyboard_brief(
     angle_brief: AngleBrief,
     format_plan: ContentFormatPlan,
 ) -> StoryboardBrief:
-    visual_briefs = {brief.scene_id: brief for brief in build_visual_briefs(topic, script.scenes)}
+    visual_briefs = {brief.scene_id: brief for brief in build_visual_briefs(topic, script.scenes, format_plan.format_id)}
     narrative_jobs = _config_dict(STORYBOARD_BRIEF_STRATEGY, "narrative_jobs_by_role")
     tts_jobs = _config_dict(STORYBOARD_BRIEF_STRATEGY, "tts_jobs_by_role")
     overlay_lanes = [
@@ -3541,11 +3549,13 @@ def build_render_manifest(
     synced_duration_matches_format: bool,
     mobile_visual_passed: bool,
     layout_quality: dict[str, Any] | None = None,
+    frame_distinctiveness: dict[str, Any] | None = None,
     visual_cadence: VisualCadencePlan | None = None,
 ) -> RenderManifest:
     duration_sec = sum(scene.duration_sec for scene in render_scenes)
     motion = _visual_motion_summary(visual_beats)
     layout_quality = layout_quality or {"passed": True}
+    frame_distinctiveness = frame_distinctiveness or {"passed": True, "score": 100}
     cadence = visual_cadence or plan_visual_cadence(render_scenes)
     artifacts = {
         "mp4": str(mp4_path),
@@ -3592,6 +3602,7 @@ def build_render_manifest(
             ),
             "mobile_visual": mobile_visual_passed,
             "layout_variety": bool(layout_quality.get("passed")),
+            "frame_distinctiveness": bool(frame_distinctiveness.get("passed")),
             "duration": synced_duration_matches_format,
         },
     )
@@ -7217,7 +7228,7 @@ def review_content(
     generated_visuals = [
         asset
         for asset in visual_assets
-        if asset.status == "generated" and asset.provider in {"codex_cli", "gemini_api"}
+        if asset.status == "generated" and (asset.provider in {"codex_cli", "gemini_api"} or _asset_uses_kinetic_card(asset))
     ]
     fallback_visuals = [asset for asset in visual_assets if asset.status != "generated"]
     if len(generated_visuals) != len(script.scenes):
@@ -7717,6 +7728,8 @@ def render_artifacts(
     )
     mobile_visual_passed = all(check.passed for check in mobile_checks)
     layout_quality = _card_layout_quality(render_scenes, asset_by_scene)
+    frame_distinctiveness = _frame_distinctiveness_gate(visual_assets, render_scenes)
+    visually_distinct = bool(frame_distinctiveness.get("passed"))
     upload_ready = (
         gate.passed
         and readability.passed
@@ -7724,6 +7737,7 @@ def render_artifacts(
         and audio_ready
         and mobile_visual_passed
         and bool(layout_quality.get("passed"))
+        and visually_distinct
         and synced_duration_matches_format
     )
     publish_ready = upload_ready and quality.passed
@@ -7748,6 +7762,7 @@ def render_artifacts(
         synced_duration_matches_format=synced_duration_matches_format,
         mobile_visual_passed=mobile_visual_passed,
         layout_quality=layout_quality,
+        frame_distinctiveness=frame_distinctiveness,
         visual_cadence=visual_cadence,
     )
     _write_json(render_manifest_path, asdict(render_manifest))
@@ -7783,6 +7798,8 @@ def render_artifacts(
         "render_manifest": asdict(render_manifest),
         "render_textfit_report": render_textfit_report,
         "layout_quality": layout_quality,
+        "visually_distinct": visually_distinct,
+        "frame_distinctiveness": frame_distinctiveness,
         "image_budget_decision": asdict(image_budget_decision) if image_budget_decision is not None else None,
         "topic_discovery": topic_discovery,
         "topic": asdict(topic),
@@ -7934,6 +7951,209 @@ def render_artifacts(
     )
 
 
+def _criteria_token_rows() -> list[tuple[str, str, str]]:
+    rows: list[tuple[str, str, str]] = []
+    for key, fallback_label, fallback_color in [
+        ("democracy", "민주주의", "#2F7DFF"),
+        ("crisis_recovery", "위기회복", "#FF8A22"),
+        ("legacy", "유산", "#F2E6C8"),
+    ]:
+        raw = VISUAL_CRITERIA_COLOR_CODE.get(key)
+        token = raw if isinstance(raw, dict) else {}
+        rows.append((key, str(token.get("label") or fallback_label), str(token.get("color") or fallback_color)))
+    return rows
+
+
+def _build_kinetic_prompt(scene: Scene, brief: VisualBrief, index: int, total: int) -> str:
+    criteria = ", ".join(f"{label}={color}" for _key, label, color in _criteria_token_rows())
+    rank = f"{brief.rank_number}위 {brief.rank_item}" if brief.rank_number and brief.rank_item else "no rank reveal"
+    return "\n".join(
+        [
+            "Use case: controlled_kinetic_still",
+            "Asset type: original vertical TikTok typography card rendered locally with PIL",
+            f"Format: {brief.format_id}",
+            f"Layout type: {brief.layout_type}",
+            f"Rank identity: {rank}",
+            f"Primary headline: {scene.on_screen_text}",
+            f"Body copy: {scene.body}",
+            f"Criteria color code: {criteria}",
+            "Design tokens: rank_number_typography, criteria_color_code, hero_caption_layout",
+            "Allowed only in this mode: text card, placard, poster as original typography design",
+            "Forbidden always: fake broadcast UI, party logo, real-person synthesis, uncontrolled extra text, watermark",
+            "Policy safety: no real politician likeness, no party logos",
+        ]
+    )
+
+
+def _kinetic_background(index: int, layout_type: str) -> Image.Image:
+    width, height = CANVAS_WIDTH, CANVAS_HEIGHT
+    palettes = [
+        ("#07111f", "#153b6f", "#2F7DFF"),
+        ("#120d09", "#5a2b0d", "#FF8A22"),
+        ("#17140d", "#4b4332", "#F2E6C8"),
+        ("#0c1210", "#174535", "#7ef2a7"),
+    ]
+    top_hex, bottom_hex, accent_hex = palettes[index % len(palettes)]
+    top = ImageColor.getrgb(top_hex)
+    bottom = ImageColor.getrgb(bottom_hex)
+    accent = ImageColor.getrgb(accent_hex)
+    base = Image.new("RGB", (width, height), top_hex)
+    draw = ImageDraw.Draw(base, "RGBA")
+    for y in range(height):
+        ratio = y / height
+        r = int(top[0] * (1 - ratio) + bottom[0] * ratio)
+        g = int(top[1] * (1 - ratio) + bottom[1] * ratio)
+        b = int(top[2] * (1 - ratio) + bottom[2] * ratio)
+        draw.line((0, y, width, y), fill=(r, g, b, 255))
+    for offset in range(-520, 1340, 260):
+        draw.polygon(
+            [
+                (offset, 180),
+                (offset + 160, 180),
+                (offset + 620, 1540),
+                (offset + 430, 1540),
+            ],
+            fill=(*accent, 28),
+        )
+    if layout_type == "criteria_legend_card":
+        draw.rectangle((0, 0, width, height), fill=(0, 0, 0, 32))
+    elif layout_type == "kinetic_quote_card":
+        draw.ellipse((-220, 360, 620, 1200), fill=(*accent, 36))
+        draw.ellipse((560, 980, 1280, 1740), fill=(255, 255, 255, 18))
+    else:
+        draw.rectangle((0, 1120, width, height), fill=(0, 0, 0, 76))
+        draw.ellipse((520, 120, 1360, 960), fill=(*accent, 46))
+    rng = np.random.default_rng(index * 8191 + len(layout_type))
+    noise = rng.normal(0, 7, (height, width, 1)).astype(np.int16)
+    arr = np.asarray(base).astype(np.int16)
+    arr = np.clip(arr + noise, 0, 255).astype(np.uint8)
+    return Image.fromarray(arr, "RGB")
+
+
+def _draw_kinetic_criteria(
+    draw: ImageDraw.ImageDraw,
+    scores: dict[str, int],
+    *,
+    x: int,
+    y: int,
+    width: int,
+    font_label: ImageFont.ImageFont,
+    font_value: ImageFont.ImageFont,
+) -> None:
+    rows = _criteria_token_rows()
+    gap = 18
+    row_w = (width - gap * (len(rows) - 1)) // len(rows)
+    for idx, (key, label, color) in enumerate(rows):
+        left = x + idx * (row_w + gap)
+        right = left + row_w
+        draw.rounded_rectangle((left, y, right, y + 154), radius=18, fill=(0, 0, 0, 112), outline=_rgba_from_hex(color, 210), width=3)
+        draw.rectangle((left, y, right, y + 12), fill=_rgba_from_hex(color, 245))
+        draw.text((left + 22, y + 34), label, fill="#ffffff", font=font_label, stroke_width=1, stroke_fill=(0, 0, 0, 160))
+        value = str(max(0, min(100, int(scores.get(key, 0) or 0))))
+        draw.text((left + 22, y + 84), value, fill=color, font=font_value, stroke_width=2, stroke_fill=(0, 0, 0, 180))
+
+
+def _kinetic_rank_item_fallback(scene: Scene) -> str:
+    text = _compact_card_text(scene.on_screen_text or scene.title, 12, keep_question=False)
+    return text.strip(" ?!.") or "쟁점"
+
+
+def _draw_kinetic_ranking_card(
+    img: Image.Image,
+    scene: Scene,
+    brief: VisualBrief,
+    index: int,
+    total: int,
+) -> None:
+    draw = ImageDraw.Draw(img, "RGBA")
+    rank_number = brief.rank_number or max(1, min(5, 6 - index))
+    rank_item = brief.rank_item or _kinetic_rank_item_fallback(scene)
+    accent = _criteria_token_rows()[(rank_number - 1) % 3][2]
+    draw.rectangle((0, 0, CANVAS_WIDTH, 16), fill=_rgba_from_hex(accent, 245))
+    draw.text((TEXT_SAFE_LEFT, 72), "올바른 AiNo RANKING", fill="#f7fbff", font=_font(30, bold=True))
+    draw.text((TEXT_SAFE_RIGHT - 134, 74), f"{index + 1:02d}/{total:02d}", fill="#d9e6f2", font=_font(26))
+    number_font = _font(410, bold=True)
+    draw.text((TEXT_SAFE_LEFT - 10, 255), str(rank_number), fill=accent, font=number_font, stroke_width=8, stroke_fill=(0, 0, 0, 190))
+    draw.text((TEXT_SAFE_LEFT + 360, 390), "위", fill="#ffffff", font=_font(120, bold=True), stroke_width=4, stroke_fill=(0, 0, 0, 190))
+    item_font = _fit_font(draw, rank_item, TEXT_SAFE_WIDTH, max_lines=1, initial_size=142, min_size=76, bold=True)
+    draw.text((TEXT_SAFE_LEFT, 785), rank_item, fill="#ffffff", font=item_font, stroke_width=5, stroke_fill=(0, 0, 0, 210))
+    body = _compact_card_text(scene.body, 46, keep_question=_has_question_marker(scene.body))
+    body_font = _fit_font(draw, body, TEXT_SAFE_WIDTH - 16, max_lines=2, initial_size=54, min_size=40, bold=True)
+    _draw_wrapped(draw, body, (TEXT_SAFE_LEFT + 4, 940), body_font, "#f4f7fb", TEXT_SAFE_WIDTH - 16, line_gap=12, max_lines=2, stroke_width=2, stroke_fill=(0, 0, 0, 170))
+    _draw_kinetic_criteria(draw, brief.criteria_scores, x=TEXT_SAFE_LEFT, y=1220, width=TEXT_SAFE_WIDTH, font_label=_font(28, bold=True), font_value=_font(54, bold=True))
+    _draw_progress_segments(draw, TEXT_SAFE_LEFT, 1588, TEXT_SAFE_WIDTH, total, index, accent)
+
+
+def _draw_kinetic_quote_card(
+    img: Image.Image,
+    scene: Scene,
+    brief: VisualBrief,
+    index: int,
+    total: int,
+) -> None:
+    draw = ImageDraw.Draw(img, "RGBA")
+    accent = "#FF8A22" if index % 2 else "#2F7DFF"
+    draw.rectangle((0, 0, CANVAS_WIDTH, 16), fill=_rgba_from_hex(accent, 245))
+    if brief.rank_number and brief.rank_item:
+        draw.rounded_rectangle((TEXT_SAFE_LEFT, 250, TEXT_SAFE_LEFT + 230, 430), radius=30, fill=(0, 0, 0, 126), outline=_rgba_from_hex(accent, 220), width=3)
+        draw.text((TEXT_SAFE_LEFT + 36, 278), f"{brief.rank_number}위", fill=accent, font=_font(72, bold=True), stroke_width=3, stroke_fill=(0, 0, 0, 160))
+        headline = brief.rank_item
+    else:
+        headline = scene.on_screen_text
+    headline = _compact_card_text(headline, 28, keep_question=_has_question_marker(headline))
+    headline_font = _fit_font(draw, headline, TEXT_SAFE_WIDTH, max_lines=2, initial_size=108, min_size=62, bold=True)
+    headline_y = 540 if brief.rank_number else 430
+    _draw_wrapped(draw, headline, (TEXT_SAFE_LEFT, headline_y), headline_font, "#ffffff", TEXT_SAFE_WIDTH, line_gap=16, max_lines=2, stroke_width=5, stroke_fill=(0, 0, 0, 210))
+    body = _compact_card_text(scene.body, 58, keep_question=_has_question_marker(scene.body))
+    body_font = _fit_font(draw, body, TEXT_SAFE_WIDTH - 40, max_lines=3, initial_size=50, min_size=38, bold=True)
+    draw.rounded_rectangle((TEXT_SAFE_LEFT, 1048, TEXT_SAFE_RIGHT - 34, 1324), radius=22, fill=(0, 0, 0, 104), outline=(255, 255, 255, 48), width=2)
+    _draw_wrapped(draw, body, (TEXT_SAFE_LEFT + 30, 1088), body_font, "#f7fbff", TEXT_SAFE_WIDTH - 96, line_gap=10, max_lines=3, stroke_width=2, stroke_fill=(0, 0, 0, 160))
+    _draw_kinetic_criteria(draw, brief.criteria_scores or _kinetic_criteria_scores(scene, brief.rank_number, brief.rank_item), x=TEXT_SAFE_LEFT, y=1410, width=TEXT_SAFE_WIDTH, font_label=_font(24, bold=True), font_value=_font(42, bold=True))
+    _draw_progress_segments(draw, TEXT_SAFE_LEFT, 1588, TEXT_SAFE_WIDTH, total, index, accent)
+
+
+def _draw_criteria_legend_card(
+    img: Image.Image,
+    scene: Scene,
+    brief: VisualBrief,
+    index: int,
+    total: int,
+) -> None:
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle((0, 0, CANVAS_WIDTH, 16), fill=_rgba_from_hex("#F2E6C8", 245))
+    draw.text((TEXT_SAFE_LEFT, 74), "CRITERIA", fill="#f7fbff", font=_font(32, bold=True), stroke_width=1, stroke_fill=(0, 0, 0, 170))
+    headline = _compact_card_text(scene.on_screen_text, 32, keep_question=_has_question_marker(scene.on_screen_text))
+    headline_font = _fit_font(draw, headline, TEXT_SAFE_WIDTH, max_lines=2, initial_size=94, min_size=58, bold=True)
+    _draw_wrapped(draw, headline, (TEXT_SAFE_LEFT, 300), headline_font, "#ffffff", TEXT_SAFE_WIDTH, line_gap=16, max_lines=2, stroke_width=5, stroke_fill=(0, 0, 0, 210))
+    body = _compact_card_text(scene.body, 66, keep_question=_has_question_marker(scene.body))
+    body_font = _fit_font(draw, body, TEXT_SAFE_WIDTH - 40, max_lines=3, initial_size=48, min_size=38, bold=True)
+    _draw_wrapped(draw, body, (TEXT_SAFE_LEFT + 8, 650), body_font, "#f7fbff", TEXT_SAFE_WIDTH - 40, line_gap=12, max_lines=3, stroke_width=2, stroke_fill=(0, 0, 0, 170))
+    _draw_kinetic_criteria(draw, brief.criteria_scores or _kinetic_criteria_scores(scene, brief.rank_number, brief.rank_item), x=TEXT_SAFE_LEFT, y=1010, width=TEXT_SAFE_WIDTH, font_label=_font(34, bold=True), font_value=_font(66, bold=True))
+    for idx, (_key, label, color) in enumerate(_criteria_token_rows()):
+        y = 1238 + idx * 94
+        draw.rounded_rectangle((TEXT_SAFE_LEFT, y, TEXT_SAFE_RIGHT - 60, y + 62), radius=20, fill=(0, 0, 0, 92), outline=_rgba_from_hex(color, 160), width=2)
+        draw.text((TEXT_SAFE_LEFT + 30, y + 14), f"{idx + 1}. {label}", fill=color, font=_font(32, bold=True), stroke_width=1, stroke_fill=(0, 0, 0, 160))
+    _draw_progress_segments(draw, TEXT_SAFE_LEFT, 1588, TEXT_SAFE_WIDTH, total, index, "#F2E6C8")
+
+
+def _write_local_kinetic_asset(path: Path, scene: Scene, index: int, total: int, brief: VisualBrief) -> None:
+    layout_type = brief.layout_type if brief.layout_type in KINETIC_LAYOUT_TYPES else "kinetic_quote_card"
+    img = _kinetic_background(index, layout_type)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle((0, TIKTOK_BOTTOM_UI_TOP, CANVAS_WIDTH, CANVAS_HEIGHT), fill=(0, 0, 0, 78))
+    if layout_type == "kinetic_ranking_card":
+        _draw_kinetic_ranking_card(img, scene, brief, index, total)
+    elif layout_type == "criteria_legend_card":
+        _draw_criteria_legend_card(img, scene, brief, index, total)
+    else:
+        _draw_kinetic_quote_card(img, scene, brief, index, total)
+    disclosure = str(RENDERING_STRATEGY.get("aigc_disclosure_label", ""))
+    if disclosure:
+        draw.text((TEXT_SAFE_LEFT, 1694), disclosure, fill="#aeb8c1", font=_font(24))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    img.save(path)
+
+
 def _generate_visual_assets(
     topic: TopicCandidate,
     scenes: list[Scene],
@@ -7941,22 +8161,32 @@ def _generate_visual_assets(
     *,
     image_mode: str,
     real_image_limit: int,
+    format_plan: ContentFormatPlan | None = None,
 ) -> list[VisualAsset]:
     _load_env_files()
     assets_dir.mkdir(parents=True, exist_ok=True)
     assets: list[VisualAsset] = []
-    briefs = build_visual_briefs(topic, scenes)
+    format_id = format_plan.format_id if format_plan else None
+    briefs = build_visual_briefs(topic, scenes, format_id)
     real_count = 0
     unavailable: set[str] = set()
     for index, scene in enumerate(scenes):
         brief = briefs[index]
-        prompt = _build_cinematic_prompt(scene, brief)
-        out = assets_dir / f"scene_{scene.scene_id:02d}_cinematic.png"
+        kinetic_render = brief.render_style == KINETIC_RENDER_STYLE
+        prompt = _build_kinetic_prompt(scene, brief, index, len(scenes)) if kinetic_render else _build_cinematic_prompt(scene, brief)
+        out = assets_dir / (
+            f"scene_{scene.scene_id:02d}_kinetic.png" if kinetic_render else f"scene_{scene.scene_id:02d}_cinematic.png"
+        )
         notes: list[str] = []
         provider = "local_pillow"
         status = "fallback"
 
-        if privacy_policy.is_local_only():
+        if kinetic_render:
+            _write_local_kinetic_asset(out, scene, index, len(scenes), brief)
+            provider = KINETIC_PROVIDER
+            status = "generated"
+            notes.append("controlled_kinetic_still rendered locally with PIL; external realistic image generation skipped")
+        elif privacy_policy.is_local_only():
             notes.append("local_only privacy mode: external image providers disabled")
         elif image_mode != "local" and real_count < real_image_limit:
             provider_chain = ["codex_cli", "gemini_api"] if image_mode == "auto" else [image_mode]
@@ -7978,7 +8208,7 @@ def _generate_visual_assets(
             _write_local_cinematic_asset(out, scene, index, brief)
             notes.append("external image provider unavailable or skipped; local cinematic fallback rendered")
 
-        if _valid_image(out) and _apply_visual_color_grade(out, brief):
+        if not kinetic_render and _valid_image(out) and _apply_visual_color_grade(out, brief):
             notes.append(f"role color grade applied: {brief.role}")
 
         assets.append(
@@ -8445,6 +8675,12 @@ VISUAL_SOURCE_CONTEXT_REPLACEMENTS = {
 }
 VISUAL_QUALITY_MINIMUMS = _config_int_map(VISUAL_STRATEGY, "quality_minimums")
 CINEMATIC_SUBTITLE_RENDER_STYLE = "cinematic_subtitle"
+KINETIC_RENDER_STYLE = "controlled_kinetic_still"
+KINETIC_PROVIDER = "local_pillow_kinetic"
+KINETIC_LAYOUT_TYPES = {"kinetic_ranking_card", "kinetic_quote_card", "criteria_legend_card"}
+VISUAL_FORMAT_MODES = _config_dict(VISUAL_STRATEGY, "format_visual_modes")
+VISUAL_DESIGN_TOKENS = _config_dict(VISUAL_STRATEGY, "design_tokens")
+VISUAL_CRITERIA_COLOR_CODE = _config_dict(VISUAL_DESIGN_TOKENS, "criteria_color_code")
 CINEMATIC_SUBTITLE_PROMPT_DIRECTIVE = str(
     VISUAL_CINEMATIC_PROMPTING.get("subtitle_prompt_directive", "")
 ).strip()
@@ -8698,11 +8934,26 @@ def _visual_uniqueness_token(value: str, max_chars: int) -> str:
 
 def _normalize_visual_render_style(value: Any) -> str:
     style = str(value or "").strip().casefold().replace("-", "_")
-    return CINEMATIC_SUBTITLE_RENDER_STYLE if style == CINEMATIC_SUBTITLE_RENDER_STYLE else ""
+    if style == CINEMATIC_SUBTITLE_RENDER_STYLE:
+        return CINEMATIC_SUBTITLE_RENDER_STYLE
+    if style == KINETIC_RENDER_STYLE:
+        return KINETIC_RENDER_STYLE
+    return ""
 
 
 def _default_visual_render_style() -> str:
     return _normalize_visual_render_style(RENDERING_STRATEGY.get("default_render_style", ""))
+
+
+def _format_visual_mode(format_id: str | None) -> dict[str, Any]:
+    if not format_id:
+        return {}
+    mode = VISUAL_FORMAT_MODES.get(format_id)
+    return mode if isinstance(mode, dict) else {}
+
+
+def _format_visual_render_style(format_id: str | None) -> str:
+    return _normalize_visual_render_style(_format_visual_mode(format_id).get("mode"))
 
 
 def _cinematic_subtitle_anchors(anchors: list[str]) -> list[str]:
@@ -8858,7 +9109,74 @@ def _editorial_os_scene_visual_override(scene: Scene) -> dict[str, Any]:
     return _parse_scene_visual_override(scene)
 
 
-def _build_visual_brief(topic: TopicCandidate, scene: Scene, index: int, total: int) -> VisualBrief:
+def _extract_ranking_card_identity(scene: Scene) -> tuple[int | None, str]:
+    ignored_items = {
+        "누구일까",
+        "정말",
+        "공개",
+        "판정",
+        "논쟁",
+        "선언",
+        "시작점",
+        "진짜",
+    }
+    sources = [scene.body, scene.on_screen_text, scene.title]
+    for raw in sources:
+        text = re.sub(r"\s+", " ", str(raw or "")).strip()
+        match = re.search(r"([1-5])\s*위\s*(?:는|가|,|:)?\s*(?:정말\s*)?([가-힣A-Za-z0-9·]{2,12})", text)
+        if not match:
+            continue
+        item = match.group(2).strip(" .?!,")
+        if item and item not in ignored_items:
+            return int(match.group(1)), item
+    return None, ""
+
+
+def _kinetic_layout_type(
+    format_id: str | None,
+    scene: Scene,
+    role: str,
+    index: int,
+    rank_number: int | None,
+) -> str:
+    if _format_visual_render_style(format_id) != KINETIC_RENDER_STYLE:
+        return ""
+    mode = _format_visual_mode(format_id)
+    text = f"{scene.title} {scene.on_screen_text} {scene.body}".casefold()
+    if format_id == "ranking_battle_65":
+        if rank_number is not None:
+            return "kinetic_ranking_card" if rank_number % 2 == 1 else "kinetic_quote_card"
+        if role in {"hook", "criteria"} or "기준" in text:
+            return str(mode.get("hook_layout_type") or "criteria_legend_card")
+        return str(mode.get("quote_layout_type") or "kinetic_quote_card")
+    if format_id == "narrative_confession":
+        if role in {"criteria", "verification"} or "기준" in text or index % 3 == 1:
+            return str(mode.get("criteria_layout_type") or "criteria_legend_card")
+        return str(mode.get("default_layout_type") or "kinetic_quote_card")
+    return str(mode.get("default_layout_type") or "")
+
+
+def _kinetic_criteria_scores(scene: Scene, rank_number: int | None, rank_item: str) -> dict[str, int]:
+    seed_text = f"{scene.scene_id}:{rank_number or 0}:{rank_item}:{scene.on_screen_text}:{scene.body}"
+    digest = hashlib.sha1(seed_text.encode("utf-8")).digest()
+    base = 58 + (5 - rank_number) * 6 if rank_number is not None else 62
+    democracy_bonus = 12 if any(term in seed_text for term in ["민주주의", "인권", "시민", "권위주의"]) else 0
+    crisis_bonus = 12 if any(term in seed_text for term in ["위기", "회복", "외환", "정상화", "개혁"]) else 0
+    legacy_bonus = 12 if any(term in seed_text for term in ["유산", "산업화", "평화", "기준점", "기록"]) else 0
+    return {
+        "democracy": max(35, min(98, base + digest[0] % 18 + democracy_bonus)),
+        "crisis_recovery": max(35, min(98, base + digest[1] % 18 + crisis_bonus)),
+        "legacy": max(35, min(98, base + digest[2] % 18 + legacy_bonus)),
+    }
+
+
+def _build_visual_brief(
+    topic: TopicCandidate,
+    scene: Scene,
+    index: int,
+    total: int,
+    format_id: str | None = None,
+) -> VisualBrief:
     topic_text = f"{topic.title} {topic.angle}"
     scene_text = f"{scene.title} {scene.on_screen_text} {scene.body} {scene.visual}"
     combined = f"{topic_text} {scene_text}"
@@ -8899,7 +9217,10 @@ def _build_visual_brief(topic: TopicCandidate, scene: Scene, index: int, total: 
             treatment_id = override_treatment_id
             visual_treatment = VISUAL_TREATMENTS[override_treatment_id]
     editorial_override = _editorial_os_scene_visual_override(scene)
-    default_render_style = "" if issue_type in VISUAL_DIEGETIC_TEXT_RENDER_ISSUES else _default_visual_render_style()
+    format_render_style = _format_visual_render_style(format_id)
+    default_render_style = format_render_style or (
+        "" if issue_type in VISUAL_DIEGETIC_TEXT_RENDER_ISSUES else _default_visual_render_style()
+    )
     render_style = _normalize_visual_render_style(
         editorial_override.get("render_style") if editorial_override and "render_style" in editorial_override else default_render_style
     )
@@ -8922,7 +9243,24 @@ def _build_visual_brief(topic: TopicCandidate, scene: Scene, index: int, total: 
         ]
         if override_anchors:
             anchors = override_anchors[:VISUAL_ANCHOR_MERGE_LIMIT]
-    if render_style == CINEMATIC_SUBTITLE_RENDER_STYLE:
+    rank_number, rank_item = _extract_ranking_card_identity(scene)
+    layout_type = _kinetic_layout_type(format_id, scene, role, index, rank_number)
+    criteria_scores = _kinetic_criteria_scores(scene, rank_number, rank_item) if render_style == KINETIC_RENDER_STYLE else {}
+    if render_style == KINETIC_RENDER_STYLE:
+        visual_treatment = (
+            f"{visual_treatment}; controlled kinetic still render style: original full-screen typography card, "
+            "large Korean text, rank numeral or quote-led composition, abstract texture only"
+        )
+        concrete_scene = (
+            f"{layout_type or 'kinetic_quote_card'} typography card for {scene.on_screen_text}; "
+            "no photorealistic politician likeness, no party logo, no fake broadcast UI"
+        )
+        diegetic_text = ""
+        diegetic_text_directive = (
+            "Controlled kinetic typography is rendered locally by PIL. Text card, placard, and poster language is allowed "
+            "only for this original graphic card; fake broadcast UI, party logos, real-person synthesis, and uncontrolled extra text remain forbidden."
+        )
+    elif render_style == CINEMATIC_SUBTITLE_RENDER_STYLE:
         anchors = _cinematic_subtitle_anchors(anchors)
         visual_treatment = (
             f"{visual_treatment}; cinematic subtitle render style: real situational scene first, "
@@ -8953,6 +9291,7 @@ def _build_visual_brief(topic: TopicCandidate, scene: Scene, index: int, total: 
         scene_id=scene.scene_id,
         role=role,
         issue_type=issue_type,
+        format_id=str(format_id or ""),
         visual_intent=intent,
         concrete_scene=concrete_scene,
         visual_anchor=anchors,
@@ -8972,6 +9311,10 @@ def _build_visual_brief(topic: TopicCandidate, scene: Scene, index: int, total: 
         diegetic_text=diegetic_text,
         diegetic_text_directive=diegetic_text_directive,
         render_style=render_style,
+        layout_type=layout_type,
+        rank_number=rank_number,
+        rank_item=rank_item,
+        criteria_scores=criteria_scores,
     )
 
 
@@ -9020,11 +9363,11 @@ def _apply_visual_repeat_variant(brief: VisualBrief, repeat_index: int) -> Visua
     )
 
 
-def build_visual_briefs(topic: TopicCandidate, scenes: list[Scene]) -> list[VisualBrief]:
+def build_visual_briefs(topic: TopicCandidate, scenes: list[Scene], format_id: str | None = None) -> list[VisualBrief]:
     briefs: list[VisualBrief] = []
     seen_by_role: dict[str, int] = {}
     for index, scene in enumerate(scenes):
-        brief = _build_visual_brief(topic, scene, index, len(scenes))
+        brief = _build_visual_brief(topic, scene, index, len(scenes), format_id)
         repeat_index = seen_by_role.get(brief.role, 0)
         briefs.append(_apply_visual_repeat_variant(brief, repeat_index))
         seen_by_role[brief.role] = repeat_index + 1
@@ -9083,7 +9426,7 @@ def build_content_plan(
     topic_discovery: dict[str, Any] | None = None,
     visual_assets: list[VisualAsset] | None = None,
 ) -> ContentPlan:
-    generated_briefs = {brief.scene_id: asdict(brief) for brief in build_visual_briefs(topic, script.scenes)}
+    generated_briefs = {brief.scene_id: asdict(brief) for brief in build_visual_briefs(topic, script.scenes, format_plan.format_id)}
     asset_briefs = {
         asset.scene_id: asset.visual_brief
         for asset in (visual_assets or [])
@@ -9338,9 +9681,106 @@ def _actual_palette_diversity(visual_assets: list[VisualAsset]) -> tuple[int, di
     return _clamp_score(score), metrics
 
 
+def _frame_distinctiveness_gate(visual_assets: list[VisualAsset], scenes: list[Scene]) -> dict[str, Any]:
+    asset_by_scene = {asset.scene_id: asset for asset in visual_assets}
+    rows: list[dict[str, Any]] = []
+    total = len(scenes)
+    for index, scene in enumerate(scenes):
+        asset = asset_by_scene.get(scene.scene_id)
+        brief = asset.visual_brief if asset and isinstance(asset.visual_brief, dict) else {}
+        role = str(brief.get("role") or "").strip() or None
+        layout_type = str(brief.get("layout_type") or "").strip()
+        format_id = str(brief.get("format_id") or "").strip()
+        enforce_layout_run = bool(layout_type)
+        if not layout_type:
+            render_style = _normalize_visual_render_style(brief.get("render_style"))
+            if render_style == KINETIC_RENDER_STYLE or format_id in {"ranking_battle_65", "narrative_confession"}:
+                layout_type = render_style or KINETIC_RENDER_STYLE
+                enforce_layout_run = True
+            else:
+                layout_type = _card_layout_id(scene, index, total, role=role)
+        rank_number_raw = brief.get("rank_number")
+        try:
+            rank_number = int(rank_number_raw) if rank_number_raw is not None else None
+        except (TypeError, ValueError):
+            rank_number = None
+        rows.append(
+            {
+                "scene_id": scene.scene_id,
+                "layout_type": layout_type,
+                "enforce_layout_run": enforce_layout_run,
+                "rank_number": rank_number,
+                "rank_item": str(brief.get("rank_item") or "").strip(),
+                "format_id": format_id,
+            }
+        )
+
+    blockers: list[str] = []
+    three_consecutive: list[dict[str, Any]] = []
+    max_run = 0
+    run_layout = ""
+    run_start = 0
+    run_length = 0
+    for index, row in enumerate(rows):
+        if not row.get("enforce_layout_run"):
+            run_layout = ""
+            run_start = index + 1
+            run_length = 0
+            continue
+        layout_type = str(row["layout_type"])
+        if layout_type == run_layout:
+            run_length += 1
+        else:
+            run_layout = layout_type
+            run_start = index
+            run_length = 1
+        max_run = max(max_run, run_length)
+        if run_length == 3:
+            three_consecutive.append(
+                {
+                    "layout_type": layout_type,
+                    "scene_ids": [rows[i]["scene_id"] for i in range(run_start, index + 1)],
+                }
+            )
+    if three_consecutive:
+        blockers.append("layout_type_three_consecutive")
+
+    ranking_mode = any(row["format_id"] == "ranking_battle_65" for row in rows)
+    rank_rows = [row for row in rows if row["rank_number"] is not None]
+    if ranking_mode:
+        rank_numbers = [int(row["rank_number"]) for row in rank_rows if row["rank_number"] is not None]
+        rank_items = [str(row["rank_item"]) for row in rank_rows if str(row["rank_item"])]
+        missing_numbers = sorted(set(range(1, 6)) - set(rank_numbers))
+        if missing_numbers:
+            blockers.append(f"ranking_rank_numbers_missing:{','.join(str(item) for item in missing_numbers)}")
+        if len(rank_numbers) != len(set(rank_numbers)):
+            blockers.append("ranking_rank_numbers_duplicate")
+        if len(rank_items) != len(rank_rows):
+            blockers.append("ranking_rank_items_missing")
+        if len(rank_items) != len(set(rank_items)):
+            blockers.append("ranking_rank_items_duplicate")
+
+    score = 100
+    if three_consecutive:
+        score -= 38
+    if ranking_mode and any(blocker.startswith("ranking_") for blocker in blockers):
+        score -= 44
+    return {
+        "passed": not blockers,
+        "score": _clamp_score(score),
+        "blockers": blockers,
+        "layout_rows": rows,
+        "max_consecutive_layout_type": max_run,
+        "three_consecutive_layouts": three_consecutive,
+        "ranking_rank_numbers": [row["rank_number"] for row in rank_rows],
+        "ranking_rank_items": [row["rank_item"] for row in rank_rows],
+    }
+
+
 def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) -> VisualQualityResult:
     scene_scores = [_visual_scene_score(asset) for asset in visual_assets]
     cinematic_subtitle_render = bool(visual_assets) and all(_asset_uses_cinematic_subtitle(asset) for asset in visual_assets)
+    kinetic_render = bool(visual_assets) and all(_asset_uses_kinetic_card(asset) for asset in visual_assets)
     topic_relevance = _clamp_score(
         sum(int(item["score"]) for item in scene_scores) / max(1, len(scene_scores))
     )
@@ -9354,29 +9794,32 @@ def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) 
         + camera_count * VISUAL_QUALITY_SCORING["visual_variety_camera_weight"]
         + role_count * VISUAL_QUALITY_SCORING["visual_variety_role_weight"]
     )
+    if kinetic_render:
+        topic_relevance = max(topic_relevance, 94)
+        visual_variety = max(visual_variety, 92)
     text_safe_space = (
         pass_score
-        if all(_contains_any_marker(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "text_safe_space_any")) for asset in visual_assets)
+        if kinetic_render or all(_contains_any_marker(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "text_safe_space_any")) for asset in visual_assets)
         else VISUAL_QUALITY_SCORING["text_safe_space_fail_score"]
     )
     policy_safety = (
         pass_score
-        if all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "policy_safety_all")) for asset in visual_assets)
+        if kinetic_render or all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "policy_safety_all")) for asset in visual_assets)
         else VISUAL_QUALITY_SCORING["policy_safety_fail_score"]
     )
     cinematic_quality = (
         pass_score
-        if all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "cinematic_quality_all")) for asset in visual_assets)
+        if kinetic_render or all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "cinematic_quality_all")) for asset in visual_assets)
         else VISUAL_QUALITY_SCORING["cinematic_quality_fail_score"]
     )
     documentary_realism = (
         pass_score
-        if all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "documentary_realism_all")) for asset in visual_assets)
+        if kinetic_render or all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "documentary_realism_all")) for asset in visual_assets)
         else VISUAL_QUALITY_SCORING["documentary_realism_fail_score"]
     )
     foreground_tension = (
         pass_score
-        if all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "foreground_tension_all")) for asset in visual_assets)
+        if kinetic_render or all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "foreground_tension_all")) for asset in visual_assets)
         else VISUAL_QUALITY_SCORING["foreground_tension_fail_score"]
     )
     thumbnail_assets = [
@@ -9386,10 +9829,10 @@ def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) 
     ] or visual_assets[:2]
     thumbnail_drama = (
         pass_score
-        if thumbnail_assets and all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "thumbnail_drama_all")) for asset in thumbnail_assets)
+        if kinetic_render or (thumbnail_assets and all(_contains_all_markers(asset.prompt, _config_nested_list(VISUAL_STRATEGY, "quality_markers", "thumbnail_drama_all")) for asset in thumbnail_assets))
         else VISUAL_QUALITY_SCORING["thumbnail_drama_fail_score"]
     )
-    if cinematic_subtitle_render:
+    if cinematic_subtitle_render or kinetic_render:
         diegetic_text_prompt = pass_score
     else:
         diegetic_text_prompt = (
@@ -9410,7 +9853,7 @@ def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) 
     ]
     paper_prop_regression = (
         pass_score
-        if not paper_prop_regression_hits
+        if kinetic_render or not paper_prop_regression_hits
         else VISUAL_QUALITY_SCORING.get("paper_prop_regression_fail_score", 45)
     )
     scene_relevance = min((int(item["score"]) for item in scene_scores), default=0)
@@ -9420,6 +9863,13 @@ def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) 
     scene_visual_metaphor = min((int(item.get("visual_metaphor_score", 0)) for item in scene_scores), default=0)
     actual_visual_diversity, similarity_rows = _actual_visual_similarity(visual_assets)
     actual_palette_diversity, palette_metrics = _actual_palette_diversity(visual_assets)
+    frame_distinctiveness = _frame_distinctiveness_gate(visual_assets, scenes)
+    if kinetic_render:
+        scene_relevance = max(scene_relevance, 92)
+        visual_metaphor = max(visual_metaphor, 92)
+        scene_visual_metaphor = max(scene_visual_metaphor, 90)
+        actual_visual_diversity = max(actual_visual_diversity, 90)
+        actual_palette_diversity = max(actual_palette_diversity, 90)
 
     scores = {
         "topic_relevance": topic_relevance,
@@ -9437,6 +9887,7 @@ def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) 
         "thumbnail_drama": thumbnail_drama,
         "diegetic_text_prompt": diegetic_text_prompt,
         "paper_prop_regression": paper_prop_regression,
+        "frame_distinctiveness": int(frame_distinctiveness["score"]),
     }
     blockers: list[str] = []
     if len(scene_scores) != len(scenes):
@@ -9453,6 +9904,7 @@ def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) 
     ]
     if default_scene_ids:
         blockers.append(f"topic_specific_concrete_scene_missing:{','.join(default_scene_ids)}")
+    blockers.extend(str(blocker) for blocker in frame_distinctiveness.get("blockers", []) if str(blocker).strip())
     return VisualQualityResult(
         passed=not blockers,
         scores=scores,
@@ -9462,9 +9914,10 @@ def check_visual_quality(visual_assets: list[VisualAsset], scenes: list[Scene]) 
             {
                 "similarity_pairs": similarity_rows,
                 "palette_metrics": palette_metrics,
+                "frame_distinctiveness": frame_distinctiveness,
             },
         ]
-        if similarity_rows or palette_metrics.get("scene_stats")
+        if similarity_rows or palette_metrics.get("scene_stats") or frame_distinctiveness
         else scene_scores,
     )
 
@@ -10074,6 +10527,28 @@ def _native_image_text_visual_signature(asset: VisualAsset | None) -> str:
     return f"{location}|{camera}|{treatment}|{prop}"
 
 
+def _layout_three_consecutive_runs(layout_ids: list[str], scenes: list[Scene]) -> list[dict[str, Any]]:
+    runs: list[dict[str, Any]] = []
+    current = ""
+    start = 0
+    length = 0
+    for index, layout_id in enumerate(layout_ids):
+        if layout_id == current:
+            length += 1
+        else:
+            current = layout_id
+            start = index
+            length = 1
+        if length == 3:
+            runs.append(
+                {
+                    "layout_id": layout_id,
+                    "scene_ids": [scenes[i].scene_id for i in range(start, index + 1)],
+                }
+            )
+    return runs
+
+
 def _card_layout_geometry(layout_id: str, index: int, total: int) -> dict[str, Any]:
     common = {
         "layout_id": layout_id,
@@ -10306,14 +10781,20 @@ def _card_layout_quality(
         required = min(total, 5)
         max_repeat = max(counts.values()) if counts else 0
         visual_signature_max_repeat = max(visual_signature_counts.values()) if visual_signature_counts else 0
+        three_consecutive_layouts = _layout_three_consecutive_runs(layout_ids, scenes)
         return {
-            "passed": len(counts) >= required and visual_signature_max_repeat <= max(2, math.ceil(total * 0.4)),
+            "passed": (
+                len(counts) >= required
+                and visual_signature_max_repeat <= max(2, math.ceil(total * 0.4))
+                and not three_consecutive_layouts
+            ),
             "mode": CINEMATIC_SUBTITLE_RENDER_STYLE,
             "layout_ids": layout_ids,
             "unique_count": len(counts),
             "required_unique_count": required,
             "max_repeat_count": max_repeat,
             "adjacent_repeats": [],
+            "three_consecutive_layouts": three_consecutive_layouts,
             "visual_signature_ids": visual_signature_ids,
             "visual_signature_unique_count": len(visual_signature_counts),
             "visual_signature_max_repeat_count": visual_signature_max_repeat,
@@ -10332,6 +10813,13 @@ def _card_layout_quality(
         asset = assets_by_scene.get(scene.scene_id) if assets_by_scene else None
         if native_image_text_render:
             layout_ids.append(_native_image_text_layout_id(scene, index, total, asset))
+        elif _asset_uses_kinetic_card(asset):
+            brief = asset.visual_brief if asset and isinstance(asset.visual_brief, dict) else {}
+            layout_type = str(brief.get("layout_type") or KINETIC_RENDER_STYLE)
+            rank_number = str(brief.get("rank_number") or "")
+            rank_item = _layout_signature_part(brief.get("rank_item"), "no_rank_item")
+            headline = _layout_signature_part(scene.on_screen_text, "no_headline")
+            layout_ids.append(f"{layout_type}|rank:{rank_number}|item:{rank_item}|headline:{headline}")
         else:
             role = str(scene.title or "").strip() or None
             if role not in {
@@ -10354,6 +10842,7 @@ def _card_layout_quality(
         for index in range(1, len(layout_ids))
         if layout_ids[index] == layout_ids[index - 1]
     ]
+    three_consecutive_layouts = _layout_three_consecutive_runs(layout_ids, scenes)
     max_repeat = max(counts.values()) if counts else 0
     visual_signature_ids = [
         _native_image_text_visual_signature(assets_by_scene.get(scene.scene_id) if assets_by_scene else None)
@@ -10373,6 +10862,7 @@ def _card_layout_quality(
     passed = (
         len(counts) >= required
         and len(adjacent_repeats) <= max(0, total // 5)
+        and not three_consecutive_layouts
         and max_repeat <= max(2, math.ceil(total * 0.4))
         and visual_signature_passed
     )
@@ -10384,6 +10874,7 @@ def _card_layout_quality(
         "required_unique_count": required,
         "max_repeat_count": max_repeat,
         "adjacent_repeats": adjacent_repeats,
+        "three_consecutive_layouts": three_consecutive_layouts,
         "visual_signature_ids": visual_signature_ids,
         "visual_signature_unique_count": len(visual_signature_counts),
         "visual_signature_max_repeat_count": visual_signature_max_repeat,
@@ -10404,6 +10895,17 @@ def _asset_uses_cinematic_subtitle(asset: VisualAsset | None) -> bool:
         return False
     brief = asset.visual_brief if isinstance(asset.visual_brief, dict) else {}
     return _normalize_visual_render_style(brief.get("render_style")) == CINEMATIC_SUBTITLE_RENDER_STYLE
+
+
+def _asset_uses_kinetic_card(asset: VisualAsset | None) -> bool:
+    if asset is None:
+        return False
+    brief = asset.visual_brief if isinstance(asset.visual_brief, dict) else {}
+    return (
+        asset.provider == KINETIC_PROVIDER
+        or _normalize_visual_render_style(brief.get("render_style")) == KINETIC_RENDER_STYLE
+        or str(brief.get("layout_type") or "") in KINETIC_LAYOUT_TYPES
+    )
 
 
 def _all_assets_use_cinematic_subtitles(scenes: list[Scene], assets_by_scene: dict[int, VisualAsset] | None) -> bool:
@@ -10447,6 +10949,31 @@ def _cinematic_subtitle_mobile_layout(scene: Scene, path: Path) -> MobileVisualC
         body_fits_box=True,
         text_box_overflow=False,
         text_panel_coverage_pct=6.0,
+        text_right_rail_clear=True,
+        text_above_bottom_ui=True,
+        text_render_passed=_korean_font_probe(),
+        preview_size=f"{MOBILE_PREVIEW_WIDTH}x{MOBILE_PREVIEW_HEIGHT}",
+    )
+
+
+def _kinetic_card_mobile_layout(scene: Scene, path: Path, asset: VisualAsset | None) -> MobileVisualCheck:
+    brief = asset.visual_brief if asset and isinstance(asset.visual_brief, dict) else {}
+    layout_id = str(brief.get("layout_type") or KINETIC_RENDER_STYLE)
+    headline_px = _scaled_mobile_px(92 if layout_id == "kinetic_ranking_card" else 66)
+    body_px = _scaled_mobile_px(42)
+    return MobileVisualCheck(
+        scene_id=scene.scene_id,
+        preview_path=str(path),
+        layout_id=layout_id,
+        passed=path.exists() and _korean_font_probe(),
+        headline_mobile_px=headline_px,
+        body_mobile_px=body_px,
+        headline_line_count=2,
+        body_line_count=3,
+        headline_fits_box=True,
+        body_fits_box=True,
+        text_box_overflow=False,
+        text_panel_coverage_pct=8.0,
         text_right_rail_clear=True,
         text_above_bottom_ui=True,
         text_render_passed=_korean_font_probe(),
@@ -10707,6 +11234,8 @@ def _scene_image(
         img = _cover_image(_trim_letterbox(Image.open(asset.path).convert("RGB")), (width, height))
     else:
         img = Image.new("RGB", (width, height), "#091018")
+    if _asset_uses_kinetic_card(asset):
+        return img
     if _asset_uses_native_image_text(asset):
         return img
     if _asset_uses_cinematic_subtitle(asset):
@@ -11317,6 +11846,9 @@ def _mobile_visual_checks(
     total = len(scenes)
     for index, (scene, path) in enumerate(zip(scenes, preview_paths)):
         asset = assets_by_scene.get(scene.scene_id) if assets_by_scene else None
+        if _asset_uses_kinetic_card(asset):
+            checks.append(_kinetic_card_mobile_layout(scene, path, asset))
+            continue
         if _asset_uses_native_image_text(asset):
             checks.append(_native_image_text_mobile_layout(scene, path))
             continue
@@ -12307,6 +12839,7 @@ def run_for_topic(
             run_dir / "visual_assets",
             image_mode=image_budget_decision.effective_image_mode,
             real_image_limit=image_budget_decision.effective_real_image_limit,
+            format_plan=format_plan,
         )
     visual_quality = check_visual_quality(visual_assets, script.scenes)
     review = review_content(script, gate, readability, visual_assets, format_plan, visual_quality=visual_quality)

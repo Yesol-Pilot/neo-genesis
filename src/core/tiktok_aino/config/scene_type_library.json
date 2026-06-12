@@ -34,6 +34,35 @@
     "unknown": 0
   },
   "config_use_rule": "Use as transformed pattern guidance only; do not copy claims, real-person visuals, or copyrighted clips.",
+  "generic_scene_type_scope": "Existing photorealistic/generic scene types are now reformed_briefing-only. ranking_battle_65 and narrative_confession must route to the kinetic layout_types below.",
+  "layout_types": [
+    {
+      "id": "kinetic_ranking_card",
+      "visual_role": "ranking reveal typography card with one oversized rank number and one oversized item name",
+      "allowed_formats": [
+        "ranking_battle_65"
+      ],
+      "render_rule": "PIL-rendered original graphic card; no real-person synthesis, no party logo, no fake broadcast UI"
+    },
+    {
+      "id": "kinetic_quote_card",
+      "visual_role": "large quote or verdict typography card for narrative confession and ranking tension beats",
+      "allowed_formats": [
+        "ranking_battle_65",
+        "narrative_confession"
+      ],
+      "render_rule": "PIL-rendered original graphic card with high contrast type and abstract texture only"
+    },
+    {
+      "id": "criteria_legend_card",
+      "visual_role": "three-criteria legend card using democracy blue, crisis-recovery orange, and legacy cream",
+      "allowed_formats": [
+        "ranking_battle_65",
+        "narrative_confession"
+      ],
+      "render_rule": "PIL-rendered color-coded criteria card; labels are controlled text, not fake UI"
+    }
+  ],
   "scene_types": [
     {
       "id": "debate_microphone_closeup",

@@ -381,6 +381,58 @@
       "light_sweep"
     ]
   },
+  "format_visual_modes": {
+    "ranking_battle_65": {
+      "mode": "controlled_kinetic_still",
+      "default_layout_type": "kinetic_ranking_card",
+      "hook_layout_type": "criteria_legend_card",
+      "quote_layout_type": "kinetic_quote_card",
+      "allow_controlled_text_card": true,
+      "external_realistic_scene_allowed": false
+    },
+    "narrative_confession": {
+      "mode": "controlled_kinetic_still",
+      "default_layout_type": "kinetic_quote_card",
+      "hook_layout_type": "kinetic_quote_card",
+      "criteria_layout_type": "criteria_legend_card",
+      "allow_controlled_text_card": true,
+      "external_realistic_scene_allowed": false
+    },
+    "reformed_briefing": {
+      "mode": "cinematic_subtitle",
+      "external_realistic_scene_allowed": true
+    }
+  },
+  "design_tokens": {
+    "rank_number_typography": {
+      "font_weight": "black",
+      "min_px": 260,
+      "max_px": 430,
+      "stroke_px": 8,
+      "shadow_alpha": 170
+    },
+    "criteria_color_code": {
+      "democracy": {
+        "label": "민주주의",
+        "color": "#2F7DFF"
+      },
+      "crisis_recovery": {
+        "label": "위기회복",
+        "color": "#FF8A22"
+      },
+      "legacy": {
+        "label": "유산",
+        "color": "#F2E6C8"
+      }
+    },
+    "hero_caption_layout": {
+      "safe_left": 104,
+      "safe_right": 936,
+      "headline_max_lines": 2,
+      "subline_max_lines": 3,
+      "first_second_read": true
+    }
+  },
   "fallback_role_sequence": [
     "hook",
     "why_now",
@@ -1246,7 +1298,7 @@
         "Scene uniqueness: this scene must differ by location, camera distance, dominant object, palette, and action beat. Do not reuse the same corridor, desk angle, file stack, or wall composition.",
         "Repetition guard: {repetition_guard}",
         "Role separation: {role_separation}",
-        "Avoid: text card, placard, poster, propaganda image, real-person caricature, fake screenshot, fake broadcast lower third, watermark, party logo, extra text, distorted hands, generic stock photo"
+        "Avoid for photorealistic/reformed_briefing plates: text card, placard, poster, propaganda image, real-person caricature, fake screenshot, fake broadcast lower third, watermark, party logo, extra text, distorted hands, generic stock photo. For ranking_battle_65 and narrative_confession only, text card, placard, and poster are allowed when rendered by the controlled_kinetic_still pipeline as original typography cards; fake broadcast UI, party logos, real-person synthesis, and uncontrolled extra text remain forbidden."
       ],
       "lines": [
         "Use case: photorealistic-natural",
@@ -1432,6 +1484,7 @@
     "foreground_tension": 90,
     "thumbnail_drama": 90,
     "diegetic_text_prompt": 90,
-    "paper_prop_regression": 90
+    "paper_prop_regression": 90,
+    "frame_distinctiveness": 90
   }
 }
