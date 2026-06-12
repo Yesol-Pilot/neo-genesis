@@ -4896,3 +4896,23 @@
 - 크레덴셜 600 배치 (5키, 원문 비노출). 워치독은 정상작동+거짓통과 0 (desktop SSH 부재를 desktop_unreachable로 정직 검출).
 - **과감한 재설계 결정**: 워치독 pull(oracle→desktop SSH, 오라클 0.0.0.0 노출이라 위험) → **push(desktop→oracle 하트비트)**. W19에서 desktop 하트비트 cron + 오라클 워치독 하트비트 freshness 점검으로 전환. 보안+신뢰성 향상.
 - 의미: PC 꺼져도 트래픽 모니터링 24/7. P3 자가치유 토대.
+
+## 2026-06-12 15:08 전사 감사 완료 (21에이전트/1.6M토큰) — 회사 #1 레버리지 발견
+
+전사 건강도 = C+ (인프라·온톨로지 A 과잉구축 / 수익 F, ledger 17,838행 전부 cost).
+
+### 🔴 단일 최고 레버리지 (적대검증 통과 P0)
+**FINITE 결제 레일이 Polar로 완전 라이브 구축됐으나 main 미머지** — `feat/payment-rail`(커밋 e45406b)에 연동코드 완성+배포검증, Polar 체크아웃 5개 200 OK, Vercel env 10키 주입 완료(docs/20260612_polar_codex_handoff_v1.md). main의 upgrade/subscribe는 여전히 placeholder. **owner 머지 1클릭 = 회사 유일 "$0→첫결제 가능" 전환점.** 단 머지=비가역 결제활성 → E2E 렌더검증 후 권고(grill-toast 게이트). **FINITE는 다른 세션 활성 작업 중 = Fable 미개입, owner/해당세션이 검증·머지.**
+
+### 적대검증 통과 진짜 P0 7건 / 21건 중
+- FINITE 결제 미반영(owner 머지) / FINITE 트래픽붕괴(225→4명, 시드소진) / 수익훅 전 SBU 미배선 / PostHog 무알림(자율 가능)
+
+### 고도화 큐 (Fable 자율분)
+- P0-3 PostHog 이상치 알림 cron (oracle) — FINITE 붕괴를 수동발견한 갭 해소
+- P1-2 SBU 수익훅 커버리지 감사 / P1-3 ReviewLab 스케일(유일 건강신호 8.5% CTR) / P2 SellKit CTR·Schema.org
+
+### 과감한 판정 (owner 허용)
+- KOTT=유지하되 투자 후순위(52DAU·클릭0) / quant 영구closure 유지 / sora brain worker 보류 / **11 SBU 통폐합 안 함**(Free tier, 동결>삭제, owner 기조 정합)
+
+### owner 게이트 (자율 불가)
+FINITE 머지 / 트래픽 재점화 로그인커뮤니티 게시 / AIT Play·콘솔 / SBU AdSense·쿠팡 콘솔
