@@ -60,3 +60,10 @@
 - **M4 1평상점(게임) 푸시** — 이미 rewarded ad 배선됨, 유틸봇보다 수익↑ (owner Play/DUNS 게이트).
 - **M5 SBU 어필리에이트/광고 커버리지 감사** — 라이브 11 SBU 수익훅 점검.
 - owner 게이트(병행 요청): R4 콘솔 15분 / 1평상점 Play계정 / R3 결제결정.
+
+## 1.7 owner 핵심 기조 정정 (15:02) — "기존 서비스들도 성공하고 수익 내야 한다"
+**전략 기조 전환**: 기존 SBU(toolpick/kott/ur-wrong/finite/koreanllm/sellkit/deploystack/aiforge/craftdesk/reviewlab 등)를 "유지모드/방치"로 보던 이전 판정 폐기. **버릴 자산 아니라 성공·수익화 대상.**
+- 이전 "toolpick 100k 폐기 유지모드"(2026-06-04) 판정 = 너무 패배적 → 재평가. Google 처벌 회피하면서 실제 수요·수익 내는 모델 재설계 (owner 과감한 전환 허용).
+- 감사 wpe1ly2w1 의 sbu_live+revenue_arch 에이전트가 각 SBU: 실제 가동/트래픽/수익훅 배선상태/방치원인/**revival 경로** 진단.
+- 빌드 우선순위에 "기존 라이브 SBU 수익화 배선·성장루프" 상위 배치. M5(SBU 수익훅 감사·배선) 확대.
+- 각 SBU = (a)수익 메커니즘 실배선 (b)분배/수요 경로 (c)자율 성장루프. 신규 엔진(틱톡/AIT)과 동급 투자.
