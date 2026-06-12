@@ -45,6 +45,7 @@
         });
         function directEthicaEvent(eventName, properties) {
             var key = 'phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO';
+            try { if ((window.__SBU_DIRECT_CAPTURE || '') !== 'enabled') return; } catch (e) { return; }
             var storageKey = 'neo_posthog_distinct_id';
             var distinctId;
             try {
@@ -125,6 +126,7 @@
         });
         (function () {
             var key = 'phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO';
+            try { if ((window.__SBU_DIRECT_CAPTURE || '') !== 'enabled') return; } catch (e) { return; }
             var storageKey = 'neo_posthog_distinct_id';
             var distinctId;
             try {

@@ -16,6 +16,7 @@
 
 (function () {
   var key = 'phc_158CbBeWD8X1eNyD4xpi8VklVxsNZtx5yclocxfpgiO';
+  try { if ((window.__SBU_DIRECT_CAPTURE || '') !== 'enabled') return; } catch (e) { return; }
   var storageKey = 'neo_posthog_distinct_id';
   var endpoint = 'https://us.i.posthog.com/i/v0/e/';
   var baseProperties = {
