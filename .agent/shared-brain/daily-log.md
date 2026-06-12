@@ -4888,3 +4888,11 @@
 - 전용 크롬 프로파일 Room707Chrome(CDP 9224, leftaino 9222와 분리) = 707도 leftaino와 동형 자율 채널 운영 체제.
 - owner 개입: 로그인 1회만 (이후 무인). 중복 가드 작동(기존 35s 영상과 구별).
 - 잔여(자율 후속): 핀댓글 21:00 공개 후 적용 / 닉네임 'ROOM 707' 6/17 잠금해제 후. → P2 외부행위 plane이 자동 처리 대상.
+
+## 2026-06-12 W18 - 오라클 24/7 Control plane 가동 (Codex)
+
+- oracle-worker-1 crontab 3종 live: sbu_sitemap 09:00 / revenue_telemetry_oracle 09:35 / cron_health_watchdog 매시. TZ=KST.
+- 텔레메트리 stdlib 포팅 성공: PostHog 7일 live (toolpick 360 / daysleft 278 / kott 9 visitors). GA4·GCP·TikTok report는 no_data:requires_desktop 정직표기.
+- 크레덴셜 600 배치 (5키, 원문 비노출). 워치독은 정상작동+거짓통과 0 (desktop SSH 부재를 desktop_unreachable로 정직 검출).
+- **과감한 재설계 결정**: 워치독 pull(oracle→desktop SSH, 오라클 0.0.0.0 노출이라 위험) → **push(desktop→oracle 하트비트)**. W19에서 desktop 하트비트 cron + 오라클 워치독 하트비트 freshness 점검으로 전환. 보안+신뢰성 향상.
+- 의미: PC 꺼져도 트래픽 모니터링 24/7. P3 자가치유 토대.
