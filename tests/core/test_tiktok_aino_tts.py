@@ -820,6 +820,81 @@ def test_schedule_plan_does_not_fallback_to_default_topic_when_candidates_exhaus
     assert all("candidate_pool_exhausted" in slot["blockers"] for slot in result["slots"])
 
 
+def test_schedule_plan_uses_identity_topic_pool_for_news_free_identity_formats(tmp_path, monkeypatch) -> None:
+    identity_pool = {
+        "version": "identity_topic_pool_v1",
+        "topics": [
+            {
+                "topic_id": "identity_test_ranking",
+                "title": "역대 대통령 연설 순위 TOP5 — 한 문장이 시대를 바꿨다",
+                "format_hint": "ranking_battle_65",
+                "angle": "연설 한 문장 기준 랭킹",
+                "status": "ready",
+            },
+            {
+                "topic_id": "identity_test_narrative",
+                "title": "나는 기록자가 되기로 했다 — 어느 시민의 고백",
+                "format_hint": "narrative_confession",
+                "angle": "고백 훅에서 기록자 선언으로 전환",
+                "status": "ready",
+            },
+        ],
+    }
+    monkeypatch.setattr(pipeline, "discover_hot_topic", lambda _style: ({}, {}, {"candidates": []}))
+    monkeypatch.setattr(schedule_planner, "_load_performance_feedback", lambda _path: {"enabled": False})
+    monkeypatch.setattr(schedule_planner, "_load_identity_topic_pool", lambda: identity_pool)
+    monkeypatch.setattr(schedule_planner, "_recent_queue_titles", lambda: [])
+    monkeypatch.setattr(schedule_planner, "_recent_generated_titles", lambda: [])
+    monkeypatch.setattr(
+        schedule_planner,
+        "_format_sequence_from_feedback",
+        lambda _feedback: ["ranking_battle_65", "narrative_confession"],
+    )
+
+    result = schedule_planner.build_rolling_plan(days=2, output_dir=tmp_path)
+
+    assert result["ready_count"] == 0
+    assert [slot["format"] for slot in result["slots"]] == ["ranking_battle_65", "narrative_confession"]
+    assert [slot["topic"] for slot in result["slots"]] == [
+        "역대 대통령 연설 순위 TOP5 — 한 문장이 시대를 바꿨다",
+        "나는 기록자가 되기로 했다 — 어느 시민의 고백",
+    ]
+    assert all(slot["topic_source"] == "identity_topic_pool" for slot in result["slots"])
+    assert all(slot["topic_discovery"]["topic_source"] == "identity_topic_pool" for slot in result["slots"])
+    assert all("candidate_pool_exhausted" not in slot["blockers"] for slot in result["slots"])
+    assert all(slot["blockers"] == ["identity_topic_pool_generation_preflight_required"] for slot in result["slots"])
+
+
+def test_schedule_plan_does_not_use_identity_topic_pool_for_reformed_briefing(tmp_path, monkeypatch) -> None:
+    identity_pool = {
+        "version": "identity_topic_pool_v1",
+        "topics": [
+            {
+                "topic_id": "identity_test_briefing",
+                "title": "오늘의 쟁점 브리핑",
+                "format_hint": "reformed_briefing",
+                "angle": "뉴스 기반 브리핑",
+                "status": "ready",
+            }
+        ],
+    }
+    monkeypatch.setattr(pipeline, "discover_hot_topic", lambda _style: ({}, {}, {"candidates": []}))
+    monkeypatch.setattr(schedule_planner, "_load_performance_feedback", lambda _path: {"enabled": False})
+    monkeypatch.setattr(schedule_planner, "_load_identity_topic_pool", lambda: identity_pool)
+    monkeypatch.setattr(schedule_planner, "_recent_queue_titles", lambda: [])
+    monkeypatch.setattr(schedule_planner, "_recent_generated_titles", lambda: [])
+    monkeypatch.setattr(schedule_planner, "_format_sequence_from_feedback", lambda _feedback: ["reformed_briefing"])
+
+    result = schedule_planner.build_rolling_plan(days=1, output_dir=tmp_path)
+
+    assert result["ready_count"] == 0
+    assert len(result["slots"]) == 1
+    assert result["slots"][0]["format"] == "reformed_briefing"
+    assert result["slots"][0]["topic"] == ""
+    assert result["slots"][0]["blockers"] == ["candidate_pool_exhausted"]
+    assert "topic_source" not in result["slots"][0]
+
+
 def test_schedule_plan_uses_three_day_follow_growth_mix() -> None:
     sequence = schedule_planner._format_sequence_from_feedback({"enabled": False})
     planned = schedule_planner._planned_formats_for_days(3, sequence)

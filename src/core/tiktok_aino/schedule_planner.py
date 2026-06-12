@@ -36,6 +36,9 @@ FORMAT_SCORE_ALIASES = {
     "evidence_briefing_75": "reformed_briefing",
 }
 BRIEFING_FORMATS = {"reward_deep", "reformed_briefing", "evidence_briefing_75"}
+IDENTITY_TOPIC_POOL_PATH = pipeline.CONFIG_DIR / "identity_topic_pool.json"
+IDENTITY_TOPIC_SOURCE = "identity_topic_pool"
+IDENTITY_FALLBACK_FORMATS = {"ranking_battle_65", "narrative_confession"}
 DEFAULT_TIMEZONE = "Asia/Seoul"
 DEFAULT_PERFORMANCE_REPORT_DIR = pipeline.DEFAULT_PERFORMANCE_REPORT_DIR
 UNSUITABLE_TOPIC_TERMS = ("살해", "피살", "범행", "성폭력", "강간", "자살", "아동학대")
@@ -188,6 +191,175 @@ def _resolve_repo_path(value: str | Path) -> Path:
 def _load_ha_strategy() -> dict[str, object]:
     payload = pipeline._load_json(pipeline.CONFIG_DIR / "ha_strategy.json")
     return payload if isinstance(payload, dict) else {}
+
+
+def _load_identity_topic_pool() -> dict[str, object]:
+    payload = pipeline._load_json(IDENTITY_TOPIC_POOL_PATH)
+    return payload if isinstance(payload, dict) else {}
+
+
+def _identity_topic_rows(pool: dict[str, object]) -> list[dict[str, object]]:
+    rows = pool.get("topics", [])
+    return [row for row in rows if isinstance(row, dict)] if isinstance(rows, list) else []
+
+
+def _select_identity_topic(
+    pool: dict[str, object],
+    content_format: str,
+    *,
+    used_topic_ids: set[str],
+    exclusion_titles: list[str],
+    planned_topic_titles: list[str],
+) -> dict[str, object] | None:
+    if content_format not in IDENTITY_FALLBACK_FORMATS:
+        return None
+    for row in _identity_topic_rows(pool):
+        topic_id = str(row.get("topic_id", "")).strip()
+        title = str(row.get("title", "")).strip()
+        if not topic_id or not title:
+            continue
+        if topic_id in used_topic_ids:
+            continue
+        if str(row.get("status", "")).strip() != "ready":
+            continue
+        if str(row.get("format_hint", "")).strip() != content_format:
+            continue
+        if _is_duplicate_topic(title, [*exclusion_titles, *planned_topic_titles]):
+            continue
+        return row
+    return None
+
+
+def _identity_topic_candidate(row: dict[str, object]) -> tuple[pipeline.TopicCandidate, dict[str, pipeline.Source]]:
+    topic_id = str(row.get("topic_id", "")).strip()
+    title = str(row.get("title", "")).strip()
+    angle = str(row.get("angle", "")).strip()
+    source_id = f"{IDENTITY_TOPIC_SOURCE}_{topic_id or _stable_hash(title)}"
+    source = pipeline.Source(
+        source_id=source_id,
+        title=f"{IDENTITY_TOPIC_SOURCE}: {topic_id}".strip(": "),
+        url="",
+        note=(
+            f"read_only_identity_topic_pool topic_id={topic_id}; "
+            f"format_hint={row.get('format_hint', '')}; status={row.get('status', '')}; title={title}"
+        ),
+    )
+    topic = pipeline.TopicCandidate(
+        title=title,
+        angle=angle or str(pipeline.HOT_TOPIC_CANDIDATE_STRATEGY.get("angle", "")).strip(),
+        slot=IDENTITY_TOPIC_SOURCE,
+        target_duration_sec=pipeline._strategy_int(pipeline.HOT_TOPIC_CANDIDATE_STRATEGY, "target_duration_sec", 75),
+        claims=[
+            pipeline.Claim(
+                text=f"정체성 토픽 풀에서 관리하는 에버그린 포맷 주제입니다: {title}",
+                source_ids=[source_id],
+                risk="low",
+            )
+        ],
+        source_ids=[source_id],
+    )
+    return topic, {source_id: source}
+
+
+def _identity_topic_discovery(row: dict[str, object], pool: dict[str, object]) -> dict[str, object]:
+    topic_id = str(row.get("topic_id", "")).strip()
+    title = str(row.get("title", "")).strip()
+    angle = str(row.get("angle", "")).strip()
+    format_hint = str(row.get("format_hint", "")).strip()
+    return {
+        "mode": "rolling_schedule_plan",
+        "topic_source": IDENTITY_TOPIC_SOURCE,
+        "identity_topic_pool": {
+            "version": pool.get("version", "identity_topic_pool_v1"),
+            "topic_id": topic_id,
+            "format_hint": format_hint,
+            "angle": angle,
+            "status": row.get("status", ""),
+        },
+        "deep_research_report": {
+            "version": "identity_topic_pool_v1",
+            "research_mode": IDENTITY_TOPIC_SOURCE,
+            "selected_topic_id": topic_id,
+            "selected_title": title,
+            "selected_archetype_id": format_hint,
+            "selected_archetype_label": "정체성/에버그린 포맷",
+            "selected_research_question": f"{title}를 계정 정체성 포맷으로 어떻게 풀 것인가?",
+            "topic_candidates": [
+                {
+                    "topic_id": topic_id,
+                    "title": title,
+                    "matched_archetype_id": format_hint,
+                    "matched_archetype_label": "정체성/에버그린 포맷",
+                    "research_question": f"{title}를 계정 정체성 포맷으로 어떻게 풀 것인가?",
+                    "total_score": 72,
+                    "score_components": {
+                        "progressive_reaction": 72,
+                        "today_relevance": 45,
+                        "narrative_clarity": 76,
+                        "source_reliability": 45,
+                        "source_heat": 55,
+                    },
+                    "production_risks": ["identity_pool_topic_requires_fact_pack_before_publish"],
+                    "comment_trigger": "기준을 바꾸면 순위도 바뀐다고 보시나요?",
+                    "follower_promise": "계정의 기준과 기록을 다음 편에서 계속 공개합니다.",
+                }
+            ],
+            "script_mandates": [],
+            "visual_mandates": [],
+            "monetization_hypothesis": "",
+            "policy_positioning": "뉴스 후보가 아니라 계정 정체성 토픽 풀에서 온 에버그린 주제입니다.",
+        },
+        "deep_research_score": 72,
+        "progressive_reaction_score": 72,
+        "today_relevance_score": 45,
+        "selected_archetype_label": "정체성/에버그린 포맷",
+        "research_question": f"{title}를 계정 정체성 포맷으로 어떻게 풀 것인가?",
+        "comment_trigger": "기준을 바꾸면 순위도 바뀐다고 보시나요?",
+        "follower_promise": "계정의 기준과 기록을 다음 편에서 계속 공개합니다.",
+    }
+
+
+def _identity_topic_slot(
+    *,
+    row: dict[str, object],
+    pool: dict[str, object],
+    publish_at: dt.datetime,
+    plan: pipeline.ContentFormatPlan,
+    feedback: dict[str, object],
+    skipped: list[dict[str, object]],
+) -> dict[str, object]:
+    topic, sources = _identity_topic_candidate(row)
+    slot_topic_discovery = _identity_topic_discovery(row, pool)
+    return {
+        "publish_at_local": publish_at.isoformat(),
+        "format": plan.format_id,
+        "objective": plan.objective,
+        "topic": topic.title,
+        "post_title": topic.title,
+        "caption": "",
+        "hashtags": [],
+        "topic_candidate": asdict(topic),
+        "topic_discovery": slot_topic_discovery,
+        "topic_source": IDENTITY_TOPIC_SOURCE,
+        "identity_topic_id": str(row.get("topic_id", "")).strip(),
+        "quality_score": 0,
+        "quality_passed": False,
+        "gate_passed": False,
+        "readability_passed": False,
+        "blockers": ["identity_topic_pool_generation_preflight_required"],
+        "warnings": ["news_candidate_pool_exhausted_identity_topic_pool_fallback"],
+        "sources": [asdict(source) for source in sources.values()],
+        "feedback_adjustment": _feedback_adjustment(
+            f"{topic.title} {topic.angle} {topic.slot}",
+            feedback,
+            plan.format_id,
+        ),
+        "source_count": len(sources),
+        "trusted_source_count": 0,
+        "primary_source_trusted": False,
+        "ready_for_generation": False,
+        "skipped_candidates": skipped,
+    }
 
 
 def _recent_queue_titles() -> list[str]:
@@ -1095,12 +1267,14 @@ def build_rolling_plan(
         *_performance_report_exclusions(performance_report),
     ]
     candidates = _diverse_candidates(adjusted_candidates, candidate_pool_limit, exclusions=exclusion_titles)
+    identity_topic_pool = _load_identity_topic_pool()
     now = dt.datetime.now(timezone)
     start_day = (now + dt.timedelta(days=start_offset_days)).date()
 
     slots: list[dict[str, object]] = []
     available_candidates = list(candidates)
     candidate_index = 0
+    used_identity_topic_ids: set[str] = set()
     planned_topic_titles: list[str] = []
     planned_post_titles: list[str] = []
     for day_offset, content_format in planned_formats:
@@ -1227,6 +1401,26 @@ def build_rolling_plan(
                 break
             skipped.append({"topic": topic.title, "reason": "quality_blockers", "blockers": blockers})
 
+        if slot is None:
+            identity_row = _select_identity_topic(
+                identity_topic_pool,
+                content_format,
+                used_topic_ids=used_identity_topic_ids,
+                exclusion_titles=exclusion_titles,
+                planned_topic_titles=planned_topic_titles,
+            )
+            if identity_row:
+                slot = _identity_topic_slot(
+                    row=identity_row,
+                    pool=identity_topic_pool,
+                    publish_at=publish_at,
+                    plan=plan,
+                    feedback=feedback,
+                    skipped=skipped,
+                )
+                used_identity_topic_ids.add(str(identity_row.get("topic_id", "")).strip())
+                planned_topic_titles.append(str(slot.get("topic", "")).strip())
+                planned_post_titles.append(str(slot.get("post_title", "")).strip())
         if slot is None:
             slot = {
                 "publish_at_local": publish_at.isoformat(),

@@ -1,0 +1,47 @@
+{
+  "version": "identity_topic_pool_v1",
+  "topics": [
+    {
+      "topic_id": "identity_001",
+      "title": "역대 대통령 순위 TOP5 — 기준을 바꾸면 1위가 바뀝니다",
+      "format_hint": "ranking_battle_65",
+      "angle": "민주주의·위기 회복·유산 3기준 선언 후 5→1 역순 공개",
+      "status": "used_20260611"
+    },
+    {
+      "topic_id": "identity_002",
+      "title": "나는 정치를 멀리했던 사람입니다 — 어느 기록자의 고백",
+      "format_hint": "narrative_confession",
+      "angle": "고백 훅 → 전환점 서사 → 입장 선언 → 결집 엔딩",
+      "status": "in_progress_w1"
+    },
+    {
+      "topic_id": "identity_003",
+      "title": "역대 대통령 연설 순위 TOP5 — 한 문장이 시대를 바꿨다",
+      "format_hint": "ranking_battle_65",
+      "angle": "연설 한 문장 기준 랭킹 (§4a 변주: 연설)",
+      "status": "ready"
+    },
+    {
+      "topic_id": "identity_004",
+      "title": "민주주의가 무너질 뻔한 순간 TOP5 — 그리고 막아낸 사람들",
+      "format_hint": "ranking_battle_65",
+      "angle": "위기 장면 랭킹 + 시민 서사 (§4a 변주: 장면)",
+      "status": "ready"
+    },
+    {
+      "topic_id": "identity_005",
+      "title": "댓글로 가장 싸운 주제 TOP5 — 우리 계정 기록 공개",
+      "format_hint": "ranking_battle_65",
+      "angle": "계정 자체 데이터 랭킹 (시리즈 정체성 강화)",
+      "status": "ready"
+    },
+    {
+      "topic_id": "identity_006",
+      "title": "왜 나는 정치 뉴스를 다시 보게 됐나 — 어느 시민의 전환점",
+      "format_hint": "narrative_confession",
+      "angle": "무관심 고백 → 기록을 본 순간 → 내 기준 선언 → 다음 기록 예고",
+      "status": "ready"
+    }
+  ]
+}
