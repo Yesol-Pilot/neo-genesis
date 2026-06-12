@@ -4857,3 +4857,12 @@
 - 시스템 검증 부산물: 성과 피드백 루프가 뉴스 풀 12건 전부 negative_performance_feedback 스킵 (특검 브리핑 저성과 학습 = 새 전략 라이브 작동 증거). 날조 fallback 0.
 - tts 스위트 148/148 PASS (회귀 0). 텔레그램 보고 발송 (시작+완료 2회).
 - **게시/예약 0건** — owner "예약해/업로드해" 명시 지시 대기 (다음 슬롯 6/12 08:10 KST).
+
+## 2026-06-12 Claude+Codex - 자율 수익 OS 가동일: 틱톡 자율예약 첫 사이클 + 쿠폰만료봇 배포 + 자율 루프 2종
+
+- **TikTok 자율 채널 운영 개시** (owner 13:28 상시 권한): 랭킹 1호 "역대 대통령 TOP5"(91점) → 6/12 19:30, 서사 1호 "정치를 멀리했던 기록자의 고백"(90점) → 6/13 08:10 — publish_queue_runner schedule 모드, schedule_click 검증 True×2. 전용 크롬(TikTokAiNoChrome) 경유.
+- **R1 쿠폰만료봇 배포 성공** (W6): deploymentId 019eba0b...b0b7, 67 테스트 green, 스토어 에셋 7종 + 메타데이터 팩 생성 (`apps/coupon-expiry-bot/store-assets/`). 콘솔 draft 자동저장은 토스트 미확인 = owner 체크리스트로 정직 전환.
+- **자율 루프 2종 가동** (W4/W5, 커밋): gemini-budget-pacer 09:30 (MTD ₩0) + revenue-telemetry 09:35 (21지표, no_data 15 정직).
+- **W1 서사 publish_ready 커밋** / **W2 정체성 토픽 풀 커밋** (150/150) / W7 구독정리봇 체인 가동 중.
+- 정본: `.agent/knowledge/20260612_AUTONOMOUS_REVENUE_OS_v1.md` (v1.1 — TikTok 자율 권한 개정).
+- 잔존: 구독정리봇 배포(W7 진행), 콘솔 기본정보 입력(owner 진행 중 — 값 전달됨), 아바타(6/17 닉네임 잠금 해제 후 일괄), 19:30 첫 게시 성과는 23:30 롤업.
