@@ -194,7 +194,7 @@ Neo Genesis is currently a **1-operator company** by design — the architecture
 - **`.agent/knowledge/CLAUDE_COLLABORATION.md`** — Claude-primary operating manual
 - **`.agent/policies/`** — RAG governance, JWT scopes, source allowlists, gitleaks rules
 
-Issues, dataset replication reports, and academic collaboration requests are welcome via GitHub Issues or `neogenesis.research@gmail.com`.
+Issues, dataset replication reports, and academic collaboration requests are welcome via GitHub Issues or `help@neogenesis.app`.
 
 ---
 
@@ -298,4 +298,4 @@ Wikidata: Q139569680. https://neogenesis.app
 **Maintained by**: [Yesol Heo](https://heoyesol.kr) ([Q139569708](https://www.wikidata.org/wiki/Q139569708))
 **Repository**: [github.com/Yesol-Pilot/neo-genesis](https://github.com/Yesol-Pilot/neo-genesis)
 **Site**: [neogenesis.app](https://neogenesis.app)
-**Contact**: `neogenesis.research@gmail.com`
+**Contact**: `help@neogenesis.app`
