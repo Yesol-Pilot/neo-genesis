@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "updated": "2026-06-14",
+  "doc": ".agent/knowledge/20260614_PROJECT_CONTINUITY_PROTOCOL_v1.md",
+  "workspace_root": "D:/00.test",
+  "remote_allowlist": ["github.com/Yesol-Pilot/", "github.com:Yesol-Pilot/"],
+  "remote_blocklist": ["neogenesislab", "etribe", "etirbe"],
+  "never_track_globs": [
+    "_secrets/**", "personal/**", "**/.env", "**/.env.*", "**/*.key", "**/*.pem",
+    "**/credentials*", "**/gcal_token.json", "**/service-account*.json",
+    "010.tmp-output/**", "output/**", "008.mirrors-external/**", "009.archive/**",
+    "**/node_modules/**", "**/.next/**", "**/dist/**", "**/out/**"
+  ],
+  "sync_policy": {
+    "default": "fetch_then_report_only_if_dirty",
+    "clean_tree": "pull_rebase",
+    "dirty_tree": "report_only",
+    "autostash_requires_flag": true,
+    "forbidden_commands_on_dirty": ["git pull", "git reset --hard", "git clean -fd", "git checkout -- ."]
+  },
+  "projects": [
+    {"path": "001.ssot-agent-runtime", "tier": 1, "is_git": false, "track": "needs_repo", "visibility": "private", "sensitivity": "high", "remote": null, "note": "SSOT 본체 — 모든 AI 규칙/shared-brain. 최우선 private repo (gitleaks 스캔 후). G2."},
+    {"path": "002.products-sbu/012.finite", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/finite", "wip_branch": "feat/finite-mvp-launch", "sync": "report_only", "note": "주력 제품. owner WIP — rebase 금지, fetch+report만."},
+    {"path": "neo-genesis", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/neo-genesis", "sync": "report_only", "note": "dirty 17K — Safe-Sync 자동 보호. 별도 정리 세션(Phase 4)."},
+    {"path": "portfolio", "tier": 1, "is_git": true, "track": "tracked", "visibility": "public", "remote": "Yesol-Pilot/portfolio", "sync": "report_only", "note": "heoyesol.kr. dirty 85."},
+    {"path": "jobsearch", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/jobsearch-pipeline", "sync": "report_only", "note": "dirty 106."},
+    {"path": "sora-app", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/sora-app", "note": "중복 경로 정리 대상(아래 3개 동일 리모트)."},
+    {"path": "002.products-sbu/005.sora-app", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/sora-app", "note": "sora-app 중복 클론."},
+    {"path": "002.products-sbu/sora-app", "tier": 3, "is_git": true, "track": "dedupe", "remote": "Yesol-Pilot/sora-app", "note": "중복 — 정리 후보(어느 하나만 canonical)."},
+    {"path": "002.products-sbu/011.room-707", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/room-707", "sync": "pull_rebase", "note": "clean — Safe-Sync 정상."},
+    {"path": "002.products-sbu/002.landing-page", "tier": 1, "is_git": true, "track": "tracked", "visibility": "public", "remote": "Yesol-Pilot/Yesol-Pilot.github.io", "note": "landing_page와 동일 리모트(중복)."},
+    {"path": "002.products-sbu/landing_page", "tier": 3, "is_git": true, "track": "dedupe", "remote": "Yesol-Pilot/Yesol-Pilot.github.io", "note": "중복 클론."},
+    {"path": "002.products-sbu/009.koreanllm", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/koreanllm", "note": "활성 판매 상점. private repo 생성+push 완료 2026-06-14."},
+    {"path": "002.products-sbu/013.ait-autonomous-factory", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/ait-autonomous-factory", "note": "앱인토스 팩토리. private repo 생성+push 완료 2026-06-14."},
+    {"path": "PAPER", "tier": 1, "is_git": false, "track": "needs_repo", "visibility": "private", "sensitivity": "medium", "remote": null, "note": "논문 정본. 대용량. private repo + LFS 검토. G2."},
+    {"path": "project_yesol", "tier": 2, "is_git": false, "track": "vault", "visibility": "local_only", "sensitivity": "high", "remote": null, "note": "master-data에 고객/PII 가능 — 리모트 금지. 로컬 git 스냅샷만."},
+    {"path": "neo-genesis__sbu_autogrowth", "tier": 1, "is_git": false, "track": "needs_repo", "visibility": "private", "remote": null, "note": "분류 확인 필요 — 001.ssot와 관계 점검 후 결정."},
+    {"path": "veo-shorts-universe", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/veo-shorts-universe", "note": "private repo 생성+push 완료 2026-06-14."},
+    {"path": "_secrets", "tier": 2, "is_git": false, "track": "never", "sensitivity": "critical", "note": "크레덴셜 — 저장소화/푸시 영구 금지."},
+    {"path": "personal", "tier": 2, "is_git": false, "track": "never", "sensitivity": "critical", "note": "개인회생/법무/금융 — 저장소화/푸시 영구 금지."},
+    {"path": "010.tmp-output", "tier": 3, "is_git": false, "track": "never", "note": "임시 산출물."},
+    {"path": "output", "tier": 3, "is_git": false, "track": "never", "note": "산출물."},
+    {"path": "008.mirrors-external", "tier": 3, "is_git": false, "track": "never", "note": "외부 미러 — 라이브 소스 아님(stale)."},
+    {"path": "009.archive", "tier": 3, "is_git": false, "track": "never", "note": "아카이브."},
+    {"path": "003.portfolio-career", "tier": 1, "is_git": false, "track": "review", "note": "분류 미정 — 내부 하위에 portfolio 등 존재 가능. 점검 후 등록."},
+    {"path": "004.research-paper", "tier": 1, "is_git": false, "track": "review", "note": "PAPER와 관계 점검."},
+    {"path": "005.client-work", "tier": 2, "is_git": false, "track": "vault", "sensitivity": "high", "note": "사내(이트라이브) 자산 — 외부 리모트 금지, usagePolicy 준수."},
+    {"path": "006.games-labs", "tier": 1, "is_git": false, "track": "review", "note": "분류 미정."},
+    {"path": "007.infra-tools", "tier": 1, "is_git": false, "track": "review", "note": "분류 미정."}
+  ],
+  "owner_gates_g2": [
+    "001.ssot-agent-runtime private repo 생성 (최우선)",
+    "koreanllm / ait-factory / PAPER / veo-shorts private repo 생성 (1개씩)",
+    "neo-genesis 17K dirty 정리 세션",
+    "sora-app / landing_page 중복 경로 정리"
+  ]
+}
