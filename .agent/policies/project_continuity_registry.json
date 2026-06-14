@@ -34,7 +34,7 @@
     {"path": "002.products-sbu/013.ait-autonomous-factory", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/ait-autonomous-factory", "note": "앱인토스 팩토리. private repo 생성+push 완료 2026-06-14."},
     {"path": "PAPER", "tier": 1, "is_git": false, "track": "needs_repo", "visibility": "private", "sensitivity": "medium", "remote": null, "note": "논문 정본. 대용량. private repo + LFS 검토. G2."},
     {"path": "project_yesol", "tier": 2, "is_git": false, "track": "vault", "visibility": "local_only", "sensitivity": "high", "remote": null, "note": "master-data에 고객/PII 가능 — 리모트 금지. 로컬 git 스냅샷만."},
-    {"path": "neo-genesis__sbu_autogrowth", "tier": 1, "is_git": false, "track": "needs_repo", "visibility": "private", "remote": null, "note": "분류 확인 필요 — 001.ssot와 관계 점검 후 결정."},
+    {"path": "neo-genesis__sbu_autogrowth", "tier": 1, "is_git": "symlink", "track": "alias", "remote": "Yesol-Pilot/neo-genesis", "note": "정정: 002.neo-genesis-sbu-autogrowth(SSOT worktree)를 가리키는 심볼릭링크. 별도 repo 아님."},
     {"path": "veo-shorts-universe", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/veo-shorts-universe", "note": "private repo 생성+push 완료 2026-06-14."},
     {"path": "_secrets", "tier": 2, "is_git": false, "track": "never", "sensitivity": "critical", "note": "크레덴셜 — 저장소화/푸시 영구 금지."},
     {"path": "personal", "tier": 2, "is_git": false, "track": "never", "sensitivity": "critical", "note": "개인회생/법무/금융 — 저장소화/푸시 영구 금지."},
@@ -42,11 +42,11 @@
     {"path": "output", "tier": 3, "is_git": false, "track": "never", "note": "산출물."},
     {"path": "008.mirrors-external", "tier": 3, "is_git": false, "track": "never", "note": "외부 미러 — 라이브 소스 아님(stale)."},
     {"path": "009.archive", "tier": 3, "is_git": false, "track": "never", "note": "아카이브."},
-    {"path": "003.portfolio-career", "tier": 1, "is_git": false, "track": "review", "note": "분류 미정 — 내부 하위에 portfolio 등 존재 가능. 점검 후 등록."},
-    {"path": "004.research-paper", "tier": 1, "is_git": false, "track": "review", "note": "PAPER와 관계 점검."},
+    {"path": "003.portfolio-career", "tier": 1, "is_git": false, "track": "container", "note": "버킷(자체 repo 아님). 자식 개별 추적: 003.jobsearch→Yesol-Pilot/jobsearch-pipeline, 004.profile-repo→ysh1537/ysh1537(owner 프로필 repo, 유지), 006.portfolio→Yesol-Pilot/portfolio. 005.project-yesol/toss-portfolio=standalone(리모트 없음)."},
+    {"path": "004.research-paper", "tier": 1, "is_git": false, "track": "container", "note": "버킷. 001.PAPER 자식 개별 추적: EthicaAI→Yesol-Pilot/ethicaai, WhyLab→Yesol-Pilot/whylab, Yesol-Pilot repo. anon/freeze 스냅샷은 local/standalone. 우산 repo 불필요."},
     {"path": "005.client-work", "tier": 2, "is_git": false, "track": "vault", "sensitivity": "high", "note": "사내(이트라이브) 자산 — 외부 리모트 금지, usagePolicy 준수."},
-    {"path": "006.games-labs", "tier": 1, "is_git": false, "track": "review", "note": "분류 미정."},
-    {"path": "007.infra-tools", "tier": 1, "is_git": false, "track": "review", "note": "분류 미정."}
+    {"path": "006.games-labs", "tier": 1, "is_git": false, "track": "container", "note": "버킷. 자식 전부 Yesol-Pilot 추적: 001.2dlivegame, 002.clash-of-myths, 003.game-pipeline, 004.multiverse-creature-lab, mintlab. unnumbered 경로는 symlink."},
+    {"path": "007.infra-tools", "tier": 1, "is_git": false, "track": "container", "note": "버킷. 001.agentic-cro/003.internal-ir/004.secur-pilot→Yesol-Pilot 추적(embedded PAT sanitize 완료). 005.webpilot-engine=etribe 회사자산→Tier2 vault, 외부 push 금지."}
   ],
   "resolved_2026_06_14_claude": {
     "ssot_body": "001.ssot-agent-runtime/002.neo-genesis-sbu-autogrowth = Yesol-Pilot/neo-genesis worktree, 브랜치 sbu/autogrowth-20260427 origin push 완료 (이전 needs_repo 오판 정정). 크로스-AI pull 가능.",
