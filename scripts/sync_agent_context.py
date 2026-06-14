@@ -177,6 +177,7 @@ def _render_repo_agents(status_payload: dict[str, Any]) -> str:
 - Respond to the owner in Korean by default.
 - Put the conclusion first, then supporting details.
 - Read SSOT before coding, refactoring, or changing operational behavior.
+- Session start (PCP v1): run `python scripts/agent_session_sync.py <path>` for Safe-Sync before work. Never blind `git pull`; the tool does fetch then pull--rebase on a clean tree or report-only on a dirty tree. Classify any unregistered project in `.agent/policies/project_continuity_registry.json` first. Canonical rule: `.agent/knowledge/20260614_PROJECT_CONTINUITY_PROTOCOL_v1.md`.
 - Check scope and side effects before tests, deploys, notifications, credential changes, or any external action.
 - Do not hardcode paths, URLs, model names, or environment-specific values when SSOT or config already defines them.
 - Business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, and product CTAs must use `neogenesis.research@gmail.com`; keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, personal contact, authentication, and admin uses.

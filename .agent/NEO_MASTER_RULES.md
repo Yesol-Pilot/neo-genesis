@@ -357,8 +357,9 @@ D:/00.test/neo-genesis/.agent/
 
 ### 5.2 세션 시작 프로토콜
 
-모든 에이전트는 Neo-Genesis 작업 시작 시 아래를 순서대로 읽는다.
+모든 에이전트는 Neo-Genesis 작업 시작 시 아래를 순서대로 한다.
 
+0. **Safe-Sync 먼저 (PCP v1 의무).** 작업 대상 프로젝트에서 `python scripts/agent_session_sync.py <path>`를 먼저 실행한다. 무지성 `git pull` 금지 — 도구가 `fetch → (clean이면 pull --rebase / dirty면 report-only)`로 안전 분기한다. 미등록 프로젝트면 registry(`.agent/policies/project_continuity_registry.json`)에 tier 분류부터 등록한다. 규칙 정본: `.agent/knowledge/20260614_PROJECT_CONTINUITY_PROTOCOL_v1.md`.
 1. `NEO_MASTER_RULES.md`
 2. `shared-brain/status.json`
 3. `shared-brain/active-tasks.md`

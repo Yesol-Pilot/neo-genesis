@@ -58,10 +58,10 @@
   },
   "owner_gates_remaining": [
     "PAT 회전(revoke) — owner GitHub 계정 설정 작업 (이미 disk sanitize됨, 저긴급)",
-    "neo-genesis 17K dirty 정리 — .gitignore 재정비는 자율 가능, WIP 선별 commit만 owner 확인"
+    "neo-genesis 17K dirty 정리 — 정정: 표준 노이즈 아님(.gitignore 추가 → dirty 감소 0). .agent/ontology 등 실데이터 + 한글명 untracked 다수 = owner 동반 triage(Phase 4) 필요. 자동 ignore/삭제 금지(데이터 손실 위험)"
   ],
-  "autonomous_followups": [
-    "중복 클론 19벌 archive(MOVE, 가역) — neo-genesis SSOT worktree 제외",
-    "Phase 3: CLAUDE.md 전역 로더에 agent_session_sync Safe-Sync 자동 연결"
+  "autonomous_followups_done_2026_06_14_claude": [
+    "중복 클론 19벌 archive = N/A 정정: 전부 canonical을 가리키는 호환 심볼릭링크. 실제 중복 디렉토리 0 → 옮길 것 없음(옮겼으면 워크스페이스 파손). runbook의 '19벌 중복'은 symlink 오집계",
+    "Phase 3 = DONE: NEO_MASTER_RULES §5.2 step0 + 생성 adapter Mandatory Rules에 Safe-Sync 의무화, sync_agent_context 재생성(ssotRevision 1e7be38b1034159b)"
   ]
 }

@@ -1,3 +1,36 @@
+# [ROOM707] 6/14 현황분석 + EP003 0뷰 진단 + EP004 게시복구 + 게이트 실측 (2026-06-14, Claude Opus 4.8)
+
+owner "현황분석" → "전부해야지" 3종(EP003 0뷰 진단 / EP004 발행 디버그·재게시 / 게이트 실측) 전부 집행·검증 완료.
+
+## 검증된 라이브 상태 (TikTok Studio authoritative, 6/14 16:2x KST, @neogenesis5)
+- **공개 게시물 4개** (이전 SSOT의 "2개" 인식은 봇차단 부분스크랩 오류였음):
+  - EP001 "CAM_04": **327뷰 / 9♥ / 댓글 1** (6/10) — 6/11 211 → 327 성장
+  - EP002 "DAY 4"(한국어 캡션): **95뷰 / 0 / 0** (6/12)
+  - EP003 "she froze MIRRA": **0뷰 / 0 / 0** (6/13, 공개인데 무노출)
+  - EP004 "dead cooker valve": **0뷰**, 6/14 신규 게시 (아래)
+- 팔로워 **1**, 총 하트 9. 표시명 "neogenesis"(6/17까지 잠금→이후 "ROOM 707"), bio 영어 전환됨.
+
+## ① EP003 0뷰 진단 결론
+Studio 지연 아님 = **진짜 콜드스타트 무노출**. EP001 327 → EP002 95 → EP003 0 = 신규 게시물 도달 붕괴. 1팔로워 + 플래그드 AI호러 + 공식 AI라벨 미표시(EP003은 캡션 디스클로저만)가 복합. 조회수가 아니라 노출(분배) 자체가 막힘 = 북극성 KPI(팔로우/lore댓글)도 0.
+
+## ② EP004 발행 복구 (근본원인 수리 + 검증)
+- **근본원인**: 기존 `tiktok_post_episode.py`/`tiktok_publish_latest_draft.py`가 AI라벨 토글 후 디스클로저 모달을 "저장"류 버튼으로 닫는데, 이 Studio 빌드에선 그게 **초안 저장+컴포저 이탈** → "게시" 버튼 도달 불가(POST_BUTTON_NOT_FOUND/NOT_ENABLED). 또 기존 draft스크립트는 EP003 캡션 하드코딩이라 EP004 대신 EP003 중복발행 위험.
+- **수리**: 신규 `scripts/publish_draft_by_caption.py`(캡션 substring 매칭 + AI라벨 강제검증 + 저장-이탈 방지 + 게시버튼 enabled대기) + `scripts/set_public_by_caption.py`. EP004 게시 성공 → TikTok 검토 통과 후 **모두(공개)** 확정(검토중 단계 자동 통과). 초안 2→1.
+- **잔존 footgun**: 초안 1개 = EP003 중복 leftover. `tiktok_publish_latest_draft.py`(EP003 하드코딩) 재실행 시 EP003 중복발행 → 그 스크립트 사용 금지 / leftover 초안 삭제 권고(미집행, owner gate).
+
+## ③ 게이트 실측 (gate/*.csv 갱신, `gate_track.py`)
+- **판정 = STOP(hard_floor), 0/3** (2026-06-11~06-25 창, 오늘 D+3):
+  - followers 1 (≥40 ❌) / episodes 4 (≥6 ❌, 11일 내 2편 추가 가능하나 무노출이면 무의미) / lore댓글 0 (≥3 ❌)
+  - hard_floor: median뷰 47.5<300 AND foll 1<20 → 발동
+- 실측 데이터 6/11→6/14 갱신 완료(이전엔 baseline에서 멈춰있었음).
+
+## 판단 (cold, 전략문서 정합)
+현 궤적이면 6/25 = Stop 또는 **YouTube Shorts 피벗(전략문서 1순위)**. 진짜 블로커는 에피소드 수가 아니라 **분배=0**. 파이프라인 제작역량(Veo/LTX ₩0)·발행자동화는 이제 작동하나, 1팔로워 콜드스타트 AI호러는 TikTok에서 노출이 안 됨. 주 30분 캡 유지, 6/25 숫자로만 Go/Stop. 신규 산출물: `scripts/publish_draft_by_caption.py`, `scripts/set_public_by_caption.py`.
+
+👤 Claude Opus 4.8
+
+---
+
 # [KOTT] 수익화 전면 개편 조사 + 냉정한 진단 + Phase A 1차 배포 (2026-06-13, Claude Fable 5/Opus 4.8)
 
 owner "이걸로 어떻게든 돈을 벌어와 / 다시해" → kott.kr 7축 병렬 심층 리서치(시장·법무·SEO/GEO·코드베이스·라이브·트래픽·수익화) + 라이브 코드 직접 검증 + Phase A 제로비용 기반공사 1차 배포.

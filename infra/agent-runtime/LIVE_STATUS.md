@@ -5,7 +5,7 @@
 > Regenerate with `python scripts/sync_agent_context.py`
 
 ## Runtime Revision
-- ssotRevision: `0d9bb4bc4cbfda91`
+- ssotRevision: `1e7be38b1034159b`
 
 ## Live Snapshot
 - `codex`: status=active
