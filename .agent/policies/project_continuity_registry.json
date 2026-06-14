@@ -19,7 +19,7 @@
     "forbidden_commands_on_dirty": ["git pull", "git reset --hard", "git clean -fd", "git checkout -- ."]
   },
   "projects": [
-    {"path": "001.ssot-agent-runtime", "tier": 1, "is_git": false, "track": "needs_repo", "visibility": "private", "sensitivity": "high", "remote": null, "note": "SSOT 본체 — 모든 AI 규칙/shared-brain. 최우선 private repo (gitleaks 스캔 후). G2."},
+    {"path": "001.ssot-agent-runtime", "tier": 1, "is_git": "worktree", "track": "tracked", "visibility": "private", "sensitivity": "high", "remote": "Yesol-Pilot/neo-genesis", "branch": "sbu/autogrowth-20260427", "note": "정정 2026-06-14: SSOT 본체 002.neo-genesis-sbu-autogrowth는 git 미생성이 아니라 Yesol-Pilot/neo-genesis의 worktree(.agent 37파일 추적). 이전 needs_repo 분류는 버킷 디렉토리만 본 오판. 브랜치 origin push 완료 → 크로스-AI pull 가능. gitleaks pre-commit clean."},
     {"path": "002.products-sbu/012.finite", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/finite", "wip_branch": "feat/finite-mvp-launch", "sync": "report_only", "note": "주력 제품. owner WIP — rebase 금지, fetch+report만."},
     {"path": "neo-genesis", "tier": 1, "is_git": true, "track": "tracked", "visibility": "private", "remote": "Yesol-Pilot/neo-genesis", "sync": "report_only", "note": "dirty 17K — Safe-Sync 자동 보호. 별도 정리 세션(Phase 4)."},
     {"path": "portfolio", "tier": 1, "is_git": true, "track": "tracked", "visibility": "public", "remote": "Yesol-Pilot/portfolio", "sync": "report_only", "note": "heoyesol.kr. dirty 85."},
@@ -48,10 +48,20 @@
     {"path": "006.games-labs", "tier": 1, "is_git": false, "track": "review", "note": "분류 미정."},
     {"path": "007.infra-tools", "tier": 1, "is_git": false, "track": "review", "note": "분류 미정."}
   ],
-  "owner_gates_g2": [
-    "001.ssot-agent-runtime private repo 생성 (최우선)",
-    "koreanllm / ait-factory / PAPER / veo-shorts private repo 생성 (1개씩)",
-    "neo-genesis 17K dirty 정리 세션",
-    "sora-app / landing_page 중복 경로 정리"
+  "resolved_2026_06_14_claude": {
+    "ssot_body": "001.ssot-agent-runtime/002.neo-genesis-sbu-autogrowth = Yesol-Pilot/neo-genesis worktree, 브랜치 sbu/autogrowth-20260427 origin push 완료 (이전 needs_repo 오판 정정). 크로스-AI pull 가능.",
+    "nogit_init_push": "koreanllm / ait-autonomous-factory / veo-shorts = private repo 생성+push 검증, room-707 push 검증",
+    "embedded_pat": "clash_of_myths / internal-ir / secur-pilot .git/config ghp_ 0건 — sanitize 완료 검증",
+    "etribe_webpilot": "판정=회사(이트라이브) 자산 → Tier2 vault, Yesol-Pilot 이관 금지, 외부 push 차단 유지",
+    "ysh1537_profile_repo": "판정=owner 본인 프로필 README repo (author email dpthf1537@gmail.com 검증) → ysh1537 계정 유지가 정답, 이관 불필요",
+    "paper_umbrella": "PAPER 자식(EthicaAI/WhyLab)은 이미 Yesol-Pilot 개별 추적 → 우산 repo 불필요"
+  },
+  "owner_gates_remaining": [
+    "PAT 회전(revoke) — owner GitHub 계정 설정 작업 (이미 disk sanitize됨, 저긴급)",
+    "neo-genesis 17K dirty 정리 — .gitignore 재정비는 자율 가능, WIP 선별 commit만 owner 확인"
+  ],
+  "autonomous_followups": [
+    "중복 클론 19벌 archive(MOVE, 가역) — neo-genesis SSOT worktree 제외",
+    "Phase 3: CLAUDE.md 전역 로더에 agent_session_sync Safe-Sync 자동 연결"
   ]
 }
