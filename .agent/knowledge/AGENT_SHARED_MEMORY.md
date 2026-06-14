@@ -98,11 +98,12 @@ SSOT: D:/00.test/neo-genesis/.agent/
 - Claude/Gemini 공통 규칙에서 흡수한 `Doc-First`, `사이드이펙트 표`, `안전 > 효율`, `최소 권한`을 SSOT 절차로 내재화 완료
 - 역할별 최적화/공통 공유층은 `AGENT_RUNTIME_OPTIMIZATION.md`를 기준으로 본다
 
-### 연락처/메일 계정 구분 (2026-06-13)
-- 비즈니스 문의, 고객 리드, 영업, 견적, 인보이스, 결제 안내, 파트너십, 제품 CTA에는 `neogenesis.research@gmail.com`을 사용한다.
-- `dpthf1537@gmail.com`은 GitHub/git/Vercel/Cloudflare 개인 계정, 개인 연락처, 인증/관리 용도로만 사용한다.
-- 제품 페이지, `mailto:` CTA, 리드 수집 폼, 영업 문서에 개인 메일을 넣지 않는다.
+### 연락처/메일 계정 구분 (2026-06-14 help@ 표준화)
+- **공개 문의/고객-facing 표시 메일 = `help@neogenesis.app`** (Cloudflare Email Routing → `neogenesis.research@gmail.com` 포워딩, 실수신함 동일). 비즈니스 문의·고객 리드·영업·견적·인보이스·결제 안내·파트너십·제품 CTA·`mailto:`에 사용.
+- **실 계정 식별자/내부 설정은 `neogenesis.research@gmail.com` 유지** (로그인·결제사·API·OAuth·포워딩 목적지·인증/관리). 공개 표시가 아니므로 변경하지 않는다.
+- `dpthf1537@gmail.com`은 GitHub/git/Vercel/Cloudflare 개인 계정, 개인 인증/관리 용도 전용. **공개 연락처로 노출 금지.**
 - 배포/인프라 계정 메일을 고객-facing 연락처로 추론하지 않는다.
+- (근거: Polar 등 결제사 심사가 무료 gmail·도메인 불일치 거부 + finite·랜딩에서 개인메일 dpthf1537 공개 노출 교정.)
 
 ### 방문자 통계 보고 공통 규칙 (2026-04-14)
 - 방문자 통계 보고는 앞으로 `숫자 나열`이 아니라 `DA + 20년차 PM 의사결정 보고`로 작성한다.

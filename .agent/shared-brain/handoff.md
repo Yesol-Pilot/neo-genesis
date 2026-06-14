@@ -28,7 +28,19 @@ owner "현황분석" → "전부해야지" 3종(EP003 0뷰 진단 / EP004 발행
 - 실측 데이터 6/11→6/14 갱신 완료(이전엔 baseline에서 멈춰있었음).
 
 ## 판단 (cold, 전략문서 정합)
-현 궤적이면 6/25 = Stop 또는 **YouTube Shorts 피벗(전략문서 1순위)**. 진짜 블로커는 에피소드 수가 아니라 **분배=0**. 파이프라인 제작역량(Veo/LTX ₩0)·발행자동화는 이제 작동하나, 1팔로워 콜드스타트 AI호러는 TikTok에서 노출이 안 됨. 주 30분 캡 유지, 6/25 숫자로만 Go/Stop. 신규 산출물: `scripts/publish_draft_by_caption.py`, `scripts/set_public_by_caption.py`.
+현 궤적이면 6/25 = Stop 또는 **YouTube Shorts 피벗(전략문서 1순위)**. 진짜 블로커는 에피소드 수가 아니라 **분배=0**, 그 상류는 **완주율**. 주 30분 캡 유지, 6/25 숫자로만 Go/Stop.
+
+## ④ 완주율 가드레일 박제 (구조적 수정, owner "진행해")
+근본원인(완주율 throttle)을 영상마다 자동 차단하도록 인코딩:
+- `scripts/ffmpeg_pipeline.sh` 최종단계 **COMPLETION-GATE** 추가 — 22s 초과 시 `exit 3`(발행 차단), 12-22s만 통과. 검증: EP001 35s/EP003·EP004 30s = FAIL(차단됐어야 함), EP002 18s = PASS. override `COMPLETION_GATE=off`.
+- 정본: `docs/COMPLETION_FIRST_GUARDRAIL_20260614.md` (진단 + 강제규칙 6 + 미측정 1건).
+신규 산출물: `scripts/publish_draft_by_caption.py`, `scripts/set_public_by_caption.py`, `scripts/diagnose_distribution.py`, `scripts/ffmpeg_pipeline.sh`(gate), `docs/COMPLETION_FIRST_GUARDRAIL_20260614.md`. 구 EP003-하드코딩 스크립트 2개 `--force-legacy` 가드로 비활성화.
+**owner 액션(완주율 확정 + 분배 회복)**: ① TikTok 앱에서 EP001 완주율 곡선 확인(진단 마지막 퍼즐) ② YouTube 채널/인증 제공 시 Shorts 동시발행(시청자 정합) — 둘 다 owner 자산 필요.
+
+## ⑤ 완주율 실측(Codex) + YouTube 채널 생성 (2026-06-14, owner "코덱스로 완주율, 유튜브 직접" 지시)
+- **완주율 PROVEN (Codex CLI 브라우저, read-only)**: `publish/_diagnosis/completion_codex.json`. **EP001 = 평균시청 3.61s / 완료율 0.6% / 0:02 대량이탈 (35s 영상)** = throttle 직접 증거. EP003 = 18.86s / 33.3% / 0:15 이탈(콘텐츠 리텐션은 오히려 나았으나 EP001이 계정 모멘텀을 죽여 노출 0). → 완주율 가드레일(≤22s + 0-1.5s 훅)이 정확히 0:02 이탈을 겨냥.
+- **YouTube 브랜드 채널 생성 완료 (Claude, Chrome 익스텐션)**: **"Room 707 Tapes" @room707tv** — `https://www.youtube.com/channel/UClNtMuxcohSCIfCPb3NForw`. dpthf1537@gmail.com 관리 브랜드 계정(개인 채널 허예솔 @yesol95와 분리). 구독자 0, 콘텐츠 0. 이름 "ROOM 707"/"Room 707"은 YouTube가 거부 → "Room 707 Tapes"로 생성(Studio에서 변경 가능).
+- **업로드 블로커**: Chrome 익스텐션 `file_upload`는 (a) ≤10MB/파일 (b) owner가 "연결"한 폴더만 허용. EP 영상 26MB라 4MB로 재인코딩(`publish/EP004/EP004_yt.mp4`)했으나, 프로젝트/세션 폴더 모두 미연결이라 거부됨. Playwright `set_input_files` 우회는 Google 자동화 로그인 차단 위험. → **owner가 room-707 폴더를 세션에 연결하면 익스텐션으로 즉시 업로드 가능**.
 
 👤 Claude Opus 4.8
 

@@ -133,12 +133,13 @@
 - `.env`와 자격증명 파일은 git에 커밋하지 않는다.
 - 외부 공유 전 민감정보 노출 여부를 확인한다.
 
-### 1.6-A 연락처/메일 계정 구분
+### 1.6-A 연락처/메일 계정 구분 (2026-06-14 help@ 표준화)
 
-- 비즈니스 문의, 고객 리드, 영업, 견적, 인보이스, 결제 안내, 파트너십, 제품 CTA에는 반드시 `neogenesis.research@gmail.com`을 사용한다.
-- `dpthf1537@gmail.com`은 GitHub/git/Vercel/Cloudflare 개인 계정, 개인 연락처, 개인 인증/관리 용도로만 사용한다.
-- 제품 페이지, `mailto:` CTA, 자동 회신, 리드 수집 폼, 영업 문서에 개인 메일을 넣지 않는다.
-- 계정 로그인 주체와 고객-facing 연락처가 다를 수 있으므로, 배포/인프라 계정 메일을 비즈니스 문의 메일로 추론하지 않는다.
+- **공개 문의/고객-facing 표시 메일 = `help@neogenesis.app`** — Cloudflare Email Routing으로 `neogenesis.research@gmail.com`에 포워딩(실수신함 동일). 도메인 일치·전문성·결제사 심사 요건 때문에 표준화.
+- 비즈니스 문의, 고객 리드, 영업, 견적, 인보이스, 결제 안내, 파트너십, 제품 CTA, `mailto:` 링크 등 **공개 표시용**에는 `help@neogenesis.app`을 사용한다.
+- **실 계정 식별자/내부 설정은 `neogenesis.research@gmail.com` 유지** — 로그인 계정, 결제사·API·OAuth 식별자, 이메일 포워딩 목적지, 인증/관리. 공개 표시가 아니므로 바꾸지 않는다(help@가 이리로 들어옴).
+- `dpthf1537@gmail.com`은 GitHub/git/Vercel/Cloudflare 개인 계정, 개인 인증/관리 용도 전용. **공개 연락처로 노출 금지.**
+- 계정 로그인 주체와 고객-facing 연락처가 다르므로, 배포/인프라 계정 메일을 비즈니스 문의 메일로 추론하지 않는다.
 
 ### 1.7 보고 형식 원칙
 

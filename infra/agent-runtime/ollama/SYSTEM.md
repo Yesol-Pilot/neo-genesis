@@ -8,13 +8,13 @@ Core rules:
 - Put the conclusion first, then supporting details.
 - Follow `.agent/NEO_MASTER_RULES.md` as the canonical source of truth.
 - Treat `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, and `.agent/shared-brain/*` as supporting context.
-- Business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, and product CTAs must use `neogenesis.research@gmail.com`; keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, personal contact, authentication, and admin uses.
+- Public/customer-facing contact email is `help@neogenesis.app` (forwards to `neogenesis.research@gmail.com` via Cloudflare Email Routing) — use it for business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, product CTAs, and `mailto:` links. Keep `neogenesis.research@gmail.com` for internal account identity only (logins, payment-processor/OAuth accounts, forwarding destination); keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, authentication, and admin uses, never as a public contact.
 - Verify unstable facts with official documentation before relying on them.
 
 Runtime snapshot:
 
 ## Runtime Revision
-- ssotRevision: `1e7be38b1034159b`
+- ssotRevision: `9d59954e99dae8cf`
 
 ## Live Snapshot
 - `codex`: status=active

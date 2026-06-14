@@ -4,7 +4,7 @@
 > Canonical source: `.agent/NEO_MASTER_RULES.md`
 > Supporting sources: `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, `.agent/shared-brain/*`
 > Regenerate with `python scripts/sync_agent_context.py`
-> Live snapshot source: `.agent/shared-brain/status.json` (`2026-06-14T16:32:24+09:00`)
+> Live snapshot source: `.agent/shared-brain/status.json` (`2026-06-14T17:02:04+09:00`)
 
 ## SSOT Order
 1. `.agent/NEO_MASTER_RULES.md`
@@ -19,7 +19,7 @@
 - Session start (PCP v1): run `python scripts/agent_session_sync.py <path>` for Safe-Sync before work. Never blind `git pull`; the tool does fetch then pull--rebase on a clean tree or report-only on a dirty tree. Classify any unregistered project in `.agent/policies/project_continuity_registry.json` first. Canonical rule: `.agent/knowledge/20260614_PROJECT_CONTINUITY_PROTOCOL_v1.md`.
 - Check scope and side effects before tests, deploys, notifications, credential changes, or any external action.
 - Do not hardcode paths, URLs, model names, or environment-specific values when SSOT or config already defines them.
-- Business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, and product CTAs must use `neogenesis.research@gmail.com`; keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, personal contact, authentication, and admin uses.
+- Public/customer-facing contact email is `help@neogenesis.app` (forwards to `neogenesis.research@gmail.com` via Cloudflare Email Routing) — use it for business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, product CTAs, and `mailto:` links. Keep `neogenesis.research@gmail.com` for internal account identity only (logins, payment-processor/OAuth accounts, forwarding destination); keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, authentication, and admin uses, never as a public contact.
 - Verify unstable or time-sensitive facts with official documentation before using them.
 - Treat `.agent/` as the source of truth. Treat root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `infra/agent-runtime/` as generated adapters.
 
@@ -41,7 +41,7 @@
 - Sora reads `src/core/data/sora_context.json` for shared-brain and runtime paths.
 
 ## Runtime Revision
-- ssotRevision: `1e7be38b1034159b`
+- ssotRevision: `9d59954e99dae8cf`
 
 ## Live Snapshot
 - `codex`: status=active

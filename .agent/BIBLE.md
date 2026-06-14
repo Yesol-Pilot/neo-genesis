@@ -68,11 +68,13 @@
 |------|--------|
 | GitHub | `Yesol-Pilot` / `dpthf1537@gmail.com` |
 | Vercel 팀 | `yesol-pilots-projects` |
-| 비즈니스/고객 문의 | `neogenesis.research@gmail.com` |
+| 공개 문의(고객-facing 표시) | `help@neogenesis.app` |
+| 실 수신함/계정 식별자 | `neogenesis.research@gmail.com` |
 
-메일 계정 구분:
-- `neogenesis.research@gmail.com`: 제품 CTA, 고객 리드, 영업, 견적, 인보이스, 파트너십, 외부 비즈니스 커뮤니케이션.
-- `dpthf1537@gmail.com`: GitHub/git/Vercel/Cloudflare 개인 계정, 개인 연락처, 인증/관리 용도.
+메일 계정 구분 (2026-06-14 help@ 표준화):
+- `help@neogenesis.app`: 공개 표시용 — 제품 CTA, 고객 리드, 영업, 견적, 인보이스, 파트너십, `mailto:`, 외부 비즈니스 커뮤니케이션. Cloudflare Email Routing → `neogenesis.research@gmail.com` 포워딩.
+- `neogenesis.research@gmail.com`: 실 수신함 + 내부 계정 식별자(로그인·결제사·OAuth·포워딩 목적지·인증/관리). 공개 표시는 help@로 대체.
+- `dpthf1537@gmail.com`: GitHub/git/Vercel/Cloudflare 개인 계정, 개인 인증/관리. 공개 노출 금지.
 - 제품 페이지와 리드 수집 흐름에 개인 메일을 넣지 않는다.
 
 **SBU별 배포 매핑:**

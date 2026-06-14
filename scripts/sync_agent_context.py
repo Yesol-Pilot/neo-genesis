@@ -180,7 +180,7 @@ def _render_repo_agents(status_payload: dict[str, Any]) -> str:
 - Session start (PCP v1): run `python scripts/agent_session_sync.py <path>` for Safe-Sync before work. Never blind `git pull`; the tool does fetch then pull--rebase on a clean tree or report-only on a dirty tree. Classify any unregistered project in `.agent/policies/project_continuity_registry.json` first. Canonical rule: `.agent/knowledge/20260614_PROJECT_CONTINUITY_PROTOCOL_v1.md`.
 - Check scope and side effects before tests, deploys, notifications, credential changes, or any external action.
 - Do not hardcode paths, URLs, model names, or environment-specific values when SSOT or config already defines them.
-- Business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, and product CTAs must use `neogenesis.research@gmail.com`; keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, personal contact, authentication, and admin uses.
+- Public/customer-facing contact email is `help@neogenesis.app` (forwards to `neogenesis.research@gmail.com` via Cloudflare Email Routing) — use it for business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, product CTAs, and `mailto:` links. Keep `neogenesis.research@gmail.com` for internal account identity only (logins, payment-processor/OAuth accounts, forwarding destination); keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, authentication, and admin uses, never as a public contact.
 - Verify unstable or time-sensitive facts with official documentation before using them.
 - Treat `.agent/` as the source of truth. Treat root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `infra/agent-runtime/` as generated adapters.
 
@@ -310,7 +310,7 @@ Core rules:
 - Put the conclusion first, then supporting details.
 - Follow `.agent/NEO_MASTER_RULES.md` as the canonical source of truth.
 - Treat `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, and `.agent/shared-brain/*` as supporting context.
-- Business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, and product CTAs must use `neogenesis.research@gmail.com`; keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, personal contact, authentication, and admin uses.
+- Public/customer-facing contact email is `help@neogenesis.app` (forwards to `neogenesis.research@gmail.com` via Cloudflare Email Routing) — use it for business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, product CTAs, and `mailto:` links. Keep `neogenesis.research@gmail.com` for internal account identity only (logins, payment-processor/OAuth accounts, forwarding destination); keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, authentication, and admin uses, never as a public contact.
 - Verify unstable facts with official documentation before relying on them.
 
 Runtime snapshot:
