@@ -1,0 +1,21 @@
+# ROOM707 TikTok profile fix - 2026-06-14 Codex
+
+- Scope: `D:\00.test\002.products-sbu\011.room-707`
+- Owner correction: ROOM707 target is global; Korean profile copy was unacceptable. EP004 must be very scary, not merely weird.
+- TikTok profile checked in Chrome:
+  - Handle: `@neogenesis5`
+  - Display name: `neogenesis`
+  - Old bio: `DAY 4. 그것은 기억한다. | AI 생성 호러 기록 | 707호에서`
+  - New bio: `Analog AI horror from apartment 707. The appliances move after lights out.`
+  - Display name change locked until 2026-06-17; change to `ROOM 707` then.
+- EP003 status:
+  - URL: `https://www.tiktok.com/@neogenesis5/video/7650671903337729288`
+  - Studio visibility: public / `모두`
+  - Studio views observed: `0`
+  - Public page opens normally.
+  - Official TikTok AI-generated label was not visible on EP003 public page, unlike the prior DAY 4 post.
+- Local updates:
+  - `episodes/EP004_brief.yaml` retuned to severe analog horror: `Do Not Open The Valve`.
+  - `scripts/tiktok_post_episode.py` hardened: caption-only AI disclosure fallback removed.
+  - `publish/PROFILE_FIX_20260614.md` added.
+  - `publish/EP003/POSTED.md` updated with the 0-view/profile/AI-label recheck.

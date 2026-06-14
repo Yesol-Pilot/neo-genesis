@@ -1,6 +1,6 @@
 # 📖 NEO GENESIS BIBLE v2.2
 
-> **최종 갱신:** 2026-04-14
+> **최종 갱신:** 2026-06-13
 > **문서 성격:** 운영 레퍼런스/인덱스 문서
 > **마스터 규칙:** `NEO_MASTER_RULES.md` — 전체 에이전트 공통 규칙 SSOT (이 문서보다 우선)
 > **목적:** SSOT를 보완하는 운영 참고서. 배포 매핑, 워크플로우, 스킬, KI 인덱스를 제공
@@ -68,6 +68,12 @@
 |------|--------|
 | GitHub | `Yesol-Pilot` / `dpthf1537@gmail.com` |
 | Vercel 팀 | `yesol-pilots-projects` |
+| 비즈니스/고객 문의 | `neogenesis.research@gmail.com` |
+
+메일 계정 구분:
+- `neogenesis.research@gmail.com`: 제품 CTA, 고객 리드, 영업, 견적, 인보이스, 파트너십, 외부 비즈니스 커뮤니케이션.
+- `dpthf1537@gmail.com`: GitHub/git/Vercel/Cloudflare 개인 계정, 개인 연락처, 인증/관리 용도.
+- 제품 페이지와 리드 수집 흐름에 개인 메일을 넣지 않는다.
 
 **SBU별 배포 매핑:**
 

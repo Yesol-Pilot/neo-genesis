@@ -9,7 +9,17 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from sync_credential_bible import sync_credential_bible
+# Optional credential-bible sync. Some runtime checkouts no longer include
+# scripts/sync_credential_bible.py; adapter regeneration should not be blocked
+# by that optional helper being absent.
+try:
+    from sync_credential_bible import sync_credential_bible  # type: ignore
+    _HAS_CREDENTIAL_BIBLE = True
+except ImportError:
+    _HAS_CREDENTIAL_BIBLE = False
+
+    def sync_credential_bible(*_args: Any, **_kwargs: Any) -> list[Path]:
+        return []
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -169,6 +179,7 @@ def _render_repo_agents(status_payload: dict[str, Any]) -> str:
 - Read SSOT before coding, refactoring, or changing operational behavior.
 - Check scope and side effects before tests, deploys, notifications, credential changes, or any external action.
 - Do not hardcode paths, URLs, model names, or environment-specific values when SSOT or config already defines them.
+- Business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, and product CTAs must use `neogenesis.research@gmail.com`; keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, personal contact, authentication, and admin uses.
 - Verify unstable or time-sensitive facts with official documentation before using them.
 - Treat `.agent/` as the source of truth. Treat root `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `infra/agent-runtime/` as generated adapters.
 
@@ -298,6 +309,7 @@ Core rules:
 - Put the conclusion first, then supporting details.
 - Follow `.agent/NEO_MASTER_RULES.md` as the canonical source of truth.
 - Treat `.agent/BIBLE.md`, `.agent/knowledge/AGENT_SHARED_MEMORY.md`, and `.agent/shared-brain/*` as supporting context.
+- Business inquiries, customer leads, sales, quotes, invoices, payment guidance, partnerships, and product CTAs must use `neogenesis.research@gmail.com`; keep `dpthf1537@gmail.com` only for GitHub/git/Vercel/Cloudflare personal account, personal contact, authentication, and admin uses.
 - Verify unstable facts with official documentation before relying on them.
 
 Runtime snapshot:
@@ -404,6 +416,8 @@ def _install_home_adapters() -> list[Path]:
         "neo-conflict-resolver.md",
     ):
         src = PROJECT_ROOT / ".claude" / "agents" / agent_name
+        if not src.exists():
+            continue
         dst = claude_agents_dir / agent_name
         _backup_if_exists(dst)
         dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")

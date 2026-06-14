@@ -38,7 +38,7 @@
 - **`D:\00.test\personal\`** — 법무/금융 민감 서류. CLAUDE.md §1.4 금지
 - **`secrets/`, `.env*`, credentials / token 파일** — 이동만으로 경로 참조 깨짐
 - **PAPER/EthicaAI + WhyLab `submission-freeze/*` branches** — 2026-04-25 freeze anchor
-- **neo-genesis/auto-trading/ VM 참조 경로** — Phase -1 관측 창 진행 중
+- **002.products-sbu/quant-bot/ VM 참조 경로** — Phase -1 관측 창 진행 중
 - **`github_repos/`** (외부 레포 26개 클론) — 본인 소유 아닌 코드, 건드리지 않음
 
 ---
@@ -138,7 +138,7 @@
 | `personal/` | 법무/금융 민감자료 (CLAUDE.md §1.4) |
 | `secrets/`, `.env*`, credentials/token | 이동만으로 경로 참조 깨짐 |
 | `PAPER/EthicaAI/`, `PAPER/WhyLab/` | submission-freeze branches (20260414, 20260425) anchor |
-| `neo-genesis/auto-trading/` | Phase -1 관측 창 진행 중 (VM 참조 경로) |
+| `002.products-sbu/quant-bot/` | Phase -1 관측 창 진행 중 (VM 참조 경로) |
 | `neo-genesis/.agent/shared-brain/claude-checkpoints/` | 에이전트 학습 체크포인트 (삭제 시 이력 소실) |
 | `github_repos/` | 외부 레포 클론 (본인 소유 아님) |
 | 각 프로젝트의 `.git/` | git history 보존 |

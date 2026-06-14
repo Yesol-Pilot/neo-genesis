@@ -1,7 +1,7 @@
 # NEO GENESIS — 마스터 AI 규칙 문서
 
-> **버전:** 1.9
-> **최종 갱신:** 2026-04-24
+> **버전:** 1.10
+> **최종 갱신:** 2026-06-13
 > **위치:** `D:/00.test/neo-genesis/.agent/NEO_MASTER_RULES.md`
 > **역할:** Neo-Genesis 환경의 AI 운영 SSOT
 > **우선순위:** system > developer > user > 이 문서 > 파생 문서(BIBLE.md, CLAUDE.md, shared-brain, 기타 메모리)
@@ -132,6 +132,13 @@
 - API 키, 토큰, 비밀번호, 개인식별정보 발견 시 즉시 민감정보로 취급한다.
 - `.env`와 자격증명 파일은 git에 커밋하지 않는다.
 - 외부 공유 전 민감정보 노출 여부를 확인한다.
+
+### 1.6-A 연락처/메일 계정 구분
+
+- 비즈니스 문의, 고객 리드, 영업, 견적, 인보이스, 결제 안내, 파트너십, 제품 CTA에는 반드시 `neogenesis.research@gmail.com`을 사용한다.
+- `dpthf1537@gmail.com`은 GitHub/git/Vercel/Cloudflare 개인 계정, 개인 연락처, 개인 인증/관리 용도로만 사용한다.
+- 제품 페이지, `mailto:` CTA, 자동 회신, 리드 수집 폼, 영업 문서에 개인 메일을 넣지 않는다.
+- 계정 로그인 주체와 고객-facing 연락처가 다를 수 있으므로, 배포/인프라 계정 메일을 비즈니스 문의 메일로 추론하지 않는다.
 
 ### 1.7 보고 형식 원칙
 
@@ -429,6 +436,7 @@ D:/00.test/neo-genesis/.agent/
 | 2026-04-24 | 1.7 | AI agent 환경 최적화 프로토콜 추가: OSS 프레임워크, 연구 패턴, UX, 평가, 보안, 거버넌스 기준 내재화 | Codex |
 | 2026-04-24 | 1.8 | 대표님 포괄 승인에 따라 Git commit/push 및 SBU Vercel 프로덕션 배포를 Codex 자율 실행 범위로 편입 | Codex |
 | 2026-04-24 | 1.9 | 대표님 포괄 승인 범위에 DB 스키마 변경 및 마이그레이션 적용을 추가하고 DB 적용 게이트를 명문화 | Codex |
+| 2026-06-13 | 1.10 | 비즈니스/영업/인보이스/제품 CTA 메일은 `neogenesis.research@gmail.com`, 개인/GitHub 계정 메일은 `dpthf1537@gmail.com`으로 구분하도록 명문화 | Codex |
 
 ---
 

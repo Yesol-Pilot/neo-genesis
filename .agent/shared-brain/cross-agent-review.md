@@ -280,7 +280,7 @@ Template:
   - checkpoint_file: `.agent/shared-brain/claude-checkpoints/ccr-20260410-113847.md`
   - result: `new_signal`
 
-- [x] `ccr-20260410-115442` codex -> neo-reviewer `sonnet` checkpoint: Review the current workspace patch in D:/00.test/neo-genesis/auto-trading. Repor
+- [x] `ccr-20260410-115442` codex -> neo-reviewer `sonnet` checkpoint: Review the current workspace patch in D:/00.test/002.products-sbu/quant-bot. Repor
   - scope: quant runtime governor P0
   - owner_goal: 소형 계좌에서 수수료 후 순수익을 높이되, 오케스트레이터가 tier/profile drift를 강하게 차단하는 구조로 만들기
   - owner_intent: live order path enforcement, grid/funding cleanup, fee budget gate를 구현했고 이제 목표 적합성과 잔여 리스크만 냉정하게 점검해야 한다
@@ -288,7 +288,7 @@ Template:
   - success_criteria: 1) live order path enforces runtimeProfile liveUniverse/liveStrategies, 2) grid/funding teardown cleans orders and closes tracked live positions when disallowed, 3) fee-budget gate freezes new entries when fee drag dominates realized pnl, 4) local tests pass
   - review_lens: `goal-fit,risk,operations,maintenance,verification`
   - expected: `review`
-  - ask: Review the current workspace patch in D:/00.test/neo-genesis/auto-trading. Report only concrete blockers or residual risks. If nothing material remains, say NO_NEW_SIGNAL.
+  - ask: Review the current workspace patch in D:/00.test/002.products-sbu/quant-bot. Report only concrete blockers or residual risks. If nothing material remains, say NO_NEW_SIGNAL.
   - checkpoint_file: `.agent/shared-brain/claude-checkpoints/ccr-20260410-115442.md`
   - result: `new_signal`
 

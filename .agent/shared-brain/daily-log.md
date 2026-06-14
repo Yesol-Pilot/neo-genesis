@@ -6,6 +6,56 @@
 
 ---
 
+## 2026-06-13 (토)
+
+### 🟣 Codex
+- **TikTok AiNo 상황묘사형 대체본 3일치 예약 복구**:
+  - 기존 generic/양산형 예약 9건 삭제 후 실제 상황묘사형 이미지 기반 대체 영상 9건을 TikTok Studio에 예약 완료.
+  - 예약 규칙 준수 확인: 2026-06-14, 2026-06-15, 2026-06-16 각 08:10 / 11:20 / 19:30 KST 총 9건.
+  - 최종 증빙: `D:/00.test/neo-genesis/output/tiktok_aino_quality_recovery_20260613/manual_plans/situation_scene_replacement_schedule_final_verification_20260613.json` (`ok=true`, `total_found=9`).
+  - 코드 보강: `upload_automation.py` schedule confirm에서 TikTok 확인 모달 `지금 게시` 처리 추가, `pipeline.py` CTA follow promise 문구를 `script_strategy.json` 설정 소유로 이동.
+  - 검증: `python -m pytest tests/core/test_tiktok_aino_tts.py -q` → 156 passed.
+
+- **UR WRONG paid audit funnel production deploy**:
+  - `008.mirrors-external/001.github-repos/https-ur-wrong.com-` master updated and pushed to `Yesol-Pilot/https-ur-wrong.com-`.
+  - Commits: `58be216` added `/audit`, `/api/audit-lead`, sitemap/legal contact updates, and optional Supabase migration; `330d8d9` surfaced paid audit entrypoints in the SPA home/header/footer and broadened lead API scope parsing.
+  - Vercel `neogenesis-d82d2888/ur-wrong` production deployed and aliased to `https://ur-wrong.com`.
+  - Live smoke passed: home desktop/mobile expose `/audit`, `$99`, and `AI audit`; `/audit` has form and `Request paid audit`; `/api/audit-lead` returns 200 email fallback to `neogenesis.research@gmail.com`.
+  - Current revenue path is invoice/payment-link lead capture, not automatic card checkout. Supabase storage remains optional via `AUDIT_LEADS_STORAGE=supabase` after applying `supabase/migrations/20260613_audit_leads.sql`.
+
+## 2026-06-13 (토)
+
+### 🟣 Codex
+- **KOTT kott.kr 수익화 MVP 배포**:
+  - `neo-genesis/src/sbu/k-ott/frontend`에 `/planner`, `/report`, `/deals`, `/api/lead`, `/api/checkout`, `/report/paid`를 추가하고 홈/작품/시청처 페이지 CTA를 결제 판단 및 유료 리포트 카드결제 흐름으로 전환
+  - 승인되지 않은 국내 OTT CPA를 가정하지 않도록 `/api/affiliate`를 `direct_unpaid`/공식 검색 링크 기반으로 보정하고, 제휴 승인 링크가 있을 때만 수익 링크로 표시하도록 정리
+  - Polar product/checkout link 3개를 만들고 Vercel `neogenesis-d82d2888/kott` Production/Preview env에 연결. 로컬 `.vercel` 링크도 `kott` 프로젝트로 보정.
+  - 검증: `npm run lint` PASS(기존 warning 13), `npm run build` PASS, live `/report` 200, `/api/checkout?offer=intent-snapshot` Polar checkout 302, `/report/paid` 200, Playwright desktop/mobile screenshot smoke PASS
+  - GitHub `Yesol-Pilot/kott` main `d904342` push, Vercel `kott` production 배포 완료, `https://kott.kr` alias PASS
+  - 잔여 리스크: Polar API `payment_ready=false`, `organization_status=created` 확인. owner KYC/정산계좌/account review 완료 전 실제 카드 승인/정산은 막힐 수 있음. 제휴 승인은 미구현이며 첫 매출 경로는 유료 리포트 카드결제로 고정.
+  - 후속으로 `/advertise` 직접 판매 페이지를 추가하고 Sponsor Slot($199), Partner Brief($299), Intent Data License($499) Polar checkout link 3개를 추가 연결.
+  - GitHub `Yesol-Pilot/kott` main `17ba6e5` push, Vercel `kott` production 재배포 완료, `https://kott.kr/advertise` 200 및 `/api/checkout?offer=sponsor-slot` Polar checkout 302 확인.
+  - QA 산출물: `D:\00.test\010.tmp-output\kott-qa-20260613-revenue\advertise-desktop-playwright.png`, `advertise-mobile-playwright.png`.
+- **ROOM707 글로벌 타겟 및 EP003 파이프라인 정합화**:
+  - `002.products-sbu/011.room-707`의 README, mini-IP brief, TikTok playbook, content agent prompt에 글로벌 TikTok/Shorts 타겟 기준을 고정
+  - EP003+ 브리프의 `acts/veo_prompts`와 EP002 LTX식 `acts/clips`를 모두 `extract_assets.py`가 읽도록 정리
+  - `generate_veo_clips.py`가 EP002식 `clips` 브리프를 Veo dry-run 프롬프트로 변환하고 clip별 duration을 반영하도록 보정
+  - `ffmpeg_pipeline.sh`에 무음 클립 자동 오디오 보강, LUT 누락 fallback, 빈 SRT fallback을 추가
+  - `orchestrate.py`에 `--engine auto|veo|ltx`와 `ffmpeg` 기반 validate fallback을 추가해 `ffprobe.exe` 부재 시에도 9:16/duration/audio를 실제 검사
+  - EP003 manifest/SRT/text_bomb 생성 완료, `orchestrate.py --episode 3 --dry-run --engine auto`와 EP002 실제 validate PASS 확인
+- **KoreanLLM.org 즉시 수익화 랜딩 전환**:
+  - `009.archive/products-killed-20260611/009.koreanllm`을 `002.products-sbu/009.koreanllm`로 복구
+  - 홈을 `48시간 유료 진단` 중심 오퍼로 전환: ₩490,000 진단, ₩1,900,000 벤치마크 스프린트, ₩7,500,000+ 엔터프라이즈 평가
+  - 결제 계정/상품 생성 없이 `mailto:neogenesis.research@gmail.com` 리드 CTA만 연결
+  - Cloudflare Pages `koreanllm` 프로젝트에 정적 배포 완료, `https://koreanllm.org` 200 및 CTA 반영 확인
+  - owner 지적 후 단순 랜딩에서 `Korean LLM Decision Platform`으로 재전환: 3분 모델 적합도 진단, 모델 scorecard, 구매 검토 브리프 생성/복사, 유료 리포트 전환 CTA 추가
+  - 실서버 `https://koreanllm.org`에서 선택지 변경 → Enterprise Evaluation 추천 → 브리프 갱신 → 복사 상태 전환까지 Playwright QA PASS
+  - business-facing 메일 계정 오류 정정: KoreanLLM CTA를 `neogenesis.research@gmail.com`로 교체하고, SSOT/BIBLE/AGENT_SHARED_MEMORY에 비즈니스 메일 규칙 박제
+  - 루트 `AGENTS.md`/`CLAUDE.md`, 생성형 런타임 어댑터, 홈 레벨 Codex/Claude/Gemini 어댑터, Codex 메모리 업데이트 노트에도 비즈니스 메일 규칙 반영
+  - `https://koreanllm.org`에 Revenue Center 추가 배포: 결제 링크 env가 있으면 즉시 결제, 없으면 비즈니스메일 카드 링크/인보이스 요청서로 fallback. 로컬/라이브 QA PASS, 개인메일 mailto 0건 확인
+  - `010.tmp-output/koreanllm-sales/revenue-playbook-20260613.md`에 48h Diagnostic 중심 매출 플레이북, 이메일/DM/문의 회신 템플릿, 결제 링크 전환 블로커 정리
+  - `https://koreanllm.org/buy` 및 `/en/buy` 구매 전용 페이지 추가 배포: sitemap 반영, 헤더 구매 링크 추가, footer prefetch 404 제거, 라이브 `/buy` Browser/Playwright QA PASS
+
 ## 2026-04-24 (금)
 
 ### 🟣 Codex
@@ -132,7 +182,7 @@
   - 현재 로컬에는 `quant-bot-live` 관련 Node 프로세스가 없음
   - `portfolio/public/quant/data.json` 마지막 갱신은 `2026-04-02T10:35:23.317Z`, `neo-genesis/logs/quant_cron.log` 마지막 실행은 `2026-04-03 12:15:38`
   - 대시보드 스냅샷이 실운영 로그보다 오래되어 모니터링 화면과 실제 거래 상태가 분리된 것으로 판단
-  - `neo-genesis/auto-trading` 테스트 18개 스위트는 모두 통과했지만, 최근 오류 로그에는 Binance `-2019`, `-4045`, `-4164`와 Supabase ledger 실패가 남아 있음
+  - `002.products-sbu/quant-bot` 테스트 18개 스위트는 모두 통과했지만, 최근 오류 로그에는 Binance `-2019`, `-4045`, `-4164`와 Supabase ledger 실패가 남아 있음
 
 ### 🟠 Claude Code (~14:49, 토큰 소진)
 - 마지막 세션(a5ba70d5): 마스터 규칙 작업 추정
@@ -1635,3 +1685,12 @@
   - `node scripts/sbu_indexing_quality_audit.mjs --sites toolpick,aiforge,craftdesk,deploystack,finstack,sellkit --since 2026-04-26` passed with all six sites green.
   - `node scripts/sbu_growth_loop.mjs` passed end-to-end.
 - Remaining external blocker: Search Console submission is still dry-run because GSC credentials are not available in the local execution environment.
+## 2026-06-13 (Codex)
+
+### TikTok AiNo 3-day schedule recovery
+- Fixed the operational violation where the TikTok AiNo schedule did not meet 3 posts/day for 3 days and where generated visuals did not depict the actual situation.
+- Hardened planning/upload gates so schedule generation targets 3 posts/day and upload/schedule refuses non-`publish_ready`, `local_pillow` fallback, procedural/kinetic draft visuals, failed `visual_quality`, or `situation_fit<85`.
+- Scheduled 9 verified posts in TikTok Studio for 2026-06-14 through 2026-06-16 at 08:10, 11:20, and 19:30 KST each day. The final missing slot was replaced with `증거보전, 먼저 잠글 건 3가지입니다` after the travel-ban candidate failed quality/readability/image gates.
+- Maintained ElevenLabs zero-retention gate with `ELEVENLABS_ENABLE_LOGGING=false`; no logging-enabled retry was used.
+
+---

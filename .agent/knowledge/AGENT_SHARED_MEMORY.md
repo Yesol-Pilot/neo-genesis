@@ -2,7 +2,7 @@
 
 > **목적:** Sora, Claude Code, Antigravity, Codex가 공통으로 참고하는 장기 지식 저장소
 > **갱신 규칙:** 중요한 사실, 안정된 운영 지식, 반복 교훈만 기록
-> **최종 갱신:** 2026-04-14
+> **최종 갱신:** 2026-06-13
 > **주의:** 규칙 SSOT는 `NEO_MASTER_RULES.md`, 현재 상태 SSOT는 `shared-brain/`이다. 이 파일은 장기 메모리다.
 
 ---
@@ -98,6 +98,12 @@ SSOT: D:/00.test/neo-genesis/.agent/
 - Claude/Gemini 공통 규칙에서 흡수한 `Doc-First`, `사이드이펙트 표`, `안전 > 효율`, `최소 권한`을 SSOT 절차로 내재화 완료
 - 역할별 최적화/공통 공유층은 `AGENT_RUNTIME_OPTIMIZATION.md`를 기준으로 본다
 
+### 연락처/메일 계정 구분 (2026-06-13)
+- 비즈니스 문의, 고객 리드, 영업, 견적, 인보이스, 결제 안내, 파트너십, 제품 CTA에는 `neogenesis.research@gmail.com`을 사용한다.
+- `dpthf1537@gmail.com`은 GitHub/git/Vercel/Cloudflare 개인 계정, 개인 연락처, 인증/관리 용도로만 사용한다.
+- 제품 페이지, `mailto:` CTA, 리드 수집 폼, 영업 문서에 개인 메일을 넣지 않는다.
+- 배포/인프라 계정 메일을 고객-facing 연락처로 추론하지 않는다.
+
 ### 방문자 통계 보고 공통 규칙 (2026-04-14)
 - 방문자 통계 보고는 앞으로 `숫자 나열`이 아니라 `DA + 20년차 PM 의사결정 보고`로 작성한다.
 - 최소 구조는 `Executive Summary -> Business Signal -> Intent Analysis -> Quality Diagnosis -> Measurement Integrity -> Action Queue`다.
@@ -187,6 +193,7 @@ SSOT: D:/00.test/neo-genesis/.agent/
 | 2026-04-06 | Codex | 소라 플릿 상세설계 v1 추가. Ollama는 `DESKTOP-SOL01`, `S26 Ultra`는 1차 승인 장치, `S10 Ultra`는 2차 대시보드/명령 장치로 고정 |
 | 2026-04-06 | Codex | 소라 제어면 인증 강화 v1 적용. URL/localStorage 장기 토큰 제거, 세션 기반 인증 + 짧은 수명의 action token + 내부 서비스 시크릿 구조로 정리 |
 | 2026-04-14 | Codex | 방문자 통계 보고를 `DA + 20년차 PM` 의사결정 워크플로우로 내재화. SSOT/BIBLE/장기 메모리/어댑터 기준 업데이트 |
+| 2026-06-13 | Codex | 비즈니스/고객 문의 메일은 `neogenesis.research@gmail.com`, 개인/GitHub/인증 메일은 `dpthf1537@gmail.com`으로 구분하도록 장기 메모리에 반영 |
 | 2026-04-24 | Claude Code | 오너 주력 에이전트 전환(Codex → Claude). Codex는 토큰 소진/장기 background/shell economical fallback로 유지. Collaboration Contract · CLAUDE_COLLABORATION · AGENT_RUNTIME_OPTIMIZATION 갱신 |
 | 2026-04-24 | Claude Code | Agent/UX 심층 리서치 수렴: research-patterns-v2에 LATS·Plan-and-Act·GoalAct·Mem0·A-Mem·Magentic dual-ledger 추가, ux-pattern-library-v2에 OSS 라이브러리 픽과 4개 UX 원칙 추가, threat-model-v2에 적응 공격(Attacker Moves Second) 섹션 추가, framework-scorecard에 Temporal+OpenAI SDK 통합 추가 |
 ## 2026-04-06 Codex: Sora 품질 루프 / 자동 보고 게이트

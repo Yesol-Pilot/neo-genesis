@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "agents": {
+    "codex": {
+      "status": "active",
+      "lastSession": "2026-06-13T19:03:00+09:00",
+      "lastTask": "TikTok AiNo situation-scene replacement posts scheduled for 2026-06-14..2026-06-16",
+      "lastRepo": "D:\\00.test\\neo-genesis",
+      "lastProductionUrl": "https://www.tiktok.com/tiktokstudio/content"
+    }
+  },
+  "infrastructure": {},
+  "sharedContext": {
+    "status": "active",
+    "sourceOfTruth": "D:\\00.test\\001.ssot-agent-runtime\\002.neo-genesis-sbu-autogrowth\\.agent",
+    "syncCommand": "python D:\\00.test\\001.ssot-agent-runtime\\002.neo-genesis-sbu-autogrowth\\scripts\\sync_agent_context.py",
+    "runtimeAdapters": [
+      "D:\\00.test\\001.ssot-agent-runtime\\002.neo-genesis-sbu-autogrowth\\AGENTS.md",
+      "D:\\00.test\\001.ssot-agent-runtime\\002.neo-genesis-sbu-autogrowth\\CLAUDE.md",
+      "D:\\00.test\\001.ssot-agent-runtime\\002.neo-genesis-sbu-autogrowth\\GEMINI.md",
+      "D:\\00.test\\001.ssot-agent-runtime\\002.neo-genesis-sbu-autogrowth\\infra\\agent-runtime\\ollama\\Modelfile"
+    ],
+    "ssotRevision": "0d9bb4bc4cbfda91",
+    "lastSyncedAt": "2026-06-13T19:05:56+09:00",
+    "lastSyncedBy": "codex"
+  }
+}
