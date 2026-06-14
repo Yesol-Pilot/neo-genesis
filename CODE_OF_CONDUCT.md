@@ -14,7 +14,7 @@ This standard applies to all project surfaces operated by Neo Genesis, including
 
 ## Reporting
 
-To report a concern, contact the project operator at `neogenesis.research@gmail.com` with subject prefix `[CONDUCT]`. Reports are reviewed privately. The operator commits to acknowledging reports within 72 hours and providing an outcome summary within 14 days.
+To report a concern, contact the project operator at `help@neogenesis.app` with subject prefix `[CONDUCT]`. Reports are reviewed privately. The operator commits to acknowledging reports within 72 hours and providing an outcome summary within 14 days.
 
 ## Enforcement
 

@@ -11,7 +11,7 @@ Please report security vulnerabilities privately. Do not open a public GitHub is
 Preferred channels (in order):
 
 1. **GitHub Security Advisory** — [open a private advisory](https://github.com/Yesol-Pilot/neo-genesis/security/advisories/new). This is the preferred path because it integrates with our patch workflow.
-2. **Email** — `neogenesis.research@gmail.com` with subject prefix `[SECURITY]`.
+2. **Email** — `help@neogenesis.app` with subject prefix `[SECURITY]`.
 
 When reporting, please include:
 
